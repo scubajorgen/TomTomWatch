@@ -1,0 +1,42 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package net.studioblueplanet.tomtomwatch;
+
+/**
+ * Defines the commands that can be issued to the processing thread
+ * @author jorgen.van.der.velde
+ */
+public enum ThreadCommand
+{
+    THREADCOMMAND_GETTIME,
+    THREADCOMMAND_DOWNLOAD,
+    THREADCOMMAND_ERASE,
+    THREADCOMMAND_UPLOADGPSDATA,
+    THREADCOMMAND_PREFERENCES,
+    THREADCOMMAND_GETNAME,
+    THREADCOMMAND_SETNAME,
+
+    THREADCOMMAND_LISTROUTES,
+    THREADCOMMAND_UPLOADROUTE,
+    THREADCOMMAND_CLEARROUTES,
+    THREADCOMMAND_LISTHISTORYSUMMARY,
+    THREADCOMMAND_LISTHISTORY,
+    THREADCOMMAND_LISTRACEHISTORY,
+    TRHEADCOMMAND_CLEARDATA,
+    
+    THREADCOMMAND_LISTFILES,
+    THREADCOMMAND_SHOWFILE,
+    THREADCOMMAND_SAVEFILE,
+    THREADCOMMAND_DELETEFILE,
+    THREADCOMMAND_SAVESIMULATIONSET,
+
+    
+    THREADCOMMAND_GETPRODUCTID,
+    THREADCOMMAND_GETFIRMWAREVERSION,
+    THREADCOMMAND_UPDATEFIRMWARE,
+    
+    THREADCOMMAND_NONE    
+}

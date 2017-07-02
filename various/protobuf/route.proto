@@ -1,0 +1,97 @@
+
+syntax = "proto2";
+
+package tutorial;
+
+option java_package = "net.studioblueplanet.tomtomwatch";
+option java_outer_classname = "RouteProto";
+
+
+message MetaData
+{
+  required fixed32 unknown1=1;
+  required fixed32 unknown2=2;
+}
+
+
+message Header
+{
+
+  required MetaData metaData=7;
+}
+
+message LatLon
+{
+  required fixed32    value=1;
+}
+
+message Coordinate
+{
+  required LatLon      lat=1;
+  required LatLon      lon=2;  
+}
+
+message CoordinateData
+{
+  required Coordinate  coordinate=1;
+}
+
+message StartCoordinate
+{
+  required Coordinate  coordinate=1;
+  required int32       index=2;
+}
+
+message Segment
+{
+  required int32                numberOfCoordinates=1;
+  repeated CoordinateData       data=2;
+}
+
+message SegmentData
+{
+  required int32                numberOfSegments=1;
+  repeated Segment              data=2;
+}
+
+
+message BoundingBox
+{
+  required LatLon               latDown  =1;
+  required LatLon               lonLeft  =2;
+  required LatLon               latUp    =3;
+  required LatLon               lonRight =4;
+}
+
+message TrackMetaData
+{
+  required string              name     =1;
+  required BoundingBox         box      =2;
+  required bytes               time     =3;
+}
+
+message TrackLevel2
+{
+  required TrackMetaData        metadata=1;
+  repeated StartCoordinate      coordinate=2;
+  required SegmentData          data=3;
+}
+
+message TrackLevel1
+{
+  required TrackLevel2          level2 =1;
+}
+
+message TrackLevel0
+{
+  required TrackLevel1          level1 =8;
+}
+
+
+
+message Root
+{
+  required Header               header =1;
+  required TrackLevel0	        track  =2;
+}
+
