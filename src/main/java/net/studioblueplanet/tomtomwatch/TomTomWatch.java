@@ -43,8 +43,6 @@ public class TomTomWatch extends SingleFrameApplication
 
         context     =this.getContext();
         resourceMap =context.getResourceMap();
-
-        System.out.println(resourceMap.getResourcesDir());
         
         iconList=new ArrayList();
 
@@ -59,11 +57,6 @@ public class TomTomWatch extends SingleFrameApplication
 
 
         view.setIconImages(iconList);       
-//        view.setVersion(resourceMap.getString("Application.version"));
-
-
-//        view.setIconImage(new ImageIcon(getClass().getResource("/tomtomconv/resources/icon48.png")).getImage());
-
     }
     
     
