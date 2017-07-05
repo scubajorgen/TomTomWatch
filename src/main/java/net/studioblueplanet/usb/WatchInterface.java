@@ -61,6 +61,7 @@ public abstract class WatchInterface
     public static final int                     FILEID_LOG              =0x00013100;  
     public static final int                     FILEID_MANIFEST1        =0x00850000;
     public static final int                     FILEID_MANIFEST2        =0x00850001;
+    public static final int                     FILEID_PLAYLIST         =0x00880000;
     public static final int                     FILEID_PREFERENCES_XML  =0x00f20000;
     
     public static final int                     FILEID_INVALID          =0xFFFFFFFF;

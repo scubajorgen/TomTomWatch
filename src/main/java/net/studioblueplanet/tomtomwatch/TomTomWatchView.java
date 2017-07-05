@@ -189,6 +189,7 @@ public class TomTomWatchView extends javax.swing.JFrame
         jMenuItemSaveSimSet = new javax.swing.JMenuItem();
         jMenuItemShowUpdateLog = new javax.swing.JMenuItem();
         jMenuItemShowLog = new javax.swing.JMenuItem();
+        jMenuItemPlaylists = new javax.swing.JMenuItem();
         jMenuAbout = new javax.swing.JMenu();
         jMenuItemAbout = new javax.swing.JMenuItem();
 
@@ -642,6 +643,16 @@ public class TomTomWatchView extends javax.swing.JFrame
             }
         });
         jMenuDebugging.add(jMenuItemShowLog);
+
+        jMenuItemPlaylists.setText("Playlists");
+        jMenuItemPlaylists.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                jMenuItemPlaylistsActionPerformed(evt);
+            }
+        });
+        jMenuDebugging.add(jMenuItemPlaylists);
 
         jMenuBar.add(jMenuDebugging);
 
@@ -1406,6 +1417,11 @@ public class TomTomWatchView extends javax.swing.JFrame
         this.clear();
     }//GEN-LAST:event_jCheckBoxSmoothActionPerformed
 
+    private void jMenuItemPlaylistsActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jMenuItemPlaylistsActionPerformed
+    {//GEN-HEADEREND:event_jMenuItemPlaylistsActionPerformed
+        communicationProcess.requestShowFile(WatchInterface.FILEID_PLAYLIST);
+    }//GEN-LAST:event_jMenuItemPlaylistsActionPerformed
+
     /*############################################################################################*\
      * HELPER FUNCTIONS     
     \*############################################################################################*/    
@@ -1833,6 +1849,7 @@ public class TomTomWatchView extends javax.swing.JFrame
     private javax.swing.JMenuItem jMenuItemListHistory;
     private javax.swing.JMenuItem jMenuItemListHistorySummary;
     private javax.swing.JMenuItem jMenuItemListRoutes;
+    private javax.swing.JMenuItem jMenuItemPlaylists;
     private javax.swing.JMenuItem jMenuItemPreferences;
     private javax.swing.JMenuItem jMenuItemQuit;
     private javax.swing.JMenuItem jMenuItemSaveSimSet;
