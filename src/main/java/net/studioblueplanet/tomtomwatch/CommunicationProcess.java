@@ -769,6 +769,8 @@ public class CommunicationProcess implements Runnable, ProgressListener
                     {
                         // Convert the file data into an Activity
                         activity = reader.readTtbinFile(file);
+                        activity.setDeviceName(this.deviceName);
+                        
                         data = new ActivityData();
                         {
                             data.file       = file;

@@ -978,6 +978,17 @@ public class TomTomWatchView extends javax.swing.JFrame
         GpxWriter                   writer;
         String                      fileName;
         String                      path;
+        String                      appName;
+        
+        TomTomWatch     app;
+        ResourceMap     appResourceMap;
+
+        app=TomTomWatch.getApplication();
+
+        appResourceMap=app.getContext().getResourceMap();
+        appName="TomTomWatch "+appResourceMap.getString("Application.version");
+        
+        
         
         index = this.jListActivities.getSelectedIndex();
         
@@ -995,8 +1006,9 @@ public class TomTomWatchView extends javax.swing.JFrame
 
             if (fileName!=null)
             {
+                
                 writer=GpxWriter.getInstance();
-                writer.writeTrackToFile(fileName, activity, "Track - "+activity.getActivityDescription());                
+                writer.writeTrackToFile(fileName, activity, appName);                
             }
             
         }

@@ -523,16 +523,17 @@ public class GpxWriter
      * This method adds the track segments to the track.
      * @param doc XML document
      * @param gpxElement The GPX element
-     * @param trackNo The track identification
-     * @param trackName The track name
+     * @param track The track to write
+     * @param appName Application name
      */
-    private void addTrack(Document doc, Element gpxElement, Activity track, String trackName)
+    private void addTrack(Document doc, Element gpxElement, Activity track, String appName)
     {
         int     i;
         int     numberOfSegments;
         Element trackElement;
         Element element;
-        String  description;
+        String  trackName;
+        String  trackDescription;
 
         numberOfSegments=track.getNumberOfSegments();
 
@@ -545,6 +546,12 @@ public class GpxWriter
             appendWaypointsGpx(doc, gpxElement, track);
         }
         
+        trackName           ="Track - "+track.getActivityDescription();
+        trackDescription    ="Created by: "+appName+". Logged by: \'"+track.getDeviceName()+"\'. Logged as: "+track.getActivityDescription()+".";
+        if (track.isSmoothed())
+        {
+            trackDescription+=" Smoothing applied.";
+        }
         
         // The track element
         trackElement = doc.createElement("trk");
@@ -554,9 +561,9 @@ public class GpxWriter
         element.appendChild(doc.createTextNode(trackName));
         trackElement.appendChild(element);
 
-        description=track.getDeviceName() +" logged track";
+//        description=track.getDeviceName() +" logged track";
         element = doc.createElement("desc");
-        element.appendChild(doc.createTextNode(description));
+        element.appendChild(doc.createTextNode(trackDescription));
         trackElement.appendChild(element);        
         
         // Add the track segments.
@@ -593,8 +600,10 @@ public class GpxWriter
     /**
      * Write the track to a GPX file
      * @param fileName Name of the file to write to
+     * @param track Track to write to the GPX file
+     * @param appName Application description
      */
-    public void writeTrackToFile(String fileName, Activity track, String trackName)
+    public void writeTrackToFile(String fileName, Activity track, String appName)
     {
         Element     trackElement;
         Element     element;
@@ -609,16 +618,16 @@ public class GpxWriter
         try
         {
             // create the GPX file
-            createGpxDocument("TomTom GPS Watch");
+            createGpxDocument(appName);
 
 
-            addTrack(doc, gpxElement, track, trackName);
+            addTrack(doc, gpxElement, track, appName);
 
             // write the content into xml file
             writeGpxDocument(fileName);
 
             DebugLogger.info("GpxWriter says: 'File saved to " + fileName + "!'");
-            DebugLogger.info("Track: "+trackName+", track points: "+trackPoints+
+            DebugLogger.info("Track: "+track.getActivityDescription()+", track points: "+trackPoints+
                              ", wayPoints: "+wayPoints);
 
         }
