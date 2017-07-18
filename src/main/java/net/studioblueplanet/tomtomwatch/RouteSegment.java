@@ -10,7 +10,7 @@ import java.util.Iterator;
 
 
 /**
- * Class represents a route segment (<trkSeg> in the GPX file)
+ * Class represents a route segment (&lt;trkSeg&gt; in the GPX file)
  * @author Jorgen
  */
 public class RouteSegment

@@ -1465,6 +1465,7 @@ public class TomTomWatchView extends javax.swing.JFrame
      * [type]           - 'file' for loaded from file, 'watch' for downloaded from watch
      * [activity]       - the activity: 'run', 'swim' etc
      * @param data Data defining the activity
+     * @param prefix Prefix indicating the source of the activity ('file' or 'watch')
      * @return A string with the description
      */
     public String getActivityDescription(ActivityData data, String prefix)
@@ -1761,7 +1762,7 @@ public class TomTomWatchView extends javax.swing.JFrame
     }
     /**
      * Returns the ttbin path
-     * @return 
+     * @return The TTBIN path
      */
     public String getTtbinPath()
     {
@@ -1770,7 +1771,8 @@ public class TomTomWatchView extends javax.swing.JFrame
 
     /**
      * Adds item to the tracklist
-     * @param item The item to add
+     * @param data The item to add
+     * @param prefix Prefix indicating the source of the data: 'file' or 'watch'
      */
     public void addListItem(ActivityData data, String prefix)
     {
@@ -1797,7 +1799,7 @@ public class TomTomWatchView extends javax.swing.JFrame
     
     /**
      * Sets the device name
-     * @param deviceName 
+     * @param deviceName Name of the device 
      */
     public void setDeviceName(String deviceName)
     {

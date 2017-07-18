@@ -13,8 +13,8 @@ import net.studioblueplanet.logger.DebugLogger;
 
 /**
  * This class is a simple representation of route (track planning). 
- * A route consists of RouteSegments (GPX <trkseg>), 
- * which consists of RoutePoints (<trkpt>). In this representation a RoutePoint
+ * A route consists of RouteSegments (GPX &lt;trkseg&gt;), 
+ * which consists of RoutePoints (&lt;trkpt&gt;). In this representation a RoutePoint
  * only contains a lat/lon coordinate.
  * @author Jorgen
  */
@@ -72,7 +72,7 @@ public class Route
     
     /**
      * Returns the array list with segments
-     * @return 
+     * @return List containing the route segment
      */
     public ArrayList<RouteSegment> getSegments()
     {
@@ -138,7 +138,7 @@ public class Route
 
     /**
      * Creates and appends a new route segment
-     * @returns The new 
+     * @return The newly created route segment 
      */
     
     public RouteSegment appendRouteSegment()

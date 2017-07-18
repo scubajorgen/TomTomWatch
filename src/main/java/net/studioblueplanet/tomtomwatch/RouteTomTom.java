@@ -463,7 +463,8 @@ public class RouteTomTom extends Route
     /**
      * This method accepts the protobuf data from the watch and loads the route
      * from it.
-     * @param data 
+     * @param data The protobuf encoded data
+     * @return True if an error occurred, false if all went ok
      */
     public boolean loadLogFromTomTomRouteData(byte[] data)
     {

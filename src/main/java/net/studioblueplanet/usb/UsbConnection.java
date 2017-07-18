@@ -27,7 +27,8 @@ import javax.usb.UsbDeviceDescriptor;
 
 /**
  * This class represents the connection to the USB watch. It contains functionality
- * to open en close the connection and to exchange request/response.
+ * to open en close the connection and to exchange request/response by means
+ * of blocks of data
  * @author Jorgen
  */
 public class UsbConnection
@@ -530,7 +531,7 @@ public class UsbConnection
     
     /**
      * Get a description of the last error.
-     * @return 
+     * @return The error description as String
      */
     public String getLastError()
     {

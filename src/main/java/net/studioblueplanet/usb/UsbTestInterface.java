@@ -22,7 +22,10 @@ import java.util.TimeZone;
 import net.studioblueplanet.logger.DebugLogger;
 
 /**
- *
+ * This class implements a Usb simulation. All files are read/written/deleted 
+ * from a directory on disk instead of the TomTom Watch. It assumes a directory
+ * containing the watch files and a versions.json file containing the version
+ * information
  * @author Jorgen
  */
 public class UsbTestInterface extends WatchInterface

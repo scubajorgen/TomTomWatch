@@ -7,7 +7,11 @@
 package net.studioblueplanet.usb;
 
 /**
- *
+ * Progress listener. Progress when reading or writing files will
+ * be reported. Typically, a file is read or written in blocks. Progress
+ * is reported after reading or writing a block. The number of bytes 
+ * read or written during each is reported. The user/implementer should
+ * sum each report to get the total amount of bytes read or written
  * @author Jorgen
  */
 public interface ProgressListener

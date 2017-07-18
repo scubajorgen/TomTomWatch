@@ -122,7 +122,8 @@ public class CommunicationProcess implements Runnable, ProgressListener
     \*############################################################################################*/    
     /**
      * Returns the one and only instance of this class.
-     * @return 
+     * @param view The view to be used by the instance
+     * @return The one and only instance of this class
      */
     public static CommunicationProcess getInstance(TomTomWatchView view)
     {
@@ -272,8 +273,8 @@ public class CommunicationProcess implements Runnable, ProgressListener
     
     
     /**
-     * Indicates whether a watch is connected
-     * @return 
+     * Indicates whether a watch is connected or not
+     * @return True if connected, false if not
      */
     public boolean isConnected()
     {

@@ -144,7 +144,7 @@ public class TomTomReader
      * @param in Input stream to read from
      * @param header Header information
      * @return The byte array containing the record data
-     * @throws IOException 
+     * @throws IOException Error while reading from the input stream
      */
     public byte[] readRecord(InputStream in, TtbinHeader header) throws IOException
     {
@@ -331,8 +331,9 @@ public class TomTomReader
      * FILE READING
     \**************************************************************************/
     /**
-     * Reads the ttbin file 
+     * Reads the ttbin file and stores it in the Activity 
      * @param fileName Name of the ttbin file
+     * @return The activity corresponding to the file read
      */
     public Activity readTtbinFile(String fileName)
     {
@@ -372,9 +373,9 @@ public class TomTomReader
     }
     
     /**
-     * 
-     * @param file
-     * @return 
+     * Reads the ttbin file as stored in the UsbFile passed
+     * @param file The UsbFile containing the file data
+     * @return The activity corresponding to the file data
      */
     public Activity readTtbinFile(UsbFile file)
     {

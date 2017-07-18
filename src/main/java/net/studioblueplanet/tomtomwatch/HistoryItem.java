@@ -28,7 +28,7 @@ public class HistoryItem
     
     /**
      * Cosntructor. Constructs the item from the file
-     * @param file 
+     * @param file UsbFile to construct/read the history item from
      */
     public HistoryItem(UsbFile file)
     {

@@ -6,16 +6,12 @@
 
 package net.studioblueplanet.usb;
 
-import net.studioblueplanet.usb.UsbConnection;
 import net.studioblueplanet.logger.DebugLogger;
 
 import hirondelle.date4j.DateTime;
 import java.io.UnsupportedEncodingException;
-import java.nio.charset.StandardCharsets;
 import java.util.TimeZone;
 import java.util.ArrayList;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import net.studioblueplanet.generics.ToolBox;
 
 
@@ -23,7 +19,7 @@ import net.studioblueplanet.generics.ToolBox;
  * This class represents the communication interface to the TomTom Watch.
  * It offers user level functionality. It depends on UsbConnection for the
  * actual communication to the watch.
- * Main functions concern the handling of files on the watch.
+ * It contains the main functions concern the handling of files on the watch.
  * @author Jorgen
  */
 public class UsbInterface extends WatchInterface

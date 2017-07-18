@@ -144,7 +144,25 @@
                 </execution>
               </executions>
             </plugin>
-        </plugins>
  
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <configuration>
+                    <sourceFileExcludes>
+                            <sourceFileExclude>**/net/studioblueplanet/tomtomwatch/RouteProto.java</sourceFileExclude>
+                    </sourceFileExcludes>                    
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+        </plugins>
     </build>    
 </project>

@@ -61,7 +61,7 @@ public class Coordinate
 
     /**
      * This method returns the elvation in m
-     * @return
+     * @return The elevation in m
      */
     public double getElevation()
     {

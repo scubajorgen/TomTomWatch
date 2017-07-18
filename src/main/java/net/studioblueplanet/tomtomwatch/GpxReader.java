@@ -225,7 +225,8 @@ public class GpxReader
     /**
      * This method reads a route consisting of waypoints from file
      * @param fileName Name of the file to read from
-     * @returns True if an error occurred
+     * @param route Route will contain the route read. Supply new, empty route
+     * @return True if an error occurred
      */
     public boolean readRouteFromFile(String fileName, Route route)
 

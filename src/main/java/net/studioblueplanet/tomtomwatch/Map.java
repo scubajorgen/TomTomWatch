@@ -4,7 +4,6 @@
  */
 package net.studioblueplanet.tomtomwatch;
 
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
@@ -67,6 +66,7 @@ public class Map
     
     /**
      * Constuctor
+     * @param panel Panel to use for showing the map
      */
     public Map(JPanel panel)
     {
@@ -461,12 +461,13 @@ public class Map
     
     /**
      * This method show the track in this frame on a google map
-     * @param trackNo The track to show
+     * @param activityData The activity data structure containing the track (Activity) to show
+     * @return A string indicating the result of the showing (ToDo: remove or make sensible value).
      */
     public String showTrack(ActivityData activityData)
     {
         Activity                    activity;
-        Route                    route;
+        Route                       route;
         int                         numberOfSegments;
         int                         numberOfPoints;
         int                         segmentCount;
@@ -533,8 +534,9 @@ public class Map
     }
 
     /**
-     * This method show the track in this frame on a google map
-     * @param trackNo The track to show
+     * This method show the route track in this frame on a google map
+     * @param route The route to show
+     * @return A string indicating the result of the showing (ToDo: remove or make sensible value).
      */
     public String showTrack(Route route)
     {

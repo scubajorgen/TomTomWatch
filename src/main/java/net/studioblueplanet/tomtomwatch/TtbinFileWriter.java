@@ -120,6 +120,7 @@ public class TtbinFileWriter
      * is created in the same style as TomTom MySports
      * @param fileName Name of the file to write to. Use getFullFilename()
      * @param file The file containing the raw data
+     * @return True if an error occurred, false if all went ok
      */
     public boolean writeTtbinFile(String fileName, UsbFile file)
     {

@@ -66,7 +66,7 @@ public class DebugLogger
     
     /**
      * Returns the debug level
-     * @return 
+     * @return The debug level
      */
     public static int getDebugLevel()
     {

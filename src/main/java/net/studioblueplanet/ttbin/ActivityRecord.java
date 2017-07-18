@@ -37,7 +37,7 @@ public class ActivityRecord
 
     /**
      * Set the local time zone
-     * @param timeZoneSeconds Seconds with respect to GMT
+     * @param newLocalTimeZone The new local timezone to use
      */
     public static void setLocalTimeZone(TimeZone newLocalTimeZone)
     {
@@ -77,7 +77,7 @@ public class ActivityRecord
     /**
      * Dump the header containing all record fields
      * @param writer Writer to dump to
-     * @throws IOException 
+     * @throws IOException Thrown when an error occurs during writing
      */
     public void dumpRecordCsvHeader(Writer writer) throws IOException
     {
@@ -87,7 +87,7 @@ public class ActivityRecord
    /**
      * Dump all the record fields of this record
      * @param writer Writer to dump to
-     * @throws IOException 
+     * @throws IOException Thrown when an error occurs during writing
      */
     public void dumpRecordCsv(Writer writer) throws IOException
     {

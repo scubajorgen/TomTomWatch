@@ -264,6 +264,7 @@ public class ConfigSettings
     
     /**
      * Returns the setting value as int value
+     * @param name Setting name
      * @return The integer value or -1 if the setting is not the INT type or
      *         if the setting does not exist.
      */
@@ -301,6 +302,7 @@ public class ConfigSettings
     
     /**
      * Returns the setting value as double value
+     * @param name Setting name
      * @return The double value or -1 if the setting is not the DOUBLE type or
      *         if the setting does not exist.
      */
@@ -338,6 +340,7 @@ public class ConfigSettings
 
     /**
      * Returns the setting value as String value
+     * @param name Setting name
      * @return The string value or "" if the setting is not the STRING type or
      *         if the setting does not exist.
      */
@@ -375,6 +378,7 @@ public class ConfigSettings
     
     /**
      * Returns the setting value as boolean value
+     * @param name Setting name
      * @return The boolean value or false if the setting is not the BOOLEAN type or
      *         if the setting does not exist.
      */

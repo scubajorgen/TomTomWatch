@@ -14,7 +14,10 @@ import java.nio.charset.StandardCharsets;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 /**
- *
+ * This abstract class defines the interface to the watch. It defines the 
+ * file handling methods as well as the file definitions. A number of generic
+ * methods have been filled in, a number of specific methods need to be 
+ * overridden in child classes
  * @author Jorgen
  */
 public abstract class WatchInterface
@@ -80,6 +83,9 @@ public abstract class WatchInterface
     protected UsbFile                           preferenceFile;
     
     
+    /**
+     * Constructor
+     */
     protected WatchInterface()
     {
         fileList=new ArrayList();
@@ -88,6 +94,7 @@ public abstract class WatchInterface
     
     /**
      * Opens the USB connection
+     * @return True if an error occurred, false if the connection successfully opened
      */
     public boolean openConnection()
     {
@@ -123,7 +130,7 @@ public abstract class WatchInterface
     
     /**
      * This method sets the progress listener for file reading and writing. 
-     * Set to null if not used
+     * Set to null if not used. Progress is reported to the listerner.
      * @param listener The listener
      */
     public void setProgressListener(ProgressListener listener)
@@ -207,11 +214,6 @@ public abstract class WatchInterface
      * @param quickFixFile The quick fix file data
      * @return True if an error occurred, false if succeeded.
      */
-    /**
-     * Write the GPS Quickfix file
-     * @param quickFixFile The quick fix file data
-     * @return True if an error occurred, false if succeeded.
-     */
     public boolean writeGpxQuickFixFile(byte[] quickFixFile)
     {
         UsbFile file;
@@ -265,10 +267,8 @@ public abstract class WatchInterface
 
     
     /**
-     * This method returns the preferences as read from the watch, if not
-     * read before. 
+     * This method reads and returns the preferences from the watch.
      * The XML data is encoded in the UsbFile.fileData;
-     * @param forceRead Forces a read action from the watch
      * @return The preference file or null if an error occurred
      */
     public UsbFile readPreferences()
@@ -415,7 +415,7 @@ public abstract class WatchInterface
     
 
     /**
-     * This method returns the BLE version 
+     * This method returns the BLE (Bluetooth Low Energy) version 
      * @return The version as string 
      */
     public abstract String readBleVersion();

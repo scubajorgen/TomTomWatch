@@ -13,7 +13,7 @@ package net.studioblueplanet.usb;
  * byte [1]    Length of the remaining packet, hence N-2
  * byte [2]    Sequence number. Response sequence number equals the one of the request
  * byte [3]    Message type.
- * byte [4..N> Payload (byte N not included)
+ * byte [4..N&gt; Payload (byte N not included)
  * @author Jorgen
  */
 public class UsbPacket

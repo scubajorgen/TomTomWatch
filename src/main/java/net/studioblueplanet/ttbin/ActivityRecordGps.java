@@ -478,7 +478,7 @@ public class ActivityRecordGps extends ActivityRecord
     /**
      * Dump the header containing all record fields
      * @param writer Writer to dump to
-     * @throws IOException 
+     * @throws IOException Thrown when an error occurs during writing
      */
     @Override
     public void dumpRecordCsvHeader(Writer writer) throws IOException
@@ -493,7 +493,7 @@ public class ActivityRecordGps extends ActivityRecord
     /**
      * Dump all the record fields of this record
      * @param writer Writer to dump to
-     * @throws IOException 
+     * @throws IOException Thrown when an error occurs during writing
      */
     @Override
     public void dumpRecordCsv(Writer writer) throws IOException

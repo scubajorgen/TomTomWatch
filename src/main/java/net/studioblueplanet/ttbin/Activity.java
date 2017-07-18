@@ -149,9 +149,7 @@ public class Activity
     
     /**
      * Constructor
-     * @param header Header defining the ttbin fil
-     * @param smoothingEnabled True for track smoothing enabled
-     * @param smoothingQ Factor influencing smoothing.
+     * @param header Header defining the ttbin file
      */
     public Activity(TtbinHeader header)
     {

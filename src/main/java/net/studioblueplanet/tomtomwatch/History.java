@@ -33,7 +33,7 @@ public class History
     /**
      * Adds a history item as encoded in the file
      * @param file File containing the history item data
-     * @return 
+     * @return True if an error occurred, false if all went ok
      */
     public boolean addHistoryItemFromFile(UsbFile file)
     {

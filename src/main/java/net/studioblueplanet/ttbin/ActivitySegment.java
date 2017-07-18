@@ -120,7 +120,8 @@ public class ActivitySegment
      * Dump the records in this segment as CSV. Starts the segment with 
      * an empty line
      * @param writer Writer to dump to
-     * @throws IOException 
+     * @param withHeader Indicates whether to dump the CSV header or not
+     * @throws IOException Thrown when an error occurs during writing
      */
     public void dumpSegmentCsv(Writer writer, boolean withHeader) throws IOException
     {

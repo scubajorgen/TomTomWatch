@@ -13,6 +13,8 @@ public class TomTomWatchAbout extends javax.swing.JDialog
 
     /**
      * Creates new form UgotmeAboutBox
+     * @param parent Parent frame to which the about box is attached
+     * @param modal Indicates modality
      */
     public TomTomWatchAbout(java.awt.Frame parent, boolean modal)
     {
