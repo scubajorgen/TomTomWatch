@@ -41,6 +41,11 @@ public class Activity
             this.Q_metres_per_second = Q_metres_per_second; 
             variance = -1; 
         }
+        
+        public float getQFactor()
+        {
+            return this.Q_metres_per_second;
+        }
 
         public long getTimeStamp() 
         { 
@@ -145,6 +150,7 @@ public class Activity
     
     private final           TtbinHeader                 header;
     
+    private                 float                       trackSmoothingQFactor;
     private                 boolean                     isSmoothed;
     
     /**
@@ -163,6 +169,7 @@ public class Activity
         this.deviceName             ="TomTom";
         
         this.isSmoothed             =false;
+        this.trackSmoothingQFactor  =0.0f;
         
         this.waypointPauseTimeout=ConfigSettings.getInstance().getIntValue("waypointLogTimeout");    
     }
@@ -655,6 +662,7 @@ public class Activity
         
         // Process the segments in the track
         itSegment=segments.iterator();
+        this.trackSmoothingQFactor=trackSmoothingQFactor;
         
         while (itSegment.hasNext())
         {
@@ -700,6 +708,17 @@ public class Activity
         
     }
 
+
+    /**
+     * Returns the track smoothing Q factor that is used for the Kalman 
+     * filter
+     * @return The factor in m/s, or 0.0 if no smoothing applied
+     */
+    public float getTrackSmoothingQFactor()
+    {
+        return this.trackSmoothingQFactor;
+    }
+    
     /**
      * This method resets the smoothing
      */
@@ -743,7 +762,8 @@ public class Activity
                 }                
             }
         }
-        isSmoothed=false;
+        this.trackSmoothingQFactor  =0.0f;
+        isSmoothed                  =false;
     }
     
     

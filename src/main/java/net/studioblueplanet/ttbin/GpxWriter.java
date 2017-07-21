@@ -550,7 +550,7 @@ public class GpxWriter
         trackDescription    ="Created by: "+appName+". Logged by: \'"+track.getDeviceName()+"\'. Logged as: "+track.getActivityDescription()+".";
         if (track.isSmoothed())
         {
-            trackDescription+=" Smoothing applied.";
+            trackDescription+=" Smoothing ("+String.format("%.1f", track.getTrackSmoothingQFactor())+") applied.";
         }
         
         // The track element
