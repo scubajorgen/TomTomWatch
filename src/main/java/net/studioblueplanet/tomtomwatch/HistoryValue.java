@@ -198,7 +198,7 @@ public class HistoryValue
     {
         String description;
         
-        description=String.format("0x%02x %20s ", tag, this.getTagDescription());
+        description=String.format("0x%02x %-20s ", tag, this.getTagDescription());
         
         if (this.isInteger(tag))
         {
