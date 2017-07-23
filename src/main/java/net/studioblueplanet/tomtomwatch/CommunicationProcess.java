@@ -472,6 +472,9 @@ public class CommunicationProcess implements Runnable, ProgressListener
                     case THREADCOMMAND_CLEARROUTES:
                         error=this.clearRouteFiles(watchInterface);
                         break;
+                    case THREADCOMMAND_LISTRACES:
+                        error=listRaces(watchInterface);
+                        break;
                     case THREADCOMMAND_GETPRODUCTID:
                         error=getProductId(watchInterface);
                         break;
@@ -1716,6 +1719,97 @@ public class CommunicationProcess implements Runnable, ProgressListener
 
     }
     
+
+    /**
+     * This method lists the races that are stored on the watch
+     * @param watchInterface USB interface to use
+     * @return True if an error occurred, false if successful
+     */
+    private boolean listRaces(WatchInterface watchInterface)
+    {
+        UsbFile             file;
+ //       String              fileString;
+        boolean             error;
+        ArrayList<UsbFile>  files;
+        Iterator<UsbFile>   it;
+        HistorySummary      entry;
+        String              description;
+        Race                race;
+        
+        // Add progress listener, for file reading
+        watchInterface.setProgressListener(this);
+
+        theView.setStatus("Downloading races... Please wait");
+        
+        error = false;
+        if (!error)
+        {
+            // Enumerate all TTBIN files on the device
+            files = watchInterface.getFileList(WatchInterface.FileType.TTWATCH_FILE_RACE_DATA);
+
+            // If any found, download the data of each file
+            if (files != null)
+            {
+                // The array list of USB files seems not to be sorted. So sort it
+                sort(files);
+
+                // Initialize the data for the progressbar
+                bytesToDownload=0;
+                bytesDownloaded=0;
+                it = files.iterator();
+                while (it.hasNext())
+                {
+                    file=it.next();
+                    bytesToDownload+=file.length;
+                }
+
+                theView.setProgress(0);
+
+                theView.setStatus("Downloading "+files.size()+" files... Please wait");
+            
+                
+                description     = "File ID    Activity       Name            Dist     Duration Checkpoints (m) \n";
+                description     +="__________ ______________ _______________ ________ ________ ______________________________________\n";
+                it              = files.iterator();
+                while (it.hasNext() && !error)
+                {
+                    file = it.next();
+                    DebugLogger.info("File " + String.format("0x%08x", file.fileId) + " length " + file.length);
+
+                    // Read the file data
+                    error = watchInterface.readFile(file);
+                    if (!error && (file.fileData != null))
+                    {
+                            race=new Race(file);
+                            
+                            description+=race.getInfo()+"\n";
+                    }
+                    else
+                    {
+                        error=true;
+                    }
+                }
+                if (!error)
+                {
+                    theView.setStatus(description);
+                }
+            } 
+            else
+            {
+                error = true;
+            }
+        }
+
+        watchInterface.setProgressListener(null);
+        
+        return error;
+
+    }
+
+
+
+
+
     /**
      * This method clears the route files from the watch
      * @param watchInterface USB interface to use

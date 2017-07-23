@@ -181,6 +181,7 @@ public class TomTomWatchView extends javax.swing.JFrame
         jMenuItemListHistory = new javax.swing.JMenuItem();
         jMenuItemEraseData = new javax.swing.JMenuItem();
         jMenuItemUpdateFirmware = new javax.swing.JMenuItem();
+        jMenuItemListRaces = new javax.swing.JMenuItem();
         jMenuDebugging = new javax.swing.JMenu();
         jMenuItemPreferences = new javax.swing.JMenuItem();
         jMenuItemListFiles = new javax.swing.JMenuItem();
@@ -208,6 +209,7 @@ public class TomTomWatchView extends javax.swing.JFrame
 
         jTextAreaStatus.setEditable(false);
         jTextAreaStatus.setColumns(20);
+        jTextAreaStatus.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         jTextAreaStatus.setRows(5);
         jScrollPane1.setViewportView(jTextAreaStatus);
 
@@ -569,6 +571,16 @@ public class TomTomWatchView extends javax.swing.JFrame
             }
         });
         jMenuDevice.add(jMenuItemUpdateFirmware);
+
+        jMenuItemListRaces.setText("List Races");
+        jMenuItemListRaces.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                jMenuItemListRacesActionPerformed(evt);
+            }
+        });
+        jMenuDevice.add(jMenuItemListRaces);
 
         jMenuBar.add(jMenuDevice);
 
@@ -1434,6 +1446,11 @@ public class TomTomWatchView extends javax.swing.JFrame
         communicationProcess.requestShowFile(WatchInterface.FILEID_PLAYLIST);
     }//GEN-LAST:event_jMenuItemPlaylistsActionPerformed
 
+    private void jMenuItemListRacesActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jMenuItemListRacesActionPerformed
+    {//GEN-HEADEREND:event_jMenuItemListRacesActionPerformed
+        this.checkAndPushCommand(ThreadCommand.THREADCOMMAND_LISTRACES);
+    }//GEN-LAST:event_jMenuItemListRacesActionPerformed
+
     /*############################################################################################*\
      * HELPER FUNCTIONS     
     \*############################################################################################*/    
@@ -1862,6 +1879,7 @@ public class TomTomWatchView extends javax.swing.JFrame
     private javax.swing.JMenuItem jMenuItemListFiles;
     private javax.swing.JMenuItem jMenuItemListHistory;
     private javax.swing.JMenuItem jMenuItemListHistorySummary;
+    private javax.swing.JMenuItem jMenuItemListRaces;
     private javax.swing.JMenuItem jMenuItemListRoutes;
     private javax.swing.JMenuItem jMenuItemPlaylists;
     private javax.swing.JMenuItem jMenuItemPreferences;
