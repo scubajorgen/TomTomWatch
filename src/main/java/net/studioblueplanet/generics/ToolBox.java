@@ -175,7 +175,10 @@ public class ToolBox
         i=0;
         while (i<chars)
         {
-            string+=(char)data[offset+i];
+            if (data[offset+i]>0)
+            {
+                string+=(char)data[offset+i];
+            }
             i++;
         }
         return string;
