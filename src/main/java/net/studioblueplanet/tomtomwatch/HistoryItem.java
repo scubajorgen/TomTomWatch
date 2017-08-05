@@ -17,7 +17,15 @@ import java.util.Iterator;
 /**
  * This class represents one activity summary as stored on the watch
  * as a file with file id 0x0072aaii. aa is the activity code, ii the index
- * (0x00 - 0x0a)
+ * (0x00 - 0x0a).
+ * File format: 
+ * uint8            unknown
+ * uint32           entry count, little endian
+ * array
+ * \[
+ *   uint8            tag
+ *   uint32/float32   value
+ * \]
  * @author Jorgen
  */
 public class HistoryItem
@@ -36,6 +44,7 @@ public class HistoryItem
         int             i;
         int             tag;
         HistoryValue    value;
+        int             nextOffset;
         
         values=new ArrayList();
 
@@ -46,18 +55,15 @@ public class HistoryItem
         
         numberOfValues=ToolBox.readInt(bytes, 1, 4, true);
         
-        if (numberOfValues!=(bytes.length-5)/5)
-        {
-            numberOfValues=(bytes.length-5)/5;
-            DebugLogger.error("Error parsing history item: number of entries not correct");
-        }
-
         
         i=0;
+        nextOffset=5;
         while (i<numberOfValues)
         {
-            tag=ToolBox.readInt(bytes, 5+5*i, 1, true);
-            value=new HistoryValue(tag, bytes, 6+5*i);
+            tag=ToolBox.readUnsignedInt(bytes, nextOffset, 1, true);
+            nextOffset++;
+            value=new HistoryValue();
+            nextOffset=value.convertValue(tag, bytes, nextOffset);
             values.add(value);
             i++;
         }

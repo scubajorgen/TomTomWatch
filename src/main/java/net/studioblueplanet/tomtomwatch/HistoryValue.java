@@ -14,6 +14,13 @@ import net.studioblueplanet.logger.DebugLogger;
  */
 public class HistoryValue
 {
+    public enum ValueType
+    {
+        VALUETYPE_INT,
+        VALUETYPE_FLOAT,
+        VALUETYPE_STRING,
+        VALUETYPE_UNKNOWN
+    }
     private static final int    TTWATCH_HISTORY_ENTRY_TAG_UNKNOWN1     = 0x00;  /* int_val                   */
     private static final int    TTWATCH_HISTORY_ENTRY_TAG_DURATION     = 0x01;  /* int_val   = seconds       */
     private static final int    TTWATCH_HISTORY_ENTRY_TAG_DISTANCE     = 0x02;  /* float_val = metres        */
@@ -25,44 +32,34 @@ public class HistoryValue
     private static final int    TTWATCH_HISTORY_ENTRY_TAG_STROKES      = 0x13;  /* int_val                   */
     private static final int    TTWATCH_HISTORY_ENTRY_TAG_CALORIES     = 0x14;  /* int_val                   */
     private static final int    TTWATCH_HISTORY_ENTRY_TAG_UNKNOWN2     = 0x20;  /* int_val                   */
-    private static final int    TTWATCH_HISTORY_ENTRY_TAG_RACEPOSITION = 0x25;  /* int_val                   */
-    private static final int    TTWATCH_HISTORY_ENTRY_TAG_RACESPEED    = 0x26;  /* float_val = metres/second */
-    private static final int    TTWATCH_HISTORY_ENTRY_TAG_RACETIME     = 0x27;  /* int_val   = seconds       */    
-    private static final int    TTWATCH_HISTORY_ENTRY_TAG_UNKNOWN3     = 0x28;  /* int_val                   */
-    private static final int    TTWATCH_HISTORY_ENTRY_TAG_UNKNOWN4     = 0x1f;  /* int_val                   */
-    private static final int    TTWATCH_HISTORY_ENTRY_TAG_UNKNOWN5     = 0x30;  /* int_val                   */
+    private static final int    TTWATCH_HISTORY_ENTRY_TAG_RACENAME     = 0x25;  /* LENGTH (8 bits) + STRING  */
+    private static final int    TTWATCH_HISTORY_ENTRY_TAG_RACEPOSITION = 0x26;  /* int_val (8 bits)          */
+    private static final int    TTWATCH_HISTORY_ENTRY_TAG_RACE_UNKNOWN = 0x27;  /* float_val   = ???         */    
+    private static final int    TTWATCH_HISTORY_ENTRY_TAG_RACEAHEAD    = 0x28;  /* int_val in seconds        */
 
 
-    private final int           tag;
-    private final double        floatValue;
-    private final int           intValue;
+    private int                 tag;
+    private double              floatValue;
+    private int                 intValue;
+    private String              stringValue;
+    private ValueType           valueType;
     
-    public HistoryValue(int tag, byte[] data, int offset)
+    public HistoryValue()
     {
-        this.tag=tag;
-        
-        if (isInteger(tag))
-        {
-            intValue    =ToolBox.readInt(data, offset, 4, true);
-            floatValue  =0.0;
-        }
-        else
-        {
-            floatValue  =ToolBox.readFloat(data, offset, true);
-            intValue    =0;
-        }
     }
     
-    /**
-     * Indicates whether the value at given tag is integer or float
-     * @param tag The tag
-     * @return True if integer, false if float
-     */
-    private boolean isInteger(int tag)
+    
+    public int convertValue(int tag, byte[] data, int offset)
     {
-        boolean isInt;
+        int nextOffset;
+        int length;
+
+        intValue    =0;
+        floatValue  =0.0;
+        stringValue =null;
+        this.tag    =tag;
         
-        switch(tag)
+        switch (tag)
         {
             case TTWATCH_HISTORY_ENTRY_TAG_DURATION:
             case TTWATCH_HISTORY_ENTRY_TAG_LENGTH:
@@ -70,19 +67,49 @@ public class HistoryValue
             case TTWATCH_HISTORY_ENTRY_TAG_SWOLF:
             case TTWATCH_HISTORY_ENTRY_TAG_STROKES:
             case TTWATCH_HISTORY_ENTRY_TAG_CALORIES:
-            case TTWATCH_HISTORY_ENTRY_TAG_RACEPOSITION:
-            case TTWATCH_HISTORY_ENTRY_TAG_RACETIME:
-//            case TTWATCH_HISTORY_ENTRY_TAG_UNKNOWN1:
-//            case TTWATCH_HISTORY_ENTRY_TAG_UNKNOWN2:
-            case TTWATCH_HISTORY_ENTRY_TAG_UNKNOWN3:
-            case TTWATCH_HISTORY_ENTRY_TAG_UNKNOWN5:
-                isInt=true;
+            case TTWATCH_HISTORY_ENTRY_TAG_UNKNOWN1:
+            case TTWATCH_HISTORY_ENTRY_TAG_UNKNOWN2:
+            case TTWATCH_HISTORY_ENTRY_TAG_RACEAHEAD:
+                intValue    =ToolBox.readInt(data, offset, 4, true);
+                valueType=ValueType.VALUETYPE_INT;
+                nextOffset=offset+4;
                 break;
+
+            case TTWATCH_HISTORY_ENTRY_TAG_DISTANCE:
+            case TTWATCH_HISTORY_ENTRY_TAG_AVERAGEPACE:
+            case TTWATCH_HISTORY_ENTRY_TAG_AVERAGESPEED:
+            case TTWATCH_HISTORY_ENTRY_TAG_RACE_UNKNOWN:
+                floatValue   =ToolBox.readFloat(data, offset, true);
+                valueType=ValueType.VALUETYPE_FLOAT;
+                nextOffset=offset+4;
+                break;
+                
+                
+            case TTWATCH_HISTORY_ENTRY_TAG_RACEPOSITION:
+                intValue    =ToolBox.readInt(data, offset, 1, true);
+                valueType   =ValueType.VALUETYPE_INT;
+                nextOffset  =offset+1;
+                break;
+                
+            case TTWATCH_HISTORY_ENTRY_TAG_RACENAME:
+                length    =ToolBox.readInt(data, offset, 1, true);
+                stringValue=ToolBox.readString(data, offset+1, length);
+                valueType=ValueType.VALUETYPE_STRING;
+                nextOffset=offset+length+1;
+                break;
+                
+                
             default:
-                isInt=false;
+                DebugLogger.error("Undefined value");
+                nextOffset  =offset+4;
+                valueType   =ValueType.VALUETYPE_UNKNOWN;
+                break;
         }
-        return isInt;
+        
+        
+        return nextOffset;
     }
+    
     
     /**
      * Returns the tag (variable)
@@ -133,11 +160,11 @@ public class HistoryValue
             case TTWATCH_HISTORY_ENTRY_TAG_RACEPOSITION:
                 description="Race Position";
                 break;
-            case TTWATCH_HISTORY_ENTRY_TAG_RACESPEED:
-                description="Race Speed";
+            case TTWATCH_HISTORY_ENTRY_TAG_RACENAME:
+                description="Race";
                 break;
-            case TTWATCH_HISTORY_ENTRY_TAG_RACETIME:
-                description="Race Time";
+            case TTWATCH_HISTORY_ENTRY_TAG_RACE_UNKNOWN:
+                description="Race ???";
                 break;
             case TTWATCH_HISTORY_ENTRY_TAG_UNKNOWN1:
                 description="Unknown1";
@@ -145,14 +172,8 @@ public class HistoryValue
             case TTWATCH_HISTORY_ENTRY_TAG_UNKNOWN2:
                 description="Unknown2";
                 break;
-            case TTWATCH_HISTORY_ENTRY_TAG_UNKNOWN3:
-                description="Unknown3";
-                break;
-            case TTWATCH_HISTORY_ENTRY_TAG_UNKNOWN4:
-                description="Unknown4";
-                break;
-            case TTWATCH_HISTORY_ENTRY_TAG_UNKNOWN5:
-                description="Unknown5";
+            case TTWATCH_HISTORY_ENTRY_TAG_RACEAHEAD:
+                description="Seconds ahead";
                 break;
             default:
                 description="Unknown";
@@ -166,7 +187,7 @@ public class HistoryValue
     {
         int value;
         
-        if (isInteger(tag))
+        if (valueType==ValueType.VALUETYPE_INT)
         {
             value=this.intValue;
         }
@@ -182,7 +203,7 @@ public class HistoryValue
     {
         double value;
         
-        if (!isInteger(tag))
+        if (valueType==ValueType.VALUETYPE_FLOAT)
         {
             value=this.floatValue;
         }
@@ -194,13 +215,30 @@ public class HistoryValue
         return value;        
     }
     
+    public String getValueAsString()
+    {
+        String value;
+        
+        if (valueType==ValueType.VALUETYPE_STRING)
+        {
+            value=this.stringValue;
+        }
+        else
+        {
+            DebugLogger.error("Requesting float value of a variable that is not an float");
+            value="";
+        }
+        return value;        
+    }
+
+
     public String getDescription()
     {
         String description;
         
         description=String.format("0x%02x %-20s ", tag, this.getTagDescription());
         
-        if (this.isInteger(tag))
+        if (valueType==ValueType.VALUETYPE_INT)
         {
             if (tag==TTWATCH_HISTORY_ENTRY_TAG_DURATION)
             {
@@ -211,9 +249,13 @@ public class HistoryValue
                 description+=String.format("%8d", intValue);
             }
         }
-        else
+        else if (valueType==ValueType.VALUETYPE_FLOAT)
         {
             description+=String.format("%8.2f", floatValue);
+        }
+        else if (valueType==ValueType.VALUETYPE_STRING)
+        {
+            description+=stringValue;
         }
         description+="\n";
         return description;
