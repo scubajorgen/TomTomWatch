@@ -21,21 +21,21 @@ public class HistoryValue
         VALUETYPE_STRING,
         VALUETYPE_UNKNOWN
     }
-    private static final int    TTWATCH_HISTORY_ENTRY_TAG_UNKNOWN1     = 0x00;  /* int_val                   */
-    private static final int    TTWATCH_HISTORY_ENTRY_TAG_DURATION     = 0x01;  /* int_val   = seconds       */
-    private static final int    TTWATCH_HISTORY_ENTRY_TAG_DISTANCE     = 0x02;  /* float_val = metres        */
-    private static final int    TTWATCH_HISTORY_ENTRY_TAG_AVERAGEPACE  = 0x05;  /* float_val = metres/second */
-    private static final int    TTWATCH_HISTORY_ENTRY_TAG_AVERAGESPEED = 0x07;  /* float_val = metres/second */
-    private static final int    TTWATCH_HISTORY_ENTRY_TAG_LENGTH       = 0x08;  /* int_val                   */
-    private static final int    TTWATCH_HISTORY_ENTRY_TAG_LAPS         = 0x09;  /* int_val                   */
-    private static final int    TTWATCH_HISTORY_ENTRY_TAG_SWOLF        = 0x0f;  /* int_val                   */
-    private static final int    TTWATCH_HISTORY_ENTRY_TAG_STROKES      = 0x13;  /* int_val                   */
-    private static final int    TTWATCH_HISTORY_ENTRY_TAG_CALORIES     = 0x14;  /* int_val                   */
-    private static final int    TTWATCH_HISTORY_ENTRY_TAG_UNKNOWN2     = 0x20;  /* int_val                   */
-    private static final int    TTWATCH_HISTORY_ENTRY_TAG_RACENAME     = 0x25;  /* LENGTH (8 bits) + STRING  */
-    private static final int    TTWATCH_HISTORY_ENTRY_TAG_RACEPOSITION = 0x26;  /* int_val (8 bits)          */
-    private static final int    TTWATCH_HISTORY_ENTRY_TAG_RACE_UNKNOWN = 0x27;  /* float_val   = ???         */    
-    private static final int    TTWATCH_HISTORY_ENTRY_TAG_RACEAHEAD    = 0x28;  /* int_val in seconds        */
+    private static final int    TTWATCH_HISTORY_ENTRY_TAG_UNKNOWN1      = 0x00;  /* int_val                   */
+    private static final int    TTWATCH_HISTORY_ENTRY_TAG_DURATION      = 0x01;  /* int_val   = seconds       */
+    private static final int    TTWATCH_HISTORY_ENTRY_TAG_DISTANCE      = 0x02;  /* float_val = metres        */
+    private static final int    TTWATCH_HISTORY_ENTRY_TAG_AVERAGEPACE   = 0x05;  /* float_val = metres/second */
+    private static final int    TTWATCH_HISTORY_ENTRY_TAG_AVERAGESPEED  = 0x07;  /* float_val = metres/second */
+    private static final int    TTWATCH_HISTORY_ENTRY_TAG_LENGTH        = 0x08;  /* int_val                   */
+    private static final int    TTWATCH_HISTORY_ENTRY_TAG_LAPS          = 0x09;  /* int_val                   */
+    private static final int    TTWATCH_HISTORY_ENTRY_TAG_SWOLF         = 0x0f;  /* int_val                   */
+    private static final int    TTWATCH_HISTORY_ENTRY_TAG_STROKES       = 0x13;  /* int_val                   */
+    private static final int    TTWATCH_HISTORY_ENTRY_TAG_CALORIES      = 0x14;  /* int_val                   */
+    private static final int    TTWATCH_HISTORY_ENTRY_TAG_UNKNOWN2      = 0x20;  /* int_val                   */
+    private static final int    TTWATCH_HISTORY_ENTRY_TAG_RACENAME      = 0x25;  /* LENGTH (8 bits) + STRING  */
+    private static final int    TTWATCH_HISTORY_ENTRY_TAG_RACEPOSITION  = 0x26;  /* int_val (8 bits)          */
+    private static final int    TTWATCH_HISTORY_ENTRY_TAG_RACEPACEAHEAD = 0x27;  /* float_val (m/s)           */    
+    private static final int    TTWATCH_HISTORY_ENTRY_TAG_RACEAHEAD     = 0x28;  /* int_val in seconds        */
 
 
     private int                 tag;
@@ -78,7 +78,7 @@ public class HistoryValue
             case TTWATCH_HISTORY_ENTRY_TAG_DISTANCE:
             case TTWATCH_HISTORY_ENTRY_TAG_AVERAGEPACE:
             case TTWATCH_HISTORY_ENTRY_TAG_AVERAGESPEED:
-            case TTWATCH_HISTORY_ENTRY_TAG_RACE_UNKNOWN:
+            case TTWATCH_HISTORY_ENTRY_TAG_RACEPACEAHEAD:
                 floatValue   =ToolBox.readFloat(data, offset, true);
                 valueType=ValueType.VALUETYPE_FLOAT;
                 nextOffset=offset+4;
@@ -137,7 +137,7 @@ public class HistoryValue
                 description="Distance (m)";
                 break;
             case TTWATCH_HISTORY_ENTRY_TAG_AVERAGEPACE:
-                description="Average pace";
+                description="Average pace (m/s)";
                 break;
             case TTWATCH_HISTORY_ENTRY_TAG_AVERAGESPEED:
                 description="Average speed (m/s)";
@@ -163,8 +163,8 @@ public class HistoryValue
             case TTWATCH_HISTORY_ENTRY_TAG_RACENAME:
                 description="Race";
                 break;
-            case TTWATCH_HISTORY_ENTRY_TAG_RACE_UNKNOWN:
-                description="Race ???";
+            case TTWATCH_HISTORY_ENTRY_TAG_RACEPACEAHEAD:
+                description="Race pace diff (m/s)";
                 break;
             case TTWATCH_HISTORY_ENTRY_TAG_UNKNOWN1:
                 description="Unknown1";
