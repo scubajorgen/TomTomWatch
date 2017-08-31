@@ -1178,7 +1178,12 @@ public class TomTomWatchView extends javax.swing.JFrame
         String              fileName;
         String              ttbinPath;
         int                 listItems;
+        boolean trackSmoothingEnabled;
         
+        // Set the tracksmoothing
+        trackSmoothingEnabled=this.jCheckBoxSmooth.isSelected();
+        communicationProcess.setTrackSmoothing(trackSmoothingEnabled, trackSmoothingQFactor);        
+
         ttbinPath=this.jTextFieldTtbinPath.getText();
 
         
@@ -1438,7 +1443,8 @@ public class TomTomWatchView extends javax.swing.JFrame
 
     private void jCheckBoxSmoothActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jCheckBoxSmoothActionPerformed
     {//GEN-HEADEREND:event_jCheckBoxSmoothActionPerformed
-        this.clear();
+//        this.clear();
+        communicationProcess.clear();
     }//GEN-LAST:event_jCheckBoxSmoothActionPerformed
 
     private void jMenuItemPlaylistsActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jMenuItemPlaylistsActionPerformed

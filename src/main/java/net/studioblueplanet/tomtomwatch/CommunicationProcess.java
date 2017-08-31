@@ -527,7 +527,7 @@ public class CommunicationProcess implements Runnable, ProgressListener
     /**
      * Removes any track data. Erase acitivities, clear the list
      */
-    private void clear()
+    public void clear()
     {
         // Remove any existing activities
         synchronized (this)
