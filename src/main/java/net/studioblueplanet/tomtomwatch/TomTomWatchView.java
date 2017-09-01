@@ -1443,7 +1443,8 @@ public class TomTomWatchView extends javax.swing.JFrame
 
     private void jCheckBoxSmoothActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jCheckBoxSmoothActionPerformed
     {//GEN-HEADEREND:event_jCheckBoxSmoothActionPerformed
-//        this.clear();
+        // Clear the list of activities as maintained by the communication
+        // process. En passant the listbox in this view is erased.
         communicationProcess.clear();
     }//GEN-LAST:event_jCheckBoxSmoothActionPerformed
 
