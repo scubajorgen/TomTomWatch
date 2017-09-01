@@ -234,39 +234,47 @@ public class TomTomReader
 
                     recordCount++;
                 }
+            }
+            segmentCount++;
+        }
+
+        // Check if there are any valid points to correct
+        if (count1>0 && count2>0)
+        {
+            average1=sum1/count1;
+            average2=sum2/count2;
+
+            segmentCount=0;
+            while (segmentCount<maxSegments)
+            {
+                records=activity.getRecords(segmentCount);
+
+                recordCount=0;
+                while (recordCount<records.size())
+                {
+                    record=(ActivityRecordGps)records.get(recordCount);
+
+                    elevation2=record.getElevation2();
+
+                    if (elevation2!=ActivityRecord.INVALID)
+                    {
+                        elevation1=elevation2+(average1-average2);
+                        record.setDerivedElevation(elevation1);
+                    }
+                    else
+                    {
+                        record.setDerivedElevation(ActivityRecord.INVALID);
+                    }
+
+                    recordCount++;
+                }
+
                 segmentCount++;
             }
         }
-
-        average1=sum1/count1;
-        average2=sum2/count2;
-        
-        segmentCount=0;
-        while (segmentCount<maxSegments)
+        else
         {
-            records=activity.getRecords(segmentCount);
-            
-            recordCount=0;
-            while (recordCount<records.size())
-            {
-                record=(ActivityRecordGps)records.get(recordCount);
-                
-                elevation2=record.getElevation2();
-                
-                if (elevation2!=ActivityRecord.INVALID)
-                {
-                    elevation1=elevation2+(average1-average2);
-                    record.setDerivedElevation(elevation1);
-                }
-                else
-                {
-                    record.setDerivedElevation(ActivityRecord.INVALID);
-                }
-                
-                recordCount++;
-            }
-            
-            segmentCount++;
+            DebugLogger.info("Height not corrected. Insufficient track points in the track.");
         }
     
     
