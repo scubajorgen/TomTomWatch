@@ -167,7 +167,7 @@ public class ConfigSettings
         error=false;
         
         // Remove leading and trailing spaces
-        setting.value=setting.value.toLowerCase().trim();
+        setting.value=setting.value.trim();
         switch (setting.type)
         {
             case INT:
