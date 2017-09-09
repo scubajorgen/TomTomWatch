@@ -1,1 +1,1 @@
-./protoc --java_out=../src/main/java route.proto
+./protoc --java_out=../../src/main/java route.proto
