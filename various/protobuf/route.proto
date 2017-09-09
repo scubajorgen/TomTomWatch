@@ -1,3 +1,9 @@
+//#################################################################################################
+//
+// Definition file for the TomTom routes (files with ID 0x00b8nnnn). A route is the result of 
+// trackplanning by converting and uploading GPX track files.
+//
+//#################################################################################################
 
 syntax = "proto2";
 
@@ -65,26 +71,21 @@ message BoundingBox
 
 message TrackMetaData
 {
-  required string              name     =1;
-  required BoundingBox         box      =2;
-  required bytes               time     =3;
+  required string               name     =1;
+  required BoundingBox          box      =2;
+  required bytes                time     =3;
 }
 
 message TrackLevel2
 {
-  required TrackMetaData        metadata=1;
+  required TrackMetaData        metadata  =1;
   repeated StartCoordinate      coordinate=2;
-  required SegmentData          data=3;
+  required SegmentData          data      =3;
 }
 
 message TrackLevel1
 {
   required TrackLevel2          level2 =1;
-}
-
-message TrackLevel0
-{
-  required TrackLevel1          level1 =8;
 }
 
 
