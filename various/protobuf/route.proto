@@ -9,15 +9,15 @@ option java_outer_classname = "RouteProto";
 
 message MetaData
 {
-  required fixed32 unknown1=1;
-  required fixed32 unknown2=2;
+  required fixed32 unknown1=1;  // always 0x1234DAEB?
+  required fixed32 unknown2=2;  // always 0x00010100?
 }
 
 
-message Header
+message RootContainer
 {
-
-  required MetaData metaData=7;
+  optional MetaData             metaData=7;
+  optional TrackLevel1          level1  =8;
 }
 
 message LatLon
@@ -91,7 +91,6 @@ message TrackLevel0
 
 message Root
 {
-  required Header               header =1;
-  required TrackLevel0	        track  =2;
+  repeated RootContainer        container =1;
 }
 

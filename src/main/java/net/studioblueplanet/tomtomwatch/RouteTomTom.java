@@ -157,10 +157,10 @@ public class RouteTomTom extends Route
      * versions or so...
      * @return The message
      */
-    private RouteProto.Header buildHeader()
+    private RouteProto.RootContainer buildRootContainer()
     {
-        RouteProto.Header                  header;
-        RouteProto.Header.Builder          headerBuilder;
+        RouteProto.RootContainer           rootContainer;
+        RouteProto.RootContainer.Builder   rootContainerBuilder;
         RouteProto.MetaData                metadata;
         RouteProto.MetaData.Builder        metadataBuilder;
 
@@ -172,11 +172,11 @@ public class RouteTomTom extends Route
         
         metadata            =metadataBuilder.build();
 
-        headerBuilder       =RouteProto.Header.newBuilder();
-        headerBuilder.setMetaData(metadata);
-        header=headerBuilder.build();
+        rootContainerBuilder=RouteProto.RootContainer.newBuilder();
+        rootContainerBuilder.setMetaData(metadata);
+        rootContainer=rootContainerBuilder.build();
         
-        return header;
+        return rootContainer;
     }
     
     
@@ -400,8 +400,31 @@ public class RouteTomTom extends Route
      * levels don't add anything...
      * @return The message
      */
-    private RouteProto.TrackLevel0 buildTrackLevels()
+    private RouteProto.RootContainer buildTrackLevels()
     {
+        RouteProto.RootContainer           rootContainer;
+        RouteProto.RootContainer.Builder   rootContainerBuilder;
+
+        RouteProto.TrackLevel1             level1;
+        RouteProto.TrackLevel1.Builder     level1Builder;
+        RouteProto.TrackLevel2             level2;
+        
+        level1Builder   =RouteProto.TrackLevel1.newBuilder();
+        
+        level2          =this.buildTrack();
+        level1Builder.setLevel2(level2);
+        level1          =level1Builder.build();
+
+        rootContainerBuilder       =RouteProto.RootContainer.newBuilder();
+        rootContainerBuilder.setLevel1(level1);
+        rootContainer=rootContainerBuilder.build();
+        
+        return rootContainer;
+
+
+
+
+/*
         RouteProto.TrackLevel0             level0;
         RouteProto.TrackLevel0.Builder     level0Builder;
         RouteProto.TrackLevel1             level1;
@@ -419,6 +442,7 @@ public class RouteTomTom extends Route
         level0          =level0Builder.build();
         
         return level0;
+*/        
     }
     
     
@@ -442,19 +466,14 @@ public class RouteTomTom extends Route
         
         rootBuilder         =RouteProto.Root.newBuilder();
         
-        rootBuilder.setHeader(buildHeader());
-        rootBuilder.setTrack(this.buildTrackLevels());
+        rootBuilder.addContainer(buildRootContainer());
+        
+        rootBuilder.addContainer(this.buildTrackLevels());
 
         root                =rootBuilder.build();
 
         // Generate the bytes
         bytes=root.toByteArray();
-        
-        // Work around. In the original TomTom files both the Header
-        // and the Track have field number 1. This is not possible with 
-        // protobuf. So hard code the fieldnumber of the Track from 2 to 1.
-        // Appears also to work without...    
-        bytes[14]=0x0a;
         
         return bytes;
     }
@@ -469,7 +488,9 @@ public class RouteTomTom extends Route
     public boolean loadLogFromTomTomRouteData(byte[] data)
     {
         RouteProto.Root                     root;
-        RouteProto.TrackLevel0              level0;
+        RouteProto.RootContainer            container;
+        List<RouteProto.RootContainer>      containers;
+        Iterator<RouteProto.RootContainer>  containerIt;
         RouteProto.TrackLevel1              level1;
         RouteProto.TrackLevel2              level2;
         RouteProto.TrackMetaData            metadata;
@@ -483,6 +504,7 @@ public class RouteTomTom extends Route
         RouteProto.Coordinate               coordinate;
         double                              lat;
         double                              lon;
+        boolean                             exit;
         
         
         RouteSegment                        routeSegment;
@@ -493,61 +515,68 @@ public class RouteTomTom extends Route
         int                                 numberOfSegments;
         int                                 numberOfPoints;
         
-        // Work around. In the original TomTom files both the Header
-        // and the Track have field number 1. This is not possible with 
-        // protobuf. So hard code the fieldnumber of the Track from 1 to 2 so
-        // the data can be parsed.
-        // Also appears to work without (only not for TomTom Mysports uploaded files...)
-        data[14]=0x12;
-
         clear();
         error=false;
         try
         {
             root                =RouteProto.Root.parseFrom(data);
-            level0              =root.getTrack();
-            level1              =level0.getLevel1();
-            level2              =level1.getLevel2();
-            metadata            =level2.getMetadata();
-            this.routeName      =metadata.getName();
             
-            segmentData         =level2.getData();
-            numberOfSegments    =segmentData.getNumberOfSegments();
-            segments            =segmentData.getDataList();
-            
-            // Consistency check
-            if (segments.size()!=numberOfSegments)
-            {
-                DebugLogger.error("Inconsistent protobuf data: number of segments incorrect");
-            }
-            
-            segmentIt           =segments.iterator();
-            while (segmentIt.hasNext())
-            {
-                routeSegment=this.appendRouteSegment();
+            exit                =false;
                 
-                segment         =segmentIt.next();
-                numberOfPoints  =segment.getNumberOfCoordinates();
-                coordDatas      =segment.getDataList();
-                
-                // Consistency check
-                if (coordDatas.size()!=numberOfPoints)
-                {
-                    DebugLogger.error("Inconsistent protobuf data: number of points incorrect");
-                }
+            
+            containers                 =root.getContainerList();
+            containerIt                =containers.iterator();
+            while (containerIt.hasNext() && !exit)
+            {
+                container=containerIt.next();
+
+                if (container.hasLevel1())
+                {                
+                    level1=container.getLevel1();
+                    level2              =level1.getLevel2();
+                    metadata            =level2.getMetadata();
+                    this.routeName      =metadata.getName();
+
+                    segmentData         =level2.getData();
+                    numberOfSegments    =segmentData.getNumberOfSegments();
+                    segments            =segmentData.getDataList();
+
+                    // Consistency check
+                    if (segments.size()!=numberOfSegments)
+                    {
+                        DebugLogger.error("Inconsistent protobuf data: number of segments incorrect");
+                    }
+
+                    segmentIt           =segments.iterator();
+                    while (segmentIt.hasNext())
+                    {
+                        routeSegment=this.appendRouteSegment();
+
+                        segment         =segmentIt.next();
+                        numberOfPoints  =segment.getNumberOfCoordinates();
+                        coordDatas      =segment.getDataList();
+
+                        // Consistency check
+                        if (coordDatas.size()!=numberOfPoints)
+                        {
+                            DebugLogger.error("Inconsistent protobuf data: number of points incorrect");
+                        }
 
 
-                coordDataIt     =coordDatas.iterator();
-                while (coordDataIt.hasNext())
-                {
-                    coordData   =coordDataIt.next();
-                    coordinate  =coordData.getCoordinate();
-                    lat         =(double)coordinate.getLat().getValue()/1e7;
-                    lon         =(double)coordinate.getLon().getValue()/1e7;
-                    routePoint  =new RoutePoint(lat, lon);
-                    routeSegment.appendRoutePoint(routePoint);
+                        coordDataIt     =coordDatas.iterator();
+                        while (coordDataIt.hasNext())
+                        {
+                            coordData   =coordDataIt.next();
+                            coordinate  =coordData.getCoordinate();
+                            lat         =(double)coordinate.getLat().getValue()/1e7;
+                            lon         =(double)coordinate.getLon().getValue()/1e7;
+                            routePoint  =new RoutePoint(lat, lon);
+                            routeSegment.appendRoutePoint(routePoint);
+                        }
+
+                    }
+                    exit=true;
                 }
-                
             }
                     
         }
