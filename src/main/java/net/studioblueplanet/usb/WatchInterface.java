@@ -35,9 +35,9 @@ public abstract class WatchInterface
         TTWATCH_FILE_HISTORY_DATA           (0x00730000),
         TTWATCH_FILE_LANGUAGE               (0x00810000),
         TTWATCH_FILE_HISTORY_SUMMARY        (0x00830000),
-        TTWATCH_FILE_TTBIN_DATA             (0x00910000),
-        TTWATCH_FILE_TRACKPLANNING          (0x00B80000),
-        TTWATCH_FILE_UNKNOWN                (0x00B90000);
+        TTWATCH_FILE_TTBIN_DATA             (0x00910000),    // The ttbin file
+        TTWATCH_FILE_TRACKPLANNING          (0x00B80000),    // Uploaded track
+        TTWATCH_FILE_UNKNOWN                (0x00B90000);    // Watch generated protobuf (?) file, one for each track...
         
         private final int 	value;
         
