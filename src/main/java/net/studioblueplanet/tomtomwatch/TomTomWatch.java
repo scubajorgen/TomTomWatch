@@ -18,6 +18,9 @@ import java.util.ArrayList;
 import hirondelle.date4j.DateTime;
 import java.util.TimeZone;
 
+import java.io.RandomAccessFile;
+
+
 /**
  *
  * @author Jorgen
@@ -56,7 +59,7 @@ public class TomTomWatch extends SingleFrameApplication
         iconList.add(icon.getImage());
 
 
-        view.setIconImages(iconList);       
+        view.setIconImages(iconList);
     }
     
     

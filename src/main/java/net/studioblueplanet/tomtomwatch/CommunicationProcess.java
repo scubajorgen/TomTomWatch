@@ -430,7 +430,7 @@ public class CommunicationProcess implements Runnable, ProgressListener
                     case THREADCOMMAND_DOWNLOAD:
                         error = downloadActivityFiles(watchInterface);
                         break;
-                    case THREADCOMMAND_ERASE:
+                    case THREADCOMMAND_DELETETTBINFILES:
                         error=deleteActivityFiles(watchInterface);
                         break;
                     case THREADCOMMAND_UPLOADGPSDATA:
@@ -489,6 +489,14 @@ public class CommunicationProcess implements Runnable, ProgressListener
                         break;
                     case THREADCOMMAND_SHOWFILE:
                         error=showFile(watchInterface);
+                        break;
+                    case THREADCOMMAND_LISTTRACKEDACTIVITY:
+                        error=showTrackedActivity(watchInterface);
+                        break;
+                    case THREADCOMMAND_DELETETRACKEDACTIVITY:
+                        theView.appendStatus("Erasing tracked activity\n");
+                        error=this.eraseFiles(watchInterface, WatchInterface.FileType.TTWATCH_FILE_TRACKEDACTIVITY);
+                        theView.appendStatus("Done\n");
                         break;
                 }
 
@@ -673,6 +681,7 @@ public class CommunicationProcess implements Runnable, ProgressListener
             // If any found, download the data of each file
             if (files != null)
             {
+                theView.appendStatus("Deleting "+files.size()+" files...\n");
                 it = files.iterator();
                 while (it.hasNext() && !error)
                 {
@@ -1441,6 +1450,16 @@ public class CommunicationProcess implements Runnable, ProgressListener
             theView.appendStatus("Erasing routes\n");
             error=this.eraseFiles(watchInterface, WatchInterface.FileType.TTWATCH_FILE_TRACKPLANNING);
         }
+        if (!error)
+        {
+            theView.appendStatus("Erasing tracked activity\n");
+            error=this.eraseFiles(watchInterface, WatchInterface.FileType.TTWATCH_FILE_TRACKEDACTIVITY);
+        }
+        if (!error)
+        {
+            theView.appendStatus("Erasing tracked activity per day\n");
+            error=this.eraseFiles(watchInterface, WatchInterface.FileType.TTWATCH_FILE_TRACKEDACTIVITYDAILY);
+        }
 
         theView.appendStatus("Clearing recent activities list...\n");
         if (!error)
@@ -2110,5 +2129,82 @@ public class CommunicationProcess implements Runnable, ProgressListener
         }
         return error;
     }
+    
+    /**
+     * This method displays the activity tracked by the watch. This info is 
+     * stored in the 0x00b1nnnn files.
+     * @param watchInterface The watch interface
+     * @return True if an error occurred, false if successful
+     */
+    private boolean showTrackedActivity(WatchInterface watchInterface)
+    {
+        boolean error;
+        Tracker tracker;
+
+        UsbFile             file;
+        ArrayList<UsbFile>  files;
+        Iterator<UsbFile>   it;
+        
+        error = false;
+
+        tracker=new Tracker();
+        
+        // Enumerate all files of given type from the device
+        files = watchInterface.getFileList(WatchInterface.FileType.TTWATCH_FILE_TRACKEDACTIVITY);
+
+        // If any found, download the data of each file
+        if (files != null)
+        {
+            this.sort(files);
+
+            it = files.iterator();
+            while (it.hasNext() && !error)
+            {
+                file=it.next();
+
+                error=watchInterface.readFile(file);
+                
+                if (!error)
+                {
+                    DebugLogger.info("Appending "+String.format("0x%08x", file.fileId)+" length "+file.length);
+
+                    // Just another check, double check
+                    if (watchInterface.isFileType(file, WatchInterface.FileType.TTWATCH_FILE_TRACKEDACTIVITY))  
+                    {
+                        error=tracker.appendFromData(file.fileData);
+                    }
+                    else
+                    {
+                        DebugLogger.error("Inconsistency while requesting tracked activity files");
+                    }
+                }
+                else
+                {
+                    DebugLogger.error("Error reading file "+String.format("0x%08x", file.fileId));
+                }
+            }
+        
+            if (!error)
+            {
+                tracker.convertToHourly();
+                theView.setStatus(tracker.trackedActivityToString()+"\n"+tracker.heartRatesToString());
+            }
+        }
+        
+        
+
+        return error;    
+    }    
+    
+    /**
+     * This method deletes the activity tracked by the watch. This info is 
+     * stored in the 0x00b1nnnn files. These files are deleted
+     * @param watchInterface The watch interface
+     * @return True if an error occurred, false if successful
+     */
+    private boolean deleteTrackedActivity(WatchInterface watchInterface)
+    {
+        
+    }    
     
 }

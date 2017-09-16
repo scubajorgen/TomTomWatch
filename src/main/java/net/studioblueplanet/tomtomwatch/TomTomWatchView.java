@@ -191,6 +191,8 @@ public class TomTomWatchView extends javax.swing.JFrame
         jMenuItemShowUpdateLog = new javax.swing.JMenuItem();
         jMenuItemShowLog = new javax.swing.JMenuItem();
         jMenuItemPlaylists = new javax.swing.JMenuItem();
+        jMenuItemShowTrackedActivity = new javax.swing.JMenuItem();
+        jMenuDeleteTrackedActivity = new javax.swing.JMenuItem();
         jMenuAbout = new javax.swing.JMenu();
         jMenuItemAbout = new javax.swing.JMenuItem();
 
@@ -666,6 +668,26 @@ public class TomTomWatchView extends javax.swing.JFrame
         });
         jMenuDebugging.add(jMenuItemPlaylists);
 
+        jMenuItemShowTrackedActivity.setText("Show Tracked Activity");
+        jMenuItemShowTrackedActivity.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                jMenuItemShowTrackedActivityActionPerformed(evt);
+            }
+        });
+        jMenuDebugging.add(jMenuItemShowTrackedActivity);
+
+        jMenuDeleteTrackedActivity.setText("Delete Tracked Activity");
+        jMenuDeleteTrackedActivity.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                jMenuDeleteTrackedActivityActionPerformed(evt);
+            }
+        });
+        jMenuDebugging.add(jMenuDeleteTrackedActivity);
+
         jMenuBar.add(jMenuDebugging);
 
         jMenuAbout.setText("Help");
@@ -928,7 +950,7 @@ public class TomTomWatchView extends javax.swing.JFrame
             if (response == JOptionPane.YES_OPTION) 
             {
                 // Signal the thread to erase the files
-                communicationProcess.pushCommand(ThreadCommand.THREADCOMMAND_ERASE);
+                communicationProcess.pushCommand(ThreadCommand.THREADCOMMAND_DELETETTBINFILES);
             } 
             else 
             {
@@ -1458,6 +1480,35 @@ public class TomTomWatchView extends javax.swing.JFrame
         this.checkAndPushCommand(ThreadCommand.THREADCOMMAND_LISTRACES);
     }//GEN-LAST:event_jMenuItemListRacesActionPerformed
 
+    private void jMenuItemShowTrackedActivityActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jMenuItemShowTrackedActivityActionPerformed
+    {//GEN-HEADEREND:event_jMenuItemShowTrackedActivityActionPerformed
+        this.checkAndPushCommand(ThreadCommand.THREADCOMMAND_LISTTRACKEDACTIVITY);
+    }//GEN-LAST:event_jMenuItemShowTrackedActivityActionPerformed
+
+    private void jMenuDeleteTrackedActivityActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jMenuDeleteTrackedActivityActionPerformed
+    {//GEN-HEADEREND:event_jMenuDeleteTrackedActivityActionPerformed
+        int response;
+        
+        if (communicationProcess.isConnected())
+        {
+            response = JOptionPane.showConfirmDialog(null, "Do you want to erase the tracked activity from the watch?", "Confirm",
+                                                     JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+            if (response == JOptionPane.YES_OPTION) 
+            {
+                // Signal the thread to erase the files
+                communicationProcess.pushCommand(ThreadCommand.THREADCOMMAND_DELETETRACKEDACTIVITY);
+            } 
+            else 
+            {
+
+            }
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(this, "No watch connected", "Warning", JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_jMenuDeleteTrackedActivityActionPerformed
+
     /*############################################################################################*\
      * HELPER FUNCTIONS     
     \*############################################################################################*/    
@@ -1876,6 +1927,7 @@ public class TomTomWatchView extends javax.swing.JFrame
     private javax.swing.JMenu jMenuAbout;
     private javax.swing.JMenuBar jMenuBar;
     private javax.swing.JMenu jMenuDebugging;
+    private javax.swing.JMenuItem jMenuDeleteTrackedActivity;
     private javax.swing.JMenu jMenuDevice;
     private javax.swing.JMenu jMenuFile;
     private javax.swing.JMenuItem jMenuItem1;
@@ -1894,6 +1946,7 @@ public class TomTomWatchView extends javax.swing.JFrame
     private javax.swing.JMenuItem jMenuItemSaveSimSet;
     private javax.swing.JMenuItem jMenuItemSetName;
     private javax.swing.JMenuItem jMenuItemShowLog;
+    private javax.swing.JMenuItem jMenuItemShowTrackedActivity;
     private javax.swing.JMenuItem jMenuItemShowUpdateLog;
     private javax.swing.JMenuItem jMenuItemUpdateFirmware;
     private javax.swing.JMenuItem jMenuSaveFile;
