@@ -6141,27 +6141,10 @@ public final class TrackerProto {
 
     /**
      * <pre>
-     * 1: active, 2: charging? 3: 1st hour sleep 4: sleep
-     * </pre>
-     *
-     * <code>optional int32 sleepMode = 12;</code>
-     */
-    boolean hasSleepMode();
-    /**
-     * <pre>
-     * 1: active, 2: charging? 3: 1st hour sleep 4: sleep
-     * </pre>
-     *
-     * <code>optional int32 sleepMode = 12;</code>
-     */
-    int getSleepMode();
-
-    /**
-     * <pre>
      * sleep time in seconds. 
      * </pre>
      *
-     * <code>optional int32 sleepTime = 13;</code>
+     * <code>optional int32 sleepTime = 12;</code>
      */
     boolean hasSleepTime();
     /**
@@ -6169,9 +6152,26 @@ public final class TrackerProto {
      * sleep time in seconds. 
      * </pre>
      *
-     * <code>optional int32 sleepTime = 13;</code>
+     * <code>optional int32 sleepTime = 12;</code>
      */
     int getSleepTime();
+
+    /**
+     * <pre>
+     * 1: active, 2: charging? 3: 1st hour sleep 4: sleep
+     * </pre>
+     *
+     * <code>optional int32 sleepMode = 13;</code>
+     */
+    boolean hasSleepMode();
+    /**
+     * <pre>
+     * 1: active, 2: charging? 3: 1st hour sleep 4: sleep
+     * </pre>
+     *
+     * <code>optional int32 sleepMode = 13;</code>
+     */
+    int getSleepMode();
   }
   /**
    * <pre>
@@ -6201,8 +6201,8 @@ public final class TrackerProto {
       kcal_ = 0;
       kcalRest_ = 0;
       unknown1_ = 0;
-      sleepMode_ = 0;
       sleepTime_ = 0;
+      sleepMode_ = 0;
     }
 
     @java.lang.Override
@@ -6285,12 +6285,12 @@ public final class TrackerProto {
             }
             case 96: {
               bitField0_ |= 0x00000400;
-              sleepMode_ = input.readInt32();
+              sleepTime_ = input.readInt32();
               break;
             }
             case 104: {
               bitField0_ |= 0x00000800;
-              sleepTime_ = input.readInt32();
+              sleepMode_ = input.readInt32();
               break;
             }
           }
@@ -6540,50 +6540,50 @@ public final class TrackerProto {
       return unknown1_;
     }
 
-    public static final int SLEEPMODE_FIELD_NUMBER = 12;
-    private int sleepMode_;
-    /**
-     * <pre>
-     * 1: active, 2: charging? 3: 1st hour sleep 4: sleep
-     * </pre>
-     *
-     * <code>optional int32 sleepMode = 12;</code>
-     */
-    public boolean hasSleepMode() {
-      return ((bitField0_ & 0x00000400) == 0x00000400);
-    }
-    /**
-     * <pre>
-     * 1: active, 2: charging? 3: 1st hour sleep 4: sleep
-     * </pre>
-     *
-     * <code>optional int32 sleepMode = 12;</code>
-     */
-    public int getSleepMode() {
-      return sleepMode_;
-    }
-
-    public static final int SLEEPTIME_FIELD_NUMBER = 13;
+    public static final int SLEEPTIME_FIELD_NUMBER = 12;
     private int sleepTime_;
     /**
      * <pre>
      * sleep time in seconds. 
      * </pre>
      *
-     * <code>optional int32 sleepTime = 13;</code>
+     * <code>optional int32 sleepTime = 12;</code>
      */
     public boolean hasSleepTime() {
-      return ((bitField0_ & 0x00000800) == 0x00000800);
+      return ((bitField0_ & 0x00000400) == 0x00000400);
     }
     /**
      * <pre>
      * sleep time in seconds. 
      * </pre>
      *
-     * <code>optional int32 sleepTime = 13;</code>
+     * <code>optional int32 sleepTime = 12;</code>
      */
     public int getSleepTime() {
       return sleepTime_;
+    }
+
+    public static final int SLEEPMODE_FIELD_NUMBER = 13;
+    private int sleepMode_;
+    /**
+     * <pre>
+     * 1: active, 2: charging? 3: 1st hour sleep 4: sleep
+     * </pre>
+     *
+     * <code>optional int32 sleepMode = 13;</code>
+     */
+    public boolean hasSleepMode() {
+      return ((bitField0_ & 0x00000800) == 0x00000800);
+    }
+    /**
+     * <pre>
+     * 1: active, 2: charging? 3: 1st hour sleep 4: sleep
+     * </pre>
+     *
+     * <code>optional int32 sleepMode = 13;</code>
+     */
+    public int getSleepMode() {
+      return sleepMode_;
     }
 
     private byte memoizedIsInitialized = -1;
@@ -6669,10 +6669,10 @@ public final class TrackerProto {
         output.writeInt32(11, unknown1_);
       }
       if (((bitField0_ & 0x00000400) == 0x00000400)) {
-        output.writeInt32(12, sleepMode_);
+        output.writeInt32(12, sleepTime_);
       }
       if (((bitField0_ & 0x00000800) == 0x00000800)) {
-        output.writeInt32(13, sleepTime_);
+        output.writeInt32(13, sleepMode_);
       }
       unknownFields.writeTo(output);
     }
@@ -6724,11 +6724,11 @@ public final class TrackerProto {
       }
       if (((bitField0_ & 0x00000400) == 0x00000400)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(12, sleepMode_);
+          .computeInt32Size(12, sleepTime_);
       }
       if (((bitField0_ & 0x00000800) == 0x00000800)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(13, sleepTime_);
+          .computeInt32Size(13, sleepMode_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -6797,15 +6797,15 @@ public final class TrackerProto {
         result = result && (getUnknown1()
             == other.getUnknown1());
       }
-      result = result && (hasSleepMode() == other.hasSleepMode());
-      if (hasSleepMode()) {
-        result = result && (getSleepMode()
-            == other.getSleepMode());
-      }
       result = result && (hasSleepTime() == other.hasSleepTime());
       if (hasSleepTime()) {
         result = result && (getSleepTime()
             == other.getSleepTime());
+      }
+      result = result && (hasSleepMode() == other.hasSleepMode());
+      if (hasSleepMode()) {
+        result = result && (getSleepMode()
+            == other.getSleepMode());
       }
       result = result && unknownFields.equals(other.unknownFields);
       return result;
@@ -6858,13 +6858,13 @@ public final class TrackerProto {
         hash = (37 * hash) + UNKNOWN1_FIELD_NUMBER;
         hash = (53 * hash) + getUnknown1();
       }
-      if (hasSleepMode()) {
-        hash = (37 * hash) + SLEEPMODE_FIELD_NUMBER;
-        hash = (53 * hash) + getSleepMode();
-      }
       if (hasSleepTime()) {
         hash = (37 * hash) + SLEEPTIME_FIELD_NUMBER;
         hash = (53 * hash) + getSleepTime();
+      }
+      if (hasSleepMode()) {
+        hash = (37 * hash) + SLEEPMODE_FIELD_NUMBER;
+        hash = (53 * hash) + getSleepMode();
       }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
@@ -7021,9 +7021,9 @@ public final class TrackerProto {
         bitField0_ = (bitField0_ & ~0x00000100);
         unknown1_ = 0;
         bitField0_ = (bitField0_ & ~0x00000200);
-        sleepMode_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000400);
         sleepTime_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000400);
+        sleepMode_ = 0;
         bitField0_ = (bitField0_ & ~0x00000800);
         return this;
       }
@@ -7092,11 +7092,11 @@ public final class TrackerProto {
         if (((from_bitField0_ & 0x00000400) == 0x00000400)) {
           to_bitField0_ |= 0x00000400;
         }
-        result.sleepMode_ = sleepMode_;
+        result.sleepTime_ = sleepTime_;
         if (((from_bitField0_ & 0x00000800) == 0x00000800)) {
           to_bitField0_ |= 0x00000800;
         }
-        result.sleepTime_ = sleepTime_;
+        result.sleepMode_ = sleepMode_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -7169,11 +7169,11 @@ public final class TrackerProto {
         if (other.hasUnknown1()) {
           setUnknown1(other.getUnknown1());
         }
-        if (other.hasSleepMode()) {
-          setSleepMode(other.getSleepMode());
-        }
         if (other.hasSleepTime()) {
           setSleepTime(other.getSleepTime());
+        }
+        if (other.hasSleepMode()) {
+          setSleepMode(other.getSleepMode());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -7697,71 +7697,23 @@ public final class TrackerProto {
         return this;
       }
 
-      private int sleepMode_ ;
-      /**
-       * <pre>
-       * 1: active, 2: charging? 3: 1st hour sleep 4: sleep
-       * </pre>
-       *
-       * <code>optional int32 sleepMode = 12;</code>
-       */
-      public boolean hasSleepMode() {
-        return ((bitField0_ & 0x00000400) == 0x00000400);
-      }
-      /**
-       * <pre>
-       * 1: active, 2: charging? 3: 1st hour sleep 4: sleep
-       * </pre>
-       *
-       * <code>optional int32 sleepMode = 12;</code>
-       */
-      public int getSleepMode() {
-        return sleepMode_;
-      }
-      /**
-       * <pre>
-       * 1: active, 2: charging? 3: 1st hour sleep 4: sleep
-       * </pre>
-       *
-       * <code>optional int32 sleepMode = 12;</code>
-       */
-      public Builder setSleepMode(int value) {
-        bitField0_ |= 0x00000400;
-        sleepMode_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <pre>
-       * 1: active, 2: charging? 3: 1st hour sleep 4: sleep
-       * </pre>
-       *
-       * <code>optional int32 sleepMode = 12;</code>
-       */
-      public Builder clearSleepMode() {
-        bitField0_ = (bitField0_ & ~0x00000400);
-        sleepMode_ = 0;
-        onChanged();
-        return this;
-      }
-
       private int sleepTime_ ;
       /**
        * <pre>
        * sleep time in seconds. 
        * </pre>
        *
-       * <code>optional int32 sleepTime = 13;</code>
+       * <code>optional int32 sleepTime = 12;</code>
        */
       public boolean hasSleepTime() {
-        return ((bitField0_ & 0x00000800) == 0x00000800);
+        return ((bitField0_ & 0x00000400) == 0x00000400);
       }
       /**
        * <pre>
        * sleep time in seconds. 
        * </pre>
        *
-       * <code>optional int32 sleepTime = 13;</code>
+       * <code>optional int32 sleepTime = 12;</code>
        */
       public int getSleepTime() {
         return sleepTime_;
@@ -7771,10 +7723,10 @@ public final class TrackerProto {
        * sleep time in seconds. 
        * </pre>
        *
-       * <code>optional int32 sleepTime = 13;</code>
+       * <code>optional int32 sleepTime = 12;</code>
        */
       public Builder setSleepTime(int value) {
-        bitField0_ |= 0x00000800;
+        bitField0_ |= 0x00000400;
         sleepTime_ = value;
         onChanged();
         return this;
@@ -7784,11 +7736,59 @@ public final class TrackerProto {
        * sleep time in seconds. 
        * </pre>
        *
-       * <code>optional int32 sleepTime = 13;</code>
+       * <code>optional int32 sleepTime = 12;</code>
        */
       public Builder clearSleepTime() {
-        bitField0_ = (bitField0_ & ~0x00000800);
+        bitField0_ = (bitField0_ & ~0x00000400);
         sleepTime_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int sleepMode_ ;
+      /**
+       * <pre>
+       * 1: active, 2: charging? 3: 1st hour sleep 4: sleep
+       * </pre>
+       *
+       * <code>optional int32 sleepMode = 13;</code>
+       */
+      public boolean hasSleepMode() {
+        return ((bitField0_ & 0x00000800) == 0x00000800);
+      }
+      /**
+       * <pre>
+       * 1: active, 2: charging? 3: 1st hour sleep 4: sleep
+       * </pre>
+       *
+       * <code>optional int32 sleepMode = 13;</code>
+       */
+      public int getSleepMode() {
+        return sleepMode_;
+      }
+      /**
+       * <pre>
+       * 1: active, 2: charging? 3: 1st hour sleep 4: sleep
+       * </pre>
+       *
+       * <code>optional int32 sleepMode = 13;</code>
+       */
+      public Builder setSleepMode(int value) {
+        bitField0_ |= 0x00000800;
+        sleepMode_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * 1: active, 2: charging? 3: 1st hour sleep 4: sleep
+       * </pre>
+       *
+       * <code>optional int32 sleepMode = 13;</code>
+       */
+      public Builder clearSleepMode() {
+        bitField0_ = (bitField0_ & ~0x00000800);
+        sleepMode_ = 0;
         onChanged();
         return this;
       }
@@ -13065,8 +13065,8 @@ public final class TrackerProto {
       "\n\004time\030\002 \002(\005\022\020\n\010timeZone\030\003 \002(\005\022\020\n\010interv",
       "al\030\004 \002(\005\022\r\n\005steps\030\005 \002(\005\022\016\n\006active\030\006 \002(\005\022" +
       "\020\n\010distance\030\007 \002(\005\022\014\n\004kcal\030\010 \002(\005\022\020\n\010kcalR" +
-      "est\030\t \002(\005\022\020\n\010unknown1\030\013 \002(\005\022\021\n\tsleepMode" +
-      "\030\014 \001(\005\022\021\n\tsleepTime\030\r \001(\005\"\216\001\n\007Record2\022\014\n" +
+      "est\030\t \002(\005\022\020\n\010unknown1\030\013 \002(\005\022\021\n\tsleepTime" +
+      "\030\014 \001(\005\022\021\n\tsleepMode\030\r \001(\005\"\216\001\n\007Record2\022\014\n" +
       "\004time\030\001 \002(\007\022\020\n\010interval\030\002 \002(\005\022-\n\010tagValu" +
       "e\030\003 \003(\0132\033.tutorial.TagValueContainer\022\020\n\010" +
       "unknown1\030\004 \002(\005\022\020\n\010unknown2\030\005 \002(\005\022\020\n\010unkn" +
@@ -13140,7 +13140,7 @@ public final class TrackerProto {
     internal_static_tutorial_TrackRecord_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_tutorial_TrackRecord_descriptor,
-        new java.lang.String[] { "RecordId", "Time", "TimeZone", "Interval", "Steps", "Active", "Distance", "Kcal", "KcalRest", "Unknown1", "SleepMode", "SleepTime", });
+        new java.lang.String[] { "RecordId", "Time", "TimeZone", "Interval", "Steps", "Active", "Distance", "Kcal", "KcalRest", "Unknown1", "SleepTime", "SleepMode", });
     internal_static_tutorial_Record2_descriptor =
       getDescriptor().getMessageTypes().get(8);
     internal_static_tutorial_Record2_fieldAccessorTable = new

@@ -89,8 +89,7 @@ message Unknown01
 // 4th level: Tracker Record
 //#################################################################################################
 message TrackRecord
-{
-  required int32                recordId          =1;
+{  required int32                recordId          =1;
   required int32                time              =2;    // Epoch time in seconds, 900 s interval = 15 min
   required int32                timeZone          =3;    // Difference between time and UTC in seconds (?)
   required int32                interval          =4;    // Interval of this measurement = 900s often     
@@ -100,8 +99,8 @@ message TrackRecord
   required int32                kcal              =8;    // kcal
   required int32                kcalRest          =9;    // kcal in rest? (~12 kcal/10 min) 
   required int32                unknown1          =11;   // 0
-  optional int32                sleepMode         =12;   // 1: active, 2: charging? 3: 1st hour sleep 4: sleep
-  optional int32                sleepTime         =13;   // sleep time in seconds. 
+  optional int32                sleepTime         =12;   // sleep time in seconds. 
+  optional int32                sleepMode         =13;   // 1: active, 2: charging? 3: 1st hour sleep 4: sleep
                                                          // Total sleep time: sum sleep time if sleepMode=3 or 4
                                                          // from 12:00:00 till 12:00:00
 }
@@ -142,8 +141,8 @@ message HeartRecord
   required fixed32              time              =1;    // Epoch time in seconds, 900 s interval = 15 min
   required int32                interval          =2;    // Interval in seconds?? 14400=4h
   required int32                heartRate         =3;    // Heartrate in bpm. This value is displayed by TomTom MySports
-  required int32                value02           =4;    // Some other heartrate value
-  required int32                value03           =5;    // ?
+  required int32                value01           =4;    // Some other heartrate value
+  required int32                value02           =5;    // ?
 }
 
 
