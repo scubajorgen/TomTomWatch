@@ -2187,7 +2187,9 @@ public class CommunicationProcess implements Runnable, ProgressListener
             if (!error)
             {
                 tracker.convertToHourly();
-                theView.setStatus(tracker.trackedActivityToString()+"\n"+tracker.heartRatesToString());
+                theView.setStatus(tracker.trackedActivityToString()+"\n"+
+                                  tracker.heartRatesToString()+"\n"+
+                                  tracker.sleepingPeriodsToString());
             }
         }
         
@@ -2196,15 +2198,6 @@ public class CommunicationProcess implements Runnable, ProgressListener
         return error;    
     }    
     
-    /**
-     * This method deletes the activity tracked by the watch. This info is 
-     * stored in the 0x00b1nnnn files. These files are deleted
-     * @param watchInterface The watch interface
-     * @return True if an error occurred, false if successful
-     */
-    private boolean deleteTrackedActivity(WatchInterface watchInterface)
-    {
-        
-    }    
+
     
 }

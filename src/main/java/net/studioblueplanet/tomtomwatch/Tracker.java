@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import net.studioblueplanet.logger.DebugLogger;
 import hirondelle.date4j.DateTime;
 import java.util.TimeZone;
+import net.studioblueplanet.generics.ToolBox;
 
 
 /**
@@ -32,8 +33,13 @@ public class Tracker
         public int                  heartRate;
         public int                  unknown1;
         public int                  unknown2;
-      
+    }
 
+    class Sleep
+    {
+        public DateTime             goToSleepTime;
+        public DateTime             wakeUpTime;
+        public int                  duration;
     }
     
     /**
@@ -53,6 +59,8 @@ public class Tracker
         public int                  unknown;
         public int                  sleepMode;              // 0-not known, 1-active, 2-??, 3-1st sleep hour, 4-sleeping
         public int                  sleep;                  // sleep seconds
+        
+        
         
         public void add(TrackedDataRecord record)
         {
@@ -90,6 +98,12 @@ public class Tracker
         
     }
     
+    private static final int                        SLEEPMODE_UNDEFINED     =0;
+    private static final int                        SLEEPMODE_AWAKE         =1;
+    private static final int                        SLEEPMODE_UNKNOWN       =2;
+    private static final int                        SLEEPMODE_FIRSTSLEEP    =3;
+    private static final int                        SLEEPMODE_SLEEP         =4;
+    
     
     private String                                  deviceName;
     private String                                  versionString;
@@ -97,6 +111,7 @@ public class Tracker
     final private ArrayList<HeartRateRecord>        heartRates;
     final private ArrayList<TrackedDataRecord>      trackedData;
     final private ArrayList<TrackedDataRecord>      trackedDataPerHour;
+    final private ArrayList<Sleep>                  sleeps;
     
     /**
      * Returns a UTC DateTime based on the epoch time passed 
@@ -279,7 +294,7 @@ public class Tracker
         heartRates          =new ArrayList();
         trackedData         =new ArrayList();
         trackedDataPerHour  =new ArrayList();
-
+        sleeps              =new ArrayList();
     }
     
     /**
@@ -290,10 +305,11 @@ public class Tracker
     {
         heartRates.clear();
         trackedData.clear();
+        sleeps.clear();
     }
 
     /**
-     * Convert the data to hourly data
+     * Convert the data to hourly data. Deduce sleeping periods, if any
      */
     public void convertToHourly()
     {
@@ -301,15 +317,57 @@ public class Tracker
         TrackedDataRecord               hourlyRecord;
         TrackedDataRecord               record;
         Iterator<TrackedDataRecord>     it;
+        int                             lastSleepMode;
+        Sleep                           sleep;
+        boolean                         sleeping;
+
+boolean start;
+boolean end;
         
-        lastDateTime=new DateTime("1970-01-01 00:00:00");
-        hourlyRecord=null;
+        lastDateTime    =new DateTime("1970-01-01 00:00:00");
+        hourlyRecord    =null;
+        sleep           =null;
+        lastSleepMode   =SLEEPMODE_UNDEFINED;
+        
         
         it=trackedData.iterator();
         
         while (it.hasNext())
         {
             record=it.next();
+            
+            // End of sleep period condition
+            sleeping        =false;
+start=false;
+end=false;
+            if (record.sleepMode==SLEEPMODE_AWAKE)
+            {
+                if (lastSleepMode==SLEEPMODE_SLEEP)
+                {
+                    sleep.wakeUpTime=record.intervalStartDateTime;
+                    sleeps.add(sleep);
+end=true;
+                }
+            }
+            // start of sleep period
+            else if ((record.sleepMode==SLEEPMODE_FIRSTSLEEP)|| (record.sleepMode==SLEEPMODE_SLEEP))
+            {
+                if ((lastSleepMode!=SLEEPMODE_FIRSTSLEEP) && (lastSleepMode!=SLEEPMODE_SLEEP))
+                {
+start=true;
+                    sleep               =new Sleep();
+                    sleep.goToSleepTime =record.intervalStartDateTime;
+                }
+                sleeping                =true;
+            }
+            if (sleeping)
+            {
+                // Add the sleep seconds to the sleeping period
+                sleep.duration+=record.sleep;
+            }
+System.out.println(record.intervalStartDateTime.format("YYYY-MM-DD hh:mm:ss")+", "+record.sleepMode+", "+record.sleep+", "+sleeping+", "+start+", "+end);
+
+            lastSleepMode=record.sleepMode;
             
             if ((record.intervalStartDateTime.getHour()!=lastDateTime.getHour()) ||
                 (record.intervalStartDateTime.numSecondsFrom(lastDateTime)>3600)||
@@ -463,6 +521,36 @@ public class Tracker
             record=it.next();
             string+=record.dateTime.format("YYYY-MM-DD hh:mm:ss ") + 
                     String.format("%14d ", record.heartRate)+
+                    "\n";
+        }
+        
+        return string;
+    }    
+
+
+    /**
+     * Returns the sleeping periods as a table in a String. All values
+     * are shown.
+     * @return String containing the sleeping periods
+     */
+    public String sleepingPeriodsToString()
+    {
+        String                          string;
+        Iterator<Sleep>                 it;
+        Sleep                           record;
+        
+        string="";     
+        
+        string="Start                  End             Sleeping  \n";
+        
+        it=this.sleeps.iterator();
+        
+        while (it.hasNext())
+        {
+            record=it.next();
+            string+=record.goToSleepTime.format("YYYY-MM-DD hh:mm:ss ") +
+                    record.wakeUpTime.format("YYYY-MM-DD hh:mm:ss ") +
+                    String.format("%20s ", ToolBox.secondsToHours(record.duration))+
                     "\n";
         }
         
