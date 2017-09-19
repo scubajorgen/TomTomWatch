@@ -310,6 +310,8 @@ public class Tracker
 
     /**
      * Convert the data to hourly data. Deduce sleeping periods, if any
+     * Sleep calculation: A sleep period consists of mode SLEEPMODE_FIRSTSLEEP 
+     * followed by SLEEPMODE_SLEEP. Sum sleep duration during the period 
      */
     public void convertToHourly()
     {
@@ -319,11 +321,8 @@ public class Tracker
         Iterator<TrackedDataRecord>     it;
         int                             lastSleepMode;
         Sleep                           sleep;
-        boolean                         sleeping;
 
-boolean start;
-boolean end;
-        
+       
         lastDateTime    =new DateTime("1970-01-01 00:00:00");
         hourlyRecord    =null;
         sleep           =null;
@@ -336,36 +335,28 @@ boolean end;
         {
             record=it.next();
             
-            // End of sleep period condition
-            sleeping        =false;
-start=false;
-end=false;
-            if (record.sleepMode==SLEEPMODE_AWAKE)
+
+
+            // End condition of sleep period
+            if ((record.sleepMode!=SLEEPMODE_SLEEP) && (lastSleepMode==SLEEPMODE_SLEEP))
             {
-                if (lastSleepMode==SLEEPMODE_SLEEP)
-                {
                     sleep.wakeUpTime=record.intervalStartDateTime;
                     sleeps.add(sleep);
-end=true;
-                }
             }
-            // start of sleep period
-            else if ((record.sleepMode==SLEEPMODE_FIRSTSLEEP)|| (record.sleepMode==SLEEPMODE_SLEEP))
+
+            // start condition of sleep period  
+            if ((record.sleepMode==SLEEPMODE_FIRSTSLEEP) && (lastSleepMode!=SLEEPMODE_FIRSTSLEEP))
             {
-                if ((lastSleepMode!=SLEEPMODE_FIRSTSLEEP) && (lastSleepMode!=SLEEPMODE_SLEEP))
-                {
-start=true;
-                    sleep               =new Sleep();
-                    sleep.goToSleepTime =record.intervalStartDateTime;
-                }
-                sleeping                =true;
+                sleep               =new Sleep();
+                sleep.goToSleepTime =record.intervalStartDateTime;
             }
-            if (sleeping)
+            
+            // Sleeping
+            if ((record.sleepMode==SLEEPMODE_SLEEP) || (record.sleepMode==SLEEPMODE_FIRSTSLEEP))
             {
                 // Add the sleep seconds to the sleeping period
                 sleep.duration+=record.sleep;
             }
-System.out.println(record.intervalStartDateTime.format("YYYY-MM-DD hh:mm:ss")+", "+record.sleepMode+", "+record.sleep+", "+sleeping+", "+start+", "+end);
 
             lastSleepMode=record.sleepMode;
             
