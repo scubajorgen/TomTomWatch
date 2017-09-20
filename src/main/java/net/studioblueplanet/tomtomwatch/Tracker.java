@@ -338,6 +338,8 @@ public class Tracker
 
 
             // End condition of sleep period
+            // Sometimes following occurs: ...33344444333... (one sleep period immediately followed by another)
+            // In that case end the first, start the next. Therefore, first check the end condition.
             if ((record.sleepMode!=SLEEPMODE_SLEEP) && (lastSleepMode==SLEEPMODE_SLEEP))
             {
                     sleep.wakeUpTime=record.intervalStartDateTime;
