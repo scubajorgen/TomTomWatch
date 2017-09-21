@@ -893,7 +893,10 @@ public class TomTomWatchView extends javax.swing.JFrame
 
     private void jListActivitiesValueChanged(javax.swing.event.ListSelectionEvent evt)//GEN-FIRST:event_jListActivitiesValueChanged
     {//GEN-HEADEREND:event_jListActivitiesValueChanged
-        updateActivityInfo(false);
+        if (!evt.getValueIsAdjusting())
+        {
+            updateActivityInfo(false);
+        }
     }//GEN-LAST:event_jListActivitiesValueChanged
 
     private void jRadioButtonCyclingActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jRadioButtonCyclingActionPerformed

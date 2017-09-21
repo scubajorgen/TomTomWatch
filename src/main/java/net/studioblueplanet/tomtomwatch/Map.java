@@ -527,8 +527,18 @@ public class Map
         {
             image                   =activityData.mapImage;
         }
-        this.showTrackImage(image);
-        
+     
+        if (image!=null)
+        {
+            this.showTrackImage(image);
+        }
+        else
+        {
+            // Remove the icon image and display some error text
+            label.setIcon(null);
+            label.setText("No map image available");
+            DebugLogger.error("No map image available");
+        }
 
         return "Ok";
     }
