@@ -151,6 +151,7 @@
                 <configuration>
                     <sourceFileExcludes>
                             <sourceFileExclude>**/net/studioblueplanet/tomtomwatch/RouteProto.java</sourceFileExclude>
+                            <sourceFileExclude>**/net/studioblueplanet/tomtomwatch/TrackerProto.java</sourceFileExclude>
                     </sourceFileExcludes>                    
                 </configuration>
                 <executions>
