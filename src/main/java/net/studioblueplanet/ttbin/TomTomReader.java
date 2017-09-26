@@ -82,7 +82,7 @@ public class TomTomReader
         TtbinRecordLength   length;
         
         header=new TtbinHeader();
-       
+/*       
         in.read(bytes, 0, TtbinHeader.HEADERLENGTH);
                 
         // fixed fields
@@ -99,7 +99,50 @@ public class TomTomReader
         header.localTimeOffset      =ToolBox.readUnsignedInt(bytes, 112, 4, true);
         header.reserved             =ToolBox.readUnsignedInt(bytes, 116, 1, true);
         header.recordLengthCount    =ToolBox.readUnsignedInt(bytes, 117, 1, true);
-        
+*/
+
+
+        // fixed fields
+        in.read(bytes, 0, 1);
+        header.tag                  =ToolBox.readUnsignedInt(bytes, 0, 1, true);
+        in.read(bytes, 0, 2);
+        header.fileVersion          =ToolBox.readUnsignedInt(bytes, 0, 2, true);
+
+        // Version 0x09
+        if (header.fileVersion==0x09)
+        {
+            in.read(bytes, 0, 3);
+            header.firmwareVersion[0]   =ToolBox.readUnsignedInt(bytes, 0, 1, true);
+            header.firmwareVersion[1]   =ToolBox.readUnsignedInt(bytes, 1, 1, true);
+            header.firmwareVersion[2]   =ToolBox.readUnsignedInt(bytes, 2, 1, true);
+        }
+        // Version 0x0A
+        else if (header.fileVersion==0x0A)
+        {
+            // in version 0x0A the version numbers seem to be two bytes
+            in.read(bytes, 0, 6);
+            header.firmwareVersion[0]   =ToolBox.readUnsignedInt(bytes, 0, 2, true);
+            header.firmwareVersion[1]   =ToolBox.readUnsignedInt(bytes, 2, 2, true);
+            header.firmwareVersion[2]   =ToolBox.readUnsignedInt(bytes, 4, 2, true);
+        }
+
+        in.read(bytes, 0, 2);
+        header.productId            =ToolBox.readUnsignedInt(bytes, 0, 2, true);
+        in.read(bytes, 0, 4);
+        header.startTime            =ToolBox.readUnsignedInt(bytes, 0, 4, true);
+        in.read(bytes, 0, 16);
+        header.softwareVersion      =ToolBox.readString(bytes, 0, 16);
+        in.read(bytes, 0, 80);
+        header.gpsFirmwareVersion   =ToolBox.readString(bytes, 0, 80);
+        in.read(bytes, 0, 4);
+        header.watchTime            =ToolBox.readUnsignedInt(bytes, 0, 4, true);
+        in.read(bytes, 0, 4);
+        header.localTimeOffset      =ToolBox.readUnsignedInt(bytes, 0, 4, true);
+        in.read(bytes, 0, 1);
+        header.reserved             =ToolBox.readUnsignedInt(bytes, 0, 1, true);
+        in.read(bytes, 0, 1);
+        header.recordLengthCount    =ToolBox.readUnsignedInt(bytes, 0, 1, true);
+
         // The record tags
         i=0;
         while (i<header.recordLengthCount)
@@ -149,6 +192,7 @@ public class TomTomReader
     public byte[] readRecord(InputStream in, TtbinHeader header) throws IOException
     {
         byte[]  recordData;
+        byte[]  lengthData;
         int     tag;
         int     length;
 
@@ -159,7 +203,21 @@ public class TomTomReader
             tag=in.read();
             length=header.getLength(tag);
             
-            if (length>0)
+            // Variable length
+            if (length==0xFFFF)
+            {
+                lengthData=new byte[2];
+                in.read(lengthData, 0, 2); // read two next bytes
+                length=ToolBox.readUnsignedInt(lengthData, 0, 2, true)+1;
+
+                recordData=new byte[length];
+                recordData[0]=(byte)tag;
+                
+                // Read the remainder of the record
+                in.read(recordData, 1, length-1);
+            }
+            // Fixed length
+            else if (length>0)
             {
                 // Read first byte of the record, which is the tag
                 recordData=new byte[length];
@@ -169,6 +227,7 @@ public class TomTomReader
                 in.read(recordData, 1, length-1);
               
             }
+                
         }
         
         return recordData;
