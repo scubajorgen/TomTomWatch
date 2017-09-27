@@ -219,7 +219,7 @@ public class Firmware
         i=0;
         while ((i<updatedFileNames.length) && !error)
         {
-            idString    =updatedFileNames[i].substring(updatedFileNames[i].indexOf("0x")+2, updatedFileNames[i].length()-1);
+            idString    =updatedFileNames[i].substring(updatedFileNames[i].indexOf("0x")+2, updatedFileNames[i].length());
             id          =Integer.parseInt(idString, 16);
             
             // backup the file, if it exists on the watch
@@ -394,6 +394,8 @@ public class Firmware
         firmwareDefinitionUrl   =jsonObj.getString("service:firmware");
         firmwareDefinitionUrl   =firmwareDefinitionUrl.replace("{PRODUCT_ID}", String.format("%08x", productId).toUpperCase());
         
+        DebugLogger.info("Firmware definition URL: "+firmwareDefinitionUrl);
+        
         // Derive the base url
         firmwareBaseUrl         =firmwareDefinitionUrl.substring(0, firmwareDefinitionUrl.lastIndexOf('/')+1);
 
@@ -417,8 +419,7 @@ public class Firmware
                                                      JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
             if (response == JOptionPane.YES_OPTION) 
             {
-                // TODO UPDATE FIRMWARE
-                theView.appendStatus("Updating firmware: downloading file\n");
+                theView.appendStatus("Updating firmware: downloading files\n");
 
                 // Backup files from the device and donwload the new files
                 error               =downloadFiles();
@@ -434,7 +435,7 @@ public class Firmware
 
                     if (!error)
                     {
-                        error=watchInterface.sendMessageGroup1();
+//                        error=watchInterface.sendMessageGroup1();
                         theView.appendStatus("Rebooting\n");
                         error=watchInterface.resetDevice();
                         if (!error)
