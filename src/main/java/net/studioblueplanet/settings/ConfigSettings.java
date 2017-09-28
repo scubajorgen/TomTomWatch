@@ -56,7 +56,7 @@ public class ConfigSettings
     }
     
 
-    private final String                propertyFileName="TomTomWatch.properties";
+    private final String                propertyFileName="tomtomwatch.properties";
 
 
     private final Setting[]             settings=
