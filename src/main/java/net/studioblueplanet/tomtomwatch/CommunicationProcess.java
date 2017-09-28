@@ -28,6 +28,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.io.FileNotFoundException;
+import java.io.File;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
@@ -62,14 +63,15 @@ public class CommunicationProcess implements Runnable, ProgressListener
     private final ArrayList<ActivityData>       activities;
     private String                              newDeviceName;
     private int                                 fileIdToWrite;
+    private String                              fileToUpload;
     private int                                 fileIdToDelete;
     private int                                 fileIdToShow;
     private String                              deviceName;
     private boolean                             isConnected;
     private boolean                             threadExit;
     
-    private String                              uploadFile;
-    private String                              uploadName;
+    private String                              uploadGpxFile;
+    private String                              uploadGpxName;
     private final String                        ttbinFilePath;
     private final String                        debugFilePath;
     private int                                 productId;
@@ -189,6 +191,15 @@ public class CommunicationProcess implements Runnable, ProgressListener
         }
     }
     
+    public void requestUploadFile(String fileName)
+    {
+        synchronized(this)
+        {
+            this.fileToUpload=fileName;
+        }
+        this.pushCommand(ThreadCommand.THREADCOMMAND_UPLOADFILE);
+    }
+    
     /**
      * Deletes the file from the watch.
      * The request is processed asynchronously by the thread.
@@ -215,8 +226,8 @@ public class CommunicationProcess implements Runnable, ProgressListener
     {
         synchronized(this)
         {
-            this.uploadFile=file;
-            this.uploadName=name;
+            this.uploadGpxFile=file;
+            this.uploadGpxName=name;
         }
         this.pushCommand(ThreadCommand.THREADCOMMAND_UPLOADROUTE);
         this.pushCommand(ThreadCommand.THREADCOMMAND_LISTROUTES);
@@ -451,8 +462,14 @@ public class CommunicationProcess implements Runnable, ProgressListener
                     case THREADCOMMAND_SAVEFILE:
                         error=saveDeviceFile(watchInterface);
                         break;
+                    case THREADCOMMAND_UPLOADFILE:
+                        error=uploadDeviceFile(watchInterface);
+                        break;
                     case THREADCOMMAND_DELETEFILE:
                         error=deleteDeviceFile(watchInterface);
+                        break;
+                    case THREADCOMMAND_REBOOT:
+                        error=reboot(watchInterface);
                         break;
                     case THREADCOMMAND_LISTHISTORY:
                         error=listHistory(watchInterface);
@@ -1179,6 +1196,90 @@ public class CommunicationProcess implements Runnable, ProgressListener
         return error;
     }
     
+    /**
+     * Reads a file from the watch and saves it to disk
+     * @param watchInterface The USB interface for reading from the watch
+     * @return True if an error occurred
+     */
+    private boolean uploadDeviceFile(WatchInterface watchInterface)
+    {
+        RandomAccessFile    diskFile;
+        UsbFile             usbFile;
+
+        int                 fileId;
+        boolean             error;
+        boolean             found;
+        String              filePath;
+        String              fileName;
+        String              path;
+        File                file;
+        Pattern             p;
+        Matcher             m;
+        String              digits;
+
+        
+        error=false;
+
+        synchronized(this)
+        {
+            filePath=this.fileToUpload;
+        }
+        
+        file=new File(filePath);
+        fileName=file.getName();
+        
+        p = Pattern.compile("^0x([0-9a-fA-F]{8})[.]bin$");
+        m = p.matcher(fileName);
+        
+        if (m.matches())
+        {
+            digits          =m.group(1);
+            
+            usbFile         =new UsbFile();
+            usbFile.fileId  =Integer.parseInt(digits, 16);
+            
+            try
+            {
+                diskFile            =new RandomAccessFile(filePath, "r");  
+                usbFile.length      =(int)diskFile.length();
+                usbFile.fileData    =new byte[(int)diskFile.length()];  
+                diskFile.readFully(usbFile.fileData);
+                
+                theView.setStatus(String.format("Uploading %s to ID %08x\n", filePath, usbFile.fileId));
+                error=watchInterface.writeVerifyFile(usbFile);
+                
+                if (!error)
+                {
+                    theView.appendStatus("Done!\n");
+                }
+                else
+                {
+                    theView.appendStatus("Failed!!\n");
+                }
+            }
+            catch (FileNotFoundException e)
+            {
+                DebugLogger.error("File not found: "+filePath);
+                theView.appendStatus("File not found\n");
+            }
+            catch (IOException e)
+            {
+                DebugLogger.error("Error reading file: "+filePath);
+                theView.appendStatus("Error reading file\n");
+            }
+        } 
+        else
+        {
+            theView.setStatus("The filename '"+fileName+"' does not fit the required format: 0xnnnnnnnn.bin");
+        }
+        
+        
+        
+        
+        
+        return error;
+    }    
+    
 
     /**
      * Deletes the file indicated by the field fileIdToDelete.
@@ -1596,8 +1697,8 @@ public class CommunicationProcess implements Runnable, ProgressListener
         {
             synchronized(this)
             {
-                file        =this.uploadFile;
-                name        =this.uploadName;
+                file        =this.uploadGpxFile;
+                name        =this.uploadGpxName;
             }
             
             // Read the route
@@ -2199,5 +2300,22 @@ public class CommunicationProcess implements Runnable, ProgressListener
     }    
     
 
+    /**
+     * This method reboots the watch
+     * @param watchInterface The watch interface
+     * @return True if an error occurred, false if successful
+     */
+    private boolean reboot(WatchInterface watchInterface)
+    {
+        boolean error;
+
+        
+        error = false;
+
+        watchInterface.resetDevice();
+        theView.setStatus("Rebooted...");
+
+        return error;    
+    }    
     
 }

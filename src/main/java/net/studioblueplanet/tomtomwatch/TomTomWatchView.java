@@ -185,8 +185,10 @@ public class TomTomWatchView extends javax.swing.JFrame
         jMenuDebugging = new javax.swing.JMenu();
         jMenuItemPreferences = new javax.swing.JMenuItem();
         jMenuItemListFiles = new javax.swing.JMenuItem();
-        jMenuSaveFile = new javax.swing.JMenuItem();
+        jMenuDownloadFile = new javax.swing.JMenuItem();
+        jMenuItemUploadFile = new javax.swing.JMenuItem();
         jMenuItemDeleteFile = new javax.swing.JMenuItem();
+        jMenuItemReboot = new javax.swing.JMenuItem();
         jMenuItemSaveSimSet = new javax.swing.JMenuItem();
         jMenuItemShowUpdateLog = new javax.swing.JMenuItem();
         jMenuItemShowLog = new javax.swing.JMenuItem();
@@ -608,15 +610,25 @@ public class TomTomWatchView extends javax.swing.JFrame
         });
         jMenuDebugging.add(jMenuItemListFiles);
 
-        jMenuSaveFile.setText("Save File");
-        jMenuSaveFile.addActionListener(new java.awt.event.ActionListener()
+        jMenuDownloadFile.setText("Download File");
+        jMenuDownloadFile.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
             {
-                jMenuSaveFileActionPerformed(evt);
+                jMenuDownloadFileActionPerformed(evt);
             }
         });
-        jMenuDebugging.add(jMenuSaveFile);
+        jMenuDebugging.add(jMenuDownloadFile);
+
+        jMenuItemUploadFile.setText("Upload File");
+        jMenuItemUploadFile.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                jMenuItemUploadFileActionPerformed(evt);
+            }
+        });
+        jMenuDebugging.add(jMenuItemUploadFile);
 
         jMenuItemDeleteFile.setText("Delete File");
         jMenuItemDeleteFile.addActionListener(new java.awt.event.ActionListener()
@@ -627,6 +639,16 @@ public class TomTomWatchView extends javax.swing.JFrame
             }
         });
         jMenuDebugging.add(jMenuItemDeleteFile);
+
+        jMenuItemReboot.setText("Reboot Watch");
+        jMenuItemReboot.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                jMenuItemRebootActionPerformed(evt);
+            }
+        });
+        jMenuDebugging.add(jMenuItemReboot);
 
         jMenuItemSaveSimSet.setText("Save Simulation Set");
         jMenuItemSaveSimSet.addActionListener(new java.awt.event.ActionListener()
@@ -1224,8 +1246,8 @@ public class TomTomWatchView extends javax.swing.JFrame
      * This method handles the menu item requesting saving 
      * a watch file to disk
      */
-    private void jMenuSaveFileActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jMenuSaveFileActionPerformed
-    {//GEN-HEADEREND:event_jMenuSaveFileActionPerformed
+    private void jMenuDownloadFileActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jMenuDownloadFileActionPerformed
+    {//GEN-HEADEREND:event_jMenuDownloadFileActionPerformed
         String  hex;
         int     fileId;
         
@@ -1262,7 +1284,7 @@ public class TomTomWatchView extends javax.swing.JFrame
         }
         
         
-    }//GEN-LAST:event_jMenuSaveFileActionPerformed
+    }//GEN-LAST:event_jMenuDownloadFileActionPerformed
 
     private void jMenuItemListHistorySummaryActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jMenuItemListHistorySummaryActionPerformed
     {//GEN-HEADEREND:event_jMenuItemListHistorySummaryActionPerformed
@@ -1511,6 +1533,47 @@ public class TomTomWatchView extends javax.swing.JFrame
             JOptionPane.showMessageDialog(this, "No watch connected", "Warning", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_jMenuDeleteTrackedActivityActionPerformed
+
+    private void jMenuItemUploadFileActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jMenuItemUploadFileActionPerformed
+    {//GEN-HEADEREND:event_jMenuItemUploadFileActionPerformed
+        String fileName;
+        
+        
+        if (communicationProcess.isConnected())
+        {
+            fileName="";
+
+            fileName=this.fileChooser(fileName, null, "Upload", "bin (*.bin)", "bin");
+            if (fileName!=null)
+            {
+                communicationProcess.requestUploadFile(fileName);
+            }
+        }        
+    }//GEN-LAST:event_jMenuItemUploadFileActionPerformed
+
+    private void jMenuItemRebootActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jMenuItemRebootActionPerformed
+    {//GEN-HEADEREND:event_jMenuItemRebootActionPerformed
+        int response;
+        
+        if (communicationProcess.isConnected())
+        {
+            response = JOptionPane.showConfirmDialog(null, "Do you want to reboot the watch?", "Confirm",
+                                                     JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+            if (response == JOptionPane.YES_OPTION) 
+            {
+                // Signal the thread to erase the files
+                communicationProcess.pushCommand(ThreadCommand.THREADCOMMAND_REBOOT);
+            } 
+            else 
+            {
+
+            }
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(this, "No watch connected", "Warning", JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_jMenuItemRebootActionPerformed
 
     /*############################################################################################*\
      * HELPER FUNCTIONS     
@@ -1932,6 +1995,7 @@ public class TomTomWatchView extends javax.swing.JFrame
     private javax.swing.JMenu jMenuDebugging;
     private javax.swing.JMenuItem jMenuDeleteTrackedActivity;
     private javax.swing.JMenu jMenuDevice;
+    private javax.swing.JMenuItem jMenuDownloadFile;
     private javax.swing.JMenu jMenuFile;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
@@ -1946,13 +2010,14 @@ public class TomTomWatchView extends javax.swing.JFrame
     private javax.swing.JMenuItem jMenuItemPlaylists;
     private javax.swing.JMenuItem jMenuItemPreferences;
     private javax.swing.JMenuItem jMenuItemQuit;
+    private javax.swing.JMenuItem jMenuItemReboot;
     private javax.swing.JMenuItem jMenuItemSaveSimSet;
     private javax.swing.JMenuItem jMenuItemSetName;
     private javax.swing.JMenuItem jMenuItemShowLog;
     private javax.swing.JMenuItem jMenuItemShowTrackedActivity;
     private javax.swing.JMenuItem jMenuItemShowUpdateLog;
     private javax.swing.JMenuItem jMenuItemUpdateFirmware;
-    private javax.swing.JMenuItem jMenuSaveFile;
+    private javax.swing.JMenuItem jMenuItemUploadFile;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanelMap;
     private javax.swing.JProgressBar jProgressBar;
