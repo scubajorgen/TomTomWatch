@@ -76,6 +76,7 @@ message SoftwareVersion
   required int32                mediumVersion     =2;
   required int32                minorVersion      =3;
   required Unknown01            unknown01         =4;
+  optional Unknown02            unknown02         =5; // 1.6.26
 }
 
 
@@ -85,11 +86,17 @@ message Unknown01
 }
 
 
+message Unknown02
+{
+  optional int32                dummy             =1;  
+}
+
+
 //#################################################################################################
 // 4th level: Tracker Record
 //#################################################################################################
 message TrackRecord
-{  required int32                recordId          =1;
+{  required int32               recordId          =1;
   required int32                time              =2;    // Epoch time in seconds, 900 s interval = 15 min
   required int32                timeZone          =3;    // Difference between time and UTC in seconds (?)
   required int32                interval          =4;    // Interval of this measurement = 900s often     
@@ -117,7 +124,8 @@ message Record2
   repeated TagValueContainer    tagValue          =3;
   required int32                unknown1          =4;
   required int32                unknown2          =5;
-  required int32                unknown3          =6;
+  optional int32                unknown3          =6;
+  optional fixed32              unknown4          =104;  // 1.6.26
 
 }
 
