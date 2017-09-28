@@ -180,6 +180,9 @@ public class TomTomWatchView extends javax.swing.JFrame
         jMenuItemListHistorySummary = new javax.swing.JMenuItem();
         jMenuItemListHistory = new javax.swing.JMenuItem();
         jMenuItemEraseData = new javax.swing.JMenuItem();
+        jMenuItemShowTrackedActivity = new javax.swing.JMenuItem();
+        jMenuDeleteTrackedActivity = new javax.swing.JMenuItem();
+        jMenuItemPlaylists = new javax.swing.JMenuItem();
         jMenuItemUpdateFirmware = new javax.swing.JMenuItem();
         jMenuItemListRaces = new javax.swing.JMenuItem();
         jMenuDebugging = new javax.swing.JMenu();
@@ -192,9 +195,6 @@ public class TomTomWatchView extends javax.swing.JFrame
         jMenuItemSaveSimSet = new javax.swing.JMenuItem();
         jMenuItemShowUpdateLog = new javax.swing.JMenuItem();
         jMenuItemShowLog = new javax.swing.JMenuItem();
-        jMenuItemPlaylists = new javax.swing.JMenuItem();
-        jMenuItemShowTrackedActivity = new javax.swing.JMenuItem();
-        jMenuDeleteTrackedActivity = new javax.swing.JMenuItem();
         jMenuAbout = new javax.swing.JMenu();
         jMenuItemAbout = new javax.swing.JMenuItem();
 
@@ -566,6 +566,36 @@ public class TomTomWatchView extends javax.swing.JFrame
         });
         jMenuDevice.add(jMenuItemEraseData);
 
+        jMenuItemShowTrackedActivity.setText("Show Tracked Activity");
+        jMenuItemShowTrackedActivity.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                jMenuItemShowTrackedActivityActionPerformed(evt);
+            }
+        });
+        jMenuDevice.add(jMenuItemShowTrackedActivity);
+
+        jMenuDeleteTrackedActivity.setText("Delete Tracked Activity");
+        jMenuDeleteTrackedActivity.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                jMenuDeleteTrackedActivityActionPerformed(evt);
+            }
+        });
+        jMenuDevice.add(jMenuDeleteTrackedActivity);
+
+        jMenuItemPlaylists.setText("Playlists");
+        jMenuItemPlaylists.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                jMenuItemPlaylistsActionPerformed(evt);
+            }
+        });
+        jMenuDevice.add(jMenuItemPlaylists);
+
         jMenuItemUpdateFirmware.setText("Update Firmware");
         jMenuItemUpdateFirmware.addActionListener(new java.awt.event.ActionListener()
         {
@@ -679,36 +709,6 @@ public class TomTomWatchView extends javax.swing.JFrame
             }
         });
         jMenuDebugging.add(jMenuItemShowLog);
-
-        jMenuItemPlaylists.setText("Playlists");
-        jMenuItemPlaylists.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
-                jMenuItemPlaylistsActionPerformed(evt);
-            }
-        });
-        jMenuDebugging.add(jMenuItemPlaylists);
-
-        jMenuItemShowTrackedActivity.setText("Show Tracked Activity");
-        jMenuItemShowTrackedActivity.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
-                jMenuItemShowTrackedActivityActionPerformed(evt);
-            }
-        });
-        jMenuDebugging.add(jMenuItemShowTrackedActivity);
-
-        jMenuDeleteTrackedActivity.setText("Delete Tracked Activity");
-        jMenuDeleteTrackedActivity.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
-                jMenuDeleteTrackedActivityActionPerformed(evt);
-            }
-        });
-        jMenuDebugging.add(jMenuDeleteTrackedActivity);
 
         jMenuBar.add(jMenuDebugging);
 
