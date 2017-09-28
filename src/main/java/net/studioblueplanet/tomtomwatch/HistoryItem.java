@@ -55,10 +55,10 @@ public class HistoryItem
         
         numberOfValues=ToolBox.readInt(bytes, 1, 4, true);
         
-        
+        DebugLogger.info("Number of history values: "+numberOfValues);
         i=0;
         nextOffset=5;
-        while (i<numberOfValues)
+        while ((i<numberOfValues) && (nextOffset<bytes.length))
         {
             tag=ToolBox.readUnsignedInt(bytes, nextOffset, 1, true);
             nextOffset++;
@@ -66,6 +66,11 @@ public class HistoryItem
             nextOffset=value.convertValue(tag, bytes, nextOffset);
             values.add(value);
             i++;
+        }
+        
+        if (i<numberOfValues)
+        {
+            DebugLogger.info("Insufficient number of values in history file");
         }
         
     }

@@ -21,7 +21,6 @@ public class HistoryValue
         VALUETYPE_STRING,
         VALUETYPE_UNKNOWN
     }
-    private static final int    TTWATCH_HISTORY_ENTRY_TAG_UNKNOWN1      = 0x00;  /* int_val                   */
     private static final int    TTWATCH_HISTORY_ENTRY_TAG_DURATION      = 0x01;  /* int_val   = seconds       */
     private static final int    TTWATCH_HISTORY_ENTRY_TAG_DISTANCE      = 0x02;  /* float_val = metres        */
     private static final int    TTWATCH_HISTORY_ENTRY_TAG_AVERAGEPACE   = 0x05;  /* float_val = metres/second */
@@ -31,11 +30,18 @@ public class HistoryValue
     private static final int    TTWATCH_HISTORY_ENTRY_TAG_SWOLF         = 0x0f;  /* int_val                   */
     private static final int    TTWATCH_HISTORY_ENTRY_TAG_STROKES       = 0x13;  /* int_val                   */
     private static final int    TTWATCH_HISTORY_ENTRY_TAG_CALORIES      = 0x14;  /* int_val                   */
-    private static final int    TTWATCH_HISTORY_ENTRY_TAG_UNKNOWN2      = 0x20;  /* int_val                   */
+
+    private static final int    TTWATCH_HISTORY_ENTRY_TAG_UNKNOWN2_1    = 0x20;  /* int_val, 16 bit           */
+    private static final int    TTWATCH_HISTORY_ENTRY_TAG_UNKNOWN2_2    = 0x21;  /* int_val, 16 bit           */
+    private static final int    TTWATCH_HISTORY_ENTRY_TAG_UNKNOWN2_3    = 0x22;  /* int_val, 16 bit           */
+    private static final int    TTWATCH_HISTORY_ENTRY_TAG_UNKNOWN2_4    = 0x23;  /* int_val, 16 bit           */
+    private static final int    TTWATCH_HISTORY_ENTRY_TAG_UNKNOWN2_5    = 0x24;  /* int_val, 16 bit           */
+
     private static final int    TTWATCH_HISTORY_ENTRY_TAG_RACENAME      = 0x25;  /* LENGTH (8 bits) + STRING  */
     private static final int    TTWATCH_HISTORY_ENTRY_TAG_RACEPOSITION  = 0x26;  /* int_val (8 bits)          */
     private static final int    TTWATCH_HISTORY_ENTRY_TAG_RACEPACEAHEAD = 0x27;  /* float_val (m/s)           */    
     private static final int    TTWATCH_HISTORY_ENTRY_TAG_RACEAHEAD     = 0x28;  /* int_val in seconds        */
+    private static final int    TTWATCH_HISTORY_ENTRY_TAG_HEARTRATE     = 0x1f;  /* int_val - avg heartrate?  */
 
 
     private int                 tag;
@@ -59,6 +65,8 @@ public class HistoryValue
         stringValue =null;
         this.tag    =tag;
         
+        DebugLogger.info(String.format("History value tag: 0x%02x", tag));
+        
         switch (tag)
         {
             case TTWATCH_HISTORY_ENTRY_TAG_DURATION:
@@ -67,14 +75,24 @@ public class HistoryValue
             case TTWATCH_HISTORY_ENTRY_TAG_SWOLF:
             case TTWATCH_HISTORY_ENTRY_TAG_STROKES:
             case TTWATCH_HISTORY_ENTRY_TAG_CALORIES:
-            case TTWATCH_HISTORY_ENTRY_TAG_UNKNOWN1:
-            case TTWATCH_HISTORY_ENTRY_TAG_UNKNOWN2:
+            case TTWATCH_HISTORY_ENTRY_TAG_HEARTRATE:
             case TTWATCH_HISTORY_ENTRY_TAG_RACEAHEAD:
                 intValue    =ToolBox.readInt(data, offset, 4, true);
                 valueType=ValueType.VALUETYPE_INT;
                 nextOffset=offset+4;
                 break;
 
+            case TTWATCH_HISTORY_ENTRY_TAG_UNKNOWN2_1:
+            case TTWATCH_HISTORY_ENTRY_TAG_UNKNOWN2_2:
+            case TTWATCH_HISTORY_ENTRY_TAG_UNKNOWN2_3:
+            case TTWATCH_HISTORY_ENTRY_TAG_UNKNOWN2_4:
+            case TTWATCH_HISTORY_ENTRY_TAG_UNKNOWN2_5:
+                intValue    =ToolBox.readInt(data, offset, 2, true);
+                valueType=ValueType.VALUETYPE_INT;
+                nextOffset=offset+2;
+                break;
+                
+                
             case TTWATCH_HISTORY_ENTRY_TAG_DISTANCE:
             case TTWATCH_HISTORY_ENTRY_TAG_AVERAGEPACE:
             case TTWATCH_HISTORY_ENTRY_TAG_AVERAGESPEED:
@@ -100,7 +118,7 @@ public class HistoryValue
                 
                 
             default:
-                DebugLogger.error("Undefined value");
+                DebugLogger.info(String.format("Undefined value 0x%02x", tag));
                 nextOffset  =offset+4;
                 valueType   =ValueType.VALUETYPE_UNKNOWN;
                 break;
@@ -166,11 +184,23 @@ public class HistoryValue
             case TTWATCH_HISTORY_ENTRY_TAG_RACEPACEAHEAD:
                 description="Race pace diff (m/s)";
                 break;
-            case TTWATCH_HISTORY_ENTRY_TAG_UNKNOWN1:
+            case TTWATCH_HISTORY_ENTRY_TAG_UNKNOWN2_1:
                 description="Unknown1";
                 break;
-            case TTWATCH_HISTORY_ENTRY_TAG_UNKNOWN2:
+            case TTWATCH_HISTORY_ENTRY_TAG_UNKNOWN2_2:
                 description="Unknown2";
+                break;
+            case TTWATCH_HISTORY_ENTRY_TAG_UNKNOWN2_3:
+                description="Unknown3";
+                break;
+            case TTWATCH_HISTORY_ENTRY_TAG_UNKNOWN2_4:
+                description="Unknown4";
+                break;
+            case TTWATCH_HISTORY_ENTRY_TAG_UNKNOWN2_5:
+                description="Unknown5";
+                break;
+            case TTWATCH_HISTORY_ENTRY_TAG_HEARTRATE:
+                description="Ave. heartrate (bpm)";
                 break;
             case TTWATCH_HISTORY_ENTRY_TAG_RACEAHEAD:
                 description="Seconds ahead";

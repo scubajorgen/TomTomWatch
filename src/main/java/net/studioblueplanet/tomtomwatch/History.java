@@ -10,6 +10,7 @@ import net.studioblueplanet.usb.UsbFile;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import net.studioblueplanet.logger.DebugLogger;
 
 /**
  * This class represents the history as present on the device in history 
@@ -40,7 +41,7 @@ public class History
         HistoryItem item;
         boolean     error;
         
-        
+        DebugLogger.info(String.format("Parsing history file 0x%08x", file.fileId));
         error=false;
         item=new HistoryItem(file);
         
@@ -73,7 +74,7 @@ public class History
             entry=it.next();
             fileId=entry.getFileId();
 //            description+=String.format("\nHISTORY ITEM %s - %s\n", entry.getDescription(), entry.getIndex());
-            description+="\nHISTORY ITEM - " + entry.getAcitivity()+" - " + entry.getIndex()+ "\n";
+            description+="\nHISTORY ITEM - " + entry.getAcitivity()+" - " + entry.getIndex()+ String.format(" (0x%08x)", entry.getFileId())+"\n";
             description+=entry.getDescription();
         }
         return description;
