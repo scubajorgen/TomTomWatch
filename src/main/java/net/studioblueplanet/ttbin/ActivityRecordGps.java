@@ -39,6 +39,9 @@ public class ActivityRecordGps extends ActivityRecord
     private         int         temperature;        // Temperature in degC
     private         int         evpe;               // Estimated vertical percision error, in cm
     private         int         ehpe;               // Estamated horizontal precision error, in cm
+    private         DateTime    actPointsDateTime;  // DateTime stamp of cumm. activity points
+    private         int         activityPoints;     // Cumulative Activity points
+    
     
     public          int         unknownInt1;
     public          int         unknownInt2;
@@ -412,6 +415,61 @@ public class ActivityRecordGps extends ActivityRecord
     {
         return this.heartRate;
     }
+    
+    
+
+
+    /**
+     * Sets the Activity points. Note: it is the cummulative activity points
+     * for the day. Not defined for each record.
+     * @param time Time stamp of heart rate (epoch), UTC
+     * @param points The activity points
+     */
+    public void setActivityPoints(int time, int points)
+    {
+        long recordTime;
+
+        // If a GPS date time stamp is available, check if the 
+        // heartrate timestamp correspnods to it
+        if (dateTime!=null)
+        {
+            recordTime                  =this.dateTime.getMilliseconds(utcTimeZone);
+
+            // Check if the timestamps match. The heartrate timestamp
+            // usually is equal to the gps timestamp. However sometimes it lags
+            // the gps timestamp by one second. We allow for that.
+            if (recordTime-((long)time*1000)<=1000)
+            {
+                this.activityPoints             =points;
+                this.actPointsDateTime     =DateTime.forInstant((time)*1000, utcTimeZone);
+            }
+            else
+            {
+                DebugLogger.error("Time difference. Expected "+recordTime/1000+" Got: "+time);
+            }
+        }
+        else
+        {
+            // If no GPS timestamp/coordinates recorded, just record the 
+            // heartrate value
+            this.activityPoints         =points;
+            this.actPointsDateTime =DateTime.forInstant((time)*1000, utcTimeZone);
+        }
+            
+    }
+    
+    /**
+     * Returns the heart rate value
+     * @return Heart rate in bpm
+     */
+    public int getActivityPoints()
+    {
+        return this.activityPoints;
+    }
+
+    
+    
+    
     
     /**
      * Sets the precision of the measurement

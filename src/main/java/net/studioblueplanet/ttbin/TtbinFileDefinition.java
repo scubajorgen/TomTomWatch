@@ -18,10 +18,15 @@ public class TtbinFileDefinition
     public static final    byte                        TAG_STATUS              =0x21;
     public static final    byte                        TAG_GPS                 =0x22;
     public static final    byte                        TAG_PRECISION           =0x23; // Some measured data? Accelerators??
+    public static final    byte                        TAG_2B                  =0x2b;
     public static final    byte                        TAG_42                  =0x42; 
     public static final    byte                        TAG_49                  =0x49; 
+    public static final    byte                        TAG_ACTIVITYPOINTS      =0x4a; 
+    public static final    byte                        TAG_4B                  =0x4b; // Variable lenght!!
     public static final    byte                        TAG_HEART_RATE          =0x25;
     public static final    byte                        TAG_SUMMARY             =0x27;
+    public static final    byte                        TAG_30                  =0x30;
+    public static final    byte                        TAG_37                  =0x37;
     public static final    byte                        TAG_POOL_SIZE           =0x2a;
     public static final    byte                        TAG_WHEEL_SIZE          =0x2b;
     public static final    byte                        TAG_TRAINING_SETUP      =0x2d;

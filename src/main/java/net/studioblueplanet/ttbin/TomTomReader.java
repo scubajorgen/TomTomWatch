@@ -203,7 +203,7 @@ public class TomTomReader
             tag=in.read();
             length=header.getLength(tag);
             
-            // Variable length
+            // Variable length, like the 4B record
             if (length==0xFFFF)
             {
                 lengthData=new byte[2];

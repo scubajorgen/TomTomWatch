@@ -137,6 +137,9 @@ public class Activity
     protected               TimeZone                    localTimeZone;
     protected               int                         timeZoneSeconds; // Difference with respect to UTC
     
+    protected               int                         activityPointsStart;
+    protected               int                         activityPointsEnd;
+    
     private final           ArrayList<ActivitySegment>  segments;
     private final           ArrayList<ActivityRecord>   waypoints;
     private                 ActivityRecord              newRecord;
@@ -153,12 +156,21 @@ public class Activity
     private                 float                       trackSmoothingQFactor;
     private                 boolean                     isSmoothed;
     
+    /* ******************************************************************************************* *\
+     * CONSTRUCTOR
+    \* ******************************************************************************************* */
+
+
     /**
      * Constructor
      * @param header Header defining the ttbin file
      */
     public Activity(TtbinHeader header)
     {
+        // Set activity points to undefined
+        this.activityPointsStart    =-1;
+        this.activityPointsEnd      =-1;
+        
         this.header                 =header;
         this.timeOfPause            =0;
         this.localTimeZone          =null;
@@ -174,6 +186,10 @@ public class Activity
         this.waypointPauseTimeout=ConfigSettings.getInstance().getIntValue("waypointLogTimeout");    
     }
     
+    /* ******************************************************************************************* *\
+     * GETTERS & SETTERS
+    \* ******************************************************************************************* */
+
     
     
     /**
@@ -339,7 +355,31 @@ public class Activity
         return this.waypoints;
     }
 
+    /**
+     * Get the activity points earned with this activity
+     * @return The activity points or 0 if not defined
+     */
+    public int getActivityPoints()
+    {
+        int points;
+        
+        if ((activityPointsEnd>=0) && (activityPointsStart>=0))
+        {
+            points=activityPointsEnd-activityPointsStart;
+        }
+        else
+        {
+            points=0;
+        }
+        return points;
+    }
+            
     
+    
+    /* ******************************************************************************************* *\
+     * TTBIN FILE RECORD PARSING
+    \* ******************************************************************************************* */
+
     /**
      * Parse the GPS record
      * @param recordData The record data
@@ -600,50 +640,173 @@ public class Activity
     }
 
     
+        /**
+     * Parse file summary record
+     * @param recordData Record data
+     */
+    private void parseRecordActivityPoints(byte[] recordData)
+    {
+        int         timeStamp;
+        int         points1;
+        int         points2;
+        
+        timeStamp   =ToolBox.readUnsignedInt(recordData,  1, 4, true);
+        
+        // Both values seem to be the same...
+        points1     =ToolBox.readUnsignedInt(recordData,  5, 2, true);
+        points2     =ToolBox.readUnsignedInt(recordData,  7, 2, true);
+
+        
+        if (newRecord!=null)
+        {
+            ((ActivityRecordGps)newRecord).setActivityPoints(timeStamp-this.timeZoneSeconds, points1);
+            
+            // Get the first value
+            if (activityPointsStart<0)
+            {
+                activityPointsStart=points1;
+            }
+            
+            // Remember the latest value
+            activityPointsEnd=points1;
+        }
+        else
+        {
+            DebugLogger.info("Skipping activity points record");
+        }  
+        
+//        DebugLogger.info(DateTime.forInstant((long)timeStamp*1000L, TimeZone.getDefault()).format("YYYY-MM-DD hh:mm:ss")+" "+points1+" "+points2);
+    }
+
+    /**
+     * Parse the record data and create a record or add to a record.
+     * Based on the tag defining the record, the adequate sub function is called
+     * @param recordData Data representing the record
+     */
+    public void parseRecord(byte[] recordData)
+    {
+        byte tag;
+        
+        tag=recordData[0];
+        switch(tag)
+        {
+            case TtbinFileDefinition.TAG_SUMMARY:
+                parseRecordSummary(recordData);
+                break;
+            case TtbinFileDefinition.TAG_STATUS:
+                parseRecordStatus(recordData);
+                break;
+            
+            case TtbinFileDefinition.TAG_GPS:
+                parseRecordGps(recordData);
+                break;
+            case TtbinFileDefinition.TAG_ELEVATION:
+                parseRecordElevation(recordData);
+                break;
+            case TtbinFileDefinition.TAG_HEART_RATE:
+                parseRecordHeartRate(recordData);
+                break;
+            case TtbinFileDefinition.TAG_PRECISION:      // tag 4 bytes 1 byte
+                parseRecordPrecision(recordData);
+//                dumpRecordData(recordData);
+                break;
+            case TtbinFileDefinition.TAG_42:      // 1 byte Cycles?
+//                dumpRecordData(recordData);
+                break;
+            case TtbinFileDefinition.TAG_49:      // 4 bytes after tag
+//                dumpRecordData(recordData);
+                break;
+            case TtbinFileDefinition.TAG_ACTIVITYPOINTS:      // 4 bytes after tag
+                parseRecordActivityPoints(recordData);
+                break;
+            case TtbinFileDefinition.TAG_4B:      // 4 bytes after tag
+//                dumpRecordData(recordData);
+                break;
+            default:
+//DebugLogger.info(String.format("tag 0x%02x: unknown, length %d", tag, this.header.getLength(tag)));        
+                break;
+                    
+        }
+    }
+    
     
     /**
-     * This method smoothes the track by applying a simple Kalman filter.
-     * The method takes into account the accuracy in m (EHPE).
+     * Dump the record data as hexadecimals
+     * @param recordData The record data. 
      */
-    /*
-    private void smoothTrackPoint()
+    public void dumpRecordData(byte[] recordData)
     {
-        double              lat;
-        double              lon;
-        double              ehpe;
-        long                timestamp;
-        ActivityRecordGps   record;
+        String data;
+        int i;
         
-        
-        record              =((ActivityRecordGps)newRecord);
-        lat                 =record.getLatitude();
-        lon                 =record.getLongitude();
-        
-        if (lat!=0.0 && lon!=0.0)
+        data="";
+        i=0;
+        while (i<recordData.length)
         {
-            // Save the original coordinate
-            record.setRawCoordinate(lat, lon);
+            data+=String.format("%02x ", recordData[i]);
+//            data+=String.format("%03d, ", recordData[i]);
+            i++;
+        }
+        DebugLogger.info(data);
+//        System.out.println(data);
+    }  
+    
+    
+    /**
+     * Dump the activity to csv file for analysis purposes
+     */
+    public void dumpActivityCsv()
+    {
+        File            csvFile;
+        FileWriter      fileWriter;
+        BufferedWriter  writer;
+        int             i;
+        
+        try
+        {
+            csvFile=new File ("dump.csv");
+            fileWriter=new FileWriter(csvFile);
+            writer=new BufferedWriter(fileWriter);
             
+            writer.write("Summary");
+            writer.write("Type, "    +this.summaryType    +"\n");
+            writer.write("Distance, "+this.summaryDistance+"\n");
+            writer.write("Duration, "+this.summaryDuration+"\n");
+            writer.write("Calories, "+this.summaryCalories+"\n");
             
-            // ehpe. Convert from cm to m
-            ehpe                =(double)record.getEhpe()/100.0;
-            
-            // The timestamp in ms. The timezone doesn't matter actually...
-            timestamp           =record.getDateTime().getMilliseconds(TimeZone.getTimeZone("UTC"));
+            i=0;
+            while (i<this.segments.size())
+            {
+                // Dump csv header for first record only
+                if (i==0)
+                {
+                    segments.get(i).dumpSegmentCsv(writer, true);
+                }
+                else
+                {
+                    segments.get(i).dumpSegmentCsv(writer, false);
+                }
+                i++;
+            }
 
-            // Do the filter.
-            filter.Process((float)lat, (float)lon, (float)ehpe, timestamp);
-            
-            // Get the filtered value and replace the original coordinate with it
-            lat=filter.get_lat();
-            lon=filter.get_lng();
-            record.setCoordinate(lat, lon);
-        }        
+            writer.close();
+            fileWriter.close();
+        }
+        catch (Exception e)
+        {
+            DebugLogger.error("Error writing to file");
+        }
+        
     }
-*/    
+    
+    
+    /* ******************************************************************************************* *\
+     * TRACK SMOOTHING
+    \* ******************************************************************************************* */
+
 
     /**
-     * THis method smoothes the track, by applying a Kalman filter
+     * This method smoothes the track, by applying a Kalman filter
      * @param trackSmoothingQFactor The factor influencing the smoothing.
      *                              1.0 - high amount to 10.0 - low
      */
@@ -776,124 +939,6 @@ public class Activity
     {
         return this.isSmoothed;
     }
-
-    
-    
-    /**
-     * Parse the record data and create a record or add to a record.
-     * Based on the tag defining the record, the adequate sub function is called
-     * @param recordData Data representing the record
-     */
-    public void parseRecord(byte[] recordData)
-    {
-        byte tag;
-        
-        tag=recordData[0];
-        switch(tag)
-        {
-            case TtbinFileDefinition.TAG_SUMMARY:
-                parseRecordSummary(recordData);
-                break;
-            case TtbinFileDefinition.TAG_STATUS:
-                parseRecordStatus(recordData);
-                break;
-            
-            case TtbinFileDefinition.TAG_GPS:
-                parseRecordGps(recordData);
-                break;
-            case TtbinFileDefinition.TAG_ELEVATION:
-                parseRecordElevation(recordData);
-                break;
-            case TtbinFileDefinition.TAG_HEART_RATE:
-                parseRecordHeartRate(recordData);
-                break;
-            case TtbinFileDefinition.TAG_PRECISION:      // tag 4 bytes 1 byte
-                parseRecordPrecision(recordData);
-//                dumpRecordData(recordData);
-                break;
-            case TtbinFileDefinition.TAG_42:      // 1 byte Cycles?
-//                dumpRecordData(recordData);
-                break;
-            case TtbinFileDefinition.TAG_49:      // 4 bytes after tag
-//                dumpRecordData(recordData);
-                break;
-            default:
-//DebugLogger.info(String.format("tag 0x%02x: unknown", tag));        
-                break;
-                    
-        }
-    }
-    
-    
-    /**
-     * Dump the record data as hexadecimals
-     * @param recordData The record data. 
-     */
-    public void dumpRecordData(byte[] recordData)
-    {
-        String data;
-        int i;
-        
-        data="";
-        i=0;
-        while (i<recordData.length)
-        {
-            data+=String.format("%02x ", recordData[i]);
-//            data+=String.format("%03d, ", recordData[i]);
-            i++;
-        }
-        DebugLogger.info(data);
-//        System.out.println(data);
-    }  
-    
-    
-    /**
-     * Dump the activity to csv file for analysis purposes
-     */
-    public void dumpActivityCsv()
-    {
-        File            csvFile;
-        FileWriter      fileWriter;
-        BufferedWriter  writer;
-        int             i;
-        
-        try
-        {
-            csvFile=new File ("dump.csv");
-            fileWriter=new FileWriter(csvFile);
-            writer=new BufferedWriter(fileWriter);
-            
-            writer.write("Summary");
-            writer.write("Type, "    +this.summaryType    +"\n");
-            writer.write("Distance, "+this.summaryDistance+"\n");
-            writer.write("Duration, "+this.summaryDuration+"\n");
-            writer.write("Calories, "+this.summaryCalories+"\n");
-            
-            i=0;
-            while (i<this.segments.size())
-            {
-                // Dump csv header for first record only
-                if (i==0)
-                {
-                    segments.get(i).dumpSegmentCsv(writer, true);
-                }
-                else
-                {
-                    segments.get(i).dumpSegmentCsv(writer, false);
-                }
-                i++;
-            }
-
-            writer.close();
-            fileWriter.close();
-        }
-        catch (Exception e)
-        {
-            DebugLogger.error("Error writing to file");
-        }
-        
-    }
-      
     
     
 }

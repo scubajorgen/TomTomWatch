@@ -354,13 +354,12 @@
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="jLabel10" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="jTextFieldTime" max="32767" attributes="0"/>
+                              <Component id="jTextFieldTime" min="-2" pref="122" max="-2" attributes="0"/>
                           </Group>
-                          <Component id="jScrollPane2" min="-2" pref="489" max="-2" attributes="0"/>
+                          <Component id="jScrollPane2" pref="501" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jPanelMap" max="32767" attributes="0"/>
                           <Group type="102" attributes="0">
                               <Component id="jLabel9" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
@@ -374,6 +373,7 @@
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="jTextFieldSerial" min="-2" pref="132" max="-2" attributes="0"/>
                           </Group>
+                          <Component id="jPanelMap" max="32767" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
