@@ -23,7 +23,7 @@ import javax.usb.UsbEndpoint;
 import javax.usb.UsbClaimException;
 import javax.usb.UsbPipe;
 import javax.usb.UsbDeviceDescriptor;
-
+import javax.usb.UsbInterfacePolicy;
 
 /**
  * This class represents the connection to the USB watch. It contains functionality
@@ -147,7 +147,8 @@ public class UsbConnection
             iface               = configuration.getUsbInterface((byte) 0);
             try
             {
-                iface.claim();
+                // For Linux: force claim if the interface has been claimed by the kernel
+                iface.claim(new ForcePolicy());
                 DebugLogger.debug("USB interface claimed");
             }
             catch(UsbClaimException e)
