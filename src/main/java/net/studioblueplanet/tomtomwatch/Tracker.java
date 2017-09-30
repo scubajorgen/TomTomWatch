@@ -59,7 +59,7 @@ public class Tracker
         public int                  unknown;
         public int                  sleepMode;              // 0-not known, 1-active, 2-??, 3-1st sleep hour, 4-sleeping
         public int                  sleep;                  // sleep seconds
-        
+        public int                  fitnessPoints;          // Fitness points collected during the interval
         
         
         public void add(TrackedDataRecord record)
@@ -97,6 +97,14 @@ public class Tracker
 
         
     }
+
+    class FitnessRecord
+    {
+        public DateTime                 dateTime;
+        public int                      interval;
+        public int                      fitnessPointCounter1;
+        public int                      fitnessPointCounter2;
+    }
     
     private static final int                        SLEEPMODE_UNDEFINED     =0;
     private static final int                        SLEEPMODE_AWAKE         =1;
@@ -112,6 +120,8 @@ public class Tracker
     final private ArrayList<TrackedDataRecord>      trackedData;
     final private ArrayList<TrackedDataRecord>      trackedDataPerHour;
     final private ArrayList<Sleep>                  sleeps;
+    final private ArrayList<FitnessRecord>          fitnessRecords;
+    
     
     /**
      * Returns a UTC DateTime based on the epoch time passed 
@@ -280,7 +290,63 @@ public class Tracker
         
         return error;
     }
+
+
+    /**
+     * Return the fitness point counter value at given date time.
+     * @param dateTime Date time 
+     * @return Fitness point counter value. If the datetime is prior to 
+     *         the values in the list, 0 is returned.
+     */
+    public int getFitnessPointCounter(DateTime dateTime)
+    {
+        int                     counter;
+        Iterator<FitnessRecord> it;
+        FitnessRecord           record;
+        boolean                 exit;
+        
+        counter=0;
+        exit=false;
+        it=fitnessRecords.iterator();
+        while(it.hasNext() && !exit)
+        {
+            record=it.next();
+            if (record.dateTime.gt(dateTime))
+            {
+                exit=true;
+            }
+            else
+            {
+                counter=record.fitnessPointCounter1;
+            }
+        }
+
+        return counter;
+    }
     
+    
+    /**
+     * Process the data record
+     * @return False if all went ok, true if an error occurred.
+     */  
+    private boolean processFitnessRecord(TrackerProto.FitnessRecord record)
+    {
+        boolean                     error;
+        FitnessRecord               fitnessRecord;
+        
+        error=false;
+        
+        fitnessRecord=new FitnessRecord();
+        
+        fitnessRecord.dateTime=this.epochToUtcDate(record.getTime());
+        fitnessRecord.interval=record.getInterval();
+        fitnessRecord.fitnessPointCounter1=record.getFitnessPoints1();
+        fitnessRecord.fitnessPointCounter2=record.getFitnessPoints2();
+        
+        fitnessRecords.add(fitnessRecord);
+        
+        return error;        
+    }
     
 
     
@@ -295,6 +361,7 @@ public class Tracker
         trackedData         =new ArrayList();
         trackedDataPerHour  =new ArrayList();
         sleeps              =new ArrayList();
+        fitnessRecords      =new ArrayList();
     }
     
     /**
@@ -321,13 +388,15 @@ public class Tracker
         Iterator<TrackedDataRecord>     it;
         int                             lastSleepMode;
         Sleep                           sleep;
-
+        int                             previousFitnessPoints;
+        int                             currentFitnessPoints;
        
-        lastDateTime    =new DateTime("1970-01-01 00:00:00");
-        hourlyRecord    =null;
-        sleep           =null;
-        lastSleepMode   =SLEEPMODE_UNDEFINED;
-        
+        lastDateTime            =new DateTime("1970-01-01 00:00:00");
+        hourlyRecord            =null;
+        sleep                   =null;
+        lastSleepMode           =SLEEPMODE_UNDEFINED;
+        previousFitnessPoints   =-1;
+        currentFitnessPoints    =0;
         
         it=trackedData.iterator();
         
@@ -368,7 +437,23 @@ public class Tracker
             {
                 if (hourlyRecord!=null)
                 {
+                    currentFitnessPoints=this.getFitnessPointCounter(record.intervalStartDateTime);
+                    
+                    if (previousFitnessPoints<0)
+                    {
+                        // If no previous value is known (1st hour), set the hourly value to 0. Best we can do...
+                        hourlyRecord.fitnessPoints=0;
+                    }
+                    else
+                    {
+                        // The number of points earned during the hour is the difference of the counter value
+                        // at the end of the hour and at the beginning of the hour.
+                        // At 00:00 hours (local time) the fitness point counter is reset to 0: max (diff, 0)
+                        // TO DO: If fitness points are collected around midnight, an error may occur. Check and repair.
+                        hourlyRecord.fitnessPoints=Math.max(currentFitnessPoints-previousFitnessPoints, 0);
+                    }
                     this.trackedDataPerHour.add(hourlyRecord);
+                    previousFitnessPoints=currentFitnessPoints;
                 }
                 hourlyRecord=record.clone();
                 lastDateTime=record.intervalStartDateTime;
@@ -426,6 +511,10 @@ public class Tracker
                     {
                         error=processTrackedActivityRecord(subDataContainer.getTrackRecord());
                     }
+                    else if (subDataContainer.hasFitnessRecord())
+                    {
+                        error=processFitnessRecord(subDataContainer.getFitnessRecord());
+                    }
                     else if (subDataContainer.hasRecord2())
                     {
                         error=processRecord2(subDataContainer.getRecord2());
@@ -472,7 +561,7 @@ public class Tracker
         
         string="";     
         
-        string="Datetime            Interval(s) Steps Active(s)  Distance(m)  kcal  \n";
+        string="Datetime            Interval(s) Steps Active(s)  Distance(m)  kcal  fitnesspoints\n";
         
         it=this.trackedDataPerHour.iterator();
         
@@ -486,6 +575,7 @@ public class Tracker
                     String.format("%12d ", record.distance)+
 //                    String.format("%9.2f ", (float)record.distance/1000.0)+
                     String.format("%5d ", record.kcal)+
+                    String.format("%5d ", record.fitnessPoints)+
                     "\n";
         }
         

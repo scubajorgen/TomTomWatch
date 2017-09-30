@@ -2228,25 +2228,25 @@ public final class TrackerProto {
      * TomTom FitnessPoints counters
      * </pre>
      *
-     * <code>optional .tutorial.Fitness fitness = 9;</code>
+     * <code>optional .tutorial.FitnessRecord fitnessRecord = 9;</code>
      */
-    boolean hasFitness();
+    boolean hasFitnessRecord();
     /**
      * <pre>
      * TomTom FitnessPoints counters
      * </pre>
      *
-     * <code>optional .tutorial.Fitness fitness = 9;</code>
+     * <code>optional .tutorial.FitnessRecord fitnessRecord = 9;</code>
      */
-    net.studioblueplanet.tomtomwatch.TrackerProto.Fitness getFitness();
+    net.studioblueplanet.tomtomwatch.TrackerProto.FitnessRecord getFitnessRecord();
     /**
      * <pre>
      * TomTom FitnessPoints counters
      * </pre>
      *
-     * <code>optional .tutorial.Fitness fitness = 9;</code>
+     * <code>optional .tutorial.FitnessRecord fitnessRecord = 9;</code>
      */
-    net.studioblueplanet.tomtomwatch.TrackerProto.FitnessOrBuilder getFitnessOrBuilder();
+    net.studioblueplanet.tomtomwatch.TrackerProto.FitnessRecordOrBuilder getFitnessRecordOrBuilder();
   }
   /**
    * Protobuf type {@code tutorial.SubDataContainer}
@@ -2369,14 +2369,14 @@ public final class TrackerProto {
               break;
             }
             case 74: {
-              net.studioblueplanet.tomtomwatch.TrackerProto.Fitness.Builder subBuilder = null;
+              net.studioblueplanet.tomtomwatch.TrackerProto.FitnessRecord.Builder subBuilder = null;
               if (((bitField0_ & 0x00000040) == 0x00000040)) {
-                subBuilder = fitness_.toBuilder();
+                subBuilder = fitnessRecord_.toBuilder();
               }
-              fitness_ = input.readMessage(net.studioblueplanet.tomtomwatch.TrackerProto.Fitness.PARSER, extensionRegistry);
+              fitnessRecord_ = input.readMessage(net.studioblueplanet.tomtomwatch.TrackerProto.FitnessRecord.PARSER, extensionRegistry);
               if (subBuilder != null) {
-                subBuilder.mergeFrom(fitness_);
-                fitness_ = subBuilder.buildPartial();
+                subBuilder.mergeFrom(fitnessRecord_);
+                fitnessRecord_ = subBuilder.buildPartial();
               }
               bitField0_ |= 0x00000040;
               break;
@@ -2604,16 +2604,16 @@ public final class TrackerProto {
       return record4_ == null ? net.studioblueplanet.tomtomwatch.TrackerProto.Record4.getDefaultInstance() : record4_;
     }
 
-    public static final int FITNESS_FIELD_NUMBER = 9;
-    private net.studioblueplanet.tomtomwatch.TrackerProto.Fitness fitness_;
+    public static final int FITNESSRECORD_FIELD_NUMBER = 9;
+    private net.studioblueplanet.tomtomwatch.TrackerProto.FitnessRecord fitnessRecord_;
     /**
      * <pre>
      * TomTom FitnessPoints counters
      * </pre>
      *
-     * <code>optional .tutorial.Fitness fitness = 9;</code>
+     * <code>optional .tutorial.FitnessRecord fitnessRecord = 9;</code>
      */
-    public boolean hasFitness() {
+    public boolean hasFitnessRecord() {
       return ((bitField0_ & 0x00000040) == 0x00000040);
     }
     /**
@@ -2621,20 +2621,20 @@ public final class TrackerProto {
      * TomTom FitnessPoints counters
      * </pre>
      *
-     * <code>optional .tutorial.Fitness fitness = 9;</code>
+     * <code>optional .tutorial.FitnessRecord fitnessRecord = 9;</code>
      */
-    public net.studioblueplanet.tomtomwatch.TrackerProto.Fitness getFitness() {
-      return fitness_ == null ? net.studioblueplanet.tomtomwatch.TrackerProto.Fitness.getDefaultInstance() : fitness_;
+    public net.studioblueplanet.tomtomwatch.TrackerProto.FitnessRecord getFitnessRecord() {
+      return fitnessRecord_ == null ? net.studioblueplanet.tomtomwatch.TrackerProto.FitnessRecord.getDefaultInstance() : fitnessRecord_;
     }
     /**
      * <pre>
      * TomTom FitnessPoints counters
      * </pre>
      *
-     * <code>optional .tutorial.Fitness fitness = 9;</code>
+     * <code>optional .tutorial.FitnessRecord fitnessRecord = 9;</code>
      */
-    public net.studioblueplanet.tomtomwatch.TrackerProto.FitnessOrBuilder getFitnessOrBuilder() {
-      return fitness_ == null ? net.studioblueplanet.tomtomwatch.TrackerProto.Fitness.getDefaultInstance() : fitness_;
+    public net.studioblueplanet.tomtomwatch.TrackerProto.FitnessRecordOrBuilder getFitnessRecordOrBuilder() {
+      return fitnessRecord_ == null ? net.studioblueplanet.tomtomwatch.TrackerProto.FitnessRecord.getDefaultInstance() : fitnessRecord_;
     }
 
     private byte memoizedIsInitialized = -1;
@@ -2679,8 +2679,8 @@ public final class TrackerProto {
           return false;
         }
       }
-      if (hasFitness()) {
-        if (!getFitness().isInitialized()) {
+      if (hasFitnessRecord()) {
+        if (!getFitnessRecord().isInitialized()) {
           memoizedIsInitialized = 0;
           return false;
         }
@@ -2710,7 +2710,7 @@ public final class TrackerProto {
         output.writeMessage(7, getRecord4());
       }
       if (((bitField0_ & 0x00000040) == 0x00000040)) {
-        output.writeMessage(9, getFitness());
+        output.writeMessage(9, getFitnessRecord());
       }
       unknownFields.writeTo(output);
     }
@@ -2746,7 +2746,7 @@ public final class TrackerProto {
       }
       if (((bitField0_ & 0x00000040) == 0x00000040)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(9, getFitness());
+          .computeMessageSize(9, getFitnessRecord());
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -2795,10 +2795,10 @@ public final class TrackerProto {
         result = result && getRecord4()
             .equals(other.getRecord4());
       }
-      result = result && (hasFitness() == other.hasFitness());
-      if (hasFitness()) {
-        result = result && getFitness()
-            .equals(other.getFitness());
+      result = result && (hasFitnessRecord() == other.hasFitnessRecord());
+      if (hasFitnessRecord()) {
+        result = result && getFitnessRecord()
+            .equals(other.getFitnessRecord());
       }
       result = result && unknownFields.equals(other.unknownFields);
       return result;
@@ -2835,9 +2835,9 @@ public final class TrackerProto {
         hash = (37 * hash) + RECORD4_FIELD_NUMBER;
         hash = (53 * hash) + getRecord4().hashCode();
       }
-      if (hasFitness()) {
-        hash = (37 * hash) + FITNESS_FIELD_NUMBER;
-        hash = (53 * hash) + getFitness().hashCode();
+      if (hasFitnessRecord()) {
+        hash = (37 * hash) + FITNESSRECORD_FIELD_NUMBER;
+        hash = (53 * hash) + getFitnessRecord().hashCode();
       }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
@@ -2970,7 +2970,7 @@ public final class TrackerProto {
           getRecord6FieldBuilder();
           getHeartRecordFieldBuilder();
           getRecord4FieldBuilder();
-          getFitnessFieldBuilder();
+          getFitnessRecordFieldBuilder();
         }
       }
       public Builder clear() {
@@ -3011,10 +3011,10 @@ public final class TrackerProto {
           record4Builder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00000020);
-        if (fitnessBuilder_ == null) {
-          fitness_ = null;
+        if (fitnessRecordBuilder_ == null) {
+          fitnessRecord_ = null;
         } else {
-          fitnessBuilder_.clear();
+          fitnessRecordBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00000040);
         return this;
@@ -3092,10 +3092,10 @@ public final class TrackerProto {
         if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
           to_bitField0_ |= 0x00000040;
         }
-        if (fitnessBuilder_ == null) {
-          result.fitness_ = fitness_;
+        if (fitnessRecordBuilder_ == null) {
+          result.fitnessRecord_ = fitnessRecord_;
         } else {
-          result.fitness_ = fitnessBuilder_.build();
+          result.fitnessRecord_ = fitnessRecordBuilder_.build();
         }
         result.bitField0_ = to_bitField0_;
         onBuilt();
@@ -3157,8 +3157,8 @@ public final class TrackerProto {
         if (other.hasRecord4()) {
           mergeRecord4(other.getRecord4());
         }
-        if (other.hasFitness()) {
-          mergeFitness(other.getFitness());
+        if (other.hasFitnessRecord()) {
+          mergeFitnessRecord(other.getFitnessRecord());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -3196,8 +3196,8 @@ public final class TrackerProto {
             return false;
           }
         }
-        if (hasFitness()) {
-          if (!getFitness().isInitialized()) {
+        if (hasFitnessRecord()) {
+          if (!getFitnessRecord().isInitialized()) {
             return false;
           }
         }
@@ -4147,17 +4147,17 @@ public final class TrackerProto {
         return record4Builder_;
       }
 
-      private net.studioblueplanet.tomtomwatch.TrackerProto.Fitness fitness_ = null;
+      private net.studioblueplanet.tomtomwatch.TrackerProto.FitnessRecord fitnessRecord_ = null;
       private com.google.protobuf.SingleFieldBuilderV3<
-          net.studioblueplanet.tomtomwatch.TrackerProto.Fitness, net.studioblueplanet.tomtomwatch.TrackerProto.Fitness.Builder, net.studioblueplanet.tomtomwatch.TrackerProto.FitnessOrBuilder> fitnessBuilder_;
+          net.studioblueplanet.tomtomwatch.TrackerProto.FitnessRecord, net.studioblueplanet.tomtomwatch.TrackerProto.FitnessRecord.Builder, net.studioblueplanet.tomtomwatch.TrackerProto.FitnessRecordOrBuilder> fitnessRecordBuilder_;
       /**
        * <pre>
        * TomTom FitnessPoints counters
        * </pre>
        *
-       * <code>optional .tutorial.Fitness fitness = 9;</code>
+       * <code>optional .tutorial.FitnessRecord fitnessRecord = 9;</code>
        */
-      public boolean hasFitness() {
+      public boolean hasFitnessRecord() {
         return ((bitField0_ & 0x00000040) == 0x00000040);
       }
       /**
@@ -4165,13 +4165,13 @@ public final class TrackerProto {
        * TomTom FitnessPoints counters
        * </pre>
        *
-       * <code>optional .tutorial.Fitness fitness = 9;</code>
+       * <code>optional .tutorial.FitnessRecord fitnessRecord = 9;</code>
        */
-      public net.studioblueplanet.tomtomwatch.TrackerProto.Fitness getFitness() {
-        if (fitnessBuilder_ == null) {
-          return fitness_ == null ? net.studioblueplanet.tomtomwatch.TrackerProto.Fitness.getDefaultInstance() : fitness_;
+      public net.studioblueplanet.tomtomwatch.TrackerProto.FitnessRecord getFitnessRecord() {
+        if (fitnessRecordBuilder_ == null) {
+          return fitnessRecord_ == null ? net.studioblueplanet.tomtomwatch.TrackerProto.FitnessRecord.getDefaultInstance() : fitnessRecord_;
         } else {
-          return fitnessBuilder_.getMessage();
+          return fitnessRecordBuilder_.getMessage();
         }
       }
       /**
@@ -4179,17 +4179,17 @@ public final class TrackerProto {
        * TomTom FitnessPoints counters
        * </pre>
        *
-       * <code>optional .tutorial.Fitness fitness = 9;</code>
+       * <code>optional .tutorial.FitnessRecord fitnessRecord = 9;</code>
        */
-      public Builder setFitness(net.studioblueplanet.tomtomwatch.TrackerProto.Fitness value) {
-        if (fitnessBuilder_ == null) {
+      public Builder setFitnessRecord(net.studioblueplanet.tomtomwatch.TrackerProto.FitnessRecord value) {
+        if (fitnessRecordBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
           }
-          fitness_ = value;
+          fitnessRecord_ = value;
           onChanged();
         } else {
-          fitnessBuilder_.setMessage(value);
+          fitnessRecordBuilder_.setMessage(value);
         }
         bitField0_ |= 0x00000040;
         return this;
@@ -4199,15 +4199,15 @@ public final class TrackerProto {
        * TomTom FitnessPoints counters
        * </pre>
        *
-       * <code>optional .tutorial.Fitness fitness = 9;</code>
+       * <code>optional .tutorial.FitnessRecord fitnessRecord = 9;</code>
        */
-      public Builder setFitness(
-          net.studioblueplanet.tomtomwatch.TrackerProto.Fitness.Builder builderForValue) {
-        if (fitnessBuilder_ == null) {
-          fitness_ = builderForValue.build();
+      public Builder setFitnessRecord(
+          net.studioblueplanet.tomtomwatch.TrackerProto.FitnessRecord.Builder builderForValue) {
+        if (fitnessRecordBuilder_ == null) {
+          fitnessRecord_ = builderForValue.build();
           onChanged();
         } else {
-          fitnessBuilder_.setMessage(builderForValue.build());
+          fitnessRecordBuilder_.setMessage(builderForValue.build());
         }
         bitField0_ |= 0x00000040;
         return this;
@@ -4217,21 +4217,21 @@ public final class TrackerProto {
        * TomTom FitnessPoints counters
        * </pre>
        *
-       * <code>optional .tutorial.Fitness fitness = 9;</code>
+       * <code>optional .tutorial.FitnessRecord fitnessRecord = 9;</code>
        */
-      public Builder mergeFitness(net.studioblueplanet.tomtomwatch.TrackerProto.Fitness value) {
-        if (fitnessBuilder_ == null) {
+      public Builder mergeFitnessRecord(net.studioblueplanet.tomtomwatch.TrackerProto.FitnessRecord value) {
+        if (fitnessRecordBuilder_ == null) {
           if (((bitField0_ & 0x00000040) == 0x00000040) &&
-              fitness_ != null &&
-              fitness_ != net.studioblueplanet.tomtomwatch.TrackerProto.Fitness.getDefaultInstance()) {
-            fitness_ =
-              net.studioblueplanet.tomtomwatch.TrackerProto.Fitness.newBuilder(fitness_).mergeFrom(value).buildPartial();
+              fitnessRecord_ != null &&
+              fitnessRecord_ != net.studioblueplanet.tomtomwatch.TrackerProto.FitnessRecord.getDefaultInstance()) {
+            fitnessRecord_ =
+              net.studioblueplanet.tomtomwatch.TrackerProto.FitnessRecord.newBuilder(fitnessRecord_).mergeFrom(value).buildPartial();
           } else {
-            fitness_ = value;
+            fitnessRecord_ = value;
           }
           onChanged();
         } else {
-          fitnessBuilder_.mergeFrom(value);
+          fitnessRecordBuilder_.mergeFrom(value);
         }
         bitField0_ |= 0x00000040;
         return this;
@@ -4241,14 +4241,14 @@ public final class TrackerProto {
        * TomTom FitnessPoints counters
        * </pre>
        *
-       * <code>optional .tutorial.Fitness fitness = 9;</code>
+       * <code>optional .tutorial.FitnessRecord fitnessRecord = 9;</code>
        */
-      public Builder clearFitness() {
-        if (fitnessBuilder_ == null) {
-          fitness_ = null;
+      public Builder clearFitnessRecord() {
+        if (fitnessRecordBuilder_ == null) {
+          fitnessRecord_ = null;
           onChanged();
         } else {
-          fitnessBuilder_.clear();
+          fitnessRecordBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00000040);
         return this;
@@ -4258,26 +4258,26 @@ public final class TrackerProto {
        * TomTom FitnessPoints counters
        * </pre>
        *
-       * <code>optional .tutorial.Fitness fitness = 9;</code>
+       * <code>optional .tutorial.FitnessRecord fitnessRecord = 9;</code>
        */
-      public net.studioblueplanet.tomtomwatch.TrackerProto.Fitness.Builder getFitnessBuilder() {
+      public net.studioblueplanet.tomtomwatch.TrackerProto.FitnessRecord.Builder getFitnessRecordBuilder() {
         bitField0_ |= 0x00000040;
         onChanged();
-        return getFitnessFieldBuilder().getBuilder();
+        return getFitnessRecordFieldBuilder().getBuilder();
       }
       /**
        * <pre>
        * TomTom FitnessPoints counters
        * </pre>
        *
-       * <code>optional .tutorial.Fitness fitness = 9;</code>
+       * <code>optional .tutorial.FitnessRecord fitnessRecord = 9;</code>
        */
-      public net.studioblueplanet.tomtomwatch.TrackerProto.FitnessOrBuilder getFitnessOrBuilder() {
-        if (fitnessBuilder_ != null) {
-          return fitnessBuilder_.getMessageOrBuilder();
+      public net.studioblueplanet.tomtomwatch.TrackerProto.FitnessRecordOrBuilder getFitnessRecordOrBuilder() {
+        if (fitnessRecordBuilder_ != null) {
+          return fitnessRecordBuilder_.getMessageOrBuilder();
         } else {
-          return fitness_ == null ?
-              net.studioblueplanet.tomtomwatch.TrackerProto.Fitness.getDefaultInstance() : fitness_;
+          return fitnessRecord_ == null ?
+              net.studioblueplanet.tomtomwatch.TrackerProto.FitnessRecord.getDefaultInstance() : fitnessRecord_;
         }
       }
       /**
@@ -4285,20 +4285,20 @@ public final class TrackerProto {
        * TomTom FitnessPoints counters
        * </pre>
        *
-       * <code>optional .tutorial.Fitness fitness = 9;</code>
+       * <code>optional .tutorial.FitnessRecord fitnessRecord = 9;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
-          net.studioblueplanet.tomtomwatch.TrackerProto.Fitness, net.studioblueplanet.tomtomwatch.TrackerProto.Fitness.Builder, net.studioblueplanet.tomtomwatch.TrackerProto.FitnessOrBuilder> 
-          getFitnessFieldBuilder() {
-        if (fitnessBuilder_ == null) {
-          fitnessBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-              net.studioblueplanet.tomtomwatch.TrackerProto.Fitness, net.studioblueplanet.tomtomwatch.TrackerProto.Fitness.Builder, net.studioblueplanet.tomtomwatch.TrackerProto.FitnessOrBuilder>(
-                  getFitness(),
+          net.studioblueplanet.tomtomwatch.TrackerProto.FitnessRecord, net.studioblueplanet.tomtomwatch.TrackerProto.FitnessRecord.Builder, net.studioblueplanet.tomtomwatch.TrackerProto.FitnessRecordOrBuilder> 
+          getFitnessRecordFieldBuilder() {
+        if (fitnessRecordBuilder_ == null) {
+          fitnessRecordBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              net.studioblueplanet.tomtomwatch.TrackerProto.FitnessRecord, net.studioblueplanet.tomtomwatch.TrackerProto.FitnessRecord.Builder, net.studioblueplanet.tomtomwatch.TrackerProto.FitnessRecordOrBuilder>(
+                  getFitnessRecord(),
                   getParentForChildren(),
                   isClean());
-          fitness_ = null;
+          fitnessRecord_ = null;
         }
-        return fitnessBuilder_;
+        return fitnessRecordBuilder_;
       }
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -13808,38 +13808,22 @@ public final class TrackerProto {
     int getUnknown14();
 
     /**
-     * <pre>
-     * Cummulative TomTom activity points counter                
-     * </pre>
-     *
-     * <code>required int32 activityPoints1 = 18;</code>
+     * <code>required int32 unknown15 = 18;</code>
      */
-    boolean hasActivityPoints1();
+    boolean hasUnknown15();
     /**
-     * <pre>
-     * Cummulative TomTom activity points counter                
-     * </pre>
-     *
-     * <code>required int32 activityPoints1 = 18;</code>
+     * <code>required int32 unknown15 = 18;</code>
      */
-    int getActivityPoints1();
+    int getUnknown15();
 
     /**
-     * <pre>
-     * Cummulative TomTom activity points counter             
-     * </pre>
-     *
-     * <code>required int32 activityPoints2 = 19;</code>
+     * <code>required int32 unknown16 = 19;</code>
      */
-    boolean hasActivityPoints2();
+    boolean hasUnknown16();
     /**
-     * <pre>
-     * Cummulative TomTom activity points counter             
-     * </pre>
-     *
-     * <code>required int32 activityPoints2 = 19;</code>
+     * <code>required int32 unknown16 = 19;</code>
      */
-    int getActivityPoints2();
+    int getUnknown16();
   }
   /**
    * Protobuf type {@code tutorial.UserData}
@@ -13868,8 +13852,8 @@ public final class TrackerProto {
       unknown10_ = 0;
       unknown13_ = 0;
       unknown14_ = 0;
-      activityPoints1_ = 0;
-      activityPoints2_ = 0;
+      unknown15_ = 0;
+      unknown16_ = 0;
     }
 
     @java.lang.Override
@@ -13978,12 +13962,12 @@ public final class TrackerProto {
             }
             case 144: {
               bitField0_ |= 0x00008000;
-              activityPoints1_ = input.readInt32();
+              unknown15_ = input.readInt32();
               break;
             }
             case 152: {
               bitField0_ |= 0x00010000;
-              activityPoints2_ = input.readInt32();
+              unknown16_ = input.readInt32();
               break;
             }
           }
@@ -14279,50 +14263,34 @@ public final class TrackerProto {
       return unknown14_;
     }
 
-    public static final int ACTIVITYPOINTS1_FIELD_NUMBER = 18;
-    private int activityPoints1_;
+    public static final int UNKNOWN15_FIELD_NUMBER = 18;
+    private int unknown15_;
     /**
-     * <pre>
-     * Cummulative TomTom activity points counter                
-     * </pre>
-     *
-     * <code>required int32 activityPoints1 = 18;</code>
+     * <code>required int32 unknown15 = 18;</code>
      */
-    public boolean hasActivityPoints1() {
+    public boolean hasUnknown15() {
       return ((bitField0_ & 0x00008000) == 0x00008000);
     }
     /**
-     * <pre>
-     * Cummulative TomTom activity points counter                
-     * </pre>
-     *
-     * <code>required int32 activityPoints1 = 18;</code>
+     * <code>required int32 unknown15 = 18;</code>
      */
-    public int getActivityPoints1() {
-      return activityPoints1_;
+    public int getUnknown15() {
+      return unknown15_;
     }
 
-    public static final int ACTIVITYPOINTS2_FIELD_NUMBER = 19;
-    private int activityPoints2_;
+    public static final int UNKNOWN16_FIELD_NUMBER = 19;
+    private int unknown16_;
     /**
-     * <pre>
-     * Cummulative TomTom activity points counter             
-     * </pre>
-     *
-     * <code>required int32 activityPoints2 = 19;</code>
+     * <code>required int32 unknown16 = 19;</code>
      */
-    public boolean hasActivityPoints2() {
+    public boolean hasUnknown16() {
       return ((bitField0_ & 0x00010000) == 0x00010000);
     }
     /**
-     * <pre>
-     * Cummulative TomTom activity points counter             
-     * </pre>
-     *
-     * <code>required int32 activityPoints2 = 19;</code>
+     * <code>required int32 unknown16 = 19;</code>
      */
-    public int getActivityPoints2() {
-      return activityPoints2_;
+    public int getUnknown16() {
+      return unknown16_;
     }
 
     private byte memoizedIsInitialized = -1;
@@ -14391,11 +14359,11 @@ public final class TrackerProto {
         memoizedIsInitialized = 0;
         return false;
       }
-      if (!hasActivityPoints1()) {
+      if (!hasUnknown15()) {
         memoizedIsInitialized = 0;
         return false;
       }
-      if (!hasActivityPoints2()) {
+      if (!hasUnknown16()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -14451,10 +14419,10 @@ public final class TrackerProto {
         output.writeInt32(17, unknown14_);
       }
       if (((bitField0_ & 0x00008000) == 0x00008000)) {
-        output.writeInt32(18, activityPoints1_);
+        output.writeInt32(18, unknown15_);
       }
       if (((bitField0_ & 0x00010000) == 0x00010000)) {
-        output.writeInt32(19, activityPoints2_);
+        output.writeInt32(19, unknown16_);
       }
       unknownFields.writeTo(output);
     }
@@ -14525,11 +14493,11 @@ public final class TrackerProto {
       }
       if (((bitField0_ & 0x00008000) == 0x00008000)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(18, activityPoints1_);
+          .computeInt32Size(18, unknown15_);
       }
       if (((bitField0_ & 0x00010000) == 0x00010000)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(19, activityPoints2_);
+          .computeInt32Size(19, unknown16_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -14623,15 +14591,15 @@ public final class TrackerProto {
         result = result && (getUnknown14()
             == other.getUnknown14());
       }
-      result = result && (hasActivityPoints1() == other.hasActivityPoints1());
-      if (hasActivityPoints1()) {
-        result = result && (getActivityPoints1()
-            == other.getActivityPoints1());
+      result = result && (hasUnknown15() == other.hasUnknown15());
+      if (hasUnknown15()) {
+        result = result && (getUnknown15()
+            == other.getUnknown15());
       }
-      result = result && (hasActivityPoints2() == other.hasActivityPoints2());
-      if (hasActivityPoints2()) {
-        result = result && (getActivityPoints2()
-            == other.getActivityPoints2());
+      result = result && (hasUnknown16() == other.hasUnknown16());
+      if (hasUnknown16()) {
+        result = result && (getUnknown16()
+            == other.getUnknown16());
       }
       result = result && unknownFields.equals(other.unknownFields);
       return result;
@@ -14704,13 +14672,13 @@ public final class TrackerProto {
         hash = (37 * hash) + UNKNOWN14_FIELD_NUMBER;
         hash = (53 * hash) + getUnknown14();
       }
-      if (hasActivityPoints1()) {
-        hash = (37 * hash) + ACTIVITYPOINTS1_FIELD_NUMBER;
-        hash = (53 * hash) + getActivityPoints1();
+      if (hasUnknown15()) {
+        hash = (37 * hash) + UNKNOWN15_FIELD_NUMBER;
+        hash = (53 * hash) + getUnknown15();
       }
-      if (hasActivityPoints2()) {
-        hash = (37 * hash) + ACTIVITYPOINTS2_FIELD_NUMBER;
-        hash = (53 * hash) + getActivityPoints2();
+      if (hasUnknown16()) {
+        hash = (37 * hash) + UNKNOWN16_FIELD_NUMBER;
+        hash = (53 * hash) + getUnknown16();
       }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
@@ -14871,9 +14839,9 @@ public final class TrackerProto {
         bitField0_ = (bitField0_ & ~0x00002000);
         unknown14_ = 0;
         bitField0_ = (bitField0_ & ~0x00004000);
-        activityPoints1_ = 0;
+        unknown15_ = 0;
         bitField0_ = (bitField0_ & ~0x00008000);
-        activityPoints2_ = 0;
+        unknown16_ = 0;
         bitField0_ = (bitField0_ & ~0x00010000);
         return this;
       }
@@ -14962,11 +14930,11 @@ public final class TrackerProto {
         if (((from_bitField0_ & 0x00008000) == 0x00008000)) {
           to_bitField0_ |= 0x00008000;
         }
-        result.activityPoints1_ = activityPoints1_;
+        result.unknown15_ = unknown15_;
         if (((from_bitField0_ & 0x00010000) == 0x00010000)) {
           to_bitField0_ |= 0x00010000;
         }
-        result.activityPoints2_ = activityPoints2_;
+        result.unknown16_ = unknown16_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -15056,11 +15024,11 @@ public final class TrackerProto {
         if (other.hasUnknown14()) {
           setUnknown14(other.getUnknown14());
         }
-        if (other.hasActivityPoints1()) {
-          setActivityPoints1(other.getActivityPoints1());
+        if (other.hasUnknown15()) {
+          setUnknown15(other.getUnknown15());
         }
-        if (other.hasActivityPoints2()) {
-          setActivityPoints2(other.getActivityPoints2());
+        if (other.hasUnknown16()) {
+          setUnknown16(other.getUnknown16());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -15113,10 +15081,10 @@ public final class TrackerProto {
         if (!hasUnknown14()) {
           return false;
         }
-        if (!hasActivityPoints1()) {
+        if (!hasUnknown15()) {
           return false;
         }
-        if (!hasActivityPoints2()) {
+        if (!hasUnknown16()) {
           return false;
         }
         return true;
@@ -15697,98 +15665,66 @@ public final class TrackerProto {
         return this;
       }
 
-      private int activityPoints1_ ;
+      private int unknown15_ ;
       /**
-       * <pre>
-       * Cummulative TomTom activity points counter                
-       * </pre>
-       *
-       * <code>required int32 activityPoints1 = 18;</code>
+       * <code>required int32 unknown15 = 18;</code>
        */
-      public boolean hasActivityPoints1() {
+      public boolean hasUnknown15() {
         return ((bitField0_ & 0x00008000) == 0x00008000);
       }
       /**
-       * <pre>
-       * Cummulative TomTom activity points counter                
-       * </pre>
-       *
-       * <code>required int32 activityPoints1 = 18;</code>
+       * <code>required int32 unknown15 = 18;</code>
        */
-      public int getActivityPoints1() {
-        return activityPoints1_;
+      public int getUnknown15() {
+        return unknown15_;
       }
       /**
-       * <pre>
-       * Cummulative TomTom activity points counter                
-       * </pre>
-       *
-       * <code>required int32 activityPoints1 = 18;</code>
+       * <code>required int32 unknown15 = 18;</code>
        */
-      public Builder setActivityPoints1(int value) {
+      public Builder setUnknown15(int value) {
         bitField0_ |= 0x00008000;
-        activityPoints1_ = value;
+        unknown15_ = value;
         onChanged();
         return this;
       }
       /**
-       * <pre>
-       * Cummulative TomTom activity points counter                
-       * </pre>
-       *
-       * <code>required int32 activityPoints1 = 18;</code>
+       * <code>required int32 unknown15 = 18;</code>
        */
-      public Builder clearActivityPoints1() {
+      public Builder clearUnknown15() {
         bitField0_ = (bitField0_ & ~0x00008000);
-        activityPoints1_ = 0;
+        unknown15_ = 0;
         onChanged();
         return this;
       }
 
-      private int activityPoints2_ ;
+      private int unknown16_ ;
       /**
-       * <pre>
-       * Cummulative TomTom activity points counter             
-       * </pre>
-       *
-       * <code>required int32 activityPoints2 = 19;</code>
+       * <code>required int32 unknown16 = 19;</code>
        */
-      public boolean hasActivityPoints2() {
+      public boolean hasUnknown16() {
         return ((bitField0_ & 0x00010000) == 0x00010000);
       }
       /**
-       * <pre>
-       * Cummulative TomTom activity points counter             
-       * </pre>
-       *
-       * <code>required int32 activityPoints2 = 19;</code>
+       * <code>required int32 unknown16 = 19;</code>
        */
-      public int getActivityPoints2() {
-        return activityPoints2_;
+      public int getUnknown16() {
+        return unknown16_;
       }
       /**
-       * <pre>
-       * Cummulative TomTom activity points counter             
-       * </pre>
-       *
-       * <code>required int32 activityPoints2 = 19;</code>
+       * <code>required int32 unknown16 = 19;</code>
        */
-      public Builder setActivityPoints2(int value) {
+      public Builder setUnknown16(int value) {
         bitField0_ |= 0x00010000;
-        activityPoints2_ = value;
+        unknown16_ = value;
         onChanged();
         return this;
       }
       /**
-       * <pre>
-       * Cummulative TomTom activity points counter             
-       * </pre>
-       *
-       * <code>required int32 activityPoints2 = 19;</code>
+       * <code>required int32 unknown16 = 19;</code>
        */
-      public Builder clearActivityPoints2() {
+      public Builder clearUnknown16() {
         bitField0_ = (bitField0_ & ~0x00010000);
-        activityPoints2_ = 0;
+        unknown16_ = 0;
         onChanged();
         return this;
       }
@@ -15841,8 +15777,8 @@ public final class TrackerProto {
 
   }
 
-  public interface FitnessOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:tutorial.Fitness)
+  public interface FitnessRecordOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:tutorial.FitnessRecord)
       com.google.protobuf.MessageOrBuilder {
 
     /**
@@ -15950,35 +15886,51 @@ public final class TrackerProto {
     int getUnknown5();
 
     /**
-     * <code>required int32 unknown6 = 15;</code>
+     * <pre>
+     * Cummulative TomTom activity points counter
+     * </pre>
+     *
+     * <code>required int32 fitnessPoints1 = 15;</code>
      */
-    boolean hasUnknown6();
+    boolean hasFitnessPoints1();
     /**
-     * <code>required int32 unknown6 = 15;</code>
+     * <pre>
+     * Cummulative TomTom activity points counter
+     * </pre>
+     *
+     * <code>required int32 fitnessPoints1 = 15;</code>
      */
-    int getUnknown6();
+    int getFitnessPoints1();
 
     /**
-     * <code>required int32 unknown7 = 16;</code>
+     * <pre>
+     * Cummulative TomTom activity points counter
+     * </pre>
+     *
+     * <code>required int32 fitnessPoints2 = 16;</code>
      */
-    boolean hasUnknown7();
+    boolean hasFitnessPoints2();
     /**
-     * <code>required int32 unknown7 = 16;</code>
+     * <pre>
+     * Cummulative TomTom activity points counter
+     * </pre>
+     *
+     * <code>required int32 fitnessPoints2 = 16;</code>
      */
-    int getUnknown7();
+    int getFitnessPoints2();
   }
   /**
-   * Protobuf type {@code tutorial.Fitness}
+   * Protobuf type {@code tutorial.FitnessRecord}
    */
-  public  static final class Fitness extends
+  public  static final class FitnessRecord extends
       com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:tutorial.Fitness)
-      FitnessOrBuilder {
-    // Use Fitness.newBuilder() to construct.
-    private Fitness(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      // @@protoc_insertion_point(message_implements:tutorial.FitnessRecord)
+      FitnessRecordOrBuilder {
+    // Use FitnessRecord.newBuilder() to construct.
+    private FitnessRecord(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-    private Fitness() {
+    private FitnessRecord() {
       time_ = 0;
       interval_ = 0;
       unknown1_ = 0;
@@ -15986,8 +15938,8 @@ public final class TrackerProto {
       unknown3_ = 0;
       unknown4_ = 0;
       unknown5_ = 0;
-      unknown6_ = 0;
-      unknown7_ = 0;
+      fitnessPoints1_ = 0;
+      fitnessPoints2_ = 0;
     }
 
     @java.lang.Override
@@ -15995,7 +15947,7 @@ public final class TrackerProto {
     getUnknownFields() {
       return this.unknownFields;
     }
-    private Fitness(
+    private FitnessRecord(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -16068,12 +16020,12 @@ public final class TrackerProto {
             }
             case 120: {
               bitField0_ |= 0x00000100;
-              unknown6_ = input.readInt32();
+              fitnessPoints1_ = input.readInt32();
               break;
             }
             case 128: {
               bitField0_ |= 0x00000200;
-              unknown7_ = input.readInt32();
+              fitnessPoints2_ = input.readInt32();
               break;
             }
           }
@@ -16090,14 +16042,14 @@ public final class TrackerProto {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return net.studioblueplanet.tomtomwatch.TrackerProto.internal_static_tutorial_Fitness_descriptor;
+      return net.studioblueplanet.tomtomwatch.TrackerProto.internal_static_tutorial_FitnessRecord_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return net.studioblueplanet.tomtomwatch.TrackerProto.internal_static_tutorial_Fitness_fieldAccessorTable
+      return net.studioblueplanet.tomtomwatch.TrackerProto.internal_static_tutorial_FitnessRecord_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              net.studioblueplanet.tomtomwatch.TrackerProto.Fitness.class, net.studioblueplanet.tomtomwatch.TrackerProto.Fitness.Builder.class);
+              net.studioblueplanet.tomtomwatch.TrackerProto.FitnessRecord.class, net.studioblueplanet.tomtomwatch.TrackerProto.FitnessRecord.Builder.class);
     }
 
     private int bitField0_;
@@ -16255,34 +16207,50 @@ public final class TrackerProto {
       return unknown5_;
     }
 
-    public static final int UNKNOWN6_FIELD_NUMBER = 15;
-    private int unknown6_;
+    public static final int FITNESSPOINTS1_FIELD_NUMBER = 15;
+    private int fitnessPoints1_;
     /**
-     * <code>required int32 unknown6 = 15;</code>
+     * <pre>
+     * Cummulative TomTom activity points counter
+     * </pre>
+     *
+     * <code>required int32 fitnessPoints1 = 15;</code>
      */
-    public boolean hasUnknown6() {
+    public boolean hasFitnessPoints1() {
       return ((bitField0_ & 0x00000100) == 0x00000100);
     }
     /**
-     * <code>required int32 unknown6 = 15;</code>
+     * <pre>
+     * Cummulative TomTom activity points counter
+     * </pre>
+     *
+     * <code>required int32 fitnessPoints1 = 15;</code>
      */
-    public int getUnknown6() {
-      return unknown6_;
+    public int getFitnessPoints1() {
+      return fitnessPoints1_;
     }
 
-    public static final int UNKNOWN7_FIELD_NUMBER = 16;
-    private int unknown7_;
+    public static final int FITNESSPOINTS2_FIELD_NUMBER = 16;
+    private int fitnessPoints2_;
     /**
-     * <code>required int32 unknown7 = 16;</code>
+     * <pre>
+     * Cummulative TomTom activity points counter
+     * </pre>
+     *
+     * <code>required int32 fitnessPoints2 = 16;</code>
      */
-    public boolean hasUnknown7() {
+    public boolean hasFitnessPoints2() {
       return ((bitField0_ & 0x00000200) == 0x00000200);
     }
     /**
-     * <code>required int32 unknown7 = 16;</code>
+     * <pre>
+     * Cummulative TomTom activity points counter
+     * </pre>
+     *
+     * <code>required int32 fitnessPoints2 = 16;</code>
      */
-    public int getUnknown7() {
-      return unknown7_;
+    public int getFitnessPoints2() {
+      return fitnessPoints2_;
     }
 
     private byte memoizedIsInitialized = -1;
@@ -16299,11 +16267,11 @@ public final class TrackerProto {
         memoizedIsInitialized = 0;
         return false;
       }
-      if (!hasUnknown6()) {
+      if (!hasFitnessPoints1()) {
         memoizedIsInitialized = 0;
         return false;
       }
-      if (!hasUnknown7()) {
+      if (!hasFitnessPoints2()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -16344,10 +16312,10 @@ public final class TrackerProto {
         output.writeInt32(12, unknown5_);
       }
       if (((bitField0_ & 0x00000100) == 0x00000100)) {
-        output.writeInt32(15, unknown6_);
+        output.writeInt32(15, fitnessPoints1_);
       }
       if (((bitField0_ & 0x00000200) == 0x00000200)) {
-        output.writeInt32(16, unknown7_);
+        output.writeInt32(16, fitnessPoints2_);
       }
       unknownFields.writeTo(output);
     }
@@ -16391,11 +16359,11 @@ public final class TrackerProto {
       }
       if (((bitField0_ & 0x00000100) == 0x00000100)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(15, unknown6_);
+          .computeInt32Size(15, fitnessPoints1_);
       }
       if (((bitField0_ & 0x00000200) == 0x00000200)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(16, unknown7_);
+          .computeInt32Size(16, fitnessPoints2_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -16408,10 +16376,10 @@ public final class TrackerProto {
       if (obj == this) {
        return true;
       }
-      if (!(obj instanceof net.studioblueplanet.tomtomwatch.TrackerProto.Fitness)) {
+      if (!(obj instanceof net.studioblueplanet.tomtomwatch.TrackerProto.FitnessRecord)) {
         return super.equals(obj);
       }
-      net.studioblueplanet.tomtomwatch.TrackerProto.Fitness other = (net.studioblueplanet.tomtomwatch.TrackerProto.Fitness) obj;
+      net.studioblueplanet.tomtomwatch.TrackerProto.FitnessRecord other = (net.studioblueplanet.tomtomwatch.TrackerProto.FitnessRecord) obj;
 
       boolean result = true;
       result = result && (hasTime() == other.hasTime());
@@ -16454,15 +16422,15 @@ public final class TrackerProto {
         result = result && (getUnknown5()
             == other.getUnknown5());
       }
-      result = result && (hasUnknown6() == other.hasUnknown6());
-      if (hasUnknown6()) {
-        result = result && (getUnknown6()
-            == other.getUnknown6());
+      result = result && (hasFitnessPoints1() == other.hasFitnessPoints1());
+      if (hasFitnessPoints1()) {
+        result = result && (getFitnessPoints1()
+            == other.getFitnessPoints1());
       }
-      result = result && (hasUnknown7() == other.hasUnknown7());
-      if (hasUnknown7()) {
-        result = result && (getUnknown7()
-            == other.getUnknown7());
+      result = result && (hasFitnessPoints2() == other.hasFitnessPoints2());
+      if (hasFitnessPoints2()) {
+        result = result && (getFitnessPoints2()
+            == other.getFitnessPoints2());
       }
       result = result && unknownFields.equals(other.unknownFields);
       return result;
@@ -16507,82 +16475,82 @@ public final class TrackerProto {
         hash = (37 * hash) + UNKNOWN5_FIELD_NUMBER;
         hash = (53 * hash) + getUnknown5();
       }
-      if (hasUnknown6()) {
-        hash = (37 * hash) + UNKNOWN6_FIELD_NUMBER;
-        hash = (53 * hash) + getUnknown6();
+      if (hasFitnessPoints1()) {
+        hash = (37 * hash) + FITNESSPOINTS1_FIELD_NUMBER;
+        hash = (53 * hash) + getFitnessPoints1();
       }
-      if (hasUnknown7()) {
-        hash = (37 * hash) + UNKNOWN7_FIELD_NUMBER;
-        hash = (53 * hash) + getUnknown7();
+      if (hasFitnessPoints2()) {
+        hash = (37 * hash) + FITNESSPOINTS2_FIELD_NUMBER;
+        hash = (53 * hash) + getFitnessPoints2();
       }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
     }
 
-    public static net.studioblueplanet.tomtomwatch.TrackerProto.Fitness parseFrom(
+    public static net.studioblueplanet.tomtomwatch.TrackerProto.FitnessRecord parseFrom(
         java.nio.ByteBuffer data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static net.studioblueplanet.tomtomwatch.TrackerProto.Fitness parseFrom(
+    public static net.studioblueplanet.tomtomwatch.TrackerProto.FitnessRecord parseFrom(
         java.nio.ByteBuffer data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static net.studioblueplanet.tomtomwatch.TrackerProto.Fitness parseFrom(
+    public static net.studioblueplanet.tomtomwatch.TrackerProto.FitnessRecord parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static net.studioblueplanet.tomtomwatch.TrackerProto.Fitness parseFrom(
+    public static net.studioblueplanet.tomtomwatch.TrackerProto.FitnessRecord parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static net.studioblueplanet.tomtomwatch.TrackerProto.Fitness parseFrom(byte[] data)
+    public static net.studioblueplanet.tomtomwatch.TrackerProto.FitnessRecord parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static net.studioblueplanet.tomtomwatch.TrackerProto.Fitness parseFrom(
+    public static net.studioblueplanet.tomtomwatch.TrackerProto.FitnessRecord parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static net.studioblueplanet.tomtomwatch.TrackerProto.Fitness parseFrom(java.io.InputStream input)
+    public static net.studioblueplanet.tomtomwatch.TrackerProto.FitnessRecord parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static net.studioblueplanet.tomtomwatch.TrackerProto.Fitness parseFrom(
+    public static net.studioblueplanet.tomtomwatch.TrackerProto.FitnessRecord parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
-    public static net.studioblueplanet.tomtomwatch.TrackerProto.Fitness parseDelimitedFrom(java.io.InputStream input)
+    public static net.studioblueplanet.tomtomwatch.TrackerProto.FitnessRecord parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
-    public static net.studioblueplanet.tomtomwatch.TrackerProto.Fitness parseDelimitedFrom(
+    public static net.studioblueplanet.tomtomwatch.TrackerProto.FitnessRecord parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-    public static net.studioblueplanet.tomtomwatch.TrackerProto.Fitness parseFrom(
+    public static net.studioblueplanet.tomtomwatch.TrackerProto.FitnessRecord parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static net.studioblueplanet.tomtomwatch.TrackerProto.Fitness parseFrom(
+    public static net.studioblueplanet.tomtomwatch.TrackerProto.FitnessRecord parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -16594,7 +16562,7 @@ public final class TrackerProto {
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-    public static Builder newBuilder(net.studioblueplanet.tomtomwatch.TrackerProto.Fitness prototype) {
+    public static Builder newBuilder(net.studioblueplanet.tomtomwatch.TrackerProto.FitnessRecord prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
     public Builder toBuilder() {
@@ -16609,25 +16577,25 @@ public final class TrackerProto {
       return builder;
     }
     /**
-     * Protobuf type {@code tutorial.Fitness}
+     * Protobuf type {@code tutorial.FitnessRecord}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:tutorial.Fitness)
-        net.studioblueplanet.tomtomwatch.TrackerProto.FitnessOrBuilder {
+        // @@protoc_insertion_point(builder_implements:tutorial.FitnessRecord)
+        net.studioblueplanet.tomtomwatch.TrackerProto.FitnessRecordOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return net.studioblueplanet.tomtomwatch.TrackerProto.internal_static_tutorial_Fitness_descriptor;
+        return net.studioblueplanet.tomtomwatch.TrackerProto.internal_static_tutorial_FitnessRecord_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return net.studioblueplanet.tomtomwatch.TrackerProto.internal_static_tutorial_Fitness_fieldAccessorTable
+        return net.studioblueplanet.tomtomwatch.TrackerProto.internal_static_tutorial_FitnessRecord_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                net.studioblueplanet.tomtomwatch.TrackerProto.Fitness.class, net.studioblueplanet.tomtomwatch.TrackerProto.Fitness.Builder.class);
+                net.studioblueplanet.tomtomwatch.TrackerProto.FitnessRecord.class, net.studioblueplanet.tomtomwatch.TrackerProto.FitnessRecord.Builder.class);
       }
 
-      // Construct using net.studioblueplanet.tomtomwatch.TrackerProto.Fitness.newBuilder()
+      // Construct using net.studioblueplanet.tomtomwatch.TrackerProto.FitnessRecord.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -16665,32 +16633,32 @@ public final class TrackerProto {
         bitField0_ = (bitField0_ & ~0x00000040);
         unknown5_ = 0;
         bitField0_ = (bitField0_ & ~0x00000080);
-        unknown6_ = 0;
+        fitnessPoints1_ = 0;
         bitField0_ = (bitField0_ & ~0x00000100);
-        unknown7_ = 0;
+        fitnessPoints2_ = 0;
         bitField0_ = (bitField0_ & ~0x00000200);
         return this;
       }
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return net.studioblueplanet.tomtomwatch.TrackerProto.internal_static_tutorial_Fitness_descriptor;
+        return net.studioblueplanet.tomtomwatch.TrackerProto.internal_static_tutorial_FitnessRecord_descriptor;
       }
 
-      public net.studioblueplanet.tomtomwatch.TrackerProto.Fitness getDefaultInstanceForType() {
-        return net.studioblueplanet.tomtomwatch.TrackerProto.Fitness.getDefaultInstance();
+      public net.studioblueplanet.tomtomwatch.TrackerProto.FitnessRecord getDefaultInstanceForType() {
+        return net.studioblueplanet.tomtomwatch.TrackerProto.FitnessRecord.getDefaultInstance();
       }
 
-      public net.studioblueplanet.tomtomwatch.TrackerProto.Fitness build() {
-        net.studioblueplanet.tomtomwatch.TrackerProto.Fitness result = buildPartial();
+      public net.studioblueplanet.tomtomwatch.TrackerProto.FitnessRecord build() {
+        net.studioblueplanet.tomtomwatch.TrackerProto.FitnessRecord result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public net.studioblueplanet.tomtomwatch.TrackerProto.Fitness buildPartial() {
-        net.studioblueplanet.tomtomwatch.TrackerProto.Fitness result = new net.studioblueplanet.tomtomwatch.TrackerProto.Fitness(this);
+      public net.studioblueplanet.tomtomwatch.TrackerProto.FitnessRecord buildPartial() {
+        net.studioblueplanet.tomtomwatch.TrackerProto.FitnessRecord result = new net.studioblueplanet.tomtomwatch.TrackerProto.FitnessRecord(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
@@ -16732,11 +16700,11 @@ public final class TrackerProto {
         if (((from_bitField0_ & 0x00000100) == 0x00000100)) {
           to_bitField0_ |= 0x00000100;
         }
-        result.unknown6_ = unknown6_;
+        result.fitnessPoints1_ = fitnessPoints1_;
         if (((from_bitField0_ & 0x00000200) == 0x00000200)) {
           to_bitField0_ |= 0x00000200;
         }
-        result.unknown7_ = unknown7_;
+        result.fitnessPoints2_ = fitnessPoints2_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -16769,16 +16737,16 @@ public final class TrackerProto {
         return (Builder) super.addRepeatedField(field, value);
       }
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof net.studioblueplanet.tomtomwatch.TrackerProto.Fitness) {
-          return mergeFrom((net.studioblueplanet.tomtomwatch.TrackerProto.Fitness)other);
+        if (other instanceof net.studioblueplanet.tomtomwatch.TrackerProto.FitnessRecord) {
+          return mergeFrom((net.studioblueplanet.tomtomwatch.TrackerProto.FitnessRecord)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(net.studioblueplanet.tomtomwatch.TrackerProto.Fitness other) {
-        if (other == net.studioblueplanet.tomtomwatch.TrackerProto.Fitness.getDefaultInstance()) return this;
+      public Builder mergeFrom(net.studioblueplanet.tomtomwatch.TrackerProto.FitnessRecord other) {
+        if (other == net.studioblueplanet.tomtomwatch.TrackerProto.FitnessRecord.getDefaultInstance()) return this;
         if (other.hasTime()) {
           setTime(other.getTime());
         }
@@ -16803,11 +16771,11 @@ public final class TrackerProto {
         if (other.hasUnknown5()) {
           setUnknown5(other.getUnknown5());
         }
-        if (other.hasUnknown6()) {
-          setUnknown6(other.getUnknown6());
+        if (other.hasFitnessPoints1()) {
+          setFitnessPoints1(other.getFitnessPoints1());
         }
-        if (other.hasUnknown7()) {
-          setUnknown7(other.getUnknown7());
+        if (other.hasFitnessPoints2()) {
+          setFitnessPoints2(other.getFitnessPoints2());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -16821,10 +16789,10 @@ public final class TrackerProto {
         if (!hasInterval()) {
           return false;
         }
-        if (!hasUnknown6()) {
+        if (!hasFitnessPoints1()) {
           return false;
         }
-        if (!hasUnknown7()) {
+        if (!hasFitnessPoints2()) {
           return false;
         }
         if (hasUserData()) {
@@ -16839,11 +16807,11 @@ public final class TrackerProto {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        net.studioblueplanet.tomtomwatch.TrackerProto.Fitness parsedMessage = null;
+        net.studioblueplanet.tomtomwatch.TrackerProto.FitnessRecord parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (net.studioblueplanet.tomtomwatch.TrackerProto.Fitness) e.getUnfinishedMessage();
+          parsedMessage = (net.studioblueplanet.tomtomwatch.TrackerProto.FitnessRecord) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
@@ -17264,66 +17232,98 @@ public final class TrackerProto {
         return this;
       }
 
-      private int unknown6_ ;
+      private int fitnessPoints1_ ;
       /**
-       * <code>required int32 unknown6 = 15;</code>
+       * <pre>
+       * Cummulative TomTom activity points counter
+       * </pre>
+       *
+       * <code>required int32 fitnessPoints1 = 15;</code>
        */
-      public boolean hasUnknown6() {
+      public boolean hasFitnessPoints1() {
         return ((bitField0_ & 0x00000100) == 0x00000100);
       }
       /**
-       * <code>required int32 unknown6 = 15;</code>
+       * <pre>
+       * Cummulative TomTom activity points counter
+       * </pre>
+       *
+       * <code>required int32 fitnessPoints1 = 15;</code>
        */
-      public int getUnknown6() {
-        return unknown6_;
+      public int getFitnessPoints1() {
+        return fitnessPoints1_;
       }
       /**
-       * <code>required int32 unknown6 = 15;</code>
+       * <pre>
+       * Cummulative TomTom activity points counter
+       * </pre>
+       *
+       * <code>required int32 fitnessPoints1 = 15;</code>
        */
-      public Builder setUnknown6(int value) {
+      public Builder setFitnessPoints1(int value) {
         bitField0_ |= 0x00000100;
-        unknown6_ = value;
+        fitnessPoints1_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required int32 unknown6 = 15;</code>
+       * <pre>
+       * Cummulative TomTom activity points counter
+       * </pre>
+       *
+       * <code>required int32 fitnessPoints1 = 15;</code>
        */
-      public Builder clearUnknown6() {
+      public Builder clearFitnessPoints1() {
         bitField0_ = (bitField0_ & ~0x00000100);
-        unknown6_ = 0;
+        fitnessPoints1_ = 0;
         onChanged();
         return this;
       }
 
-      private int unknown7_ ;
+      private int fitnessPoints2_ ;
       /**
-       * <code>required int32 unknown7 = 16;</code>
+       * <pre>
+       * Cummulative TomTom activity points counter
+       * </pre>
+       *
+       * <code>required int32 fitnessPoints2 = 16;</code>
        */
-      public boolean hasUnknown7() {
+      public boolean hasFitnessPoints2() {
         return ((bitField0_ & 0x00000200) == 0x00000200);
       }
       /**
-       * <code>required int32 unknown7 = 16;</code>
+       * <pre>
+       * Cummulative TomTom activity points counter
+       * </pre>
+       *
+       * <code>required int32 fitnessPoints2 = 16;</code>
        */
-      public int getUnknown7() {
-        return unknown7_;
+      public int getFitnessPoints2() {
+        return fitnessPoints2_;
       }
       /**
-       * <code>required int32 unknown7 = 16;</code>
+       * <pre>
+       * Cummulative TomTom activity points counter
+       * </pre>
+       *
+       * <code>required int32 fitnessPoints2 = 16;</code>
        */
-      public Builder setUnknown7(int value) {
+      public Builder setFitnessPoints2(int value) {
         bitField0_ |= 0x00000200;
-        unknown7_ = value;
+        fitnessPoints2_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required int32 unknown7 = 16;</code>
+       * <pre>
+       * Cummulative TomTom activity points counter
+       * </pre>
+       *
+       * <code>required int32 fitnessPoints2 = 16;</code>
        */
-      public Builder clearUnknown7() {
+      public Builder clearFitnessPoints2() {
         bitField0_ = (bitField0_ & ~0x00000200);
-        unknown7_ = 0;
+        fitnessPoints2_ = 0;
         onChanged();
         return this;
       }
@@ -17338,39 +17338,39 @@ public final class TrackerProto {
       }
 
 
-      // @@protoc_insertion_point(builder_scope:tutorial.Fitness)
+      // @@protoc_insertion_point(builder_scope:tutorial.FitnessRecord)
     }
 
-    // @@protoc_insertion_point(class_scope:tutorial.Fitness)
-    private static final net.studioblueplanet.tomtomwatch.TrackerProto.Fitness DEFAULT_INSTANCE;
+    // @@protoc_insertion_point(class_scope:tutorial.FitnessRecord)
+    private static final net.studioblueplanet.tomtomwatch.TrackerProto.FitnessRecord DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new net.studioblueplanet.tomtomwatch.TrackerProto.Fitness();
+      DEFAULT_INSTANCE = new net.studioblueplanet.tomtomwatch.TrackerProto.FitnessRecord();
     }
 
-    public static net.studioblueplanet.tomtomwatch.TrackerProto.Fitness getDefaultInstance() {
+    public static net.studioblueplanet.tomtomwatch.TrackerProto.FitnessRecord getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    @java.lang.Deprecated public static final com.google.protobuf.Parser<Fitness>
-        PARSER = new com.google.protobuf.AbstractParser<Fitness>() {
-      public Fitness parsePartialFrom(
+    @java.lang.Deprecated public static final com.google.protobuf.Parser<FitnessRecord>
+        PARSER = new com.google.protobuf.AbstractParser<FitnessRecord>() {
+      public FitnessRecord parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new Fitness(input, extensionRegistry);
+          return new FitnessRecord(input, extensionRegistry);
       }
     };
 
-    public static com.google.protobuf.Parser<Fitness> parser() {
+    public static com.google.protobuf.Parser<FitnessRecord> parser() {
       return PARSER;
     }
 
     @java.lang.Override
-    public com.google.protobuf.Parser<Fitness> getParserForType() {
+    public com.google.protobuf.Parser<FitnessRecord> getParserForType() {
       return PARSER;
     }
 
-    public net.studioblueplanet.tomtomwatch.TrackerProto.Fitness getDefaultInstanceForType() {
+    public net.studioblueplanet.tomtomwatch.TrackerProto.FitnessRecord getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
@@ -20115,10 +20115,10 @@ public final class TrackerProto {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_tutorial_UserData_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_tutorial_Fitness_descriptor;
+    internal_static_tutorial_FitnessRecord_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_tutorial_Fitness_fieldAccessorTable;
+      internal_static_tutorial_FitnessRecord_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_tutorial_Record6Sub_descriptor;
   private static final 
@@ -20149,59 +20149,59 @@ public final class TrackerProto {
       "ontainer\".\n\010Metadata\022\020\n\010unknown1\030\001 \002(\007\022\020" +
       "\n\010unknown2\030\002 \002(\007\"E\n\rDataContainer\0224\n\020sub" +
       "DataContainer\030\001 \002(\0132\032.tutorial.SubDataCo" +
-      "ntainer\"\244\002\n\020SubDataContainer\022(\n\ndeviceIn" +
+      "ntainer\"\260\002\n\020SubDataContainer\022(\n\ndeviceIn" +
       "fo\030\001 \001(\0132\024.tutorial.DeviceInfo\022*\n\013trackR" +
       "ecord\030\002 \001(\0132\025.tutorial.TrackRecord\022\"\n\007re" +
       "cord2\030\003 \001(\0132\021.tutorial.Record2\022\"\n\007record",
       "6\030\005 \001(\0132\021.tutorial.Record6\022*\n\013heartRecor" +
       "d\030\006 \001(\0132\025.tutorial.HeartRecord\022\"\n\007record" +
-      "4\030\007 \001(\0132\021.tutorial.Record4\022\"\n\007fitness\030\t " +
-      "\001(\0132\021.tutorial.Fitness\"b\n\nDeviceInfo\022\022\n\n" +
-      "deviceName\030\001 \002(\t\022\014\n\004year\030\002 \002(\007\0222\n\017softwa" +
-      "reVersion\030\003 \002(\0132\031.tutorial.SoftwareVersi" +
-      "on\"\244\001\n\017SoftwareVersion\022\024\n\014majorVersion\030\001" +
-      " \002(\005\022\025\n\rmediumVersion\030\002 \002(\005\022\024\n\014minorVers" +
-      "ion\030\003 \002(\005\022&\n\tunknown01\030\004 \002(\0132\023.tutorial." +
-      "Unknown01\022&\n\tunknown02\030\005 \001(\0132\023.tutorial.",
-      "Unknown02\"\032\n\tUnknown01\022\r\n\005dummy\030\001 \001(\005\"\032\n" +
-      "\tUnknown02\022\r\n\005dummy\030\001 \001(\005\"\332\001\n\013TrackRecor" +
-      "d\022\020\n\010recordId\030\001 \002(\005\022\014\n\004time\030\002 \002(\005\022\020\n\010tim" +
-      "eZone\030\003 \002(\005\022\020\n\010interval\030\004 \002(\005\022\r\n\005steps\030\005" +
-      " \002(\005\022\016\n\006active\030\006 \002(\005\022\020\n\010distance\030\007 \002(\005\022\014" +
-      "\n\004kcal\030\010 \002(\005\022\020\n\010kcalRest\030\t \002(\005\022\020\n\010unknow" +
-      "n1\030\013 \002(\005\022\021\n\tsleepTime\030\014 \001(\005\022\021\n\tsleepMode" +
-      "\030\r \001(\005\"\240\001\n\007Record2\022\014\n\004time\030\001 \002(\007\022\020\n\010inte" +
-      "rval\030\002 \002(\005\022-\n\010tagValue\030\003 \003(\0132\033.tutorial." +
-      "TagValueContainer\022\020\n\010unknown1\030\004 \002(\005\022\020\n\010u",
-      "nknown2\030\005 \002(\005\022\020\n\010unknown3\030\006 \001(\005\022\020\n\010unkno" +
-      "wn4\030h \001(\007\"R\n\021TagValueContainer\022\013\n\003tag\030\001 " +
-      "\002(\005\0220\n\016valueContainer\030\002 \002(\0132\030.tutorial.V" +
-      "alueContainer\"\037\n\016ValueContainer\022\r\n\005value" +
-      "\030\003 \002(\005\"b\n\013HeartRecord\022\014\n\004time\030\001 \002(\007\022\020\n\010i" +
-      "nterval\030\002 \002(\005\022\021\n\theartRate\030\003 \002(\005\022\017\n\007valu" +
-      "e01\030\004 \002(\005\022\017\n\007value02\030\005 \002(\005\"8\n\007Record4\022\014\n" +
-      "\004time\030\001 \002(\007\022\020\n\010interval\030\002 \002(\005\022\r\n\005value\030\003" +
-      " \003(\005\"\310\002\n\010UserData\022\017\n\007version\030\001 \002(\t\022\020\n\010un" +
-      "known1\030\002 \002(\005\022\020\n\010unknown2\030\003 \002(\005\022\020\n\010unknow",
-      "n3\030\004 \002(\005\022\016\n\006length\030\005 \002(\005\022\016\n\006weight\030\006 \002(\005" +
-      "\022\020\n\010unknown4\030\007 \002(\005\022\020\n\010unknown5\030\010 \002(\005\022\020\n\010" +
-      "unknown6\030\t \002(\005\022\020\n\010unknown7\030\n \002(\005\022\020\n\010unkn" +
-      "own8\030\013 \002(\005\022\020\n\010unknown9\030\014 \002(\005\022\021\n\tunknown1" +
-      "0\030\r \002(\005\022\021\n\tunknown13\030\020 \002(\005\022\021\n\tunknown14\030" +
-      "\021 \002(\005\022\027\n\017activityPoints1\030\022 \002(\005\022\027\n\017activi" +
-      "tyPoints2\030\023 \002(\005\"\315\001\n\007Fitness\022\014\n\004time\030\002 \002(" +
-      "\005\022\020\n\010interval\030\003 \002(\005\022$\n\010userData\030\005 \001(\0132\022." +
-      "tutorial.UserData\022\020\n\010unknown1\030\007 \001(\005\022\020\n\010u" +
-      "nknown2\030\010 \001(\005\022\020\n\010unknown3\030\n \001(\005\022\020\n\010unkno",
-      "wn4\030\013 \001(\005\022\020\n\010unknown5\030\014 \001(\005\022\020\n\010unknown6\030" +
-      "\017 \002(\005\022\020\n\010unknown7\030\020 \002(\005\"B\n\nRecord6Sub\022\020\n" +
-      "\010unknown1\030\001 \002(\005\022\020\n\010unknown2\030\002 \002(\005\022\020\n\010unk" +
-      "nown3\030\003 \002(\005\"^\n\007Record6\022\014\n\004time\030\001 \002(\005\022\020\n\010" +
-      "interval\030\002 \002(\005\022\020\n\010unknown1\030\003 \002(\005\022!\n\003sub\030" +
-      "\004 \003(\0132\024.tutorial.Record6Sub\"6\n\004Root\022.\n\rr" +
-      "ootContainer\030\001 \003(\0132\027.tutorial.RootContai" +
-      "nerB0\n net.studioblueplanet.tomtomwatchB" +
-      "\014TrackerProto"
+      "4\030\007 \001(\0132\021.tutorial.Record4\022.\n\rfitnessRec" +
+      "ord\030\t \001(\0132\027.tutorial.FitnessRecord\"b\n\nDe" +
+      "viceInfo\022\022\n\ndeviceName\030\001 \002(\t\022\014\n\004year\030\002 \002" +
+      "(\007\0222\n\017softwareVersion\030\003 \002(\0132\031.tutorial.S" +
+      "oftwareVersion\"\244\001\n\017SoftwareVersion\022\024\n\014ma" +
+      "jorVersion\030\001 \002(\005\022\025\n\rmediumVersion\030\002 \002(\005\022" +
+      "\024\n\014minorVersion\030\003 \002(\005\022&\n\tunknown01\030\004 \002(\013" +
+      "2\023.tutorial.Unknown01\022&\n\tunknown02\030\005 \001(\013",
+      "2\023.tutorial.Unknown02\"\032\n\tUnknown01\022\r\n\005du" +
+      "mmy\030\001 \001(\005\"\032\n\tUnknown02\022\r\n\005dummy\030\001 \001(\005\"\332\001" +
+      "\n\013TrackRecord\022\020\n\010recordId\030\001 \002(\005\022\014\n\004time\030" +
+      "\002 \002(\005\022\020\n\010timeZone\030\003 \002(\005\022\020\n\010interval\030\004 \002(" +
+      "\005\022\r\n\005steps\030\005 \002(\005\022\016\n\006active\030\006 \002(\005\022\020\n\010dist" +
+      "ance\030\007 \002(\005\022\014\n\004kcal\030\010 \002(\005\022\020\n\010kcalRest\030\t \002" +
+      "(\005\022\020\n\010unknown1\030\013 \002(\005\022\021\n\tsleepTime\030\014 \001(\005\022" +
+      "\021\n\tsleepMode\030\r \001(\005\"\240\001\n\007Record2\022\014\n\004time\030\001" +
+      " \002(\007\022\020\n\010interval\030\002 \002(\005\022-\n\010tagValue\030\003 \003(\013" +
+      "2\033.tutorial.TagValueContainer\022\020\n\010unknown",
+      "1\030\004 \002(\005\022\020\n\010unknown2\030\005 \002(\005\022\020\n\010unknown3\030\006 " +
+      "\001(\005\022\020\n\010unknown4\030h \001(\007\"R\n\021TagValueContain" +
+      "er\022\013\n\003tag\030\001 \002(\005\0220\n\016valueContainer\030\002 \002(\0132" +
+      "\030.tutorial.ValueContainer\"\037\n\016ValueContai" +
+      "ner\022\r\n\005value\030\003 \002(\005\"b\n\013HeartRecord\022\014\n\004tim" +
+      "e\030\001 \002(\007\022\020\n\010interval\030\002 \002(\005\022\021\n\theartRate\030\003" +
+      " \002(\005\022\017\n\007value01\030\004 \002(\005\022\017\n\007value02\030\005 \002(\005\"8" +
+      "\n\007Record4\022\014\n\004time\030\001 \002(\007\022\020\n\010interval\030\002 \002(" +
+      "\005\022\r\n\005value\030\003 \003(\005\"\274\002\n\010UserData\022\017\n\007version" +
+      "\030\001 \002(\t\022\020\n\010unknown1\030\002 \002(\005\022\020\n\010unknown2\030\003 \002",
+      "(\005\022\020\n\010unknown3\030\004 \002(\005\022\016\n\006length\030\005 \002(\005\022\016\n\006" +
+      "weight\030\006 \002(\005\022\020\n\010unknown4\030\007 \002(\005\022\020\n\010unknow" +
+      "n5\030\010 \002(\005\022\020\n\010unknown6\030\t \002(\005\022\020\n\010unknown7\030\n" +
+      " \002(\005\022\020\n\010unknown8\030\013 \002(\005\022\020\n\010unknown9\030\014 \002(\005" +
+      "\022\021\n\tunknown10\030\r \002(\005\022\021\n\tunknown13\030\020 \002(\005\022\021" +
+      "\n\tunknown14\030\021 \002(\005\022\021\n\tunknown15\030\022 \002(\005\022\021\n\t" +
+      "unknown16\030\023 \002(\005\"\337\001\n\rFitnessRecord\022\014\n\004tim" +
+      "e\030\002 \002(\005\022\020\n\010interval\030\003 \002(\005\022$\n\010userData\030\005 " +
+      "\001(\0132\022.tutorial.UserData\022\020\n\010unknown1\030\007 \001(" +
+      "\005\022\020\n\010unknown2\030\010 \001(\005\022\020\n\010unknown3\030\n \001(\005\022\020\n",
+      "\010unknown4\030\013 \001(\005\022\020\n\010unknown5\030\014 \001(\005\022\026\n\016fit" +
+      "nessPoints1\030\017 \002(\005\022\026\n\016fitnessPoints2\030\020 \002(" +
+      "\005\"B\n\nRecord6Sub\022\020\n\010unknown1\030\001 \002(\005\022\020\n\010unk" +
+      "nown2\030\002 \002(\005\022\020\n\010unknown3\030\003 \002(\005\"^\n\007Record6" +
+      "\022\014\n\004time\030\001 \002(\005\022\020\n\010interval\030\002 \002(\005\022\020\n\010unkn" +
+      "own1\030\003 \002(\005\022!\n\003sub\030\004 \003(\0132\024.tutorial.Recor" +
+      "d6Sub\"6\n\004Root\022.\n\rrootContainer\030\001 \003(\0132\027.t" +
+      "utorial.RootContainerB0\n net.studiobluep" +
+      "lanet.tomtomwatchB\014TrackerProto"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -20238,7 +20238,7 @@ public final class TrackerProto {
     internal_static_tutorial_SubDataContainer_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_tutorial_SubDataContainer_descriptor,
-        new java.lang.String[] { "DeviceInfo", "TrackRecord", "Record2", "Record6", "HeartRecord", "Record4", "Fitness", });
+        new java.lang.String[] { "DeviceInfo", "TrackRecord", "Record2", "Record6", "HeartRecord", "Record4", "FitnessRecord", });
     internal_static_tutorial_DeviceInfo_descriptor =
       getDescriptor().getMessageTypes().get(4);
     internal_static_tutorial_DeviceInfo_fieldAccessorTable = new
@@ -20304,13 +20304,13 @@ public final class TrackerProto {
     internal_static_tutorial_UserData_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_tutorial_UserData_descriptor,
-        new java.lang.String[] { "Version", "Unknown1", "Unknown2", "Unknown3", "Length", "Weight", "Unknown4", "Unknown5", "Unknown6", "Unknown7", "Unknown8", "Unknown9", "Unknown10", "Unknown13", "Unknown14", "ActivityPoints1", "ActivityPoints2", });
-    internal_static_tutorial_Fitness_descriptor =
+        new java.lang.String[] { "Version", "Unknown1", "Unknown2", "Unknown3", "Length", "Weight", "Unknown4", "Unknown5", "Unknown6", "Unknown7", "Unknown8", "Unknown9", "Unknown10", "Unknown13", "Unknown14", "Unknown15", "Unknown16", });
+    internal_static_tutorial_FitnessRecord_descriptor =
       getDescriptor().getMessageTypes().get(15);
-    internal_static_tutorial_Fitness_fieldAccessorTable = new
+    internal_static_tutorial_FitnessRecord_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_tutorial_Fitness_descriptor,
-        new java.lang.String[] { "Time", "Interval", "UserData", "Unknown1", "Unknown2", "Unknown3", "Unknown4", "Unknown5", "Unknown6", "Unknown7", });
+        internal_static_tutorial_FitnessRecord_descriptor,
+        new java.lang.String[] { "Time", "Interval", "UserData", "Unknown1", "Unknown2", "Unknown3", "Unknown4", "Unknown5", "FitnessPoints1", "FitnessPoints2", });
     internal_static_tutorial_Record6Sub_descriptor =
       getDescriptor().getMessageTypes().get(16);
     internal_static_tutorial_Record6Sub_fieldAccessorTable = new
