@@ -52,11 +52,13 @@ message DataContainer
 
 message SubDataContainer
 {
-  optional DeviceInfo           deviceInfo        =1;
-  optional TrackRecord          trackRecord       =2;   // activity tracking
+  optional DeviceInfo           deviceInfo        =1;   // Device info
+  optional TrackRecord          trackRecord       =2;   // activity tracking (calories, steps, hr, sleep, etc)
   optional Record2              record2           =3;   // ?
+  optional Record6              record6           =5;   // ?
   optional HeartRecord          heartRecord       =6;   // Heart rate
   optional Record4              record4           =7;   // ?
+  optional FitnessRecord        fitnessRecord     =9;   // TomTom FitnessPoints counters
 }
 
 //#################################################################################################
@@ -96,7 +98,8 @@ message Unknown02
 // 4th level: Tracker Record
 //#################################################################################################
 message TrackRecord
-{  required int32               recordId          =1;
+{  
+  required int32                recordId          =1;
   required int32                time              =2;    // Epoch time in seconds, 900 s interval = 15 min
   required int32                timeZone          =3;    // Difference between time and UTC in seconds (?)
   required int32                interval          =4;    // Interval of this measurement = 900s often     
@@ -161,8 +164,69 @@ message HeartRecord
 message Record4
 {
   required fixed32              time              =1;    // Epoch time in seconds, 900 s interval = 15 min
-  required int32                interval          =2;    // Interval in seconds?? 14400=4h
+  required int32                interval          =2;    // Interval in seconds?? 14400=4h or 14280=3h58'???
   repeated int32                value             =3;    // 6 values in the message
+}
+
+//#################################################################################################
+// 4th level: Data Record 5
+//#################################################################################################
+
+// Occurs every 120 seconds when logging activity
+
+message UserData
+{
+  required string               version           =1;
+  required int32                unknown1          =2;                
+  required int32                unknown2          =3;                
+  required int32                unknown3          =4;                
+  required int32                length            =5;  // Users heigth in cm 
+  required int32                weight            =6;  // User weight              
+  required int32                unknown4          =7;                
+  required int32                unknown5          =8;                
+  required int32                unknown6          =9;                
+  required int32                unknown7          =10;                
+  required int32                unknown8          =11;                
+  required int32                unknown9          =12;                
+  required int32                unknown10         =13;                
+  required int32                unknown13         =16;                
+  required int32                unknown14         =17;                
+  required int32                unknown15         =18;           
+  required int32                unknown16         =19;
+}
+
+message FitnessRecord
+{
+  required int32                time              =2;    // Epoch time in seconds, 120 s interval = 2 min during activity
+  required int32                interval          =3;    // Interval in seconds?? 14280=238 min = 3h58'??
+  optional UserData             userData          =5;    // User data
+  optional int32                unknown1          =7;                
+  optional int32                unknown2          =8;                
+  optional int32                unknown3          =10;                
+  optional int32                unknown4          =11;                
+  optional int32                unknown5          =12;                
+  required int32                fitnessPoints1    =15;  // Cummulative TomTom activity points counter
+  required int32                fitnessPoints2    =16;  // Cummulative TomTom activity points counter
+
+}
+
+//#################################################################################################
+// 4th level: Data Record 6
+//#################################################################################################
+
+message Record6Sub
+{
+  required int32                unknown1          =1;                
+  required int32                unknown2          =2;                
+  required int32                unknown3          =3;                
+}
+
+message Record6
+{
+  required int32                time              =1;    // Epoch time in seconds, 900 s interval = 15 min
+  required int32                interval          =2;    // Interval in seconds?? 14280=238 min = 3h58'??
+  required int32                unknown1          =3;                
+  repeated Record6Sub           sub               =4;    // Some data
 }
 
 //#################################################################################################
