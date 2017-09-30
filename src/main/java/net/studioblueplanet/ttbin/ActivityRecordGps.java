@@ -39,8 +39,8 @@ public class ActivityRecordGps extends ActivityRecord
     private         int         temperature;        // Temperature in degC
     private         int         evpe;               // Estimated vertical percision error, in cm
     private         int         ehpe;               // Estamated horizontal precision error, in cm
-    private         DateTime    actPointsDateTime;  // DateTime stamp of cumm. activity points
-    private         int         activityPoints;     // Cumulative Activity points
+    private         DateTime    fitnPointsDateTime; // DateTime stamp of cumm. activity points
+    private         int         fitnessPoints;      // Cumulative Activity points
     
     
     public          int         unknownInt1;
@@ -420,12 +420,12 @@ public class ActivityRecordGps extends ActivityRecord
 
 
     /**
-     * Sets the Activity points. Note: it is the cummulative activity points
+     * Sets the Fitness points. Note: it is the cummulative fitness points
      * for the day. Not defined for each record.
      * @param time Time stamp of heart rate (epoch), UTC
-     * @param points The activity points
+     * @param points The fitness points
      */
-    public void setActivityPoints(int time, int points)
+    public void setFitnessPoints(int time, int points)
     {
         long recordTime;
 
@@ -440,8 +440,8 @@ public class ActivityRecordGps extends ActivityRecord
             // the gps timestamp by one second. We allow for that.
             if (recordTime-((long)time*1000)<=1000)
             {
-                this.activityPoints             =points;
-                this.actPointsDateTime     =DateTime.forInstant((time)*1000, utcTimeZone);
+                this.fitnessPoints             =points;
+                this.fitnPointsDateTime     =DateTime.forInstant((time)*1000, utcTimeZone);
             }
             else
             {
@@ -452,19 +452,19 @@ public class ActivityRecordGps extends ActivityRecord
         {
             // If no GPS timestamp/coordinates recorded, just record the 
             // heartrate value
-            this.activityPoints         =points;
-            this.actPointsDateTime =DateTime.forInstant((time)*1000, utcTimeZone);
+            this.fitnessPoints         =points;
+            this.fitnPointsDateTime =DateTime.forInstant((time)*1000, utcTimeZone);
         }
             
     }
     
     /**
-     * Returns the heart rate value
-     * @return Heart rate in bpm
+     * Returns the fitness point counter value
+     * @return The points (daily counter value)
      */
-    public int getActivityPoints()
+    public int getFitnessPoints()
     {
-        return this.activityPoints;
+        return this.fitnessPoints;
     }
 
     

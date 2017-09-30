@@ -21,7 +21,7 @@ public class TtbinFileDefinition
     public static final    byte                        TAG_2B                  =0x2b;
     public static final    byte                        TAG_42                  =0x42; 
     public static final    byte                        TAG_49                  =0x49; 
-    public static final    byte                        TAG_ACTIVITYPOINTS      =0x4a; 
+    public static final    byte                        TAG_FITNESSPOINTS       =0x4a; 
     public static final    byte                        TAG_4B                  =0x4b; // Variable lenght!!
     public static final    byte                        TAG_HEART_RATE          =0x25;
     public static final    byte                        TAG_SUMMARY             =0x27;

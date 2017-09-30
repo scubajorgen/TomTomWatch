@@ -137,8 +137,8 @@ public class Activity
     protected               TimeZone                    localTimeZone;
     protected               int                         timeZoneSeconds; // Difference with respect to UTC
     
-    protected               int                         activityPointsStart;
-    protected               int                         activityPointsEnd;
+    protected               int                         fitnessPointsStart;
+    protected               int                         fitnessPointsEnd;
     
     private final           ArrayList<ActivitySegment>  segments;
     private final           ArrayList<ActivityRecord>   waypoints;
@@ -167,9 +167,9 @@ public class Activity
      */
     public Activity(TtbinHeader header)
     {
-        // Set activity points to undefined
-        this.activityPointsStart    =-1;
-        this.activityPointsEnd      =-1;
+        // Set fitness points to undefined
+        this.fitnessPointsStart    =-1;
+        this.fitnessPointsEnd      =-1;
         
         this.header                 =header;
         this.timeOfPause            =0;
@@ -356,16 +356,16 @@ public class Activity
     }
 
     /**
-     * Get the activity points earned with this activity
-     * @return The activity points or 0 if not defined
+     * Get the fitness points earned with this activity
+     * @return The fitness points or 0 if not defined
      */
-    public int getActivityPoints()
+    public int getFitnessPoints()
     {
         int points;
         
-        if ((activityPointsEnd>=0) && (activityPointsStart>=0))
+        if ((fitnessPointsEnd>=0) && (fitnessPointsStart>=0))
         {
-            points=activityPointsEnd-activityPointsStart;
+            points=fitnessPointsEnd-fitnessPointsStart;
         }
         else
         {
@@ -659,20 +659,20 @@ public class Activity
         
         if (newRecord!=null)
         {
-            ((ActivityRecordGps)newRecord).setActivityPoints(timeStamp-this.timeZoneSeconds, points1);
+            ((ActivityRecordGps)newRecord).setFitnessPoints(timeStamp-this.timeZoneSeconds, points1);
             
             // Get the first value
-            if (activityPointsStart<0)
+            if (fitnessPointsStart<0)
             {
-                activityPointsStart=points1;
+                fitnessPointsStart=points1;
             }
             
             // Remember the latest value
-            activityPointsEnd=points1;
+            fitnessPointsEnd=points1;
         }
         else
         {
-            DebugLogger.info("Skipping activity points record");
+            DebugLogger.info("Skipping fitness points record");
         }  
         
 //        DebugLogger.info(DateTime.forInstant((long)timeStamp*1000L, TimeZone.getDefault()).format("YYYY-MM-DD hh:mm:ss")+" "+points1+" "+points2);
@@ -716,7 +716,7 @@ public class Activity
             case TtbinFileDefinition.TAG_49:      // 4 bytes after tag
 //                dumpRecordData(recordData);
                 break;
-            case TtbinFileDefinition.TAG_ACTIVITYPOINTS:      // 4 bytes after tag
+            case TtbinFileDefinition.TAG_FITNESSPOINTS:      // 4 bytes after tag
                 parseRecordActivityPoints(recordData);
                 break;
             case TtbinFileDefinition.TAG_4B:      // 4 bytes after tag
