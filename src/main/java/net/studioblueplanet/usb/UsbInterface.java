@@ -1096,8 +1096,11 @@ public class UsbInterface extends WatchInterface
         }
 
         // WORKAROUND. Due to a bug in the usb4j lib requesting serial number fails.
-        serial="unknown";
-
+        // Under windows
+        if (serial==null)
+        {
+            serial="unknown";
+        }
         return serial;
     }
 

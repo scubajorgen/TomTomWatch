@@ -67,6 +67,7 @@ public class CommunicationProcess implements Runnable, ProgressListener
     private int                                 fileIdToDelete;
     private int                                 fileIdToShow;
     private String                              deviceName;
+    private String                              deviceSerial;
     private boolean                             isConnected;
     private boolean                             threadExit;
     
@@ -405,8 +406,13 @@ public class CommunicationProcess implements Runnable, ProgressListener
         
 //            error=watchInterface.sendStartupSequence();
             
-            // Get device serial. Does not seem to work :-(
-            watchInterface.getDeviceSerialNumber();
+            // Get device serial. Does not seem to work under windows :-(
+            deviceSerial=watchInterface.getDeviceSerialNumber();
+            if (deviceSerial!=null)
+            {
+                DebugLogger.info("Watch serial: "+deviceSerial);
+                theView.setSerial(deviceSerial);
+            }
             
             
             while (connected && !exit && !error)
