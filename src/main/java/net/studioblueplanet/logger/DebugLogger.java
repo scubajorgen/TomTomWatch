@@ -113,7 +113,7 @@ public class DebugLogger
         if (debugLevel<=DEBUGLEVEL_ERROR)
         {
             time=DateTime.now(TimeZone.getDefault());
-            System.err.println("e "+time.format("YYYY-MM-DD hh:mm:ss  ERROR: ")+info);
+            System.out.println("e "+time.format("YYYY-MM-DD hh:mm:ss  ERROR: ")+info);
         }
     }
     
