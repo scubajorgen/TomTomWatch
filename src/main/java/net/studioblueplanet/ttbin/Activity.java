@@ -222,14 +222,14 @@ public class Activity
         
         if (seconds<0)
         {
-            timeZoneString="GMT-"+(seconds)/3600;
+            timeZoneString="GMT-"+(seconds+1800)/3600;
         }
         else
         {
-            timeZoneString="GMT+"+(seconds)/3600;
+            timeZoneString="GMT+"+(seconds+1800)/3600;
         }
         
-        DebugLogger.info("Time Zone: "+timeZoneString);
+        DebugLogger.info("Time Zone: "+timeZoneString+ " Difference in seconds "+seconds);
         
         localTimeZone=TimeZone.getTimeZone(timeZoneString);        
 
@@ -412,7 +412,7 @@ public class Activity
         instantSpeed=ToolBox.readUnsignedInt(recordData, 19, 4, true); // float
         cumDistance =ToolBox.readUnsignedInt(recordData, 23, 4, true); // float
         cycles      =ToolBox.readUnsignedInt(recordData, 27, 1, true);
-        
+       
         latF=(double)lat/1.0E7;
         lonF=(double)lon/1.0E7;
 
@@ -439,9 +439,11 @@ public class Activity
         heartRate=ToolBox.readUnsignedInt(recordData,  1, 1, true);
         reserved =ToolBox.readUnsignedInt(recordData,  2, 1, true);
         timeStamp=ToolBox.readUnsignedInt(recordData,  3, 4, true);
-//DebugLogger.info("Time "+timeStamp);        
+
         if (newRecord!=null)
         {
+            // Funny enough the heart rate record uses the local time as displayed on the watch
+            // So subtract the timeZoneSeconds to obtain the UTC time
             ((ActivityRecordGps)newRecord).setHeartRate(timeStamp-this.timeZoneSeconds, heartRate);
         }
         else
@@ -656,19 +658,23 @@ public class Activity
         points1     =ToolBox.readUnsignedInt(recordData,  5, 2, true);
         points2     =ToolBox.readUnsignedInt(recordData,  7, 2, true);
 
-        
+
+        // Get the first value
+        if (fitnessPointsStart<0)
+        {
+            fitnessPointsStart=points1;
+        }
+
+        // Remember the latest value
+        fitnessPointsEnd=points1;
+
+
+        // If the activity has been Ready and Active, log the points
+        // to the record
         if (newRecord!=null)
         {
-            ((ActivityRecordGps)newRecord).setFitnessPoints(timeStamp-this.timeZoneSeconds, points1);
-            
-            // Get the first value
-            if (fitnessPointsStart<0)
-            {
-                fitnessPointsStart=points1;
-            }
-            
-            // Remember the latest value
-            fitnessPointsEnd=points1;
+            // Timestamp is UTC, use points1 (points1 and points2 seem to be identical)
+            ((ActivityRecordGps)newRecord).setFitnessPoints(timeStamp, points1);
         }
         else
         {

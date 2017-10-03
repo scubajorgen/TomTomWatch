@@ -394,7 +394,7 @@ public class ActivityRecordGps extends ActivityRecord
             }
             else
             {
-                DebugLogger.error("Time difference. Expected "+recordTime/1000+" Got: "+time);
+                DebugLogger.error("HR Time difference. Expected "+recordTime/1000+" Got: "+time);
             }
         }
         else
@@ -445,7 +445,7 @@ public class ActivityRecordGps extends ActivityRecord
             }
             else
             {
-                DebugLogger.error("Time difference. Expected "+recordTime/1000+" Got: "+time);
+                DebugLogger.error("FP Time difference. Expected "+recordTime/1000+" Got: "+time);
             }
         }
         else
