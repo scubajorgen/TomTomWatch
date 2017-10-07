@@ -76,7 +76,7 @@ public class CommunicationProcess implements Runnable, ProgressListener
     private final String                        ttbinFilePath;
     private final String                        debugFilePath;
     private int                                 productId;
-    private int                                 currentFirmwareVersion;
+    private long                                currentFirmwareVersion;
     private boolean                             simulationMode;
     private String                              simulationFilePath;
     // End of guarded data
@@ -1982,9 +1982,9 @@ public class CommunicationProcess implements Runnable, ProgressListener
             {
                 synchronized(this)
                 {
-                    this.currentFirmwareVersion=(Integer.parseInt(parts[0])<<16) |
-                                                (Integer.parseInt(parts[1])<< 8) |
-                                                (Integer.parseInt(parts[2])    );
+                    this.currentFirmwareVersion=(Long.parseLong(parts[0])<<32) |
+                                                (Long.parseLong(parts[1])<<16) |
+                                                (Long.parseLong(parts[2])    );
                 }
             }
             theView.setFirmwareVersion(version);
@@ -2038,7 +2038,7 @@ public class CommunicationProcess implements Runnable, ProgressListener
         boolean     error;
         Firmware    firmware;
         int         id;
-        int         firmwareVersion;
+        long        firmwareVersion;
         
         error=false;
 

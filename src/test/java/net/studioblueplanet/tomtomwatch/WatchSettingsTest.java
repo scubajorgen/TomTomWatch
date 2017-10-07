@@ -80,10 +80,14 @@ public class WatchSettingsTest
         bytes=new byte[] {0, 0, 2, 0, 2, 0, 1, 0, 0, 0, (byte)169, 0, (byte)0x17, (byte)0x1c, (byte)0x00, (byte)0x00};
 
         
-        instance    =new WatchSettings(bytes, 0x01061A);
+        instance    =new WatchSettings(bytes, 0x00010006001AL);
         result      =instance.getSettingDescriptions();
         expResult   = "   2 options/demo                                       on\n";
         expResult   +=" 169 options/utc_offset                                 7191\n";
+        
+        
+        System.out.println("Exp: "+expResult+"Got: "+result);
+        
         assertEquals(expResult, result);
     }
     

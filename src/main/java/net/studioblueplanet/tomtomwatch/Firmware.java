@@ -38,7 +38,7 @@ public class Firmware
 {
     private static Firmware             theInstance=null;
     
-    private int                         latestVersionAvailable;
+    private long                        latestVersionAvailable;
     private String[]                    updatedFileNames;
     private final ArrayList<UsbFile>    backupFiles;
     private final ArrayList<UsbFile>    updatedFiles;
@@ -132,9 +132,9 @@ public class Firmware
 
                     if ((major>=0) && (minor>=0) && (build>=0))
                     {
-                        latestVersionAvailable  =((major<<16)|
-                                                  (minor<<8)|
-                                                  (build));
+                        latestVersionAvailable  =(((long)major<<32)|
+                                                  ((long)minor<<16)|
+                                                  ((long)build));
                     }
                     else
                     {
@@ -363,7 +363,7 @@ public class Firmware
      * @param view Application view to use for UI feedback
      * @return False if an error occurred, true if succesfull
      */
-    public boolean updateFirmware(WatchInterface watchInterface, int productId, int currentFirmware, TomTomWatchView view)
+    public boolean updateFirmware(WatchInterface watchInterface, int productId, long currentFirmware, TomTomWatchView view)
     {
         
         boolean     error;
@@ -404,11 +404,11 @@ public class Firmware
 
         error                   =getLatestFirmwareVersion(firmwareDefinition);
         
-        feedback = "Current firmware: "+((currentFirmware>>16)&0xff)+"."+
-                                        ((currentFirmware>> 8)&0xff)+"."+
+        feedback = "Current firmware: "+((currentFirmware>>32)&0xff)+"."+
+                                        ((currentFirmware>>16)&0xff)+"."+
                                         ((currentFirmware    )&0xff)+
-                   " Latest firmware: "+((latestVersionAvailable>>16)&0xff)+"."+
-                                        ((latestVersionAvailable>> 8)&0xff)+"."+
+                   " Latest firmware: "+((latestVersionAvailable>>32)&0xff)+"."+
+                                        ((latestVersionAvailable>>16)&0xff)+"."+
                                         ((latestVersionAvailable    )&0xff);
         theView.setStatus(feedback+"\n");
         

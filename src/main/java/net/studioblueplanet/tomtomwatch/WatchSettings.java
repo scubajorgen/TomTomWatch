@@ -265,20 +265,19 @@ public class WatchSettings
      * Loads the settings definitions, based on the firmware version
      * @param firmwareVersion Firmware version
      */
-    private void loadSettingsDefinition(int firmwareVersion)
+    private void loadSettingsDefinition(long firmwareVersion)
     {
         String fileName;
         
         fileName=null;
-        switch (firmwareVersion)
+        
+        if (firmwareVersion==0x0001000300FFL)
         {
-            case 0x0103FF:
-            case 0x01061A:
-                fileName="settings_00010003001b.csv";
-                break;
-            default:
-                
-                break;
+            fileName="settings_00010003001b.csv";
+        }
+        else if (firmwareVersion==0x00010006001AL)
+        {
+            fileName="settings_00010003001b.csv";
         }
         if (fileName!=null)
         {
@@ -327,7 +326,7 @@ public class WatchSettings
             settings.add(setting);
             i++;
         }
-        loadSettingsDefinition((int)firmwareVersion);
+        loadSettingsDefinition(firmwareVersion);
         
         
     }
