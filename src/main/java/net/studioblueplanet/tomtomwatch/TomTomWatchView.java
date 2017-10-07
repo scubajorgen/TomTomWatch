@@ -197,6 +197,7 @@ public class TomTomWatchView extends javax.swing.JFrame
         jMenuItemSaveSimSet = new javax.swing.JMenuItem();
         jMenuItemShowUpdateLog = new javax.swing.JMenuItem();
         jMenuItemShowLog = new javax.swing.JMenuItem();
+        jMenuItemShowSettings = new javax.swing.JMenuItem();
         jMenuAbout = new javax.swing.JMenu();
         jMenuItemAbout = new javax.swing.JMenuItem();
 
@@ -715,6 +716,16 @@ public class TomTomWatchView extends javax.swing.JFrame
             }
         });
         jMenuDebugging.add(jMenuItemShowLog);
+
+        jMenuItemShowSettings.setText("Show Settings");
+        jMenuItemShowSettings.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                jMenuItemShowSettingsActionPerformed(evt);
+            }
+        });
+        jMenuDebugging.add(jMenuItemShowSettings);
 
         jMenuBar.add(jMenuDebugging);
 
@@ -1586,6 +1597,11 @@ public class TomTomWatchView extends javax.swing.JFrame
         }
     }//GEN-LAST:event_jMenuItemRebootActionPerformed
 
+    private void jMenuItemShowSettingsActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jMenuItemShowSettingsActionPerformed
+    {//GEN-HEADEREND:event_jMenuItemShowSettingsActionPerformed
+        this.checkAndPushCommand(ThreadCommand.THREADCOMMAND_SHOWWATCHSETTINGS);
+    }//GEN-LAST:event_jMenuItemShowSettingsActionPerformed
+
     /*############################################################################################*\
      * HELPER FUNCTIONS     
     \*############################################################################################*/    
@@ -2036,6 +2052,7 @@ public class TomTomWatchView extends javax.swing.JFrame
     private javax.swing.JMenuItem jMenuItemSaveSimSet;
     private javax.swing.JMenuItem jMenuItemSetName;
     private javax.swing.JMenuItem jMenuItemShowLog;
+    private javax.swing.JMenuItem jMenuItemShowSettings;
     private javax.swing.JMenuItem jMenuItemShowTrackedActivity;
     private javax.swing.JMenuItem jMenuItemShowUpdateLog;
     private javax.swing.JMenuItem jMenuItemUpdateFirmware;

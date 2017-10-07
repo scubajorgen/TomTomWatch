@@ -521,6 +521,9 @@ public class CommunicationProcess implements Runnable, ProgressListener
                         error=this.eraseFiles(watchInterface, WatchInterface.FileType.TTWATCH_FILE_TRACKEDACTIVITY);
                         theView.appendStatus("Done\n");
                         break;
+                    case THREADCOMMAND_SHOWWATCHSETTINGS:
+                        error=showWatchSettings(watchInterface);
+                        break;
                 }
 
                 // Sleep for a while
@@ -2320,6 +2323,32 @@ public class CommunicationProcess implements Runnable, ProgressListener
 
         watchInterface.resetDevice();
         theView.setStatus("Rebooted...");
+
+        return error;    
+    }    
+
+    /**
+     * This method reboots the watch
+     * @param watchInterface The watch interface
+     * @return True if an error occurred, false if successful
+     */
+    private boolean showWatchSettings(WatchInterface watchInterface)
+    {
+        boolean         error;
+        UsbFile         settingsFile;
+        WatchSettings   settings;
+        
+        theView.setStatus("Reading watch settings...");
+        error = false;
+
+        settingsFile=new UsbFile();
+        settingsFile.fileId=WatchInterface.FILEID_MANIFEST1;
+        
+        error=watchInterface.readFile(settingsFile);
+        
+        settings=new WatchSettings(settingsFile.fileData, this.currentFirmwareVersion);
+        
+        theView.setStatus(settings.getSettingDescriptions());
 
         return error;    
     }    
