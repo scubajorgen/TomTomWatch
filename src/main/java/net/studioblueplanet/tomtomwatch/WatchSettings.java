@@ -138,10 +138,13 @@ public class WatchSettings
     }
     
     /** List of settings */
-    private ArrayList<WatchSetting>     settings;
+    private ArrayList<WatchSetting>             settings;
     
     /** List of setting definitions */
-    private ArrayList<ManifestEntry>    settingDefinitions;
+    private ArrayList<ManifestEntry>            settingDefinitions;
+    
+    /** The original settings data from the 0x0085000n file */
+    private byte[]                              settingsData;
     
     /**
      * Loads the setting definition file (csv) and stores the result 
@@ -286,13 +289,11 @@ public class WatchSettings
     }
     
     
-    
     /**
-     * Constructor
-     * @param settingsData Byte array representing the manifest file data
-     * @param firmwareVersion Software version 0x00hhmmll, hh-major, mm-mid, ll-minor version
+     * Convert the byte data (from 0x0085000n file) to the settings array
+     * @param settingsData Data to convert
      */
-    public WatchSettings(byte[] settingsData, long firmwareVersion)
+    private void convertDataToSettings(byte[] settingsData)
     {
         int             length;
         int             fileType;
@@ -325,10 +326,46 @@ public class WatchSettings
             
             settings.add(setting);
             i++;
-        }
+        }        
+    }
+
+    public byte[] convertSettingsToData()
+    {
+        byte[]  data;
+        int     i;
+        
+        data=null;
+        
+        if (settings.size()>0)
+        {
+            data=new byte[4+6*settings.size()];
+            ToolBox.writeUnsignedInt(data,          0x0085, 0, 2, true); // File id/version
+            ToolBox.writeUnsignedInt(data, settings.size(), 2, 2, true); // Length
+            
+            i=0;
+            while (i<settings.size())
+            {
+                ToolBox.writeUnsignedInt (data, settings.get(i).getIndex(), 4+i*6, 2, true);
+                ToolBox.writeUnsignedLong(data, settings.get(i).getValue(), 6+i*6, 4, true);
+                i++;
+            }
+        }        
+        return data;
+    }
+    
+    
+    /**
+     * Constructor. Reads the settings from data and the settings definition from file.
+     * @param settingsData Byte array representing the manifest file data
+     * @param firmwareVersion Software version 0x00hhmmll, hh-major, mm-mid, ll-minor version
+     */
+    public WatchSettings(byte[] settingsData, long firmwareVersion)
+    {
+        this.settingsData   =settingsData;
+        convertDataToSettings(settingsData);
         loadSettingsDefinition(firmwareVersion);
-        
-        
+    
+        convertSettingsToData();
     }
     
     /**
@@ -422,6 +459,95 @@ public class WatchSettings
     }
     
     
+    private WatchSetting findSetting(String settingName)
+    {
+        Iterator<ManifestEntry> itEntry;
+        ManifestEntry           entry;
+        Iterator<WatchSetting>  itSetting;
+        WatchSetting            setting;
+        WatchSetting            returnSetting;
+        boolean                 found;
+        
+        itEntry         =settingDefinitions.iterator();
+        found           =false;
+        entry           =null;
+        returnSetting   =null;
+        while (itEntry.hasNext() && !found)
+        {
+            entry=itEntry.next();
+            if (entry.settingName.equals(settingName))
+            {
+                found=true;
+            }
+        }
+        if (found)
+        {
+            if (entry!=null && entry.type==SettingType.ENTRYTYPE_INT)
+            {
+                found=false;
+                itSetting=settings.iterator();
+                while (itSetting.hasNext() && !found)
+                {
+                    setting=itSetting.next();
+                    if (setting.getIndex()==entry.index)
+                    {
+                        returnSetting=setting;
+                        found=true;
+                    }
+                }
+                if (!found)
+                {
+                    DebugLogger.error("Value with setting index "+entry.index+" not found in setting array");
+                }
+            }
+            else
+            {
+                DebugLogger.error("Setting "+settingName+" is not an integer type");
+            }
+        }
+        else
+        {
+            DebugLogger.error("Setting "+settingName+" not found");
+        }     
+        return returnSetting;
+    }
     
+    /**
+     * Get setting value by name, assuming an integer type of setting
+     * @param settingName Name of the setting
+     * @return The setting value as long or -1 if not found.
+     */
+    public long getSettingsValueInt(String settingName)
+    {
+        WatchSetting            setting;
+        long                    value;
+        
+        setting=this.findSetting(settingName);
+        if (setting!=null)
+        {
+            value=setting.getValue();
+        }
+        else
+        {
+            value=-1L;
+        }
+        return value;
+    }
+    
+    /**
+     * This method modifies the value with given settings name
+     * @param settingName
+     * @param value 
+     */
+    public void setSettingsValueInt(String settingName, long value)
+    {
+        WatchSetting            setting;
+        
+        setting=this.findSetting(settingName);
+        if (setting!=null)
+        {
+            setting.setValue(value);
+        }
+    }
     
 }
