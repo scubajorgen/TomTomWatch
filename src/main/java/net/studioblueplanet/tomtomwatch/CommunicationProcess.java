@@ -675,7 +675,7 @@ public class CommunicationProcess implements Runnable, ProgressListener
             {
                 activities.add(data);
             }        
-            theView.addListItem(data, "file : ");
+            theView.addListItem(data, "file  ");
             theView.selectLastListIndex();
         }
         catch (FileNotFoundException e)
@@ -868,7 +868,7 @@ public class CommunicationProcess implements Runnable, ProgressListener
                         }
 
                         // Add the activity info to the listbox
-                        theView.addListItem(data, "watch: ");
+                        theView.addListItem(data, "watch ");
                     }
                 }
                 theView.selectLastListIndex();

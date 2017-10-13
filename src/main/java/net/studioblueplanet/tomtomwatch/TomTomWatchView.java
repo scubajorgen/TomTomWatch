@@ -1664,10 +1664,10 @@ public class TomTomWatchView extends javax.swing.JFrame
         {
             description = "x ";
         }
-        dateTime = data.activity.getStartDateTime().format("YYYY-MM-DD hh:mm:ss");
+        dateTime = data.activity.getStartDateTime().format("YYYY-MM-DD hh:mm");
         description += String.format("0x%08x - ", data.file.fileId) + dateTime
-                + " - " + prefix+String.format("%s", data.activity.getActivityDescription()+" - "+
-                data.activity.getFitnessPoints());
+                + " - " + prefix+String.format("%-13s ", data.activity.getActivityDescription())+" - "+
+                data.activity.getFitnessPoints();
 
         return description;
     }
