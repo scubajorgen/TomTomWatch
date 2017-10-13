@@ -187,6 +187,7 @@ public class TomTomWatchView extends javax.swing.JFrame
         jMenuItemPlaylists = new javax.swing.JMenuItem();
         jMenuItemUpdateFirmware = new javax.swing.JMenuItem();
         jMenuItemListRaces = new javax.swing.JMenuItem();
+        jMenuItemSyncTime = new javax.swing.JMenuItem();
         jMenuDebugging = new javax.swing.JMenu();
         jMenuItemPreferences = new javax.swing.JMenuItem();
         jMenuItemListFiles = new javax.swing.JMenuItem();
@@ -622,6 +623,16 @@ public class TomTomWatchView extends javax.swing.JFrame
             }
         });
         jMenuDevice.add(jMenuItemListRaces);
+
+        jMenuItemSyncTime.setText("Synchronize Time");
+        jMenuItemSyncTime.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                jMenuItemSyncTimeActionPerformed(evt);
+            }
+        });
+        jMenuDevice.add(jMenuItemSyncTime);
 
         jMenuBar.add(jMenuDevice);
 
@@ -1602,6 +1613,11 @@ public class TomTomWatchView extends javax.swing.JFrame
         this.checkAndPushCommand(ThreadCommand.THREADCOMMAND_SHOWWATCHSETTINGS);
     }//GEN-LAST:event_jMenuItemShowSettingsActionPerformed
 
+    private void jMenuItemSyncTimeActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jMenuItemSyncTimeActionPerformed
+    {//GEN-HEADEREND:event_jMenuItemSyncTimeActionPerformed
+        this.checkAndPushCommand(ThreadCommand.THREADCOMMAND_SYNCTIME);
+    }//GEN-LAST:event_jMenuItemSyncTimeActionPerformed
+
     /*############################################################################################*\
      * HELPER FUNCTIONS     
     \*############################################################################################*/    
@@ -2055,6 +2071,7 @@ public class TomTomWatchView extends javax.swing.JFrame
     private javax.swing.JMenuItem jMenuItemShowSettings;
     private javax.swing.JMenuItem jMenuItemShowTrackedActivity;
     private javax.swing.JMenuItem jMenuItemShowUpdateLog;
+    private javax.swing.JMenuItem jMenuItemSyncTime;
     private javax.swing.JMenuItem jMenuItemUpdateFirmware;
     private javax.swing.JMenuItem jMenuItemUploadFile;
     private javax.swing.JPanel jPanel2;

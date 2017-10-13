@@ -35,6 +35,7 @@ import javax.swing.JOptionPane;
 
 
 import com.google.gson.Gson;
+import java.util.TimeZone;
 import org.json.JSONObject;
 
 import java.util.regex.Pattern;
@@ -523,6 +524,9 @@ public class CommunicationProcess implements Runnable, ProgressListener
                         break;
                     case THREADCOMMAND_SHOWWATCHSETTINGS:
                         error=showWatchSettings(watchInterface);
+                        break;
+                    case THREADCOMMAND_SYNCTIME:
+                        error=syncTime(watchInterface);
                         break;
                 }
 
@@ -2328,7 +2332,8 @@ public class CommunicationProcess implements Runnable, ProgressListener
     }    
 
     /**
-     * This method reboots the watch
+     * This method downloads the settings from the Manifest File in the watch
+     * and displays it based on the settings defintion
      * @param watchInterface The watch interface
      * @return True if an error occurred, false if successful
      */
@@ -2345,12 +2350,130 @@ public class CommunicationProcess implements Runnable, ProgressListener
         settingsFile.fileId=WatchInterface.FILEID_MANIFEST1;
         
         error=watchInterface.readFile(settingsFile);
-        
-        settings=new WatchSettings(settingsFile.fileData, this.currentFirmwareVersion);
-        
-        theView.setStatus(settings.getSettingDescriptions());
 
+        if (!error)
+        {
+            settings=new WatchSettings(settingsFile.fileData, this.currentFirmwareVersion);
+            theView.setStatus(settings.getSettingDescriptions());
+        }
+        
         return error;    
     }    
+    
+    /**
+     * This method syncs the time to the local computer time
+     * @param watchInterface The watch interface
+     * @return True if an error occurred, false if successful
+     */
+    private boolean syncTime(WatchInterface watchInterface)
+    {
+        boolean         error;
+        UsbFile         settingsFile;
+        WatchSettings   settings;
+        DateTime        utcTime;
+        DateTime        utcWatchTime;
+        DateTime        localTime;
+        DateTime        localWatchTime;
+        long            utcTimeSeconds;
+        long            utcWatchSeconds;
+        long            timeOffset;
+        int             timeOffsetHours;
+        int             timeOffsetMinutes;
+        int             timeOffsetSeconds;
+        long            newTimeOffset;
+        TimeZone        utcTimeZone;
+        int             response;
+        
+        theView.setStatus("Synchronizing time...");
+        error = false;
+
+        utcTimeZone     =TimeZone.getTimeZone("UTC");
+        utcWatchTime    =watchInterface.getWatchTime();
+        utcTime         =DateTime.now(utcTimeZone);
+
+        if (utcWatchTime!=null)
+        {
+            utcTimeSeconds  =utcTime.getMilliseconds(utcTimeZone)/1000;
+            utcWatchSeconds =utcWatchTime.getMilliseconds(utcTimeZone)/1000;
+
+            theView.setStatus   ("Watch Time(UTC): "+utcWatchTime.format("DD-MM-YYYY hh:mm:ss.fff")+"\n");
+            theView.appendStatus("PC Time   (UTC): "+utcTime.format("DD-MM-YYYY hh:mm:ss.fff")     +"\n");
+            
+            
+            settingsFile=new UsbFile();
+            settingsFile.fileId=WatchInterface.FILEID_MANIFEST1;
+
+            error=watchInterface.readFile(settingsFile);
+
+            if (!error)
+            {
+                settings    =new WatchSettings(settingsFile.fileData, this.currentFirmwareVersion);
+                timeOffset  =settings.getSettingsValueInt("options/utc_offset");
+                theView.appendStatus("Time offset with respect to UTC: "+timeOffset+"\n");      
+                
+                localTime           =utcTime.changeTimeZone(utcTimeZone, TimeZone.getDefault());
+                timeOffsetHours     =(int)timeOffset/3600;
+                timeOffsetMinutes   =(int)(timeOffset-timeOffsetHours*3600)/60;
+                timeOffsetSeconds   =(int)timeOffset-3600*timeOffsetHours-60*timeOffsetMinutes;
+                if (timeOffset>=0)
+                {
+                    localWatchTime=utcWatchTime.plus(0, 0, 0, timeOffsetHours, timeOffsetMinutes, timeOffsetSeconds, 0, DateTime.DayOverflow.Spillover);
+                }
+                else
+                {
+                    localWatchTime=utcWatchTime.minus(0, 0, 0, -timeOffsetHours, -timeOffsetMinutes, -timeOffsetSeconds, 0, DateTime.DayOverflow.Spillover);
+                }
+                
+                theView.appendStatus   ("Watch Time(local): "+localWatchTime.format("DD-MM-YYYY hh:mm:ss.fff")+"\n");
+                theView.appendStatus("PC Time   (local): "+localTime.format("DD-MM-YYYY hh:mm:ss.fff")     +"\n");
+
+                if (Math.abs(utcTimeSeconds-utcWatchSeconds)>300)
+                {
+                    theView.appendStatus("Watch clock more than 5 minutes out of sync. Enable GPS to sync to GPS time\n");
+                }
+                else
+                {
+                    newTimeOffset=utcTime.numSecondsFrom(localTime);
+                    theView.appendStatus("New time offset: "+newTimeOffset+"\n");
+
+                    if (newTimeOffset!=timeOffset)
+                    {
+                        response = JOptionPane.showConfirmDialog(null, "Sync watch time offset to PC time?", "Confirm",
+                                                                 JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                        if (response == JOptionPane.YES_OPTION)
+                        {
+                            settings.setSettingsValueInt("options/utc_offset", newTimeOffset);
+                            settingsFile.fileData=settings.convertSettingsToData();
+                            error=watchInterface.writeFile(settingsFile);
+                            theView.appendStatus("Offset written to watch\n");
+                        }
+                        else
+                        {
+                            theView.appendStatus("No update written to watch");
+                        }
+                    }
+                    else
+                    {
+                        theView.appendStatus("No need to sync the time");
+                    }
+                }
+
+            }
+            else
+            {
+                theView.appendStatus("Error syncing time!");
+            }
+            
+        }
+        else
+        {
+            error=true;
+        }
+        
+        
+        return error;    
+    }    
+    
+    
     
 }
