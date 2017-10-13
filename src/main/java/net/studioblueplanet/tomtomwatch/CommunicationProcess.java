@@ -2255,6 +2255,8 @@ public class CommunicationProcess implements Runnable, ProgressListener
         boolean error;
         Tracker tracker;
 
+        theView.setStatus("Downloading tracked activity files... Please wait.");
+        
         UsbFile             file;
         ArrayList<UsbFile>  files;
         Iterator<UsbFile>   it;
