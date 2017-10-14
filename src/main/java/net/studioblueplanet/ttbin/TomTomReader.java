@@ -108,8 +108,8 @@ public class TomTomReader
         in.read(bytes, 0, 2);
         header.fileVersion          =ToolBox.readUnsignedInt(bytes, 0, 2, true);
 
-        // Version 0x09
-        if (header.fileVersion==0x09)
+        // Version 0x09 and earlier (0x07 has been tested)
+        if (header.fileVersion<=0x09)
         {
             in.read(bytes, 0, 3);
             header.firmwareVersion[0]   =ToolBox.readUnsignedInt(bytes, 0, 1, true);
