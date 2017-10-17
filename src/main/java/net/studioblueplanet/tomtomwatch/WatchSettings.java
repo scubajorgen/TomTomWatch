@@ -274,11 +274,15 @@ public class WatchSettings
         
         fileName=null;
         
-        if (firmwareVersion==0x0001000300FFL)
+        if (firmwareVersion==0x0001000300FFL)       // 1.3.255
         {
             fileName="settings_00010003001b.csv";
         }
-        else if (firmwareVersion==0x00010006001AL)
+        else if (firmwareVersion==0x00010006001AL)  // 1.6.26
+        {
+            fileName="settings_00010003001b.csv";
+        }
+        else if (firmwareVersion==0x000100070035L)  // 1.7.53
         {
             fileName="settings_00010003001b.csv";
         }
