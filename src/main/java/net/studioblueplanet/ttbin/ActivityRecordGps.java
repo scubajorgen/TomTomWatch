@@ -386,8 +386,8 @@ public class ActivityRecordGps extends ActivityRecord
 
             // Check if the timestamps match. The heartrate timestamp
             // usually is equal to the gps timestamp. However sometimes it lags
-            // the gps timestamp by one second. We allow for that.
-            if (recordTime-((long)time*1000)<=1000)
+            // the gps timestamp by one or two second. We allow for that.
+            if (recordTime-((long)time*1000)<=2000)
             {
                 this.heartRate          =heartRate;
                 this.heartRateDateTime  =DateTime.forInstant((time)*1000, utcTimeZone);
@@ -437,8 +437,8 @@ public class ActivityRecordGps extends ActivityRecord
 
             // Check if the timestamps match. The heartrate timestamp
             // usually is equal to the gps timestamp. However sometimes it lags
-            // the gps timestamp by one second. We allow for that.
-            if (recordTime-((long)time*1000)<=1000)
+            // the gps timestamp by one, sometimes 2 second. We allow for that.
+            if (recordTime-((long)time*1000)<=2000)
             {
                 this.fitnessPoints             =points;
                 this.fitnPointsDateTime     =DateTime.forInstant((time)*1000, utcTimeZone);

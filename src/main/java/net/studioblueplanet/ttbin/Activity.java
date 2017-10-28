@@ -412,7 +412,7 @@ public class Activity
         instantSpeed=ToolBox.readUnsignedInt(recordData, 19, 4, true); // float
         cumDistance =ToolBox.readUnsignedInt(recordData, 23, 4, true); // float
         cycles      =ToolBox.readUnsignedInt(recordData, 27, 1, true);
-       
+
         latF=(double)lat/1.0E7;
         lonF=(double)lon/1.0E7;
 
@@ -424,6 +424,7 @@ public class Activity
         ((ActivityRecordGps)newRecord).setInstantaneousSpeed(Float.intBitsToFloat(instantSpeed));
         ((ActivityRecordGps)newRecord).setDistance(Float.intBitsToFloat(cumDistance));
         ((ActivityRecordGps)newRecord).setCycles(cycles);
+
     }
     
     /**
