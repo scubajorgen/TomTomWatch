@@ -40,7 +40,9 @@ public abstract class WatchInterface
         TTWATCH_FILE_TRACKEDACTIVITYTEMP    (0x00B20000),    // Temp tracked activities, used when watch is connected
         TTWATCH_FILE_TRACKEDACTIVITYDAILY   (0x00B30000),    // Tracked activity, per weekday 0x00b3000a - 0x00b3000f
         TTWATCH_FILE_TRACKPLANNING          (0x00B80000),    // Uploaded track
-        TTWATCH_FILE_UNKNOWN                (0x00B90000);    // Watch generated protobuf (?) file, one for each track...
+        TTWATCH_FILE_UNKNOWN                (0x00B90000),    // Watch generated protobuf (?) file, one for each track...
+        TTWATCH_FILE_WORKOUTS               (0x00BE0000);    // Workouts
+        
         
         private final int 	value;
         
