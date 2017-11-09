@@ -634,7 +634,7 @@ public class Activity
         //  0 1 byte
         //  1 uint16   EVPE in cm? sensor 1 or GPS error in cm??
         //  3 uint16   EHPE in cm? filtered (?) sensor 1. GPS signal strength?
-        //  5 uint8    derived data from sensor 1?? =6 most of the time
+        //  5 uint8    HDOP (https://en.wikipedia.org/wiki/Dilution_of_precision_(navigation)#Meaning_of_DOP_Values)
         //  6 uint8[4] sensors 2-5
         // 10 uint8[4] sensors 6-10
         // 14 uint8[4] sensors 2-5 normalized [0, 1]
