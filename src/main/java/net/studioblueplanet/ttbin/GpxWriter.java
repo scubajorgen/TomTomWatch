@@ -235,7 +235,7 @@ public class GpxWriter
      * @param trackNo The track
      * @param segmentNo The segment
      */
-    private void appendTrackGpx1_0(Document doc, Element segmentElement, Activity track, int segmentNo)
+    private void appendTrackSegmentGpx1_0(Document doc, Element segmentElement, ActivitySegment segment)
     {
         ArrayList <ActivityRecord>  points;
         Iterator<ActivityRecord>    iterator;
@@ -250,7 +250,7 @@ public class GpxWriter
         double                      elevation;
 
 
-        points=track.getRecords(segmentNo);
+        points=segment.getRecords();
 
         iterator=points.iterator();
 
@@ -315,7 +315,7 @@ public class GpxWriter
      * @param trackNo The track
      * @param segmentNo The segment
      */
-    private void appendTrackGpx1_1(Document doc, Element segmentElement, Activity track, int segmentNo)
+    private void appendTrackSegmentGpx1_1(Document doc, Element segmentElement, ActivitySegment segment)
     {
         ArrayList <ActivityRecord>  points;
         Iterator<ActivityRecord>    iterator;
@@ -340,7 +340,7 @@ public class GpxWriter
         int                         evpe;
         
 
-        points=track.getRecords(segmentNo);
+        points=segment.getRecords();
 
         iterator=points.iterator();
 
@@ -531,9 +531,15 @@ public class GpxWriter
         int     i;
         int     numberOfSegments;
         Element trackElement;
+        Element segmentElement;
+        Element extensionsElement;
         Element element;
-        String  trackName;
-        String  trackDescription;
+        
+        ActivitySegment segment;
+        String          trackName;
+        String          trackDescription;
+        int             heartRateRecovery;
+        String          heartRateRecoveryScore;
 
         numberOfSegments=track.getNumberOfSegments();
 
@@ -570,19 +576,47 @@ public class GpxWriter
         i=0;
         while (i<numberOfSegments)
         {
+            segment=track.getSegment(i);
+            
             // segment
-            Element segmentElement = doc.createElement("trkseg");
+            segmentElement          = doc.createElement("trkseg");
             trackElement.appendChild(segmentElement);
-
+            
             if (gpxVersion.equals("1.0"))
             {
-                appendTrackGpx1_0(doc, segmentElement, track, i);
+                appendTrackSegmentGpx1_0(doc, segmentElement, segment);
             }
             else if (gpxVersion.equals("1.1"))
             {
-                appendTrackGpx1_1(doc, segmentElement, track, i);
+                appendTrackSegmentGpx1_1(doc, segmentElement, segment);
             }
 
+            // Extensions
+            heartRateRecovery       =segment.getHeartRateRecovery();
+            heartRateRecoveryScore  =segment.getHeartRateRecoveryScoreString();
+            
+            if (heartRateRecovery!=ActivitySegment.HRRECOVERY_UNDEFINED || !heartRateRecoveryScore.equals(""))
+            {
+                extensionsElement       = doc.createElement("extensions");
+                segmentElement.appendChild(extensionsElement);
+
+
+                // Extensions: hr Recovery
+                if (heartRateRecovery!=ActivitySegment.HRRECOVERY_UNDEFINED)
+                {
+                    element    = doc.createElement("u-gotMe:hrRecovery");
+                    element.appendChild(doc.createTextNode(String.valueOf(heartRateRecovery)));
+                    extensionsElement.appendChild(element);
+                }
+
+                // Extensions: hr Recovery score
+                if (!heartRateRecoveryScore.equals(""))
+                {
+                    element    = doc.createElement("u-gotMe:hrRecoveryScore");
+                    element.appendChild(doc.createTextNode(heartRateRecoveryScore));
+                    extensionsElement.appendChild(element);
+                }
+            }
             
             i++;
         }

@@ -19,18 +19,22 @@ import java.io.IOException;
  */
 public class ActivitySegment
 {
+    public static final int             HRRECOVERY_UNDEFINED=-9999;
     private ArrayList<ActivityRecord>   records;
     private DateTime                    startTime;
     private DateTime                    endTime;
     private static TimeZone             localTimeZone;
-    
+    private int                         heartRateRecovery;
+    private int                         heartRateRecoveryScore;
     
     /**
      * Constructor
      */
     public ActivitySegment()
     {
-        records=new ArrayList();
+        records                 =new ArrayList();
+        heartRateRecovery       =HRRECOVERY_UNDEFINED;
+        heartRateRecoveryScore  =-1;
     }
 
     /**
@@ -113,6 +117,65 @@ public class ActivitySegment
     public DateTime getEndTime()
     {
         return this.endTime;
+    }
+    
+    /**
+     * Sets the heart rate recovery
+     * @param recovery Recovery after one minute as decrease in bpm
+     * @param score Score (1-5?)
+     */
+    public void setHeartRateRecovery(int recovery, int score)
+    {
+        this.heartRateRecovery      =recovery;
+        this.heartRateRecoveryScore =score;
+    }
+    
+    /**
+     * Returns the heart rate recovery at the end of the segment
+     * @return The heart rate recovery as decrease of heartrate in one minute in bpm
+     */
+    public int getHeartRateRecovery()
+    {
+        return this.heartRateRecovery;
+    }
+    
+    /**
+     * Returns the score associated with the heart rate recovery at the end of the segment
+     * @return 0 (no recovery) - 4 (excellent recovery)
+     */
+    public int getHeartRateRecoveryScore()
+    {
+        return this.heartRateRecoveryScore;
+    }
+    
+    /**
+     * Returns the heart reate recovery score associated with the recovery
+     * @return String indicating the recovery
+     */
+    public String getHeartRateRecoveryScoreString()
+    {
+        String score;
+        
+        score="";
+        switch (heartRateRecoveryScore)
+        {
+            case 0:
+                score="No recovery";  
+                break;
+            case 1:
+                score="Poor recovery";
+                break;
+            case 2:
+                score="Fair recovery";
+                break;
+            case 3:
+                score="Good recovery";
+                break;
+            case 4:
+                score="Excellent recovery";
+                break;
+        }
+        return score;
     }
     
     

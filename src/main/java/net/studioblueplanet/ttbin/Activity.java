@@ -321,6 +321,26 @@ public class Activity
     {
         return this.segments.size();
     }
+
+
+    /**
+     * Return the indicated segment number
+     * @param segmentNumber The index of the segment number
+     * @return The segment or null if not found.
+     */
+    public ActivitySegment getSegment(int segmentNumber)
+    {
+        ActivitySegment segment;
+        
+        segment=null;
+        
+        if (segmentNumber>=0 && segmentNumber<this.segments.size())
+        {
+            segment=segments.get(segmentNumber);
+        }
+        
+        return segment;
+    }
     
     /**
      * Returns the start datetime
@@ -643,7 +663,7 @@ public class Activity
     }
 
     
-        /**
+    /**
      * Parse file summary record
      * @param recordData Record data
      */
@@ -683,6 +703,28 @@ public class Activity
         }  
         
 //        DebugLogger.info(DateTime.forInstant((long)timeStamp*1000L, TimeZone.getDefault()).format("YYYY-MM-DD hh:mm:ss")+" "+points1+" "+points2);
+    }
+
+    /**
+     * Parse file summary record
+     * @param recordData Record data
+     */
+    private void parseRecordHeartRateRecovery(byte[] recordData)
+    {
+        int         timeStamp;
+        int         score;
+        int         hrRecovery;
+        
+        
+        // Probably recovery score: poor=2, good=3, excellent=4
+        // Or HR zone after recovery?
+        score       =ToolBox.readInt(recordData,  1, 4, true);
+        
+        hrRecovery  =ToolBox.readInt(recordData,  5, 4, true);
+
+        newActivitySegment.setHeartRateRecovery(hrRecovery, score);
+
+        DebugLogger.info("Heart rate recovery: "+hrRecovery+" bpm/min, score: "+score);
     }
 
     /**
@@ -728,6 +770,9 @@ public class Activity
                 break;
             case TtbinFileDefinition.TAG_4B:      // 4 bytes after tag
 //                dumpRecordData(recordData);
+                break;
+            case TtbinFileDefinition.TAG_HEART_RATE_RECOVERY:      // 9 bytes after tag
+                parseRecordHeartRateRecovery(recordData);
                 break;
             default:
 //DebugLogger.info(String.format("tag 0x%02x: unknown, length %d", tag, this.header.getLength(tag)));        

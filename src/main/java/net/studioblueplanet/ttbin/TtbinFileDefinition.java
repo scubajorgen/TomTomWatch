@@ -41,7 +41,7 @@ public class TtbinFileDefinition
     public static final    byte                        TAG_RACE_SETUP          =0x3c;
     public static final    byte                        TAG_RACE_RESULT         =0x3d;
     public static final    byte                        TAG_ALTITUDE_UPDATE     =0x3e;
-    public static final    byte                        TAG_HEART_RATE_RECOVERY =0x3f;
+    public static final    byte                        TAG_HEART_RATE_RECOVERY =0x3f;  // Heart rate recovery 1 minute after set to pause
     public static final    byte                        TAG_INDOOR_CYCLING      =0x40;
     public static final    byte                        TAG_GYM                 =0x41;
     public static final    byte                        TAG_ROUTEDESCRIPTION    =0x44;
