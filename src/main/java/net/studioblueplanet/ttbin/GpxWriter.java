@@ -272,7 +272,7 @@ public class GpxWriter
                 segmentElement.appendChild(pointElement);
 
                 element    = doc.createElement("ele");
-                element.appendChild(doc.createTextNode(String.valueOf(elevation)));
+                element.appendChild(doc.createTextNode(String.format("%.1f", elevation)));
                 pointElement.appendChild(element);
 
                 element    = doc.createElement("time");
@@ -292,12 +292,12 @@ public class GpxWriter
 
                 // set attribute 'lat' to element
                 attr = doc.createAttribute("lat");
-                attr.setValue(String.valueOf(latitude));
+                attr.setValue(String.format("%.7f", latitude));
                 pointElement.setAttributeNode(attr);
 
                 // set attribute 'lon' to element
                 attr = doc.createAttribute("lon");
-                attr.setValue(String.valueOf(longitude));
+                attr.setValue(String.format("%.7f", longitude));
                 pointElement.setAttributeNode(attr);
 
                 trackPoints++;
@@ -545,9 +545,6 @@ public class GpxWriter
         ActivitySegment segment;
         String          trackName;
         String          trackDescription;
-        int             heartRateRecovery;
-        String          heartRateRecoveryScore;
-        int             fitnessPoints;
         
         numberOfSegments=track.getNumberOfSegments();
 
@@ -599,32 +596,7 @@ public class GpxWriter
                 appendTrackSegmentGpx1_1(doc, segmentElement, segment);
             }
 
-            // Extensions
-            heartRateRecovery       =segment.getHeartRateRecovery();
-            heartRateRecoveryScore  =segment.getHeartRateRecoveryScoreString();
-            
-            if (heartRateRecovery!=ActivitySegment.HRRECOVERY_UNDEFINED || !heartRateRecoveryScore.equals(""))
-            {
-                extensionsElement       = doc.createElement("extensions");
-                segmentElement.appendChild(extensionsElement);
-
-
-                // Extensions: hr Recovery
-                if (heartRateRecovery!=ActivitySegment.HRRECOVERY_UNDEFINED)
-                {
-                    element    = doc.createElement("u-gotMe:hrRecovery");
-                    element.appendChild(doc.createTextNode(String.valueOf(heartRateRecovery)));
-                    extensionsElement.appendChild(element);
-                }
-
-                // Extensions: hr Recovery score
-                if (!heartRateRecoveryScore.equals(""))
-                {
-                    element    = doc.createElement("u-gotMe:hrRecoveryScore");
-                    element.appendChild(doc.createTextNode(heartRateRecoveryScore));
-                    extensionsElement.appendChild(element);
-                }
-            }
+            this.addTrackSegmentExtensions(segment, segmentElement);
             
             i++;
         }
@@ -634,6 +606,48 @@ public class GpxWriter
         
     }
 
+    /**
+     * Adds a &lt;extensions&gt; section to the trkseg, if needed. It 
+     * contains the heart rate recovery.
+     * @param segment Segment containing the segment data
+     * @param segmentElement XML Element describing the segment.
+     */
+    private void addTrackSegmentExtensions(ActivitySegment segment, Element segmentElement)
+    {
+        int             heartRateRecovery;
+        int             heartRateRecoveryScore;
+        Element         extensionsElement;
+        Element         element;
+
+        
+        // Extensions
+        heartRateRecovery       =segment.getHeartRateRecovery();
+        heartRateRecoveryScore  =segment.getHeartRateRecoveryScore();
+
+        if (heartRateRecovery!=ActivitySegment.HRRECOVERY_UNDEFINED || heartRateRecoveryScore>=0)
+        {
+            extensionsElement       = doc.createElement("extensions");
+            segmentElement.appendChild(extensionsElement);
+
+
+            // Extensions: hr Recovery
+            if (heartRateRecovery!=ActivitySegment.HRRECOVERY_UNDEFINED)
+            {
+                element    = doc.createElement("u-gotMe:hrRecovery");
+                element.appendChild(doc.createTextNode(String.valueOf(heartRateRecovery)));
+                extensionsElement.appendChild(element);
+            }
+
+            // Extensions: hr Recovery score
+            if (heartRateRecoveryScore>=0)
+            {
+                element    = doc.createElement("u-gotMe:hrRecoveryScore");
+                element.appendChild(doc.createTextNode(String.valueOf(heartRateRecoveryScore)));
+                extensionsElement.appendChild(element);
+            }
+        }        
+    }
+    
     /**
      * Add the &lt;extensions&gt; section to the track
      * @param track Track containing the track information
