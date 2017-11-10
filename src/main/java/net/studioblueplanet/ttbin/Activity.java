@@ -127,7 +127,8 @@ public class Activity
     
     
     // If acitivity is paused for less than this time, the pause/activate is marked as waypoint
-    private static final    long                        WAYPOINTPAUSETIME=10;  
+    private static final    long                        WAYPOINTPAUSETIME       =10;  
+    public  static final    int                         FITNESSPOINTS_UNDEFINED =-1;
     
     protected               int                         summaryType;
     protected               double                      summaryDistance;
@@ -377,7 +378,7 @@ public class Activity
 
     /**
      * Get the fitness points earned with this activity
-     * @return The fitness points or 0 if not defined
+     * @return The fitness points or FITNESSPOINTS_UNDEFINED=-1 if not defined
      */
     public int getFitnessPoints()
     {
@@ -389,7 +390,7 @@ public class Activity
         }
         else
         {
-            points=0;
+            points=FITNESSPOINTS_UNDEFINED;
         }
         return points;
     }

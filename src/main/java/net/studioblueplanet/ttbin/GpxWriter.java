@@ -373,10 +373,9 @@ public class GpxWriter
                 pointElement    = doc.createElement("trkpt");
                 segmentElement.appendChild(pointElement);
 
-                // The elevation. For Pro versions it is the height sensor value. 
-                // For non-Pro versions it is measured by GPS.
+                // The elevation.
                 element    = doc.createElement("ele");
-                element.appendChild(doc.createTextNode(String.valueOf(elevation)));
+                element.appendChild(doc.createTextNode(String.format("%.1f", elevation)));
                 pointElement.appendChild(element);
 
                 element    = doc.createElement("time");
@@ -390,12 +389,12 @@ public class GpxWriter
 
                 // Extensions: speed
                 element    = doc.createElement("u-gotMe:speed");
-                element.appendChild(doc.createTextNode(String.valueOf(speed)));
+                element.appendChild(doc.createTextNode(String.format("%.2f", speed)));
                 extensionsElement.appendChild(element);
 
                 // Extensions: course
                 element    = doc.createElement("u-gotMe:course");
-                element.appendChild(doc.createTextNode(String.valueOf(heading)));
+                element.appendChild(doc.createTextNode(String.format("%.2f", heading)));
                 extensionsElement.appendChild(element);
 
                 // Extensions: temperature
@@ -430,14 +429,22 @@ public class GpxWriter
                     extensionsElement.appendChild(element);
                 }
 
+                // Extension: climb
+                if (evpe!=ActivityRecord.INVALID)
+                {
+                    element    = doc.createElement("u-gotMe:climb");
+                    element.appendChild(doc.createTextNode(String.format("%.1f",elevationGain)));
+                    extensionsElement.appendChild(element);
+                }
+
                 // set attribute 'lat' to element
                 attr = doc.createAttribute("lat");
-                attr.setValue(String.valueOf(latitude));
+                attr.setValue(String.format("%.7f", latitude));
                 pointElement.setAttributeNode(attr);
 
                 // set attribute 'lon' to element
                 attr = doc.createAttribute("lon");
-                attr.setValue(String.valueOf(longitude));
+                attr.setValue(String.format("%.7f", longitude));
                 pointElement.setAttributeNode(attr);
 
                 trackPoints++;
@@ -540,7 +547,8 @@ public class GpxWriter
         String          trackDescription;
         int             heartRateRecovery;
         String          heartRateRecoveryScore;
-
+        int             fitnessPoints;
+        
         numberOfSegments=track.getNumberOfSegments();
 
         if (gpxVersion.equals("1.0"))
@@ -620,9 +628,56 @@ public class GpxWriter
             
             i++;
         }
+        
+        // Add the track extensions, if required
+        this.addTrackExtensions(track, gpxElement);
+        
     }
 
+    /**
+     * Add the &lt;extensions&gt; section to the track
+     * @param track Track containing the track information
+     * @param trackElement XML Track element
+     */
+    private void addTrackExtensions(Activity track, Element trackElement)
+    {
+        int     fitnessPoints;
+        float   trackSmoothing;
+        boolean isSmoothed;
+        Element extensionsElement;
+        Element element;
+        
 
+        extensionsElement       = doc.createElement("extensions");
+        trackElement.appendChild(extensionsElement);
+
+
+        element    = doc.createElement("u-gotMe:device");
+        element.appendChild(doc.createTextNode(track.getDeviceName()));
+        extensionsElement.appendChild(element);
+
+        element    = doc.createElement("u-gotMe:activity");
+        element.appendChild(doc.createTextNode(track.getActivityDescription()));
+        extensionsElement.appendChild(element);
+
+        // Extensions: fitnesspoints
+        fitnessPoints       =track.getFitnessPoints();
+        if (fitnessPoints!=Activity.FITNESSPOINTS_UNDEFINED)
+        {
+            element    = doc.createElement("u-gotMe:tomtomFitnessPoints");
+            element.appendChild(doc.createTextNode(String.valueOf(fitnessPoints)));
+            extensionsElement.appendChild(element);
+        }
+
+        isSmoothed          =track.isSmoothed();
+        if (isSmoothed)
+        {
+            trackSmoothing      =track.getTrackSmoothingQFactor();
+            element    = doc.createElement("u-gotMe:smoothingFactor");
+            element.appendChild(doc.createTextNode(String.valueOf(trackSmoothing)));
+            extensionsElement.appendChild(element);
+        }
+    }
 
 
 

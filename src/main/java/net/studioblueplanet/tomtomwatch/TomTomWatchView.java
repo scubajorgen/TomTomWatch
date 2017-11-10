@@ -1656,6 +1656,8 @@ public class TomTomWatchView extends javax.swing.JFrame
     {
         String      description;
         String      dateTime;
+        int         fitnessPoints;
+        String      fitnessPointsString;
 
         if (data.ttbinSaved)
         {
@@ -1664,10 +1666,20 @@ public class TomTomWatchView extends javax.swing.JFrame
         {
             description = "x ";
         }
-        dateTime = data.activity.getStartDateTime().format("YYYY-MM-DD hh:mm");
+        dateTime        = data.activity.getStartDateTime().format("YYYY-MM-DD hh:mm");
+        fitnessPoints   =data.activity.getFitnessPoints();
+        if (fitnessPoints>=0)
+        {
+            fitnessPointsString=Integer.toString(fitnessPoints);
+        }
+        else
+        {
+            fitnessPointsString="-";
+        }
+        
         description += String.format("0x%08x - ", data.file.fileId) + dateTime
                 + " - " + prefix+String.format("%-13s ", data.activity.getActivityDescription())+" - "+
-                data.activity.getFitnessPoints();
+                fitnessPointsString;
 
         return description;
     }
