@@ -13,7 +13,7 @@ import java.util.TimeZone;
  *
  * @author Jorgen
  */
-public class TrackSmoothing
+public class TrackSmoother
 {
     public class KalmanLatLong 
     {
@@ -114,8 +114,29 @@ public class TrackSmoothing
         }
     }    
     
-    private                 float                       trackSmoothingQFactor;
-    private                 boolean                     isSmoothed;    
+    
+    private static          TrackSmoother              theInstance;
+    
+    /**
+     * Private constructor
+     */
+    private TrackSmoother()
+    {
+    }
+
+
+    /**
+     * Returns the one and only instance of this class.
+     * @return 
+     */
+    public static TrackSmoother getInstance()
+    {
+        if (theInstance==null)
+        {
+            theInstance=new TrackSmoother();
+        }
+        return theInstance;
+    }
     
     /**
      * This method smoothes the track, by applying a Kalman filter
@@ -137,7 +158,6 @@ public class TrackSmoothing
         
         // Process the segments in the track
         itSegment=segments.iterator();
-        this.trackSmoothingQFactor=trackSmoothingQFactor;
         
         while (itSegment.hasNext())
         {
@@ -179,21 +199,9 @@ public class TrackSmoothing
                 }                
             }
         }
-        isSmoothed=true;
-        
     }
 
 
-    /**
-     * Returns the track smoothing Q factor that is used for the Kalman 
-     * filter
-     * @return The factor in m/s, or 0.0 if no smoothing applied
-     */
-    public float getTrackSmoothingQFactor()
-    {
-        return this.trackSmoothingQFactor;
-    }
-    
     /**
      * This method resets the smoothing
      */
@@ -237,20 +245,7 @@ public class TrackSmoothing
                 }                
             }
         }
-        this.trackSmoothingQFactor  =0.0f;
-        isSmoothed                  =false;
+
     }
-    
-    
-    
-    /**
-     * Returns whether the track has been smoothed
-     * @return True if smoothed, false if not.
-     */
-    public boolean isSmoothed()
-    {
-        return this.isSmoothed;
-    }
-    
     
 }
