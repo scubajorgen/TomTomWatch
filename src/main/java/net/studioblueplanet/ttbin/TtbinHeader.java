@@ -34,7 +34,8 @@ public class TtbinHeader
     /**
      * This method returns the record length of a record identified by the tag
      * @param tag Type of record
-     * @return The length of the record
+     * @return The length of the record or 0xffff if the tag defines a variable
+     *         length record. In that case the length is in the record itself
      */
     public int getLength(int tag)
     {
@@ -53,17 +54,5 @@ public class TtbinHeader
         }
         return length;
     }
-/*        
-uint16_t file_version;
-uint8_t  firmware_version[3];
-uint16_t product_id;
-uint32_t start_time;    
-uint8_t  software_version[16];
-uint8_t  gps_firmware_version[80];
-uint32_t watch_time;    
-int32_t local_time_offset;  
-uint8_t  _reserved;
-uint8_t  length_count;  
-RECORD_LENGTH lengths[1];        
-*/    
+  
 }
