@@ -338,6 +338,7 @@ public class GpxWriter
         double                      speed;
         int                         ehpe;
         int                         evpe;
+        int                         hdop;
         
 
         points=segment.getRecords();
@@ -358,6 +359,8 @@ public class GpxWriter
             speed           =((ActivityRecordGps)point).getSpeed();
             ehpe            =((ActivityRecordGps)point).getEhpe();
             evpe            =((ActivityRecordGps)point).getEvpe();
+            hdop            =((ActivityRecordGps)point).getHdop();
+            
             
             // TO DO: add or not add. Can be derived...
             heading         =((ActivityRecordGps)point).getHeading();
@@ -426,6 +429,14 @@ public class GpxWriter
                 {
                     element    = doc.createElement("u-gotMe:evpe");
                     element.appendChild(doc.createTextNode(String.valueOf(evpe)));
+                    extensionsElement.appendChild(element);
+                }
+
+                // Extension: hdop
+                if (hdop!=ActivityRecord.INVALID)
+                {
+                    element    = doc.createElement("u-gotMe:hdop");
+                    element.appendChild(doc.createTextNode(String.valueOf(hdop)));
                     extensionsElement.appendChild(element);
                 }
 

@@ -39,8 +39,10 @@ public class ActivityRecordGps extends ActivityRecord
     private         int         temperature;        // Temperature in degC
     private         int         evpe;               // Estimated vertical percision error, in cm
     private         int         ehpe;               // Estamated horizontal precision error, in cm
+    private         int         hdop;               // HDOP
     private         DateTime    fitnPointsDateTime; // DateTime stamp of cumm. activity points
     private         int         fitnessPoints;      // Cumulative Activity points
+    private         int         movementState;      // Some derived movement state: 0 - standing still, 1 - reduced speed, 2 - moving
     
     
     public          int         unknownInt1;
@@ -74,6 +76,8 @@ public class ActivityRecordGps extends ActivityRecord
         this.temperature        =INVALID;
         this.ehpe               =INVALID;
         this.evpe               =INVALID;
+        this.hdop               =INVALID;
+        this.movementState      =INVALID;
     }
     
     /**
@@ -475,11 +479,13 @@ public class ActivityRecordGps extends ActivityRecord
      * Sets the precision of the measurement
      * @param ehpe Estimated horizontal precision error in cm
      * @param evpe Estimated vertical precision error in cm
+     * @param hdop Horizontal Dilution of Precision (https://en.wikipedia.org/wiki/Dilution_of_precision_(navigation)#Meaning_of_DOP_Values))
      */
-    public void setPrecision(int ehpe, int evpe)
+    public void setPrecision(int ehpe, int evpe, int hdop)
     {
         this.ehpe=ehpe;
         this.evpe=evpe;
+        this.hdop=hdop;
     }
     
     /**
@@ -498,6 +504,34 @@ public class ActivityRecordGps extends ActivityRecord
     public int getEvpe()
     {
         return this.evpe;
+    }
+    
+    /**
+     * Returns the horizontal dilution of precision
+     * @return HDOP value in m
+     */
+    public int getHdop()
+    {
+        return this.hdop;
+    }
+    
+    /**
+     * Sets the value of the movement state, some state derived from 
+     * speed
+     * @param state 0-standing still, 1-reduced speed, 2-moving 
+     */
+    public void setMovementState(int state)
+    {
+        this.movementState=state;
+    }
+    
+    /**
+     * Gets the movement state
+     * @return The movement state (0, 1, 2)
+     */
+    public int getMovementState()
+    {
+        return this.movementState;
     }
     
     
@@ -541,9 +575,10 @@ public class ActivityRecordGps extends ActivityRecord
     @Override
     public void dumpRecordCsvHeader(Writer writer) throws IOException
     {
-        writer.write("dateTime, lat, lon, dist, cycles, heading, speed, intSpeed, calories,"); 
+        writer.write("dateTime, lat, lon, dist, cycles, heading, speed, intSpeed, movement, calories,"); 
         writer.write("status, ele1, ele2, eleCorr, cumEle1, cumEle2,");
         writer.write("heartrate,");
+        writer.write("ehpe, evpe,");
         writer.write("unknownint1, unknownint2,unknownint3,unknownint4,unknownint5,unknownint6,unknwonfloat1,unknownfloat2");
         writer.write("\n");
     }
@@ -571,6 +606,7 @@ public class ActivityRecordGps extends ActivityRecord
         writer.write(this.heading+",");
         writer.write(this.speed+",");
         writer.write(this.instantSpeed+",");
+        writer.write(this.movementState+",");
         writer.write(this.calories+",");
         
         writer.write(this.elevationStatus+",");
@@ -581,6 +617,11 @@ public class ActivityRecordGps extends ActivityRecord
         writer.write(this.cummElevationGain2+",");
         
         writer.write(""+this.heartRate+",");
+
+        writer.write(""+this.ehpe+",");
+        writer.write(""+this.evpe+",");
+        writer.write(""+this.heartRate+",");
+
         
         writer.write(""+this.unknownInt1+",");
         writer.write(""+this.unknownInt2+",");

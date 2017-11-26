@@ -530,23 +530,24 @@ public class Activity
     {
         int                 evpe;
         int                 ehpe;
+        int                 hdop;
         
         // Sensor data? GPS Erro signal? Kalman matrices?
         //  0 1 byte
         //  1 uint16   EVPE in cm? sensor 1 or GPS error in cm??
         //  3 uint16   EHPE in cm? filtered (?) sensor 1. GPS signal strength?
         //  5 uint8    HDOP (https://en.wikipedia.org/wiki/Dilution_of_precision_(navigation)#Meaning_of_DOP_Values)
-        //  6 uint8[4] sensors 2-5
-        // 10 uint8[4] sensors 6-10
-        // 14 uint8[4] sensors 2-5 normalized [0, 1]
-        // 18 uint8    ? =4
-        // 19 uint8    ? =2
+        //  6 uint8[4] sensors 2-5?? 
+        // 10 uint8[4] sensors 6-10??
+        // 14 uint8[4] sensors 2-5 normalized [0, 1]??
+        // 18 uint8    ? =4??
+        // 19 uint8    ? =2??
 
         evpe=ToolBox.readUnsignedInt(recordData,  1, 2, true);
         ehpe=ToolBox.readUnsignedInt(recordData,  3, 2, true);
-        ((ActivityRecordGps)newRecord).setPrecision(ehpe, evpe);
+        hdop=ToolBox.readUnsignedInt(recordData,  5, 1, true);
+        ((ActivityRecordGps)newRecord).setPrecision(ehpe, evpe, hdop);
 /*
-//        ((ActivityRecordGps)newRecord).unknownInt3=ToolBox.readUnsignedInt(recordData,  5, 1, true);
         ((ActivityRecordGps)newRecord).unknownInt3=ToolBox.readUnsignedInt(recordData,  6, 1, true);
         ((ActivityRecordGps)newRecord).unknownInt4=ToolBox.readUnsignedInt(recordData,  7, 1, true);
         ((ActivityRecordGps)newRecord).unknownInt5=ToolBox.readUnsignedInt(recordData,  8, 1, true);
@@ -565,7 +566,7 @@ public class Activity
 
     
     /**
-     * Parse file summary record
+     * Parse activity point record
      * @param recordData Record data
      */
     private void parseRecordActivityPoints(byte[] recordData)
@@ -607,7 +608,8 @@ public class Activity
     }
 
     /**
-     * Parse file summary record
+     * Parse heart rate recovery record. The record contains the 
+     * heart reate recovery (reduction in bpm/min) and associated score
      * @param recordData Record data
      */
     private void parseRecordHeartRateRecovery(byte[] recordData)
@@ -617,16 +619,35 @@ public class Activity
         int         hrRecovery;
         
         
-        // Probably recovery score: poor=2, good=3, excellent=4
-        // Or HR zone after recovery?
+        // Recovery score: no=0, poor=1, good=2, fair=3, excellent=4
         score       =ToolBox.readInt(recordData,  1, 4, true);
-        
+
+        // Recovery of heartrate, as reduction in bpm during the 1st minute
+        // after the excercise
         hrRecovery  =ToolBox.readInt(recordData,  5, 4, true);
 
         newActivitySegment.setHeartRateRecovery(hrRecovery, score);
 
         DebugLogger.info("Heart rate recovery: "+hrRecovery+" bpm/min, score: "+score);
     }
+    
+    
+    /**
+     * Parse movement state record. This record contains 1 byte that seems
+     * to coincide with the momevement: 0 - standing still, 1 - reduced speed,
+     * 2 - moving
+     * @param recordData Record data
+     */
+    private void parseRecordMovement(byte[] recordData)
+    {
+        int         movementState;
+        
+        // Movement state.
+        movementState       =ToolBox.readInt(recordData,  1, 1, true);
+        ((ActivityRecordGps)newRecord).setMovementState(movementState);
+        
+    }    
+    
 
     /**
      * Parse the record data and create a record or add to a record.
@@ -638,6 +659,8 @@ public class Activity
         byte tag;
         
         tag=recordData[0];
+//System.out.println(String.format("tag 0x%02x: unknown, length %d", tag, this.header.getLength(tag)));        
+      
         switch(tag)
         {
             case TtbinFileDefinition.TAG_SUMMARY:
@@ -656,23 +679,29 @@ public class Activity
             case TtbinFileDefinition.TAG_HEART_RATE:
                 parseRecordHeartRate(recordData);
                 break;
-            case TtbinFileDefinition.TAG_PRECISION:      // tag 4 bytes 1 byte
+            case TtbinFileDefinition.TAG_PRECISION:
                 parseRecordPrecision(recordData);
 //                dumpRecordData(recordData);
                 break;
-            case TtbinFileDefinition.TAG_42:      // 1 byte Cycles?
+            case TtbinFileDefinition.TAG_MOVEMENT:
+                parseRecordMovement(recordData);
+                break;
+            case TtbinFileDefinition.TAG_30:
+//                dumpRecordData(recordData);
+                break;
+            case TtbinFileDefinition.TAG_48:      // 8 or 14 bytes after tag
 //                dumpRecordData(recordData);
                 break;
             case TtbinFileDefinition.TAG_49:      // 4 bytes after tag
 //                dumpRecordData(recordData);
                 break;
-            case TtbinFileDefinition.TAG_FITNESSPOINTS:      // 4 bytes after tag
+            case TtbinFileDefinition.TAG_FITNESSPOINTS:
                 parseRecordActivityPoints(recordData);
                 break;
             case TtbinFileDefinition.TAG_4B:      // 4 bytes after tag
 //                dumpRecordData(recordData);
                 break;
-            case TtbinFileDefinition.TAG_HEART_RATE_RECOVERY:      // 9 bytes after tag
+            case TtbinFileDefinition.TAG_HEART_RATE_RECOVERY:
                 parseRecordHeartRateRecovery(recordData);
                 break;
             default:
