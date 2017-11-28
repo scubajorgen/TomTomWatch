@@ -415,7 +415,6 @@ public class TomTomReader
             in = new FileInputStream(fileName);
             
             activity=this.readTtbinFile(in);
-           
         }
         catch (IOException e)
         {
@@ -457,8 +456,6 @@ public class TomTomReader
             in = new ByteArrayInputStream(file.fileData);
             
             activity=this.readTtbinFile(in);
-activity.dumpActivityCsv();
-           
         }
         catch (IOException e)
         {

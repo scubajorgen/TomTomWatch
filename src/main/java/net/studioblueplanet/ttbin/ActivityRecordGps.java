@@ -31,8 +31,8 @@ public class ActivityRecordGps extends ActivityRecord
     private         double      elevation1;         // Elevation 1 from GPS record - absolute elevation
     private         double      elevation2;         // Elevation 2 from GPS record - calibrated around 0
     private         double      derivedElevation;   // Combined elevation. Elevation 2 seems the best, but is shifted towards 0
-    private         double      cummElevationGain1; // Cummulative Elevation Gain in m
-    private         double      cummElevationGain2; // Cummulative Elevation Gain in m
+    private         double      ascend; // Cummulative Elevation Gain in m
+    private         double      descend; // Cummulative Elevation Gain in m
     private         int         elevationStatus;    // Elevation status byte??
     private         DateTime    heartRateDateTime;  // The timestamp associated with the heart rate
     private         int         heartRate;          // Heartrate in bpm
@@ -69,8 +69,8 @@ public class ActivityRecordGps extends ActivityRecord
         this.instantSpeed       =INVALID;
         this.elevation1         =INVALID;
         this.elevation2         =INVALID;
-        this.cummElevationGain1 =INVALID;
-        this.cummElevationGain2 =INVALID;
+        this.ascend =INVALID;
+        this.descend =INVALID;
         this.elevationStatus    =INVALID;
         this.heartRate          =INVALID;
         this.temperature        =INVALID;
@@ -320,39 +320,39 @@ public class ActivityRecordGps extends ActivityRecord
     
     
     /**
-     * Set barometric cumulative elevation gain 
-     * @param elevationGain Elevation gain in m 
+     * Set barometric cumulative ascend 
+     * @param ascend Elevation gain in m 
      */
-    public void setCumulativeElevationGain1(double elevationGain)
+    public void setCumulativeAscend(double ascend)
     {
-        this.cummElevationGain1=elevationGain;
+        this.ascend=ascend;
     }
     
     /**
-     * Get cumulative elevation gain
+     * Get cumulative ascend
      * @return The elevation gain in m
      */
-    public double getCumulativeElevationgain1()
+    public double getCumulativeAscend()
     {
-        return this.cummElevationGain1;
+        return this.ascend;
     }
     
     /**
-     * Set gps(?) cumulative elevation gain 
-     * @param elevationGain Elevation gain in m 
+     * Set cumulative decend
+     * @param descend Elevation gain in m 
      */
-    public void setCumulativeElevationGain2(double elevationGain)
+    public void setCumulativeDecend(double descend)
     {
-        this.cummElevationGain2=elevationGain;
+        this.descend=descend;
     }
     
     /**
-     * Get cumulative elevation gain
+     * Get cumulative decend
      * @return The elevation gain in m
      */
-    public double getCumulativeElevationgain2()
+    public double getCumulativeDecend()
     {
-        return this.cummElevationGain2;
+        return this.descend;
     }
     
     /**
@@ -561,9 +561,9 @@ public class ActivityRecordGps extends ActivityRecord
         DebugLogger.info("Heading (deg)           "+this.heading);
         DebugLogger.info("Calories (kCal)         "+this.calories);
         DebugLogger.info("Elevation 1 (m)         "+this.elevation1);
-        DebugLogger.info("Cumm. Elevation gain (m)"+this.cummElevationGain1);
+        DebugLogger.info("Cumm. Elevation gain (m)"+this.ascend);
         DebugLogger.info("Elevation 2 (m)         "+this.elevation2);
-        DebugLogger.info("Cumm. Elevation gain (m)"+this.cummElevationGain1);
+        DebugLogger.info("Cumm. Elevation gain (m)"+this.ascend);
         DebugLogger.info("Cycles                  "+this.cycles);
     }
     
@@ -613,8 +613,8 @@ public class ActivityRecordGps extends ActivityRecord
         writer.write(this.elevation1+",");
         writer.write(this.elevation2+",");
         writer.write(this.derivedElevation+",");
-        writer.write(this.cummElevationGain1+",");
-        writer.write(this.cummElevationGain2+",");
+        writer.write(this.ascend+",");
+        writer.write(this.descend+",");
         
         writer.write(""+this.heartRate+",");
 

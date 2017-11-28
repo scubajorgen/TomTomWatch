@@ -332,7 +332,8 @@ public class GpxWriter
         double                      longitude;
         double                      elevation;
         double                      heading;
-        double                      elevationGain;
+        double                      ascend;
+        double                      descend;
         double                      calories;
         double                      distance;
         double                      speed;
@@ -365,7 +366,8 @@ public class GpxWriter
             // TO DO: add or not add. Can be derived...
             heading         =((ActivityRecordGps)point).getHeading();
             calories        =((ActivityRecordGps)point).getCalories();
-            elevationGain   =((ActivityRecordGps)point).getCumulativeElevationgain1();
+            ascend          =((ActivityRecordGps)point).getCumulativeAscend();
+            descend         =((ActivityRecordGps)point).getCumulativeDecend();
             distance        =((ActivityRecordGps)point).getDistance();
             
             if ((dateTime!=null) && 
@@ -440,11 +442,19 @@ public class GpxWriter
                     extensionsElement.appendChild(element);
                 }
 
-                // Extension: climb
+                // Extension: ascend
                 if (evpe!=ActivityRecord.INVALID)
                 {
-                    element    = doc.createElement("u-gotMe:climb");
-                    element.appendChild(doc.createTextNode(String.format("%.1f",elevationGain)));
+                    element    = doc.createElement("u-gotMe:ascend");
+                    element.appendChild(doc.createTextNode(String.format("%.1f", ascend)));
+                    extensionsElement.appendChild(element);
+                }
+
+                // Extension: descend
+                if (evpe!=ActivityRecord.INVALID)
+                {
+                    element    = doc.createElement("u-gotMe:descend");
+                    element.appendChild(doc.createTextNode(String.format("%.1f", descend)));
                     extensionsElement.appendChild(element);
                 }
 
