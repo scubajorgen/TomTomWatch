@@ -461,7 +461,7 @@ public class UsbInterface extends WatchInterface
         {
             this.intToPacket(0, txPacket.data, 0, 4);
             this.intToPacket(0, txPacket.data, 4, 4);
-            txPacket.length=4;
+            txPacket.length=8;
             command=MSG_FIND_FIRST_FILE;
             
         }
@@ -871,7 +871,8 @@ public class UsbInterface extends WatchInterface
                 if (file!=null)
                 {
                     // Filter the files based on file type: ALL or indicated file type
-                    if ((fileType==FileType.TTWATCH_FILE_ALL) || ((file.fileId & TTWATCH_FILE_TYPE_MASK) ==fileType.getValue()))
+                    if (((fileType==FileType.TTWATCH_FILE_ALL) || ((file.fileId & TTWATCH_FILE_TYPE_MASK) ==fileType.getValue())) && 
+                        !file.endOfList)
                     {
                         this.fileList.add(file);
                     }
