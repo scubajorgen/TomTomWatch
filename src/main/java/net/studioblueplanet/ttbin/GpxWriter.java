@@ -492,7 +492,8 @@ public class GpxWriter
         Attr                        attr;
         DateTime                    dateTime;
         String                      dateTimeString;
-
+        double                      latitude;
+        double                      longitude;
 
         // Retrieve the list of waypoints
         points=track.getWaypoints();
@@ -526,13 +527,15 @@ public class GpxWriter
             pointElement.appendChild(element);
            
             // set attribute 'lat' to element
+            latitude=((ActivityRecordGps)point).getLatitude();
             attr = doc.createAttribute("lat");
-            attr.setValue(String.valueOf(((ActivityRecordGps)point).getLatitude()));
+            attr.setValue(String.format("%.7f", latitude));
             pointElement.setAttributeNode(attr);
 
             // set attribute 'lon' to element
+            longitude=((ActivityRecordGps)point).getLongitude();
             attr = doc.createAttribute("lon");
-            attr.setValue(String.valueOf(((ActivityRecordGps)point).getLongitude()));
+            attr.setValue(String.format("%.7f", longitude));
             pointElement.setAttributeNode(attr);
 
             element    = doc.createElement("ele");
