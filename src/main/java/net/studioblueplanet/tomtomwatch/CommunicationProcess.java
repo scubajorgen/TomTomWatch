@@ -518,7 +518,7 @@ public class CommunicationProcess implements Runnable, ProgressListener
                         error=showTrackedActivity(watchInterface);
                         break;
                     case THREADCOMMAND_DELETETRACKEDACTIVITY:
-                        theView.appendStatus("Erasing tracked activity\n");
+                        theView.setStatus("Erasing tracked activity\n");
                         error=this.eraseFiles(watchInterface, WatchInterface.FileType.TTWATCH_FILE_TRACKEDACTIVITY);
                         theView.appendStatus("Done\n");
                         break;
