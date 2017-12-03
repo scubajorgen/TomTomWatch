@@ -1213,13 +1213,13 @@ public class UsbInterface extends WatchInterface
                 if (errorInt>0)
                 {
                     error=true;
-                    DebugLogger.error("Error fomratting device");
+                    DebugLogger.error("Error formatting device");
                 }
             }
             else
             {
                 error=true;
-                DebugLogger.error("Error fomratting device");
+                DebugLogger.error("Error formatting device");
             }
         }  
         return error;
