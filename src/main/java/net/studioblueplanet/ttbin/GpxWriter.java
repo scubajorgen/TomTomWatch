@@ -640,11 +640,10 @@ public class GpxWriter
         Element         extensionsElement;
         Element         element;
 
-        
         // Extensions
         heartRateRecovery       =segment.getHeartRateRecovery();
         heartRateRecoveryScore  =segment.getHeartRateRecoveryScore();
-
+        
         if (heartRateRecovery!=ActivitySegment.HRRECOVERY_UNDEFINED || heartRateRecoveryScore>=0)
         {
             extensionsElement       = doc.createElement("extensions");
@@ -679,13 +678,12 @@ public class GpxWriter
         int     fitnessPoints;
         float   trackSmoothing;
         boolean isSmoothed;
+        String  routeName;
         Element extensionsElement;
         Element element;
         
-
         extensionsElement       = doc.createElement("extensions");
         trackElement.appendChild(extensionsElement);
-
 
         element    = doc.createElement("u-gotMe:device");
         element.appendChild(doc.createTextNode(track.getDeviceName()));
@@ -710,6 +708,14 @@ public class GpxWriter
             trackSmoothing      =track.getTrackSmoothingQFactor();
             element    = doc.createElement("u-gotMe:smoothingFactor");
             element.appendChild(doc.createTextNode(String.valueOf(trackSmoothing)));
+            extensionsElement.appendChild(element);
+        }
+
+        routeName           =track.getRouteName();
+        if (!routeName.equals(""))
+        {
+            element    = doc.createElement("u-gotMe:routeName");
+            element.appendChild(doc.createTextNode(routeName));
             extensionsElement.appendChild(element);
         }
     }

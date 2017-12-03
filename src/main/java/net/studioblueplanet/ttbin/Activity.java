@@ -40,6 +40,8 @@ public class Activity
     
     protected               int                         fitnessPointsStart;
     protected               int                         fitnessPointsEnd;
+     
+    protected               String                      route;
     
     private final           ArrayList<ActivitySegment>  segments;
     private final           ArrayList<ActivityRecord>   waypoints;
@@ -80,6 +82,8 @@ public class Activity
         this.newRecord              =null;
         this.newActivitySegment     =null;
         this.deviceName             ="TomTom";
+        
+        this.route                  ="";
         
         this.isSmoothed             =false;
         this.trackSmoothingQFactor  =0.0f;
@@ -295,6 +299,14 @@ public class Activity
         return points;
     }
             
+    /**
+     * Returns the name of the planned route that was followed
+     * @return The route name as String, or "" if no route followed
+     */
+    public String getRouteName()
+    {
+        return this.route;
+    }
     
     
     /* ******************************************************************************************* *\
@@ -647,7 +659,22 @@ public class Activity
         movementState       =ToolBox.readInt(recordData,  1, 1, true);
         ((ActivityRecordGps)newRecord).setMovementState(movementState);
         
-    }    
+    }   
+    
+    /**
+     * Parse movement state record. This record contains 1 byte that seems
+     * to coincide with the momevement: 0 - standing still, 1 - reduced speed,
+     * 2 - moving
+     * @param recordData Record data
+     */
+    private void parseRouteDescription(byte[] recordData)
+    {
+        
+        // The route name
+        this.route=ToolBox.readString(recordData,  21, 80);
+      
+    }   
+    
     
 
     /**
@@ -704,6 +731,9 @@ public class Activity
                 break;
             case TtbinFileDefinition.TAG_HEART_RATE_RECOVERY:
                 parseRecordHeartRateRecovery(recordData);
+                break;
+            case TtbinFileDefinition.TAG_ROUTEDESCRIPTION:
+                parseRouteDescription(recordData);
                 break;
             default:
 //DebugLogger.info(String.format("tag 0x%02x: unknown, length %d", tag, this.header.getLength(tag)));        
