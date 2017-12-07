@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<preferences version="1" modified="">
+    <watchName>TomTom GPS Watch</watchName>
+    <ConfigURL>https://mysports.tomtom.com/service/config/config.json</ConfigURL>
+    <exporters>
+        <offline>
+        </offline>
+    </exporters>
+</preferences>

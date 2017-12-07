@@ -86,6 +86,7 @@ public class CommunicationProcess implements Runnable, ProgressListener
     private long                                bytesToDownload;
     private long                                bytesDownloaded;
     
+    private UsbFile                             preferenceFile;
     
     /**
      * Constructor. Initializes the instance 
@@ -99,6 +100,7 @@ public class CommunicationProcess implements Runnable, ProgressListener
         threadExit          =false;
         commandQueue        =new LinkedList();
         productId           =WatchInterface.PRODUCTID_UNKNOWN;
+        preferenceFile      =null;
         
         fileIdToWrite       =WatchInterface.FILEID_INVALID;
         fileIdToDelete      =WatchInterface.FILEID_INVALID;
@@ -457,6 +459,9 @@ public class CommunicationProcess implements Runnable, ProgressListener
                     case THREADCOMMAND_PREFERENCES:
                         error=getXmlPreferences(watchInterface);
                         break;
+                    case THREADCOMMAND_DELETEPREFERENCES:
+                        error=deleteXmlPreferences(watchInterface);
+                        break;
                     case THREADCOMMAND_LISTFILES:
                         error=listFiles(watchInterface);
                         break;
@@ -527,6 +532,9 @@ public class CommunicationProcess implements Runnable, ProgressListener
                         break;
                     case THREADCOMMAND_SYNCTIME:
                         error=syncTime(watchInterface);
+                        break;
+                    case THREADCOMMAND_FACTORYRESET:
+                        error=factoryReset(watchInterface);
                         break;
                 }
 
@@ -997,6 +1005,8 @@ public class CommunicationProcess implements Runnable, ProgressListener
         
         return error;
     }
+
+
     /**
      * Reads the watch preference file and displays the XML content in the
      * status pane
@@ -1021,8 +1031,44 @@ public class CommunicationProcess implements Runnable, ProgressListener
             error=true;
             DebugLogger.error("Error reading preferences");
         }
+        
+        this.preferenceFile=file;
+        
         return error;        
     }
+
+    /**
+     * Delete the watch preference file. This is needed to clear the 
+     * TomTom Mysports connectivity data.
+     * @param watchInterface USB Interface to use
+     * @return True if an error occurred, false if not
+     */
+    private boolean deleteXmlPreferences(WatchInterface watchInterface)
+    {
+        UsbFile file;
+        boolean error;
+        
+        file=new UsbFile();
+        file.fileId=WatchInterface.FILEID_PREFERENCES_XML;
+        
+        error=watchInterface.deleteFile(file);
+        
+        if (!error)
+        {
+            theView.setStatus("Preference file deleted.\n"); 
+            theView.appendStatus("Reconnect watch to TomTomWatch to write default off-line preferences.\n");
+            theView.appendStatus("Connect to TomTom Sports Connect to connect the watch to TomTom account.\n");
+        
+        }
+        else
+        {
+            
+        }
+        
+        return error;        
+    }
+    
+
     
     /**
      * Reads the file list and displays it in the status area
@@ -2330,6 +2376,39 @@ public class CommunicationProcess implements Runnable, ProgressListener
         watchInterface.resetDevice();
         theView.setStatus("Rebooted...");
 
+        return error;    
+    }    
+
+     /**
+     * This method resets the watch to factory resets. All userdata is erased.
+     * @param watchInterface The watch interface
+     * @return True if an error occurred, false if successful
+     */
+    private boolean factoryReset(WatchInterface watchInterface)
+    {
+        boolean error;
+        Firmware firmware;
+        
+        error = false;
+        
+        theView.setStatus("Factory reset proces started. Do not disconnect watch.\n");
+
+        firmware=Firmware.getInstance();
+        
+        error=firmware.prepareFirmware(watchInterface, productId);
+        
+        if (!error)
+        {
+            error=watchInterface.formatDevice();
+            theView.appendStatus("Factory reset initialized.\n");
+            error=firmware.forceUpdateFirmware(watchInterface, theView, fileToUpload);
+            theView.appendStatus("Reconnect watch to TomTomWatch to write default off-line preferences.\n");
+            theView.appendStatus("Connect to TomTom Sports Connect to connect the watch to TomTom account.\n");
+        }
+        else
+        {
+            theView.appendStatus("Unable to prepare download firmware update. Cannot factory reset.");
+        }
         return error;    
     }    
 

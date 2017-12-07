@@ -189,16 +189,18 @@ public class TomTomWatchView extends javax.swing.JFrame
         jMenuItemListRaces = new javax.swing.JMenuItem();
         jMenuItemSyncTime = new javax.swing.JMenuItem();
         jMenuDebugging = new javax.swing.JMenu();
-        jMenuItemPreferences = new javax.swing.JMenuItem();
         jMenuItemListFiles = new javax.swing.JMenuItem();
         jMenuDownloadFile = new javax.swing.JMenuItem();
         jMenuItemUploadFile = new javax.swing.JMenuItem();
         jMenuItemDeleteFile = new javax.swing.JMenuItem();
         jMenuItemReboot = new javax.swing.JMenuItem();
-        jMenuItemSaveSimSet = new javax.swing.JMenuItem();
+        jMenuItemFactoryReset = new javax.swing.JMenuItem();
+        jMenuItemPreferences = new javax.swing.JMenuItem();
+        jMenuItemDeletePreferences = new javax.swing.JMenuItem();
         jMenuItemShowUpdateLog = new javax.swing.JMenuItem();
         jMenuItemShowLog = new javax.swing.JMenuItem();
         jMenuItemShowSettings = new javax.swing.JMenuItem();
+        jMenuItemSaveSimSet = new javax.swing.JMenuItem();
         jMenuAbout = new javax.swing.JMenu();
         jMenuItemAbout = new javax.swing.JMenuItem();
 
@@ -638,16 +640,6 @@ public class TomTomWatchView extends javax.swing.JFrame
 
         jMenuDebugging.setText("Debugging");
 
-        jMenuItemPreferences.setText("Preferences");
-        jMenuItemPreferences.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
-                jMenuItemPreferencesActionPerformed(evt);
-            }
-        });
-        jMenuDebugging.add(jMenuItemPreferences);
-
         jMenuItemListFiles.setText("List All Files");
         jMenuItemListFiles.addActionListener(new java.awt.event.ActionListener()
         {
@@ -698,15 +690,35 @@ public class TomTomWatchView extends javax.swing.JFrame
         });
         jMenuDebugging.add(jMenuItemReboot);
 
-        jMenuItemSaveSimSet.setText("Save Simulation Set");
-        jMenuItemSaveSimSet.addActionListener(new java.awt.event.ActionListener()
+        jMenuItemFactoryReset.setText("Factory Reset");
+        jMenuItemFactoryReset.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
             {
-                jMenuItemSaveSimSetActionPerformed(evt);
+                jMenuItemFactoryResetActionPerformed(evt);
             }
         });
-        jMenuDebugging.add(jMenuItemSaveSimSet);
+        jMenuDebugging.add(jMenuItemFactoryReset);
+
+        jMenuItemPreferences.setText("Preferences");
+        jMenuItemPreferences.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                jMenuItemPreferencesActionPerformed(evt);
+            }
+        });
+        jMenuDebugging.add(jMenuItemPreferences);
+
+        jMenuItemDeletePreferences.setText("Delete Preferences");
+        jMenuItemDeletePreferences.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                jMenuItemDeletePreferencesActionPerformed(evt);
+            }
+        });
+        jMenuDebugging.add(jMenuItemDeletePreferences);
 
         jMenuItemShowUpdateLog.setText("Show Update Log");
         jMenuItemShowUpdateLog.addActionListener(new java.awt.event.ActionListener()
@@ -737,6 +749,16 @@ public class TomTomWatchView extends javax.swing.JFrame
             }
         });
         jMenuDebugging.add(jMenuItemShowSettings);
+
+        jMenuItemSaveSimSet.setText("Save Simulation Set");
+        jMenuItemSaveSimSet.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                jMenuItemSaveSimSetActionPerformed(evt);
+            }
+        });
+        jMenuDebugging.add(jMenuItemSaveSimSet);
 
         jMenuBar.add(jMenuDebugging);
 
@@ -1618,6 +1640,54 @@ public class TomTomWatchView extends javax.swing.JFrame
         this.checkAndPushCommand(ThreadCommand.THREADCOMMAND_SYNCTIME);
     }//GEN-LAST:event_jMenuItemSyncTimeActionPerformed
 
+    private void jMenuItemFactoryResetActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jMenuItemFactoryResetActionPerformed
+    {//GEN-HEADEREND:event_jMenuItemFactoryResetActionPerformed
+        int response;
+        
+        if (communicationProcess.isConnected())
+        {
+            response = JOptionPane.showConfirmDialog(null, "Do you want to factory reset the watch? All data will be lost", "Confirm",
+                                                     JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+            if (response == JOptionPane.YES_OPTION) 
+            {
+                // Signal the thread to reset the watch
+                communicationProcess.pushCommand(ThreadCommand.THREADCOMMAND_FACTORYRESET);
+            } 
+            else 
+            {
+
+            }
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(this, "No watch connected", "Warning", JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_jMenuItemFactoryResetActionPerformed
+
+    private void jMenuItemDeletePreferencesActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jMenuItemDeletePreferencesActionPerformed
+    {//GEN-HEADEREND:event_jMenuItemDeletePreferencesActionPerformed
+        int response;
+        
+        if (communicationProcess.isConnected())
+        {
+            response = JOptionPane.showConfirmDialog(null, "Do you want to delete the preference file from the watch? Connectivity data will be lost", "Confirm",
+                                                     JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+            if (response == JOptionPane.YES_OPTION) 
+            {
+                // Signal the thread to reset the watch
+                communicationProcess.pushCommand(ThreadCommand.THREADCOMMAND_DELETEPREFERENCES);
+            } 
+            else 
+            {
+
+            }
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(this, "No watch connected", "Warning", JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_jMenuItemDeletePreferencesActionPerformed
+
     /*############################################################################################*\
      * HELPER FUNCTIONS     
     \*############################################################################################*/    
@@ -2067,7 +2137,9 @@ public class TomTomWatchView extends javax.swing.JFrame
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItemAbout;
     private javax.swing.JMenuItem jMenuItemDeleteFile;
+    private javax.swing.JMenuItem jMenuItemDeletePreferences;
     private javax.swing.JMenuItem jMenuItemEraseData;
+    private javax.swing.JMenuItem jMenuItemFactoryReset;
     private javax.swing.JMenuItem jMenuItemListFiles;
     private javax.swing.JMenuItem jMenuItemListHistory;
     private javax.swing.JMenuItem jMenuItemListHistorySummary;
