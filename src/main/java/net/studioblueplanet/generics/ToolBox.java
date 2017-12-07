@@ -466,4 +466,33 @@ public class ToolBox
         return error;        
     }
     
+    
+    /**
+     * Reads all bytes from an input stream
+     * @param is Input stream
+     * @return Byte array containing the bytes or null if not successful
+     */
+    public static byte[] getBytesFromInputStream(InputStream is)
+    {
+        byte[] theBytes;
+        
+        theBytes=null;
+        
+        try (ByteArrayOutputStream os = new ByteArrayOutputStream();)
+        {
+            byte[] buffer = new byte[1024];
+
+            for (int len; (len = is.read(buffer)) != -1;)
+                os.write(buffer, 0, len);
+
+            os.flush();
+
+            theBytes=os.toByteArray();
+        }
+        catch (IOException e)
+        {
+            DebugLogger.error("Error reading bytes from input stream");
+        }
+        return theBytes;
+    }    
 }
