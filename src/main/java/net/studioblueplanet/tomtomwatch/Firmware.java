@@ -337,6 +337,61 @@ public class Firmware
         return error;
     }
     
+
+    
+    
+    /** 
+     * Execute the firmware update
+     * @return True if an error occurred, false if not
+     */
+    private boolean doUpdateFirmware()
+    {
+        boolean error;
+        
+        theView.appendStatus("Updating firmware: downloading files\n");
+
+        // Backup files from the device and donwload the new files
+        error               =downloadFiles();
+
+        if (!error)
+        {
+            theView.appendStatus("Files downloaded, write firmware to watch...\n");
+
+            // Write the files to the watch in predefined order
+            sortFiles();
+
+            error=writeFiles();
+
+            if (!error)
+            {
+    //                        error=watchInterface.sendMessageGroup1();
+                theView.appendStatus("Rebooting\n");
+                error=watchInterface.resetDevice();
+                if (!error)
+                {
+                    theView.appendStatus("Done! Disconnect and reconnect watch\n");
+                }
+                else
+                {
+                    // Error while rebooting. is to be expected
+                    theView.appendStatus("Done! Disconnect and reconnect watch\n");
+                }
+            }
+            else
+            {
+                theView.appendStatus("Error writing files!! No reboot executed\n");
+            }
+        }
+        else
+        {
+            theView.appendStatus("Error downloading files. Not executing update.");
+        }
+        return error;
+    }
+    
+    
+    
+    
     
     /*############################################################################################*\
      * PUBLIC FUNCTIONS     
@@ -361,7 +416,7 @@ public class Firmware
      * @param productId Product ID of the watch
      * @param currentFirmware Current firmware int the watch
      * @param view Application view to use for UI feedback
-     * @return False if an error occurred, true if succesfull
+     * @return False if an error occurred, true if successful
      */
     public boolean updateFirmware(WatchInterface watchInterface, int productId, long currentFirmware, TomTomWatchView view)
     {
@@ -383,6 +438,52 @@ public class Firmware
         this.theView            =view;
         this.watchInterface     =watchInterface;
         
+        prepareFirmware(watchInterface, productId);
+        
+        feedback = "Current firmware: "+((currentFirmware>>32)&0xff)+"."+
+                                        ((currentFirmware>>16)&0xff)+"."+
+                                        ((currentFirmware    )&0xff)+
+                   " Latest firmware: "+((latestVersionAvailable>>32)&0xff)+"."+
+                                        ((latestVersionAvailable>>16)&0xff)+"."+
+                                        ((latestVersionAvailable    )&0xff);
+        theView.setStatus(feedback+"\n");
+        
+
+        if (!error && latestVersionAvailable>currentFirmware)
+        {
+            response = JOptionPane.showConfirmDialog(null, "New firmware found. Execute update?", "Confirm",
+                                                     JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+            if (response == JOptionPane.YES_OPTION) 
+            {
+                error=doUpdateFirmware();
+            } 
+        }
+        else
+        {
+            theView.appendStatus("Firmware up to date.");            
+        }
+
+        return error;
+    }
+    
+
+    
+    
+    /**
+     * Get the firmware version and download the firmware files
+     * @param watchInterface Watch interface to use to communicate to the watch
+     * @param productId Product ID of the watch
+     * @return False if an error occurred, true if successful
+     */
+    public boolean prepareFirmware(WatchInterface watchInterface, int productId)
+    {
+        boolean     error;
+        String      firmwareDefinition;
+        String      firmwareDefinitionUrl;
+        String      page;
+        JSONObject  jsonObj;
+        String      configUrl;
+        
         // The configuration URL
         configUrl               =watchInterface.getPreference("ConfigURL");
         
@@ -402,70 +503,52 @@ public class Firmware
         // Read the XML defining the last firmware version avaialble
         firmwareDefinition      =ToolBox.readStringFromUrl(firmwareDefinitionUrl);
 
+        // Get the latest firmware version and download the firmware files
         error                   =getLatestFirmwareVersion(firmwareDefinition);
-        
-        feedback = "Current firmware: "+((currentFirmware>>32)&0xff)+"."+
-                                        ((currentFirmware>>16)&0xff)+"."+
-                                        ((currentFirmware    )&0xff)+
-                   " Latest firmware: "+((latestVersionAvailable>>32)&0xff)+"."+
-                                        ((latestVersionAvailable>>16)&0xff)+"."+
-                                        ((latestVersionAvailable    )&0xff);
-        theView.setStatus(feedback+"\n");
-        
-
-        if (!error && latestVersionAvailable>currentFirmware)
-        {
-            response = JOptionPane.showConfirmDialog(null, "New firmware found. Execute update?", "Confirm",
-                                                     JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-            if (response == JOptionPane.YES_OPTION) 
-            {
-                theView.appendStatus("Updating firmware: downloading files\n");
-
-                // Backup files from the device and donwload the new files
-                error               =downloadFiles();
-             
-                if (!error)
-                {
-                    theView.appendStatus("Files downloaded, write firmware to watch...\n");
-
-                    // Write the files to the watch in predefined order
-                    sortFiles();
-
-                    error=writeFiles();
-
-                    if (!error)
-                    {
-//                        error=watchInterface.sendMessageGroup1();
-                        theView.appendStatus("Rebooting\n");
-                        error=watchInterface.resetDevice();
-                        if (!error)
-                        {
-                            theView.appendStatus("Done! Disconnect and reconnect watch\n");
-                        }
-                        else
-                        {
-                            // Error while rebooting. is to be expected
-                            theView.appendStatus("Done! Disconnect and reconnect watch\n");
-                        }
-                    }
-                    else
-                    {
-                        theView.appendStatus("Error writing files!! No reboot executed\n");
-                    }
-                }
-                else
-                {
-                    theView.appendStatus("Error downloading files. Not executing update.");
-                }
-            } 
-        }
-        else
-        {
-            theView.appendStatus("Firmware up to date.");            
-        }
 
         return error;
     }
     
+
+    /**
+     * Thist method executes a firmware update. The method requires 
+     * prepareFirmware to have been executed.
+     * @param watchInterface The WatchInterface to use 
+     * @param view Application view to use for UI feedback
+     * @return False if an error occurred, true if succesfull
+     */
+    public boolean forceUpdateFirmware(WatchInterface watchInterface, TomTomWatchView view, String configUrl)
+    {
+        
+        boolean     error;
+        String      firmwareDefinition;
+        String      firmwareDefinitionUrl;
+        String      page;
+        JSONObject  jsonObj;
+        Pattern     pattern;
+        Matcher     matcher;
+        int         latest;
+        String      feedback;
+        int         response;
+        
+        error                   =false;
+
+        this.theView            =view;
+        this.watchInterface     =watchInterface;
+        
+        feedback = "Downloading firmware: "+((latestVersionAvailable>>32)&0xff)+"."+
+                                          ((latestVersionAvailable>>16)&0xff)+"."+
+                                          ((latestVersionAvailable    )&0xff);
+        theView.appendStatus(feedback+"\n");
+        
+        if (!error)
+        {
+            error=doUpdateFirmware();
+        }
+        return error;
+    }
+
+
+
     
 }
