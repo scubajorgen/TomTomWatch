@@ -97,6 +97,24 @@ public class UsbTestInterface extends WatchInterface
     
     
     /**
+     * This method checks if a file exists
+     * @param fileId Id of the file to check
+     * @return True if the file exists or false if not or something
+     */
+    public boolean fileExists(int fileId)
+    {
+        String fileName;
+        File   file;
+        
+        fileName        =simulationPath+String.format("0x%08x.bin", fileId);
+
+        file=new File(fileName);
+        
+        return file.exists();
+    }
+    
+    
+    /**
      * This method reads the file with file ID defined in the file
      * instance passed from the watch
      * @param file File defining the file ID. The file data is read into

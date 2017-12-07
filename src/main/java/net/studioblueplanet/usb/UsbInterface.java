@@ -323,16 +323,6 @@ public class UsbInterface extends WatchInterface
             }
         }
         
-        
-/*        
-        int i=0;
-        while (i<25)
-        {
-            System.out.print(String.format("%02x ", rxPacket.data[i]));
-            i++;
-        }        
-*/        
-        
         return fileSize;
     }
     
@@ -633,6 +623,48 @@ public class UsbInterface extends WatchInterface
         }
         return error;
     }
+    
+    
+    public boolean fileExists(int fileId)
+    {
+        int     id;
+        boolean exists;
+        int     requestError;
+
+        exists=false;
+        
+        // Encode the fileID in the tx packet
+        this.intToPacket(fileId, txPacket.data, 0, 4);
+        txPacket.length=4;
+
+        if (!connection.isError())
+        {
+            // request the file size
+            connection.sendRequest(MSG_GET_FILE_SIZE, txPacket, rxPacket, MSG_GET_FILE_SIZE, 20);
+            id              =this.packetToInt(rxPacket.data,  4, 4);
+            requestError    =this.packetToInt(rxPacket.data,  16, 4);
+
+            if (!connection.isError())
+            {
+                // If an error occurs, the file does not exist...
+                if ((requestError>0) || (id!=fileId))
+                {
+                    exists=false;
+                }
+                else
+                {
+                    exists=true;
+                }
+            }
+            else
+            {
+                DebugLogger.error("Error while requesting file size");
+            }
+        }
+        
+        return exists;
+    }
+        
     
     
     /**

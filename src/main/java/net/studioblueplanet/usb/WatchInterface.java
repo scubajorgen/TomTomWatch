@@ -10,9 +10,11 @@ import java.util.ArrayList;
 import net.studioblueplanet.logger.DebugLogger;
 
 import hirondelle.date4j.DateTime;
+import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import net.studioblueplanet.generics.ToolBox;
 /**
  * This abstract class defines the interface to the watch. It defines the 
  * file handling methods as well as the file definitions. A number of generic
@@ -142,6 +144,14 @@ public abstract class WatchInterface
     {
         this.listener=listener;
     }
+    
+    
+    /**
+     * This method checks if a file exists
+     * @param fileId Id of the file to check
+     * @return True if the file exists or false if not or something
+     */
+    public abstract boolean fileExists(int fileId);
     
     
     /**
@@ -278,11 +288,27 @@ public abstract class WatchInterface
      */
     public UsbFile readPreferences()
     {
-        boolean error;
+        boolean         error;
+        InputStream     inStream;
+        
  
+
+        // If there is no preference file on the watch, 
+        // which occurs when the watch is factory reset,
+        // write the default
+        if (!this.fileExists(FILEID_PREFERENCES_XML))
+        {
+            inStream = getClass().getResourceAsStream("/net/studioblueplanet/tomtomwatch/resources/watchpreferences_default.bin"); 
+            preferenceFile                  =new UsbFile();
+            preferenceFile.fileId           =FILEID_PREFERENCES_XML;
+            preferenceFile.fileData         =ToolBox.getBytesFromInputStream(inStream);
+            preferenceFile.length           =preferenceFile.fileData.length;
+            
+            error=this.writeFile(preferenceFile);
+        }
+        
         preferenceFile                  =new UsbFile();
         preferenceFile.fileId           =FILEID_PREFERENCES_XML;
-
         error=this.readFile(preferenceFile);
 
         if (error)
@@ -327,7 +353,6 @@ public abstract class WatchInterface
         preference=null;
         
         readPreferences();
-
         
         if (preferenceFile!=null)
         {
