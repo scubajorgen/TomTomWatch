@@ -324,7 +324,7 @@ public class WatchSettings
             tag     =ToolBox.readInt(settingsData, 4+i*6, 2, true);
             value   =ToolBox.readInt(settingsData, 6+i*6, 4, true);
 
-            DebugLogger.info("Tag "+tag+" Value "+value);         
+            DebugLogger.debug("Tag "+tag+" Value "+value);         
             
             setting =new WatchSetting(tag, value);
             
