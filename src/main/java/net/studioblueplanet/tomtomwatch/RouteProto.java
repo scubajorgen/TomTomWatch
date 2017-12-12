@@ -687,6 +687,10 @@ public final class RouteProto {
     net.studioblueplanet.tomtomwatch.RouteProto.TrackLevel1OrBuilder getLevel1OrBuilder();
   }
   /**
+   * <pre>
+   * 1st level
+   * </pre>
+   *
    * Protobuf type {@code tutorial.RootContainer}
    */
   public  static final class RootContainer extends
@@ -1007,6 +1011,10 @@ public final class RouteProto {
       return builder;
     }
     /**
+     * <pre>
+     * 1st level
+     * </pre>
+     *
      * Protobuf type {@code tutorial.RootContainer}
      */
     public static final class Builder extends
@@ -1981,6 +1989,10 @@ public final class RouteProto {
     net.studioblueplanet.tomtomwatch.RouteProto.LatLonOrBuilder getLonOrBuilder();
   }
   /**
+   * <pre>
+   * Container
+   * </pre>
+   *
    * Protobuf type {@code tutorial.Coordinate}
    */
   public  static final class Coordinate extends
@@ -2305,6 +2317,10 @@ public final class RouteProto {
       return builder;
     }
     /**
+     * <pre>
+     * Container
+     * </pre>
+     *
      * Protobuf type {@code tutorial.Coordinate}
      */
     public static final class Builder extends
@@ -2784,6 +2800,10 @@ public final class RouteProto {
     net.studioblueplanet.tomtomwatch.RouteProto.CoordinateOrBuilder getCoordinateOrBuilder();
   }
   /**
+   * <pre>
+   * Coordinate container
+   * </pre>
+   *
    * Protobuf type {@code tutorial.CoordinateData}
    */
   public  static final class CoordinateData extends
@@ -3050,6 +3070,10 @@ public final class RouteProto {
       return builder;
     }
     /**
+     * <pre>
+     * Coordinate container
+     * </pre>
+     *
      * Protobuf type {@code tutorial.CoordinateData}
      */
     public static final class Builder extends
@@ -3396,6 +3420,10 @@ public final class RouteProto {
     int getIndex();
   }
   /**
+   * <pre>
+   * Start coordinate
+   * </pre>
+   *
    * Protobuf type {@code tutorial.StartCoordinate}
    */
   public  static final class StartCoordinate extends
@@ -3703,6 +3731,10 @@ public final class RouteProto {
       return builder;
     }
     /**
+     * <pre>
+     * Start coordinate
+     * </pre>
+     *
      * Protobuf type {@code tutorial.StartCoordinate}
      */
     public static final class Builder extends
@@ -4104,6 +4136,10 @@ public final class RouteProto {
         int index);
   }
   /**
+   * <pre>
+   * Route segment
+   * </pre>
+   *
    * Protobuf type {@code tutorial.Segment}
    */
   public  static final class Segment extends
@@ -4420,6 +4456,10 @@ public final class RouteProto {
       return builder;
     }
     /**
+     * <pre>
+     * Route segment
+     * </pre>
+     *
      * Protobuf type {@code tutorial.Segment}
      */
     public static final class Builder extends
@@ -4966,6 +5006,10 @@ public final class RouteProto {
         int index);
   }
   /**
+   * <pre>
+   * Segment section
+   * </pre>
+   *
    * Protobuf type {@code tutorial.SegmentData}
    */
   public  static final class SegmentData extends
@@ -5282,6 +5326,10 @@ public final class RouteProto {
       return builder;
     }
     /**
+     * <pre>
+     * Segment section
+     * </pre>
+     *
      * Protobuf type {@code tutorial.SegmentData}
      */
     public static final class Builder extends
@@ -5847,6 +5895,10 @@ public final class RouteProto {
     net.studioblueplanet.tomtomwatch.RouteProto.LatLonOrBuilder getLonRightOrBuilder();
   }
   /**
+   * <pre>
+   * Bounding box enclosing the route
+   * </pre>
+   *
    * Protobuf type {@code tutorial.BoundingBox}
    */
   public  static final class BoundingBox extends
@@ -6287,6 +6339,10 @@ public final class RouteProto {
       return builder;
     }
     /**
+     * <pre>
+     * Bounding box enclosing the route
+     * </pre>
+     *
      * Protobuf type {@code tutorial.BoundingBox}
      */
     public static final class Builder extends
@@ -7073,6 +7129,10 @@ public final class RouteProto {
     com.google.protobuf.ByteString getTime();
   }
   /**
+   * <pre>
+   * Some information on the route
+   * </pre>
+   *
    * Protobuf type {@code tutorial.TrackMetaData}
    */
   public  static final class TrackMetaData extends
@@ -7448,6 +7508,10 @@ public final class RouteProto {
       return builder;
     }
     /**
+     * <pre>
+     * Some information on the route
+     * </pre>
+     *
      * Protobuf type {@code tutorial.TrackMetaData}
      */
     public static final class Builder extends
@@ -7959,6 +8023,10 @@ public final class RouteProto {
     net.studioblueplanet.tomtomwatch.RouteProto.SegmentDataOrBuilder getDataOrBuilder();
   }
   /**
+   * <pre>
+   * 3rd level
+   * </pre>
+   *
    * Protobuf type {@code tutorial.TrackLevel2}
    */
   public  static final class TrackLevel2 extends
@@ -8350,6 +8418,10 @@ public final class RouteProto {
       return builder;
     }
     /**
+     * <pre>
+     * 3rd level
+     * </pre>
+     *
      * Protobuf type {@code tutorial.TrackLevel2}
      */
     public static final class Builder extends
@@ -9116,6 +9188,10 @@ public final class RouteProto {
     net.studioblueplanet.tomtomwatch.RouteProto.TrackLevel2OrBuilder getLevel2OrBuilder();
   }
   /**
+   * <pre>
+   * 2nd level
+   * </pre>
+   *
    * Protobuf type {@code tutorial.TrackLevel1}
    */
   public  static final class TrackLevel1 extends
@@ -9382,6 +9458,10 @@ public final class RouteProto {
       return builder;
     }
     /**
+     * <pre>
+     * 2nd level
+     * </pre>
+     *
      * Protobuf type {@code tutorial.TrackLevel1}
      */
     public static final class Builder extends
@@ -9730,6 +9810,10 @@ public final class RouteProto {
         int index);
   }
   /**
+   * <pre>
+   * The Root 
+   * </pre>
+   *
    * Protobuf type {@code tutorial.Root}
    */
   public  static final class Root extends
@@ -10004,6 +10088,10 @@ public final class RouteProto {
       return builder;
     }
     /**
+     * <pre>
+     * The Root 
+     * </pre>
+     *
      * Protobuf type {@code tutorial.Root}
      */
     public static final class Builder extends

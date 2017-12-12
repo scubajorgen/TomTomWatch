@@ -1846,8 +1846,8 @@ public class CommunicationProcess implements Runnable, ProgressListener
 
                 theView.setStatus("Downloading "+files.size()+" files... Please wait");
             
-                description     = "File ID    Name                                     Distance (km) \n";
-                description     +="__________ ________________________________________ ______________\n";
+                description     = "File ID    Name                                     Distance (km)  Segments Points\n";
+                description     +="__________ ________________________________________ ______________ ________ ________\n";
                 it              = files.iterator();
                 while (it.hasNext() && !error)
                 {
@@ -1866,7 +1866,9 @@ public class CommunicationProcess implements Runnable, ProgressListener
                         if (!error)
                         {
                             description+=String.format("%-40s ", route.getRouteName());
-                            description+=String.format("%8.1f", (route.getDistance()/1000.0))+"\n";
+                            description+=String.format("%8.1f     ", (route.getDistance()/1000.0));
+                            description+=String.format("%8d ", route.getNumberOfSegments());
+                            description+=String.format("%8d ", route.getNumberOfPoints())+"\n";
                         }
                         else
                         {

@@ -9,89 +9,97 @@ syntax = "proto2";
 
 package tutorial;
 
-option java_package = "net.studioblueplanet.tomtomwatch";
+option java_package         = "net.studioblueplanet.tomtomwatch";
 option java_outer_classname = "RouteProto";
 
 
 message MetaData
 {
-  required fixed32 unknown1=1;  // always 0x1234DAEB?
-  required fixed32 unknown2=2;  // always 0x00010100?
+  required fixed32              unknown1            =1;  // always 0x1234DAEB?
+  required fixed32              unknown2            =2;  // always 0x00010100?
 }
 
-
+// 1st level
 message RootContainer
 {
-  optional MetaData             metaData=7;
-  optional TrackLevel1          level1  =8;
+  optional MetaData             metaData            =7;
+  optional TrackLevel1          level1              =8;
 }
 
 message LatLon
 {
-  required fixed32    value=1;
+  required fixed32              value               =1;
 }
 
+// Container
 message Coordinate
 {
-  required LatLon      lat=1;
-  required LatLon      lon=2;  
+  required LatLon               lat                 =1;
+  required LatLon               lon                 =2;  
 }
 
+// Coordinate container
 message CoordinateData
 {
-  required Coordinate  coordinate=1;
+  required Coordinate           coordinate          =1;
 }
 
+// Start coordinate
 message StartCoordinate
 {
-  required Coordinate  coordinate=1;
-  required int32       index=2;
+  required Coordinate           coordinate          =1;
+  required int32                index               =2;
 }
 
+// Route segment
 message Segment
 {
-  required int32                numberOfCoordinates=1;
-  repeated CoordinateData       data=2;
+  required int32                numberOfCoordinates =1;
+  repeated CoordinateData       data                =2;
 }
 
+// Segment section
 message SegmentData
 {
-  required int32                numberOfSegments=1;
-  repeated Segment              data=2;
+  required int32                numberOfSegments    =1;
+  repeated Segment              data                =2;
 }
 
-
+// Bounding box enclosing the route
 message BoundingBox
 {
-  required LatLon               latDown  =1;
-  required LatLon               lonLeft  =2;
-  required LatLon               latUp    =3;
-  required LatLon               lonRight =4;
+  required LatLon               latDown             =1;
+  required LatLon               lonLeft             =2;
+  required LatLon               latUp               =3;
+  required LatLon               lonRight            =4;
 }
 
+// Some information on the route
 message TrackMetaData
 {
-  required string               name     =1;
-  required BoundingBox          box      =2;
-  required bytes                time     =3;
+  required string               name                =1;
+  required BoundingBox          box                 =2;
+  required bytes                time                =3;
 }
 
+// 3rd level
 message TrackLevel2
 {
-  required TrackMetaData        metadata  =1;
-  repeated StartCoordinate      coordinate=2;
-  required SegmentData          data      =3;
+  required TrackMetaData        metadata            =1;
+  repeated StartCoordinate      coordinate          =2;
+  required SegmentData          data                =3;
 }
 
+// 2nd level
 message TrackLevel1
 {
-  required TrackLevel2          level2 =1;
+  required TrackLevel2          level2              =1;
 }
 
 
-
+// The Root 
 message Root
 {
-  repeated RootContainer        container =1;
+  repeated RootContainer        container           =1;
 }
 
