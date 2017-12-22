@@ -120,7 +120,7 @@ public class UsbConnection
                 if (device!=null)
                 {
                     deviceType  =DeviceType.DEVICETYPE_SPARK_MUSIC;
-                    DebugLogger.info("Connected to TomTom Spark/Runner/Adventurer Music");
+                    DebugLogger.info("Connected to TomTom Spark Music/Runner Music/Adventurer");
 
                 }
             }
@@ -130,7 +130,7 @@ public class UsbConnection
                 if (device!=null)
                 {
                     deviceType  =DeviceType.DEVICETYPE_SPARK_CARDIO;
-                    DebugLogger.info("Connected to TomTom Spark/Runner Cardio");
+                    DebugLogger.info("Connected to TomTom Spark Cardio/Runner Cardio");
                 }
             }
         }
