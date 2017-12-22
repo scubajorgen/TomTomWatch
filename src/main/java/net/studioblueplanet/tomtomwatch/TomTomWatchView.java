@@ -173,6 +173,7 @@ public class TomTomWatchView extends javax.swing.JFrame
         jCheckBoxSmooth = new javax.swing.JCheckBox();
         jLabel11 = new javax.swing.JLabel();
         jTextFieldSerial = new javax.swing.JTextField();
+        jButtonListRoutes = new javax.swing.JButton();
         jMenuBar = new javax.swing.JMenuBar();
         jMenuFile = new javax.swing.JMenu();
         jMenuItemQuit = new javax.swing.JMenuItem();
@@ -510,6 +511,15 @@ public class TomTomWatchView extends javax.swing.JFrame
 
         jTextFieldSerial.setEditable(false);
 
+        jButtonListRoutes.setText("List");
+        jButtonListRoutes.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                jButtonListRoutesActionPerformed(evt);
+            }
+        });
+
         jMenuFile.setText("File");
 
         jMenuItemQuit.setText("Quit");
@@ -842,7 +852,11 @@ public class TomTomWatchView extends javax.swing.JFrame
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jButtonChooseRoute)
                                     .addComponent(jButtonUploadRoute)))
-                            .addComponent(jButtonEraseRoutes, javax.swing.GroupLayout.Alignment.TRAILING)))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jButtonEraseRoutes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jButtonListRoutes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
@@ -941,7 +955,9 @@ public class TomTomWatchView extends javax.swing.JFrame
                                     .addComponent(jTextFieldRouteName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jButtonUploadRoute))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jButtonEraseRoutes))
+                                .addComponent(jButtonEraseRoutes)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jButtonListRoutes))
                             .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 144, Short.MAX_VALUE)
@@ -1688,6 +1704,11 @@ public class TomTomWatchView extends javax.swing.JFrame
         }
     }//GEN-LAST:event_jMenuItemDeletePreferencesActionPerformed
 
+    private void jButtonListRoutesActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButtonListRoutesActionPerformed
+    {//GEN-HEADEREND:event_jButtonListRoutesActionPerformed
+        checkAndPushCommand(ThreadCommand.THREADCOMMAND_LISTROUTES);
+    }//GEN-LAST:event_jButtonListRoutesActionPerformed
+
     /*############################################################################################*\
      * HELPER FUNCTIONS     
     \*############################################################################################*/    
@@ -2104,6 +2125,7 @@ public class TomTomWatchView extends javax.swing.JFrame
     private javax.swing.JButton jButtonDownload;
     private javax.swing.JButton jButtonErase;
     private javax.swing.JButton jButtonEraseRoutes;
+    private javax.swing.JButton jButtonListRoutes;
     private javax.swing.JButton jButtonLoadTtbin;
     private javax.swing.JButton jButtonSaveGpx;
     private javax.swing.JButton jButtonSaveTtbin;
