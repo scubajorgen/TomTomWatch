@@ -4,6 +4,7 @@
  */
 package net.studioblueplanet.tomtomwatch;
 
+import net.studioblueplanet.generics.PolyLineEncoder;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
@@ -29,13 +30,13 @@ public class Map
 {
     // should be 2048 according to google. However, in practice the URL 
     // google processes must be smaller
-    private static final int        MAXSTRINGLENGTH=1700;
+    private static final int            MAXSTRINGLENGTH=1700;
 
-    private static final int        MAXCOMPRESSIONPARAMS=7;
-    private static final int[]      compressionParamPoints     ={  0,     25,    500,   1000,   1500,   2000,   2500,  3000};    
-    private static final double[]   compressionParamMaxSlopeDev={0.0,    0.2,    0.3,    0.6,    0.7,    0.8,   0.85,   0.9};    
-//    private static final double[]   compressionParamMaxSlopeDev={0.0, 0.0001, 0.00025, 0.0005, 0.0008, 0.0012, 0.0016, 0.002};    
-    private int                     compressionParamIndex      =MAXCOMPRESSIONPARAMS-1;
+    private static final int            MAXCOMPRESSIONPARAMS=7;
+    private static final int[]          compressionParamPoints     ={  0,     25,    500,   1000,   1500,   2000,   2500,  3000};    
+    private static final double[]       compressionParamMaxSlopeDev={0.0,    0.2,    0.3,    0.6,    0.7,    0.8,   0.85,   0.9};    
+//    private static final double[]       compressionParamMaxSlopeDev={0.0, 0.0001, 0.00025, 0.0005, 0.0008, 0.0012, 0.0016, 0.002};    
+    private int                         compressionParamIndex      =MAXCOMPRESSIONPARAMS-1;
 
     
     private JPanel                      panel;
@@ -56,6 +57,8 @@ public class Map
     private double                      maxSlopeDeviation=0.0005;
     
     private String                      resultString;
+
+    private PolyLineEncoder             encoder;
     
     public static final String          MAPTYPE_ROAD        ="roadmap";
     public static final String          MAPTYPE_SATELLITE   ="satellite";
@@ -75,6 +78,8 @@ public class Map
         panel.add(label);     
         panelWidth  =panel.getWidth();
         panelHeight =panel.getHeight();
+        
+        encoder     =PolyLineEncoder.getInstance();
     }
 
     /**
@@ -117,137 +122,6 @@ public class Map
         return mapString;
         
     }
-    
-    
-    
-    
-    /**
-     *  This method resets the Google polyline encoding. Basically it
-     *  sets the 1st point to null, indicating that the first point must be
-     *  encoded fully (for subsequent points only the delta will be encoded)
-     */
-    private void resetPointEncoding()
-    {
-//        this.previousEncodedRecord=null;
-        this.previousEncodedPoint=null;
-    }
-    
-    /**
-     * This method encodes a point according the Google encoded polyline
-     * method.
-     * @param point The point to encode
-     * @return String representing the encoded point (or delta with respect
-     *                to previous point if it is not the 1st point)
-     */
-    private String encodePoint(RoutePoint record)
-    {
-        String              encodedPointString;
-        double              deltaLat, deltaLon;
-        
-        encodedPointString="";
-        
-        
-        if (previousEncodedPoint==null)
-        {
-            encodedPointString+=encodeValue(record.getLatitude());
-            encodedPointString+=encodeValue(record.getLongitude());
-        }
-        else
-        {
-            deltaLat=record.getLatitude()-previousEncodedPoint.getLatitude();
-            deltaLon=record.getLongitude()-previousEncodedPoint.getLongitude();
-            encodedPointString+=encodeValue(deltaLat);
-            encodedPointString+=encodeValue(deltaLon);
-        }
-        previousEncodedPoint=record;
-        
-        return encodedPointString;
-        
-    }
-    
-        
-    
-    
-    /**
-     * This method converts doubles to the Google encoded string format
-     * @param value Value to convert
-     * @return Encoded string part
-     */
-    private String encodeValue(double value)
-    {
-        String  conversion;
-        int     binValue;
-        int     charCode;
-        int     nextCharCode;
-        char    theChar;
-        boolean isNegative;
-        int     i;
-        boolean finished;
-        
-        conversion="";
-        finished=false;
-        
-        if (value<0)
-        {
-            value=-value;
-            isNegative=true;
-        }
-        else
-        {
-            isNegative=false;
-        }
-        
-
-        value=value*1e5;
-        binValue=(int)Math.round(value);
-        if (binValue==0)
-        {
-            isNegative=false;
-        }
-        
-        if (isNegative)
-        {
-            binValue=~binValue;
-            binValue+=1;
-        }
-        binValue<<=1;
-        
-        if (isNegative)
-        {
-            binValue=~binValue;
-        }
-        
-        i=0;
-        while (i<6 && !finished)
-        {
-            charCode=binValue & 0x1f;
-            binValue>>=5;
-            
-            if (i<5)
-            {
-                nextCharCode=binValue>>((i+1)*5) & 0x1f;
-                if (binValue>0)
-                {
-                    charCode |= 0x20;
-                }
-                else
-                {
-                    finished=true;
-                }
-            }
-            charCode+=63;
-            theChar=(char)charCode;
-            conversion+=theChar;
-
-
-            i++;
-        }
-        
-        return conversion;
-    }
-    
-    
-    
     
     
     
@@ -327,7 +201,7 @@ public class Map
             segment=0;
             while (segment<numberOfSegments && !bailOut)
             {
-                this.resetPointEncoding();            
+                encoder.resetPointEncoding();            
 
                 if ((segment%2)>0)
                 {
@@ -368,7 +242,7 @@ public class Map
                         longitude   =record.getLongitude();
 
                         // Encode the lat/lon 
-                        pointString      =this.encodePoint(record);
+                        pointString      =encoder.encodePoint(latitude, longitude);
 
                         // If adding the point string makes the track string exceed
                         // the max length, bail out
@@ -391,7 +265,10 @@ public class Map
                 {
                     record=points.getLastPoint();
 
-                    pointString=this.encodePoint(record);
+                    latitude    =record.getLatitude();
+                    longitude   =record.getLongitude();
+
+                    pointString=encoder.encodePoint(latitude, longitude);
 
                     // If adding the point string makes the track string exceed
                     // the max length, bail out
