@@ -274,18 +274,44 @@ public class WatchSettings
         
         fileName=null;
         
+        // RUNNER, ADVENTURER
+        if (firmwareVersion==0x00010003001BL)       // 1.3.27
+        {
+            fileName="settings_00010003001b.csv";
+        }
         if (firmwareVersion==0x0001000300FFL)       // 1.3.255
         {
             fileName="settings_00010003001b.csv";
+            // TO DO: Extend settins definition
         }
         else if (firmwareVersion==0x00010006001AL)  // 1.6.26
         {
             fileName="settings_00010003001b.csv";
+            // TO DO: Extend settins definition
         }
         else if (firmwareVersion==0x000100070035L)  // 1.7.53
         {
             fileName="settings_00010003001b.csv";
+            // TO DO: Extend settins definition
         }
+        else if (firmwareVersion==0x00010007003EL)  // 1.7.62
+        {
+            fileName="settings_00010003001b.csv";
+            // TO DO: Extend settins definition
+        }
+        
+        // MULTISPORTS
+        else if (firmwareVersion==0x00010008002EL)  // 1.8.46
+        {
+            fileName="settings_00010008002e.csv";
+        }
+        else if (firmwareVersion==0x000100080034L)  // 1.8.52
+        {
+            fileName="settings_00010008002e.csv";
+            // TO DO: Extend settins definition
+        }
+
+
         if (fileName!=null)
         {
             loadSettingsDefinition(fileName);
@@ -361,7 +387,8 @@ public class WatchSettings
     /**
      * Constructor. Reads the settings from data and the settings definition from file.
      * @param settingsData Byte array representing the manifest file data
-     * @param firmwareVersion Software version 0x00hhmmll, hh-major, mm-mid, ll-minor version
+     * @param firmwareVersion Software version 0x0000hhhhmmmmllll, 
+     *                        hhhh-major, mmmm-mid, llll-minor version
      */
     public WatchSettings(byte[] settingsData, long firmwareVersion)
     {
@@ -540,8 +567,8 @@ public class WatchSettings
     
     /**
      * This method modifies the value with given settings name
-     * @param settingName
-     * @param value 
+     * @param settingName Name of the setting to modify
+     * @param value New value of the setting
      */
     public void setSettingsValueInt(String settingName, long value)
     {
