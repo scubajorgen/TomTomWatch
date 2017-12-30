@@ -127,7 +127,7 @@ public class TrackSmoother
 
     /**
      * Returns the one and only instance of this class.
-     * @return 
+     * @return The instance of this class
      */
     public static TrackSmoother getInstance()
     {
@@ -142,6 +142,7 @@ public class TrackSmoother
      * This method smoothes the track, by applying a Kalman filter
      * @param trackSmoothingQFactor The factor influencing the smoothing.
      *                              1.0 - high amount to 10.0 - low
+     * @param segments Track segments making up the track
      */
     public void smoothTrack(List<ActivitySegment> segments, float trackSmoothingQFactor)
     {
@@ -204,6 +205,7 @@ public class TrackSmoother
 
     /**
      * This method resets the smoothing
+     * @param segments List of segments making up the activity/track
      */
     public void resetSmoothing(List <ActivitySegment> segments)
     {
