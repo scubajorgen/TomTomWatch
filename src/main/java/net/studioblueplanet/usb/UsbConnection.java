@@ -57,7 +57,7 @@ public class UsbConnection
     private boolean                         isError;
     private String                          lastError;
     
-    private final byte[]                    rxBuffer;
+    private byte[]                          rxBuffer;
     private int                             rxLength;
     
     /**
@@ -72,8 +72,6 @@ public class UsbConnection
         txPrevMessageCounter=-1;
         isError             =false;
         lastError           ="";
-    
-        rxBuffer            =new byte[256];
     }
     
     /**
@@ -406,7 +404,7 @@ public class UsbConnection
             switch (deviceType)
             {
                 case DEVICETYPE_MULTISPORTS:
-                    packetSize      =length+4;
+                    packetSize      =64;
                     writeEndpoint   =(byte)0x05;
                     readEndpoint    =(byte)0x84;
                     break;
@@ -431,6 +429,9 @@ public class UsbConnection
                 txPacket[3]         =msg;                           // Request type
                 txPrevMessageCounter=txMessageCounter;
                 txMessageCounter++;
+                
+                // Construct the RX buffer size
+                rxBuffer            =new byte[packetSize];
                 
                 
                 // Copy the data 
@@ -462,7 +463,7 @@ public class UsbConnection
                 catch(UsbException e)
                 {
                     isError=true;
-                    lastError="USB Error: could not acquire endpoint";
+                    lastError="USB Error while sending packet: "+e.getMessage();
                 }
             }            
         }
@@ -540,7 +541,8 @@ public class UsbConnection
     }
     
     /**
-     * Returns the maximum chunk size when reading files
+     * Returns the maximum chunk size when reading files.
+     * The chunksize apparently is the buffer size minus 14 bytes.
      * @return The chunk size or -1 if not known
      */
     public int getFileReadChunkSize()
