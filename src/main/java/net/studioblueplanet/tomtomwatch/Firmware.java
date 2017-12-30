@@ -39,12 +39,14 @@ public class Firmware
     private static Firmware             theInstance=null;
     
     private long                        latestVersionAvailable;
+    private String                      latestBleVersionAvailable;
     private String[]                    updatedFileNames;
     private final ArrayList<UsbFile>    backupFiles;
     private final ArrayList<UsbFile>    updatedFiles;
     private TomTomWatchView             theView;
     private WatchInterface              watchInterface;
     private String                      firmwareBaseUrl;
+    private String                      bleFirmwareVersion;
     
     /**
      * Private constructor
@@ -79,13 +81,16 @@ public class Firmware
         int                     minor;
         int                     build;
         NodeList                nodeList;
+        NodeList                bleNodeList;
         Node                    node;
         int                     i;
+        String                  bleUrl;
+        int                     numberOfFiles;
         
 
         error                       =false;
         latestVersionAvailable      =0;
-       
+        bleUrl                      =null;
         
         try
         {
@@ -143,11 +148,33 @@ public class Firmware
 
                     }
                     
+                    numberOfFiles=0;
                     
+                    // Add BLE firmware update file: <BLE version="28" URL="BLE/28/0x00000012"/>
+                    bleNodeList            =versionElement.getElementsByTagName("BLE");
+                    if (bleNodeList.getLength()==1)
+                    {
+                        latestBleVersionAvailable=bleNodeList.item(0).getAttributes().getNamedItem("version").getNodeValue();
+                        bleUrl=bleNodeList.item(0).getAttributes().getNamedItem("URL").getNodeValue();
+                        numberOfFiles+=1;
+                    }
+                    else if (bleNodeList.getLength()==0)
+                    {
+                        latestBleVersionAvailable="-";
+                        // No BLE firmware can occur. Nothing to be done
+                    }
+                    else if (bleNodeList.getLength()>1)
+                    {
+                        DebugLogger.error("Error parsing firmware version XML: multiple BLE lines");
+                    }
+
+                    
+                    // Add watch firmware update files: <URL>1_8_52/0x000000F0</URL>
                     nodeList            =versionElement.getElementsByTagName("URL");
                     if (nodeList.getLength()>0)
                     {
-                        updatedFileNames=new String[nodeList.getLength()];
+                        numberOfFiles+=nodeList.getLength();
+                        updatedFileNames=new String[numberOfFiles];
                         i=0;
                         while (i<nodeList.getLength())
                         {
@@ -163,6 +190,11 @@ public class Firmware
                             }
                             i++;
                         }
+                        // Add the BLE firmeware file
+                        if (bleUrl!=null)
+                        {
+                            updatedFileNames[i]=bleUrl;
+                        }
                     }
                     else
                     {
@@ -170,6 +202,7 @@ public class Firmware
                         DebugLogger.error("Error parsing firmware version XML: Error parsing file list");
                     }
 
+                    
                 }
                 else
                 {
@@ -443,10 +476,12 @@ public class Firmware
         feedback = "Current firmware: "+((currentFirmware>>32)&0xff)+"."+
                                         ((currentFirmware>>16)&0xff)+"."+
                                         ((currentFirmware    )&0xff)+
-                   " Latest firmware: "+((latestVersionAvailable>>32)&0xff)+"."+
+                   ", Latest firmware: "+((latestVersionAvailable>>32)&0xff)+"."+
                                         ((latestVersionAvailable>>16)&0xff)+"."+
-                                        ((latestVersionAvailable    )&0xff);
-        theView.setStatus(feedback+"\n");
+                                        ((latestVersionAvailable    )&0xff)+"\n";
+        feedback+="Current BLE firmware: "+this.bleFirmwareVersion+
+                  ", Latest BLE firmware: "+this.latestBleVersionAvailable+"\n";
+        theView.setStatus(feedback);
         
 
         if (!error && latestVersionAvailable>currentFirmware)
@@ -490,22 +525,36 @@ public class Firmware
         // Read the page at the config URL
         page                    =ToolBox.readStringFromUrl(configUrl);
         
-        // Get the firmware definition URL. Fill in the approriate product ID
-        jsonObj                 =new JSONObject(page);
-        firmwareDefinitionUrl   =jsonObj.getString("service:firmware");
-        firmwareDefinitionUrl   =firmwareDefinitionUrl.replace("{PRODUCT_ID}", String.format("%08x", productId).toUpperCase());
+        if (page!=null)
+        {
+            // Get the firmware definition URL. Fill in the approriate product ID
+            jsonObj                 =new JSONObject(page);
+            firmwareDefinitionUrl   =jsonObj.getString("service:firmware");
+            firmwareDefinitionUrl   =firmwareDefinitionUrl.replace("{PRODUCT_ID}", String.format("%08x", productId).toUpperCase());
+
+            DebugLogger.info("Firmware definition URL: "+firmwareDefinitionUrl);
+
+            // Derive the base url
+            firmwareBaseUrl         =firmwareDefinitionUrl.substring(0, firmwareDefinitionUrl.lastIndexOf('/')+1);
+
+            // Read the XML defining the last firmware version avaialble
+            firmwareDefinition      =ToolBox.readStringFromUrl(firmwareDefinitionUrl);
+
+
+            // Get BLE firmware version
+            bleFirmwareVersion=watchInterface.readBleVersion();
+
+
+            // Get the latest firmware version and download the firmware files
+            error                   =getLatestFirmwareVersion(firmwareDefinition);
+        }
+        else
+        {
+            DebugLogger.error("Error downloading firmware information");
+            error=true;
+        }
         
-        DebugLogger.info("Firmware definition URL: "+firmwareDefinitionUrl);
         
-        // Derive the base url
-        firmwareBaseUrl         =firmwareDefinitionUrl.substring(0, firmwareDefinitionUrl.lastIndexOf('/')+1);
-
-        // Read the XML defining the last firmware version avaialble
-        firmwareDefinition      =ToolBox.readStringFromUrl(firmwareDefinitionUrl);
-
-        // Get the latest firmware version and download the firmware files
-        error                   =getLatestFirmwareVersion(firmwareDefinition);
-
         return error;
     }
     
