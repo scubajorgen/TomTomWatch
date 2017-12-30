@@ -2395,6 +2395,8 @@ public class CommunicationProcess implements Runnable, ProgressListener
         
         theView.setStatus("Factory reset proces started. Do not disconnect watch.\n");
 
+        theView.appendStatus("Preparing firmware download...\n");
+
         firmware=Firmware.getInstance();
         
         error=firmware.prepareFirmware(watchInterface, productId);
