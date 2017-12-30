@@ -303,7 +303,8 @@ public abstract class WatchInterface
             preferenceFile.fileId           =FILEID_PREFERENCES_XML;
             preferenceFile.fileData         =ToolBox.getBytesFromInputStream(inStream);
             preferenceFile.length           =preferenceFile.fileData.length;
-            
+  
+              DebugLogger.info("Preference file not found on watch. Writing default preference file");
             error=this.writeFile(preferenceFile);
         }
         
