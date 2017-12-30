@@ -517,7 +517,7 @@ public class Firmware
      * @param view Application view to use for UI feedback
      * @return False if an error occurred, true if succesfull
      */
-    public boolean forceUpdateFirmware(WatchInterface watchInterface, TomTomWatchView view, String configUrl)
+    public boolean forceUpdateFirmware(WatchInterface watchInterface, TomTomWatchView view)
     {
         
         boolean     error;

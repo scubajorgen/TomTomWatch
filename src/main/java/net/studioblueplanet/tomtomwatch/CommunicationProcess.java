@@ -2403,7 +2403,7 @@ public class CommunicationProcess implements Runnable, ProgressListener
         {
             error=watchInterface.formatDevice();
             theView.appendStatus("Factory reset initialized.\n");
-            error=firmware.forceUpdateFirmware(watchInterface, theView, fileToUpload);
+            error=firmware.forceUpdateFirmware(watchInterface, theView);
             theView.appendStatus("Reconnect watch to TomTomWatch to write default off-line preferences.\n");
             theView.appendStatus("Connect to TomTom Sports Connect to connect the watch to TomTom account.\n");
         }
