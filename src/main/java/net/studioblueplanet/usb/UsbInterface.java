@@ -12,6 +12,7 @@ import hirondelle.date4j.DateTime;
 import java.io.UnsupportedEncodingException;
 import java.util.TimeZone;
 import java.util.ArrayList;
+import java.util.Iterator;
 import net.studioblueplanet.generics.ToolBox;
 
 
@@ -627,41 +628,26 @@ public class UsbInterface extends WatchInterface
     
     public boolean fileExists(int fileId)
     {
-        int     id;
-        boolean exists;
-        int     requestError;
+        int                 id;
+        boolean             exists;
+        ArrayList<UsbFile>  files;
+        Iterator<UsbFile>   it;
+        UsbFile             file;
 
         exists=false;
         
-        // Encode the fileID in the tx packet
-        this.intToPacket(fileId, txPacket.data, 0, 4);
-        txPacket.length=4;
-
-        if (!connection.isError())
+        files=this.getFileList(FileType.TTWATCH_FILE_ALL);
+        if (files!=null)
         {
-            // request the file size
-            connection.sendRequest(MSG_GET_FILE_SIZE, txPacket, rxPacket, MSG_GET_FILE_SIZE, 20);
-            id              =this.packetToInt(rxPacket.data,  4, 4);
-            requestError    =this.packetToInt(rxPacket.data,  16, 4);
-
-            if (!connection.isError())
+            it=files.iterator();
+            while (it.hasNext() && !exists)
             {
-                // If an error occurs, the file does not exist...
-                if ((requestError>0) || (id!=fileId))
-                {
-                    exists=false;
-                }
-                else
+                if (it.next().fileId==fileId)
                 {
                     exists=true;
                 }
             }
-            else
-            {
-                DebugLogger.error("Error while requesting file size");
-            }
         }
-        
         return exists;
     }
         
@@ -864,6 +850,7 @@ public class UsbInterface extends WatchInterface
         if (!error)
         {
             file.fileData=null;
+            DebugLogger.info("USB File deleted. ID: "+String.format("0x%08x", file.fileId));
         }
         else
         {
