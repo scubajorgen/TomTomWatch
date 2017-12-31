@@ -17,6 +17,7 @@ import java.io.InputStream;
 import java.io.ByteArrayInputStream;
 import java.util.TimeZone;
 import java.util.ArrayList;
+import net.studioblueplanet.settings.ConfigSettings;
 
 /**
  * This class is responsible for reading a TomTom ttbin file. The file consists
@@ -375,8 +376,21 @@ public class TomTomReader
             }
         }
 
-        // Calculated the corrected elevation
-        this.correctElevation(activity);
+        // If the activity contains height values, correct them.
+        // If not read height values from Google elevation service
+        if (activity.hasHeightValues())
+        {
+            // Calculated the corrected elevation
+            this.correctElevation(activity);
+        }
+        else
+        {
+            // If required, get the heights from an elevation service
+            if (!ConfigSettings.getInstance().getStringValue("heightService").equals("none"))
+            {
+                activity.readHeigthsFromService();
+            }
+        }
 
         // If required, smooth the track
         if (this.trackSmoothingEnabled)

@@ -304,7 +304,7 @@ public abstract class WatchInterface
             preferenceFile.fileData         =ToolBox.getBytesFromInputStream(inStream);
             preferenceFile.length           =preferenceFile.fileData.length;
   
-              DebugLogger.info("Preference file not found on watch. Writing default preference file");
+            DebugLogger.info("Preference file not found on watch. Writing default preference file");
             error=this.writeFile(preferenceFile);
         }
         

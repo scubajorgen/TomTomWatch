@@ -9,6 +9,7 @@ package net.studioblueplanet.ttbin;
 import net.studioblueplanet.generics.ToolBox;
 import net.studioblueplanet.logger.DebugLogger;
 import net.studioblueplanet.settings.ConfigSettings;
+import net.studioblueplanet.generics.PolyLineEncoder;
 
 import hirondelle.date4j.DateTime;
 import java.util.ArrayList;
@@ -19,6 +20,9 @@ import java.io.FileWriter;
 import java.io.BufferedWriter;
 import java.util.TimeZone;
 
+import org.json.JSONObject;
+import org.json.JSONArray;
+
 
 /**
  *
@@ -26,6 +30,16 @@ import java.util.TimeZone;
  */
 public class Activity
 {
+    class Elevation
+    {
+        int index;
+        int originalIndex;
+        double lat;
+        double lon;
+        double elevation;
+    }
+    
+    
     // If acitivity is paused for less than this time, the pause/activate is marked as waypoint
     private static final    long                        WAYPOINTPAUSETIME       =10;  
     public  static final    int                         FITNESSPOINTS_UNDEFINED =-1;
@@ -58,6 +72,8 @@ public class Activity
     
     private                 float                       trackSmoothingQFactor;
     private                 boolean                     isSmoothed;
+    
+    private                 ArrayList<Elevation>        elevations;
     
     /* ******************************************************************************************* *\
      * CONSTRUCTOR
@@ -421,7 +437,6 @@ public class Activity
         ((ActivityRecordGps)newRecord).setCumulativeAscend(cumAscend);
         ((ActivityRecordGps)newRecord).setCumulativeDecend(cumDecend);
         ((ActivityRecordGps)newRecord).setElevationStatus(status);
-((ActivityRecordGps)newRecord).setElevationStatus(unknown);
         
         // TO DO
         
@@ -812,6 +827,275 @@ public class Activity
         
     }
     
+    
+    /* ******************************************************************************************* *\
+     * HEIGHT FROM SERVICE
+    \* ******************************************************************************************* */
+    
+    /**
+     * This method checks if the activity has GPS reocord with height values.
+     * Currently only GPS records of the Adventurer contain height values.
+     * @return True if height values encountered, false if not.
+     */
+    public boolean hasHeightValues()
+    {
+        boolean found;
+        
+        found=false;
+        
+        Iterator<ActivitySegment>   itSegment;
+        ActivitySegment             segment;
+        ArrayList<ActivityRecord>   points;
+        Iterator<ActivityRecord>    itPoint;
+        ActivityRecord              point;
+        ActivityRecordGps           pointGps;
+        
+
+        itSegment=segments.iterator();
+
+        while (itSegment.hasNext() && !found)
+        {
+            segment             =itSegment.next();
+            points              =segment.getRecords();
+            
+            itPoint             =points.iterator();
+            while (itPoint.hasNext() && !found)
+            {
+                point=itPoint.next();
+                
+                if (point instanceof ActivityRecordGps)
+                {
+                    pointGps=(ActivityRecordGps)point;
+                    if (pointGps.hasHeightValue())
+                    {
+                        found=true;
+                    }
+                }
+            }
+            
+        }
+        
+        return found;
+    }
+    
+    /**
+     * Creates the URL for the Google elevation service. The URL takes
+     * as URL parameter the polyline encoded array of locations. The number
+     * of points that can be passed is limited by the maximum length of the 
+     * URL which is about 8192 characters. The method simply limits the 
+     * number of points to a fixed amount, for which the URL stays well 
+     * within the size limit.
+     * @param segment Segment for which the height is requested
+     * @return The URL as String
+     */
+    private String buildGoogleHeightServiceUrl(ActivitySegment segment)
+    {
+        ArrayList<ActivityRecord>   points;
+        ActivityRecordGps           point;
+        int                         numberOfPoints;
+        int                         numberOfRequestPoints;
+        float                       indexIncrement;
+        int                         maxPoints;
+        int                         i;
+        float                       indexF;
+        int                         indexMin;
+        int                         indexMax;
+        int                         index;
+        String                      url;
+        PolyLineEncoder             encoder;
+        Elevation                   elevationValue;
+
+        encoder =PolyLineEncoder.getInstance();
+        encoder.resetPointEncoding();
+        
+        url                 ="https://maps.googleapis.com/maps/api/elevation/json?locations=enc:";
+
+        points              =segment.getRecords();
+        numberOfPoints      =points.size();
+
+        // Limit the number of points to request from the Google service
+        // Calculate the increment, making sure to incorporate the first
+        // and last point in the segment.
+        if (numberOfPoints>500)
+        {
+            numberOfRequestPoints=500;
+            indexIncrement=Math.max(((float)numberOfPoints-1.0f)/(500.0f-1.0f), 1);
+        }
+        else
+        {
+            numberOfRequestPoints=numberOfPoints;
+            indexIncrement=1.0f;
+        }
+
+
+        // Now skip through the original data and add points
+        // to the Google request at regular intervals
+        elevations.clear();
+        i        =0;
+        indexF   =0.0f;
+        while (i<numberOfRequestPoints)
+        {
+            index=Math.round(indexF);
+            point=(ActivityRecordGps)points.get(index);
+
+            url+=encoder.encodePoint(point.getLatitude(), point.getLongitude());
+
+            elevationValue=new Elevation();
+            elevationValue.index        =i;
+            elevationValue.originalIndex=index;
+            elevationValue.lat          =point.getLatitude();
+            elevationValue.lon          =point.getLongitude();
+            elevations.add(elevationValue);
+            
+            indexF+=indexIncrement;
+            i++;
+        }
+
+        url+="&key="+ConfigSettings.getInstance().getStringValue("heightServiceKey");
+
+        DebugLogger.info(url);
+        
+        return url;
+    }
+    
+    public boolean processGoogleHeightServiceResults(byte[] heights)
+    {
+        JSONObject                  jsonObj;
+        JSONArray                   results;
+        JSONObject                  heightValueJson;
+        Elevation                   heightValue;
+        boolean                     error;
+        int                         size;
+        int                         i;
+        
+        error=false;
+        
+        jsonObj                 =new JSONObject(ToolBox.readString(heights, 0, heights.length));
+        if (jsonObj.getString("status").equals("OK"))
+        {
+            results=jsonObj.getJSONArray("results");
+
+            size=results.length();
+            if (size!=elevations.size())
+            {
+                DebugLogger.error("Error processing Google height service results: unexpected number of heights received");
+                error=true;
+            }
+            i=0;
+            while (i<size)
+            {
+                heightValueJson=results.getJSONObject(i);
+                
+                elevations.get(i).elevation=heightValueJson.getDouble("elevation");
+               
+                i++;
+            }
+
+        }
+        else
+        {
+            DebugLogger.error("Error response from height service: "+jsonObj.getString("status"));
+            error=true;
+        }        
+        return error;
+    }
+    
+    /**
+     * Generate the elevations in the segment from the downloaded values
+     * @return 
+     */
+    private boolean convertServiceResultsToHeights(ActivitySegment segment)
+    {
+        boolean error;
+        int     i;
+        int     responseIndex;      // Index in the Google request/response
+        int     dataIndex;          // Index in the segment data
+        int     previousDataIndex;
+        double  elevation1;
+        double  elevation2;
+        double  elevation;
+        
+        error=false;
+     
+        i                   =0;
+        responseIndex       =0;
+        dataIndex           =0;
+        previousDataIndex   =0;
+        while (i<segment.numberOfRecords())
+        {
+            if (i==elevations.get(responseIndex).originalIndex)
+            {
+                elevation=elevations.get(responseIndex).elevation;
+                previousDataIndex=dataIndex;
+                responseIndex++;
+                if (responseIndex<elevations.size())
+                {
+                    dataIndex=elevations.get(responseIndex).originalIndex;
+                }
+            }
+            else
+            {
+                elevation1=elevations.get(responseIndex-1).elevation;
+                elevation2=elevations.get(responseIndex).elevation;
+                elevation=elevation1+(elevation2-elevation1)*(i-previousDataIndex)/(dataIndex-previousDataIndex);
+            }
+            ((ActivityRecordGps)(segment.getRecord(i))).setDerivedElevation(elevation);
+            i++;
+        }
+        
+        return error;
+    }
+    
+    
+    /**
+     * This method reads the height values for the coordinates from a 
+     * service on internet.
+     * @return False if all went ok, true if an error occurred 
+     */
+    public boolean readHeigthsFromService()
+    {
+        boolean error;
+        Iterator<ActivitySegment>   itSegment;
+        ActivitySegment             segment;
+        String                      url;
+        byte[]                      heights;
+
+        
+        error   =false;
+
+        elevations=new ArrayList();
+       
+        itSegment=segments.iterator();
+
+        while (itSegment.hasNext())
+        {
+            segment             =itSegment.next();
+
+            url=buildGoogleHeightServiceUrl(segment);
+            
+            heights=ToolBox.readBytesFromUrl(url);
+            
+            if (heights!=null)
+            {
+                error=processGoogleHeightServiceResults(heights);
+
+                if (!error)
+                {
+                    error=this.convertServiceResultsToHeights(segment);
+                }
+                        
+            }
+            else
+            {
+                DebugLogger.error("Error requesting height values from height service");
+                error=true;
+            }
+            
+        }
+        
+        
+        return error;
+    }    
     
     /* ******************************************************************************************* *\
      * TRACK SMOOTHING
