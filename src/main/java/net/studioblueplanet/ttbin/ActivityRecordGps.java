@@ -69,8 +69,9 @@ public class ActivityRecordGps extends ActivityRecord
         this.instantSpeed       =INVALID;
         this.elevation1         =INVALID;
         this.elevation2         =INVALID;
-        this.ascend =INVALID;
-        this.descend =INVALID;
+        this.derivedElevation   =INVALID;
+        this.ascend             =INVALID;
+        this.descend            =INVALID;
         this.elevationStatus    =INVALID;
         this.heartRate          =INVALID;
         this.temperature        =INVALID;
@@ -304,6 +305,15 @@ public class ActivityRecordGps extends ActivityRecord
     public double getElevation2()
     {
         return this.elevation2;
+    }
+    
+    /**
+     * Returns whether this record contains height values
+     * @return True if it contains height value or false if not.
+     */
+    public boolean hasHeightValue()
+    {
+        return (this.elevation1!=INVALID || this.elevation2!=INVALID);
     }
     
 
