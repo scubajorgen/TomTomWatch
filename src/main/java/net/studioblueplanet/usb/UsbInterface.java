@@ -628,6 +628,11 @@ public class UsbInterface extends WatchInterface
     
     public boolean fileExists(int fileId)
     {
+/*   
+        // Next implementation uses the getFileList function. 
+        // This function however is slow (takes ~8 seconds)
+        // Note: on previous versions like 1.3.255 the function was faster.
+        
         int                 id;
         boolean             exists;
         ArrayList<UsbFile>  files;
@@ -648,6 +653,30 @@ public class UsbInterface extends WatchInterface
                 }
             }
         }
+*/
+        boolean             exists;
+        boolean             error;
+
+        // Next implementation is faster: it abuses the file open command
+        // to check if the file exists.
+        DebugLogger.info(String.format("Trying if file 0x%08x exists...", fileId));
+        exists=false;
+        error=openFile(fileId, UsbInterface.FileMode.FILEMODE_READ);
+        if (!error)
+        {
+            exists=true;
+            DebugLogger.info(String.format("File 0x%08x exists.", fileId));
+            error=closeFile();
+            if (error)
+            {
+                DebugLogger.error("Error closing file.");
+            }
+        }
+        else
+        {
+            DebugLogger.info(String.format("Error opening file: File 0x%08x does not exist.", fileId));
+        }
+
         return exists;
     }
         
