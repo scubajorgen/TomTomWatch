@@ -67,6 +67,7 @@ public class CommunicationProcess implements Runnable, ProgressListener
     private String                              fileToUpload;
     private int                                 fileIdToDelete;
     private int                                 fileIdToShow;
+    private String                              ttbinFileToLoad;
     private String                              deviceName;
     private String                              deviceSerial;
     private boolean                             isConnected;
@@ -180,6 +181,17 @@ public class CommunicationProcess implements Runnable, ProgressListener
             JOptionPane.showMessageDialog(theView, "Illegel Watch Name", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
+    
+    
+    public void requestLoadActivityFromTtbinFile(String fileName)
+    {
+        synchronized(this)
+        {
+            this.ttbinFileToLoad=fileName;
+            this.pushCommand(ThreadCommand.THREADCOMMAND_LOADTTBINFILE);
+        }
+    }
+    
     
     /**
      * Writes a file from the watch as binary file to disk.
@@ -483,6 +495,9 @@ public class CommunicationProcess implements Runnable, ProgressListener
                     case THREADCOMMAND_REBOOT:
                         error=reboot(watchInterface);
                         break;
+                    case THREADCOMMAND_LOADTTBINFILE:
+                        error=loadActivityFromTtbinFile();
+                        break;
                     case THREADCOMMAND_LISTHISTORY:
                         error=listHistory(watchInterface);
                         break;
@@ -652,13 +667,24 @@ public class CommunicationProcess implements Runnable, ProgressListener
     /**
      * Load the activity from a ttbin file. It results in an
      * ActivityData item appended to the lists.
-     * @param fileName Name of the ttbin file.
+     * returns  True if an error occurred
      */
-    public void loadActivityFromTtbinFile(String fileName)
+    public boolean loadActivityFromTtbinFile()
     {
         RandomAccessFile    file;
         ActivityData        data;
         TomTomReader        reader;
+        String              fileName;
+        boolean             error;
+        
+        error=false;
+        
+        synchronized(this)
+        {
+            fileName=this.ttbinFileToLoad;
+        }
+        
+        theView.setStatus("Loading "+fileName+"\n");
         
         try
         {
@@ -688,13 +714,17 @@ public class CommunicationProcess implements Runnable, ProgressListener
         }
         catch (FileNotFoundException e)
         {
+            error=true;
             JOptionPane.showMessageDialog(theView, "Error loading file: "+e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
         catch (IOException e)
         {
+            error=true;
             JOptionPane.showMessageDialog(theView, "Error loading file: "+e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
+        theView.appendStatus("Done!");
         
+        return error;
     }
 
     

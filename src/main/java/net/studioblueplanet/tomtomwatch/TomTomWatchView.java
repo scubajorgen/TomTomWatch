@@ -1309,7 +1309,7 @@ public class TomTomWatchView extends javax.swing.JFrame
         
         if (fileName!=null)
         {
-            communicationProcess.loadActivityFromTtbinFile(fileName);
+            communicationProcess.requestLoadActivityFromTtbinFile(fileName);
         }
     }//GEN-LAST:event_jButtonLoadTtbinActionPerformed
 
