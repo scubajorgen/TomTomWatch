@@ -2307,17 +2307,23 @@ public class CommunicationProcess implements Runnable, ProgressListener
         
         if (id!=WatchInterface.FILEID_INVALID)
         {
-            file            =new UsbFile();
-            file.fileId     =id;
-            
-            error           =watchInterface.readFile(file);
-            
-            if (!error)
+            if (watchInterface.fileExists(id))
             {
-                log     =new String(file.fileData);
-                theView.setStatus(log);
+                file            =new UsbFile();
+                file.fileId     =id;
+
+                error           =watchInterface.readFile(file);
+
+                if (!error)
+                {
+                    log     =new String(file.fileData);
+                    theView.setStatus(log);
+                }
+            }  
+            else
+            {
+                theView.setStatus("Requested file does not exist on the watch.");
             }
-            
         }
         return error;
     }
