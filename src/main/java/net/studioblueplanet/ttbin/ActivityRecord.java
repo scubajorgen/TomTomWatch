@@ -24,7 +24,7 @@ public class ActivityRecord
     protected static        TimeZone    utcTimeZone;
     protected               DateTime    dateTime;           // Date time stamp
 
-
+    protected               int         batteryLevel;       // Battery level in %
     
     /**
      * Constructor. Initialises all on 'not initialised' (INVALID)
@@ -33,6 +33,7 @@ public class ActivityRecord
     {
         this.dateTime           =null;
         this.utcTimeZone        =TimeZone.getTimeZone("UTC");
+        this.batteryLevel       =INVALID;
     }
 
     /**
@@ -70,6 +71,25 @@ public class ActivityRecord
         return this.dateTime;
     }
 
+    /**
+     * Sets the current battery level
+     * @param level Level in %
+     */
+    public void setBatteryLevel(int level)
+    {
+        this.batteryLevel=level;
+    }
+    
+    /**
+     * Returns the current battery level
+     * @return The level in % or INVALID if not defined
+     */
+    public int getBatteryLevel()
+    {
+        return this.batteryLevel;
+    }
+    
+    
     /*############################################################################################*\
      * DEBUGGING
     \*############################################################################################*/    

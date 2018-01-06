@@ -52,6 +52,8 @@ public class Activity
     protected               TimeZone                    localTimeZone;
     protected               int                         timeZoneSeconds; // Difference with respect to UTC
     
+    protected               int                         batteryLevel;
+    
     protected               int                         fitnessPointsStart;
     protected               int                         fitnessPointsEnd;
      
@@ -374,6 +376,8 @@ public class Activity
         ((ActivityRecordGps)newRecord).setDistance(Float.intBitsToFloat(cumDistance));
         ((ActivityRecordGps)newRecord).setCycles(cycles);
 
+        // Sets the current value of the batterylevel
+        newRecord.setBatteryLevel(this.batteryLevel);
     }
     
     /**
@@ -690,6 +694,19 @@ public class Activity
       
     }   
     
+
+    private void parseRecordBattery(byte[] recordData)
+    {
+        int unknown1;   // 127
+        int unknown2;   // 6,
+        int unknown3;   // 0
+
+        this.batteryLevel   =ToolBox.readUnsignedInt(recordData,  1, 1, true);
+        unknown1            =ToolBox.readUnsignedInt(recordData,  2, 1, true);
+        unknown2            =ToolBox.readUnsignedInt(recordData,  3, 1, true);
+        unknown3            =ToolBox.readUnsignedInt(recordData,  4, 1, true);
+    }   
+
     
 
     /**
@@ -735,8 +752,8 @@ public class Activity
             case TtbinFileDefinition.TAG_48:      // 8 or 14 bytes after tag
 //                dumpRecordData(recordData);
                 break;
-            case TtbinFileDefinition.TAG_49:      // 4 bytes after tag
-//                dumpRecordData(recordData);
+            case TtbinFileDefinition.TAG_BATTERY:
+                  parseRecordBattery(recordData);
                 break;
             case TtbinFileDefinition.TAG_FITNESSPOINTS:
                 parseRecordActivityPoints(recordData);
@@ -757,6 +774,10 @@ public class Activity
         }
     }
     
+    /* ******************************************************************************************* *\
+     * DEBUGGING METHODS
+    \* ******************************************************************************************* */
+
     
     /**
      * Dump the record data as hexadecimals
@@ -953,8 +974,6 @@ public class Activity
 
         url+="&key="+ConfigSettings.getInstance().getStringValue("heightServiceKey");
 
-        DebugLogger.info(url);
-        
         return url;
     }
     

@@ -45,7 +45,7 @@ public class TtbinFileDefinition
     public static final    byte                        TAG_ROUTEDESCRIPTION    =0x44;
     public static final    byte                        TAG_ELEVATION           =0x47;
     public static final    byte                        TAG_48                  =0x48; 
-    public static final    byte                        TAG_49                  =0x49; 
+    public static final    byte                        TAG_BATTERY             =0x49; 
     public static final    byte                        TAG_FITNESSPOINTS       =0x4a; 
     public static final    byte                        TAG_4B                  =0x4b; // Variable lenght!!
   
