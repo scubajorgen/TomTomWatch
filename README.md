@@ -1,7 +1,7 @@
 # TomTomWatch
 
 ## Introduction
-Tool for exporting GPS files from TomTom Sporexts Watches
+Tool for exporting GPS files from TomTom Sports Watches
 
 Homepage: http://blog.studioblueplanet.net/?page_id=566
 
