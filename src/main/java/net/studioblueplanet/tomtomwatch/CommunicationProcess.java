@@ -188,7 +188,12 @@ public class CommunicationProcess implements Runnable, ProgressListener
         synchronized(this)
         {
             this.ttbinFileToLoad=fileName;
-            this.pushCommand(ThreadCommand.THREADCOMMAND_LOADTTBINFILE);
+            
+            // Schedule for execution
+//            this.pushCommand(ThreadCommand.THREADCOMMAND_LOADTTBINFILE);
+
+            // Execute directly. Enables this function without a watch connected
+            this.loadActivityFromTtbinFile();
         }
     }
     
