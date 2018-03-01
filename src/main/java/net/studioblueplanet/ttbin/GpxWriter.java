@@ -372,17 +372,28 @@ public class GpxWriter
             
             if ((dateTime!=null) && 
                     (latitude!=ActivityRecord.INVALID) && (longitude!=ActivityRecord.INVALID) && 
-                    (elevation!=ActivityRecord.INVALID) &&
                     (latitude!=0.0) && (longitude!=0.0))
             {             
                 pointElement    = doc.createElement("trkpt");
                 segmentElement.appendChild(pointElement);
 
                 // The elevation.
-                element    = doc.createElement("ele");
-                element.appendChild(doc.createTextNode(String.format("%.1f", elevation)));
-                pointElement.appendChild(element);
+                if (elevation!=ActivityRecord.INVALID)
+                {
+                    element    = doc.createElement("ele");
+                    element.appendChild(doc.createTextNode(String.format("%.1f", elevation)));
+                    pointElement.appendChild(element);
+                }
 
+                
+                // HDOP
+                if (hdop!=ActivityRecord.INVALID)
+                {
+                    element    = doc.createElement("hdop");
+                    element.appendChild(doc.createTextNode(String.valueOf(hdop)));
+                    pointElement.appendChild(element);
+                }                
+                
                 element    = doc.createElement("time");
                 dateTimeString=dateTime.format("YYYY-MM-DD")+"T"+
                                dateTime.format("hh:mm:ss")+"Z";
@@ -431,14 +442,6 @@ public class GpxWriter
                 {
                     element    = doc.createElement("u-gotMe:evpe");
                     element.appendChild(doc.createTextNode(String.valueOf(evpe)));
-                    extensionsElement.appendChild(element);
-                }
-
-                // Extension: hdop
-                if (hdop!=ActivityRecord.INVALID)
-                {
-                    element    = doc.createElement("u-gotMe:hdop");
-                    element.appendChild(doc.createTextNode(String.valueOf(hdop)));
                     extensionsElement.appendChild(element);
                 }
 
