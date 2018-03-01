@@ -579,12 +579,14 @@ public class Activity
         ehpe=ToolBox.readUnsignedInt(recordData,  3, 2, true);
         hdop=ToolBox.readUnsignedInt(recordData,  5, 1, true);
         ((ActivityRecordGps)newRecord).setPrecision(ehpe, evpe, hdop);
-/*
-        ((ActivityRecordGps)newRecord).unknownInt3=ToolBox.readUnsignedInt(recordData,  6, 1, true);
-        ((ActivityRecordGps)newRecord).unknownInt4=ToolBox.readUnsignedInt(recordData,  7, 1, true);
-        ((ActivityRecordGps)newRecord).unknownInt5=ToolBox.readUnsignedInt(recordData,  8, 1, true);
-        ((ActivityRecordGps)newRecord).unknownInt6=ToolBox.readUnsignedInt(recordData,  9, 1, true);
-        
+
+        ((ActivityRecordGps)newRecord).unknownInt1=ToolBox.readUnsignedInt(recordData,  6, 1, true);
+        ((ActivityRecordGps)newRecord).unknownInt2=ToolBox.readUnsignedInt(recordData,  7, 1, true);
+        ((ActivityRecordGps)newRecord).unknownInt3=ToolBox.readUnsignedInt(recordData,  8, 1, true);
+        ((ActivityRecordGps)newRecord).unknownInt4=ToolBox.readUnsignedInt(recordData,  9, 1, true);
+        ((ActivityRecordGps)newRecord).unknownInt5=ToolBox.readUnsignedInt(recordData, 10, 1, true);
+        ((ActivityRecordGps)newRecord).unknownInt6=ToolBox.readUnsignedInt(recordData, 11, 1, true);
+/*        
         int i;
         i=5;
         while (i<20)
@@ -694,11 +696,14 @@ public class Activity
       
     }   
     
-
+    /**
+     * Parse battery record
+     * @param recordData The record data
+     */
     private void parseRecordBattery(byte[] recordData)
     {
         int unknown1;   // 127
-        int unknown2;   // 6,
+        int unknown2;   // 4, 5, 6,
         int unknown3;   // 0
 
         this.batteryLevel   =ToolBox.readUnsignedInt(recordData,  1, 1, true);
@@ -720,7 +725,7 @@ public class Activity
         
         tag=recordData[0];
 //System.out.println(String.format("tag 0x%02x: unknown, length %d", tag, this.header.getLength(tag)));        
-      
+//System.out.println(tag);      
         switch(tag)
         {
             case TtbinFileDefinition.TAG_SUMMARY:
@@ -747,10 +752,10 @@ public class Activity
                 parseRecordMovement(recordData);
                 break;
             case TtbinFileDefinition.TAG_30:
-//                dumpRecordData(recordData);
+                break;
+            case TtbinFileDefinition.TAG_37:
                 break;
             case TtbinFileDefinition.TAG_48:      // 8 or 14 bytes after tag
-//                dumpRecordData(recordData);
                 break;
             case TtbinFileDefinition.TAG_BATTERY:
                   parseRecordBattery(recordData);
@@ -759,7 +764,6 @@ public class Activity
                 parseRecordActivityPoints(recordData);
                 break;
             case TtbinFileDefinition.TAG_4B:      // 4 bytes after tag
-//                dumpRecordData(recordData);
                 break;
             case TtbinFileDefinition.TAG_HEART_RATE_RECOVERY:
                 parseRecordHeartRateRecovery(recordData);

@@ -588,7 +588,7 @@ public class ActivityRecordGps extends ActivityRecord
         writer.write("dateTime, lat, lon, dist, cycles, heading, speed, intSpeed, movement, calories,"); 
         writer.write("status, ele1, ele2, eleCorr, cumEle1, cumEle2,");
         writer.write("heartrate,");
-        writer.write("ehpe, evpe,");
+        writer.write("ehpe, evpe,hdop,");
         writer.write("battery,");
         writer.write("unknownint1, unknownint2,unknownint3,unknownint4,unknownint5,unknownint6,unknwonfloat1,unknownfloat2");
         writer.write("\n");
@@ -631,6 +631,7 @@ public class ActivityRecordGps extends ActivityRecord
 
         writer.write(""+this.ehpe+",");
         writer.write(""+this.evpe+",");
+        writer.write(""+this.hdop+",");
         writer.write(""+this.batteryLevel+",");
 
         
