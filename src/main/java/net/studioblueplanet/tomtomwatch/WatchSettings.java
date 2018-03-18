@@ -299,6 +299,11 @@ public class WatchSettings
             fileName="settings_00010003001b.csv";
             // TO DO: Extend settins definition
         }
+        else if (firmwareVersion==0x000100070040L)  // 1.7.64
+        {
+            fileName="settings_00010003001b.csv";
+            // TO DO: Extend settins definition
+        }
         
         // MULTISPORTS
         else if (firmwareVersion==0x00010008002EL)  // 1.8.46
