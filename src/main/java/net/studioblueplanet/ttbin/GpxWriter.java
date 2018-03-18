@@ -585,7 +585,8 @@ public class GpxWriter
         }
         
         trackName           ="Track - "+track.getActivityDescription();
-        trackDescription    ="Created by: "+appName+". Logged by: \'"+track.getDeviceName()+"\'. Logged as: "+track.getActivityDescription()+".";
+        trackDescription    ="Created by: "+appName+". Logged by: \'"+track.getDeviceName()+"\' (serial: "+track.getDeviceSerialNumber()+"). "+
+                             "Logged as: "+track.getActivityDescription()+".";
         if (track.isSmoothed())
         {
             trackDescription+=" Smoothing ("+String.format("%.1f", track.getTrackSmoothingQFactor())+") applied.";

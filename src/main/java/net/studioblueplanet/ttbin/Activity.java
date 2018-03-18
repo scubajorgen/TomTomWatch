@@ -67,6 +67,7 @@ public class Activity
     private                 long                        timeOfPause;
     
     private                 String                      deviceName;
+    private                 String                      deviceSerial;
     
     private final           long                        waypointPauseTimeout;
     
@@ -100,6 +101,7 @@ public class Activity
         this.newRecord              =null;
         this.newActivitySegment     =null;
         this.deviceName             ="TomTom";
+        this.deviceSerial           ="Unknown";
         
         this.route                  ="";
         
@@ -131,6 +133,24 @@ public class Activity
     public String getDeviceName()
     {
         return this.deviceName;
+    }
+    
+    /**
+     * Sets the serial number of the device
+     * @param name The name of the device
+     */
+    public void setDeviceSerialNumber(String serial)
+    {
+        this.deviceSerial=serial;
+    }
+    
+    /**
+     * Gets the device serial number. Default 'Unknown' unless replaced by something else
+     * @return The name
+     */
+    public String getDeviceSerialNumber()
+    {
+        return this.deviceSerial;
     }
     
     /**
