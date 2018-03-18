@@ -672,7 +672,7 @@ public class CommunicationProcess implements Runnable, ProgressListener
     /**
      * Load the activity from a ttbin file. It results in an
      * ActivityData item appended to the lists.
-     * returns  True if an error occurred
+     * @return  True if an error occurred
      */
     public boolean loadActivityFromTtbinFile()
     {

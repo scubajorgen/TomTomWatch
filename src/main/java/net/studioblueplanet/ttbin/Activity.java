@@ -137,7 +137,7 @@ public class Activity
     
     /**
      * Sets the serial number of the device
-     * @param name The name of the device
+     * @param serial The name of the device
      */
     public void setDeviceSerialNumber(String serial)
     {
@@ -146,7 +146,7 @@ public class Activity
     
     /**
      * Gets the device serial number. Default 'Unknown' unless replaced by something else
-     * @return The name
+     * @return The serial number
      */
     public String getDeviceSerialNumber()
     {
