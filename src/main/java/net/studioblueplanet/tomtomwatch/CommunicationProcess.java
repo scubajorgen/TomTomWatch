@@ -993,7 +993,16 @@ public class CommunicationProcess implements Runnable, ProgressListener
         byte[]          chunk;
         int             bytesRead;
         byte[]          quickFixFile;
+        int             days;
         
+        // Read the days to look ahead from the configuration.
+        days=ConfigSettings.getInstance().getIntValue("quickFixDays");
+        
+        if (days!=3 && days!=7)
+        {
+            days=3;
+        }
+       
         error=false;
         
         theView.setStatus("Uploading GPS Quickfix data\n");
@@ -1014,18 +1023,26 @@ public class CommunicationProcess implements Runnable, ProgressListener
             urlString       =jsonObject.getString("service:ephemeris");
 
 
-            urlString=urlString.replace("{DAYS}", "3");
+            urlString=urlString.replace("{DAYS}", Integer.toString(days));
             DebugLogger.info("Write GPS Quickfix data: data url: "+urlString);
             theView.appendStatus("Quickfix data URL: "+urlString+"\n");
 
             // Download the GPS quick fix file
             quickFixFile=ToolBox.readBytesFromUrl(urlString);
 
-            error=watchInterface.writeGpxQuickFixFile(quickFixFile);
-
-            if (!error)
+            if (quickFixFile!=null)
             {
-                JOptionPane.showMessageDialog(theView, "GPS Quickfix data sent", "Info", JOptionPane.PLAIN_MESSAGE);
+                error=watchInterface.writeGpxQuickFixFile(quickFixFile);
+
+                if (!error)
+                {
+                    JOptionPane.showMessageDialog(theView, "GPS Quickfix data sent", "Info", JOptionPane.PLAIN_MESSAGE);
+                }
+            }
+            else
+            {
+                theView.appendStatus("Unable to read quickfix file from TomTom\n");
+                DebugLogger.error("Unable to read quickfix file from TomTom");
             }
         }
         else
