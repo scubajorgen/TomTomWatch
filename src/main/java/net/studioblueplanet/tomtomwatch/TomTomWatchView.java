@@ -458,6 +458,8 @@ public class TomTomWatchView extends javax.swing.JFrame
 
         jLabel5.setText("Route name");
 
+        jTextFieldRouteGpx.setMaximumSize(new java.awt.Dimension(6, 20));
+
         jButtonChooseRoute.setText("Choose");
         jButtonChooseRoute.addActionListener(new java.awt.event.ActionListener()
         {
@@ -845,13 +847,13 @@ public class TomTomWatchView extends javax.swing.JFrame
                                     .addComponent(jLabel5)
                                     .addComponent(jLabel3))
                                 .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jTextFieldRouteName, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jTextFieldRouteGpx, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jTextFieldRouteName)
+                                    .addComponent(jTextFieldRouteGpx, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jButtonChooseRoute)
-                                    .addComponent(jButtonUploadRoute)))
+                                    .addComponent(jButtonUploadRoute, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -888,9 +890,7 @@ public class TomTomWatchView extends javax.swing.JFrame
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jButtonDownload, jButtonErase, jButtonLoadTtbin, jButtonSaveTtbin, jButtonUploadGps});
 
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jButtonChooseRoute, jButtonEraseRoutes, jButtonUploadRoute});
-
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jTextFieldRouteGpx, jTextFieldRouteName});
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jButtonChooseRoute, jButtonEraseRoutes});
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jTextFieldGpxFile, jTextFieldTtbinPath});
 
