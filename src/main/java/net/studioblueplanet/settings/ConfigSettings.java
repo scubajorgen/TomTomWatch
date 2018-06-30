@@ -75,7 +75,8 @@ public class ConfigSettings
         new Setting("trackSmoothingQFactor" , "Defines the amount of smoothing  " , "2.0"  , "1.0,10.0"               , SettingType.DOUBLE ),
         new Setting("heightService"         , "Defines the elevation service    " , "none" , "none,google"            , SettingType.STRING ),
         new Setting("heightServiceKey"      , "Elevation service API key        " , ""     , ""                       , SettingType.STRING ),
-        new Setting("quickFixDays"          , "GPS Quick Fix days ahead         " , "3"    , "3,7"                    , SettingType.INT    )
+        new Setting("quickFixDays"          , "GPS Quick Fix days ahead         " , "3"    , "3,7"                    , SettingType.INT    ),
+        new Setting("downloadAll"           , "Download all activities          " , "false", ""                       , SettingType.BOOLEAN)
     };
     
     private static ConfigSettings       theInstance=null;        

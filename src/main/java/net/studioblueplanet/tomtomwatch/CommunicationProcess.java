@@ -804,7 +804,9 @@ public class CommunicationProcess implements Runnable, ProgressListener
         String              localDeviceName;
         String              fileName;
         boolean             fileSaveError;
-        
+        int                 startIndex;
+        int                 endIndex;
+        int                 index;
 
         // Add progress listener, for file reading
         watchInterface.setProgressListener(this);
@@ -827,26 +829,39 @@ public class CommunicationProcess implements Runnable, ProgressListener
                 // The array list of USB files seems not to be sorted. So sort it
                 sort(files);
 
+                if (theView.isDownloadMostRecent())
+                {
+                    startIndex  =Math.max(files.size()-3, 0);
+                    endIndex    =files.size();
+                    theView.setStatus("Downloading "+(endIndex-startIndex)+" most recent files... Please wait");
+                }
+                else
+                {
+                    startIndex  =0;
+                    endIndex    =files.size();
+                    theView.setStatus("Downloading all "+(endIndex-startIndex)+" files... Please wait");
+                }
+                
                 // Initialize the data for the progressbar
                 bytesToDownload=0;
                 bytesDownloaded=0;
-                it = files.iterator();
-                while (it.hasNext())
+                index=startIndex;
+                while (index<endIndex)
                 {
-                    file=it.next();
+                    file=files.get(index);
                     bytesToDownload+=file.length;
+                    index++;
                 }
 
                 theView.setProgress(0);
 
-                theView.setStatus("Downloading "+files.size()+" file... Please wait");
             
 
                 fileSaveError   =false;
-                it              = files.iterator();
-                while (it.hasNext() && !error)
+                index=startIndex;
+                while ((index<endIndex) && !error)
                 {
-                    file = it.next();
+                    file = files.get(index);
                     DebugLogger.info("File " + String.format("0x%08x", file.fileId) + " length " + file.length);
 
                     // Read the file data
@@ -913,6 +928,7 @@ public class CommunicationProcess implements Runnable, ProgressListener
 
                         // Add the activity info to the listbox
                         theView.addListItem(data, "watch ");
+                        index++;
                     }
                 }
                 theView.selectLastListIndex();

@@ -107,6 +107,9 @@ public class TomTomWatchView extends javax.swing.JFrame
         {
             this.jMenuItemSaveSimSet.setEnabled(false);
         }
+
+        this.jCheckBoxDownloadMostRecent.setSelected(!settings.getBooleanValue("downloadAll"));
+        
         
     }
 
@@ -135,12 +138,8 @@ public class TomTomWatchView extends javax.swing.JFrame
         jButtonUploadGps = new javax.swing.JButton();
         jPanelMap = new javax.swing.JPanel();
         jButtonSaveGpx = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
-        jTextFieldTtbinPath = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        jCheckBoxAutoSave = new javax.swing.JCheckBox();
         jTextFieldGpxFile = new javax.swing.JTextField();
-        jButtonChooseTtbinPath = new javax.swing.JButton();
         jButtonSaveTtbin = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         jTextFieldWatch = new javax.swing.JTextField();
@@ -170,10 +169,16 @@ public class TomTomWatchView extends javax.swing.JFrame
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
-        jCheckBoxSmooth = new javax.swing.JCheckBox();
         jLabel11 = new javax.swing.JLabel();
         jTextFieldSerial = new javax.swing.JTextField();
         jButtonListRoutes = new javax.swing.JButton();
+        jLabelSettings = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        jTextFieldTtbinPath = new javax.swing.JTextField();
+        jButtonChooseTtbinPath = new javax.swing.JButton();
+        jCheckBoxDownloadMostRecent = new javax.swing.JCheckBox();
+        jCheckBoxAutoSave = new javax.swing.JCheckBox();
+        jCheckBoxSmooth = new javax.swing.JCheckBox();
         jMenuBar = new javax.swing.JMenuBar();
         jMenuFile = new javax.swing.JMenu();
         jMenuItemQuit = new javax.swing.JMenuItem();
@@ -289,18 +294,13 @@ public class TomTomWatchView extends javax.swing.JFrame
             }
         });
 
-        jLabel1.setText("TTBIN Path");
-
         jLabel2.setText("GPX File");
 
-        jCheckBoxAutoSave.setText("Autosave");
-
-        jButtonChooseTtbinPath.setText("Choose");
-        jButtonChooseTtbinPath.addActionListener(new java.awt.event.ActionListener()
+        jTextFieldGpxFile.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
             {
-                jButtonChooseTtbinPathActionPerformed(evt);
+                jTextFieldGpxFileActionPerformed(evt);
             }
         });
 
@@ -406,40 +406,41 @@ public class TomTomWatchView extends javax.swing.JFrame
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jRadioButtonSwimming)
-                    .addComponent(jRadioButtonSkating)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jRadioButtonHiking)
-                            .addComponent(jRadioButtonCycling)
-                            .addComponent(jRadioButtonRunning))
+                        .addComponent(jRadioButtonCycling)
                         .addGap(18, 18, 18)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jRadioButtonDriving)
-                            .addComponent(jRadioButtonFlying)
-                            .addComponent(jRadioButtonMulti))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jRadioButtonSwimming))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jRadioButtonRunning)
+                        .addGap(12, 12, 12)
+                        .addComponent(jRadioButtonHiking)))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jRadioButtonDriving)
+                        .addGap(18, 18, 18)
+                        .addComponent(jRadioButtonFlying))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jRadioButtonSkating)
+                        .addGap(18, 18, 18)
+                        .addComponent(jRadioButtonMulti)))
+                .addContainerGap(31, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jRadioButtonRunning)
-                    .addComponent(jRadioButtonDriving))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jRadioButtonCycling)
-                    .addComponent(jRadioButtonFlying))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(0, 6, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jRadioButtonHiking)
-                    .addComponent(jRadioButtonMulti))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jRadioButtonSwimming)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jRadioButtonSkating)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jRadioButtonRunning)
+                    .addComponent(jRadioButtonDriving)
+                    .addComponent(jRadioButtonFlying))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jRadioButtonSwimming)
+                    .addComponent(jRadioButtonCycling)
+                    .addComponent(jRadioButtonSkating)
+                    .addComponent(jRadioButtonMulti)))
         );
 
         jButtonLoadTtbin.setText("Load TTBIN");
@@ -500,15 +501,6 @@ public class TomTomWatchView extends javax.swing.JFrame
 
         jLabel10.setText("Time:");
 
-        jCheckBoxSmooth.setText("Smooth");
-        jCheckBoxSmooth.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
-                jCheckBoxSmoothActionPerformed(evt);
-            }
-        });
-
         jLabel11.setText("Serial: ");
 
         jTextFieldSerial.setEditable(false);
@@ -519,6 +511,33 @@ public class TomTomWatchView extends javax.swing.JFrame
             public void actionPerformed(java.awt.event.ActionEvent evt)
             {
                 jButtonListRoutesActionPerformed(evt);
+            }
+        });
+
+        jLabelSettings.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabelSettings.setText("Settings");
+
+        jLabel1.setText("TTBIN Path");
+
+        jButtonChooseTtbinPath.setText("Choose");
+        jButtonChooseTtbinPath.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                jButtonChooseTtbinPathActionPerformed(evt);
+            }
+        });
+
+        jCheckBoxDownloadMostRecent.setText("Download most recent");
+
+        jCheckBoxAutoSave.setText("Autosave");
+
+        jCheckBoxSmooth.setText("Smooth");
+        jCheckBoxSmooth.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                jCheckBoxSmoothActionPerformed(evt);
             }
         });
 
@@ -799,68 +818,21 @@ public class TomTomWatchView extends javax.swing.JFrame
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addGroup(layout.createSequentialGroup()
-                                            .addComponent(jButtonDownload, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                            .addComponent(jButtonErase, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                            .addComponent(jButtonUploadGps, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                            .addComponent(jButtonLoadTtbin)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(jButtonSaveTtbin, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addComponent(jProgressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 489, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addComponent(jLabel2)
-                                                .addGap(34, 34, 34)
-                                                .addComponent(jTextFieldGpxFile, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                                .addComponent(jLabel1)
-                                                .addGap(18, 18, 18)
-                                                .addComponent(jTextFieldTtbinPath, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(jButtonChooseTtbinPath, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(jButtonSaveGpx, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jCheckBoxAutoSave)
-                                            .addComponent(jCheckBoxSmooth))))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel7)
-                                .addGap(0, 0, Short.MAX_VALUE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel6)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel5)
-                                    .addComponent(jLabel3))
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jTextFieldRouteName)
-                                    .addComponent(jTextFieldRouteGpx, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jButtonChooseRoute)
-                                    .addComponent(jButtonUploadRoute, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jButtonEraseRoutes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jButtonListRoutes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel7)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jButtonDownload, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButtonErase, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButtonUploadGps, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButtonLoadTtbin)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButtonSaveTtbin, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jProgressBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel4)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -869,30 +841,77 @@ public class TomTomWatchView extends javax.swing.JFrame
                                 .addComponent(jLabel10)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jTextFieldTime, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 501, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jScrollPane2)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addGap(34, 34, 34)
+                                .addComponent(jTextFieldGpxFile)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButtonSaveGpx, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(14, 14, 14)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel9)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jTextFieldFirmware, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(56, 56, 56)
                                 .addComponent(jLabel8)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jTextFieldProductId, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(34, 34, 34)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jLabel11)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jTextFieldSerial, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jPanelMap, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(jPanelMap, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel5)
+                                            .addComponent(jLabel3))
+                                        .addGap(18, 18, 18)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(jTextFieldRouteGpx, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(jTextFieldRouteName, javax.swing.GroupLayout.PREFERRED_SIZE, 391, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(jLabel6))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButtonChooseRoute)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButtonListRoutes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabelSettings)
+                                        .addGap(0, 0, Short.MAX_VALUE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                                .addGroup(layout.createSequentialGroup()
+                                                    .addComponent(jLabel1)
+                                                    .addGap(20, 20, 20)
+                                                    .addComponent(jTextFieldTtbinPath)
+                                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                    .addComponent(jButtonChooseTtbinPath, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addGroup(layout.createSequentialGroup()
+                                                    .addGap(473, 473, 473)
+                                                    .addComponent(jButtonUploadRoute, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(jCheckBoxDownloadMostRecent)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(jCheckBoxAutoSave)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(jCheckBoxSmooth)))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                .addComponent(jButtonEraseRoutes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1178, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jButtonDownload, jButtonErase, jButtonLoadTtbin, jButtonSaveTtbin, jButtonUploadGps});
 
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jButtonChooseRoute, jButtonEraseRoutes});
-
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jTextFieldGpxFile, jTextFieldTtbinPath});
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jButtonChooseRoute, jButtonChooseTtbinPath, jButtonEraseRoutes, jButtonListRoutes, jButtonUploadRoute});
 
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -903,17 +922,17 @@ public class TomTomWatchView extends javax.swing.JFrame
                     .addComponent(jTextFieldWatch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextFieldTime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextFieldFirmware, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextFieldProductId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel8)
                     .addComponent(jLabel9)
                     .addComponent(jLabel10)
                     .addComponent(jLabel11)
-                    .addComponent(jTextFieldSerial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextFieldSerial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextFieldProductId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel8))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 374, Short.MAX_VALUE)
                     .addComponent(jPanelMap, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(32, 32, 32)
                         .addComponent(jProgressBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -924,43 +943,46 @@ public class TomTomWatchView extends javax.swing.JFrame
                             .addComponent(jButtonUploadGps)
                             .addComponent(jButtonLoadTtbin)
                             .addComponent(jButtonSaveTtbin))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextFieldTtbinPath, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1)
-                            .addComponent(jButtonChooseTtbinPath)
-                            .addComponent(jCheckBoxAutoSave))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jLabel2)
-                                .addComponent(jTextFieldGpxFile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jButtonSaveGpx))
-                            .addComponent(jCheckBoxSmooth)))
-                    .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2)
+                            .addComponent(jTextFieldGpxFile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButtonSaveGpx))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel6)
                             .addComponent(jLabel7))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel3)
-                                    .addComponent(jTextFieldRouteGpx, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jButtonChooseRoute))
+                                .addComponent(jTextFieldRouteGpx, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel5)
                                     .addComponent(jTextFieldRouteName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jButtonUploadRoute))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jButtonEraseRoutes)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jButtonListRoutes))
-                            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 144, Short.MAX_VALUE)
+                                    .addComponent(jLabel5)
+                                    .addComponent(jButtonUploadRoute)
+                                    .addComponent(jButtonEraseRoutes)))
+                            .addComponent(jLabel3)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jButtonChooseRoute)
+                                .addComponent(jButtonListRoutes)))
+                        .addGap(9, 9, 9)
+                        .addComponent(jLabelSettings)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jTextFieldTtbinPath, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1)
+                            .addComponent(jButtonChooseTtbinPath))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jCheckBoxSmooth)
+                            .addComponent(jCheckBoxDownloadMostRecent)
+                            .addComponent(jCheckBoxAutoSave))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 236, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -1064,41 +1086,6 @@ public class TomTomWatchView extends javax.swing.JFrame
         // Signal the thread to upload GPS data for quick GPS fix
         checkAndPushCommand(ThreadCommand.THREADCOMMAND_UPLOADGPSDATA);
     }//GEN-LAST:event_jButtonUploadGpsActionPerformed
-
-    private void jButtonChooseTtbinPathActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButtonChooseTtbinPathActionPerformed
-    {//GEN-HEADEREND:event_jButtonChooseTtbinPathActionPerformed
-        JFileChooser                fc;
-        String                      directoryName;
-        int                         returnValue;
-        
-        fc= new JFileChooser();
-        
-        fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-        
-        directoryName=this.jTextFieldTtbinPath.getText();
-        if (directoryName.equals(""))
-        {
-            fc.setCurrentDirectory(new File(settings.getStringValue("ttbinFilePath")));
-        }
-        else
-        {
-            fc.setCurrentDirectory(new File(directoryName));
-        }
-        
-        returnValue=fc.showDialog(null, "Select");
-        
-        if (returnValue == JFileChooser.APPROVE_OPTION)
-        {
-            directoryName=fc.getSelectedFile().toString();
-            
-            this.jTextFieldTtbinPath.setText(directoryName);
-        }
-        if (returnValue == JFileChooser.CANCEL_OPTION)
-        {
-
-        }  
-
-    }//GEN-LAST:event_jButtonChooseTtbinPathActionPerformed
 
     private void jButtonSaveGpxActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButtonSaveGpxActionPerformed
     {//GEN-HEADEREND:event_jButtonSaveGpxActionPerformed
@@ -1559,13 +1546,6 @@ public class TomTomWatchView extends javax.swing.JFrame
         communicationProcess.requestShowFile(WatchInterface.FILEID_LOG);
     }//GEN-LAST:event_jMenuItemShowLogActionPerformed
 
-    private void jCheckBoxSmoothActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jCheckBoxSmoothActionPerformed
-    {//GEN-HEADEREND:event_jCheckBoxSmoothActionPerformed
-        // Clear the list of activities as maintained by the communication
-        // process. En passant the listbox in this view is erased.
-        communicationProcess.clear();
-    }//GEN-LAST:event_jCheckBoxSmoothActionPerformed
-
     private void jMenuItemPlaylistsActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jMenuItemPlaylistsActionPerformed
     {//GEN-HEADEREND:event_jMenuItemPlaylistsActionPerformed
         communicationProcess.requestShowFile(WatchInterface.FILEID_PLAYLIST);
@@ -1709,6 +1689,52 @@ public class TomTomWatchView extends javax.swing.JFrame
         checkAndPushCommand(ThreadCommand.THREADCOMMAND_LISTROUTES);
     }//GEN-LAST:event_jButtonListRoutesActionPerformed
 
+    private void jTextFieldGpxFileActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jTextFieldGpxFileActionPerformed
+    {//GEN-HEADEREND:event_jTextFieldGpxFileActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldGpxFileActionPerformed
+
+    private void jButtonChooseTtbinPathActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButtonChooseTtbinPathActionPerformed
+    {//GEN-HEADEREND:event_jButtonChooseTtbinPathActionPerformed
+        JFileChooser                fc;
+        String                      directoryName;
+        int                         returnValue;
+
+        fc= new JFileChooser();
+
+        fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+
+        directoryName=this.jTextFieldTtbinPath.getText();
+        if (directoryName.equals(""))
+        {
+            fc.setCurrentDirectory(new File(settings.getStringValue("ttbinFilePath")));
+        }
+        else
+        {
+            fc.setCurrentDirectory(new File(directoryName));
+        }
+
+        returnValue=fc.showDialog(null, "Select");
+
+        if (returnValue == JFileChooser.APPROVE_OPTION)
+        {
+            directoryName=fc.getSelectedFile().toString();
+
+            this.jTextFieldTtbinPath.setText(directoryName);
+        }
+        if (returnValue == JFileChooser.CANCEL_OPTION)
+        {
+
+        }
+    }//GEN-LAST:event_jButtonChooseTtbinPathActionPerformed
+
+    private void jCheckBoxSmoothActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jCheckBoxSmoothActionPerformed
+    {//GEN-HEADEREND:event_jCheckBoxSmoothActionPerformed
+        // Clear the list of activities as maintained by the communication
+        // process. En passant the listbox in this view is erased.
+        communicationProcess.clear();
+    }//GEN-LAST:event_jCheckBoxSmoothActionPerformed
+
     /*############################################################################################*\
      * HELPER FUNCTIONS     
     \*############################################################################################*/    
@@ -1767,9 +1793,13 @@ public class TomTomWatchView extends javax.swing.JFrame
         {
             fitnessPointsString="-";
         }
-        
+/*        
         description += String.format("0x%08x - ", data.file.fileId) + dateTime
                 + " - " + prefix+String.format("%-13s ", data.activity.getActivityDescription())+" - "+
+                fitnessPointsString;
+*/
+        description += dateTime
+                + " - " + prefix+String.format("- %-13s ", data.activity.getActivityDescription())+" - "+
                 fitnessPointsString;
 
         return description;
@@ -1982,6 +2012,15 @@ public class TomTomWatchView extends javax.swing.JFrame
         return fileName;
     }
     
+    /**
+     * Returns whether the user has selected only to download most recent
+     * activities.
+     * @return True when selected
+     */
+    public boolean isDownloadMostRecent()
+    {
+        return this.jCheckBoxDownloadMostRecent.isSelected();
+    }
     
     
     /* ******************************************************************************************* *\
@@ -2132,6 +2171,7 @@ public class TomTomWatchView extends javax.swing.JFrame
     private javax.swing.JButton jButtonUploadGps;
     private javax.swing.JButton jButtonUploadRoute;
     private javax.swing.JCheckBox jCheckBoxAutoSave;
+    private javax.swing.JCheckBox jCheckBoxDownloadMostRecent;
     private javax.swing.JCheckBox jCheckBoxSmooth;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -2144,6 +2184,7 @@ public class TomTomWatchView extends javax.swing.JFrame
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JLabel jLabelSettings;
     private javax.swing.JList jListActivities;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
