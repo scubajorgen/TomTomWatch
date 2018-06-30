@@ -769,7 +769,7 @@ public class Activity
 //                dumpRecordData(recordData);
                 break;
             case TtbinFileDefinition.TAG_MOVEMENT:
-                parseRecordMovement(recordData);
+//                parseRecordMovement(recordData);
                 break;
             case TtbinFileDefinition.TAG_30:
                 break;
