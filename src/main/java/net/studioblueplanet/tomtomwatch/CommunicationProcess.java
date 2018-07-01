@@ -858,8 +858,8 @@ public class CommunicationProcess implements Runnable, ProgressListener
             
 
                 fileSaveError   =false;
-                index=startIndex;
-                while ((index<endIndex) && !error)
+                index=endIndex-1;
+                while ((index>=startIndex) && !error)
                 {
                     file = files.get(index);
                     DebugLogger.info("File " + String.format("0x%08x", file.fileId) + " length " + file.length);
@@ -928,10 +928,14 @@ public class CommunicationProcess implements Runnable, ProgressListener
 
                         // Add the activity info to the listbox
                         theView.addListItem(data, "watch ");
-                        index++;
+                        
+                        if (index==endIndex-1)
+                        {
+                            theView.selectFirstListIndex();
+                        }
+                        index--;
                     }
                 }
-                theView.selectLastListIndex();
             } 
             else
             {
