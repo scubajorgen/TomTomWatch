@@ -365,13 +365,6 @@ public class TomTomWatchView extends javax.swing.JFrame
         jLabel2.setText("GPX File");
 
         jTextFieldGpxFile.setFont(new java.awt.Font("Lucida Sans", 0, 11)); // NOI18N
-        jTextFieldGpxFile.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
-                jTextFieldGpxFileActionPerformed(evt);
-            }
-        });
 
         jButtonSaveGpx.setFont(new java.awt.Font("Lucida Sans", 0, 12)); // NOI18N
         jButtonSaveGpx.setText("Save");
@@ -1783,11 +1776,6 @@ public class TomTomWatchView extends javax.swing.JFrame
     {//GEN-HEADEREND:event_jButtonListRoutesActionPerformed
         checkAndPushCommand(ThreadCommand.THREADCOMMAND_LISTROUTES);
     }//GEN-LAST:event_jButtonListRoutesActionPerformed
-
-    private void jTextFieldGpxFileActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jTextFieldGpxFileActionPerformed
-    {//GEN-HEADEREND:event_jTextFieldGpxFileActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextFieldGpxFileActionPerformed
 
     private void jButtonChooseTtbinPathActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButtonChooseTtbinPathActionPerformed
     {//GEN-HEADEREND:event_jButtonChooseTtbinPathActionPerformed
