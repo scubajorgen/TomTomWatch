@@ -120,8 +120,7 @@ public class TomTomWatchView extends javax.swing.JFrame
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents()
-    {
+    private void initComponents() {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -145,11 +144,6 @@ public class TomTomWatchView extends javax.swing.JFrame
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jTextFieldSerial = new javax.swing.JTextField();
-        jPanel1 = new javax.swing.JPanel();
-        jLabelSettings = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
-        jTextFieldTtbinPath = new javax.swing.JTextField();
-        jButtonChooseTtbinPath = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jProgressBar = new javax.swing.JProgressBar();
@@ -183,6 +177,10 @@ public class TomTomWatchView extends javax.swing.JFrame
         jButtonUploadRoute = new javax.swing.JButton();
         jButtonListRoutes = new javax.swing.JButton();
         jButtonEraseRoutes = new javax.swing.JButton();
+        jLabelSettings = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        jTextFieldTtbinPath = new javax.swing.JTextField();
+        jButtonChooseTtbinPath = new javax.swing.JButton();
         jMenuBar = new javax.swing.JMenuBar();
         jMenuFile = new javax.swing.JMenu();
         jMenuItemQuit = new javax.swing.JMenuItem();
@@ -236,25 +234,23 @@ public class TomTomWatchView extends javax.swing.JFrame
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setFocusTraversalPolicyProvider(true);
         setResizable(false);
 
         jTextAreaStatus.setEditable(false);
         jTextAreaStatus.setColumns(20);
-        jTextAreaStatus.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
+        jTextAreaStatus.setFont(new java.awt.Font("Lucida Sans Typewriter", 0, 14)); // NOI18N
         jTextAreaStatus.setRows(5);
         jScrollPane1.setViewportView(jTextAreaStatus);
 
-        jListActivities.setFont(new java.awt.Font("Lucida Console", 0, 14)); // NOI18N
-        jListActivities.setModel(new javax.swing.AbstractListModel()
-        {
+        jListActivities.setFont(new java.awt.Font("Lucida Sans Typewriter", 0, 14)); // NOI18N
+        jListActivities.setModel(new javax.swing.AbstractListModel() {
             String[] strings = { "x" };
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
-        jListActivities.addListSelectionListener(new javax.swing.event.ListSelectionListener()
-        {
-            public void valueChanged(javax.swing.event.ListSelectionEvent evt)
-            {
+        jListActivities.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
                 jListActivitiesValueChanged(evt);
             }
         });
@@ -274,218 +270,174 @@ public class TomTomWatchView extends javax.swing.JFrame
             .addGap(0, 0, Short.MAX_VALUE)
         );
 
+        jLabel4.setFont(new java.awt.Font("Lucida Sans", 0, 14)); // NOI18N
         jLabel4.setText("TomTomWatch: ");
 
         jTextFieldWatch.setEditable(false);
+        jTextFieldWatch.setFont(new java.awt.Font("Lucida Sans", 0, 14)); // NOI18N
 
         jTextFieldTime.setEditable(false);
+        jTextFieldTime.setFont(new java.awt.Font("Lucida Sans", 0, 14)); // NOI18N
 
         jTextFieldFirmware.setEditable(false);
+        jTextFieldFirmware.setFont(new java.awt.Font("Lucida Sans", 0, 14)); // NOI18N
 
         jTextFieldProductId.setEditable(false);
+        jTextFieldProductId.setFont(new java.awt.Font("Lucida Sans", 0, 14)); // NOI18N
 
+        jLabel8.setFont(new java.awt.Font("Lucida Sans", 0, 14)); // NOI18N
         jLabel8.setText("Product ID: ");
 
+        jLabel9.setFont(new java.awt.Font("Lucida Sans", 0, 14)); // NOI18N
         jLabel9.setText("Firmware: ");
 
+        jLabel10.setFont(new java.awt.Font("Lucida Sans", 0, 14)); // NOI18N
         jLabel10.setText("Time:");
 
+        jLabel11.setFont(new java.awt.Font("Lucida Sans", 0, 14)); // NOI18N
         jLabel11.setText("Serial: ");
 
         jTextFieldSerial.setEditable(false);
-
-        jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-
-        jLabelSettings.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabelSettings.setText("Settings");
-
-        jLabel1.setText("TTBIN Path");
-
-        jButtonChooseTtbinPath.setText("Choose");
-        jButtonChooseTtbinPath.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
-                jButtonChooseTtbinPathActionPerformed(evt);
+        jTextFieldSerial.setFont(new java.awt.Font("Lucida Sans", 0, 14)); // NOI18N
+        jTextFieldSerial.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldSerialActionPerformed(evt);
             }
         });
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabelSettings)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(26, 26, 26)
-                        .addComponent(jTextFieldTtbinPath, javax.swing.GroupLayout.PREFERRED_SIZE, 385, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButtonChooseTtbinPath, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(79, Short.MAX_VALUE))))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(13, Short.MAX_VALUE)
-                .addComponent(jLabelSettings)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextFieldTtbinPath, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButtonChooseTtbinPath)
-                    .addComponent(jLabel1))
-                .addContainerGap())
-        );
-
         jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jLabel7.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel7.setFont(new java.awt.Font("Lucida Sans", 1, 14)); // NOI18N
         jLabel7.setText("Tracks & GPS Quickfix");
 
+        jProgressBar.setFont(new java.awt.Font("Lucida Sans", 0, 11)); // NOI18N
+
+        jButtonDownload.setFont(new java.awt.Font("Lucida Sans", 0, 12)); // NOI18N
         jButtonDownload.setText("Download");
-        jButtonDownload.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jButtonDownload.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonDownloadActionPerformed(evt);
             }
         });
 
+        jButtonErase.setFont(new java.awt.Font("Lucida Sans", 0, 12)); // NOI18N
         jButtonErase.setText("Erase");
-        jButtonErase.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jButtonErase.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonEraseActionPerformed(evt);
             }
         });
 
+        jButtonUploadGps.setFont(new java.awt.Font("Lucida Sans", 0, 12)); // NOI18N
         jButtonUploadGps.setText("GPS Quickfix");
-        jButtonUploadGps.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jButtonUploadGps.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonUploadGpsActionPerformed(evt);
             }
         });
 
+        jButtonLoadTtbin.setFont(new java.awt.Font("Lucida Sans", 0, 12)); // NOI18N
         jButtonLoadTtbin.setText("Load TTBIN");
-        jButtonLoadTtbin.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jButtonLoadTtbin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonLoadTtbinActionPerformed(evt);
             }
         });
 
+        jButtonSaveTtbin.setFont(new java.awt.Font("Lucida Sans", 0, 12)); // NOI18N
         jButtonSaveTtbin.setText("Save TTBIN");
-        jButtonSaveTtbin.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jButtonSaveTtbin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonSaveTtbinActionPerformed(evt);
             }
         });
 
+        jLabel2.setFont(new java.awt.Font("Lucida Sans", 0, 14)); // NOI18N
         jLabel2.setText("GPX File");
 
-        jTextFieldGpxFile.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jTextFieldGpxFile.setFont(new java.awt.Font("Lucida Sans", 0, 11)); // NOI18N
+        jTextFieldGpxFile.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextFieldGpxFileActionPerformed(evt);
             }
         });
 
+        jButtonSaveGpx.setFont(new java.awt.Font("Lucida Sans", 0, 12)); // NOI18N
         jButtonSaveGpx.setText("Save");
-        jButtonSaveGpx.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jButtonSaveGpx.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonSaveGpxActionPerformed(evt);
             }
         });
 
         buttonGroup1.add(jRadioButtonRunning);
+        jRadioButtonRunning.setFont(new java.awt.Font("Lucida Sans", 0, 11)); // NOI18N
         jRadioButtonRunning.setText("Running");
-        jRadioButtonRunning.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jRadioButtonRunning.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jRadioButtonRunningActionPerformed(evt);
             }
         });
 
         buttonGroup1.add(jRadioButtonCycling);
+        jRadioButtonCycling.setFont(new java.awt.Font("Lucida Sans", 0, 11)); // NOI18N
         jRadioButtonCycling.setText("Cycling");
-        jRadioButtonCycling.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jRadioButtonCycling.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jRadioButtonCyclingActionPerformed(evt);
             }
         });
 
         buttonGroup1.add(jRadioButtonHiking);
+        jRadioButtonHiking.setFont(new java.awt.Font("Lucida Sans", 0, 11)); // NOI18N
         jRadioButtonHiking.setText("Hiking");
-        jRadioButtonHiking.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jRadioButtonHiking.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jRadioButtonHikingActionPerformed(evt);
             }
         });
 
         buttonGroup1.add(jRadioButtonSwimming);
+        jRadioButtonSwimming.setFont(new java.awt.Font("Lucida Sans", 0, 11)); // NOI18N
         jRadioButtonSwimming.setText("Swimming");
-        jRadioButtonSwimming.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jRadioButtonSwimming.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jRadioButtonSwimmingActionPerformed(evt);
             }
         });
 
         buttonGroup1.add(jRadioButtonSkating);
+        jRadioButtonSkating.setFont(new java.awt.Font("Lucida Sans", 0, 11)); // NOI18N
         jRadioButtonSkating.setText("Skating");
-        jRadioButtonSkating.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jRadioButtonSkating.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jRadioButtonSkatingActionPerformed(evt);
             }
         });
 
         buttonGroup1.add(jRadioButtonDriving);
+        jRadioButtonDriving.setFont(new java.awt.Font("Lucida Sans", 0, 11)); // NOI18N
         jRadioButtonDriving.setText("Driving");
-        jRadioButtonDriving.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jRadioButtonDriving.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jRadioButtonDrivingActionPerformed(evt);
             }
         });
 
         buttonGroup1.add(jRadioButtonFlying);
+        jRadioButtonFlying.setFont(new java.awt.Font("Lucida Sans", 0, 11)); // NOI18N
         jRadioButtonFlying.setText("Flying");
-        jRadioButtonFlying.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jRadioButtonFlying.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jRadioButtonFlyingActionPerformed(evt);
             }
         });
 
         buttonGroup1.add(jRadioButtonMulti);
+        jRadioButtonMulti.setFont(new java.awt.Font("Lucida Sans", 0, 11)); // NOI18N
         jRadioButtonMulti.setText("Multi");
-        jRadioButtonMulti.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jRadioButtonMulti.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jRadioButtonMultiActionPerformed(evt);
             }
         });
@@ -497,28 +449,25 @@ public class TomTomWatchView extends javax.swing.JFrame
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jRadioButtonCycling, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jRadioButtonSwimming, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jRadioButtonRunning, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(12, 12, 12)
-                        .addComponent(jRadioButtonHiking, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(18, 18, 18)))
+                    .addComponent(jRadioButtonRunning)
+                    .addComponent(jRadioButtonCycling))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jRadioButtonDriving, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jRadioButtonFlying, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jRadioButtonSkating, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jRadioButtonMulti, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(4, 4, 4)))
-                .addGap(133, 133, 133))
+                    .addComponent(jRadioButtonSwimming)
+                    .addComponent(jRadioButtonHiking))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jRadioButtonSkating)
+                    .addComponent(jRadioButtonDriving))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jRadioButtonMulti, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jRadioButtonFlying, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(26, Short.MAX_VALUE))
         );
+
+        jPanel2Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jRadioButtonCycling, jRadioButtonDriving, jRadioButtonFlying, jRadioButtonHiking, jRadioButtonMulti, jRadioButtonRunning, jRadioButtonSkating, jRadioButtonSwimming});
+
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
@@ -536,15 +485,16 @@ public class TomTomWatchView extends javax.swing.JFrame
                     .addComponent(jRadioButtonMulti)))
         );
 
+        jCheckBoxDownloadMostRecent.setFont(new java.awt.Font("Lucida Sans", 0, 11)); // NOI18N
         jCheckBoxDownloadMostRecent.setText("Download most recent");
 
+        jCheckBoxAutoSave.setFont(new java.awt.Font("Lucida Sans", 0, 11)); // NOI18N
         jCheckBoxAutoSave.setText("Autosave ttbin");
 
+        jCheckBoxSmooth.setFont(new java.awt.Font("Lucida Sans", 0, 11)); // NOI18N
         jCheckBoxSmooth.setText("Smooth");
-        jCheckBoxSmooth.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jCheckBoxSmooth.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jCheckBoxSmoothActionPerformed(evt);
             }
         });
@@ -556,39 +506,34 @@ public class TomTomWatchView extends javax.swing.JFrame
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jProgressBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jCheckBoxDownloadMostRecent)
-                            .addComponent(jCheckBoxAutoSave)
-                            .addComponent(jCheckBoxSmooth))
-                        .addGap(12, 12, 12))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(jLabel7)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(jButtonDownload, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButtonErase, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jButtonUploadGps, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jButtonLoadTtbin, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jButtonSaveTtbin, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGap(18, 18, 18)
-                        .addComponent(jTextFieldGpxFile)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButtonSaveGpx, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())))
+                    .addComponent(jLabel7)
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(jPanel3Layout.createSequentialGroup()
+                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jProgressBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jCheckBoxDownloadMostRecent)
+                                .addComponent(jCheckBoxAutoSave)
+                                .addComponent(jCheckBoxSmooth)))
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
+                            .addComponent(jLabel2)
+                            .addGap(18, 18, 18)
+                            .addComponent(jTextFieldGpxFile)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jButtonSaveGpx, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
+                            .addComponent(jButtonDownload, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jButtonErase, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jButtonUploadGps, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jButtonLoadTtbin, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jButtonSaveTtbin, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(12, Short.MAX_VALUE))
         );
 
         jPanel3Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jButtonDownload, jButtonErase, jButtonLoadTtbin, jButtonSaveTtbin, jButtonUploadGps});
@@ -606,73 +551,87 @@ public class TomTomWatchView extends javax.swing.JFrame
                     .addComponent(jButtonLoadTtbin)
                     .addComponent(jButtonSaveTtbin))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextFieldGpxFile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButtonSaveGpx))
-                        .addGap(1, 1, 1))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonSaveGpx)
+                    .addComponent(jLabel2)
+                    .addComponent(jTextFieldGpxFile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(1, 1, 1)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jProgressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
                         .addComponent(jCheckBoxDownloadMostRecent)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jCheckBoxAutoSave)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jCheckBoxSmooth)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(15, Short.MAX_VALUE))
         );
 
         jPanel5.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jLabel6.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel6.setFont(new java.awt.Font("Lucida Sans", 1, 14)); // NOI18N
         jLabel6.setText("Upload Route");
 
+        jLabel3.setFont(new java.awt.Font("Lucida Sans", 0, 14)); // NOI18N
         jLabel3.setText("Route GPX");
 
+        jLabel5.setFont(new java.awt.Font("Lucida Sans", 0, 14)); // NOI18N
         jLabel5.setText("Route name");
 
+        jTextFieldRouteGpx.setFont(new java.awt.Font("Lucida Sans", 0, 14)); // NOI18N
         jTextFieldRouteGpx.setMaximumSize(new java.awt.Dimension(6, 20));
 
+        jTextFieldRouteName.setFont(new java.awt.Font("Lucida Sans", 0, 14)); // NOI18N
+
+        jButtonChooseRoute.setFont(new java.awt.Font("Lucida Sans", 0, 12)); // NOI18N
         jButtonChooseRoute.setText("Choose");
-        jButtonChooseRoute.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jButtonChooseRoute.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonChooseRouteActionPerformed(evt);
             }
         });
 
+        jButtonUploadRoute.setFont(new java.awt.Font("Lucida Sans", 0, 12)); // NOI18N
         jButtonUploadRoute.setText("Upload");
-        jButtonUploadRoute.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jButtonUploadRoute.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonUploadRouteActionPerformed(evt);
             }
         });
 
+        jButtonListRoutes.setFont(new java.awt.Font("Lucida Sans", 0, 12)); // NOI18N
         jButtonListRoutes.setText("List");
-        jButtonListRoutes.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jButtonListRoutes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonListRoutesActionPerformed(evt);
             }
         });
 
+        jButtonEraseRoutes.setFont(new java.awt.Font("Lucida Sans", 0, 12)); // NOI18N
         jButtonEraseRoutes.setText("Erase");
-        jButtonEraseRoutes.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jButtonEraseRoutes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonEraseRoutesActionPerformed(evt);
+            }
+        });
+
+        jLabelSettings.setFont(new java.awt.Font("Lucida Sans", 1, 14)); // NOI18N
+        jLabelSettings.setText("Settings");
+
+        jLabel1.setFont(new java.awt.Font("Lucida Sans", 0, 14)); // NOI18N
+        jLabel1.setText("TTBIN Path");
+
+        jTextFieldTtbinPath.setFont(new java.awt.Font("Lucida Sans", 0, 14)); // NOI18N
+
+        jButtonChooseTtbinPath.setFont(new java.awt.Font("Lucida Sans", 0, 12)); // NOI18N
+        jButtonChooseTtbinPath.setText("Choose");
+        jButtonChooseTtbinPath.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonChooseTtbinPathActionPerformed(evt);
             }
         });
 
@@ -684,28 +643,32 @@ public class TomTomWatchView extends javax.swing.JFrame
                 .addContainerGap()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel6)
-                            .addGroup(jPanel5Layout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addGap(25, 25, 25)
-                                .addComponent(jTextFieldRouteGpx, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButtonChooseRoute)))
-                        .addGap(18, 18, 18)
-                        .addComponent(jButtonListRoutes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jLabel6)
+                        .addGap(133, 133, 133))
                     .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(jLabel5)
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabelSettings)
+                            .addComponent(jLabel1))
                         .addGap(18, 18, 18)
-                        .addComponent(jTextFieldRouteName)
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTextFieldRouteName)
+                            .addComponent(jTextFieldRouteGpx, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jTextFieldTtbinPath))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButtonUploadRoute, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButtonEraseRoutes, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)))
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButtonChooseTtbinPath, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButtonUploadRoute, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButtonChooseRoute, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)))
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jButtonListRoutes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonEraseRoutes, javax.swing.GroupLayout.DEFAULT_SIZE, 73, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
-        jPanel5Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jButtonChooseRoute, jButtonEraseRoutes, jButtonListRoutes, jButtonUploadRoute});
+        jPanel5Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jButtonChooseRoute, jButtonChooseTtbinPath, jButtonUploadRoute});
 
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -713,27 +676,39 @@ public class TomTomWatchView extends javax.swing.JFrame
                 .addContainerGap()
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(jTextFieldRouteGpx, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButtonChooseRoute)
-                    .addComponent(jButtonListRoutes))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(jTextFieldRouteName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButtonUploadRoute)
-                    .addComponent(jButtonEraseRoutes))
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButtonChooseRoute)
+                            .addComponent(jTextFieldRouteGpx, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButtonUploadRoute)
+                            .addComponent(jTextFieldRouteName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(jButtonListRoutes))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel5)
+                            .addComponent(jButtonEraseRoutes))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabelSettings))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(91, 91, 91)
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jTextFieldTtbinPath, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1)
+                            .addComponent(jButtonChooseTtbinPath))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jMenuFile.setText("File");
 
         jMenuItemQuit.setText("Quit");
-        jMenuItemQuit.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jMenuItemQuit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItemQuitActionPerformed(evt);
             }
         });
@@ -744,110 +719,88 @@ public class TomTomWatchView extends javax.swing.JFrame
         jMenuDevice.setText("Device");
 
         jMenuItemListRoutes.setText("List Routes");
-        jMenuItemListRoutes.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jMenuItemListRoutes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItemListRoutesActionPerformed(evt);
             }
         });
         jMenuDevice.add(jMenuItemListRoutes);
 
         jMenuItemSetName.setText("Set Device Name");
-        jMenuItemSetName.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jMenuItemSetName.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItemSetNameActionPerformed(evt);
             }
         });
         jMenuDevice.add(jMenuItemSetName);
 
         jMenuItemListHistorySummary.setText("Activity Summary");
-        jMenuItemListHistorySummary.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jMenuItemListHistorySummary.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItemListHistorySummaryActionPerformed(evt);
             }
         });
         jMenuDevice.add(jMenuItemListHistorySummary);
 
         jMenuItemListHistory.setText("Activity History");
-        jMenuItemListHistory.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jMenuItemListHistory.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItemListHistoryActionPerformed(evt);
             }
         });
         jMenuDevice.add(jMenuItemListHistory);
 
         jMenuItemEraseData.setText("Erase History");
-        jMenuItemEraseData.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jMenuItemEraseData.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItemEraseDataActionPerformed(evt);
             }
         });
         jMenuDevice.add(jMenuItemEraseData);
 
         jMenuItemShowTrackedActivity.setText("Show Tracked Activity");
-        jMenuItemShowTrackedActivity.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jMenuItemShowTrackedActivity.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItemShowTrackedActivityActionPerformed(evt);
             }
         });
         jMenuDevice.add(jMenuItemShowTrackedActivity);
 
         jMenuDeleteTrackedActivity.setText("Delete Tracked Activity");
-        jMenuDeleteTrackedActivity.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jMenuDeleteTrackedActivity.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuDeleteTrackedActivityActionPerformed(evt);
             }
         });
         jMenuDevice.add(jMenuDeleteTrackedActivity);
 
         jMenuItemPlaylists.setText("Playlists");
-        jMenuItemPlaylists.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jMenuItemPlaylists.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItemPlaylistsActionPerformed(evt);
             }
         });
         jMenuDevice.add(jMenuItemPlaylists);
 
         jMenuItemUpdateFirmware.setText("Update Firmware");
-        jMenuItemUpdateFirmware.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jMenuItemUpdateFirmware.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItemUpdateFirmwareActionPerformed(evt);
             }
         });
         jMenuDevice.add(jMenuItemUpdateFirmware);
 
         jMenuItemListRaces.setText("List Races");
-        jMenuItemListRaces.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jMenuItemListRaces.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItemListRacesActionPerformed(evt);
             }
         });
         jMenuDevice.add(jMenuItemListRaces);
 
         jMenuItemSyncTime.setText("Synchronize Time");
-        jMenuItemSyncTime.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jMenuItemSyncTime.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItemSyncTimeActionPerformed(evt);
             }
         });
@@ -858,120 +811,96 @@ public class TomTomWatchView extends javax.swing.JFrame
         jMenuDebugging.setText("Debugging");
 
         jMenuItemListFiles.setText("List All Files");
-        jMenuItemListFiles.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jMenuItemListFiles.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItemListFilesActionPerformed(evt);
             }
         });
         jMenuDebugging.add(jMenuItemListFiles);
 
         jMenuDownloadFile.setText("Download File");
-        jMenuDownloadFile.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jMenuDownloadFile.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuDownloadFileActionPerformed(evt);
             }
         });
         jMenuDebugging.add(jMenuDownloadFile);
 
         jMenuItemUploadFile.setText("Upload File");
-        jMenuItemUploadFile.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jMenuItemUploadFile.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItemUploadFileActionPerformed(evt);
             }
         });
         jMenuDebugging.add(jMenuItemUploadFile);
 
         jMenuItemDeleteFile.setText("Delete File");
-        jMenuItemDeleteFile.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jMenuItemDeleteFile.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItemDeleteFileActionPerformed(evt);
             }
         });
         jMenuDebugging.add(jMenuItemDeleteFile);
 
         jMenuItemReboot.setText("Reboot Watch");
-        jMenuItemReboot.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jMenuItemReboot.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItemRebootActionPerformed(evt);
             }
         });
         jMenuDebugging.add(jMenuItemReboot);
 
         jMenuItemFactoryReset.setText("Factory Reset");
-        jMenuItemFactoryReset.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jMenuItemFactoryReset.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItemFactoryResetActionPerformed(evt);
             }
         });
         jMenuDebugging.add(jMenuItemFactoryReset);
 
         jMenuItemPreferences.setText("Preferences");
-        jMenuItemPreferences.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jMenuItemPreferences.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItemPreferencesActionPerformed(evt);
             }
         });
         jMenuDebugging.add(jMenuItemPreferences);
 
         jMenuItemDeletePreferences.setText("Delete Preferences");
-        jMenuItemDeletePreferences.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jMenuItemDeletePreferences.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItemDeletePreferencesActionPerformed(evt);
             }
         });
         jMenuDebugging.add(jMenuItemDeletePreferences);
 
         jMenuItemShowUpdateLog.setText("Show Update Log");
-        jMenuItemShowUpdateLog.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jMenuItemShowUpdateLog.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItemShowUpdateLogActionPerformed(evt);
             }
         });
         jMenuDebugging.add(jMenuItemShowUpdateLog);
 
         jMenuItemShowLog.setText("Show Device Log");
-        jMenuItemShowLog.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jMenuItemShowLog.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItemShowLogActionPerformed(evt);
             }
         });
         jMenuDebugging.add(jMenuItemShowLog);
 
         jMenuItemShowSettings.setText("Show Settings");
-        jMenuItemShowSettings.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jMenuItemShowSettings.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItemShowSettingsActionPerformed(evt);
             }
         });
         jMenuDebugging.add(jMenuItemShowSettings);
 
         jMenuItemSaveSimSet.setText("Save Simulation Set");
-        jMenuItemSaveSimSet.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jMenuItemSaveSimSet.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItemSaveSimSetActionPerformed(evt);
             }
         });
@@ -984,10 +913,8 @@ public class TomTomWatchView extends javax.swing.JFrame
         jMenuAbout.setActionCommand("");
 
         jMenuItemAbout.setText("About");
-        jMenuItemAbout.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jMenuItemAbout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItemAboutActionPerformed(evt);
             }
         });
@@ -1003,38 +930,37 @@ public class TomTomWatchView extends javax.swing.JFrame
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane1)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jScrollPane2)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel4)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jTextFieldWatch)
-                                .addGap(18, 18, 18)
-                                .addComponent(jLabel10)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jTextFieldTime, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel9)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextFieldFirmware, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jLabel8)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jTextFieldProductId)
+                                .addComponent(jTextFieldWatch, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(jLabel11)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextFieldSerial, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jTextFieldSerial)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel8)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextFieldProductId, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel10)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextFieldTime, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel9)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextFieldFirmware, javax.swing.GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE))
                             .addComponent(jPanelMap, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addContainerGap())
+                            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1049,21 +975,18 @@ public class TomTomWatchView extends javax.swing.JFrame
                     .addComponent(jLabel10)
                     .addComponent(jLabel11)
                     .addComponent(jTextFieldSerial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextFieldProductId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel8))
+                    .addComponent(jLabel8)
+                    .addComponent(jTextFieldProductId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 388, Short.MAX_VALUE)
                     .addComponent(jPanelMap, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 149, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -1816,6 +1739,10 @@ public class TomTomWatchView extends javax.swing.JFrame
         communicationProcess.clear();
     }//GEN-LAST:event_jCheckBoxSmoothActionPerformed
 
+    private void jTextFieldSerialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldSerialActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldSerialActionPerformed
+
     /*############################################################################################*\
      * HELPER FUNCTIONS     
     \*############################################################################################*/    
@@ -2310,7 +2237,6 @@ public class TomTomWatchView extends javax.swing.JFrame
     private javax.swing.JMenuItem jMenuItemSyncTime;
     private javax.swing.JMenuItem jMenuItemUpdateFirmware;
     private javax.swing.JMenuItem jMenuItemUploadFile;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
