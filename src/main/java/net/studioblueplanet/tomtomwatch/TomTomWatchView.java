@@ -120,7 +120,8 @@ public class TomTomWatchView extends javax.swing.JFrame
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+    private void initComponents()
+    {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -244,13 +245,16 @@ public class TomTomWatchView extends javax.swing.JFrame
         jScrollPane1.setViewportView(jTextAreaStatus);
 
         jListActivities.setFont(new java.awt.Font("Lucida Sans Typewriter", 0, 14)); // NOI18N
-        jListActivities.setModel(new javax.swing.AbstractListModel() {
+        jListActivities.setModel(new javax.swing.AbstractListModel()
+        {
             String[] strings = { "x" };
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
-        jListActivities.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
-            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+        jListActivities.addListSelectionListener(new javax.swing.event.ListSelectionListener()
+        {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt)
+            {
                 jListActivitiesValueChanged(evt);
             }
         });
@@ -299,11 +303,6 @@ public class TomTomWatchView extends javax.swing.JFrame
 
         jTextFieldSerial.setEditable(false);
         jTextFieldSerial.setFont(new java.awt.Font("Lucida Sans", 0, 14)); // NOI18N
-        jTextFieldSerial.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextFieldSerialActionPerformed(evt);
-            }
-        });
 
         jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
@@ -314,40 +313,50 @@ public class TomTomWatchView extends javax.swing.JFrame
 
         jButtonDownload.setFont(new java.awt.Font("Lucida Sans", 0, 12)); // NOI18N
         jButtonDownload.setText("Download");
-        jButtonDownload.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jButtonDownload.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 jButtonDownloadActionPerformed(evt);
             }
         });
 
         jButtonErase.setFont(new java.awt.Font("Lucida Sans", 0, 12)); // NOI18N
         jButtonErase.setText("Erase");
-        jButtonErase.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jButtonErase.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 jButtonEraseActionPerformed(evt);
             }
         });
 
         jButtonUploadGps.setFont(new java.awt.Font("Lucida Sans", 0, 12)); // NOI18N
         jButtonUploadGps.setText("GPS Quickfix");
-        jButtonUploadGps.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jButtonUploadGps.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 jButtonUploadGpsActionPerformed(evt);
             }
         });
 
         jButtonLoadTtbin.setFont(new java.awt.Font("Lucida Sans", 0, 12)); // NOI18N
         jButtonLoadTtbin.setText("Load TTBIN");
-        jButtonLoadTtbin.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jButtonLoadTtbin.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 jButtonLoadTtbinActionPerformed(evt);
             }
         });
 
         jButtonSaveTtbin.setFont(new java.awt.Font("Lucida Sans", 0, 12)); // NOI18N
         jButtonSaveTtbin.setText("Save TTBIN");
-        jButtonSaveTtbin.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jButtonSaveTtbin.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 jButtonSaveTtbinActionPerformed(evt);
             }
         });
@@ -356,16 +365,20 @@ public class TomTomWatchView extends javax.swing.JFrame
         jLabel2.setText("GPX File");
 
         jTextFieldGpxFile.setFont(new java.awt.Font("Lucida Sans", 0, 11)); // NOI18N
-        jTextFieldGpxFile.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jTextFieldGpxFile.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 jTextFieldGpxFileActionPerformed(evt);
             }
         });
 
         jButtonSaveGpx.setFont(new java.awt.Font("Lucida Sans", 0, 12)); // NOI18N
         jButtonSaveGpx.setText("Save");
-        jButtonSaveGpx.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jButtonSaveGpx.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 jButtonSaveGpxActionPerformed(evt);
             }
         });
@@ -373,8 +386,10 @@ public class TomTomWatchView extends javax.swing.JFrame
         buttonGroup1.add(jRadioButtonRunning);
         jRadioButtonRunning.setFont(new java.awt.Font("Lucida Sans", 0, 11)); // NOI18N
         jRadioButtonRunning.setText("Running");
-        jRadioButtonRunning.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jRadioButtonRunning.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 jRadioButtonRunningActionPerformed(evt);
             }
         });
@@ -382,8 +397,10 @@ public class TomTomWatchView extends javax.swing.JFrame
         buttonGroup1.add(jRadioButtonCycling);
         jRadioButtonCycling.setFont(new java.awt.Font("Lucida Sans", 0, 11)); // NOI18N
         jRadioButtonCycling.setText("Cycling");
-        jRadioButtonCycling.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jRadioButtonCycling.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 jRadioButtonCyclingActionPerformed(evt);
             }
         });
@@ -391,8 +408,10 @@ public class TomTomWatchView extends javax.swing.JFrame
         buttonGroup1.add(jRadioButtonHiking);
         jRadioButtonHiking.setFont(new java.awt.Font("Lucida Sans", 0, 11)); // NOI18N
         jRadioButtonHiking.setText("Hiking");
-        jRadioButtonHiking.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jRadioButtonHiking.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 jRadioButtonHikingActionPerformed(evt);
             }
         });
@@ -400,8 +419,10 @@ public class TomTomWatchView extends javax.swing.JFrame
         buttonGroup1.add(jRadioButtonSwimming);
         jRadioButtonSwimming.setFont(new java.awt.Font("Lucida Sans", 0, 11)); // NOI18N
         jRadioButtonSwimming.setText("Swimming");
-        jRadioButtonSwimming.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jRadioButtonSwimming.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 jRadioButtonSwimmingActionPerformed(evt);
             }
         });
@@ -409,8 +430,10 @@ public class TomTomWatchView extends javax.swing.JFrame
         buttonGroup1.add(jRadioButtonSkating);
         jRadioButtonSkating.setFont(new java.awt.Font("Lucida Sans", 0, 11)); // NOI18N
         jRadioButtonSkating.setText("Skating");
-        jRadioButtonSkating.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jRadioButtonSkating.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 jRadioButtonSkatingActionPerformed(evt);
             }
         });
@@ -418,8 +441,10 @@ public class TomTomWatchView extends javax.swing.JFrame
         buttonGroup1.add(jRadioButtonDriving);
         jRadioButtonDriving.setFont(new java.awt.Font("Lucida Sans", 0, 11)); // NOI18N
         jRadioButtonDriving.setText("Driving");
-        jRadioButtonDriving.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jRadioButtonDriving.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 jRadioButtonDrivingActionPerformed(evt);
             }
         });
@@ -427,8 +452,10 @@ public class TomTomWatchView extends javax.swing.JFrame
         buttonGroup1.add(jRadioButtonFlying);
         jRadioButtonFlying.setFont(new java.awt.Font("Lucida Sans", 0, 11)); // NOI18N
         jRadioButtonFlying.setText("Flying");
-        jRadioButtonFlying.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jRadioButtonFlying.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 jRadioButtonFlyingActionPerformed(evt);
             }
         });
@@ -436,8 +463,10 @@ public class TomTomWatchView extends javax.swing.JFrame
         buttonGroup1.add(jRadioButtonMulti);
         jRadioButtonMulti.setFont(new java.awt.Font("Lucida Sans", 0, 11)); // NOI18N
         jRadioButtonMulti.setText("Multi");
-        jRadioButtonMulti.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jRadioButtonMulti.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 jRadioButtonMultiActionPerformed(evt);
             }
         });
@@ -493,8 +522,10 @@ public class TomTomWatchView extends javax.swing.JFrame
 
         jCheckBoxSmooth.setFont(new java.awt.Font("Lucida Sans", 0, 11)); // NOI18N
         jCheckBoxSmooth.setText("Smooth");
-        jCheckBoxSmooth.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jCheckBoxSmooth.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 jCheckBoxSmoothActionPerformed(evt);
             }
         });
@@ -551,10 +582,11 @@ public class TomTomWatchView extends javax.swing.JFrame
                     .addComponent(jButtonLoadTtbin)
                     .addComponent(jButtonSaveTtbin))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonSaveGpx)
-                    .addComponent(jLabel2)
-                    .addComponent(jTextFieldGpxFile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButtonSaveGpx, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel2)
+                        .addComponent(jTextFieldGpxFile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(1, 1, 1)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(jPanel3Layout.createSequentialGroup()
@@ -589,32 +621,40 @@ public class TomTomWatchView extends javax.swing.JFrame
 
         jButtonChooseRoute.setFont(new java.awt.Font("Lucida Sans", 0, 12)); // NOI18N
         jButtonChooseRoute.setText("Choose");
-        jButtonChooseRoute.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jButtonChooseRoute.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 jButtonChooseRouteActionPerformed(evt);
             }
         });
 
         jButtonUploadRoute.setFont(new java.awt.Font("Lucida Sans", 0, 12)); // NOI18N
         jButtonUploadRoute.setText("Upload");
-        jButtonUploadRoute.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jButtonUploadRoute.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 jButtonUploadRouteActionPerformed(evt);
             }
         });
 
         jButtonListRoutes.setFont(new java.awt.Font("Lucida Sans", 0, 12)); // NOI18N
         jButtonListRoutes.setText("List");
-        jButtonListRoutes.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jButtonListRoutes.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 jButtonListRoutesActionPerformed(evt);
             }
         });
 
         jButtonEraseRoutes.setFont(new java.awt.Font("Lucida Sans", 0, 12)); // NOI18N
         jButtonEraseRoutes.setText("Erase");
-        jButtonEraseRoutes.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jButtonEraseRoutes.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 jButtonEraseRoutesActionPerformed(evt);
             }
         });
@@ -629,8 +669,10 @@ public class TomTomWatchView extends javax.swing.JFrame
 
         jButtonChooseTtbinPath.setFont(new java.awt.Font("Lucida Sans", 0, 12)); // NOI18N
         jButtonChooseTtbinPath.setText("Choose");
-        jButtonChooseTtbinPath.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jButtonChooseTtbinPath.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 jButtonChooseTtbinPathActionPerformed(evt);
             }
         });
@@ -675,7 +717,6 @@ public class TomTomWatchView extends javax.swing.JFrame
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel6)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -707,8 +748,10 @@ public class TomTomWatchView extends javax.swing.JFrame
         jMenuFile.setText("File");
 
         jMenuItemQuit.setText("Quit");
-        jMenuItemQuit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jMenuItemQuit.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 jMenuItemQuitActionPerformed(evt);
             }
         });
@@ -719,88 +762,110 @@ public class TomTomWatchView extends javax.swing.JFrame
         jMenuDevice.setText("Device");
 
         jMenuItemListRoutes.setText("List Routes");
-        jMenuItemListRoutes.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jMenuItemListRoutes.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 jMenuItemListRoutesActionPerformed(evt);
             }
         });
         jMenuDevice.add(jMenuItemListRoutes);
 
         jMenuItemSetName.setText("Set Device Name");
-        jMenuItemSetName.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jMenuItemSetName.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 jMenuItemSetNameActionPerformed(evt);
             }
         });
         jMenuDevice.add(jMenuItemSetName);
 
         jMenuItemListHistorySummary.setText("Activity Summary");
-        jMenuItemListHistorySummary.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jMenuItemListHistorySummary.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 jMenuItemListHistorySummaryActionPerformed(evt);
             }
         });
         jMenuDevice.add(jMenuItemListHistorySummary);
 
         jMenuItemListHistory.setText("Activity History");
-        jMenuItemListHistory.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jMenuItemListHistory.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 jMenuItemListHistoryActionPerformed(evt);
             }
         });
         jMenuDevice.add(jMenuItemListHistory);
 
         jMenuItemEraseData.setText("Erase History");
-        jMenuItemEraseData.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jMenuItemEraseData.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 jMenuItemEraseDataActionPerformed(evt);
             }
         });
         jMenuDevice.add(jMenuItemEraseData);
 
         jMenuItemShowTrackedActivity.setText("Show Tracked Activity");
-        jMenuItemShowTrackedActivity.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jMenuItemShowTrackedActivity.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 jMenuItemShowTrackedActivityActionPerformed(evt);
             }
         });
         jMenuDevice.add(jMenuItemShowTrackedActivity);
 
         jMenuDeleteTrackedActivity.setText("Delete Tracked Activity");
-        jMenuDeleteTrackedActivity.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jMenuDeleteTrackedActivity.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 jMenuDeleteTrackedActivityActionPerformed(evt);
             }
         });
         jMenuDevice.add(jMenuDeleteTrackedActivity);
 
         jMenuItemPlaylists.setText("Playlists");
-        jMenuItemPlaylists.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jMenuItemPlaylists.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 jMenuItemPlaylistsActionPerformed(evt);
             }
         });
         jMenuDevice.add(jMenuItemPlaylists);
 
         jMenuItemUpdateFirmware.setText("Update Firmware");
-        jMenuItemUpdateFirmware.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jMenuItemUpdateFirmware.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 jMenuItemUpdateFirmwareActionPerformed(evt);
             }
         });
         jMenuDevice.add(jMenuItemUpdateFirmware);
 
         jMenuItemListRaces.setText("List Races");
-        jMenuItemListRaces.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jMenuItemListRaces.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 jMenuItemListRacesActionPerformed(evt);
             }
         });
         jMenuDevice.add(jMenuItemListRaces);
 
         jMenuItemSyncTime.setText("Synchronize Time");
-        jMenuItemSyncTime.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jMenuItemSyncTime.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 jMenuItemSyncTimeActionPerformed(evt);
             }
         });
@@ -811,96 +876,120 @@ public class TomTomWatchView extends javax.swing.JFrame
         jMenuDebugging.setText("Debugging");
 
         jMenuItemListFiles.setText("List All Files");
-        jMenuItemListFiles.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jMenuItemListFiles.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 jMenuItemListFilesActionPerformed(evt);
             }
         });
         jMenuDebugging.add(jMenuItemListFiles);
 
         jMenuDownloadFile.setText("Download File");
-        jMenuDownloadFile.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jMenuDownloadFile.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 jMenuDownloadFileActionPerformed(evt);
             }
         });
         jMenuDebugging.add(jMenuDownloadFile);
 
         jMenuItemUploadFile.setText("Upload File");
-        jMenuItemUploadFile.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jMenuItemUploadFile.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 jMenuItemUploadFileActionPerformed(evt);
             }
         });
         jMenuDebugging.add(jMenuItemUploadFile);
 
         jMenuItemDeleteFile.setText("Delete File");
-        jMenuItemDeleteFile.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jMenuItemDeleteFile.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 jMenuItemDeleteFileActionPerformed(evt);
             }
         });
         jMenuDebugging.add(jMenuItemDeleteFile);
 
         jMenuItemReboot.setText("Reboot Watch");
-        jMenuItemReboot.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jMenuItemReboot.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 jMenuItemRebootActionPerformed(evt);
             }
         });
         jMenuDebugging.add(jMenuItemReboot);
 
         jMenuItemFactoryReset.setText("Factory Reset");
-        jMenuItemFactoryReset.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jMenuItemFactoryReset.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 jMenuItemFactoryResetActionPerformed(evt);
             }
         });
         jMenuDebugging.add(jMenuItemFactoryReset);
 
         jMenuItemPreferences.setText("Preferences");
-        jMenuItemPreferences.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jMenuItemPreferences.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 jMenuItemPreferencesActionPerformed(evt);
             }
         });
         jMenuDebugging.add(jMenuItemPreferences);
 
         jMenuItemDeletePreferences.setText("Delete Preferences");
-        jMenuItemDeletePreferences.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jMenuItemDeletePreferences.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 jMenuItemDeletePreferencesActionPerformed(evt);
             }
         });
         jMenuDebugging.add(jMenuItemDeletePreferences);
 
         jMenuItemShowUpdateLog.setText("Show Update Log");
-        jMenuItemShowUpdateLog.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jMenuItemShowUpdateLog.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 jMenuItemShowUpdateLogActionPerformed(evt);
             }
         });
         jMenuDebugging.add(jMenuItemShowUpdateLog);
 
         jMenuItemShowLog.setText("Show Device Log");
-        jMenuItemShowLog.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jMenuItemShowLog.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 jMenuItemShowLogActionPerformed(evt);
             }
         });
         jMenuDebugging.add(jMenuItemShowLog);
 
         jMenuItemShowSettings.setText("Show Settings");
-        jMenuItemShowSettings.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jMenuItemShowSettings.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 jMenuItemShowSettingsActionPerformed(evt);
             }
         });
         jMenuDebugging.add(jMenuItemShowSettings);
 
         jMenuItemSaveSimSet.setText("Save Simulation Set");
-        jMenuItemSaveSimSet.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jMenuItemSaveSimSet.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 jMenuItemSaveSimSetActionPerformed(evt);
             }
         });
@@ -913,8 +1002,10 @@ public class TomTomWatchView extends javax.swing.JFrame
         jMenuAbout.setActionCommand("");
 
         jMenuItemAbout.setText("About");
-        jMenuItemAbout.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jMenuItemAbout.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 jMenuItemAboutActionPerformed(evt);
             }
         });
@@ -1738,10 +1829,6 @@ public class TomTomWatchView extends javax.swing.JFrame
         // process. En passant the listbox in this view is erased.
         communicationProcess.clear();
     }//GEN-LAST:event_jCheckBoxSmoothActionPerformed
-
-    private void jTextFieldSerialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldSerialActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextFieldSerialActionPerformed
 
     /*############################################################################################*\
      * HELPER FUNCTIONS     
