@@ -143,11 +143,12 @@ public class UsbConnection
         {
             configuration       = device.getActiveUsbConfiguration();
             iface               = configuration.getUsbInterface((byte) 0);
+
             try
             {
                 // For Linux: force claim if the interface has been claimed by the kernel
                 iface.claim(new ForcePolicy());
-                DebugLogger.debug("USB interface claimed");
+                DebugLogger.info("USB interface claimed");
             }
             catch(UsbClaimException e)
             {
