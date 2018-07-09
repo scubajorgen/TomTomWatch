@@ -1882,8 +1882,10 @@ public class TomTomWatchView extends javax.swing.JFrame
                 fitnessPointsString;
 */
         description += dateTime
-                + " - " + prefix+String.format("- %-13s ", data.activity.getActivityDescription())+" - "+
-                fitnessPointsString;
+                + " - " + prefix
+                + String.format("- %-13s ", data.activity.getActivityDescription())
+                + " - " + String.format("- %5.1f km ", data.activity.getDistance())
+                + " - " + fitnessPointsString;
 
         return description;
     }

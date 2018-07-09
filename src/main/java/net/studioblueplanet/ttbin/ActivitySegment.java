@@ -13,6 +13,8 @@ import java.util.TimeZone;
 import java.io.Writer;
 import java.io.IOException;
 
+import net.studioblueplanet.generics.ToolBox;
+
 /**
  *
  * @author Jorgen
@@ -203,6 +205,46 @@ public class ActivitySegment
         }
     }
     
-    
+    /**
+     * Returns the distance of this activity segment
+     * @return 
+     */
+    public double getDistance()
+    {
+        double              distance;
+        ActivityRecord      record;
+        ActivityRecordGps   gpsRecord;
+        ActivityRecordGps   prevGpsRecord;
+        int                 i;
+        
+        distance        =0.0;
+        gpsRecord       =null;
+        prevGpsRecord   =null;
+        
+        i=0;
+        while (i<records.size() && prevGpsRecord==null)
+        {
+            record=records.get(i);
+            if (record instanceof ActivityRecordGps)
+            {
+                prevGpsRecord=(ActivityRecordGps)record;
+            }
+            i++;
+        }
+        while (i<records.size())
+        {
+            record=records.get(i);
+            if (record instanceof ActivityRecordGps)
+            {
+                gpsRecord=(ActivityRecordGps)record;
+                distance+=ToolBox.distance(prevGpsRecord.getLatitude(), prevGpsRecord.getLongitude(),
+                                           gpsRecord.getLatitude()    , gpsRecord.getLongitude());
+                prevGpsRecord=gpsRecord;
+            }                
+            i++;
+        }
+        
+        return distance;
+    }
     
 }

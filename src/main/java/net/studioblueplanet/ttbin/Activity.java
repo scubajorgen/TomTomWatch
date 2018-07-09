@@ -1194,6 +1194,24 @@ public class Activity
     {
         return this.isSmoothed;
     }
-    
+
+    /**
+     * Returns the total distance of this activity
+     * @return Distance in km
+     */
+    public double getDistance()
+    {
+        int     i;
+        double  distance;
+        
+        i       =0;
+        distance=0.0;
+        while (i<segments.size())
+        {
+            distance+=segments.get(i).getDistance();
+            i++;
+        }
+        return distance;
+    }
     
 }
