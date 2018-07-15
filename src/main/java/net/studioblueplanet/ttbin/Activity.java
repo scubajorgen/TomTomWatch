@@ -301,6 +301,45 @@ public class Activity
         return dateTime;
     }
     
+    /**
+     * Returns the date time of the first active record
+     * @return 
+     */
+    public DateTime getFirstActiveRecordTime()
+    {
+        long                time;
+        long                correction;
+        TimeZone            zone;
+        DateTime            dateTime;
+        DateTime            localDateTime;
+        ActivitySegment     segment;
+        ActivityRecord      record;
+        ActivityRecordGps   gpsRecord;
+        
+        localDateTime=null;
+
+        if (segments.size()>0)
+        {
+            segment=segments.get(0);
+            if (segment.numberOfRecords()>0)
+            {
+                record          =segment.getRecord(0);
+                dateTime        =record.getDateTime();
+                time            =dateTime.getMilliseconds(TimeZone.getTimeZone("UTC"));
+                // Correct if the timeZoneSeconds is not a multiple of 1800 (=1/2 hour)
+                correction      =this.timeZoneSeconds%1800;
+                if (correction>900)
+                {
+                    correction=correction-1800;
+                }
+                time+=correction*1000;
+                localDateTime   =DateTime.forInstant(time, localTimeZone);
+               
+            }
+        }
+        return localDateTime;
+    }
+    
     
     /**
      * Get the array list of records associated with indicated segment.

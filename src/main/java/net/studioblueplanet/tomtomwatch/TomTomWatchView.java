@@ -364,7 +364,7 @@ public class TomTomWatchView extends javax.swing.JFrame
         jLabel2.setFont(new java.awt.Font("Lucida Sans", 0, 14)); // NOI18N
         jLabel2.setText("GPX File");
 
-        jTextFieldGpxFile.setFont(new java.awt.Font("Lucida Sans", 0, 11)); // NOI18N
+        jTextFieldGpxFile.setFont(new java.awt.Font("Lucida Sans", 0, 14)); // NOI18N
 
         jButtonSaveGpx.setFont(new java.awt.Font("Lucida Sans", 0, 12)); // NOI18N
         jButtonSaveGpx.setText("Save");
@@ -1261,7 +1261,7 @@ public class TomTomWatchView extends javax.swing.JFrame
             // TODO: handle illegal ttbinpath value, e.g. ""
             fileName        =writer.getFullFileName(ttbinPath, 
                                                     communicationProcess.getDeviceName(), 
-                                                    activity.getStartDateTime(), 
+                                                    activity.getFirstActiveRecordTime(), 
                                                     activity.getActivityDescription());
          
             if (fileName!=null)

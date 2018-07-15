@@ -717,7 +717,7 @@
         <Component class="javax.swing.JTextField" name="jTextFieldGpxFile">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Lucida Sans" size="11" style="0"/>
+              <Font name="Lucida Sans" size="14" style="0"/>
             </Property>
           </Properties>
         </Component>
