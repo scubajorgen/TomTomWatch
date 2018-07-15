@@ -368,4 +368,22 @@ public class ToolBoxTest
 
     }
     
+    
+    /**
+     * Test of distance method, of class ToolBox.
+     */
+    @Test
+    public void testDistance()
+    {    
+        double result;
+        double expResult;
+        
+        System.out.println("distance");
+        
+        expResult=116.62265727444301;
+        result=ToolBox.distance(53.25266034638638, 6.588575466231305, 52.22214720325971, 6.910776465847903);
+        
+        assertEquals(expResult, result, 0.00001);
+    }
+    
 }
