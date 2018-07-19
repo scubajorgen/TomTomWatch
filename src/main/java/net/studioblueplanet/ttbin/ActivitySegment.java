@@ -237,13 +237,16 @@ public class ActivitySegment
             if (record instanceof ActivityRecordGps)
             {
                 gpsRecord=(ActivityRecordGps)record;
-                distance+=ToolBox.distance(prevGpsRecord.getLatitude(), prevGpsRecord.getLongitude(),
-                                           gpsRecord.getLatitude()    , gpsRecord.getLongitude());
+                if ((gpsRecord.getLatitude()!=0.0) && (gpsRecord.getLongitude()!=0.0) &&
+                     (prevGpsRecord.getLatitude()!=0.0) && (prevGpsRecord.getLongitude()!=0.0))
+                {
+                    distance+=ToolBox.distance(prevGpsRecord.getLatitude(), prevGpsRecord.getLongitude(),
+                                               gpsRecord.getLatitude()    , gpsRecord.getLongitude());
+                }
                 prevGpsRecord=gpsRecord;
             }                
             i++;
         }
-        
         return distance;
     }
     
