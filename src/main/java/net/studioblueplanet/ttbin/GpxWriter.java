@@ -6,6 +6,7 @@
 package net.studioblueplanet.ttbin;
 
 import net.studioblueplanet.logger.DebugLogger;
+import net.studioblueplanet.settings.ConfigSettings;
 
 import java.io.File;
 import javax.xml.parsers.DocumentBuilder;
@@ -46,7 +47,8 @@ public class GpxWriter
     private int                 trackPoints;
     private int                 wayPoints;
     private String              gpxVersion;
-
+    private boolean             ugotmeGpxExtensions;
+    private boolean             garminGpxExtensions;
 
     Document                    doc;
     Element                     gpxElement;
@@ -57,7 +59,14 @@ public class GpxWriter
      */
     private GpxWriter()
     {
+        ConfigSettings  settings;
+        
         gpxVersion      =new String("1.1");
+        settings=ConfigSettings.getInstance();
+        
+        this.ugotmeGpxExtensions =settings.getBooleanValue("ugotmeGpxExtensions");
+        this.garminGpxExtensions=settings.getBooleanValue("garminGpxExtensions");
+        
     }
 
     /**
@@ -98,7 +107,7 @@ public class GpxWriter
      * be global variables in this class.
      * @throws javax.xml.parsers.ParserConfigurationException
      */
-    private void createGpxDocument(String deviceType) throws ParserConfigurationException
+    private void createGpxDocument(String deviceType, Activity track) throws ParserConfigurationException
     {
         String      creator;
 
@@ -117,11 +126,11 @@ public class GpxWriter
 
         if (gpxVersion.equals("1.0"))
         {
-            this.addGpx1_0Header(doc, gpxElement, deviceType);
+            this.addGpx1_0Header(doc, gpxElement, deviceType, track);
         }
         else if (gpxVersion.equals("1.1"))
         {
-            this.addGpx1_1Header(doc, gpxElement, deviceType);
+            this.addGpx1_1Header(doc, gpxElement, deviceType, track);
         }
     }
 
@@ -130,7 +139,7 @@ public class GpxWriter
      * @param doc The XML document
      * @param gpxElement The GPX element
      */
-    private void addGpx1_0Header(Document doc, Element gpxElement, String creator)
+    private void addGpx1_0Header(Document doc, Element gpxElement, String creator, Activity track)
     {
         Attr        attr;
 
@@ -138,7 +147,10 @@ public class GpxWriter
 
         // GPX creator
         attr = doc.createAttribute("creator");        
-        creator = creator + " with barometer";  //add "with barometer" string to ensure that Strava use elevation data
+        if (garminGpxExtensions && track.hasHeightValues())
+        {
+            creator = creator + " with barometer";  //add "with barometer" string to ensure that Strava use elevation data
+        }
         attr.setValue(creator);
         gpxElement.setAttributeNode(attr);
 
@@ -169,16 +181,20 @@ public class GpxWriter
      * @param doc The XML document
      * @param gpxElement The GPX element
      */
-    private void addGpx1_1Header(Document doc, Element gpxElement, String creator)
+    private void addGpx1_1Header(Document doc, Element gpxElement, String creator, Activity track)
     {
         Comment     comment;
         Attr        attr;
+        String      schemaLocations;
 
         // GPX version 1.1
 
         // GPX creator
         attr = doc.createAttribute("creator");
-        creator = creator + " with barometer";  //add "with barometer" string to ensure that Strava use elevation data
+        if (garminGpxExtensions && track.hasHeightValues())
+        {
+            creator = creator + " with barometer";  //add "with barometer" string to ensure that Strava use elevation data
+        }
         attr.setValue(creator);
         gpxElement.setAttributeNode(attr);
 
@@ -198,26 +214,38 @@ public class GpxWriter
         gpxElement.setAttributeNode(attr);
 
         // u-gotMe namespace
-        attr = doc.createAttribute("xmlns:u-gotMe");
-        attr.setValue("http://tracklog.studioblueplanet.net/gpxextensions/v1");
-        gpxElement.setAttributeNode(attr);
-
+        if (ugotmeGpxExtensions)
+        {
+            attr = doc.createAttribute("xmlns:u-gotMe");
+            attr.setValue("http://tracklog.studioblueplanet.net/gpxextensions/v1");
+            gpxElement.setAttributeNode(attr);
+        }
         // garmin namespaces
-        attr = doc.createAttribute("xmlns:gpxx");
-        attr.setValue("http://www.garmin.com/xmlschemas/GpxExtensions/v3");
-        gpxElement.setAttributeNode(attr);         
-        attr = doc.createAttribute("xmlns:gpxtpx");
-        attr.setValue("http://www.garmin.com/xmlschemas/TrackPointExtension/v1");
-        gpxElement.setAttributeNode(attr); 
-
+        if (garminGpxExtensions)
+        {
+            attr = doc.createAttribute("xmlns:gpxx");
+            attr.setValue("http://www.garmin.com/xmlschemas/GpxExtensions/v3");
+            gpxElement.setAttributeNode(attr);         
+            attr = doc.createAttribute("xmlns:gpxtpx");
+            attr.setValue("http://www.garmin.com/xmlschemas/TrackPointExtension/v1");
+            gpxElement.setAttributeNode(attr); 
+        }
+        
         // Schema locations
         attr = doc.createAttribute("xsi:schemaLocation");
-        attr.setValue("http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd "+
-                      "http://tracklog.studioblueplanet.net/gpxextensions/v1 http://tracklog.studioblueplanet.net/gpxextensions/v1/ugotme-gpx.xsd "+
-                      "http://www.garmin.com/xmlschemas/GpxExtensions/v3 "+
-                      "http://www.garmin.com/xmlschemas/GpxExtensionsv3.xsd "+ 
-                      "http://www.garmin.com/xmlschemas/TrackPointExtension/v1 "+
-                      "http://www.garmin.com/xmlschemas/TrackPointExtensionv1.xsd");
+
+        schemaLocations="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd";
+        if (ugotmeGpxExtensions)
+        {
+            
+            schemaLocations+=" http://tracklog.studioblueplanet.net/gpxextensions/v1 http://tracklog.studioblueplanet.net/gpxextensions/v1/ugotme-gpx.xsd";
+        }
+        if (garminGpxExtensions)
+        {
+            schemaLocations+=" http://www.garmin.com/xmlschemas/GpxExtensions/v3 http://www.garmin.com/xmlschemas/GpxExtensionsv3.xsd"+ 
+                             " http://www.garmin.com/xmlschemas/TrackPointExtension/v1 http://www.garmin.com/xmlschemas/TrackPointExtensionv1.xsd";
+        }
+        attr.setValue(schemaLocations);
         gpxElement.setAttributeNode(attr);
 
     }
@@ -300,7 +328,6 @@ public class GpxWriter
                                dateTime.format("hh:mm:ss")+"Z";
                 element.appendChild(doc.createTextNode(dateTimeString));
                 pointElement.appendChild(element);
-
 
                 // Extensions: speed
                 element    = doc.createElement("speed");
@@ -406,6 +433,12 @@ public class GpxWriter
                 }
 
                 
+                element    = doc.createElement("time");
+                dateTimeString=dateTime.format("YYYY-MM-DD")+"T"+
+                               dateTime.format("hh:mm:ss")+"Z";
+                element.appendChild(doc.createTextNode(dateTimeString));
+                pointElement.appendChild(element);
+
                 // HDOP
                 if (hdop!=ActivityRecord.INVALID)
                 {
@@ -414,84 +447,88 @@ public class GpxWriter
                     pointElement.appendChild(element);
                 }                
                 
-                element    = doc.createElement("time");
-                dateTimeString=dateTime.format("YYYY-MM-DD")+"T"+
-                               dateTime.format("hh:mm:ss")+"Z";
-                element.appendChild(doc.createTextNode(dateTimeString));
-                pointElement.appendChild(element);
-
-                extensionsElement    = doc.createElement("extensions");
-                pointElement.appendChild(extensionsElement);
-
-                // GPXTPX Extension: heartrate (for Strava compatibility)
-                if ((heartRate!=ActivityRecord.INVALID) && (heartRate>0))
+                
+                if (garminGpxExtensions || ugotmeGpxExtensions)
                 {
-                    gpxtpxElement = doc.createElement("gpxtpx:TrackPointExtension");
-                    extensionsElement.appendChild(gpxtpxElement);
+                    extensionsElement    = doc.createElement("extensions");
+                    pointElement.appendChild(extensionsElement);
+                
+                    // GPXTPX Extension: heartrate (for Strava compatibility)
+                    if (garminGpxExtensions)
+                    {
+                        if ((heartRate!=ActivityRecord.INVALID) && (heartRate>0))
+                        {
+                            gpxtpxElement = doc.createElement("gpxtpx:TrackPointExtension");
+                            extensionsElement.appendChild(gpxtpxElement);
 
-                    element    = doc.createElement("gpxtpx:hr");
-                    element.appendChild(doc.createTextNode(String.valueOf(heartRate)));
-                    gpxtpxElement.appendChild(element);		    
+                            element    = doc.createElement("gpxtpx:hr");
+                            element.appendChild(doc.createTextNode(String.valueOf(heartRate)));
+                            gpxtpxElement.appendChild(element);		    
+                        }
+                    }
+
+                    if (ugotmeGpxExtensions)
+                    {
+                        // Extensions: speed
+                        element    = doc.createElement("u-gotMe:speed");
+                        element.appendChild(doc.createTextNode(String.format("%.2f", speed)));
+                        extensionsElement.appendChild(element);
+
+                        // Extensions: course
+                        element    = doc.createElement("u-gotMe:course");
+                        element.appendChild(doc.createTextNode(String.format("%.2f", heading)));
+                        extensionsElement.appendChild(element);
+
+                        // Extensions: temperature
+                        if (temperature!=ActivityRecord.INVALID)
+                        {
+                            element    = doc.createElement("u-gotMe:temp");
+                            element.appendChild(doc.createTextNode(String.valueOf(temperature)));
+                            extensionsElement.appendChild(element);
+                        }
+
+                        // Extension: heartrate
+                        if ((heartRate!=ActivityRecord.INVALID) && (heartRate>0))
+                        {
+                            element    = doc.createElement("u-gotMe:hr");
+                            element.appendChild(doc.createTextNode(String.valueOf(heartRate)));
+                            extensionsElement.appendChild(element);
+                        }
+
+                        // Extension: ehpe
+                        if (ehpe!=ActivityRecord.INVALID)
+                        {
+                            element    = doc.createElement("u-gotMe:ehpe");
+                            element.appendChild(doc.createTextNode(String.valueOf(ehpe)));
+                            extensionsElement.appendChild(element);
+                        }
+
+                        // Extension: evpe
+                        if (evpe!=ActivityRecord.INVALID)
+                        {
+                            element    = doc.createElement("u-gotMe:evpe");
+                            element.appendChild(doc.createTextNode(String.valueOf(evpe)));
+                            extensionsElement.appendChild(element);
+                        }
+
+                        // Extension: ascend
+                        if (evpe!=ActivityRecord.INVALID)
+                        {
+                            element    = doc.createElement("u-gotMe:ascend");
+                            element.appendChild(doc.createTextNode(String.format("%.1f", ascend)));
+                            extensionsElement.appendChild(element);
+                        }
+
+                        // Extension: descend
+                        if (evpe!=ActivityRecord.INVALID)
+                        {
+                            element    = doc.createElement("u-gotMe:descend");
+                            element.appendChild(doc.createTextNode(String.format("%.1f", descend)));
+                            extensionsElement.appendChild(element);
+                        }
+                    }
                 }
-
-                // Extensions: speed
-                element    = doc.createElement("u-gotMe:speed");
-                element.appendChild(doc.createTextNode(String.format("%.2f", speed)));
-                extensionsElement.appendChild(element);
-
-                // Extensions: course
-                element    = doc.createElement("u-gotMe:course");
-                element.appendChild(doc.createTextNode(String.format("%.2f", heading)));
-                extensionsElement.appendChild(element);
-
-                // Extensions: temperature
-                if (temperature!=ActivityRecord.INVALID)
-                {
-                    element    = doc.createElement("u-gotMe:temp");
-                    element.appendChild(doc.createTextNode(String.valueOf(temperature)));
-                    extensionsElement.appendChild(element);
-                }
-
-                // Extension: heartrate
-                if ((heartRate!=ActivityRecord.INVALID) && (heartRate>0))
-                {
-                    element    = doc.createElement("u-gotMe:hr");
-                    element.appendChild(doc.createTextNode(String.valueOf(heartRate)));
-                    extensionsElement.appendChild(element);
-                }
-
-                // Extension: ehpe
-                if (ehpe!=ActivityRecord.INVALID)
-                {
-                    element    = doc.createElement("u-gotMe:ehpe");
-                    element.appendChild(doc.createTextNode(String.valueOf(ehpe)));
-                    extensionsElement.appendChild(element);
-                }
-
-                // Extension: evpe
-                if (evpe!=ActivityRecord.INVALID)
-                {
-                    element    = doc.createElement("u-gotMe:evpe");
-                    element.appendChild(doc.createTextNode(String.valueOf(evpe)));
-                    extensionsElement.appendChild(element);
-                }
-
-                // Extension: ascend
-                if (evpe!=ActivityRecord.INVALID)
-                {
-                    element    = doc.createElement("u-gotMe:ascend");
-                    element.appendChild(doc.createTextNode(String.format("%.1f", ascend)));
-                    extensionsElement.appendChild(element);
-                }
-
-                // Extension: descend
-                if (evpe!=ActivityRecord.INVALID)
-                {
-                    element    = doc.createElement("u-gotMe:descend");
-                    element.appendChild(doc.createTextNode(String.format("%.1f", descend)));
-                    extensionsElement.appendChild(element);
-                }
-
+                
                 // set attribute 'lat' to element
                 attr = doc.createAttribute("lat");
                 attr.setValue(String.format("%.7f", latitude));
@@ -655,14 +692,18 @@ public class GpxWriter
                 appendTrackSegmentGpx1_1(doc, segmentElement, segment);
             }
 
-            this.addTrackSegmentExtensions(segment, segmentElement);
-            
+            if (ugotmeGpxExtensions)
+            {
+                this.addTrackSegmentExtensions(segment, segmentElement);
+            }
             i++;
         }
         
         // Add the track extensions, if required
-        this.addTrackExtensions(track, gpxElement);
-        
+        if (ugotmeGpxExtensions)
+        {
+            this.addTrackExtensions(track, gpxElement);
+        }
     }
 
     /**
@@ -786,7 +827,7 @@ public class GpxWriter
         try
         {
             // create the GPX file
-            createGpxDocument(appName);
+            createGpxDocument(appName, track);
 
 
             addTrack(doc, gpxElement, track, appName);
