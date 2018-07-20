@@ -136,10 +136,13 @@ public class GpxWriter
 
         // GPX version 1.0
 
-        attr = doc.createAttribute("creator");
+        // GPX creator
+        attr = doc.createAttribute("creator");        
+        creator = creator + " with barometer";  //add "with barometer" string to ensure that Strava use elevation data
         attr.setValue(creator);
         gpxElement.setAttributeNode(attr);
 
+        // GPX version
         attr = doc.createAttribute("version");
         attr.setValue("1.0");
         gpxElement.setAttributeNode(attr);
@@ -172,10 +175,14 @@ public class GpxWriter
         Attr        attr;
 
         // GPX version 1.1
+
+        // GPX creator
         attr = doc.createAttribute("creator");
+        creator = creator + " with barometer";  //add "with barometer" string to ensure that Strava use elevation data
         attr.setValue(creator);
         gpxElement.setAttributeNode(attr);
 
+        // GPX version
         attr = doc.createAttribute("version");
         attr.setValue("1.1");
         gpxElement.setAttributeNode(attr);
@@ -195,10 +202,22 @@ public class GpxWriter
         attr.setValue("http://tracklog.studioblueplanet.net/gpxextensions/v1");
         gpxElement.setAttributeNode(attr);
 
+        // garmin namespaces
+        attr = doc.createAttribute("xmlns:gpxx");
+        attr.setValue("http://www.garmin.com/xmlschemas/GpxExtensions/v3");
+        gpxElement.setAttributeNode(attr);         
+        attr = doc.createAttribute("xmlns:gpxtpx");
+        attr.setValue("http://www.garmin.com/xmlschemas/TrackPointExtension/v1");
+        gpxElement.setAttributeNode(attr); 
+
         // Schema locations
         attr = doc.createAttribute("xsi:schemaLocation");
         attr.setValue("http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd "+
-                      "http://tracklog.studioblueplanet.net/gpxextensions/v1 http://tracklog.studioblueplanet.net/gpxextensions/v1/ugotme-gpx.xsd");
+                      "http://tracklog.studioblueplanet.net/gpxextensions/v1 http://tracklog.studioblueplanet.net/gpxextensions/v1/ugotme-gpx.xsd "+
+                      "http://www.garmin.com/xmlschemas/GpxExtensions/v3 "+
+                      "http://www.garmin.com/xmlschemas/GpxExtensionsv3.xsd "+ 
+                      "http://www.garmin.com/xmlschemas/TrackPointExtension/v1 "+
+                      "http://www.garmin.com/xmlschemas/TrackPointExtensionv1.xsd");
         gpxElement.setAttributeNode(attr);
 
     }
@@ -323,6 +342,7 @@ public class GpxWriter
         Element                     pointElement;
         Element                     element;
         Element                     extensionsElement;
+        Element                     gpxtpxElement;
         Attr                        attr;
         DateTime                    dateTime;
         String                      dateTimeString;
@@ -402,6 +422,17 @@ public class GpxWriter
 
                 extensionsElement    = doc.createElement("extensions");
                 pointElement.appendChild(extensionsElement);
+
+                // GPXTPX Extension: heartrate (for Strava compatibility)
+                if ((heartRate!=ActivityRecord.INVALID) && (heartRate>0))
+                {
+                    gpxtpxElement = doc.createElement("gpxtpx:TrackPointExtension");
+                    extensionsElement.appendChild(gpxtpxElement);
+
+                    element    = doc.createElement("gpxtpx:hr");
+                    element.appendChild(doc.createTextNode(String.valueOf(heartRate)));
+                    gpxtpxElement.appendChild(element);		    
+                }
 
                 // Extensions: speed
                 element    = doc.createElement("u-gotMe:speed");
@@ -780,4 +811,4 @@ public class GpxWriter
     }
 
 }
- 
+   
