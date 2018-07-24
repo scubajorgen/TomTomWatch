@@ -1456,17 +1456,13 @@ public class TomTomWatchView extends javax.swing.JFrame
         {
             this.jTextFieldRouteGpx.setText(fileName);
             
-            // If the name of the route not set, 
-            // take the filename without the extension as name
-            name=this.jTextFieldRouteName.getText();
-            if (name.equals(""))
-            {
-                file=new File(fileName);
-                name=file.getName();
-                name=name.replace(".gpx", "");
-                name=name.replace(".GPX", "");
-                this.jTextFieldRouteName.setText(name);
-            }
+            // Set the route name:take the filename without the extension as name
+            file=new File(fileName);
+            name=file.getName();
+            name=name.replace(".gpx", "");
+            name=name.replace(".GPX", "");
+            this.jTextFieldRouteName.setText(name);
+
             // Read the route
             reader=GpxReader.getInstance();
 
