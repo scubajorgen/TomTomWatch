@@ -336,7 +336,6 @@ public class TomTomWatchView extends javax.swing.JFrame
         jScrollPane2.setViewportView(jListActivities);
 
         jPanelMap.setBackground(new java.awt.Color(230, 230, 230));
-        jPanelMap.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         javax.swing.GroupLayout jPanelMapLayout = new javax.swing.GroupLayout(jPanelMap);
         jPanelMap.setLayout(jPanelMapLayout);
@@ -718,7 +717,7 @@ public class TomTomWatchView extends javax.swing.JFrame
         });
 
         jButtonEraseRoutes.setFont(new java.awt.Font("Lucida Sans", 0, 12)); // NOI18N
-        jButtonEraseRoutes.setText("Erase");
+        jButtonEraseRoutes.setText("Erase all");
         jButtonEraseRoutes.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
@@ -763,9 +762,9 @@ public class TomTomWatchView extends javax.swing.JFrame
                             .addComponent(jLabel1))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextFieldRouteName)
-                            .addComponent(jTextFieldRouteGpx, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jTextFieldTtbinPath))
+                            .addComponent(jTextFieldRouteName, javax.swing.GroupLayout.DEFAULT_SIZE, 298, Short.MAX_VALUE)
+                            .addComponent(jTextFieldTtbinPath)
+                            .addComponent(jTextFieldRouteGpx, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jButtonChooseTtbinPath, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -774,7 +773,7 @@ public class TomTomWatchView extends javax.swing.JFrame
                         .addGap(18, 18, 18)))
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jButtonListRoutes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonEraseRoutes, javax.swing.GroupLayout.DEFAULT_SIZE, 73, Short.MAX_VALUE))
+                    .addComponent(jButtonEraseRoutes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -1116,7 +1115,7 @@ public class TomTomWatchView extends javax.swing.JFrame
                                 .addGap(18, 18, 18)
                                 .addComponent(jLabel9)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextFieldFirmware, javax.swing.GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE))
+                                .addComponent(jTextFieldFirmware, javax.swing.GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE))
                             .addComponent(jPanelMap, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -1529,6 +1528,7 @@ public class TomTomWatchView extends javax.swing.JFrame
         
         if (fileName!=null)
         {
+            this.jTextFieldRouteGpx.setColumns(5); // prevents textfield from resizing...
             this.jTextFieldRouteGpx.setText(fileName);
             
             // Set the route name:take the filename without the extension as name
