@@ -17,6 +17,7 @@ import net.studioblueplanet.settings.ConfigSettings;
 
 
 import hirondelle.date4j.DateTime;
+import java.awt.Font;
 import java.io.File;
 import javax.swing.BoxLayout;
 
@@ -111,6 +112,80 @@ public class TomTomWatchView extends javax.swing.JFrame
         this.jCheckBoxDownloadMostRecent.setSelected(!settings.getBooleanValue("downloadAll"));
         
         
+    }
+    
+    /**
+     * This method redefines the fonts on the UI. It replaces the fonts by
+     * fonts incorporated in the application.
+     */
+    public void setFont()
+    {
+        Font monospace11pt;
+        Font monospace14pt;
+        Font proportional11pt;
+        Font proportional12pt;
+        Font proportional14pt;
+        Font proportional14ptBold;
+        
+        proportional11pt=new Font("Raleway", Font.PLAIN, 11);
+        proportional12pt=new Font("Raleway", Font.PLAIN, 12);
+        proportional14pt=new Font("Raleway", Font.PLAIN, 14);
+        proportional14ptBold=new Font("Raleway", Font.BOLD, 14);
+        monospace11pt   =new Font("Bitstream Vera Sans Mono", Font.PLAIN, 11);
+        monospace14pt   =new Font("Bitstream Vera Sans Mono", Font.PLAIN, 14);
+        
+        jLabel4.setFont(proportional14pt);
+        jLabel8.setFont(proportional14pt);
+        jLabel9.setFont(proportional14pt);
+        jLabel10.setFont(proportional14pt);
+        jLabel11.setFont(proportional14pt);
+        
+        jTextFieldWatch.setFont(proportional14pt);
+        jTextFieldSerial.setFont(proportional14pt);
+        jTextFieldProductId.setFont(proportional14pt);
+        jTextFieldFirmware.setFont(proportional14pt);
+        jTextFieldTime.setFont(proportional14pt);
+        
+        jListActivities.setFont(monospace14pt);
+        
+        jLabel7.setFont(proportional14ptBold);
+        jButtonDownload.setFont(proportional12pt);
+        jButtonErase.setFont(proportional12pt);
+        jButtonUploadGps.setFont(proportional12pt);
+        jButtonLoadTtbin.setFont(proportional12pt);
+        jButtonSaveTtbin.setFont(proportional12pt);
+        jLabel2.setFont(proportional14pt);
+        jTextFieldGpxFile.setFont(proportional14pt);
+        jButtonSaveGpx.setFont(proportional12pt);
+        jRadioButtonRunning.setFont(proportional11pt);
+        jRadioButtonCycling.setFont(proportional11pt);
+        jRadioButtonHiking.setFont(proportional11pt);
+        jRadioButtonSwimming.setFont(proportional11pt);
+        jRadioButtonDriving.setFont(proportional11pt);
+        jRadioButtonSkating.setFont(proportional11pt);
+        jRadioButtonFlying.setFont(proportional11pt);
+        jRadioButtonMulti.setFont(proportional11pt);
+        jCheckBoxDownloadMostRecent.setFont(proportional11pt);
+        jCheckBoxAutoSave.setFont(proportional11pt);
+        jCheckBoxSmooth.setFont(proportional11pt);
+        jProgressBar.setFont(proportional11pt);
+        
+        jLabel6.setFont(proportional14ptBold);
+        jLabelSettings.setFont(proportional14ptBold);
+        jLabel1.setFont(proportional14pt);
+        jLabel3.setFont(proportional14pt);
+        jLabel5.setFont(proportional14pt);
+        jTextFieldRouteGpx.setFont(proportional14pt);
+        jTextFieldRouteName.setFont(proportional14pt);
+        jTextFieldTtbinPath.setFont(proportional14pt);
+        jButtonChooseRoute.setFont(proportional12pt);
+        jButtonEraseRoutes.setFont(proportional12pt);
+        jButtonUploadRoute.setFont(proportional12pt);
+        jButtonListRoutes.setFont(proportional12pt);
+        jButtonChooseTtbinPath.setFont(proportional12pt);
+        
+        jTextAreaStatus.setFont(monospace14pt);
+
     }
 
     /**

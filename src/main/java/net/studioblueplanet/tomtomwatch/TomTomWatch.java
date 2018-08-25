@@ -15,10 +15,12 @@ import javax.swing.ImageIcon;
 import java.awt.Image;
 import java.util.ArrayList;
 
-import hirondelle.date4j.DateTime;
-import java.util.TimeZone;
-
-import java.io.RandomAccessFile;
+import java.io.InputStream;
+import java.io.IOException;
+import java.awt.Font;
+import java.awt.FontFormatException;
+import java.awt.GraphicsEnvironment;
+import net.studioblueplanet.logger.DebugLogger;
 
 
 /**
@@ -27,6 +29,10 @@ import java.io.RandomAccessFile;
  */
 public class TomTomWatch extends SingleFrameApplication 
 {
+//    private final String FONT1="net/studioblueplanet/tomtomwatch/resources/BAUHS93.TTF";
+    private final String FONT1="net/studioblueplanet/tomtomwatch/resources/Raleway-Regular.ttf";
+    private final String FONT2="net/studioblueplanet/tomtomwatch/resources/VeraMono.ttf";
+    
     /**
      * At startup create and show the main frame of the application.
      */
@@ -34,21 +40,37 @@ public class TomTomWatch extends SingleFrameApplication
     {
         TomTomWatchView     view;
         ArrayList<Image>    iconList;
-        ImageIcon           icon;  
-        ResourceMap         resourceMap;
-        ApplicationContext  context;
-        
  
+        // Create the application view
         view=new TomTomWatchView();
         view.setVisible(true);
+
+        // Add custom application icon
+        iconList=loadIcons();
+        view.setIconImages(iconList);
         
-        // Set the icons...
+        // Register new fonts and apply them to the UI
+        loadFonts(); 
+        view.setFont();
+    }
+    
+    /**
+     * This method loads the application icon resources
+     * @return List of icons
+     */
+    private ArrayList<Image> loadIcons()
+    {
+        ArrayList<Image>    iconList;
+        ImageIcon           icon;  
+        ResourceMap         resourceMap;
+
+        ApplicationContext  context;        // Set the icons...
 
         context     =this.getContext();
         resourceMap =context.getResourceMap();
         
         iconList=new ArrayList();
-
+        
         icon=resourceMap.getImageIcon("Application.icon16");
         iconList.add(icon.getImage());
         icon=resourceMap.getImageIcon("Application.icon24");
@@ -58,9 +80,49 @@ public class TomTomWatch extends SingleFrameApplication
         icon=resourceMap.getImageIcon("Application.icon42");
         iconList.add(icon.getImage());
 
-
-        view.setIconImages(iconList);
+        return iconList;
     }
+    
+    /**
+     * This method loads and registers the fonts used by the UI. Fonts are
+     * incorporated as resources in the application. By using incorporated fonts
+     * the application will look the same independent of the Java platform
+     */
+    public void loadFonts() 
+    {
+        InputStream mainFontIn;
+        Font    font;
+        boolean registered;
+        GraphicsEnvironment ge;
+        
+        font=null;
+        try 
+        {
+            ge          = GraphicsEnvironment.getLocalGraphicsEnvironment();
+
+            mainFontIn  = TomTomWatch.class.getClassLoader().getResourceAsStream(FONT1);
+            font        = Font.createFont(Font.TRUETYPE_FONT, mainFontIn);
+            
+            registered              =ge.registerFont(font);
+            if (registered)
+            {
+                DebugLogger.info("Registered font "+FONT1+": "+font.getFontName());
+            }
+            mainFontIn  = TomTomWatch.class.getClassLoader().getResourceAsStream(FONT2);
+            font        = Font.createFont(Font.TRUETYPE_FONT, mainFontIn);
+            
+            registered              =ge.registerFont(font);
+            if (registered)
+            {
+                DebugLogger.info("Registered font "+FONT2+": "+font.getFontName());
+            }
+	} 
+        catch (IOException | FontFormatException e) 
+        {
+            DebugLogger.error("Error loading font: "+e.getMessage());
+            System.exit(-1);
+        }
+    }    
     
     
     /**
