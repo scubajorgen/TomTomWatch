@@ -460,8 +460,6 @@ public class Map
             trackString+=compressAndConvertTrack(route, MAXSTRINGLENGTH-trackString.length());
             DebugLogger.debug("Google URL: "+trackString+" Length: "+ trackString.length());        
             image                   = ImageIO.read(new URL(trackString));
-
-            
         }
         catch (Exception e)
         {
