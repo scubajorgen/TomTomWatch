@@ -207,7 +207,7 @@ public class ActivitySegment
     
     /**
      * Returns the distance of this activity segment
-     * @return 
+     * @return Distance in km
      */
     public double getDistance()
     {

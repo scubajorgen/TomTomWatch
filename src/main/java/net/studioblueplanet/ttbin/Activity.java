@@ -303,7 +303,7 @@ public class Activity
     
     /**
      * Returns the date time of the first active record
-     * @return 
+     * @return Date time of first active record
      */
     public DateTime getFirstActiveRecordTime()
     {
