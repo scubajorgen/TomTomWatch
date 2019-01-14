@@ -23,8 +23,11 @@ public class ActivityData
     public Activity         activity;
     
     /** Indicates whether the ttbin file has been saved to disk */
-    public boolean          ttbinSaved = false;
+    public boolean          ttbinSaved      = false;
     
     /** Google map image, if the file has been displayed */
-    public BufferedImage    mapImage=null;
+    public BufferedImage    mapImage        =null;
+    
+    /** Remark set when  mapImage=null (i.e. not defined)*/
+    public String           mapImageRemark  ="Map image not defined";
 }

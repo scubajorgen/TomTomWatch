@@ -20,6 +20,7 @@ import net.studioblueplanet.ttbin.Activity;
 import net.studioblueplanet.ttbin.ActivitySegment;
 import net.studioblueplanet.ttbin.ActivityRecord;
 import net.studioblueplanet.ttbin.ActivityRecordGps;
+import net.studioblueplanet.settings.ConfigSettings;
 
 
 /**
@@ -28,21 +29,24 @@ import net.studioblueplanet.ttbin.ActivityRecordGps;
  */
 public class Map
 {
+    private class MapRoute
+    {
+        Route           route;
+        String          mapString;
+        BufferedImage   image;
+        String          imageRemark;
+    }
+    
     // should be 2048 according to google. However, in practice the URL 
     // google processes must be smaller
     private static final int            MAXSTRINGLENGTH=1700;
 
     private static final int            MAXCOMPRESSIONPARAMS=7;
-    private static final int[]          compressionParamPoints     ={  0,     25,    500,   1000,   1500,   2000,   2500,  3000};    
-    private static final double[]       compressionParamMaxSlopeDev={0.0,    0.2,    0.3,    0.6,    0.7,    0.8,   0.85,   0.9};    
-//    private static final double[]       compressionParamMaxSlopeDev={0.0, 0.0001, 0.00025, 0.0005, 0.0008, 0.0012, 0.0016, 0.002};    
-    private int                         compressionParamIndex      =MAXCOMPRESSIONPARAMS-1;
-
     
-    private JPanel                      panel;
-    private JLabel                      label;
-    private int                         panelWidth;
-    private int                         panelHeight;
+    private final JPanel                panel;
+    private final JLabel                label;
+    private final int                   panelWidth;
+    private final int                   panelHeight;
     
    
     private ActivityRecordGps           firstPoint;
@@ -50,15 +54,7 @@ public class Map
     private int                         totalPointCount;
     private int                         compressedPointCount;
     
-    
-//    private ActivityRecordGps           previousEncodedRecord=null;
-    private RoutePoint                  previousEncodedPoint=null;
-
-    private double                      maxSlopeDeviation=0.0005;
-    
-    private String                      resultString;
-
-    private PolyLineEncoder             encoder;
+    private final PolyLineEncoder       encoder;
     
     public static final String          MAPTYPE_ROAD        ="roadmap";
     public static final String          MAPTYPE_SATELLITE   ="satellite";
@@ -67,12 +63,16 @@ public class Map
 
     private static String               mapType=MAPTYPE_ROAD;
     
+    private static String               mapKey="";
+    
     /**
      * Constuctor
      * @param panel Panel to use for showing the map
      */
     public Map(JPanel panel)
     {
+        ConfigSettings  settings;
+        
         this.panel  =panel;
         label       = new JLabel();
         panel.add(label);     
@@ -80,6 +80,9 @@ public class Map
         panelHeight =panel.getHeight();
         
         encoder     =PolyLineEncoder.getInstance();
+        
+        settings    =ConfigSettings.getInstance();
+        mapKey      =settings.getStringValue("mapServiceKey");
     }
 
     /**
@@ -108,19 +111,27 @@ public class Map
     }
     
     /**
-     * Returns the URL for retreiving the map
+     * Returns the URL for retreiving the map. It returs the URL in mapRoute
+     * or a mapRoute.imageRemark if no Google map API key defined.
+     * @param mapRoute Structure defining the map route. 
      * @return The URL
      */
-    private String getMapString()
+    private void getMapString(MapRoute mapRoute)
     {
-        String mapString;
+        mapRoute.mapString=null;
         
-        mapString="http://maps.googleapis.com/maps/api/staticmap?size="+panelWidth+"x"+panelHeight+"&sensor=false&maptype=" + 
-                  mapType;
-        
+        if (!mapKey.equals("") && !mapKey.equals("none"))
+        {
+            mapRoute.mapString="http://maps.googleapis.com/maps/api/staticmap?key="+mapKey+
+                                                                   "&size="+panelWidth+"x"+panelHeight+
+                                                                   "&sensor=false&maptype=" + mapType;
+            mapRoute.imageRemark="";
+        }
+        else
+        {
+            mapRoute.imageRemark="No map image available. No Google map API key defined";
+        }
 
-        return mapString;
-        
     }
     
     
@@ -326,8 +337,7 @@ public class Map
         
         if (!found)
         {
-            resultString="Track truncated for printing. Too much points";
-            DebugLogger.info(resultString);            
+            DebugLogger.info("Track truncated for printing. Too much points");
         }
 
         DebugLogger.info("Points "+compressedPointCount+" Length "+trackString.length()+" cpp "+(double)trackString.length()/(double)compressedPointCount);
@@ -359,6 +369,7 @@ public class Map
         double                      latitude;
         double                      longitude;
         BufferedImage               image;
+        MapRoute                    mapRoute;
         
         // The map image is cached with each activity in the ActivityData
         // First, check if the cached map image exists. If so, display
@@ -368,13 +379,15 @@ public class Map
             // Convert Activity to Route
             activity=activityData.activity;
 
-            route=new Route();
+            mapRoute    =new MapRoute();
+            
+            mapRoute.route=new Route();
 
             numberOfSegments=activity.getNumberOfSegments();
             segmentCount=0;
             while (segmentCount<numberOfSegments)
             {
-                routeSegment=route.appendRouteSegment();
+                routeSegment=mapRoute.route.appendRouteSegment();
 
                 points=activity.getRecords(segmentCount);
                 it=points.iterator();
@@ -397,24 +410,22 @@ public class Map
 
                 segmentCount++;
             }
-            image                   =this.generateMapImage(route);
-            activityData.mapImage   =image;
+            generateMapImage(mapRoute);
+            activityData.mapImage       =mapRoute.image;
+            activityData.mapImageRemark =mapRoute.imageRemark;
         }
-        else
-        {
-            image                   =activityData.mapImage;
-        }
+
      
-        if (image!=null)
+        if (activityData.mapImage!=null)
         {
-            this.showTrackImage(image);
+            this.showTrackImage(activityData.mapImage);
         }
         else
         {
             // Remove the icon image and display some error text
             label.setIcon(null);
-            label.setText("No map image available");
-            DebugLogger.error("No map image available");
+            label.setText(activityData.mapImageRemark);
+            DebugLogger.error("No map image available: "+activityData.mapImageRemark);
         }
 
         return "Ok";
@@ -422,52 +433,70 @@ public class Map
 
     /**
      * This method show the route track in this frame on a google map
-     * @param route The route to show
+     * @param mapRoute The route to show as structure.
      * @return A string indicating the result of the showing (ToDo: remove or make sensible value).
      */
-    public String showTrack(Route route)
+    public String showTrack(MapRoute mapRoute)
     {
         BufferedImage   image;        
 
-        image=generateMapImage(route);
+        generateMapImage(mapRoute);
         
-        if (image!=null)
+        if (mapRoute.image!=null)
         {
-            showTrackImage(image);
+            showTrackImage(mapRoute.image);
         }
         return "Ok";
     }    
     
     /**
+     * This method show the route track in this frame on a google map
+     * @param route The route to show
+     * @return A string indicating the result of the showing (ToDo: remove or make sensible value).
+     */
+    public String showTrack(Route route)
+    {
+        MapRoute    mapRoute;
+        String      returnString;
+        
+        mapRoute=new MapRoute();
+        mapRoute.route=route;
+        returnString=showTrack(mapRoute);
+        return returnString;
+    }
+    
+    
+    /**
      * This method generates the map image showing the route
-     * @param route Route to show
+     * @param mapRoute Route to show
      * @return The map image or null if not succeeded
      */
-    private BufferedImage generateMapImage(Route route)
+    private void generateMapImage(MapRoute mapRoute)
     {
         String          trackString;
-        BufferedImage   image;        
-        ImageIcon       imageIcon;
-        
-        resultString    ="Track shown";
-        imageIcon       =null;
-        image           =null;
+        String          mapString;
         
         try
         {
-
-            trackString=this.getMapString()+"&"; 
-            trackString+=compressAndConvertTrack(route, MAXSTRINGLENGTH-trackString.length());
-            DebugLogger.debug("Google URL: "+trackString+" Length: "+ trackString.length());        
-            image                   = ImageIO.read(new URL(trackString));
+            getMapString(mapRoute);
+            
+            if (mapRoute.mapString!=null)
+            {
+                trackString=mapRoute.mapString+"&"; 
+                trackString+=compressAndConvertTrack(mapRoute.route, MAXSTRINGLENGTH-trackString.length());
+                DebugLogger.debug("Google URL: "+trackString+" Length: "+ trackString.length());        
+                mapRoute.image                   = ImageIO.read(new URL(trackString));
+                if (mapRoute.image==null)
+                {
+                    mapRoute.mapString="No map obtained from Google maps service";
+                }
+            }
         }
         catch (Exception e)
         {
-            resultString="Unable to get Google map"; 
-            DebugLogger.error(resultString+": "+e.getMessage()); 
+            mapRoute.imageRemark="Unable to get Google map: "+e.getMessage(); 
+            DebugLogger.error(mapRoute.imageRemark); 
         }
-
-        return image;
     }
     
     
