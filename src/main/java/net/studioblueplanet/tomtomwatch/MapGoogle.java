@@ -31,7 +31,12 @@ import net.studioblueplanet.settings.ConfigSettings;
  */
 public class MapGoogle extends Map
 {
-
+    private class MapRoute
+    {
+        Route           route;
+        BufferedImage   image;
+        String          imageRemark;
+    }
     
     // should be 2048 according to google. However, in practice the URL 
     // google processes must be smaller
@@ -120,7 +125,7 @@ public class MapGoogle extends Map
         }
         else
         {
-            mapRoute.imageRemark="No map image available. No Google map API key defined";
+            mapRoute.imageRemark="No Google map image available. No Google map API key defined";
         }
         return mapString;
     }
@@ -321,10 +326,7 @@ public class MapGoogle extends Map
                     DebugLogger.info("Map encoding: max compression reached ");
                 }
             }
-            
         }        
-        
-        
         
         if (!found)
         {
@@ -340,7 +342,6 @@ public class MapGoogle extends Map
      * This method generates the map image showing the route
      * @param mapRoute Route to show
      */
-    @Override
     protected void generateMapImage(MapRoute mapRoute)
     {
         String          trackString;
@@ -364,11 +365,139 @@ public class MapGoogle extends Map
         }
         catch (Exception e)
         {
-            mapRoute.imageRemark="Unable to get Google map: "+e.getMessage(); 
+            mapRoute.imageRemark="Unable to get Google map: "+e.getMessage()+" Check if proper key defined."; 
             DebugLogger.error(mapRoute.imageRemark); 
         }
     }
+
+    /**
+     * Shows a previously cached map image
+     * @param image The image to show
+     */
+    protected void showTrackImage(BufferedImage image)
+    {
+        ImageIcon       imageIcon;
+        
+        imageIcon=new ImageIcon(image);     
+        label.setIcon(imageIcon);
+        panel.setVisible(true);
+    }    
+    
+    /**
+     * This method show the track in this frame on a google map
+     * @param activityData The activity data structure containing the track (Activity) to show
+     * @return A string indicating the result of the showing (ToDo: remove or make sensible value).
+     */
+    public String showTrack(ActivityData activityData)
+    {
+        Activity                    activity;
+        Route                       route;
+        int                         numberOfSegments;
+        int                         numberOfPoints;
+        int                         segmentCount;
+        int                         pointCount;
+        RouteSegment                routeSegment;
+        RoutePoint                  point;
+        ActivityRecord              record;
+        ActivitySegment             segment;
+        ActivityRecordGps           recordGps;
+        ArrayList<ActivityRecord>   points;
+        Iterator<ActivityRecord>    it;
+        double                      latitude;
+        double                      longitude;
+        BufferedImage               image;
+        MapRoute                    mapRoute;
+        
+        // The map image is cached with each activity in the ActivityData
+        // First, check if the cached map image exists. If so, display
+        // this image. Otherwise (mapImage==null) generate the map image
+        if (activityData.mapImage==null)
+        {
+            // Convert Activity to Route
+            activity=activityData.activity;
+
+            mapRoute    =new MapRoute();
+            
+            mapRoute.route=new Route();
+
+            numberOfSegments=activity.getNumberOfSegments();
+            segmentCount=0;
+            while (segmentCount<numberOfSegments)
+            {
+                routeSegment=mapRoute.route.appendRouteSegment();
+
+                points=activity.getRecords(segmentCount);
+                it=points.iterator();
+                while (it.hasNext())
+                {
+                    recordGps=(ActivityRecordGps)it.next();
+
+                    latitude    =recordGps.getLatitude();
+                    longitude   =recordGps.getLongitude();
+
+                    // Filter out invalid lat/lon
+                    if ((latitude!=ActivityRecord.INVALID) && (longitude!=ActivityRecord.INVALID) && 
+                        (latitude!=0.0) && (longitude!=0.0))
+                    {     
+                        point=new RoutePoint(latitude, longitude);
+                        routeSegment.appendRoutePoint(point);
+                    }
+                }
+
+
+                segmentCount++;
+            }
+            generateMapImage(mapRoute);
+            activityData.mapImage       =mapRoute.image;
+            activityData.mapImageRemark =mapRoute.imageRemark;
+        }
+
      
+        if (activityData.mapImage!=null)
+        {
+            this.showTrackImage(activityData.mapImage);
+        }
+        else
+        {
+            // Remove the icon image and display some error text
+            label.setIcon(null);
+            label.setText(activityData.mapImageRemark);
+            DebugLogger.error("No map image available: "+activityData.mapImageRemark);
+        }
+
+        return "Ok";
+    }
+
+    /**
+     * This method show the route track in this frame on a google map
+     * @param route The route to show
+     * @return A string indicating the result of the showing (ToDo: remove or make sensible value).
+     */
+    @Override
+    public String showTrack(Route route)
+    {
+        BufferedImage   image;      
+        MapRoute        mapRoute;
+
+        mapRoute    =new MapRoute();
+        mapRoute.route=route;
+        generateMapImage(mapRoute);
+        
+        if (mapRoute.image!=null)
+        {
+            showTrackImage(mapRoute.image);
+        }
+        return "Ok";
+    }
+    
+    
+    /**
+     * Hides the track
+     */
+    public void hideTrack()
+    {
+        this.label.setIcon(null);
+    }    
     
 
     

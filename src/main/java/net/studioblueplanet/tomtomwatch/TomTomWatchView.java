@@ -83,7 +83,19 @@ public class TomTomWatchView extends javax.swing.JFrame
 
         // Initialize the map
         this.jPanelMap.setLayout(new BoxLayout(this.jPanelMap, BoxLayout.Y_AXIS));
-        map = new Map(this.jPanelMap);
+
+        if (settings.getStringValue("mapService").equals("google"))
+        {
+            map = new MapGoogle(this.jPanelMap);
+        }
+        else if (settings.getStringValue("mapService").equals("osm"))
+        {
+            map = new MapOsm(this.jPanelMap);
+        }
+        else
+        {
+            map=null;
+        }
 
         // Fixed progress bar from 0-1000 promile
         this.jProgressBar.setMinimum(0);
@@ -1545,7 +1557,11 @@ public class TomTomWatchView extends javax.swing.JFrame
             route=new RouteTomTom();
 
             error=reader.readRouteFromFile(fileName, route);
-            map.showTrack(route);
+            
+            if (map!=null)
+            {
+                map.showTrack(route);
+            }
             this.jListActivities.clearSelection();
 
         }
@@ -2096,7 +2112,10 @@ public class TomTomWatchView extends javax.swing.JFrame
         {
             if (!fileNameOnly)
             {
-                map.showTrack(data);              // Show the map
+                if (map!=null)
+                {
+                    map.showTrack(data);                    // Show the map
+                }
                 setRadioButton(data.activity);          // Set the appropriate radiobutton
             }
             generateGpxFileName(data.activity);         // Propose GPX file name
@@ -2195,7 +2214,10 @@ public class TomTomWatchView extends javax.swing.JFrame
         model.clear();
 
         // Hide the map
-        map.hideTrack();
+        if (map!=null)
+        {
+            map.hideTrack();
+        }
     }
     
     /**
