@@ -333,7 +333,7 @@ public class MapOsm extends Map
         routePainter    = new RoutePainter(track);        
         
         // Set the focus
-        mapViewer.zoomToBestFit(new HashSet<GeoPosition>(track.getBounds()), 1.0);
+        mapViewer.zoomToBestFit(new HashSet<GeoPosition>(track.getBounds()), 0.9);
 
         
         // Create a compound painter that uses both the route-painter and the waypoint-painter
@@ -482,7 +482,7 @@ public class MapOsm extends Map
                 lat     =point.getLatitude();
                 lon     =point.getLongitude();
                 trackSegment.add(new GeoPosition(lat, lon));
-                point++;
+                points++;
                 
                 if (!firstWaypointShown)
                 {
