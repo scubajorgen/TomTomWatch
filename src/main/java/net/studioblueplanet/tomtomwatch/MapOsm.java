@@ -28,11 +28,16 @@ import org.jxmapviewer.viewer.Waypoint;
 import org.jxmapviewer.viewer.WaypointPainter;
 
 import javax.swing.JPanel;
+import javax.swing.event.MouseInputListener;
 
 import net.studioblueplanet.ttbin.Activity;
 import net.studioblueplanet.ttbin.ActivitySegment;
 import net.studioblueplanet.ttbin.ActivityRecord;
 import net.studioblueplanet.ttbin.ActivityRecordGps;
+import org.jxmapviewer.input.CenterMapListener;
+import org.jxmapviewer.input.PanKeyListener;
+import org.jxmapviewer.input.PanMouseInputListener;
+import org.jxmapviewer.input.ZoomMouseWheelListenerCursor;
 
 /**
  *
@@ -310,6 +315,19 @@ public class MapOsm extends Map
         TileFactoryInfo info = new OSMTileFactoryInfo();
         DefaultTileFactory tileFactory = new DefaultTileFactory(info);
         mapViewer.setTileFactory(tileFactory);
+        
+        
+        // Add interactions
+        MouseInputListener mia = new PanMouseInputListener(mapViewer);
+        mapViewer.addMouseListener(mia);
+        mapViewer.addMouseMotionListener(mia);
+
+        mapViewer.addMouseListener(new CenterMapListener(mapViewer));
+
+        mapViewer.addMouseWheelListener(new ZoomMouseWheelListenerCursor(mapViewer));
+
+        mapViewer.addKeyListener(new PanKeyListener(mapViewer));        
+        
         
         panel.add(mapViewer);
         
