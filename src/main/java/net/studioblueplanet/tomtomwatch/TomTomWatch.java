@@ -14,6 +14,7 @@ import org.jdesktop.application.ApplicationContext;
 import javax.swing.ImageIcon;
 import java.awt.Image;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import java.io.InputStream;
 import java.io.IOException;
@@ -41,6 +42,9 @@ public class TomTomWatch extends SingleFrameApplication
         TomTomWatchView     view;
         ArrayList<Image>    iconList;
  
+        // Prevent comma as decimal separator
+        Locale.setDefault(new Locale("en", "US"));       
+        
         // Create the application view
         view=new TomTomWatchView();
         view.setVisible(true);
