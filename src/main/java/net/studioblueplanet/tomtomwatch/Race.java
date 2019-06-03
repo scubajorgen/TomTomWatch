@@ -37,6 +37,9 @@ public class Race
     /** The checkpoint distances in m */
     private int[]       checkPoints;
     
+    private int         unknown1;
+    private int         unknown2;
+    
     /**
      * Constructor. Constructs the race out of the downloaded file.
      * @param file UsbFile downloaded from the watch containing the race data
@@ -55,6 +58,10 @@ public class Race
         distance            =ToolBox.readInt   (file.fileData, 46,  4, true);
         numberOfCheckPoints =ToolBox.readInt   (file.fileData, 38,  4, true);
         activity            =(file.fileId>>8)&0xff;
+
+        unknown1            =ToolBox.readInt   (file.fileData, 32,  4, true);
+        unknown2            =ToolBox.readInt   (file.fileData, 36,  2, true);
+        
         
         checkPointAreaSize=(file.length-50);
         if(checkPointAreaSize%numberOfCheckPoints==0) 
@@ -87,7 +94,7 @@ public class Race
     
     
     /**
-     * Returns a string describing the reace
+     * Returns a string describing the race
      * @return The race description
      */
     public String getInfo()
