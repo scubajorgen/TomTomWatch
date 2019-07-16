@@ -512,7 +512,7 @@ public class GpxWriter
                         }
 
                         // Extension: ascend
-                        if (evpe!=ActivityRecord.INVALID)
+                        if (ascend!=ActivityRecord.INVALID)
                         {
                             element    = doc.createElement("u-gotMe:ascend");
                             element.appendChild(doc.createTextNode(String.format("%.1f", ascend)));
@@ -520,7 +520,7 @@ public class GpxWriter
                         }
 
                         // Extension: descend
-                        if (evpe!=ActivityRecord.INVALID)
+                        if (descend!=ActivityRecord.INVALID)
                         {
                             element    = doc.createElement("u-gotMe:descend");
                             element.appendChild(doc.createTextNode(String.format("%.1f", descend)));

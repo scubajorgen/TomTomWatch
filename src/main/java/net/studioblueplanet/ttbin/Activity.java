@@ -475,7 +475,7 @@ public class Activity
         int elevation1;
         int elevation2;
         int cumAscend;
-        int cumDecend;
+        int cumDescend;
         int unknown;
         
         status          =ToolBox.readUnsignedInt(recordData,  1, 1, true);
@@ -492,13 +492,26 @@ public class Activity
         }
 
         cumAscend       =ToolBox.readUnsignedInt(recordData,  6, 2, true);        
-        cumDecend       =ToolBox.readUnsignedInt(recordData,  8, 2, true);        
+        cumDescend       =ToolBox.readUnsignedInt(recordData,  8, 2, true);        
+
+        if (cumAscend==65535)
+        {
+            cumAscend=ActivityRecord.INVALID;
+        }
+
+        if (cumDescend==65535)
+        {
+            cumDescend=ActivityRecord.INVALID;
+        }
+
+        
+        
         unknown         =ToolBox.readInt(recordData, 10, 2, true);      
         
         ((ActivityRecordGps)newRecord).setElevation1(elevation1);
         ((ActivityRecordGps)newRecord).setElevation2(elevation2);
         ((ActivityRecordGps)newRecord).setCumulativeAscend(cumAscend);
-        ((ActivityRecordGps)newRecord).setCumulativeDecend(cumDecend);
+        ((ActivityRecordGps)newRecord).setCumulativeDecend(cumDescend);
         ((ActivityRecordGps)newRecord).setElevationStatus(status);
         
         // TO DO
