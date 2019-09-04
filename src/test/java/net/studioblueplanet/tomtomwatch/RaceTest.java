@@ -77,7 +77,6 @@ public class RaceTest
     {
         System.out.println("getInfo");
         Race instance = new Race(testFile);
-//        String expResult = "0x00710201 Swimming       3MI 25M           1000 m    300 s [34 200]";
         String expResult = "0x00710000 Running        3MI 25M           4828 m   1500 s [804 805 805 804 805 805]";
 
         String result = instance.getInfo();
