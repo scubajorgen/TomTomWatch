@@ -1371,6 +1371,8 @@ public class TomTomWatchView extends javax.swing.JFrame
                             description = getActivityDescription(data, "watch: ");
                             model       = (DefaultListModel) this.jListActivities.getModel();
                             model.set(index, description);
+
+//                            fileSaveError=writer.writeTtbinMetadataFile(fileName, data);
                         }
                         else
                         {

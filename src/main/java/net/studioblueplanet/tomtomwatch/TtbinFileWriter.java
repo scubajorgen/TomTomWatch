@@ -12,11 +12,14 @@ import net.studioblueplanet.generics.ToolBox;
 import hirondelle.date4j.DateTime;
 
 import java.io.File;
-import java.io.RandomAccessFile;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.FileNotFoundException;
 import java.util.Arrays;
+
+import org.json.JSONObject;
+import org.json.JSONArray;
+
 /**
  * TTBIN file writer. Writes the TTBIN file. Contains functionality
  * to generate the subdirectories and filename conform TomTom Sports
@@ -228,6 +231,25 @@ public class TtbinFileWriter
         {
             error=true;
         }
+        return error;
+    }
+    
+    
+    public boolean writeTtbinMetadataFile(String ttbinFileName, ActivityData data)
+    {
+        boolean     error;
+        JSONObject  jsonObject;
+        error=false;
+        
+        jsonObject=new JSONObject();
+        
+        jsonObject.put("ttbinFile", new File(ttbinFileName).getName());
+        jsonObject.put("deviceName", data.activity.getDeviceName());
+        jsonObject.put("deviceSerial", data.activity.getDeviceSerialNumber());
+        
+        System.out.println(jsonObject.toString());
+        
+        
         return error;
     }
 }
