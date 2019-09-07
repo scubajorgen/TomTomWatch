@@ -50,12 +50,10 @@ import net.studioblueplanet.generics.ToolBox;
 public class CommunicationProcess implements Runnable, ProgressListener
 {
     /** Parent view */
-    private static TomTomWatchView              theView;
+    private TomTomWatchView                     theView;
     
-    /** The instance */
-    private static CommunicationProcess         theInstance=null;
+    private final WatchInterface                watchInterface;
     
-
     /** Processing thread */
     private final Thread                        thread;
 
@@ -79,8 +77,7 @@ public class CommunicationProcess implements Runnable, ProgressListener
     private final String                        debugFilePath;
     private int                                 productId;
     private long                                currentFirmwareVersion;
-    private boolean                             simulationMode;
-    private String                              simulationFilePath;
+
     // End of guarded data
 
     // Progress listener data
@@ -89,10 +86,15 @@ public class CommunicationProcess implements Runnable, ProgressListener
     
     private UsbFile                             preferenceFile;
     
+    /*############################################################################################*\
+     * PUBLIC METHODS
+    \*############################################################################################*/    
+
     /**
      * Constructor. Initializes the instance 
+     * @param watchInterface Interface to the watch to use
      */
-    private CommunicationProcess()
+    public CommunicationProcess(WatchInterface watchInterface)
     {
         ConfigSettings  settings;
         
@@ -109,37 +111,22 @@ public class CommunicationProcess implements Runnable, ProgressListener
         settings            =ConfigSettings.getInstance();
         ttbinFilePath       =settings.getStringValue("ttbinFilePath");
         debugFilePath       =settings.getStringValue("debugFilePath");
-        simulationMode      =settings.getBooleanValue("simulation");
-        simulationFilePath  =settings.getStringValue("simulationPath");
 
-        
-        if (!simulationFilePath.endsWith("/") && !simulationFilePath.endsWith("\\"))
-        {
-            simulationFilePath+="/";
-        }
-
+        this.watchInterface=watchInterface;
         
         // Start the processing thread
         thread          = new Thread(this);
-        thread.start();
-    }
+    }    
+
     
-    /*############################################################################################*\
-     * PUBLIC METHODS
-    \*############################################################################################*/    
     /**
-     * Returns the one and only instance of this class.
-     * @param view The view to be used by the instance
-     * @return The one and only instance of this class
+     * Set the view and start the processing
+     * @param view TomTomWatchView instance
      */
-    public static CommunicationProcess getInstance(TomTomWatchView view)
+    public void startProcess(TomTomWatchView view)
     {
-        theView         =view;
-        if (theInstance==null)
-        {
-            theInstance =new CommunicationProcess();
-        }
-        return theInstance;
+        this.theView=view;
+        thread.start();
     }
     
     /**
@@ -363,23 +350,9 @@ public class CommunicationProcess implements Runnable, ProgressListener
         boolean         connected;
         boolean         error;
         boolean         exit;
-        WatchInterface  watchInterface;
         ThreadCommand   localCommand;
         DateTime        time;
 
-        // Get the interface to the USB
-        synchronized(this)
-        {
-            if (simulationMode)
-            {
-                watchInterface  = UsbTestInterface.getInstance(this.simulationFilePath);
-            }
-            else
-            {
-                watchInterface  = UsbInterface.getInstance();
-            }
-        }        
-        
         exit            =false;
         error           =false;
         localCommand    =ThreadCommand.THREADCOMMAND_NONE;
@@ -2200,9 +2173,15 @@ public class CommunicationProcess implements Runnable, ProgressListener
         String                      path;
         UsbTestInterface.Versions   versions;
         String                      json;
-                 
+        String                      simulationFilePath;    
+        
         synchronized(this)
         {
+            simulationFilePath=ConfigSettings.getInstance().getStringValue("simulationPath");
+            if (!simulationFilePath.endsWith("/") && !simulationFilePath.endsWith("\\"))
+            {
+                simulationFilePath+="/";
+            }            
             path=simulationFilePath;
         }
 

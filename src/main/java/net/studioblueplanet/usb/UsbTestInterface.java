@@ -57,29 +57,15 @@ public class UsbTestInterface extends WatchInterface
     private static Versions             versions=null;
     
     /**
-     * Private constructor
+     * Constructor
+     * @param path The path where to find the simulation files
      */
-    private UsbTestInterface()
+    public UsbTestInterface(String path)
     {
         super();
-        
-    }
-    
-   
-    /**
-     * This method returns the one and only instance of this Singleton class
-     * @param path The path where to find the simulation files
-     * @return The instance
-     */
-    public static UsbTestInterface getInstance(String path)
-    {
         Gson    gson;
         String  fileName;
         
-        if (theInstance==null)
-        {
-            theInstance=new UsbTestInterface();
-        }
         simulationPath  =path;
         fileName        =path+"versions.json";
         
@@ -91,16 +77,17 @@ public class UsbTestInterface extends WatchInterface
         catch (FileNotFoundException e)
         {
             DebugLogger.error("Error reading json file ");
-        }
-        return theInstance;
+        }        
     }
     
+   
     
     /**
      * This method checks if a file exists
      * @param fileId Id of the file to check
      * @return True if the file exists or false if not or something
      */
+    @Override
     public boolean fileExists(int fileId)
     {
         String fileName;

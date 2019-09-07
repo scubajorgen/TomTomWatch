@@ -79,16 +79,17 @@ public class UsbInterface extends WatchInterface
     \* ########################################################################################## */
     
     /**
-     * Constructor. Private
+     * Constructor.
+     * @param usbConnection The USB connection to use
      */
-    private UsbInterface()
+    public UsbInterface(UsbConnection usbConnection)
     {
         super();
         
         txPacket            =new UsbPacket();
         rxPacket            =new UsbPacket();        
         
-        connection          =UsbConnection.getInstance();
+        this.connection     =usbConnection;
         
         connected           =false;
         openedFile          =-1;
@@ -494,19 +495,6 @@ public class UsbInterface extends WatchInterface
     /* ########################################################################################### *\
      # PUBLIC METHODS
     \* ########################################################################################## */
-    
-    /**
-     * This method returns the one and only instance of this class
-     * @return The Singleton instance 
-     */
-    public static UsbInterface getInstance()
-    {
-        if (theInstance==null)
-        {
-            theInstance=new UsbInterface();
-        }
-        return theInstance;
-    }
     
     /**
      * Opens the USB connection

@@ -52,8 +52,6 @@ public class UsbConnection
     private byte                            txMessageCounter;
     private byte                            txPrevMessageCounter;
     
-    static private UsbConnection            theInstance=null;
-    
     private boolean                         isError;
     private String                          lastError;
     
@@ -63,7 +61,7 @@ public class UsbConnection
     /**
      * The constructor. Initializes the instance.
      */
-    private UsbConnection()
+    public UsbConnection()
     {
         device              =null;
         iface               =null;
@@ -74,19 +72,6 @@ public class UsbConnection
         lastError           ="";
     }
     
-    /**
-     * Returns the one and only instance of this class
-     * @return The singleton instance.
-     */
-    public static UsbConnection getInstance()
-    {
-        if (theInstance==null)
-        {
-            theInstance=new UsbConnection();
-        }
-        return theInstance;
-    }
-
     /**
      * Try to connect to a TomTom Watch. If successful the variable device
      * will hold the UsbDevice instance, the variable deviceType the type found.

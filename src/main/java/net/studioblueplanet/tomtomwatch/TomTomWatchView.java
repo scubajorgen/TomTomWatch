@@ -53,8 +53,9 @@ public class TomTomWatchView extends javax.swing.JFrame
    
     /**
      * Constructor. Creates new form TomTomWatchView
+     * @param communicationProcess The process for communication to the watch
      */
-    public TomTomWatchView()
+    public TomTomWatchView(CommunicationProcess communicationProcess)
     {
         DefaultListModel            model;
         boolean                     trackSmoothing;
@@ -108,7 +109,9 @@ public class TomTomWatchView extends javax.swing.JFrame
         }
         
         // Get the communication process. This starts the process
-        communicationProcess=CommunicationProcess.getInstance(this);
+        this.communicationProcess=communicationProcess;
+        this.communicationProcess.startProcess(this);
+
 
         // Set the track smoothing to the TomTom TTBIN reader
         trackSmoothing          =settings.getBooleanValue("trackSmoothingEnabled");

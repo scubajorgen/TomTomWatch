@@ -34,19 +34,25 @@ public class TomTomWatch extends SingleFrameApplication
     private final String FONT1="net/studioblueplanet/tomtomwatch/resources/Raleway-Regular.ttf";
     private final String FONT2="net/studioblueplanet/tomtomwatch/resources/VeraMono.ttf";
     
+    private TomTomWatchView     view;
     /**
      * At startup create and show the main frame of the application.
      */
     @Override protected void startup() 
     {
-        TomTomWatchView     view;
+        
         ArrayList<Image>    iconList;
+        DependencyInjector  injector;
  
         // Prevent comma as decimal separator
         Locale.setDefault(new Locale("en", "US"));       
+
+        
+        injector=DependencyInjector.getInstance();
+        
+        injector.inject(this);
         
         // Create the application view
-        view=new TomTomWatchView();
         view.setVisible(true);
 
         // Add custom application icon
@@ -56,6 +62,15 @@ public class TomTomWatch extends SingleFrameApplication
         // Register new fonts and apply them to the UI
         loadFonts(); 
         view.setFont();
+    }
+    
+    /**
+     * Inject the TomTomWatchView
+     * @param view The view
+     */
+    public void injectView(TomTomWatchView view)
+    {
+        this.view=view;
     }
     
     /**
