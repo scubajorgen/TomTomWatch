@@ -56,7 +56,7 @@ public class ConfigSettings
     }
     
 
-    private final String                propertyFileName="tomtomwatch.properties";
+    private static String               propertyFileName="tomtomwatch.properties";
 
 
     private final Setting[]             settings=
@@ -104,6 +104,11 @@ public class ConfigSettings
             theInstance=new ConfigSettings();
         }
         return theInstance;
+    }
+    
+    public static void setPropertiesFile(String fileName)
+    {
+        propertyFileName=fileName;
     }
     
     /**
@@ -160,7 +165,7 @@ public class ConfigSettings
         }
     }
     
-    public boolean validateSetting(Setting setting)
+    private boolean validateSetting(Setting setting)
     {
         boolean     error;
         int         intValue;
