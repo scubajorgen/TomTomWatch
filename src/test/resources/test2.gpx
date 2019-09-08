@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<gpx xmlns="http://www.topografix.com/GPX/1/1" creator="MapSource 6.13.7" version="1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.garmin.com/xmlschemas/GpxExtensions/v3 http://www.garmin.com/xmlschemas/GpxExtensions/v3/GpxExtensionsv3.xsd http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd">
+    <metadata>
+        <link href="http://www.javawa.nl">
+            <text>JaVaWa GPS Tools</text>
+        </link>
+    </metadata>
+    <wpt lat="53.23657" lon="6.57871">
+        <name>langelo - Start</name>
+        <sym>Flag, Green</sym>
+    </wpt>
+    <wpt lat="53.24629" lon="6.62586">
+        <name>langelo - Eind</name>
+        <sym>Flag, Red</sym>
+    </wpt>
+    <trk>
+        <name>langelo</name>
+        <extensions>
+            <gpxx:TrackExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+                <gpxx:DisplayColor>Magenta</gpxx:DisplayColor>
+            </gpxx:TrackExtension>
+        </extensions>
+        <trkseg>
+            <trkpt lat="53.23657" lon="6.57871">
+                <ele>2.20</ele>
+            </trkpt>
+            <trkpt lat="53.23644" lon="6.57862">
+                <ele>2.53</ele>
+            </trkpt>
+        </trkseg>
+        <trkseg>
+            <trkpt lat="53.2341" lon="6.57667">
+                <ele>0.94</ele>
+            </trkpt>
+            <trkpt lat="53.23415" lon="6.57689">
+                <ele>0.94</ele>
+            </trkpt>
+            <trkpt lat="53.23416" lon="6.57688">
+                <ele>0.94</ele>
+            </trkpt>
+        </trkseg>
+    </trk>
+</gpx>

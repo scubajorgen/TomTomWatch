@@ -156,8 +156,6 @@ public class GpxReader
 
                           longitude =Double.parseDouble(eElement.getAttribute("lon"));
                           latitude  =Double.parseDouble(eElement.getAttribute("lat"));
-
-
                           routePoint=new RoutePoint(latitude, longitude);
                           routeSegment.appendRoutePoint(routePoint);
                        }
@@ -229,7 +227,6 @@ public class GpxReader
      * @return True if an error occurred
      */
     public boolean readRouteFromFile(String fileName, Route route)
-
     {
         File                    fXmlFile;
         DocumentBuilderFactory  dbFactory;
@@ -240,19 +237,16 @@ public class GpxReader
         Element                 trackElement;
         boolean                 error;
 
-        
         error=false;
 
         route.clear();
         try
         {
-
             fXmlFile = new File(fileName);
             dbFactory = DocumentBuilderFactory.newInstance();
             dBuilder = dbFactory.newDocumentBuilder();
             doc = dBuilder.parse(fXmlFile);
             doc.getDocumentElement().normalize();
-
 
             gpxElement=doc.getDocumentElement();
             if (gpxElement.getNodeName().equals("gpx"))
@@ -273,16 +267,15 @@ public class GpxReader
                     }
                     else
                     {
+                        error=true;
                         DebugLogger.error("No <trk> or <rte> in GPX file");
                     }
                 }
-
-
-
                 route.dumpLog();
             }
             else
             {
+                error=true;
                 DebugLogger.error(fileName+" does not seem to be a GPX file");
             }
         }

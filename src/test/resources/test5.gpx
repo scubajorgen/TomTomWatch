@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<gpx xmlns="http://www.topografix.com/GPX/1/1" creator="MapSource 6.13.7" version="1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.garmin.com/xmlschemas/GpxExtensions/v3 http://www.garmin.com/xmlschemas/GpxExtensions/v3/GpxExtensionsv3.xsd http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd">
+    <metadata>
+        <link href="http://www.javawa.nl">
+            <text>JaVaWa GPS Tools</text>
+        </link>
+    </metadata>
+    <wpt lat="52.22182" lon="6.89512">
+        <name>Enshcede-Haarmuhle - Start</name>
+        <sym>Flag, Green</sym>
+    </wpt>
+    <wpt lat="52.22109" lon="6.89304">
+        <name>Enshcede-Haarmuhle - Eind</name>
+        <sym>Flag, Red</sym>
+    </wpt>
+</gpx>
