@@ -6,6 +6,7 @@ package net.studioblueplanet.logger;
 
 import hirondelle.date4j.DateTime;
 import java.util.TimeZone;
+import java.io.PrintStream;
 
 /**
  *
@@ -20,6 +21,9 @@ public class DebugLogger
 
     private static int          debugLevel=DEBUGLEVEL_INFO;
     
+    private static PrintStream  infoStream=System.out;
+    private static PrintStream  errorStream=System.err;
+    
     /**
      *  Private constructor: this class cannot be instantiated
      */
@@ -27,7 +31,25 @@ public class DebugLogger
     {
         
     } 
-           
+     
+    /**
+     * Replace current error PrintStream with indicated one
+     * @param newErrorStream New PrintStream for error printing
+     */
+    public static void setErrorPrintStream(PrintStream newErrorStream)
+    {
+        errorStream=newErrorStream;
+    }
+    
+    /**
+     * Replace current info PrintStream with indicated one
+     * @param newInfoStream New PrintStream for info printing
+     */
+    public static void setInfoPrintStream(PrintStream newInfoStream)
+    {
+        infoStream=newInfoStream;
+    }
+    
     /**
      * Set debugging level
      * @param newDebugLevel The new debug level
@@ -83,7 +105,7 @@ public class DebugLogger
         if (debugLevel<=DEBUGLEVEL_DEBUG)
         {
             time=DateTime.now(TimeZone.getDefault());
-            System.out.println("d " + time.format("YYYY-MM-DD hh:mm:ss  ")+info);
+            infoStream.println("d " + time.format("YYYY-MM-DD hh:mm:ss  ")+info);
         }
     }
 
@@ -98,7 +120,7 @@ public class DebugLogger
         if (debugLevel<=DEBUGLEVEL_INFO)
         {
             time=DateTime.now(TimeZone.getDefault());
-            System.out.println("i "+time.format("YYYY-MM-DD hh:mm:ss  ")+info);
+            infoStream.println("i "+time.format("YYYY-MM-DD hh:mm:ss  ")+info);
         }
     }
 
@@ -113,7 +135,7 @@ public class DebugLogger
         if (debugLevel<=DEBUGLEVEL_ERROR)
         {
             time=DateTime.now(TimeZone.getDefault());
-            System.out.println("e "+time.format("YYYY-MM-DD hh:mm:ss  ERROR: ")+info);
+            errorStream.println("e "+time.format("YYYY-MM-DD hh:mm:ss  ERROR: ")+info);
         }
     }
     
