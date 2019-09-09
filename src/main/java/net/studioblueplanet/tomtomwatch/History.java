@@ -27,7 +27,7 @@ public class History
      */
     public History()
     {
-        historyEntries=new ArrayList();
+        historyEntries=new ArrayList<>();
     }
     
     

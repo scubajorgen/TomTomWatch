@@ -29,7 +29,7 @@ public class TtbinHeader
     public int                              localTimeOffset;    // seconds from UTC
     public int                              reserved;
     public int                              recordLengthCount;
-    public ArrayList<TtbinRecordLength>     recordLengths=new ArrayList();
+    public ArrayList<TtbinRecordLength>     recordLengths=new ArrayList<>();
 
     /**
      * This method returns the record length of a record identified by the tag

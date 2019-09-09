@@ -34,7 +34,7 @@ public class ActivitySegment
      */
     public ActivitySegment()
     {
-        records                 =new ArrayList();
+        records                 =new ArrayList<>();
         heartRateRecovery       =HRRECOVERY_UNDEFINED;
         heartRateRecoveryScore  =-1;
     }

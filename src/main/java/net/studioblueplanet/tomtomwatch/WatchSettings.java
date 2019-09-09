@@ -169,7 +169,7 @@ public class WatchSettings
         
         if (settingDefinitions==null)
         {
-            settingDefinitions=new ArrayList();
+            settingDefinitions=new ArrayList<>();
         }
         else
         {
@@ -337,7 +337,7 @@ public class WatchSettings
         int             i;
         WatchSetting    setting;
         
-        this.settings=new ArrayList();
+        this.settings=new ArrayList<>();
         
         fileType=ToolBox.readInt(settingsData, 0, 2, true);
         length=ToolBox.readInt(settingsData  , 2, 2, true);

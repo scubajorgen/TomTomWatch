@@ -98,7 +98,7 @@ public class CommunicationProcess implements Runnable, ProgressListener
     {
         ConfigSettings  settings;
         
-        activities          =new ArrayList();
+        activities          =new ArrayList<>();
         isConnected         =false;
         threadExit          =false;
         commandQueue        =new LinkedList();

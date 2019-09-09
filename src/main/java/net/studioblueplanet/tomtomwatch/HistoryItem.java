@@ -46,7 +46,7 @@ public class HistoryItem
         HistoryValue    value;
         int             nextOffset;
         
-        values=new ArrayList();
+        values=new ArrayList<>();
 
         fileId=file.fileId;
 

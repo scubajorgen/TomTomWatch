@@ -53,8 +53,8 @@ public class Firmware
      */
     private Firmware()
     {
-        backupFiles      =new ArrayList();
-        updatedFiles  =new ArrayList();
+        backupFiles      =new ArrayList<>();
+        updatedFiles     =new ArrayList<>();
     }
     
     /**

@@ -357,11 +357,11 @@ public class Tracker
     public Tracker()
     {
         deviceName          =null;
-        heartRates          =new ArrayList();
-        trackedData         =new ArrayList();
-        trackedDataPerHour  =new ArrayList();
-        sleeps              =new ArrayList();
-        fitnessRecords      =new ArrayList();
+        heartRates          =new ArrayList<>();
+        trackedData         =new ArrayList<>();
+        trackedDataPerHour  =new ArrayList<>();
+        sleeps              =new ArrayList<>();
+        fitnessRecords      =new ArrayList<>();
     }
     
     /**

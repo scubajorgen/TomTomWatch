@@ -66,7 +66,7 @@ public class HistorySummary
         // Consistency check: filesize can be calculated based on number of entries and entry size
         if (usbFile.length==HEADERLENGTH+entryLength*numberOfEntries)
         {
-            this.entries    =new ArrayList();
+            this.entries    =new ArrayList<>();
             bytes=new byte[entryLength];
 
             i=0;

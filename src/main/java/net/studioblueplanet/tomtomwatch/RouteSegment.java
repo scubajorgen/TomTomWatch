@@ -23,7 +23,7 @@ public class RouteSegment
      */
     public RouteSegment()
     {
-        points=new ArrayList();
+        points=new ArrayList<>();
     }
     
     /**

@@ -28,7 +28,7 @@ public class Route
      */
     public Route()
     {
-        segments=new ArrayList();
+        segments=new ArrayList<>();
         clear();
     }
     

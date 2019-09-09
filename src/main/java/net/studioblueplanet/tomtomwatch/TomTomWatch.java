@@ -88,7 +88,7 @@ public class TomTomWatch extends SingleFrameApplication
         context     =this.getContext();
         resourceMap =context.getResourceMap();
         
-        iconList=new ArrayList();
+        iconList=new ArrayList<>();
         
         icon=resourceMap.getImageIcon("Application.icon16");
         iconList.add(icon.getImage());

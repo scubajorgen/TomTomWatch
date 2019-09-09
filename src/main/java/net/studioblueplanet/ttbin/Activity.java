@@ -96,8 +96,8 @@ public class Activity
         this.header                 =header;
         this.timeOfPause            =0;
         this.localTimeZone          =null;
-        this.segments               =new ArrayList();    
-        this.waypoints              =new ArrayList();   
+        this.segments               =new ArrayList<>();    
+        this.waypoints              =new ArrayList<>();   
         this.newRecord              =null;
         this.newActivitySegment     =null;
         this.deviceName             ="TomTom";
@@ -1158,7 +1158,7 @@ public class Activity
         
         error   =false;
 
-        elevations=new ArrayList();
+        elevations=new ArrayList<>();
        
         itSegment=segments.iterator();
 

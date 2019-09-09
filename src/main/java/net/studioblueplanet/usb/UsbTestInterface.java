@@ -178,7 +178,7 @@ public class UsbTestInterface extends WatchInterface
         String              idString;
         int                 id;
         
-        usbFiles            =new ArrayList();
+        usbFiles            =new ArrayList<>();
         directory           =new File(simulationPath);
         fileList            = directory.listFiles();
 

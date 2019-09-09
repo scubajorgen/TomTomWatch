@@ -95,7 +95,7 @@ public abstract class WatchInterface
      */
     protected WatchInterface()
     {
-        fileList=new ArrayList();
+        fileList=new ArrayList<>();
     }
     
     
