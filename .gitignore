@@ -1,4 +1,10 @@
+/.gitignore
 /target
 /various/protobuf/protobuf-java-3.3.0.zip
 /various/protobuf/protoc-3.3.0-win32.zip
 /various/protobuf/protoc-3.3.0-linux-x86_32.zip
+/various/simulation
+/nbproject/
+/scratch/
+/tomtomwatch.properties
+/javax.usb.properties
