@@ -55,9 +55,10 @@ public class TomTomWatchView extends javax.swing.JFrame
      * Constructor. Creates new form TomTomWatchView
      * @param communicationProcess The process for communication to the watch
      */
+    @SuppressWarnings("unchecked")
     public TomTomWatchView(CommunicationProcess communicationProcess)
     {
-        DefaultListModel            model;
+        DefaultListModel<String>    model;
         boolean                     trackSmoothing;
         
         TomTomReader                reader;
@@ -72,7 +73,7 @@ public class TomTomWatchView extends javax.swing.JFrame
         initComponents();
         
         // Initialize the listbox
-        model = new DefaultListModel();
+        model = new DefaultListModel<>();
         this.jListActivities.setModel(model);
         this.jListActivities.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
@@ -1316,18 +1317,19 @@ public class TomTomWatchView extends javax.swing.JFrame
      * Saves the selected TTBIN file
      * @param evt 
      */
+    @SuppressWarnings("unchecked")
     private void jButtonSaveTtbinActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButtonSaveTtbinActionPerformed
     {//GEN-HEADEREND:event_jButtonSaveTtbinActionPerformed
-        int                 index;
-        ActivityData        data;
-        Activity            activity;
-        UsbFile             file;
-        TtbinFileWriter     writer;
-        String              ttbinPath;
-        String              description;
-        DefaultListModel    model;
-        String              fileName;
-        boolean             fileSaveError;
+        int                         index;
+        ActivityData                data;
+        Activity                    activity;
+        UsbFile                     file;
+        TtbinFileWriter             writer;
+        String                      ttbinPath;
+        String                      description;
+        DefaultListModel<String>    model;
+        String                      fileName;
+        boolean                     fileSaveError;
 
         
         
@@ -1372,7 +1374,7 @@ public class TomTomWatchView extends javax.swing.JFrame
                             data.ttbinSaved=true;
                             // Add the activity info to the listbox
                             description = getActivityDescription(data, "watch: ");
-                            model       = (DefaultListModel) this.jListActivities.getModel();
+                            model       = (DefaultListModel<String>)this.jListActivities.getModel();
                             model.set(index, description);
 
 //                            fileSaveError=writer.writeTtbinMetadataFile(fileName, data);
@@ -2284,6 +2286,7 @@ public class TomTomWatchView extends javax.swing.JFrame
      * @param data The item to add
      * @param prefix Prefix indicating the source of the data: 'file' or 'watch'
      */
+    @SuppressWarnings("unchecked")
     public void addListItem(ActivityData data, String prefix)
     {
         DefaultListModel    model;

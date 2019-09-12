@@ -101,7 +101,7 @@ public class CommunicationProcess implements Runnable, ProgressListener
         activities          =new ArrayList<>();
         isConnected         =false;
         threadExit          =false;
-        commandQueue        =new LinkedList();
+        commandQueue        =new LinkedList<>();
         productId           =WatchInterface.PRODUCTID_UNKNOWN;
         preferenceFile      =null;
         

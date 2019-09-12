@@ -206,6 +206,7 @@ public class UsbConnection
      * @param productId
      * @return 
      */
+    @SuppressWarnings("unchecked")
     private UsbDevice findDevice(UsbHub hub, short vendorId, short productId)
     {
         for (UsbDevice device : (List<UsbDevice>) hub.getAttachedUsbDevices())
@@ -231,6 +232,7 @@ public class UsbConnection
      * Dumps the specified USB device to stdout.
      * @param device The USB device to dump.
      */
+    @SuppressWarnings("unchecked")
     private static void dumpDevice(final UsbDevice device)
     {
         // Dump information about the device itself
