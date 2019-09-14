@@ -2061,7 +2061,7 @@ public class CommunicationProcess implements Runnable, ProgressListener
                 }
                 if (!error)
                 {
-                    theView.addRoutesToListBox(newRouteFiles, 0);
+                    theView.addRoutesToListBoxLater(newRouteFiles, 0);
                 }
             } 
             else
@@ -2160,10 +2160,6 @@ public class CommunicationProcess implements Runnable, ProgressListener
         return error;
 
     }
-
-
-
-
 
     /**
      * This method clears the route files from the watch

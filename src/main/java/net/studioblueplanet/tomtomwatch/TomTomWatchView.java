@@ -2379,6 +2379,7 @@ public class TomTomWatchView extends javax.swing.JFrame
     /**
      * This method displays the route info in the Route list box
      * @param routes Array with routes, as UsbFile
+     * @param index Index to highlight
      */
     @SuppressWarnings("unchecked")
     public void addRoutesToListBox(ArrayList<UsbFile> routes, int index)
@@ -2431,6 +2432,20 @@ public class TomTomWatchView extends javax.swing.JFrame
         jListRoutes.ensureIndexIsVisible(index);
         DebugLogger.info("Updated route list");
     }    
+    
+    /**
+     * Call the update of the route list box in the EDT of Swing
+     * @param routes Routes to display in the listbox
+     * @param index Index to highlight
+     */
+    public void addRoutesToListBoxLater(ArrayList<UsbFile> routes, int index)
+    {
+        javax.swing.SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+              addRoutesToListBox(routes, index);
+            }
+        });        
+    }
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
