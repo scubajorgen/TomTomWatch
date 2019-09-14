@@ -14,8 +14,6 @@ import net.studioblueplanet.ttbin.GpxWriter;
 import net.studioblueplanet.logger.DebugLogger;
 import net.studioblueplanet.settings.ConfigSettings;
 
-
-
 import hirondelle.date4j.DateTime;
 import java.awt.Font;
 import java.io.File;
@@ -24,6 +22,9 @@ import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.ListSelectionModel;
 import javax.swing.JOptionPane;
+
+import java.util.ArrayList;
+import java.util.Iterator;
 
 
 import javax.swing.JFileChooser;
@@ -39,13 +40,12 @@ import org.jdesktop.application.ResourceMap;
  */
 public class TomTomWatchView extends javax.swing.JFrame
 {
- 
-    private final CommunicationProcess          communicationProcess;
+    private static final int                    MAXNAME=15;
     
+    private final CommunicationProcess          communicationProcess;
  
     private final ConfigSettings                settings;
     private final Map                           map;
-    
     
     private TomTomWatchAbout                    aboutBox;
     
@@ -77,8 +77,10 @@ public class TomTomWatchView extends javax.swing.JFrame
         this.jListActivities.setModel(model);
         this.jListActivities.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
-        // Set the TTBIN file path
-        this.jTextFieldTtbinPath.setText(settings.getStringValue("ttbinFilePath"));
+        // Initialize the listbox
+        model = new DefaultListModel<>();
+        this.jListRoutes.setModel(model);
+        this.jListRoutes.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         
         // Set the autosave option
         this.jCheckBoxAutoSave.setSelected(settings.getBooleanValue("autoSaveTtbin"));
@@ -113,7 +115,6 @@ public class TomTomWatchView extends javax.swing.JFrame
         this.communicationProcess=communicationProcess;
         this.communicationProcess.startProcess(this);
 
-
         // Set the track smoothing to the TomTom TTBIN reader
         trackSmoothing          =settings.getBooleanValue("trackSmoothingEnabled");
         trackSmoothingQFactor   =(float)settings.getDoubleValue("trackSmoothingQFactor");
@@ -126,8 +127,6 @@ public class TomTomWatchView extends javax.swing.JFrame
         }
 
         this.jCheckBoxDownloadMostRecent.setSelected(!settings.getBooleanValue("downloadAll"));
-        
-        
     }
     
     /**
@@ -187,18 +186,14 @@ public class TomTomWatchView extends javax.swing.JFrame
         jProgressBar.setFont(proportional11pt);
         
         jLabel6.setFont(proportional14ptBold);
-        jLabelSettings.setFont(proportional14ptBold);
-        jLabel1.setFont(proportional14pt);
         jLabel3.setFont(proportional14pt);
         jLabel5.setFont(proportional14pt);
         jTextFieldRouteGpx.setFont(proportional14pt);
         jTextFieldRouteName.setFont(proportional14pt);
-        jTextFieldTtbinPath.setFont(proportional14pt);
         jButtonChooseRoute.setFont(proportional12pt);
         jButtonEraseRoutes.setFont(proportional12pt);
         jButtonUploadRoute.setFont(proportional12pt);
         jButtonListRoutes.setFont(proportional12pt);
-        jButtonChooseTtbinPath.setFont(proportional12pt);
         
         jTextAreaStatus.setFont(monospace14pt);
 
@@ -269,10 +264,10 @@ public class TomTomWatchView extends javax.swing.JFrame
         jButtonUploadRoute = new javax.swing.JButton();
         jButtonListRoutes = new javax.swing.JButton();
         jButtonEraseRoutes = new javax.swing.JButton();
-        jLabelSettings = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
-        jTextFieldTtbinPath = new javax.swing.JTextField();
-        jButtonChooseTtbinPath = new javax.swing.JButton();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jListRoutes = new javax.swing.JList();
+        jButtonDeleteRoute = new javax.swing.JButton();
+        jButtonSaveRoutes = new javax.swing.JButton();
         jMenuBar = new javax.swing.JMenuBar();
         jMenuFile = new javax.swing.JMenu();
         jMenuItemQuit = new javax.swing.JMenuItem();
@@ -361,7 +356,7 @@ public class TomTomWatchView extends javax.swing.JFrame
         );
         jPanelMapLayout.setVerticalGroup(
             jPanelMapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 388, Short.MAX_VALUE)
         );
 
         jLabel4.setFont(new java.awt.Font("Lucida Sans", 0, 14)); // NOI18N
@@ -683,7 +678,7 @@ public class TomTomWatchView extends javax.swing.JFrame
                         .addComponent(jCheckBoxAutoSave)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jCheckBoxSmooth)))
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
 
         jPanel5.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -700,6 +695,7 @@ public class TomTomWatchView extends javax.swing.JFrame
         jTextFieldRouteGpx.setFont(new java.awt.Font("Lucida Sans", 0, 14)); // NOI18N
         jTextFieldRouteGpx.setMaximumSize(new java.awt.Dimension(6, 20));
 
+        jTextFieldRouteName.setColumns(30);
         jTextFieldRouteName.setFont(new java.awt.Font("Lucida Sans", 0, 14)); // NOI18N
 
         jButtonChooseRoute.setFont(new java.awt.Font("Lucida Sans", 0, 12)); // NOI18N
@@ -713,17 +709,17 @@ public class TomTomWatchView extends javax.swing.JFrame
         });
 
         jButtonUploadRoute.setFont(new java.awt.Font("Lucida Sans", 0, 12)); // NOI18N
-        jButtonUploadRoute.setText("Upload");
+        jButtonUploadRoute.setText("Add");
         jButtonUploadRoute.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
             {
-                jButtonUploadRouteActionPerformed(evt);
+                jButtonAddRouteActionPerformed(evt);
             }
         });
 
         jButtonListRoutes.setFont(new java.awt.Font("Lucida Sans", 0, 12)); // NOI18N
-        jButtonListRoutes.setText("List");
+        jButtonListRoutes.setText("Load");
         jButtonListRoutes.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
@@ -733,7 +729,7 @@ public class TomTomWatchView extends javax.swing.JFrame
         });
 
         jButtonEraseRoutes.setFont(new java.awt.Font("Lucida Sans", 0, 12)); // NOI18N
-        jButtonEraseRoutes.setText("Erase all");
+        jButtonEraseRoutes.setText("Delete all");
         jButtonEraseRoutes.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
@@ -742,21 +738,34 @@ public class TomTomWatchView extends javax.swing.JFrame
             }
         });
 
-        jLabelSettings.setFont(new java.awt.Font("Lucida Sans", 1, 14)); // NOI18N
-        jLabelSettings.setText("Settings");
+        jListRoutes.setFont(new java.awt.Font("Lucida Sans Typewriter", 0, 14)); // NOI18N
+        jListRoutes.addListSelectionListener(new javax.swing.event.ListSelectionListener()
+        {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt)
+            {
+                jListRoutesValueChanged(evt);
+            }
+        });
+        jScrollPane3.setViewportView(jListRoutes);
 
-        jLabel1.setFont(new java.awt.Font("Lucida Sans", 0, 14)); // NOI18N
-        jLabel1.setText("TTBIN Path");
-
-        jTextFieldTtbinPath.setFont(new java.awt.Font("Lucida Sans", 0, 14)); // NOI18N
-
-        jButtonChooseTtbinPath.setFont(new java.awt.Font("Lucida Sans", 0, 12)); // NOI18N
-        jButtonChooseTtbinPath.setText("Choose");
-        jButtonChooseTtbinPath.addActionListener(new java.awt.event.ActionListener()
+        jButtonDeleteRoute.setFont(new java.awt.Font("Lucida Sans", 0, 12)); // NOI18N
+        jButtonDeleteRoute.setText("Delete");
+        jButtonDeleteRoute.setActionCommand("jButtonDeleteRoute");
+        jButtonDeleteRoute.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
             {
-                jButtonChooseTtbinPathActionPerformed(evt);
+                jButtonDeleteRouteActionPerformed(evt);
+            }
+        });
+
+        jButtonSaveRoutes.setFont(new java.awt.Font("Lucida Sans", 0, 12)); // NOI18N
+        jButtonSaveRoutes.setText("Save");
+        jButtonSaveRoutes.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                jButtonSaveRoutesActionPerformed(evt);
             }
         });
 
@@ -767,33 +776,37 @@ public class TomTomWatchView extends javax.swing.JFrame
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(jLabel6)
-                        .addGap(133, 133, 133))
+                    .addComponent(jScrollPane3)
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabelSettings)
-                            .addComponent(jLabel1))
-                        .addGap(18, 18, 18)
+                            .addGroup(jPanel5Layout.createSequentialGroup()
+                                .addComponent(jLabel6)
+                                .addGap(133, 133, 133))
+                            .addGroup(jPanel5Layout.createSequentialGroup()
+                                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel5)
+                                    .addComponent(jLabel3))
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(jPanel5Layout.createSequentialGroup()
+                                        .addComponent(jTextFieldRouteName, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jButtonUploadRoute, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jButtonDeleteRoute, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jTextFieldRouteGpx, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jButtonChooseRoute, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jButtonEraseRoutes, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextFieldRouteName, javax.swing.GroupLayout.DEFAULT_SIZE, 298, Short.MAX_VALUE)
-                            .addComponent(jTextFieldTtbinPath)
-                            .addComponent(jTextFieldRouteGpx, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButtonChooseTtbinPath, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButtonUploadRoute, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButtonChooseRoute, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(18, 18, 18)))
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButtonListRoutes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonEraseRoutes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jButtonSaveRoutes)
+                            .addComponent(jButtonListRoutes, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap())
         );
 
-        jPanel5Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jButtonChooseRoute, jButtonChooseTtbinPath, jButtonUploadRoute});
+        jPanel5Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jButtonChooseRoute, jButtonDeleteRoute, jButtonEraseRoutes, jButtonListRoutes, jButtonSaveRoutes, jButtonUploadRoute});
 
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -801,31 +814,23 @@ public class TomTomWatchView extends javax.swing.JFrame
                 .addContainerGap()
                 .addComponent(jLabel6)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButtonChooseRoute)
-                            .addComponent(jTextFieldRouteGpx, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButtonUploadRoute)
-                            .addComponent(jTextFieldRouteName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jTextFieldRouteGpx, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel3)
-                            .addComponent(jButtonListRoutes))
+                            .addComponent(jButtonListRoutes)
+                            .addComponent(jButtonChooseRoute))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel5)
-                            .addComponent(jButtonEraseRoutes))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabelSettings))
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGap(91, 91, 91)
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextFieldTtbinPath, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1)
-                            .addComponent(jButtonChooseTtbinPath))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jButtonEraseRoutes)
+                            .addComponent(jButtonUploadRoute)
+                            .addComponent(jButtonDeleteRoute)
+                            .addComponent(jButtonSaveRoutes)
+                            .addComponent(jTextFieldRouteName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 87, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         jMenuFile.setText("File");
@@ -1131,7 +1136,7 @@ public class TomTomWatchView extends javax.swing.JFrame
                                 .addGap(18, 18, 18)
                                 .addComponent(jLabel9)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextFieldFirmware, javax.swing.GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE))
+                                .addComponent(jTextFieldFirmware))
                             .addComponent(jPanelMap, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -1160,7 +1165,7 @@ public class TomTomWatchView extends javax.swing.JFrame
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 139, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -1283,8 +1288,6 @@ public class TomTomWatchView extends javax.swing.JFrame
         appResourceMap=app.getContext().getResourceMap();
         appName="TomTomWatch "+appResourceMap.getString("Application.version");
         
-        
-        
         index = this.jListActivities.getSelectedIndex();
         
         data=communicationProcess.getActivityData(index);
@@ -1292,7 +1295,6 @@ public class TomTomWatchView extends javax.swing.JFrame
         if (data!=null)
         {
             activity=data.activity;
-
             
             fileName=this.jTextFieldGpxFile.getText();
             path    =settings.getStringValue("gpxFilePath");
@@ -1301,11 +1303,9 @@ public class TomTomWatchView extends javax.swing.JFrame
 
             if (fileName!=null)
             {
-                
                 writer=GpxWriter.getInstance();
                 writer.writeTrackToFile(fileName, activity, appName);                
             }
-            
         }
         else
         {
@@ -1330,8 +1330,6 @@ public class TomTomWatchView extends javax.swing.JFrame
         DefaultListModel<String>    model;
         String                      fileName;
         boolean                     fileSaveError;
-
-        
         
         index   = this.jListActivities.getSelectedIndex();
 
@@ -1343,8 +1341,7 @@ public class TomTomWatchView extends javax.swing.JFrame
             file            =data.file;
             writer          =TtbinFileWriter.getInstance();
             // Get the ttbin root path
-            ttbinPath       =this.jTextFieldTtbinPath.getText();
-            
+            ttbinPath=settings.getStringValue("ttbinFilePath");
             
             // Create the subpath (if it does not already exist) in tomtom style:
             // <watchname>/<date>/ and generate the filename: 
@@ -1401,7 +1398,6 @@ public class TomTomWatchView extends javax.swing.JFrame
     private void jMenuItemPreferencesActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jMenuItemPreferencesActionPerformed
     {//GEN-HEADEREND:event_jMenuItemPreferencesActionPerformed
         checkAndPushCommand(ThreadCommand.THREADCOMMAND_PREFERENCES);
-
     }//GEN-LAST:event_jMenuItemPreferencesActionPerformed
 
     private void jMenuItemListFilesActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jMenuItemListFilesActionPerformed
@@ -1420,7 +1416,6 @@ public class TomTomWatchView extends javax.swing.JFrame
 
         if (aboutBox == null)
         {
-            //            JFrame mainFrame = UgotmeApp.getApplication().getMainFrame();
             aboutBox = new TomTomWatchAbout(this, true);
             aboutBox.setLocationRelativeTo(this);
 
@@ -1443,8 +1438,7 @@ public class TomTomWatchView extends javax.swing.JFrame
                name=name.trim();
                if (!name.equals(""))
                {
-                   
-                   communicationProcess.requestSetNewDeviceName(name);
+                    communicationProcess.requestSetNewDeviceName(name);
                }
                else
                {
@@ -1456,7 +1450,6 @@ public class TomTomWatchView extends javax.swing.JFrame
         {
             JOptionPane.showMessageDialog(this, "No watch connected", "Warning", JOptionPane.WARNING_MESSAGE);            
         }
-        
     }//GEN-LAST:event_jMenuItemSetNameActionPerformed
 
     private void jButtonLoadTtbinActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButtonLoadTtbinActionPerformed
@@ -1470,8 +1463,7 @@ public class TomTomWatchView extends javax.swing.JFrame
         trackSmoothingEnabled=this.jCheckBoxSmooth.isSelected();
         communicationProcess.setTrackSmoothing(trackSmoothingEnabled, trackSmoothingQFactor);        
 
-        ttbinPath=this.jTextFieldTtbinPath.getText();
-
+        ttbinPath=settings.getStringValue("ttbinFilePath");
         
         fileName=this.fileChooser(ttbinPath, null, "Load", "TTBIN files (*.ttbin)", "ttbin");
         
@@ -1574,10 +1566,12 @@ public class TomTomWatchView extends javax.swing.JFrame
         }
     }//GEN-LAST:event_jButtonChooseRouteActionPerformed
 
-    private void jButtonUploadRouteActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButtonUploadRouteActionPerformed
-    {//GEN-HEADEREND:event_jButtonUploadRouteActionPerformed
-        String name;
-        String file;
+    private void jButtonAddRouteActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButtonAddRouteActionPerformed
+    {//GEN-HEADEREND:event_jButtonAddRouteActionPerformed
+        String                      name;
+        String                      file;
+        DefaultListModel<String>    model;
+        int                         index;
         
         if (communicationProcess.isConnected())
         {
@@ -1586,13 +1580,28 @@ public class TomTomWatchView extends javax.swing.JFrame
 
             if (!name.equals(""))
             {
-                if (!file.equals(""))
+                if (name.length()<=MAXNAME)
                 {
-                    communicationProcess.requestUploadGpxFile(file, name);
+                    if (!file.equals(""))
+                    {
+                        index=this.jListRoutes.getSelectedIndex();
+                        if (index>=0)
+                        {
+                            communicationProcess.addRouteFile(name, file, index+1);
+                        }
+                        else
+                        {
+                            communicationProcess.addRouteFile(name, file, -1);
+                        }
+                    }
+                    else
+                    {
+                        JOptionPane.showMessageDialog(this, "No gpx file entered", "Warning", JOptionPane.WARNING_MESSAGE); 
+                    }
                 }
                 else
                 {
-                    JOptionPane.showMessageDialog(this, "No gpx file entered", "Warning", JOptionPane.WARNING_MESSAGE); 
+                    JOptionPane.showMessageDialog(this, "Name to long. Set to max "+MAXNAME+" chars", "Warning", JOptionPane.WARNING_MESSAGE); 
                 }
             }
             else
@@ -1604,7 +1613,7 @@ public class TomTomWatchView extends javax.swing.JFrame
         {
             JOptionPane.showMessageDialog(this, "No watch connected", "Warning", JOptionPane.WARNING_MESSAGE);            
         }
-    }//GEN-LAST:event_jButtonUploadRouteActionPerformed
+    }//GEN-LAST:event_jButtonAddRouteActionPerformed
 
     /**
      * List routes button event handler
@@ -1612,7 +1621,7 @@ public class TomTomWatchView extends javax.swing.JFrame
      */
     private void jMenuItemListRoutesActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jMenuItemListRoutesActionPerformed
     {//GEN-HEADEREND:event_jMenuItemListRoutesActionPerformed
-        checkAndPushCommand(ThreadCommand.THREADCOMMAND_LISTROUTES);
+        checkAndPushCommand(ThreadCommand.THREADCOMMAND_DOWNLOADROUTES);
     }//GEN-LAST:event_jMenuItemListRoutesActionPerformed
 
     /**
@@ -1621,6 +1630,7 @@ public class TomTomWatchView extends javax.swing.JFrame
      */
     private void jButtonEraseRoutesActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButtonEraseRoutesActionPerformed
     {//GEN-HEADEREND:event_jButtonEraseRoutesActionPerformed
+/*
         int response;
         
         if (communicationProcess.isConnected())
@@ -1638,6 +1648,8 @@ public class TomTomWatchView extends javax.swing.JFrame
         {
             JOptionPane.showMessageDialog(this, "No watch connected", "Warning", JOptionPane.WARNING_MESSAGE);
         }
+*/
+        communicationProcess.deleteAllRouteFiles();
     }//GEN-LAST:event_jButtonEraseRoutesActionPerformed
 
     /**
@@ -1868,42 +1880,8 @@ public class TomTomWatchView extends javax.swing.JFrame
 
     private void jButtonListRoutesActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButtonListRoutesActionPerformed
     {//GEN-HEADEREND:event_jButtonListRoutesActionPerformed
-        checkAndPushCommand(ThreadCommand.THREADCOMMAND_LISTROUTES);
+        checkAndPushCommand(ThreadCommand.THREADCOMMAND_DOWNLOADROUTES);
     }//GEN-LAST:event_jButtonListRoutesActionPerformed
-
-    private void jButtonChooseTtbinPathActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButtonChooseTtbinPathActionPerformed
-    {//GEN-HEADEREND:event_jButtonChooseTtbinPathActionPerformed
-        JFileChooser                fc;
-        String                      directoryName;
-        int                         returnValue;
-
-        fc= new JFileChooser();
-
-        fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-
-        directoryName=this.jTextFieldTtbinPath.getText();
-        if (directoryName.equals(""))
-        {
-            fc.setCurrentDirectory(new File(settings.getStringValue("ttbinFilePath")));
-        }
-        else
-        {
-            fc.setCurrentDirectory(new File(directoryName));
-        }
-
-        returnValue=fc.showDialog(null, "Select");
-
-        if (returnValue == JFileChooser.APPROVE_OPTION)
-        {
-            directoryName=fc.getSelectedFile().toString();
-
-            this.jTextFieldTtbinPath.setText(directoryName);
-        }
-        if (returnValue == JFileChooser.CANCEL_OPTION)
-        {
-
-        }
-    }//GEN-LAST:event_jButtonChooseTtbinPathActionPerformed
 
     private void jCheckBoxSmoothActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jCheckBoxSmoothActionPerformed
     {//GEN-HEADEREND:event_jCheckBoxSmoothActionPerformed
@@ -1911,6 +1889,76 @@ public class TomTomWatchView extends javax.swing.JFrame
         // process. En passant the listbox in this view is erased.
         communicationProcess.clear();
     }//GEN-LAST:event_jCheckBoxSmoothActionPerformed
+
+    private void jButtonDeleteRouteActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButtonDeleteRouteActionPerformed
+    {//GEN-HEADEREND:event_jButtonDeleteRouteActionPerformed
+        int index;
+        index=this.jListRoutes.getSelectedIndex();
+        if (index>=0)
+        {
+            communicationProcess.deleteRouteFile(index);
+        }
+        else
+        {
+            this.appendStatus("First select route to delete\n");
+        }
+    }//GEN-LAST:event_jButtonDeleteRouteActionPerformed
+
+    private void jButtonSaveRoutesActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButtonSaveRoutesActionPerformed
+    {//GEN-HEADEREND:event_jButtonSaveRoutesActionPerformed
+
+        int response;
+        
+        if (communicationProcess.isConnected())
+        {
+            response = JOptionPane.showConfirmDialog(null, "This will upload the routes to the watch. Existing routes will be erased.", "Confirm",
+                                                     JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+            if (response == JOptionPane.YES_OPTION) 
+            {
+                // Signal the thread to erase and upload the files
+                communicationProcess.pushCommand(ThreadCommand.THREADCOMMAND_CLEARROUTES);
+                communicationProcess.pushCommand(ThreadCommand.THREADCOMMAND_UPLOADROUTES);
+                communicationProcess.pushCommand(ThreadCommand.THREADCOMMAND_DOWNLOADROUTES);
+            } 
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(this, "No watch connected", "Warning", JOptionPane.WARNING_MESSAGE);
+        }
+
+    }//GEN-LAST:event_jButtonSaveRoutesActionPerformed
+
+    private void jListRoutesValueChanged(javax.swing.event.ListSelectionEvent evt)//GEN-FIRST:event_jListRoutesValueChanged
+    {//GEN-HEADEREND:event_jListRoutesValueChanged
+        int         index;
+        RouteTomTom route;
+        UsbFile     file;
+        if (!evt.getValueIsAdjusting())
+        {
+            index=this.jListRoutes.getSelectedIndex();
+            if (index>=0)
+            {
+                file=communicationProcess.getRouteFile(index);
+
+                if (file!=null)
+                {
+                    route=new RouteTomTom();
+                    route.loadLogFromTomTomRouteData(file.fileData);
+                    if (map!=null)
+                    {
+                        map.showTrack(route);
+                    }
+                }
+                else
+                {
+                    if (map!=null)
+                    {
+                        map.hideTrack();
+                    }                
+                }
+            }
+        }
+    }//GEN-LAST:event_jListRoutesValueChanged
 
     /*############################################################################################*\
      * HELPER FUNCTIONS     
@@ -1970,11 +2018,6 @@ public class TomTomWatchView extends javax.swing.JFrame
         {
             fitnessPointsString="-";
         }
-/*        
-        description += String.format("0x%08x - ", data.file.fileId) + dateTime
-                + " - " + prefix+String.format("%-13s ", data.activity.getActivityDescription())+" - "+
-                fitnessPointsString;
-*/
         description += dateTime
                 + " - " + prefix
                 + String.format("- %-13s ", data.activity.getActivityDescription())
@@ -1984,9 +2027,6 @@ public class TomTomWatchView extends javax.swing.JFrame
         return description;
     }
 
-    
-    
-    
     /**
      * Based on the information in the activity, set the corresponding
      * radio button
@@ -2098,12 +2138,8 @@ public class TomTomWatchView extends javax.swing.JFrame
                 this.jTextFieldGpxFile.setText(fileName);
             }
         }
-            
     }
     
-  
-    
-
     /**
      * Updates the GPX filename and optionally the map and radiobuttons
      * @param fileNameOnly True if only the GPX filename needs to be updated
@@ -2121,7 +2157,7 @@ public class TomTomWatchView extends javax.swing.JFrame
             {
                 if (map!=null)
                 {
-                    map.showTrack(data);                    // Show the map
+                    map.showTrack(data);                // Show the map
                 }
                 setRadioButton(data.activity);          // Set the appropriate radiobutton
             }
@@ -2151,8 +2187,6 @@ public class TomTomWatchView extends javax.swing.JFrame
         
         fc= new JFileChooser();
 
-
-        
         if (initialFileName.equals("") && initialDirectory!=null)
         {
             fc.setCurrentDirectory(new File(initialDirectory));
@@ -2163,8 +2197,6 @@ public class TomTomWatchView extends javax.swing.JFrame
             path=theFile.getAbsolutePath();
             fc.setSelectedFile(new File(path));
         }
-        
-        
 
         fileFilter=new FileNameExtensionFilter(filterDescription, filterExtension);
 
@@ -2188,7 +2220,6 @@ public class TomTomWatchView extends javax.swing.JFrame
         }
         if (returnValue == JFileChooser.CANCEL_OPTION)
         {
-            
         }    
         
         return fileName;
@@ -2225,6 +2256,19 @@ public class TomTomWatchView extends javax.swing.JFrame
         {
             map.hideTrack();
         }
+    }
+    
+    /**
+     * Clear the route list
+     */
+    public void clearRoutes()
+    {
+        DefaultListModel model;
+
+        // Clear the list 
+        model = (DefaultListModel)this.jListRoutes.getModel();
+        model.clear();
+        DebugLogger.info("Routes cleared");
     }
     
     /**
@@ -2276,10 +2320,6 @@ public class TomTomWatchView extends javax.swing.JFrame
      * Returns the ttbin path
      * @return The TTBIN path
      */
-    public String getTtbinPath()
-    {
-        return this.jTextFieldTtbinPath.getText();
-    }
 
     /**
      * Adds item to the tracklist
@@ -2298,7 +2338,6 @@ public class TomTomWatchView extends javax.swing.JFrame
         model.addElement(description);        
     }
 
-    
     /**
      * Selects the last list item. 
      */
@@ -2349,25 +2388,81 @@ public class TomTomWatchView extends javax.swing.JFrame
     {
         this.jTextFieldProductId.setText(String.format("0x%08x", id));
     }
+
+    /**
+     * This method displays the route info in the Route list box
+     * @param routes Array with routes, as UsbFile
+     */
+    @SuppressWarnings("unchecked")
+    public void addRoutesToListBox(ArrayList<UsbFile> routes, int index)
+    {
+        DefaultListModel<String>    model;
+        Iterator<UsbFile>           it;
+        UsbFile                     file;
+        RouteTomTom                 route;
+        String                      description;
+        String                      name;
+        boolean                     error;
+        
+        route=new RouteTomTom();
+        
+        model=(DefaultListModel<String>)jListRoutes.getModel();
+        model.removeAllElements();
+        
+        it=routes.iterator();
+        while (it.hasNext())
+        {
+            file=it.next();
+            description=String.format("0x%08x ", file.fileId);
+
+            error=route.loadLogFromTomTomRouteData(file.fileData);
+
+            if (!error)
+            {
+                name=route.getRouteName();
+                if (name.length()>=30)
+                {
+                    name=name.substring(0,29);
+                }
+                description+=String.format("%-30s ", name);
+                description+=String.format("%5.1f km ", (route.getDistance()/1000.0));
+                description+=String.format("%5d segm", route.getNumberOfSegments());
+                description+=String.format("%5d pts", route.getNumberOfPoints());
+            }
+            else
+            {
+                description+="Error, file data appears corrupt!\n";
+                // Since this is not a blocking error: reset error flag
+                error=false;
+            }
+            model.addElement(description);
+        }
+        if (index>=0)
+        {
+            jListRoutes.setSelectedIndex(index);
+        }
+        jListRoutes.ensureIndexIsVisible(index);
+        DebugLogger.info("Updated route list");
+    }    
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton jButtonChooseRoute;
-    private javax.swing.JButton jButtonChooseTtbinPath;
+    private javax.swing.JButton jButtonDeleteRoute;
     private javax.swing.JButton jButtonDownload;
     private javax.swing.JButton jButtonErase;
     private javax.swing.JButton jButtonEraseRoutes;
     private javax.swing.JButton jButtonListRoutes;
     private javax.swing.JButton jButtonLoadTtbin;
     private javax.swing.JButton jButtonSaveGpx;
+    private javax.swing.JButton jButtonSaveRoutes;
     private javax.swing.JButton jButtonSaveTtbin;
     private javax.swing.JButton jButtonUploadGps;
     private javax.swing.JButton jButtonUploadRoute;
     private javax.swing.JCheckBox jCheckBoxAutoSave;
     private javax.swing.JCheckBox jCheckBoxDownloadMostRecent;
     private javax.swing.JCheckBox jCheckBoxSmooth;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
@@ -2378,8 +2473,8 @@ public class TomTomWatchView extends javax.swing.JFrame
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JLabel jLabelSettings;
     private javax.swing.JList jListActivities;
+    private javax.swing.JList jListRoutes;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
@@ -2431,6 +2526,7 @@ public class TomTomWatchView extends javax.swing.JFrame
     private javax.swing.JRadioButton jRadioButtonSwimming;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTextArea jTextAreaStatus;
     private javax.swing.JTextField jTextFieldFirmware;
     private javax.swing.JTextField jTextFieldGpxFile;
@@ -2439,7 +2535,6 @@ public class TomTomWatchView extends javax.swing.JFrame
     private javax.swing.JTextField jTextFieldRouteName;
     private javax.swing.JTextField jTextFieldSerial;
     private javax.swing.JTextField jTextFieldTime;
-    private javax.swing.JTextField jTextFieldTtbinPath;
     private javax.swing.JTextField jTextFieldWatch;
     // End of variables declaration//GEN-END:variables
 }
