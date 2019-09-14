@@ -954,7 +954,7 @@
                                       <Group type="102" attributes="0">
                                           <Component id="jTextFieldRouteName" min="-2" pref="156" max="-2" attributes="0"/>
                                           <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
-                                          <Component id="jButtonUploadRoute" linkSize="29" min="-2" pref="73" max="-2" attributes="0"/>
+                                          <Component id="jButtonAddRoute" linkSize="29" min="-2" pref="73" max="-2" attributes="0"/>
                                           <EmptySpace min="-2" max="-2" attributes="0"/>
                                           <Component id="jButtonDeleteRoute" linkSize="29" min="-2" pref="84" max="-2" attributes="0"/>
                                       </Group>
@@ -963,7 +963,7 @@
                                   <EmptySpace max="32767" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Component id="jButtonChooseRoute" linkSize="29" min="-2" pref="90" max="-2" attributes="0"/>
-                                      <Component id="jButtonEraseRoutes" linkSize="29" min="-2" pref="88" max="-2" attributes="0"/>
+                                      <Component id="jButtonDeleteAllRoutes" linkSize="29" min="-2" pref="88" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace max="32767" attributes="0"/>
                               </Group>
@@ -994,8 +994,8 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jButtonEraseRoutes" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jButtonUploadRoute" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jButtonDeleteAllRoutes" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jButtonAddRoute" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jButtonDeleteRoute" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jButtonSaveRoutes" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jTextFieldRouteName" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -1063,7 +1063,7 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonChooseRouteActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="jButtonUploadRoute">
+        <Component class="javax.swing.JButton" name="jButtonAddRoute">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Lucida Sans" size="12" style="0"/>
@@ -1085,7 +1085,7 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonListRoutesActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="jButtonEraseRoutes">
+        <Component class="javax.swing.JButton" name="jButtonDeleteAllRoutes">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Lucida Sans" size="12" style="0"/>
@@ -1093,7 +1093,7 @@
             <Property name="text" type="java.lang.String" value="Delete all"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonEraseRoutesActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonDeleteAllRoutesActionPerformed"/>
           </Events>
         </Component>
         <Container class="javax.swing.JScrollPane" name="jScrollPane3">

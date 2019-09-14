@@ -1991,6 +1991,7 @@ public class CommunicationProcess implements Runnable, ProgressListener
         {
             theView.appendStatus("To many routes to upload. Reduce to "+MAXROUTES);
         }
+        theView.enableRouteButtons(true);
         return error;
     }    
 
@@ -2070,6 +2071,7 @@ public class CommunicationProcess implements Runnable, ProgressListener
             }
         }
         watchInterface.setProgressListener(null);
+        theView.enableRouteButtons(true);
         theView.appendStatus("Done downloading route files\n");
         return error;
     }
