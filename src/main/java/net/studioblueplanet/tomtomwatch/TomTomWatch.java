@@ -23,7 +23,6 @@ import java.awt.FontFormatException;
 import java.awt.GraphicsEnvironment;
 import net.studioblueplanet.logger.DebugLogger;
 
-
 /**
  *
  * @author Jorgen
@@ -46,7 +45,6 @@ public class TomTomWatch extends SingleFrameApplication
  
         // Prevent comma as decimal separator
         Locale.setDefault(new Locale("en", "US"));       
-
         
         injector=DependencyInjector.getInstance();
         
@@ -143,7 +141,6 @@ public class TomTomWatch extends SingleFrameApplication
         }
     }    
     
-    
     /**
      * This method is to initialize the specified window by injecting resources.
      * Windows shown in our application come fully initialized from the GUI
@@ -152,7 +149,6 @@ public class TomTomWatch extends SingleFrameApplication
     @Override protected void configureWindow(java.awt.Window root) 
     {
     }
-    
 
     /**
      * Returns the application instance
@@ -170,6 +166,4 @@ public class TomTomWatch extends SingleFrameApplication
     {
          launch(TomTomWatch.class, args);
     }
-    
-    
 }
