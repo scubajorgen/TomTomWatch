@@ -80,6 +80,7 @@ public class TomTomWatchView extends javax.swing.JFrame
         // Initialize the listbox
         model = new DefaultListModel<>();
         this.jListRoutes.setModel(model);
+        model.addElement("Press load to download routes");
         this.jListRoutes.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         
         // Set the autosave option
@@ -1630,26 +1631,11 @@ public class TomTomWatchView extends javax.swing.JFrame
      */
     private void jButtonEraseRoutesActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButtonEraseRoutesActionPerformed
     {//GEN-HEADEREND:event_jButtonEraseRoutesActionPerformed
-/*
-        int response;
-        
-        if (communicationProcess.isConnected())
-        {
-            response = JOptionPane.showConfirmDialog(null, "Do you want to erase all route files from the watch?", "Confirm",
-                                                     JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-            if (response == JOptionPane.YES_OPTION) 
-            {
-                // Signal the thread to erase the files
-                communicationProcess.pushCommand(ThreadCommand.THREADCOMMAND_CLEARROUTES);
-                communicationProcess.pushCommand(ThreadCommand.THREADCOMMAND_LISTROUTES);
-            } 
-        }
-        else
-        {
-            JOptionPane.showMessageDialog(this, "No watch connected", "Warning", JOptionPane.WARNING_MESSAGE);
-        }
-*/
         communicationProcess.deleteAllRouteFiles();
+        if (map!=null)
+        {
+            map.hideTrack();
+        }
     }//GEN-LAST:event_jButtonEraseRoutesActionPerformed
 
     /**
@@ -1783,7 +1769,6 @@ public class TomTomWatchView extends javax.swing.JFrame
     {//GEN-HEADEREND:event_jMenuItemUploadFileActionPerformed
         String fileName;
         
-        
         if (communicationProcess.isConnected())
         {
             fileName="";
@@ -1897,6 +1882,10 @@ public class TomTomWatchView extends javax.swing.JFrame
         if (index>=0)
         {
             communicationProcess.deleteRouteFile(index);
+            if (map!=null)
+            {
+                map.hideTrack();
+            }
         }
         else
         {
@@ -1916,7 +1905,6 @@ public class TomTomWatchView extends javax.swing.JFrame
             if (response == JOptionPane.YES_OPTION) 
             {
                 // Signal the thread to erase and upload the files
-                communicationProcess.pushCommand(ThreadCommand.THREADCOMMAND_CLEARROUTES);
                 communicationProcess.pushCommand(ThreadCommand.THREADCOMMAND_UPLOADROUTES);
                 communicationProcess.pushCommand(ThreadCommand.THREADCOMMAND_DOWNLOADROUTES);
             } 
@@ -2054,7 +2042,6 @@ public class TomTomWatchView extends javax.swing.JFrame
                 this.jRadioButtonMulti.setSelected(true);
                 break;
         }
-
     }
 
     /**

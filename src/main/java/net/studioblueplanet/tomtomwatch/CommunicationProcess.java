@@ -13,12 +13,15 @@ import net.studioblueplanet.ttbin.Activity;
 import net.studioblueplanet.ttbin.TomTomReader;
 import net.studioblueplanet.logger.DebugLogger;
 import net.studioblueplanet.settings.ConfigSettings;
-
+import net.studioblueplanet.generics.ToolBox;
 
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.TimeZone;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 import hirondelle.date4j.DateTime;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
@@ -31,12 +34,7 @@ import java.io.File;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 
-import java.util.TimeZone;
 import org.json.JSONObject;
-
-import java.util.regex.Pattern;
-import java.util.regex.Matcher;
-import net.studioblueplanet.generics.ToolBox;
 
 /**
  * This class executes the commands involving communication to the device.
@@ -57,7 +55,8 @@ public class CommunicationProcess implements Runnable, ProgressListener
     // Guarded data
     private final LinkedList<ThreadCommand>     commandQueue;
     private final ArrayList<ActivityData>       activities;
-    private ArrayList<UsbFile>                  routeFiles;
+    private ArrayList<UsbFile>                  newRouteFiles;
+    private ArrayList<UsbFile>                  watchRouteFiles;
     private String                              newDeviceName;
     private int                                 fileIdToWrite;
     private String                              fileToUpload;
@@ -75,7 +74,6 @@ public class CommunicationProcess implements Runnable, ProgressListener
     private final String                        debugFilePath;
     private int                                 productId;
     private long                                currentFirmwareVersion;
-
     // End of guarded data
 
     // Progress listener data
@@ -97,7 +95,8 @@ public class CommunicationProcess implements Runnable, ProgressListener
         ConfigSettings  settings;
         
         activities          =new ArrayList<>();
-        routeFiles          =new ArrayList<>();
+        newRouteFiles       =new ArrayList<>();
+        watchRouteFiles     =new ArrayList<>();
         isConnected         =false;
         threadExit          =false;
         commandQueue        =new LinkedList<>();
@@ -158,8 +157,8 @@ public class CommunicationProcess implements Runnable, ProgressListener
             synchronized(this)
             {
                 this.newDeviceName=name;
+                this.pushCommand(ThreadCommand.THREADCOMMAND_SETNAME);
             }
-            this.pushCommand(ThreadCommand.THREADCOMMAND_SETNAME);
         }
         else
         {
@@ -177,9 +176,6 @@ public class CommunicationProcess implements Runnable, ProgressListener
         {
             this.ttbinFileToLoad=fileName;
             
-            // Schedule for execution
-//            this.pushCommand(ThreadCommand.THREADCOMMAND_LOADTTBINFILE);
-
             // Execute directly. Enables this function without a watch connected
             this.loadActivityFromTtbinFile();
         }
@@ -207,8 +203,8 @@ public class CommunicationProcess implements Runnable, ProgressListener
         synchronized(this)
         {
             this.fileToUpload=fileName;
+            this.pushCommand(ThreadCommand.THREADCOMMAND_UPLOADFILE);
         }
-        this.pushCommand(ThreadCommand.THREADCOMMAND_UPLOADFILE);
     }
     
     /**
@@ -238,9 +234,9 @@ public class CommunicationProcess implements Runnable, ProgressListener
         {
             this.uploadGpxFile=file;
             this.uploadGpxName=name;
+            this.pushCommand(ThreadCommand.THREADCOMMAND_UPLOADROUTE);
+            this.pushCommand(ThreadCommand.THREADCOMMAND_DOWNLOADROUTES);
         }
-        this.pushCommand(ThreadCommand.THREADCOMMAND_UPLOADROUTE);
-        this.pushCommand(ThreadCommand.THREADCOMMAND_DOWNLOADROUTES);
     }
 
     /**
@@ -253,8 +249,8 @@ public class CommunicationProcess implements Runnable, ProgressListener
         synchronized(this)
         {
             fileIdToShow    =fileId;
+            this.pushCommand(ThreadCommand.THREADCOMMAND_SHOWFILE);
         }
-        this.pushCommand(ThreadCommand.THREADCOMMAND_SHOWFILE);
     }
 
     /**
@@ -330,7 +326,7 @@ public class CommunicationProcess implements Runnable, ProgressListener
         
         synchronized(this)
         {
-            reader                  =TomTomReader.getInstance();
+            reader=TomTomReader.getInstance();
             reader.setTrackSmoothing(enabled, qFactor);            
         }
     }
@@ -361,14 +357,14 @@ public class CommunicationProcess implements Runnable, ProgressListener
         usbFile.length  =usbFile.fileData.length;
         if (index>=0)
         {
-            this.routeFiles.add(index, usbFile);
+            this.newRouteFiles.add(index, usbFile);
         }
         else
         {
-            this.routeFiles.add(usbFile);
+            this.newRouteFiles.add(usbFile);
         }
         theView.appendStatus("File read and converted\n"); 
-        theView.addRoutesToListBox(routeFiles, index);
+        theView.addRoutesToListBox(newRouteFiles, index);
     }
 
     /**
@@ -376,8 +372,8 @@ public class CommunicationProcess implements Runnable, ProgressListener
      */
     public void deleteAllRouteFiles()
     {
-        this.routeFiles.clear();
-        theView.addRoutesToListBox(routeFiles, -1);
+        this.newRouteFiles.clear();
+        theView.addRoutesToListBox(newRouteFiles, -1);
     }
 
     /**
@@ -386,10 +382,10 @@ public class CommunicationProcess implements Runnable, ProgressListener
      */
     public void deleteRouteFile(int index)
     {
-        if (index>=0 && index<routeFiles.size())
+        if (index>=0 && index<newRouteFiles.size())
         {
-            this.routeFiles.remove(index);
-            theView.addRoutesToListBox(routeFiles, -1);
+            this.newRouteFiles.remove(index);
+            theView.addRoutesToListBox(newRouteFiles, -1);
         }
         else
         {
@@ -408,9 +404,9 @@ public class CommunicationProcess implements Runnable, ProgressListener
         UsbFile file;
         
         file=null;
-        if (index>=0 && index<routeFiles.size())
+        if (index>=0 && index<newRouteFiles.size())
         {
-            file=routeFiles.get(index);
+            file=newRouteFiles.get(index);
         }
         else
         {
@@ -1469,7 +1465,6 @@ public class CommunicationProcess implements Runnable, ProgressListener
         
         return error;
     }    
-    
 
     /**
      * Deletes the file indicated by the field fileIdToDelete.
@@ -1929,8 +1924,10 @@ public class CommunicationProcess implements Runnable, ProgressListener
         return error;
     }
     
-    /**
-     * Write the route files to the watch.
+     /**
+     * This method uploads the new route file array to the watch. It is intelligent
+     * which means route files are selectively erased and/or uploaded. Unmodified
+     * files are kept in place.
      * @param watchInterface WatchInterface to use
      * @return True if an error, false if all went ok
      */
@@ -1938,34 +1935,61 @@ public class CommunicationProcess implements Runnable, ProgressListener
     {
         boolean             error;
         Iterator<UsbFile>   it;
-        UsbFile             file;
+        UsbFile             watchFile;
+        UsbFile             newFile;
         int                 fileId;
-        int                 count;
+        int                 watchFileId;
+        int                 i;
         
         error   =false;
-        if (routeFiles.size()<=MAXROUTES)
+        if (newRouteFiles.size()<=MAXROUTES)
         {
-            count   =0;
-            it      =routeFiles.iterator();
-
-            while (it.hasNext() && !error)
+            i=0;
+            while (i<Math.max(newRouteFiles.size(), watchRouteFiles.size()) && !error)
             {
-                file=it.next();
-                
-                // The file ID consist of the two MSB values=0x00b8 and the two LSB values=i
-                file.fileId=WatchInterface.FileType.TTWATCH_FILE_TRACKPLANNING.getValue()|count;
-
-                error=watchInterface.writeVerifyFile(file);
-                count++;
+                if (i<newRouteFiles.size())
+                {
+                    // expected file ID
+                    fileId      =WatchInterface.FileType.TTWATCH_FILE_TRACKPLANNING.getValue()|i;
+                    newFile     =newRouteFiles.get(i);
+                    
+                    if (newFile.fileId!=fileId)
+                    {
+                        if (i<watchRouteFiles.size())
+                        {
+                            watchFile=watchRouteFiles.get(i);
+                            error=watchInterface.deleteFile(watchFile);
+                            DebugLogger.info("Erasing "+String.format("0x%8x", watchFile.fileId));
+                        }
+                        if (!error)
+                        {
+                            // The file ID consist of the two MSB values=0x00b8 and the two LSB values=i
+                            newFile.fileId=fileId;
+                            error=watchInterface.writeVerifyFile(newFile);
+                            DebugLogger.info("Writing "+String.format("0x%8x", newFile.fileId));
+                        }
+                    }
+                }
+                else
+                {
+                    watchFile=watchRouteFiles.get(i);
+                    error=watchInterface.deleteFile(watchFile);
+                    DebugLogger.info("Erasing "+String.format("0x%8x", watchFile.fileId));
+                }
+                i++;
             }
             if (!error)
             {
-                theView.appendStatus("File written\n");
+                theView.appendStatus("Files updated to watch\n");
             }
             else
             {
-                theView.appendStatus("Error writing file\n");
+                theView.appendStatus("Error updating files to watch\n");
             }
+        }
+        else
+        {
+            theView.appendStatus("To many routes to upload. Reduce to "+MAXROUTES);
         }
         return error;
     }    
@@ -1979,6 +2003,7 @@ public class CommunicationProcess implements Runnable, ProgressListener
     private boolean listRouteFiles(WatchInterface watchInterface)
     {
         UsbFile             file;
+        UsbFile             watchFile;
         boolean             error;
         Iterator<UsbFile>   it;
         HistorySummary      entry;
@@ -1993,18 +2018,19 @@ public class CommunicationProcess implements Runnable, ProgressListener
         if (!error)
         {
             // Enumerate all TTBIN files on the device
-            routeFiles = watchInterface.getFileList(WatchInterface.FileType.TTWATCH_FILE_TRACKPLANNING);
+            newRouteFiles = watchInterface.getFileList(WatchInterface.FileType.TTWATCH_FILE_TRACKPLANNING);
 
             // If any found, download the data of each file
-            if (routeFiles != null)
+            if (newRouteFiles != null)
             {
                 // The array list of USB files seems not to be sorted. So sort it
-                sort(routeFiles);
+                sort(newRouteFiles);
 
                 // Initialize the data for the progressbar
                 bytesToDownload=0;
                 bytesDownloaded=0;
-                it = routeFiles.iterator();
+                it = newRouteFiles.iterator();
+
                 while (it.hasNext())
                 {
                     file=it.next();
@@ -2013,9 +2039,10 @@ public class CommunicationProcess implements Runnable, ProgressListener
 
                 theView.setProgress(0);
 
-                theView.appendStatus("Downloading "+routeFiles.size()+" files... Please wait\n");
+                theView.appendStatus("Downloading "+newRouteFiles.size()+" files... Please wait\n");
             
-                it              = routeFiles.iterator();
+                it              = newRouteFiles.iterator();
+                watchRouteFiles.clear();
                 while (it.hasNext() && !error)
                 {
                     file = it.next();
@@ -2027,10 +2054,14 @@ public class CommunicationProcess implements Runnable, ProgressListener
                     {
                         error=true;
                     }
+                    
+                    watchFile=new UsbFile();
+                    watchFile.fileId=file.fileId;
+                    watchRouteFiles.add(watchFile);
                 }
                 if (!error)
                 {
-                    theView.addRoutesToListBox(routeFiles, 0);
+                    theView.addRoutesToListBox(newRouteFiles, 0);
                 }
             } 
             else
