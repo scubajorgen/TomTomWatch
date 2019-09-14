@@ -458,12 +458,8 @@ public class RouteTomTom extends Route
         RouteProto.Root                    root;
         RouteProto.Root.Builder            rootBuilder;
         
-        
         bytes=null;
-        
 
-
-        
         rootBuilder         =RouteProto.Root.newBuilder();
         
         rootBuilder.addContainer(buildRootContainer());
