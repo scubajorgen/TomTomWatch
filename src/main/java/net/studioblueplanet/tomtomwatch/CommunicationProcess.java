@@ -844,7 +844,6 @@ public class CommunicationProcess implements Runnable, ProgressListener
     /**
      * This method downloads the ttbin file list and each file from the watch
      */
-    
     private boolean downloadActivityFiles(WatchInterface watchInterface)
     {
         UsbFile             file;
@@ -864,7 +863,6 @@ public class CommunicationProcess implements Runnable, ProgressListener
 
         // Add progress listener, for file reading
         watchInterface.setProgressListener(this);
-        
         
         theView.setStatus("Downloading... Please wait");
         reader = TomTomReader.getInstance();
@@ -906,10 +904,7 @@ public class CommunicationProcess implements Runnable, ProgressListener
                     bytesToDownload+=file.length;
                     index++;
                 }
-
                 theView.setProgress(0);
-
-            
 
                 fileSaveError   =false;
                 index=endIndex-1;
@@ -2019,7 +2014,8 @@ public class CommunicationProcess implements Runnable, ProgressListener
         if (!error)
         {
             // Enumerate all TTBIN files on the device
-            newRouteFiles = watchInterface.getFileList(WatchInterface.FileType.TTWATCH_FILE_TRACKPLANNING);
+            newRouteFiles.clear();
+            newRouteFiles.addAll(watchInterface.getFileList(WatchInterface.FileType.TTWATCH_FILE_TRACKPLANNING));
 
             // If any found, download the data of each file
             if (newRouteFiles != null)
@@ -2540,9 +2536,6 @@ public class CommunicationProcess implements Runnable, ProgressListener
                                   tracker.sleepingPeriodsToString());
             }
         }
-        
-        
-
         return error;    
     }    
     
@@ -2575,8 +2568,6 @@ public class CommunicationProcess implements Runnable, ProgressListener
         boolean error;
         Firmware firmware;
         
-        error = false;
-        
         theView.setStatus("Factory reset proces started. Do not disconnect watch.\n");
 
         theView.appendStatus("Preparing firmware download...\n");
@@ -2589,9 +2580,16 @@ public class CommunicationProcess implements Runnable, ProgressListener
         {
             error=watchInterface.formatDevice();
             theView.appendStatus("Factory reset initialized.\n");
-            error=firmware.forceUpdateFirmware(watchInterface, theView);
-            theView.appendStatus("Reconnect watch to TomTomWatch to write default off-line preferences.\n");
-            theView.appendStatus("Connect to TomTom Sports Connect to connect the watch to TomTom account.\n");
+            if (!error)
+            {
+                error=firmware.forceUpdateFirmware(watchInterface, theView);
+                theView.appendStatus("Reconnect watch to TomTomWatch to write default off-line preferences.\n");
+                theView.appendStatus("Connect to TomTom Sports Connect to connect the watch to TomTom account.\n");
+            }
+            else
+            {
+                theView.appendStatus("Error formatting device.");
+            }
         }
         else
         {
@@ -2732,17 +2730,12 @@ public class CommunicationProcess implements Runnable, ProgressListener
             {
                 theView.appendStatus("Error syncing time!");
             }
-            
         }
         else
         {
             error=true;
         }
         
-        
         return error;    
     }    
-    
-    
-    
 }

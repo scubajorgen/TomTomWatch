@@ -2372,7 +2372,7 @@ public class TomTomWatchView extends javax.swing.JFrame
         this.jButtonDeleteRoute.setEnabled(enabled);
         this.jButtonAddRoute.setEnabled(enabled);
         this.jButtonSaveRoutes.setEnabled(enabled);
-        this.jListRoutes.setEnabled(enabled);
+        this.jButtonListRoutes.setEnabled(enabled);
     }
     
 
