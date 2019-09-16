@@ -624,7 +624,7 @@ public class Tracker
         
         string="";     
         
-        string="Start                  End             Sleeping  \n";
+        string="Start               End                             Sleeping  \n";
         
         it=this.sleeps.iterator();
         
