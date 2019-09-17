@@ -51,11 +51,19 @@ public final class TrackerProto {
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:tutorial.RootContainer)
       RootContainerOrBuilder {
+  private static final long serialVersionUID = 0L;
     // Use RootContainer.newBuilder() to construct.
     private RootContainer(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
     private RootContainer() {
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new RootContainer();
     }
 
     @java.lang.Override
@@ -68,6 +76,9 @@ public final class TrackerProto {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -79,16 +90,9 @@ public final class TrackerProto {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownField(input, unknownFields,
-                                     extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 58: {
               net.studioblueplanet.tomtomwatch.TrackerProto.Metadata.Builder subBuilder = null;
-              if (((bitField0_ & 0x00000001) == 0x00000001)) {
+              if (((bitField0_ & 0x00000001) != 0)) {
                 subBuilder = metadata_.toBuilder();
               }
               metadata_ = input.readMessage(net.studioblueplanet.tomtomwatch.TrackerProto.Metadata.PARSER, extensionRegistry);
@@ -101,7 +105,7 @@ public final class TrackerProto {
             }
             case 66: {
               net.studioblueplanet.tomtomwatch.TrackerProto.DataContainer.Builder subBuilder = null;
-              if (((bitField0_ & 0x00000002) == 0x00000002)) {
+              if (((bitField0_ & 0x00000002) != 0)) {
                 subBuilder = dataContainer_.toBuilder();
               }
               dataContainer_ = input.readMessage(net.studioblueplanet.tomtomwatch.TrackerProto.DataContainer.PARSER, extensionRegistry);
@@ -110,6 +114,13 @@ public final class TrackerProto {
                 dataContainer_ = subBuilder.buildPartial();
               }
               bitField0_ |= 0x00000002;
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -129,6 +140,7 @@ public final class TrackerProto {
       return net.studioblueplanet.tomtomwatch.TrackerProto.internal_static_tutorial_RootContainer_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return net.studioblueplanet.tomtomwatch.TrackerProto.internal_static_tutorial_RootContainer_fieldAccessorTable
@@ -143,7 +155,7 @@ public final class TrackerProto {
      * <code>optional .tutorial.Metadata metadata = 7;</code>
      */
     public boolean hasMetadata() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
+      return ((bitField0_ & 0x00000001) != 0);
     }
     /**
      * <code>optional .tutorial.Metadata metadata = 7;</code>
@@ -164,7 +176,7 @@ public final class TrackerProto {
      * <code>optional .tutorial.DataContainer dataContainer = 8;</code>
      */
     public boolean hasDataContainer() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
+      return ((bitField0_ & 0x00000002) != 0);
     }
     /**
      * <code>optional .tutorial.DataContainer dataContainer = 8;</code>
@@ -180,6 +192,7 @@ public final class TrackerProto {
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -201,27 +214,29 @@ public final class TrackerProto {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         output.writeMessage(7, getMetadata());
       }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+      if (((bitField0_ & 0x00000002) != 0)) {
         output.writeMessage(8, getDataContainer());
       }
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
 
       size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(7, getMetadata());
       }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+      if (((bitField0_ & 0x00000002) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(8, getDataContainer());
       }
@@ -230,7 +245,6 @@ public final class TrackerProto {
       return size;
     }
 
-    private static final long serialVersionUID = 0L;
     @java.lang.Override
     public boolean equals(final java.lang.Object obj) {
       if (obj == this) {
@@ -241,19 +255,18 @@ public final class TrackerProto {
       }
       net.studioblueplanet.tomtomwatch.TrackerProto.RootContainer other = (net.studioblueplanet.tomtomwatch.TrackerProto.RootContainer) obj;
 
-      boolean result = true;
-      result = result && (hasMetadata() == other.hasMetadata());
+      if (hasMetadata() != other.hasMetadata()) return false;
       if (hasMetadata()) {
-        result = result && getMetadata()
-            .equals(other.getMetadata());
+        if (!getMetadata()
+            .equals(other.getMetadata())) return false;
       }
-      result = result && (hasDataContainer() == other.hasDataContainer());
+      if (hasDataContainer() != other.hasDataContainer()) return false;
       if (hasDataContainer()) {
-        result = result && getDataContainer()
-            .equals(other.getDataContainer());
+        if (!getDataContainer()
+            .equals(other.getDataContainer())) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -346,6 +359,7 @@ public final class TrackerProto {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -353,6 +367,7 @@ public final class TrackerProto {
     public static Builder newBuilder(net.studioblueplanet.tomtomwatch.TrackerProto.RootContainer prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -376,6 +391,7 @@ public final class TrackerProto {
         return net.studioblueplanet.tomtomwatch.TrackerProto.internal_static_tutorial_RootContainer_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return net.studioblueplanet.tomtomwatch.TrackerProto.internal_static_tutorial_RootContainer_fieldAccessorTable
@@ -400,6 +416,7 @@ public final class TrackerProto {
           getDataContainerFieldBuilder();
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (metadataBuilder_ == null) {
@@ -417,15 +434,18 @@ public final class TrackerProto {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return net.studioblueplanet.tomtomwatch.TrackerProto.internal_static_tutorial_RootContainer_descriptor;
       }
 
+      @java.lang.Override
       public net.studioblueplanet.tomtomwatch.TrackerProto.RootContainer getDefaultInstanceForType() {
         return net.studioblueplanet.tomtomwatch.TrackerProto.RootContainer.getDefaultInstance();
       }
 
+      @java.lang.Override
       public net.studioblueplanet.tomtomwatch.TrackerProto.RootContainer build() {
         net.studioblueplanet.tomtomwatch.TrackerProto.RootContainer result = buildPartial();
         if (!result.isInitialized()) {
@@ -434,57 +454,65 @@ public final class TrackerProto {
         return result;
       }
 
+      @java.lang.Override
       public net.studioblueplanet.tomtomwatch.TrackerProto.RootContainer buildPartial() {
         net.studioblueplanet.tomtomwatch.TrackerProto.RootContainer result = new net.studioblueplanet.tomtomwatch.TrackerProto.RootContainer(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          if (metadataBuilder_ == null) {
+            result.metadata_ = metadata_;
+          } else {
+            result.metadata_ = metadataBuilder_.build();
+          }
           to_bitField0_ |= 0x00000001;
         }
-        if (metadataBuilder_ == null) {
-          result.metadata_ = metadata_;
-        } else {
-          result.metadata_ = metadataBuilder_.build();
-        }
-        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+        if (((from_bitField0_ & 0x00000002) != 0)) {
+          if (dataContainerBuilder_ == null) {
+            result.dataContainer_ = dataContainer_;
+          } else {
+            result.dataContainer_ = dataContainerBuilder_.build();
+          }
           to_bitField0_ |= 0x00000002;
-        }
-        if (dataContainerBuilder_ == null) {
-          result.dataContainer_ = dataContainer_;
-        } else {
-          result.dataContainer_ = dataContainerBuilder_.build();
         }
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          Object value) {
-        return (Builder) super.setField(field, value);
+          java.lang.Object value) {
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof net.studioblueplanet.tomtomwatch.TrackerProto.RootContainer) {
           return mergeFrom((net.studioblueplanet.tomtomwatch.TrackerProto.RootContainer)other);
@@ -507,6 +535,7 @@ public final class TrackerProto {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         if (hasMetadata()) {
           if (!getMetadata().isInitialized()) {
@@ -521,6 +550,7 @@ public final class TrackerProto {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -540,14 +570,14 @@ public final class TrackerProto {
       }
       private int bitField0_;
 
-      private net.studioblueplanet.tomtomwatch.TrackerProto.Metadata metadata_ = null;
+      private net.studioblueplanet.tomtomwatch.TrackerProto.Metadata metadata_;
       private com.google.protobuf.SingleFieldBuilderV3<
           net.studioblueplanet.tomtomwatch.TrackerProto.Metadata, net.studioblueplanet.tomtomwatch.TrackerProto.Metadata.Builder, net.studioblueplanet.tomtomwatch.TrackerProto.MetadataOrBuilder> metadataBuilder_;
       /**
        * <code>optional .tutorial.Metadata metadata = 7;</code>
        */
       public boolean hasMetadata() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
+        return ((bitField0_ & 0x00000001) != 0);
       }
       /**
        * <code>optional .tutorial.Metadata metadata = 7;</code>
@@ -594,7 +624,7 @@ public final class TrackerProto {
        */
       public Builder mergeMetadata(net.studioblueplanet.tomtomwatch.TrackerProto.Metadata value) {
         if (metadataBuilder_ == null) {
-          if (((bitField0_ & 0x00000001) == 0x00000001) &&
+          if (((bitField0_ & 0x00000001) != 0) &&
               metadata_ != null &&
               metadata_ != net.studioblueplanet.tomtomwatch.TrackerProto.Metadata.getDefaultInstance()) {
             metadata_ =
@@ -658,14 +688,14 @@ public final class TrackerProto {
         return metadataBuilder_;
       }
 
-      private net.studioblueplanet.tomtomwatch.TrackerProto.DataContainer dataContainer_ = null;
+      private net.studioblueplanet.tomtomwatch.TrackerProto.DataContainer dataContainer_;
       private com.google.protobuf.SingleFieldBuilderV3<
           net.studioblueplanet.tomtomwatch.TrackerProto.DataContainer, net.studioblueplanet.tomtomwatch.TrackerProto.DataContainer.Builder, net.studioblueplanet.tomtomwatch.TrackerProto.DataContainerOrBuilder> dataContainerBuilder_;
       /**
        * <code>optional .tutorial.DataContainer dataContainer = 8;</code>
        */
       public boolean hasDataContainer() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
+        return ((bitField0_ & 0x00000002) != 0);
       }
       /**
        * <code>optional .tutorial.DataContainer dataContainer = 8;</code>
@@ -712,7 +742,7 @@ public final class TrackerProto {
        */
       public Builder mergeDataContainer(net.studioblueplanet.tomtomwatch.TrackerProto.DataContainer value) {
         if (dataContainerBuilder_ == null) {
-          if (((bitField0_ & 0x00000002) == 0x00000002) &&
+          if (((bitField0_ & 0x00000002) != 0) &&
               dataContainer_ != null &&
               dataContainer_ != net.studioblueplanet.tomtomwatch.TrackerProto.DataContainer.getDefaultInstance()) {
             dataContainer_ =
@@ -775,11 +805,13 @@ public final class TrackerProto {
         }
         return dataContainerBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -801,11 +833,12 @@ public final class TrackerProto {
 
     @java.lang.Deprecated public static final com.google.protobuf.Parser<RootContainer>
         PARSER = new com.google.protobuf.AbstractParser<RootContainer>() {
+      @java.lang.Override
       public RootContainer parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new RootContainer(input, extensionRegistry);
+        return new RootContainer(input, extensionRegistry);
       }
     };
 
@@ -818,6 +851,7 @@ public final class TrackerProto {
       return PARSER;
     }
 
+    @java.lang.Override
     public net.studioblueplanet.tomtomwatch.TrackerProto.RootContainer getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -869,13 +903,19 @@ public final class TrackerProto {
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:tutorial.Metadata)
       MetadataOrBuilder {
+  private static final long serialVersionUID = 0L;
     // Use Metadata.newBuilder() to construct.
     private Metadata(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
     private Metadata() {
-      unknown1_ = 0;
-      unknown2_ = 0;
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new Metadata();
     }
 
     @java.lang.Override
@@ -888,6 +928,9 @@ public final class TrackerProto {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -899,13 +942,6 @@ public final class TrackerProto {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownField(input, unknownFields,
-                                     extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 13: {
               bitField0_ |= 0x00000001;
               unknown1_ = input.readFixed32();
@@ -914,6 +950,13 @@ public final class TrackerProto {
             case 21: {
               bitField0_ |= 0x00000002;
               unknown2_ = input.readFixed32();
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -933,6 +976,7 @@ public final class TrackerProto {
       return net.studioblueplanet.tomtomwatch.TrackerProto.internal_static_tutorial_Metadata_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return net.studioblueplanet.tomtomwatch.TrackerProto.internal_static_tutorial_Metadata_fieldAccessorTable
@@ -951,7 +995,7 @@ public final class TrackerProto {
      * <code>required fixed32 unknown1 = 1;</code>
      */
     public boolean hasUnknown1() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
+      return ((bitField0_ & 0x00000001) != 0);
     }
     /**
      * <pre>
@@ -974,7 +1018,7 @@ public final class TrackerProto {
      * <code>required fixed32 unknown2 = 2;</code>
      */
     public boolean hasUnknown2() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
+      return ((bitField0_ & 0x00000002) != 0);
     }
     /**
      * <pre>
@@ -988,6 +1032,7 @@ public final class TrackerProto {
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -1005,27 +1050,29 @@ public final class TrackerProto {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         output.writeFixed32(1, unknown1_);
       }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+      if (((bitField0_ & 0x00000002) != 0)) {
         output.writeFixed32(2, unknown2_);
       }
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
 
       size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeFixed32Size(1, unknown1_);
       }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+      if (((bitField0_ & 0x00000002) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeFixed32Size(2, unknown2_);
       }
@@ -1034,7 +1081,6 @@ public final class TrackerProto {
       return size;
     }
 
-    private static final long serialVersionUID = 0L;
     @java.lang.Override
     public boolean equals(final java.lang.Object obj) {
       if (obj == this) {
@@ -1045,19 +1091,18 @@ public final class TrackerProto {
       }
       net.studioblueplanet.tomtomwatch.TrackerProto.Metadata other = (net.studioblueplanet.tomtomwatch.TrackerProto.Metadata) obj;
 
-      boolean result = true;
-      result = result && (hasUnknown1() == other.hasUnknown1());
+      if (hasUnknown1() != other.hasUnknown1()) return false;
       if (hasUnknown1()) {
-        result = result && (getUnknown1()
-            == other.getUnknown1());
+        if (getUnknown1()
+            != other.getUnknown1()) return false;
       }
-      result = result && (hasUnknown2() == other.hasUnknown2());
+      if (hasUnknown2() != other.hasUnknown2()) return false;
       if (hasUnknown2()) {
-        result = result && (getUnknown2()
-            == other.getUnknown2());
+        if (getUnknown2()
+            != other.getUnknown2()) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -1150,6 +1195,7 @@ public final class TrackerProto {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -1157,6 +1203,7 @@ public final class TrackerProto {
     public static Builder newBuilder(net.studioblueplanet.tomtomwatch.TrackerProto.Metadata prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -1180,6 +1227,7 @@ public final class TrackerProto {
         return net.studioblueplanet.tomtomwatch.TrackerProto.internal_static_tutorial_Metadata_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return net.studioblueplanet.tomtomwatch.TrackerProto.internal_static_tutorial_Metadata_fieldAccessorTable
@@ -1202,6 +1250,7 @@ public final class TrackerProto {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         unknown1_ = 0;
@@ -1211,15 +1260,18 @@ public final class TrackerProto {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return net.studioblueplanet.tomtomwatch.TrackerProto.internal_static_tutorial_Metadata_descriptor;
       }
 
+      @java.lang.Override
       public net.studioblueplanet.tomtomwatch.TrackerProto.Metadata getDefaultInstanceForType() {
         return net.studioblueplanet.tomtomwatch.TrackerProto.Metadata.getDefaultInstance();
       }
 
+      @java.lang.Override
       public net.studioblueplanet.tomtomwatch.TrackerProto.Metadata build() {
         net.studioblueplanet.tomtomwatch.TrackerProto.Metadata result = buildPartial();
         if (!result.isInitialized()) {
@@ -1228,49 +1280,57 @@ public final class TrackerProto {
         return result;
       }
 
+      @java.lang.Override
       public net.studioblueplanet.tomtomwatch.TrackerProto.Metadata buildPartial() {
         net.studioblueplanet.tomtomwatch.TrackerProto.Metadata result = new net.studioblueplanet.tomtomwatch.TrackerProto.Metadata(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          result.unknown1_ = unknown1_;
           to_bitField0_ |= 0x00000001;
         }
-        result.unknown1_ = unknown1_;
-        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+        if (((from_bitField0_ & 0x00000002) != 0)) {
+          result.unknown2_ = unknown2_;
           to_bitField0_ |= 0x00000002;
         }
-        result.unknown2_ = unknown2_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          Object value) {
-        return (Builder) super.setField(field, value);
+          java.lang.Object value) {
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof net.studioblueplanet.tomtomwatch.TrackerProto.Metadata) {
           return mergeFrom((net.studioblueplanet.tomtomwatch.TrackerProto.Metadata)other);
@@ -1293,6 +1353,7 @@ public final class TrackerProto {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         if (!hasUnknown1()) {
           return false;
@@ -1303,6 +1364,7 @@ public final class TrackerProto {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -1331,7 +1393,7 @@ public final class TrackerProto {
        * <code>required fixed32 unknown1 = 1;</code>
        */
       public boolean hasUnknown1() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
+        return ((bitField0_ & 0x00000001) != 0);
       }
       /**
        * <pre>
@@ -1379,7 +1441,7 @@ public final class TrackerProto {
        * <code>required fixed32 unknown2 = 2;</code>
        */
       public boolean hasUnknown2() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
+        return ((bitField0_ & 0x00000002) != 0);
       }
       /**
        * <pre>
@@ -1417,11 +1479,13 @@ public final class TrackerProto {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -1443,11 +1507,12 @@ public final class TrackerProto {
 
     @java.lang.Deprecated public static final com.google.protobuf.Parser<Metadata>
         PARSER = new com.google.protobuf.AbstractParser<Metadata>() {
+      @java.lang.Override
       public Metadata parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new Metadata(input, extensionRegistry);
+        return new Metadata(input, extensionRegistry);
       }
     };
 
@@ -1460,6 +1525,7 @@ public final class TrackerProto {
       return PARSER;
     }
 
+    @java.lang.Override
     public net.studioblueplanet.tomtomwatch.TrackerProto.Metadata getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -1490,11 +1556,19 @@ public final class TrackerProto {
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:tutorial.DataContainer)
       DataContainerOrBuilder {
+  private static final long serialVersionUID = 0L;
     // Use DataContainer.newBuilder() to construct.
     private DataContainer(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
     private DataContainer() {
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new DataContainer();
     }
 
     @java.lang.Override
@@ -1507,6 +1581,9 @@ public final class TrackerProto {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -1518,16 +1595,9 @@ public final class TrackerProto {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownField(input, unknownFields,
-                                     extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               net.studioblueplanet.tomtomwatch.TrackerProto.SubDataContainer.Builder subBuilder = null;
-              if (((bitField0_ & 0x00000001) == 0x00000001)) {
+              if (((bitField0_ & 0x00000001) != 0)) {
                 subBuilder = subDataContainer_.toBuilder();
               }
               subDataContainer_ = input.readMessage(net.studioblueplanet.tomtomwatch.TrackerProto.SubDataContainer.PARSER, extensionRegistry);
@@ -1536,6 +1606,13 @@ public final class TrackerProto {
                 subDataContainer_ = subBuilder.buildPartial();
               }
               bitField0_ |= 0x00000001;
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -1555,6 +1632,7 @@ public final class TrackerProto {
       return net.studioblueplanet.tomtomwatch.TrackerProto.internal_static_tutorial_DataContainer_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return net.studioblueplanet.tomtomwatch.TrackerProto.internal_static_tutorial_DataContainer_fieldAccessorTable
@@ -1569,7 +1647,7 @@ public final class TrackerProto {
      * <code>required .tutorial.SubDataContainer subDataContainer = 1;</code>
      */
     public boolean hasSubDataContainer() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
+      return ((bitField0_ & 0x00000001) != 0);
     }
     /**
      * <code>required .tutorial.SubDataContainer subDataContainer = 1;</code>
@@ -1585,6 +1663,7 @@ public final class TrackerProto {
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -1602,20 +1681,22 @@ public final class TrackerProto {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         output.writeMessage(1, getSubDataContainer());
       }
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
 
       size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(1, getSubDataContainer());
       }
@@ -1624,7 +1705,6 @@ public final class TrackerProto {
       return size;
     }
 
-    private static final long serialVersionUID = 0L;
     @java.lang.Override
     public boolean equals(final java.lang.Object obj) {
       if (obj == this) {
@@ -1635,14 +1715,13 @@ public final class TrackerProto {
       }
       net.studioblueplanet.tomtomwatch.TrackerProto.DataContainer other = (net.studioblueplanet.tomtomwatch.TrackerProto.DataContainer) obj;
 
-      boolean result = true;
-      result = result && (hasSubDataContainer() == other.hasSubDataContainer());
+      if (hasSubDataContainer() != other.hasSubDataContainer()) return false;
       if (hasSubDataContainer()) {
-        result = result && getSubDataContainer()
-            .equals(other.getSubDataContainer());
+        if (!getSubDataContainer()
+            .equals(other.getSubDataContainer())) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -1731,6 +1810,7 @@ public final class TrackerProto {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -1738,6 +1818,7 @@ public final class TrackerProto {
     public static Builder newBuilder(net.studioblueplanet.tomtomwatch.TrackerProto.DataContainer prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -1761,6 +1842,7 @@ public final class TrackerProto {
         return net.studioblueplanet.tomtomwatch.TrackerProto.internal_static_tutorial_DataContainer_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return net.studioblueplanet.tomtomwatch.TrackerProto.internal_static_tutorial_DataContainer_fieldAccessorTable
@@ -1784,6 +1866,7 @@ public final class TrackerProto {
           getSubDataContainerFieldBuilder();
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (subDataContainerBuilder_ == null) {
@@ -1795,15 +1878,18 @@ public final class TrackerProto {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return net.studioblueplanet.tomtomwatch.TrackerProto.internal_static_tutorial_DataContainer_descriptor;
       }
 
+      @java.lang.Override
       public net.studioblueplanet.tomtomwatch.TrackerProto.DataContainer getDefaultInstanceForType() {
         return net.studioblueplanet.tomtomwatch.TrackerProto.DataContainer.getDefaultInstance();
       }
 
+      @java.lang.Override
       public net.studioblueplanet.tomtomwatch.TrackerProto.DataContainer build() {
         net.studioblueplanet.tomtomwatch.TrackerProto.DataContainer result = buildPartial();
         if (!result.isInitialized()) {
@@ -1812,49 +1898,57 @@ public final class TrackerProto {
         return result;
       }
 
+      @java.lang.Override
       public net.studioblueplanet.tomtomwatch.TrackerProto.DataContainer buildPartial() {
         net.studioblueplanet.tomtomwatch.TrackerProto.DataContainer result = new net.studioblueplanet.tomtomwatch.TrackerProto.DataContainer(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          if (subDataContainerBuilder_ == null) {
+            result.subDataContainer_ = subDataContainer_;
+          } else {
+            result.subDataContainer_ = subDataContainerBuilder_.build();
+          }
           to_bitField0_ |= 0x00000001;
-        }
-        if (subDataContainerBuilder_ == null) {
-          result.subDataContainer_ = subDataContainer_;
-        } else {
-          result.subDataContainer_ = subDataContainerBuilder_.build();
         }
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          Object value) {
-        return (Builder) super.setField(field, value);
+          java.lang.Object value) {
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof net.studioblueplanet.tomtomwatch.TrackerProto.DataContainer) {
           return mergeFrom((net.studioblueplanet.tomtomwatch.TrackerProto.DataContainer)other);
@@ -1874,6 +1968,7 @@ public final class TrackerProto {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         if (!hasSubDataContainer()) {
           return false;
@@ -1884,6 +1979,7 @@ public final class TrackerProto {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -1903,14 +1999,14 @@ public final class TrackerProto {
       }
       private int bitField0_;
 
-      private net.studioblueplanet.tomtomwatch.TrackerProto.SubDataContainer subDataContainer_ = null;
+      private net.studioblueplanet.tomtomwatch.TrackerProto.SubDataContainer subDataContainer_;
       private com.google.protobuf.SingleFieldBuilderV3<
           net.studioblueplanet.tomtomwatch.TrackerProto.SubDataContainer, net.studioblueplanet.tomtomwatch.TrackerProto.SubDataContainer.Builder, net.studioblueplanet.tomtomwatch.TrackerProto.SubDataContainerOrBuilder> subDataContainerBuilder_;
       /**
        * <code>required .tutorial.SubDataContainer subDataContainer = 1;</code>
        */
       public boolean hasSubDataContainer() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
+        return ((bitField0_ & 0x00000001) != 0);
       }
       /**
        * <code>required .tutorial.SubDataContainer subDataContainer = 1;</code>
@@ -1957,7 +2053,7 @@ public final class TrackerProto {
        */
       public Builder mergeSubDataContainer(net.studioblueplanet.tomtomwatch.TrackerProto.SubDataContainer value) {
         if (subDataContainerBuilder_ == null) {
-          if (((bitField0_ & 0x00000001) == 0x00000001) &&
+          if (((bitField0_ & 0x00000001) != 0) &&
               subDataContainer_ != null &&
               subDataContainer_ != net.studioblueplanet.tomtomwatch.TrackerProto.SubDataContainer.getDefaultInstance()) {
             subDataContainer_ =
@@ -2020,11 +2116,13 @@ public final class TrackerProto {
         }
         return subDataContainerBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -2046,11 +2144,12 @@ public final class TrackerProto {
 
     @java.lang.Deprecated public static final com.google.protobuf.Parser<DataContainer>
         PARSER = new com.google.protobuf.AbstractParser<DataContainer>() {
+      @java.lang.Override
       public DataContainer parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new DataContainer(input, extensionRegistry);
+        return new DataContainer(input, extensionRegistry);
       }
     };
 
@@ -2063,6 +2162,7 @@ public final class TrackerProto {
       return PARSER;
     }
 
+    @java.lang.Override
     public net.studioblueplanet.tomtomwatch.TrackerProto.DataContainer getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -2255,11 +2355,19 @@ public final class TrackerProto {
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:tutorial.SubDataContainer)
       SubDataContainerOrBuilder {
+  private static final long serialVersionUID = 0L;
     // Use SubDataContainer.newBuilder() to construct.
     private SubDataContainer(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
     private SubDataContainer() {
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new SubDataContainer();
     }
 
     @java.lang.Override
@@ -2272,6 +2380,9 @@ public final class TrackerProto {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -2283,16 +2394,9 @@ public final class TrackerProto {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownField(input, unknownFields,
-                                     extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               net.studioblueplanet.tomtomwatch.TrackerProto.DeviceInfo.Builder subBuilder = null;
-              if (((bitField0_ & 0x00000001) == 0x00000001)) {
+              if (((bitField0_ & 0x00000001) != 0)) {
                 subBuilder = deviceInfo_.toBuilder();
               }
               deviceInfo_ = input.readMessage(net.studioblueplanet.tomtomwatch.TrackerProto.DeviceInfo.PARSER, extensionRegistry);
@@ -2305,7 +2409,7 @@ public final class TrackerProto {
             }
             case 18: {
               net.studioblueplanet.tomtomwatch.TrackerProto.TrackRecord.Builder subBuilder = null;
-              if (((bitField0_ & 0x00000002) == 0x00000002)) {
+              if (((bitField0_ & 0x00000002) != 0)) {
                 subBuilder = trackRecord_.toBuilder();
               }
               trackRecord_ = input.readMessage(net.studioblueplanet.tomtomwatch.TrackerProto.TrackRecord.PARSER, extensionRegistry);
@@ -2318,7 +2422,7 @@ public final class TrackerProto {
             }
             case 26: {
               net.studioblueplanet.tomtomwatch.TrackerProto.Record2.Builder subBuilder = null;
-              if (((bitField0_ & 0x00000004) == 0x00000004)) {
+              if (((bitField0_ & 0x00000004) != 0)) {
                 subBuilder = record2_.toBuilder();
               }
               record2_ = input.readMessage(net.studioblueplanet.tomtomwatch.TrackerProto.Record2.PARSER, extensionRegistry);
@@ -2331,7 +2435,7 @@ public final class TrackerProto {
             }
             case 42: {
               net.studioblueplanet.tomtomwatch.TrackerProto.Record6.Builder subBuilder = null;
-              if (((bitField0_ & 0x00000008) == 0x00000008)) {
+              if (((bitField0_ & 0x00000008) != 0)) {
                 subBuilder = record6_.toBuilder();
               }
               record6_ = input.readMessage(net.studioblueplanet.tomtomwatch.TrackerProto.Record6.PARSER, extensionRegistry);
@@ -2344,7 +2448,7 @@ public final class TrackerProto {
             }
             case 50: {
               net.studioblueplanet.tomtomwatch.TrackerProto.HeartRecord.Builder subBuilder = null;
-              if (((bitField0_ & 0x00000010) == 0x00000010)) {
+              if (((bitField0_ & 0x00000010) != 0)) {
                 subBuilder = heartRecord_.toBuilder();
               }
               heartRecord_ = input.readMessage(net.studioblueplanet.tomtomwatch.TrackerProto.HeartRecord.PARSER, extensionRegistry);
@@ -2357,7 +2461,7 @@ public final class TrackerProto {
             }
             case 58: {
               net.studioblueplanet.tomtomwatch.TrackerProto.Record4.Builder subBuilder = null;
-              if (((bitField0_ & 0x00000020) == 0x00000020)) {
+              if (((bitField0_ & 0x00000020) != 0)) {
                 subBuilder = record4_.toBuilder();
               }
               record4_ = input.readMessage(net.studioblueplanet.tomtomwatch.TrackerProto.Record4.PARSER, extensionRegistry);
@@ -2370,7 +2474,7 @@ public final class TrackerProto {
             }
             case 74: {
               net.studioblueplanet.tomtomwatch.TrackerProto.FitnessRecord.Builder subBuilder = null;
-              if (((bitField0_ & 0x00000040) == 0x00000040)) {
+              if (((bitField0_ & 0x00000040) != 0)) {
                 subBuilder = fitnessRecord_.toBuilder();
               }
               fitnessRecord_ = input.readMessage(net.studioblueplanet.tomtomwatch.TrackerProto.FitnessRecord.PARSER, extensionRegistry);
@@ -2379,6 +2483,13 @@ public final class TrackerProto {
                 fitnessRecord_ = subBuilder.buildPartial();
               }
               bitField0_ |= 0x00000040;
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -2398,6 +2509,7 @@ public final class TrackerProto {
       return net.studioblueplanet.tomtomwatch.TrackerProto.internal_static_tutorial_SubDataContainer_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return net.studioblueplanet.tomtomwatch.TrackerProto.internal_static_tutorial_SubDataContainer_fieldAccessorTable
@@ -2416,7 +2528,7 @@ public final class TrackerProto {
      * <code>optional .tutorial.DeviceInfo deviceInfo = 1;</code>
      */
     public boolean hasDeviceInfo() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
+      return ((bitField0_ & 0x00000001) != 0);
     }
     /**
      * <pre>
@@ -2449,7 +2561,7 @@ public final class TrackerProto {
      * <code>optional .tutorial.TrackRecord trackRecord = 2;</code>
      */
     public boolean hasTrackRecord() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
+      return ((bitField0_ & 0x00000002) != 0);
     }
     /**
      * <pre>
@@ -2482,7 +2594,7 @@ public final class TrackerProto {
      * <code>optional .tutorial.Record2 record2 = 3;</code>
      */
     public boolean hasRecord2() {
-      return ((bitField0_ & 0x00000004) == 0x00000004);
+      return ((bitField0_ & 0x00000004) != 0);
     }
     /**
      * <pre>
@@ -2515,7 +2627,7 @@ public final class TrackerProto {
      * <code>optional .tutorial.Record6 record6 = 5;</code>
      */
     public boolean hasRecord6() {
-      return ((bitField0_ & 0x00000008) == 0x00000008);
+      return ((bitField0_ & 0x00000008) != 0);
     }
     /**
      * <pre>
@@ -2548,7 +2660,7 @@ public final class TrackerProto {
      * <code>optional .tutorial.HeartRecord heartRecord = 6;</code>
      */
     public boolean hasHeartRecord() {
-      return ((bitField0_ & 0x00000010) == 0x00000010);
+      return ((bitField0_ & 0x00000010) != 0);
     }
     /**
      * <pre>
@@ -2581,7 +2693,7 @@ public final class TrackerProto {
      * <code>optional .tutorial.Record4 record4 = 7;</code>
      */
     public boolean hasRecord4() {
-      return ((bitField0_ & 0x00000020) == 0x00000020);
+      return ((bitField0_ & 0x00000020) != 0);
     }
     /**
      * <pre>
@@ -2614,7 +2726,7 @@ public final class TrackerProto {
      * <code>optional .tutorial.FitnessRecord fitnessRecord = 9;</code>
      */
     public boolean hasFitnessRecord() {
-      return ((bitField0_ & 0x00000040) == 0x00000040);
+      return ((bitField0_ & 0x00000040) != 0);
     }
     /**
      * <pre>
@@ -2638,6 +2750,7 @@ public final class TrackerProto {
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -2689,62 +2802,64 @@ public final class TrackerProto {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         output.writeMessage(1, getDeviceInfo());
       }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+      if (((bitField0_ & 0x00000002) != 0)) {
         output.writeMessage(2, getTrackRecord());
       }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+      if (((bitField0_ & 0x00000004) != 0)) {
         output.writeMessage(3, getRecord2());
       }
-      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+      if (((bitField0_ & 0x00000008) != 0)) {
         output.writeMessage(5, getRecord6());
       }
-      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+      if (((bitField0_ & 0x00000010) != 0)) {
         output.writeMessage(6, getHeartRecord());
       }
-      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+      if (((bitField0_ & 0x00000020) != 0)) {
         output.writeMessage(7, getRecord4());
       }
-      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+      if (((bitField0_ & 0x00000040) != 0)) {
         output.writeMessage(9, getFitnessRecord());
       }
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
 
       size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(1, getDeviceInfo());
       }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+      if (((bitField0_ & 0x00000002) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(2, getTrackRecord());
       }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+      if (((bitField0_ & 0x00000004) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(3, getRecord2());
       }
-      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+      if (((bitField0_ & 0x00000008) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(5, getRecord6());
       }
-      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+      if (((bitField0_ & 0x00000010) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(6, getHeartRecord());
       }
-      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+      if (((bitField0_ & 0x00000020) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(7, getRecord4());
       }
-      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+      if (((bitField0_ & 0x00000040) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(9, getFitnessRecord());
       }
@@ -2753,7 +2868,6 @@ public final class TrackerProto {
       return size;
     }
 
-    private static final long serialVersionUID = 0L;
     @java.lang.Override
     public boolean equals(final java.lang.Object obj) {
       if (obj == this) {
@@ -2764,44 +2878,43 @@ public final class TrackerProto {
       }
       net.studioblueplanet.tomtomwatch.TrackerProto.SubDataContainer other = (net.studioblueplanet.tomtomwatch.TrackerProto.SubDataContainer) obj;
 
-      boolean result = true;
-      result = result && (hasDeviceInfo() == other.hasDeviceInfo());
+      if (hasDeviceInfo() != other.hasDeviceInfo()) return false;
       if (hasDeviceInfo()) {
-        result = result && getDeviceInfo()
-            .equals(other.getDeviceInfo());
+        if (!getDeviceInfo()
+            .equals(other.getDeviceInfo())) return false;
       }
-      result = result && (hasTrackRecord() == other.hasTrackRecord());
+      if (hasTrackRecord() != other.hasTrackRecord()) return false;
       if (hasTrackRecord()) {
-        result = result && getTrackRecord()
-            .equals(other.getTrackRecord());
+        if (!getTrackRecord()
+            .equals(other.getTrackRecord())) return false;
       }
-      result = result && (hasRecord2() == other.hasRecord2());
+      if (hasRecord2() != other.hasRecord2()) return false;
       if (hasRecord2()) {
-        result = result && getRecord2()
-            .equals(other.getRecord2());
+        if (!getRecord2()
+            .equals(other.getRecord2())) return false;
       }
-      result = result && (hasRecord6() == other.hasRecord6());
+      if (hasRecord6() != other.hasRecord6()) return false;
       if (hasRecord6()) {
-        result = result && getRecord6()
-            .equals(other.getRecord6());
+        if (!getRecord6()
+            .equals(other.getRecord6())) return false;
       }
-      result = result && (hasHeartRecord() == other.hasHeartRecord());
+      if (hasHeartRecord() != other.hasHeartRecord()) return false;
       if (hasHeartRecord()) {
-        result = result && getHeartRecord()
-            .equals(other.getHeartRecord());
+        if (!getHeartRecord()
+            .equals(other.getHeartRecord())) return false;
       }
-      result = result && (hasRecord4() == other.hasRecord4());
+      if (hasRecord4() != other.hasRecord4()) return false;
       if (hasRecord4()) {
-        result = result && getRecord4()
-            .equals(other.getRecord4());
+        if (!getRecord4()
+            .equals(other.getRecord4())) return false;
       }
-      result = result && (hasFitnessRecord() == other.hasFitnessRecord());
+      if (hasFitnessRecord() != other.hasFitnessRecord()) return false;
       if (hasFitnessRecord()) {
-        result = result && getFitnessRecord()
-            .equals(other.getFitnessRecord());
+        if (!getFitnessRecord()
+            .equals(other.getFitnessRecord())) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -2914,6 +3027,7 @@ public final class TrackerProto {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -2921,6 +3035,7 @@ public final class TrackerProto {
     public static Builder newBuilder(net.studioblueplanet.tomtomwatch.TrackerProto.SubDataContainer prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -2944,6 +3059,7 @@ public final class TrackerProto {
         return net.studioblueplanet.tomtomwatch.TrackerProto.internal_static_tutorial_SubDataContainer_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return net.studioblueplanet.tomtomwatch.TrackerProto.internal_static_tutorial_SubDataContainer_fieldAccessorTable
@@ -2973,6 +3089,7 @@ public final class TrackerProto {
           getFitnessRecordFieldBuilder();
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (deviceInfoBuilder_ == null) {
@@ -3020,15 +3137,18 @@ public final class TrackerProto {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return net.studioblueplanet.tomtomwatch.TrackerProto.internal_static_tutorial_SubDataContainer_descriptor;
       }
 
+      @java.lang.Override
       public net.studioblueplanet.tomtomwatch.TrackerProto.SubDataContainer getDefaultInstanceForType() {
         return net.studioblueplanet.tomtomwatch.TrackerProto.SubDataContainer.getDefaultInstance();
       }
 
+      @java.lang.Override
       public net.studioblueplanet.tomtomwatch.TrackerProto.SubDataContainer build() {
         net.studioblueplanet.tomtomwatch.TrackerProto.SubDataContainer result = buildPartial();
         if (!result.isInitialized()) {
@@ -3037,97 +3157,105 @@ public final class TrackerProto {
         return result;
       }
 
+      @java.lang.Override
       public net.studioblueplanet.tomtomwatch.TrackerProto.SubDataContainer buildPartial() {
         net.studioblueplanet.tomtomwatch.TrackerProto.SubDataContainer result = new net.studioblueplanet.tomtomwatch.TrackerProto.SubDataContainer(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          if (deviceInfoBuilder_ == null) {
+            result.deviceInfo_ = deviceInfo_;
+          } else {
+            result.deviceInfo_ = deviceInfoBuilder_.build();
+          }
           to_bitField0_ |= 0x00000001;
         }
-        if (deviceInfoBuilder_ == null) {
-          result.deviceInfo_ = deviceInfo_;
-        } else {
-          result.deviceInfo_ = deviceInfoBuilder_.build();
-        }
-        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+        if (((from_bitField0_ & 0x00000002) != 0)) {
+          if (trackRecordBuilder_ == null) {
+            result.trackRecord_ = trackRecord_;
+          } else {
+            result.trackRecord_ = trackRecordBuilder_.build();
+          }
           to_bitField0_ |= 0x00000002;
         }
-        if (trackRecordBuilder_ == null) {
-          result.trackRecord_ = trackRecord_;
-        } else {
-          result.trackRecord_ = trackRecordBuilder_.build();
-        }
-        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+        if (((from_bitField0_ & 0x00000004) != 0)) {
+          if (record2Builder_ == null) {
+            result.record2_ = record2_;
+          } else {
+            result.record2_ = record2Builder_.build();
+          }
           to_bitField0_ |= 0x00000004;
         }
-        if (record2Builder_ == null) {
-          result.record2_ = record2_;
-        } else {
-          result.record2_ = record2Builder_.build();
-        }
-        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+        if (((from_bitField0_ & 0x00000008) != 0)) {
+          if (record6Builder_ == null) {
+            result.record6_ = record6_;
+          } else {
+            result.record6_ = record6Builder_.build();
+          }
           to_bitField0_ |= 0x00000008;
         }
-        if (record6Builder_ == null) {
-          result.record6_ = record6_;
-        } else {
-          result.record6_ = record6Builder_.build();
-        }
-        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+        if (((from_bitField0_ & 0x00000010) != 0)) {
+          if (heartRecordBuilder_ == null) {
+            result.heartRecord_ = heartRecord_;
+          } else {
+            result.heartRecord_ = heartRecordBuilder_.build();
+          }
           to_bitField0_ |= 0x00000010;
         }
-        if (heartRecordBuilder_ == null) {
-          result.heartRecord_ = heartRecord_;
-        } else {
-          result.heartRecord_ = heartRecordBuilder_.build();
-        }
-        if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
+        if (((from_bitField0_ & 0x00000020) != 0)) {
+          if (record4Builder_ == null) {
+            result.record4_ = record4_;
+          } else {
+            result.record4_ = record4Builder_.build();
+          }
           to_bitField0_ |= 0x00000020;
         }
-        if (record4Builder_ == null) {
-          result.record4_ = record4_;
-        } else {
-          result.record4_ = record4Builder_.build();
-        }
-        if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
+        if (((from_bitField0_ & 0x00000040) != 0)) {
+          if (fitnessRecordBuilder_ == null) {
+            result.fitnessRecord_ = fitnessRecord_;
+          } else {
+            result.fitnessRecord_ = fitnessRecordBuilder_.build();
+          }
           to_bitField0_ |= 0x00000040;
-        }
-        if (fitnessRecordBuilder_ == null) {
-          result.fitnessRecord_ = fitnessRecord_;
-        } else {
-          result.fitnessRecord_ = fitnessRecordBuilder_.build();
         }
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          Object value) {
-        return (Builder) super.setField(field, value);
+          java.lang.Object value) {
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof net.studioblueplanet.tomtomwatch.TrackerProto.SubDataContainer) {
           return mergeFrom((net.studioblueplanet.tomtomwatch.TrackerProto.SubDataContainer)other);
@@ -3165,6 +3293,7 @@ public final class TrackerProto {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         if (hasDeviceInfo()) {
           if (!getDeviceInfo().isInitialized()) {
@@ -3204,6 +3333,7 @@ public final class TrackerProto {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -3223,7 +3353,7 @@ public final class TrackerProto {
       }
       private int bitField0_;
 
-      private net.studioblueplanet.tomtomwatch.TrackerProto.DeviceInfo deviceInfo_ = null;
+      private net.studioblueplanet.tomtomwatch.TrackerProto.DeviceInfo deviceInfo_;
       private com.google.protobuf.SingleFieldBuilderV3<
           net.studioblueplanet.tomtomwatch.TrackerProto.DeviceInfo, net.studioblueplanet.tomtomwatch.TrackerProto.DeviceInfo.Builder, net.studioblueplanet.tomtomwatch.TrackerProto.DeviceInfoOrBuilder> deviceInfoBuilder_;
       /**
@@ -3234,7 +3364,7 @@ public final class TrackerProto {
        * <code>optional .tutorial.DeviceInfo deviceInfo = 1;</code>
        */
       public boolean hasDeviceInfo() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
+        return ((bitField0_ & 0x00000001) != 0);
       }
       /**
        * <pre>
@@ -3297,7 +3427,7 @@ public final class TrackerProto {
        */
       public Builder mergeDeviceInfo(net.studioblueplanet.tomtomwatch.TrackerProto.DeviceInfo value) {
         if (deviceInfoBuilder_ == null) {
-          if (((bitField0_ & 0x00000001) == 0x00000001) &&
+          if (((bitField0_ & 0x00000001) != 0) &&
               deviceInfo_ != null &&
               deviceInfo_ != net.studioblueplanet.tomtomwatch.TrackerProto.DeviceInfo.getDefaultInstance()) {
             deviceInfo_ =
@@ -3377,7 +3507,7 @@ public final class TrackerProto {
         return deviceInfoBuilder_;
       }
 
-      private net.studioblueplanet.tomtomwatch.TrackerProto.TrackRecord trackRecord_ = null;
+      private net.studioblueplanet.tomtomwatch.TrackerProto.TrackRecord trackRecord_;
       private com.google.protobuf.SingleFieldBuilderV3<
           net.studioblueplanet.tomtomwatch.TrackerProto.TrackRecord, net.studioblueplanet.tomtomwatch.TrackerProto.TrackRecord.Builder, net.studioblueplanet.tomtomwatch.TrackerProto.TrackRecordOrBuilder> trackRecordBuilder_;
       /**
@@ -3388,7 +3518,7 @@ public final class TrackerProto {
        * <code>optional .tutorial.TrackRecord trackRecord = 2;</code>
        */
       public boolean hasTrackRecord() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
+        return ((bitField0_ & 0x00000002) != 0);
       }
       /**
        * <pre>
@@ -3451,7 +3581,7 @@ public final class TrackerProto {
        */
       public Builder mergeTrackRecord(net.studioblueplanet.tomtomwatch.TrackerProto.TrackRecord value) {
         if (trackRecordBuilder_ == null) {
-          if (((bitField0_ & 0x00000002) == 0x00000002) &&
+          if (((bitField0_ & 0x00000002) != 0) &&
               trackRecord_ != null &&
               trackRecord_ != net.studioblueplanet.tomtomwatch.TrackerProto.TrackRecord.getDefaultInstance()) {
             trackRecord_ =
@@ -3531,7 +3661,7 @@ public final class TrackerProto {
         return trackRecordBuilder_;
       }
 
-      private net.studioblueplanet.tomtomwatch.TrackerProto.Record2 record2_ = null;
+      private net.studioblueplanet.tomtomwatch.TrackerProto.Record2 record2_;
       private com.google.protobuf.SingleFieldBuilderV3<
           net.studioblueplanet.tomtomwatch.TrackerProto.Record2, net.studioblueplanet.tomtomwatch.TrackerProto.Record2.Builder, net.studioblueplanet.tomtomwatch.TrackerProto.Record2OrBuilder> record2Builder_;
       /**
@@ -3542,7 +3672,7 @@ public final class TrackerProto {
        * <code>optional .tutorial.Record2 record2 = 3;</code>
        */
       public boolean hasRecord2() {
-        return ((bitField0_ & 0x00000004) == 0x00000004);
+        return ((bitField0_ & 0x00000004) != 0);
       }
       /**
        * <pre>
@@ -3605,7 +3735,7 @@ public final class TrackerProto {
        */
       public Builder mergeRecord2(net.studioblueplanet.tomtomwatch.TrackerProto.Record2 value) {
         if (record2Builder_ == null) {
-          if (((bitField0_ & 0x00000004) == 0x00000004) &&
+          if (((bitField0_ & 0x00000004) != 0) &&
               record2_ != null &&
               record2_ != net.studioblueplanet.tomtomwatch.TrackerProto.Record2.getDefaultInstance()) {
             record2_ =
@@ -3685,7 +3815,7 @@ public final class TrackerProto {
         return record2Builder_;
       }
 
-      private net.studioblueplanet.tomtomwatch.TrackerProto.Record6 record6_ = null;
+      private net.studioblueplanet.tomtomwatch.TrackerProto.Record6 record6_;
       private com.google.protobuf.SingleFieldBuilderV3<
           net.studioblueplanet.tomtomwatch.TrackerProto.Record6, net.studioblueplanet.tomtomwatch.TrackerProto.Record6.Builder, net.studioblueplanet.tomtomwatch.TrackerProto.Record6OrBuilder> record6Builder_;
       /**
@@ -3696,7 +3826,7 @@ public final class TrackerProto {
        * <code>optional .tutorial.Record6 record6 = 5;</code>
        */
       public boolean hasRecord6() {
-        return ((bitField0_ & 0x00000008) == 0x00000008);
+        return ((bitField0_ & 0x00000008) != 0);
       }
       /**
        * <pre>
@@ -3759,7 +3889,7 @@ public final class TrackerProto {
        */
       public Builder mergeRecord6(net.studioblueplanet.tomtomwatch.TrackerProto.Record6 value) {
         if (record6Builder_ == null) {
-          if (((bitField0_ & 0x00000008) == 0x00000008) &&
+          if (((bitField0_ & 0x00000008) != 0) &&
               record6_ != null &&
               record6_ != net.studioblueplanet.tomtomwatch.TrackerProto.Record6.getDefaultInstance()) {
             record6_ =
@@ -3839,7 +3969,7 @@ public final class TrackerProto {
         return record6Builder_;
       }
 
-      private net.studioblueplanet.tomtomwatch.TrackerProto.HeartRecord heartRecord_ = null;
+      private net.studioblueplanet.tomtomwatch.TrackerProto.HeartRecord heartRecord_;
       private com.google.protobuf.SingleFieldBuilderV3<
           net.studioblueplanet.tomtomwatch.TrackerProto.HeartRecord, net.studioblueplanet.tomtomwatch.TrackerProto.HeartRecord.Builder, net.studioblueplanet.tomtomwatch.TrackerProto.HeartRecordOrBuilder> heartRecordBuilder_;
       /**
@@ -3850,7 +3980,7 @@ public final class TrackerProto {
        * <code>optional .tutorial.HeartRecord heartRecord = 6;</code>
        */
       public boolean hasHeartRecord() {
-        return ((bitField0_ & 0x00000010) == 0x00000010);
+        return ((bitField0_ & 0x00000010) != 0);
       }
       /**
        * <pre>
@@ -3913,7 +4043,7 @@ public final class TrackerProto {
        */
       public Builder mergeHeartRecord(net.studioblueplanet.tomtomwatch.TrackerProto.HeartRecord value) {
         if (heartRecordBuilder_ == null) {
-          if (((bitField0_ & 0x00000010) == 0x00000010) &&
+          if (((bitField0_ & 0x00000010) != 0) &&
               heartRecord_ != null &&
               heartRecord_ != net.studioblueplanet.tomtomwatch.TrackerProto.HeartRecord.getDefaultInstance()) {
             heartRecord_ =
@@ -3993,7 +4123,7 @@ public final class TrackerProto {
         return heartRecordBuilder_;
       }
 
-      private net.studioblueplanet.tomtomwatch.TrackerProto.Record4 record4_ = null;
+      private net.studioblueplanet.tomtomwatch.TrackerProto.Record4 record4_;
       private com.google.protobuf.SingleFieldBuilderV3<
           net.studioblueplanet.tomtomwatch.TrackerProto.Record4, net.studioblueplanet.tomtomwatch.TrackerProto.Record4.Builder, net.studioblueplanet.tomtomwatch.TrackerProto.Record4OrBuilder> record4Builder_;
       /**
@@ -4004,7 +4134,7 @@ public final class TrackerProto {
        * <code>optional .tutorial.Record4 record4 = 7;</code>
        */
       public boolean hasRecord4() {
-        return ((bitField0_ & 0x00000020) == 0x00000020);
+        return ((bitField0_ & 0x00000020) != 0);
       }
       /**
        * <pre>
@@ -4067,7 +4197,7 @@ public final class TrackerProto {
        */
       public Builder mergeRecord4(net.studioblueplanet.tomtomwatch.TrackerProto.Record4 value) {
         if (record4Builder_ == null) {
-          if (((bitField0_ & 0x00000020) == 0x00000020) &&
+          if (((bitField0_ & 0x00000020) != 0) &&
               record4_ != null &&
               record4_ != net.studioblueplanet.tomtomwatch.TrackerProto.Record4.getDefaultInstance()) {
             record4_ =
@@ -4147,7 +4277,7 @@ public final class TrackerProto {
         return record4Builder_;
       }
 
-      private net.studioblueplanet.tomtomwatch.TrackerProto.FitnessRecord fitnessRecord_ = null;
+      private net.studioblueplanet.tomtomwatch.TrackerProto.FitnessRecord fitnessRecord_;
       private com.google.protobuf.SingleFieldBuilderV3<
           net.studioblueplanet.tomtomwatch.TrackerProto.FitnessRecord, net.studioblueplanet.tomtomwatch.TrackerProto.FitnessRecord.Builder, net.studioblueplanet.tomtomwatch.TrackerProto.FitnessRecordOrBuilder> fitnessRecordBuilder_;
       /**
@@ -4158,7 +4288,7 @@ public final class TrackerProto {
        * <code>optional .tutorial.FitnessRecord fitnessRecord = 9;</code>
        */
       public boolean hasFitnessRecord() {
-        return ((bitField0_ & 0x00000040) == 0x00000040);
+        return ((bitField0_ & 0x00000040) != 0);
       }
       /**
        * <pre>
@@ -4221,7 +4351,7 @@ public final class TrackerProto {
        */
       public Builder mergeFitnessRecord(net.studioblueplanet.tomtomwatch.TrackerProto.FitnessRecord value) {
         if (fitnessRecordBuilder_ == null) {
-          if (((bitField0_ & 0x00000040) == 0x00000040) &&
+          if (((bitField0_ & 0x00000040) != 0) &&
               fitnessRecord_ != null &&
               fitnessRecord_ != net.studioblueplanet.tomtomwatch.TrackerProto.FitnessRecord.getDefaultInstance()) {
             fitnessRecord_ =
@@ -4300,11 +4430,13 @@ public final class TrackerProto {
         }
         return fitnessRecordBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -4326,11 +4458,12 @@ public final class TrackerProto {
 
     @java.lang.Deprecated public static final com.google.protobuf.Parser<SubDataContainer>
         PARSER = new com.google.protobuf.AbstractParser<SubDataContainer>() {
+      @java.lang.Override
       public SubDataContainer parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new SubDataContainer(input, extensionRegistry);
+        return new SubDataContainer(input, extensionRegistry);
       }
     };
 
@@ -4343,6 +4476,7 @@ public final class TrackerProto {
       return PARSER;
     }
 
+    @java.lang.Override
     public net.studioblueplanet.tomtomwatch.TrackerProto.SubDataContainer getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -4396,13 +4530,20 @@ public final class TrackerProto {
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:tutorial.DeviceInfo)
       DeviceInfoOrBuilder {
+  private static final long serialVersionUID = 0L;
     // Use DeviceInfo.newBuilder() to construct.
     private DeviceInfo(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
     private DeviceInfo() {
       deviceName_ = "";
-      year_ = 0;
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new DeviceInfo();
     }
 
     @java.lang.Override
@@ -4415,6 +4556,9 @@ public final class TrackerProto {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -4426,13 +4570,6 @@ public final class TrackerProto {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownField(input, unknownFields,
-                                     extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000001;
@@ -4446,7 +4583,7 @@ public final class TrackerProto {
             }
             case 26: {
               net.studioblueplanet.tomtomwatch.TrackerProto.SoftwareVersion.Builder subBuilder = null;
-              if (((bitField0_ & 0x00000004) == 0x00000004)) {
+              if (((bitField0_ & 0x00000004) != 0)) {
                 subBuilder = softwareVersion_.toBuilder();
               }
               softwareVersion_ = input.readMessage(net.studioblueplanet.tomtomwatch.TrackerProto.SoftwareVersion.PARSER, extensionRegistry);
@@ -4455,6 +4592,13 @@ public final class TrackerProto {
                 softwareVersion_ = subBuilder.buildPartial();
               }
               bitField0_ |= 0x00000004;
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -4474,6 +4618,7 @@ public final class TrackerProto {
       return net.studioblueplanet.tomtomwatch.TrackerProto.internal_static_tutorial_DeviceInfo_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return net.studioblueplanet.tomtomwatch.TrackerProto.internal_static_tutorial_DeviceInfo_fieldAccessorTable
@@ -4488,7 +4633,7 @@ public final class TrackerProto {
      * <code>required string deviceName = 1;</code>
      */
     public boolean hasDeviceName() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
+      return ((bitField0_ & 0x00000001) != 0);
     }
     /**
      * <code>required string deviceName = 1;</code>
@@ -4530,7 +4675,7 @@ public final class TrackerProto {
      * <code>required fixed32 year = 2;</code>
      */
     public boolean hasYear() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
+      return ((bitField0_ & 0x00000002) != 0);
     }
     /**
      * <code>required fixed32 year = 2;</code>
@@ -4545,7 +4690,7 @@ public final class TrackerProto {
      * <code>required .tutorial.SoftwareVersion softwareVersion = 3;</code>
      */
     public boolean hasSoftwareVersion() {
-      return ((bitField0_ & 0x00000004) == 0x00000004);
+      return ((bitField0_ & 0x00000004) != 0);
     }
     /**
      * <code>required .tutorial.SoftwareVersion softwareVersion = 3;</code>
@@ -4561,6 +4706,7 @@ public final class TrackerProto {
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -4586,33 +4732,35 @@ public final class TrackerProto {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 1, deviceName_);
       }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+      if (((bitField0_ & 0x00000002) != 0)) {
         output.writeFixed32(2, year_);
       }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+      if (((bitField0_ & 0x00000004) != 0)) {
         output.writeMessage(3, getSoftwareVersion());
       }
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
 
       size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, deviceName_);
       }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+      if (((bitField0_ & 0x00000002) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeFixed32Size(2, year_);
       }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+      if (((bitField0_ & 0x00000004) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(3, getSoftwareVersion());
       }
@@ -4621,7 +4769,6 @@ public final class TrackerProto {
       return size;
     }
 
-    private static final long serialVersionUID = 0L;
     @java.lang.Override
     public boolean equals(final java.lang.Object obj) {
       if (obj == this) {
@@ -4632,24 +4779,23 @@ public final class TrackerProto {
       }
       net.studioblueplanet.tomtomwatch.TrackerProto.DeviceInfo other = (net.studioblueplanet.tomtomwatch.TrackerProto.DeviceInfo) obj;
 
-      boolean result = true;
-      result = result && (hasDeviceName() == other.hasDeviceName());
+      if (hasDeviceName() != other.hasDeviceName()) return false;
       if (hasDeviceName()) {
-        result = result && getDeviceName()
-            .equals(other.getDeviceName());
+        if (!getDeviceName()
+            .equals(other.getDeviceName())) return false;
       }
-      result = result && (hasYear() == other.hasYear());
+      if (hasYear() != other.hasYear()) return false;
       if (hasYear()) {
-        result = result && (getYear()
-            == other.getYear());
+        if (getYear()
+            != other.getYear()) return false;
       }
-      result = result && (hasSoftwareVersion() == other.hasSoftwareVersion());
+      if (hasSoftwareVersion() != other.hasSoftwareVersion()) return false;
       if (hasSoftwareVersion()) {
-        result = result && getSoftwareVersion()
-            .equals(other.getSoftwareVersion());
+        if (!getSoftwareVersion()
+            .equals(other.getSoftwareVersion())) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -4746,6 +4892,7 @@ public final class TrackerProto {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -4753,6 +4900,7 @@ public final class TrackerProto {
     public static Builder newBuilder(net.studioblueplanet.tomtomwatch.TrackerProto.DeviceInfo prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -4776,6 +4924,7 @@ public final class TrackerProto {
         return net.studioblueplanet.tomtomwatch.TrackerProto.internal_static_tutorial_DeviceInfo_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return net.studioblueplanet.tomtomwatch.TrackerProto.internal_static_tutorial_DeviceInfo_fieldAccessorTable
@@ -4799,6 +4948,7 @@ public final class TrackerProto {
           getSoftwareVersionFieldBuilder();
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         deviceName_ = "";
@@ -4814,15 +4964,18 @@ public final class TrackerProto {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return net.studioblueplanet.tomtomwatch.TrackerProto.internal_static_tutorial_DeviceInfo_descriptor;
       }
 
+      @java.lang.Override
       public net.studioblueplanet.tomtomwatch.TrackerProto.DeviceInfo getDefaultInstanceForType() {
         return net.studioblueplanet.tomtomwatch.TrackerProto.DeviceInfo.getDefaultInstance();
       }
 
+      @java.lang.Override
       public net.studioblueplanet.tomtomwatch.TrackerProto.DeviceInfo build() {
         net.studioblueplanet.tomtomwatch.TrackerProto.DeviceInfo result = buildPartial();
         if (!result.isInitialized()) {
@@ -4831,57 +4984,65 @@ public final class TrackerProto {
         return result;
       }
 
+      @java.lang.Override
       public net.studioblueplanet.tomtomwatch.TrackerProto.DeviceInfo buildPartial() {
         net.studioblueplanet.tomtomwatch.TrackerProto.DeviceInfo result = new net.studioblueplanet.tomtomwatch.TrackerProto.DeviceInfo(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+        if (((from_bitField0_ & 0x00000001) != 0)) {
           to_bitField0_ |= 0x00000001;
         }
         result.deviceName_ = deviceName_;
-        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+        if (((from_bitField0_ & 0x00000002) != 0)) {
+          result.year_ = year_;
           to_bitField0_ |= 0x00000002;
         }
-        result.year_ = year_;
-        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+        if (((from_bitField0_ & 0x00000004) != 0)) {
+          if (softwareVersionBuilder_ == null) {
+            result.softwareVersion_ = softwareVersion_;
+          } else {
+            result.softwareVersion_ = softwareVersionBuilder_.build();
+          }
           to_bitField0_ |= 0x00000004;
-        }
-        if (softwareVersionBuilder_ == null) {
-          result.softwareVersion_ = softwareVersion_;
-        } else {
-          result.softwareVersion_ = softwareVersionBuilder_.build();
         }
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          Object value) {
-        return (Builder) super.setField(field, value);
+          java.lang.Object value) {
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof net.studioblueplanet.tomtomwatch.TrackerProto.DeviceInfo) {
           return mergeFrom((net.studioblueplanet.tomtomwatch.TrackerProto.DeviceInfo)other);
@@ -4909,6 +5070,7 @@ public final class TrackerProto {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         if (!hasDeviceName()) {
           return false;
@@ -4925,6 +5087,7 @@ public final class TrackerProto {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -4949,7 +5112,7 @@ public final class TrackerProto {
        * <code>required string deviceName = 1;</code>
        */
       public boolean hasDeviceName() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
+        return ((bitField0_ & 0x00000001) != 0);
       }
       /**
        * <code>required string deviceName = 1;</code>
@@ -5025,7 +5188,7 @@ public final class TrackerProto {
        * <code>required fixed32 year = 2;</code>
        */
       public boolean hasYear() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
+        return ((bitField0_ & 0x00000002) != 0);
       }
       /**
        * <code>required fixed32 year = 2;</code>
@@ -5052,14 +5215,14 @@ public final class TrackerProto {
         return this;
       }
 
-      private net.studioblueplanet.tomtomwatch.TrackerProto.SoftwareVersion softwareVersion_ = null;
+      private net.studioblueplanet.tomtomwatch.TrackerProto.SoftwareVersion softwareVersion_;
       private com.google.protobuf.SingleFieldBuilderV3<
           net.studioblueplanet.tomtomwatch.TrackerProto.SoftwareVersion, net.studioblueplanet.tomtomwatch.TrackerProto.SoftwareVersion.Builder, net.studioblueplanet.tomtomwatch.TrackerProto.SoftwareVersionOrBuilder> softwareVersionBuilder_;
       /**
        * <code>required .tutorial.SoftwareVersion softwareVersion = 3;</code>
        */
       public boolean hasSoftwareVersion() {
-        return ((bitField0_ & 0x00000004) == 0x00000004);
+        return ((bitField0_ & 0x00000004) != 0);
       }
       /**
        * <code>required .tutorial.SoftwareVersion softwareVersion = 3;</code>
@@ -5106,7 +5269,7 @@ public final class TrackerProto {
        */
       public Builder mergeSoftwareVersion(net.studioblueplanet.tomtomwatch.TrackerProto.SoftwareVersion value) {
         if (softwareVersionBuilder_ == null) {
-          if (((bitField0_ & 0x00000004) == 0x00000004) &&
+          if (((bitField0_ & 0x00000004) != 0) &&
               softwareVersion_ != null &&
               softwareVersion_ != net.studioblueplanet.tomtomwatch.TrackerProto.SoftwareVersion.getDefaultInstance()) {
             softwareVersion_ =
@@ -5169,11 +5332,13 @@ public final class TrackerProto {
         }
         return softwareVersionBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -5195,11 +5360,12 @@ public final class TrackerProto {
 
     @java.lang.Deprecated public static final com.google.protobuf.Parser<DeviceInfo>
         PARSER = new com.google.protobuf.AbstractParser<DeviceInfo>() {
+      @java.lang.Override
       public DeviceInfo parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new DeviceInfo(input, extensionRegistry);
+        return new DeviceInfo(input, extensionRegistry);
       }
     };
 
@@ -5212,6 +5378,7 @@ public final class TrackerProto {
       return PARSER;
     }
 
+    @java.lang.Override
     public net.studioblueplanet.tomtomwatch.TrackerProto.DeviceInfo getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -5294,14 +5461,19 @@ public final class TrackerProto {
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:tutorial.SoftwareVersion)
       SoftwareVersionOrBuilder {
+  private static final long serialVersionUID = 0L;
     // Use SoftwareVersion.newBuilder() to construct.
     private SoftwareVersion(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
     private SoftwareVersion() {
-      majorVersion_ = 0;
-      mediumVersion_ = 0;
-      minorVersion_ = 0;
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new SoftwareVersion();
     }
 
     @java.lang.Override
@@ -5314,6 +5486,9 @@ public final class TrackerProto {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -5325,13 +5500,6 @@ public final class TrackerProto {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownField(input, unknownFields,
-                                     extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 8: {
               bitField0_ |= 0x00000001;
               majorVersion_ = input.readInt32();
@@ -5349,7 +5517,7 @@ public final class TrackerProto {
             }
             case 34: {
               net.studioblueplanet.tomtomwatch.TrackerProto.Unknown01.Builder subBuilder = null;
-              if (((bitField0_ & 0x00000008) == 0x00000008)) {
+              if (((bitField0_ & 0x00000008) != 0)) {
                 subBuilder = unknown01_.toBuilder();
               }
               unknown01_ = input.readMessage(net.studioblueplanet.tomtomwatch.TrackerProto.Unknown01.PARSER, extensionRegistry);
@@ -5362,7 +5530,7 @@ public final class TrackerProto {
             }
             case 42: {
               net.studioblueplanet.tomtomwatch.TrackerProto.Unknown02.Builder subBuilder = null;
-              if (((bitField0_ & 0x00000010) == 0x00000010)) {
+              if (((bitField0_ & 0x00000010) != 0)) {
                 subBuilder = unknown02_.toBuilder();
               }
               unknown02_ = input.readMessage(net.studioblueplanet.tomtomwatch.TrackerProto.Unknown02.PARSER, extensionRegistry);
@@ -5371,6 +5539,13 @@ public final class TrackerProto {
                 unknown02_ = subBuilder.buildPartial();
               }
               bitField0_ |= 0x00000010;
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -5390,6 +5565,7 @@ public final class TrackerProto {
       return net.studioblueplanet.tomtomwatch.TrackerProto.internal_static_tutorial_SoftwareVersion_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return net.studioblueplanet.tomtomwatch.TrackerProto.internal_static_tutorial_SoftwareVersion_fieldAccessorTable
@@ -5404,7 +5580,7 @@ public final class TrackerProto {
      * <code>required int32 majorVersion = 1;</code>
      */
     public boolean hasMajorVersion() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
+      return ((bitField0_ & 0x00000001) != 0);
     }
     /**
      * <code>required int32 majorVersion = 1;</code>
@@ -5419,7 +5595,7 @@ public final class TrackerProto {
      * <code>required int32 mediumVersion = 2;</code>
      */
     public boolean hasMediumVersion() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
+      return ((bitField0_ & 0x00000002) != 0);
     }
     /**
      * <code>required int32 mediumVersion = 2;</code>
@@ -5434,7 +5610,7 @@ public final class TrackerProto {
      * <code>required int32 minorVersion = 3;</code>
      */
     public boolean hasMinorVersion() {
-      return ((bitField0_ & 0x00000004) == 0x00000004);
+      return ((bitField0_ & 0x00000004) != 0);
     }
     /**
      * <code>required int32 minorVersion = 3;</code>
@@ -5449,7 +5625,7 @@ public final class TrackerProto {
      * <code>required .tutorial.Unknown01 unknown01 = 4;</code>
      */
     public boolean hasUnknown01() {
-      return ((bitField0_ & 0x00000008) == 0x00000008);
+      return ((bitField0_ & 0x00000008) != 0);
     }
     /**
      * <code>required .tutorial.Unknown01 unknown01 = 4;</code>
@@ -5474,7 +5650,7 @@ public final class TrackerProto {
      * <code>optional .tutorial.Unknown02 unknown02 = 5;</code>
      */
     public boolean hasUnknown02() {
-      return ((bitField0_ & 0x00000010) == 0x00000010);
+      return ((bitField0_ & 0x00000010) != 0);
     }
     /**
      * <pre>
@@ -5498,6 +5674,7 @@ public final class TrackerProto {
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -5523,48 +5700,50 @@ public final class TrackerProto {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         output.writeInt32(1, majorVersion_);
       }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+      if (((bitField0_ & 0x00000002) != 0)) {
         output.writeInt32(2, mediumVersion_);
       }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+      if (((bitField0_ & 0x00000004) != 0)) {
         output.writeInt32(3, minorVersion_);
       }
-      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+      if (((bitField0_ & 0x00000008) != 0)) {
         output.writeMessage(4, getUnknown01());
       }
-      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+      if (((bitField0_ & 0x00000010) != 0)) {
         output.writeMessage(5, getUnknown02());
       }
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
 
       size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(1, majorVersion_);
       }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+      if (((bitField0_ & 0x00000002) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(2, mediumVersion_);
       }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+      if (((bitField0_ & 0x00000004) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(3, minorVersion_);
       }
-      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+      if (((bitField0_ & 0x00000008) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(4, getUnknown01());
       }
-      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+      if (((bitField0_ & 0x00000010) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(5, getUnknown02());
       }
@@ -5573,7 +5752,6 @@ public final class TrackerProto {
       return size;
     }
 
-    private static final long serialVersionUID = 0L;
     @java.lang.Override
     public boolean equals(final java.lang.Object obj) {
       if (obj == this) {
@@ -5584,34 +5762,33 @@ public final class TrackerProto {
       }
       net.studioblueplanet.tomtomwatch.TrackerProto.SoftwareVersion other = (net.studioblueplanet.tomtomwatch.TrackerProto.SoftwareVersion) obj;
 
-      boolean result = true;
-      result = result && (hasMajorVersion() == other.hasMajorVersion());
+      if (hasMajorVersion() != other.hasMajorVersion()) return false;
       if (hasMajorVersion()) {
-        result = result && (getMajorVersion()
-            == other.getMajorVersion());
+        if (getMajorVersion()
+            != other.getMajorVersion()) return false;
       }
-      result = result && (hasMediumVersion() == other.hasMediumVersion());
+      if (hasMediumVersion() != other.hasMediumVersion()) return false;
       if (hasMediumVersion()) {
-        result = result && (getMediumVersion()
-            == other.getMediumVersion());
+        if (getMediumVersion()
+            != other.getMediumVersion()) return false;
       }
-      result = result && (hasMinorVersion() == other.hasMinorVersion());
+      if (hasMinorVersion() != other.hasMinorVersion()) return false;
       if (hasMinorVersion()) {
-        result = result && (getMinorVersion()
-            == other.getMinorVersion());
+        if (getMinorVersion()
+            != other.getMinorVersion()) return false;
       }
-      result = result && (hasUnknown01() == other.hasUnknown01());
+      if (hasUnknown01() != other.hasUnknown01()) return false;
       if (hasUnknown01()) {
-        result = result && getUnknown01()
-            .equals(other.getUnknown01());
+        if (!getUnknown01()
+            .equals(other.getUnknown01())) return false;
       }
-      result = result && (hasUnknown02() == other.hasUnknown02());
+      if (hasUnknown02() != other.hasUnknown02()) return false;
       if (hasUnknown02()) {
-        result = result && getUnknown02()
-            .equals(other.getUnknown02());
+        if (!getUnknown02()
+            .equals(other.getUnknown02())) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -5716,6 +5893,7 @@ public final class TrackerProto {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -5723,6 +5901,7 @@ public final class TrackerProto {
     public static Builder newBuilder(net.studioblueplanet.tomtomwatch.TrackerProto.SoftwareVersion prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -5746,6 +5925,7 @@ public final class TrackerProto {
         return net.studioblueplanet.tomtomwatch.TrackerProto.internal_static_tutorial_SoftwareVersion_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return net.studioblueplanet.tomtomwatch.TrackerProto.internal_static_tutorial_SoftwareVersion_fieldAccessorTable
@@ -5770,6 +5950,7 @@ public final class TrackerProto {
           getUnknown02FieldBuilder();
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         majorVersion_ = 0;
@@ -5793,15 +5974,18 @@ public final class TrackerProto {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return net.studioblueplanet.tomtomwatch.TrackerProto.internal_static_tutorial_SoftwareVersion_descriptor;
       }
 
+      @java.lang.Override
       public net.studioblueplanet.tomtomwatch.TrackerProto.SoftwareVersion getDefaultInstanceForType() {
         return net.studioblueplanet.tomtomwatch.TrackerProto.SoftwareVersion.getDefaultInstance();
       }
 
+      @java.lang.Override
       public net.studioblueplanet.tomtomwatch.TrackerProto.SoftwareVersion build() {
         net.studioblueplanet.tomtomwatch.TrackerProto.SoftwareVersion result = buildPartial();
         if (!result.isInitialized()) {
@@ -5810,69 +5994,77 @@ public final class TrackerProto {
         return result;
       }
 
+      @java.lang.Override
       public net.studioblueplanet.tomtomwatch.TrackerProto.SoftwareVersion buildPartial() {
         net.studioblueplanet.tomtomwatch.TrackerProto.SoftwareVersion result = new net.studioblueplanet.tomtomwatch.TrackerProto.SoftwareVersion(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          result.majorVersion_ = majorVersion_;
           to_bitField0_ |= 0x00000001;
         }
-        result.majorVersion_ = majorVersion_;
-        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+        if (((from_bitField0_ & 0x00000002) != 0)) {
+          result.mediumVersion_ = mediumVersion_;
           to_bitField0_ |= 0x00000002;
         }
-        result.mediumVersion_ = mediumVersion_;
-        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+        if (((from_bitField0_ & 0x00000004) != 0)) {
+          result.minorVersion_ = minorVersion_;
           to_bitField0_ |= 0x00000004;
         }
-        result.minorVersion_ = minorVersion_;
-        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+        if (((from_bitField0_ & 0x00000008) != 0)) {
+          if (unknown01Builder_ == null) {
+            result.unknown01_ = unknown01_;
+          } else {
+            result.unknown01_ = unknown01Builder_.build();
+          }
           to_bitField0_ |= 0x00000008;
         }
-        if (unknown01Builder_ == null) {
-          result.unknown01_ = unknown01_;
-        } else {
-          result.unknown01_ = unknown01Builder_.build();
-        }
-        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+        if (((from_bitField0_ & 0x00000010) != 0)) {
+          if (unknown02Builder_ == null) {
+            result.unknown02_ = unknown02_;
+          } else {
+            result.unknown02_ = unknown02Builder_.build();
+          }
           to_bitField0_ |= 0x00000010;
-        }
-        if (unknown02Builder_ == null) {
-          result.unknown02_ = unknown02_;
-        } else {
-          result.unknown02_ = unknown02Builder_.build();
         }
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          Object value) {
-        return (Builder) super.setField(field, value);
+          java.lang.Object value) {
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof net.studioblueplanet.tomtomwatch.TrackerProto.SoftwareVersion) {
           return mergeFrom((net.studioblueplanet.tomtomwatch.TrackerProto.SoftwareVersion)other);
@@ -5904,6 +6096,7 @@ public final class TrackerProto {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         if (!hasMajorVersion()) {
           return false;
@@ -5920,6 +6113,7 @@ public final class TrackerProto {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -5944,7 +6138,7 @@ public final class TrackerProto {
        * <code>required int32 majorVersion = 1;</code>
        */
       public boolean hasMajorVersion() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
+        return ((bitField0_ & 0x00000001) != 0);
       }
       /**
        * <code>required int32 majorVersion = 1;</code>
@@ -5976,7 +6170,7 @@ public final class TrackerProto {
        * <code>required int32 mediumVersion = 2;</code>
        */
       public boolean hasMediumVersion() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
+        return ((bitField0_ & 0x00000002) != 0);
       }
       /**
        * <code>required int32 mediumVersion = 2;</code>
@@ -6008,7 +6202,7 @@ public final class TrackerProto {
        * <code>required int32 minorVersion = 3;</code>
        */
       public boolean hasMinorVersion() {
-        return ((bitField0_ & 0x00000004) == 0x00000004);
+        return ((bitField0_ & 0x00000004) != 0);
       }
       /**
        * <code>required int32 minorVersion = 3;</code>
@@ -6035,14 +6229,14 @@ public final class TrackerProto {
         return this;
       }
 
-      private net.studioblueplanet.tomtomwatch.TrackerProto.Unknown01 unknown01_ = null;
+      private net.studioblueplanet.tomtomwatch.TrackerProto.Unknown01 unknown01_;
       private com.google.protobuf.SingleFieldBuilderV3<
           net.studioblueplanet.tomtomwatch.TrackerProto.Unknown01, net.studioblueplanet.tomtomwatch.TrackerProto.Unknown01.Builder, net.studioblueplanet.tomtomwatch.TrackerProto.Unknown01OrBuilder> unknown01Builder_;
       /**
        * <code>required .tutorial.Unknown01 unknown01 = 4;</code>
        */
       public boolean hasUnknown01() {
-        return ((bitField0_ & 0x00000008) == 0x00000008);
+        return ((bitField0_ & 0x00000008) != 0);
       }
       /**
        * <code>required .tutorial.Unknown01 unknown01 = 4;</code>
@@ -6089,7 +6283,7 @@ public final class TrackerProto {
        */
       public Builder mergeUnknown01(net.studioblueplanet.tomtomwatch.TrackerProto.Unknown01 value) {
         if (unknown01Builder_ == null) {
-          if (((bitField0_ & 0x00000008) == 0x00000008) &&
+          if (((bitField0_ & 0x00000008) != 0) &&
               unknown01_ != null &&
               unknown01_ != net.studioblueplanet.tomtomwatch.TrackerProto.Unknown01.getDefaultInstance()) {
             unknown01_ =
@@ -6153,7 +6347,7 @@ public final class TrackerProto {
         return unknown01Builder_;
       }
 
-      private net.studioblueplanet.tomtomwatch.TrackerProto.Unknown02 unknown02_ = null;
+      private net.studioblueplanet.tomtomwatch.TrackerProto.Unknown02 unknown02_;
       private com.google.protobuf.SingleFieldBuilderV3<
           net.studioblueplanet.tomtomwatch.TrackerProto.Unknown02, net.studioblueplanet.tomtomwatch.TrackerProto.Unknown02.Builder, net.studioblueplanet.tomtomwatch.TrackerProto.Unknown02OrBuilder> unknown02Builder_;
       /**
@@ -6164,7 +6358,7 @@ public final class TrackerProto {
        * <code>optional .tutorial.Unknown02 unknown02 = 5;</code>
        */
       public boolean hasUnknown02() {
-        return ((bitField0_ & 0x00000010) == 0x00000010);
+        return ((bitField0_ & 0x00000010) != 0);
       }
       /**
        * <pre>
@@ -6227,7 +6421,7 @@ public final class TrackerProto {
        */
       public Builder mergeUnknown02(net.studioblueplanet.tomtomwatch.TrackerProto.Unknown02 value) {
         if (unknown02Builder_ == null) {
-          if (((bitField0_ & 0x00000010) == 0x00000010) &&
+          if (((bitField0_ & 0x00000010) != 0) &&
               unknown02_ != null &&
               unknown02_ != net.studioblueplanet.tomtomwatch.TrackerProto.Unknown02.getDefaultInstance()) {
             unknown02_ =
@@ -6306,11 +6500,13 @@ public final class TrackerProto {
         }
         return unknown02Builder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -6332,11 +6528,12 @@ public final class TrackerProto {
 
     @java.lang.Deprecated public static final com.google.protobuf.Parser<SoftwareVersion>
         PARSER = new com.google.protobuf.AbstractParser<SoftwareVersion>() {
+      @java.lang.Override
       public SoftwareVersion parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new SoftwareVersion(input, extensionRegistry);
+        return new SoftwareVersion(input, extensionRegistry);
       }
     };
 
@@ -6349,6 +6546,7 @@ public final class TrackerProto {
       return PARSER;
     }
 
+    @java.lang.Override
     public net.studioblueplanet.tomtomwatch.TrackerProto.SoftwareVersion getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -6375,12 +6573,19 @@ public final class TrackerProto {
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:tutorial.Unknown01)
       Unknown01OrBuilder {
+  private static final long serialVersionUID = 0L;
     // Use Unknown01.newBuilder() to construct.
     private Unknown01(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
     private Unknown01() {
-      dummy_ = 0;
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new Unknown01();
     }
 
     @java.lang.Override
@@ -6393,6 +6598,9 @@ public final class TrackerProto {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -6404,16 +6612,16 @@ public final class TrackerProto {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownField(input, unknownFields,
-                                     extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 8: {
               bitField0_ |= 0x00000001;
               dummy_ = input.readInt32();
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -6433,6 +6641,7 @@ public final class TrackerProto {
       return net.studioblueplanet.tomtomwatch.TrackerProto.internal_static_tutorial_Unknown01_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return net.studioblueplanet.tomtomwatch.TrackerProto.internal_static_tutorial_Unknown01_fieldAccessorTable
@@ -6447,7 +6656,7 @@ public final class TrackerProto {
      * <code>optional int32 dummy = 1;</code>
      */
     public boolean hasDummy() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
+      return ((bitField0_ & 0x00000001) != 0);
     }
     /**
      * <code>optional int32 dummy = 1;</code>
@@ -6457,6 +6666,7 @@ public final class TrackerProto {
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -6466,20 +6676,22 @@ public final class TrackerProto {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         output.writeInt32(1, dummy_);
       }
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
 
       size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(1, dummy_);
       }
@@ -6488,7 +6700,6 @@ public final class TrackerProto {
       return size;
     }
 
-    private static final long serialVersionUID = 0L;
     @java.lang.Override
     public boolean equals(final java.lang.Object obj) {
       if (obj == this) {
@@ -6499,14 +6710,13 @@ public final class TrackerProto {
       }
       net.studioblueplanet.tomtomwatch.TrackerProto.Unknown01 other = (net.studioblueplanet.tomtomwatch.TrackerProto.Unknown01) obj;
 
-      boolean result = true;
-      result = result && (hasDummy() == other.hasDummy());
+      if (hasDummy() != other.hasDummy()) return false;
       if (hasDummy()) {
-        result = result && (getDummy()
-            == other.getDummy());
+        if (getDummy()
+            != other.getDummy()) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -6595,6 +6805,7 @@ public final class TrackerProto {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -6602,6 +6813,7 @@ public final class TrackerProto {
     public static Builder newBuilder(net.studioblueplanet.tomtomwatch.TrackerProto.Unknown01 prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -6625,6 +6837,7 @@ public final class TrackerProto {
         return net.studioblueplanet.tomtomwatch.TrackerProto.internal_static_tutorial_Unknown01_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return net.studioblueplanet.tomtomwatch.TrackerProto.internal_static_tutorial_Unknown01_fieldAccessorTable
@@ -6647,6 +6860,7 @@ public final class TrackerProto {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         dummy_ = 0;
@@ -6654,15 +6868,18 @@ public final class TrackerProto {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return net.studioblueplanet.tomtomwatch.TrackerProto.internal_static_tutorial_Unknown01_descriptor;
       }
 
+      @java.lang.Override
       public net.studioblueplanet.tomtomwatch.TrackerProto.Unknown01 getDefaultInstanceForType() {
         return net.studioblueplanet.tomtomwatch.TrackerProto.Unknown01.getDefaultInstance();
       }
 
+      @java.lang.Override
       public net.studioblueplanet.tomtomwatch.TrackerProto.Unknown01 build() {
         net.studioblueplanet.tomtomwatch.TrackerProto.Unknown01 result = buildPartial();
         if (!result.isInitialized()) {
@@ -6671,45 +6888,53 @@ public final class TrackerProto {
         return result;
       }
 
+      @java.lang.Override
       public net.studioblueplanet.tomtomwatch.TrackerProto.Unknown01 buildPartial() {
         net.studioblueplanet.tomtomwatch.TrackerProto.Unknown01 result = new net.studioblueplanet.tomtomwatch.TrackerProto.Unknown01(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          result.dummy_ = dummy_;
           to_bitField0_ |= 0x00000001;
         }
-        result.dummy_ = dummy_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          Object value) {
-        return (Builder) super.setField(field, value);
+          java.lang.Object value) {
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof net.studioblueplanet.tomtomwatch.TrackerProto.Unknown01) {
           return mergeFrom((net.studioblueplanet.tomtomwatch.TrackerProto.Unknown01)other);
@@ -6729,10 +6954,12 @@ public final class TrackerProto {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -6757,7 +6984,7 @@ public final class TrackerProto {
        * <code>optional int32 dummy = 1;</code>
        */
       public boolean hasDummy() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
+        return ((bitField0_ & 0x00000001) != 0);
       }
       /**
        * <code>optional int32 dummy = 1;</code>
@@ -6783,11 +7010,13 @@ public final class TrackerProto {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -6809,11 +7038,12 @@ public final class TrackerProto {
 
     @java.lang.Deprecated public static final com.google.protobuf.Parser<Unknown01>
         PARSER = new com.google.protobuf.AbstractParser<Unknown01>() {
+      @java.lang.Override
       public Unknown01 parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new Unknown01(input, extensionRegistry);
+        return new Unknown01(input, extensionRegistry);
       }
     };
 
@@ -6826,6 +7056,7 @@ public final class TrackerProto {
       return PARSER;
     }
 
+    @java.lang.Override
     public net.studioblueplanet.tomtomwatch.TrackerProto.Unknown01 getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -6852,12 +7083,19 @@ public final class TrackerProto {
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:tutorial.Unknown02)
       Unknown02OrBuilder {
+  private static final long serialVersionUID = 0L;
     // Use Unknown02.newBuilder() to construct.
     private Unknown02(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
     private Unknown02() {
-      dummy_ = 0;
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new Unknown02();
     }
 
     @java.lang.Override
@@ -6870,6 +7108,9 @@ public final class TrackerProto {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -6881,16 +7122,16 @@ public final class TrackerProto {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownField(input, unknownFields,
-                                     extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 8: {
               bitField0_ |= 0x00000001;
               dummy_ = input.readInt32();
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -6910,6 +7151,7 @@ public final class TrackerProto {
       return net.studioblueplanet.tomtomwatch.TrackerProto.internal_static_tutorial_Unknown02_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return net.studioblueplanet.tomtomwatch.TrackerProto.internal_static_tutorial_Unknown02_fieldAccessorTable
@@ -6924,7 +7166,7 @@ public final class TrackerProto {
      * <code>optional int32 dummy = 1;</code>
      */
     public boolean hasDummy() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
+      return ((bitField0_ & 0x00000001) != 0);
     }
     /**
      * <code>optional int32 dummy = 1;</code>
@@ -6934,6 +7176,7 @@ public final class TrackerProto {
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -6943,20 +7186,22 @@ public final class TrackerProto {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         output.writeInt32(1, dummy_);
       }
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
 
       size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(1, dummy_);
       }
@@ -6965,7 +7210,6 @@ public final class TrackerProto {
       return size;
     }
 
-    private static final long serialVersionUID = 0L;
     @java.lang.Override
     public boolean equals(final java.lang.Object obj) {
       if (obj == this) {
@@ -6976,14 +7220,13 @@ public final class TrackerProto {
       }
       net.studioblueplanet.tomtomwatch.TrackerProto.Unknown02 other = (net.studioblueplanet.tomtomwatch.TrackerProto.Unknown02) obj;
 
-      boolean result = true;
-      result = result && (hasDummy() == other.hasDummy());
+      if (hasDummy() != other.hasDummy()) return false;
       if (hasDummy()) {
-        result = result && (getDummy()
-            == other.getDummy());
+        if (getDummy()
+            != other.getDummy()) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -7072,6 +7315,7 @@ public final class TrackerProto {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -7079,6 +7323,7 @@ public final class TrackerProto {
     public static Builder newBuilder(net.studioblueplanet.tomtomwatch.TrackerProto.Unknown02 prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -7102,6 +7347,7 @@ public final class TrackerProto {
         return net.studioblueplanet.tomtomwatch.TrackerProto.internal_static_tutorial_Unknown02_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return net.studioblueplanet.tomtomwatch.TrackerProto.internal_static_tutorial_Unknown02_fieldAccessorTable
@@ -7124,6 +7370,7 @@ public final class TrackerProto {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         dummy_ = 0;
@@ -7131,15 +7378,18 @@ public final class TrackerProto {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return net.studioblueplanet.tomtomwatch.TrackerProto.internal_static_tutorial_Unknown02_descriptor;
       }
 
+      @java.lang.Override
       public net.studioblueplanet.tomtomwatch.TrackerProto.Unknown02 getDefaultInstanceForType() {
         return net.studioblueplanet.tomtomwatch.TrackerProto.Unknown02.getDefaultInstance();
       }
 
+      @java.lang.Override
       public net.studioblueplanet.tomtomwatch.TrackerProto.Unknown02 build() {
         net.studioblueplanet.tomtomwatch.TrackerProto.Unknown02 result = buildPartial();
         if (!result.isInitialized()) {
@@ -7148,45 +7398,53 @@ public final class TrackerProto {
         return result;
       }
 
+      @java.lang.Override
       public net.studioblueplanet.tomtomwatch.TrackerProto.Unknown02 buildPartial() {
         net.studioblueplanet.tomtomwatch.TrackerProto.Unknown02 result = new net.studioblueplanet.tomtomwatch.TrackerProto.Unknown02(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          result.dummy_ = dummy_;
           to_bitField0_ |= 0x00000001;
         }
-        result.dummy_ = dummy_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          Object value) {
-        return (Builder) super.setField(field, value);
+          java.lang.Object value) {
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof net.studioblueplanet.tomtomwatch.TrackerProto.Unknown02) {
           return mergeFrom((net.studioblueplanet.tomtomwatch.TrackerProto.Unknown02)other);
@@ -7206,10 +7464,12 @@ public final class TrackerProto {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -7234,7 +7494,7 @@ public final class TrackerProto {
        * <code>optional int32 dummy = 1;</code>
        */
       public boolean hasDummy() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
+        return ((bitField0_ & 0x00000001) != 0);
       }
       /**
        * <code>optional int32 dummy = 1;</code>
@@ -7260,11 +7520,13 @@ public final class TrackerProto {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -7286,11 +7548,12 @@ public final class TrackerProto {
 
     @java.lang.Deprecated public static final com.google.protobuf.Parser<Unknown02>
         PARSER = new com.google.protobuf.AbstractParser<Unknown02>() {
+      @java.lang.Override
       public Unknown02 parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new Unknown02(input, extensionRegistry);
+        return new Unknown02(input, extensionRegistry);
       }
     };
 
@@ -7303,6 +7566,7 @@ public final class TrackerProto {
       return PARSER;
     }
 
+    @java.lang.Override
     public net.studioblueplanet.tomtomwatch.TrackerProto.Unknown02 getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -7522,23 +7786,19 @@ public final class TrackerProto {
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:tutorial.TrackRecord)
       TrackRecordOrBuilder {
+  private static final long serialVersionUID = 0L;
     // Use TrackRecord.newBuilder() to construct.
     private TrackRecord(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
     private TrackRecord() {
-      recordId_ = 0;
-      time_ = 0;
-      timeZone_ = 0;
-      interval_ = 0;
-      steps_ = 0;
-      active_ = 0;
-      distance_ = 0;
-      kcal_ = 0;
-      kcalRest_ = 0;
-      unknown1_ = 0;
-      sleepTime_ = 0;
-      sleepMode_ = 0;
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new TrackRecord();
     }
 
     @java.lang.Override
@@ -7551,6 +7811,9 @@ public final class TrackerProto {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -7562,13 +7825,6 @@ public final class TrackerProto {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownField(input, unknownFields,
-                                     extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 8: {
               bitField0_ |= 0x00000001;
               recordId_ = input.readInt32();
@@ -7629,6 +7885,13 @@ public final class TrackerProto {
               sleepMode_ = input.readInt32();
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -7646,6 +7909,7 @@ public final class TrackerProto {
       return net.studioblueplanet.tomtomwatch.TrackerProto.internal_static_tutorial_TrackRecord_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return net.studioblueplanet.tomtomwatch.TrackerProto.internal_static_tutorial_TrackRecord_fieldAccessorTable
@@ -7660,7 +7924,7 @@ public final class TrackerProto {
      * <code>required int32 recordId = 1;</code>
      */
     public boolean hasRecordId() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
+      return ((bitField0_ & 0x00000001) != 0);
     }
     /**
      * <code>required int32 recordId = 1;</code>
@@ -7679,7 +7943,7 @@ public final class TrackerProto {
      * <code>required int32 time = 2;</code>
      */
     public boolean hasTime() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
+      return ((bitField0_ & 0x00000002) != 0);
     }
     /**
      * <pre>
@@ -7702,7 +7966,7 @@ public final class TrackerProto {
      * <code>required int32 timeZone = 3;</code>
      */
     public boolean hasTimeZone() {
-      return ((bitField0_ & 0x00000004) == 0x00000004);
+      return ((bitField0_ & 0x00000004) != 0);
     }
     /**
      * <pre>
@@ -7725,7 +7989,7 @@ public final class TrackerProto {
      * <code>required int32 interval = 4;</code>
      */
     public boolean hasInterval() {
-      return ((bitField0_ & 0x00000008) == 0x00000008);
+      return ((bitField0_ & 0x00000008) != 0);
     }
     /**
      * <pre>
@@ -7748,7 +8012,7 @@ public final class TrackerProto {
      * <code>required int32 steps = 5;</code>
      */
     public boolean hasSteps() {
-      return ((bitField0_ & 0x00000010) == 0x00000010);
+      return ((bitField0_ & 0x00000010) != 0);
     }
     /**
      * <pre>
@@ -7771,7 +8035,7 @@ public final class TrackerProto {
      * <code>required int32 active = 6;</code>
      */
     public boolean hasActive() {
-      return ((bitField0_ & 0x00000020) == 0x00000020);
+      return ((bitField0_ & 0x00000020) != 0);
     }
     /**
      * <pre>
@@ -7794,7 +8058,7 @@ public final class TrackerProto {
      * <code>required int32 distance = 7;</code>
      */
     public boolean hasDistance() {
-      return ((bitField0_ & 0x00000040) == 0x00000040);
+      return ((bitField0_ & 0x00000040) != 0);
     }
     /**
      * <pre>
@@ -7817,7 +8081,7 @@ public final class TrackerProto {
      * <code>required int32 kcal = 8;</code>
      */
     public boolean hasKcal() {
-      return ((bitField0_ & 0x00000080) == 0x00000080);
+      return ((bitField0_ & 0x00000080) != 0);
     }
     /**
      * <pre>
@@ -7840,7 +8104,7 @@ public final class TrackerProto {
      * <code>required int32 kcalRest = 9;</code>
      */
     public boolean hasKcalRest() {
-      return ((bitField0_ & 0x00000100) == 0x00000100);
+      return ((bitField0_ & 0x00000100) != 0);
     }
     /**
      * <pre>
@@ -7863,7 +8127,7 @@ public final class TrackerProto {
      * <code>required int32 unknown1 = 11;</code>
      */
     public boolean hasUnknown1() {
-      return ((bitField0_ & 0x00000200) == 0x00000200);
+      return ((bitField0_ & 0x00000200) != 0);
     }
     /**
      * <pre>
@@ -7886,7 +8150,7 @@ public final class TrackerProto {
      * <code>optional int32 sleepTime = 12;</code>
      */
     public boolean hasSleepTime() {
-      return ((bitField0_ & 0x00000400) == 0x00000400);
+      return ((bitField0_ & 0x00000400) != 0);
     }
     /**
      * <pre>
@@ -7909,7 +8173,7 @@ public final class TrackerProto {
      * <code>optional int32 sleepMode = 13;</code>
      */
     public boolean hasSleepMode() {
-      return ((bitField0_ & 0x00000800) == 0x00000800);
+      return ((bitField0_ & 0x00000800) != 0);
     }
     /**
      * <pre>
@@ -7923,6 +8187,7 @@ public final class TrackerProto {
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -7972,97 +8237,99 @@ public final class TrackerProto {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         output.writeInt32(1, recordId_);
       }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+      if (((bitField0_ & 0x00000002) != 0)) {
         output.writeInt32(2, time_);
       }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+      if (((bitField0_ & 0x00000004) != 0)) {
         output.writeInt32(3, timeZone_);
       }
-      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+      if (((bitField0_ & 0x00000008) != 0)) {
         output.writeInt32(4, interval_);
       }
-      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+      if (((bitField0_ & 0x00000010) != 0)) {
         output.writeInt32(5, steps_);
       }
-      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+      if (((bitField0_ & 0x00000020) != 0)) {
         output.writeInt32(6, active_);
       }
-      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+      if (((bitField0_ & 0x00000040) != 0)) {
         output.writeInt32(7, distance_);
       }
-      if (((bitField0_ & 0x00000080) == 0x00000080)) {
+      if (((bitField0_ & 0x00000080) != 0)) {
         output.writeInt32(8, kcal_);
       }
-      if (((bitField0_ & 0x00000100) == 0x00000100)) {
+      if (((bitField0_ & 0x00000100) != 0)) {
         output.writeInt32(9, kcalRest_);
       }
-      if (((bitField0_ & 0x00000200) == 0x00000200)) {
+      if (((bitField0_ & 0x00000200) != 0)) {
         output.writeInt32(11, unknown1_);
       }
-      if (((bitField0_ & 0x00000400) == 0x00000400)) {
+      if (((bitField0_ & 0x00000400) != 0)) {
         output.writeInt32(12, sleepTime_);
       }
-      if (((bitField0_ & 0x00000800) == 0x00000800)) {
+      if (((bitField0_ & 0x00000800) != 0)) {
         output.writeInt32(13, sleepMode_);
       }
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
 
       size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(1, recordId_);
       }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+      if (((bitField0_ & 0x00000002) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(2, time_);
       }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+      if (((bitField0_ & 0x00000004) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(3, timeZone_);
       }
-      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+      if (((bitField0_ & 0x00000008) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(4, interval_);
       }
-      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+      if (((bitField0_ & 0x00000010) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(5, steps_);
       }
-      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+      if (((bitField0_ & 0x00000020) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(6, active_);
       }
-      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+      if (((bitField0_ & 0x00000040) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(7, distance_);
       }
-      if (((bitField0_ & 0x00000080) == 0x00000080)) {
+      if (((bitField0_ & 0x00000080) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(8, kcal_);
       }
-      if (((bitField0_ & 0x00000100) == 0x00000100)) {
+      if (((bitField0_ & 0x00000100) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(9, kcalRest_);
       }
-      if (((bitField0_ & 0x00000200) == 0x00000200)) {
+      if (((bitField0_ & 0x00000200) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(11, unknown1_);
       }
-      if (((bitField0_ & 0x00000400) == 0x00000400)) {
+      if (((bitField0_ & 0x00000400) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(12, sleepTime_);
       }
-      if (((bitField0_ & 0x00000800) == 0x00000800)) {
+      if (((bitField0_ & 0x00000800) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(13, sleepMode_);
       }
@@ -8071,7 +8338,6 @@ public final class TrackerProto {
       return size;
     }
 
-    private static final long serialVersionUID = 0L;
     @java.lang.Override
     public boolean equals(final java.lang.Object obj) {
       if (obj == this) {
@@ -8082,69 +8348,68 @@ public final class TrackerProto {
       }
       net.studioblueplanet.tomtomwatch.TrackerProto.TrackRecord other = (net.studioblueplanet.tomtomwatch.TrackerProto.TrackRecord) obj;
 
-      boolean result = true;
-      result = result && (hasRecordId() == other.hasRecordId());
+      if (hasRecordId() != other.hasRecordId()) return false;
       if (hasRecordId()) {
-        result = result && (getRecordId()
-            == other.getRecordId());
+        if (getRecordId()
+            != other.getRecordId()) return false;
       }
-      result = result && (hasTime() == other.hasTime());
+      if (hasTime() != other.hasTime()) return false;
       if (hasTime()) {
-        result = result && (getTime()
-            == other.getTime());
+        if (getTime()
+            != other.getTime()) return false;
       }
-      result = result && (hasTimeZone() == other.hasTimeZone());
+      if (hasTimeZone() != other.hasTimeZone()) return false;
       if (hasTimeZone()) {
-        result = result && (getTimeZone()
-            == other.getTimeZone());
+        if (getTimeZone()
+            != other.getTimeZone()) return false;
       }
-      result = result && (hasInterval() == other.hasInterval());
+      if (hasInterval() != other.hasInterval()) return false;
       if (hasInterval()) {
-        result = result && (getInterval()
-            == other.getInterval());
+        if (getInterval()
+            != other.getInterval()) return false;
       }
-      result = result && (hasSteps() == other.hasSteps());
+      if (hasSteps() != other.hasSteps()) return false;
       if (hasSteps()) {
-        result = result && (getSteps()
-            == other.getSteps());
+        if (getSteps()
+            != other.getSteps()) return false;
       }
-      result = result && (hasActive() == other.hasActive());
+      if (hasActive() != other.hasActive()) return false;
       if (hasActive()) {
-        result = result && (getActive()
-            == other.getActive());
+        if (getActive()
+            != other.getActive()) return false;
       }
-      result = result && (hasDistance() == other.hasDistance());
+      if (hasDistance() != other.hasDistance()) return false;
       if (hasDistance()) {
-        result = result && (getDistance()
-            == other.getDistance());
+        if (getDistance()
+            != other.getDistance()) return false;
       }
-      result = result && (hasKcal() == other.hasKcal());
+      if (hasKcal() != other.hasKcal()) return false;
       if (hasKcal()) {
-        result = result && (getKcal()
-            == other.getKcal());
+        if (getKcal()
+            != other.getKcal()) return false;
       }
-      result = result && (hasKcalRest() == other.hasKcalRest());
+      if (hasKcalRest() != other.hasKcalRest()) return false;
       if (hasKcalRest()) {
-        result = result && (getKcalRest()
-            == other.getKcalRest());
+        if (getKcalRest()
+            != other.getKcalRest()) return false;
       }
-      result = result && (hasUnknown1() == other.hasUnknown1());
+      if (hasUnknown1() != other.hasUnknown1()) return false;
       if (hasUnknown1()) {
-        result = result && (getUnknown1()
-            == other.getUnknown1());
+        if (getUnknown1()
+            != other.getUnknown1()) return false;
       }
-      result = result && (hasSleepTime() == other.hasSleepTime());
+      if (hasSleepTime() != other.hasSleepTime()) return false;
       if (hasSleepTime()) {
-        result = result && (getSleepTime()
-            == other.getSleepTime());
+        if (getSleepTime()
+            != other.getSleepTime()) return false;
       }
-      result = result && (hasSleepMode() == other.hasSleepMode());
+      if (hasSleepMode() != other.hasSleepMode()) return false;
       if (hasSleepMode()) {
-        result = result && (getSleepMode()
-            == other.getSleepMode());
+        if (getSleepMode()
+            != other.getSleepMode()) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -8277,6 +8542,7 @@ public final class TrackerProto {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -8284,6 +8550,7 @@ public final class TrackerProto {
     public static Builder newBuilder(net.studioblueplanet.tomtomwatch.TrackerProto.TrackRecord prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -8313,6 +8580,7 @@ public final class TrackerProto {
         return net.studioblueplanet.tomtomwatch.TrackerProto.internal_static_tutorial_TrackRecord_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return net.studioblueplanet.tomtomwatch.TrackerProto.internal_static_tutorial_TrackRecord_fieldAccessorTable
@@ -8335,6 +8603,7 @@ public final class TrackerProto {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         recordId_ = 0;
@@ -8364,15 +8633,18 @@ public final class TrackerProto {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return net.studioblueplanet.tomtomwatch.TrackerProto.internal_static_tutorial_TrackRecord_descriptor;
       }
 
+      @java.lang.Override
       public net.studioblueplanet.tomtomwatch.TrackerProto.TrackRecord getDefaultInstanceForType() {
         return net.studioblueplanet.tomtomwatch.TrackerProto.TrackRecord.getDefaultInstance();
       }
 
+      @java.lang.Override
       public net.studioblueplanet.tomtomwatch.TrackerProto.TrackRecord build() {
         net.studioblueplanet.tomtomwatch.TrackerProto.TrackRecord result = buildPartial();
         if (!result.isInitialized()) {
@@ -8381,89 +8653,97 @@ public final class TrackerProto {
         return result;
       }
 
+      @java.lang.Override
       public net.studioblueplanet.tomtomwatch.TrackerProto.TrackRecord buildPartial() {
         net.studioblueplanet.tomtomwatch.TrackerProto.TrackRecord result = new net.studioblueplanet.tomtomwatch.TrackerProto.TrackRecord(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          result.recordId_ = recordId_;
           to_bitField0_ |= 0x00000001;
         }
-        result.recordId_ = recordId_;
-        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+        if (((from_bitField0_ & 0x00000002) != 0)) {
+          result.time_ = time_;
           to_bitField0_ |= 0x00000002;
         }
-        result.time_ = time_;
-        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+        if (((from_bitField0_ & 0x00000004) != 0)) {
+          result.timeZone_ = timeZone_;
           to_bitField0_ |= 0x00000004;
         }
-        result.timeZone_ = timeZone_;
-        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+        if (((from_bitField0_ & 0x00000008) != 0)) {
+          result.interval_ = interval_;
           to_bitField0_ |= 0x00000008;
         }
-        result.interval_ = interval_;
-        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+        if (((from_bitField0_ & 0x00000010) != 0)) {
+          result.steps_ = steps_;
           to_bitField0_ |= 0x00000010;
         }
-        result.steps_ = steps_;
-        if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
+        if (((from_bitField0_ & 0x00000020) != 0)) {
+          result.active_ = active_;
           to_bitField0_ |= 0x00000020;
         }
-        result.active_ = active_;
-        if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
+        if (((from_bitField0_ & 0x00000040) != 0)) {
+          result.distance_ = distance_;
           to_bitField0_ |= 0x00000040;
         }
-        result.distance_ = distance_;
-        if (((from_bitField0_ & 0x00000080) == 0x00000080)) {
+        if (((from_bitField0_ & 0x00000080) != 0)) {
+          result.kcal_ = kcal_;
           to_bitField0_ |= 0x00000080;
         }
-        result.kcal_ = kcal_;
-        if (((from_bitField0_ & 0x00000100) == 0x00000100)) {
+        if (((from_bitField0_ & 0x00000100) != 0)) {
+          result.kcalRest_ = kcalRest_;
           to_bitField0_ |= 0x00000100;
         }
-        result.kcalRest_ = kcalRest_;
-        if (((from_bitField0_ & 0x00000200) == 0x00000200)) {
+        if (((from_bitField0_ & 0x00000200) != 0)) {
+          result.unknown1_ = unknown1_;
           to_bitField0_ |= 0x00000200;
         }
-        result.unknown1_ = unknown1_;
-        if (((from_bitField0_ & 0x00000400) == 0x00000400)) {
+        if (((from_bitField0_ & 0x00000400) != 0)) {
+          result.sleepTime_ = sleepTime_;
           to_bitField0_ |= 0x00000400;
         }
-        result.sleepTime_ = sleepTime_;
-        if (((from_bitField0_ & 0x00000800) == 0x00000800)) {
+        if (((from_bitField0_ & 0x00000800) != 0)) {
+          result.sleepMode_ = sleepMode_;
           to_bitField0_ |= 0x00000800;
         }
-        result.sleepMode_ = sleepMode_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          Object value) {
-        return (Builder) super.setField(field, value);
+          java.lang.Object value) {
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof net.studioblueplanet.tomtomwatch.TrackerProto.TrackRecord) {
           return mergeFrom((net.studioblueplanet.tomtomwatch.TrackerProto.TrackRecord)other);
@@ -8516,6 +8796,7 @@ public final class TrackerProto {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         if (!hasRecordId()) {
           return false;
@@ -8550,6 +8831,7 @@ public final class TrackerProto {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -8574,7 +8856,7 @@ public final class TrackerProto {
        * <code>required int32 recordId = 1;</code>
        */
       public boolean hasRecordId() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
+        return ((bitField0_ & 0x00000001) != 0);
       }
       /**
        * <code>required int32 recordId = 1;</code>
@@ -8610,7 +8892,7 @@ public final class TrackerProto {
        * <code>required int32 time = 2;</code>
        */
       public boolean hasTime() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
+        return ((bitField0_ & 0x00000002) != 0);
       }
       /**
        * <pre>
@@ -8658,7 +8940,7 @@ public final class TrackerProto {
        * <code>required int32 timeZone = 3;</code>
        */
       public boolean hasTimeZone() {
-        return ((bitField0_ & 0x00000004) == 0x00000004);
+        return ((bitField0_ & 0x00000004) != 0);
       }
       /**
        * <pre>
@@ -8706,7 +8988,7 @@ public final class TrackerProto {
        * <code>required int32 interval = 4;</code>
        */
       public boolean hasInterval() {
-        return ((bitField0_ & 0x00000008) == 0x00000008);
+        return ((bitField0_ & 0x00000008) != 0);
       }
       /**
        * <pre>
@@ -8754,7 +9036,7 @@ public final class TrackerProto {
        * <code>required int32 steps = 5;</code>
        */
       public boolean hasSteps() {
-        return ((bitField0_ & 0x00000010) == 0x00000010);
+        return ((bitField0_ & 0x00000010) != 0);
       }
       /**
        * <pre>
@@ -8802,7 +9084,7 @@ public final class TrackerProto {
        * <code>required int32 active = 6;</code>
        */
       public boolean hasActive() {
-        return ((bitField0_ & 0x00000020) == 0x00000020);
+        return ((bitField0_ & 0x00000020) != 0);
       }
       /**
        * <pre>
@@ -8850,7 +9132,7 @@ public final class TrackerProto {
        * <code>required int32 distance = 7;</code>
        */
       public boolean hasDistance() {
-        return ((bitField0_ & 0x00000040) == 0x00000040);
+        return ((bitField0_ & 0x00000040) != 0);
       }
       /**
        * <pre>
@@ -8898,7 +9180,7 @@ public final class TrackerProto {
        * <code>required int32 kcal = 8;</code>
        */
       public boolean hasKcal() {
-        return ((bitField0_ & 0x00000080) == 0x00000080);
+        return ((bitField0_ & 0x00000080) != 0);
       }
       /**
        * <pre>
@@ -8946,7 +9228,7 @@ public final class TrackerProto {
        * <code>required int32 kcalRest = 9;</code>
        */
       public boolean hasKcalRest() {
-        return ((bitField0_ & 0x00000100) == 0x00000100);
+        return ((bitField0_ & 0x00000100) != 0);
       }
       /**
        * <pre>
@@ -8994,7 +9276,7 @@ public final class TrackerProto {
        * <code>required int32 unknown1 = 11;</code>
        */
       public boolean hasUnknown1() {
-        return ((bitField0_ & 0x00000200) == 0x00000200);
+        return ((bitField0_ & 0x00000200) != 0);
       }
       /**
        * <pre>
@@ -9042,7 +9324,7 @@ public final class TrackerProto {
        * <code>optional int32 sleepTime = 12;</code>
        */
       public boolean hasSleepTime() {
-        return ((bitField0_ & 0x00000400) == 0x00000400);
+        return ((bitField0_ & 0x00000400) != 0);
       }
       /**
        * <pre>
@@ -9090,7 +9372,7 @@ public final class TrackerProto {
        * <code>optional int32 sleepMode = 13;</code>
        */
       public boolean hasSleepMode() {
-        return ((bitField0_ & 0x00000800) == 0x00000800);
+        return ((bitField0_ & 0x00000800) != 0);
       }
       /**
        * <pre>
@@ -9128,11 +9410,13 @@ public final class TrackerProto {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -9154,11 +9438,12 @@ public final class TrackerProto {
 
     @java.lang.Deprecated public static final com.google.protobuf.Parser<TrackRecord>
         PARSER = new com.google.protobuf.AbstractParser<TrackRecord>() {
+      @java.lang.Override
       public TrackRecord parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new TrackRecord(input, extensionRegistry);
+        return new TrackRecord(input, extensionRegistry);
       }
     };
 
@@ -9171,6 +9456,7 @@ public final class TrackerProto {
       return PARSER;
     }
 
+    @java.lang.Override
     public net.studioblueplanet.tomtomwatch.TrackerProto.TrackRecord getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -9290,18 +9576,20 @@ public final class TrackerProto {
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:tutorial.Record2)
       Record2OrBuilder {
+  private static final long serialVersionUID = 0L;
     // Use Record2.newBuilder() to construct.
     private Record2(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
     private Record2() {
-      time_ = 0;
-      interval_ = 0;
       tagValue_ = java.util.Collections.emptyList();
-      unknown1_ = 0;
-      unknown2_ = 0;
-      unknown3_ = 0;
-      unknown4_ = 0;
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new Record2();
     }
 
     @java.lang.Override
@@ -9314,6 +9602,9 @@ public final class TrackerProto {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -9325,13 +9616,6 @@ public final class TrackerProto {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownField(input, unknownFields,
-                                     extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 13: {
               bitField0_ |= 0x00000001;
               time_ = input.readFixed32();
@@ -9343,7 +9627,7 @@ public final class TrackerProto {
               break;
             }
             case 26: {
-              if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+              if (!((mutable_bitField0_ & 0x00000004) != 0)) {
                 tagValue_ = new java.util.ArrayList<net.studioblueplanet.tomtomwatch.TrackerProto.TagValueContainer>();
                 mutable_bitField0_ |= 0x00000004;
               }
@@ -9371,6 +9655,13 @@ public final class TrackerProto {
               unknown4_ = input.readFixed32();
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -9379,7 +9670,7 @@ public final class TrackerProto {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+        if (((mutable_bitField0_ & 0x00000004) != 0)) {
           tagValue_ = java.util.Collections.unmodifiableList(tagValue_);
         }
         this.unknownFields = unknownFields.build();
@@ -9391,6 +9682,7 @@ public final class TrackerProto {
       return net.studioblueplanet.tomtomwatch.TrackerProto.internal_static_tutorial_Record2_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return net.studioblueplanet.tomtomwatch.TrackerProto.internal_static_tutorial_Record2_fieldAccessorTable
@@ -9409,7 +9701,7 @@ public final class TrackerProto {
      * <code>required fixed32 time = 1;</code>
      */
     public boolean hasTime() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
+      return ((bitField0_ & 0x00000001) != 0);
     }
     /**
      * <pre>
@@ -9432,7 +9724,7 @@ public final class TrackerProto {
      * <code>required int32 interval = 2;</code>
      */
     public boolean hasInterval() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
+      return ((bitField0_ & 0x00000002) != 0);
     }
     /**
      * <pre>
@@ -9486,7 +9778,7 @@ public final class TrackerProto {
      * <code>required int32 unknown1 = 4;</code>
      */
     public boolean hasUnknown1() {
-      return ((bitField0_ & 0x00000004) == 0x00000004);
+      return ((bitField0_ & 0x00000004) != 0);
     }
     /**
      * <code>required int32 unknown1 = 4;</code>
@@ -9501,7 +9793,7 @@ public final class TrackerProto {
      * <code>required int32 unknown2 = 5;</code>
      */
     public boolean hasUnknown2() {
-      return ((bitField0_ & 0x00000008) == 0x00000008);
+      return ((bitField0_ & 0x00000008) != 0);
     }
     /**
      * <code>required int32 unknown2 = 5;</code>
@@ -9516,7 +9808,7 @@ public final class TrackerProto {
      * <code>optional int32 unknown3 = 6;</code>
      */
     public boolean hasUnknown3() {
-      return ((bitField0_ & 0x00000010) == 0x00000010);
+      return ((bitField0_ & 0x00000010) != 0);
     }
     /**
      * <code>optional int32 unknown3 = 6;</code>
@@ -9535,7 +9827,7 @@ public final class TrackerProto {
      * <code>optional fixed32 unknown4 = 104;</code>
      */
     public boolean hasUnknown4() {
-      return ((bitField0_ & 0x00000020) == 0x00000020);
+      return ((bitField0_ & 0x00000020) != 0);
     }
     /**
      * <pre>
@@ -9549,6 +9841,7 @@ public final class TrackerProto {
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -9580,42 +9873,44 @@ public final class TrackerProto {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         output.writeFixed32(1, time_);
       }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+      if (((bitField0_ & 0x00000002) != 0)) {
         output.writeInt32(2, interval_);
       }
       for (int i = 0; i < tagValue_.size(); i++) {
         output.writeMessage(3, tagValue_.get(i));
       }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+      if (((bitField0_ & 0x00000004) != 0)) {
         output.writeInt32(4, unknown1_);
       }
-      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+      if (((bitField0_ & 0x00000008) != 0)) {
         output.writeInt32(5, unknown2_);
       }
-      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+      if (((bitField0_ & 0x00000010) != 0)) {
         output.writeInt32(6, unknown3_);
       }
-      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+      if (((bitField0_ & 0x00000020) != 0)) {
         output.writeFixed32(104, unknown4_);
       }
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
 
       size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeFixed32Size(1, time_);
       }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+      if (((bitField0_ & 0x00000002) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(2, interval_);
       }
@@ -9623,19 +9918,19 @@ public final class TrackerProto {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(3, tagValue_.get(i));
       }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+      if (((bitField0_ & 0x00000004) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(4, unknown1_);
       }
-      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+      if (((bitField0_ & 0x00000008) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(5, unknown2_);
       }
-      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+      if (((bitField0_ & 0x00000010) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(6, unknown3_);
       }
-      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+      if (((bitField0_ & 0x00000020) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeFixed32Size(104, unknown4_);
       }
@@ -9644,7 +9939,6 @@ public final class TrackerProto {
       return size;
     }
 
-    private static final long serialVersionUID = 0L;
     @java.lang.Override
     public boolean equals(final java.lang.Object obj) {
       if (obj == this) {
@@ -9655,41 +9949,40 @@ public final class TrackerProto {
       }
       net.studioblueplanet.tomtomwatch.TrackerProto.Record2 other = (net.studioblueplanet.tomtomwatch.TrackerProto.Record2) obj;
 
-      boolean result = true;
-      result = result && (hasTime() == other.hasTime());
+      if (hasTime() != other.hasTime()) return false;
       if (hasTime()) {
-        result = result && (getTime()
-            == other.getTime());
+        if (getTime()
+            != other.getTime()) return false;
       }
-      result = result && (hasInterval() == other.hasInterval());
+      if (hasInterval() != other.hasInterval()) return false;
       if (hasInterval()) {
-        result = result && (getInterval()
-            == other.getInterval());
+        if (getInterval()
+            != other.getInterval()) return false;
       }
-      result = result && getTagValueList()
-          .equals(other.getTagValueList());
-      result = result && (hasUnknown1() == other.hasUnknown1());
+      if (!getTagValueList()
+          .equals(other.getTagValueList())) return false;
+      if (hasUnknown1() != other.hasUnknown1()) return false;
       if (hasUnknown1()) {
-        result = result && (getUnknown1()
-            == other.getUnknown1());
+        if (getUnknown1()
+            != other.getUnknown1()) return false;
       }
-      result = result && (hasUnknown2() == other.hasUnknown2());
+      if (hasUnknown2() != other.hasUnknown2()) return false;
       if (hasUnknown2()) {
-        result = result && (getUnknown2()
-            == other.getUnknown2());
+        if (getUnknown2()
+            != other.getUnknown2()) return false;
       }
-      result = result && (hasUnknown3() == other.hasUnknown3());
+      if (hasUnknown3() != other.hasUnknown3()) return false;
       if (hasUnknown3()) {
-        result = result && (getUnknown3()
-            == other.getUnknown3());
+        if (getUnknown3()
+            != other.getUnknown3()) return false;
       }
-      result = result && (hasUnknown4() == other.hasUnknown4());
+      if (hasUnknown4() != other.hasUnknown4()) return false;
       if (hasUnknown4()) {
-        result = result && (getUnknown4()
-            == other.getUnknown4());
+        if (getUnknown4()
+            != other.getUnknown4()) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -9802,6 +10095,7 @@ public final class TrackerProto {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -9809,6 +10103,7 @@ public final class TrackerProto {
     public static Builder newBuilder(net.studioblueplanet.tomtomwatch.TrackerProto.Record2 prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -9832,6 +10127,7 @@ public final class TrackerProto {
         return net.studioblueplanet.tomtomwatch.TrackerProto.internal_static_tutorial_Record2_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return net.studioblueplanet.tomtomwatch.TrackerProto.internal_static_tutorial_Record2_fieldAccessorTable
@@ -9855,6 +10151,7 @@ public final class TrackerProto {
           getTagValueFieldBuilder();
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         time_ = 0;
@@ -9878,15 +10175,18 @@ public final class TrackerProto {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return net.studioblueplanet.tomtomwatch.TrackerProto.internal_static_tutorial_Record2_descriptor;
       }
 
+      @java.lang.Override
       public net.studioblueplanet.tomtomwatch.TrackerProto.Record2 getDefaultInstanceForType() {
         return net.studioblueplanet.tomtomwatch.TrackerProto.Record2.getDefaultInstance();
       }
 
+      @java.lang.Override
       public net.studioblueplanet.tomtomwatch.TrackerProto.Record2 build() {
         net.studioblueplanet.tomtomwatch.TrackerProto.Record2 result = buildPartial();
         if (!result.isInitialized()) {
@@ -9895,20 +10195,21 @@ public final class TrackerProto {
         return result;
       }
 
+      @java.lang.Override
       public net.studioblueplanet.tomtomwatch.TrackerProto.Record2 buildPartial() {
         net.studioblueplanet.tomtomwatch.TrackerProto.Record2 result = new net.studioblueplanet.tomtomwatch.TrackerProto.Record2(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          result.time_ = time_;
           to_bitField0_ |= 0x00000001;
         }
-        result.time_ = time_;
-        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+        if (((from_bitField0_ & 0x00000002) != 0)) {
+          result.interval_ = interval_;
           to_bitField0_ |= 0x00000002;
         }
-        result.interval_ = interval_;
         if (tagValueBuilder_ == null) {
-          if (((bitField0_ & 0x00000004) == 0x00000004)) {
+          if (((bitField0_ & 0x00000004) != 0)) {
             tagValue_ = java.util.Collections.unmodifiableList(tagValue_);
             bitField0_ = (bitField0_ & ~0x00000004);
           }
@@ -9916,53 +10217,60 @@ public final class TrackerProto {
         } else {
           result.tagValue_ = tagValueBuilder_.build();
         }
-        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+        if (((from_bitField0_ & 0x00000008) != 0)) {
+          result.unknown1_ = unknown1_;
           to_bitField0_ |= 0x00000004;
         }
-        result.unknown1_ = unknown1_;
-        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+        if (((from_bitField0_ & 0x00000010) != 0)) {
+          result.unknown2_ = unknown2_;
           to_bitField0_ |= 0x00000008;
         }
-        result.unknown2_ = unknown2_;
-        if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
+        if (((from_bitField0_ & 0x00000020) != 0)) {
+          result.unknown3_ = unknown3_;
           to_bitField0_ |= 0x00000010;
         }
-        result.unknown3_ = unknown3_;
-        if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
+        if (((from_bitField0_ & 0x00000040) != 0)) {
+          result.unknown4_ = unknown4_;
           to_bitField0_ |= 0x00000020;
         }
-        result.unknown4_ = unknown4_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          Object value) {
-        return (Builder) super.setField(field, value);
+          java.lang.Object value) {
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof net.studioblueplanet.tomtomwatch.TrackerProto.Record2) {
           return mergeFrom((net.studioblueplanet.tomtomwatch.TrackerProto.Record2)other);
@@ -10023,6 +10331,7 @@ public final class TrackerProto {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         if (!hasTime()) {
           return false;
@@ -10044,6 +10353,7 @@ public final class TrackerProto {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -10072,7 +10382,7 @@ public final class TrackerProto {
        * <code>required fixed32 time = 1;</code>
        */
       public boolean hasTime() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
+        return ((bitField0_ & 0x00000001) != 0);
       }
       /**
        * <pre>
@@ -10120,7 +10430,7 @@ public final class TrackerProto {
        * <code>required int32 interval = 2;</code>
        */
       public boolean hasInterval() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
+        return ((bitField0_ & 0x00000002) != 0);
       }
       /**
        * <pre>
@@ -10162,7 +10472,7 @@ public final class TrackerProto {
       private java.util.List<net.studioblueplanet.tomtomwatch.TrackerProto.TagValueContainer> tagValue_ =
         java.util.Collections.emptyList();
       private void ensureTagValueIsMutable() {
-        if (!((bitField0_ & 0x00000004) == 0x00000004)) {
+        if (!((bitField0_ & 0x00000004) != 0)) {
           tagValue_ = new java.util.ArrayList<net.studioblueplanet.tomtomwatch.TrackerProto.TagValueContainer>(tagValue_);
           bitField0_ |= 0x00000004;
          }
@@ -10391,7 +10701,7 @@ public final class TrackerProto {
           tagValueBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               net.studioblueplanet.tomtomwatch.TrackerProto.TagValueContainer, net.studioblueplanet.tomtomwatch.TrackerProto.TagValueContainer.Builder, net.studioblueplanet.tomtomwatch.TrackerProto.TagValueContainerOrBuilder>(
                   tagValue_,
-                  ((bitField0_ & 0x00000004) == 0x00000004),
+                  ((bitField0_ & 0x00000004) != 0),
                   getParentForChildren(),
                   isClean());
           tagValue_ = null;
@@ -10404,7 +10714,7 @@ public final class TrackerProto {
        * <code>required int32 unknown1 = 4;</code>
        */
       public boolean hasUnknown1() {
-        return ((bitField0_ & 0x00000008) == 0x00000008);
+        return ((bitField0_ & 0x00000008) != 0);
       }
       /**
        * <code>required int32 unknown1 = 4;</code>
@@ -10436,7 +10746,7 @@ public final class TrackerProto {
        * <code>required int32 unknown2 = 5;</code>
        */
       public boolean hasUnknown2() {
-        return ((bitField0_ & 0x00000010) == 0x00000010);
+        return ((bitField0_ & 0x00000010) != 0);
       }
       /**
        * <code>required int32 unknown2 = 5;</code>
@@ -10468,7 +10778,7 @@ public final class TrackerProto {
        * <code>optional int32 unknown3 = 6;</code>
        */
       public boolean hasUnknown3() {
-        return ((bitField0_ & 0x00000020) == 0x00000020);
+        return ((bitField0_ & 0x00000020) != 0);
       }
       /**
        * <code>optional int32 unknown3 = 6;</code>
@@ -10504,7 +10814,7 @@ public final class TrackerProto {
        * <code>optional fixed32 unknown4 = 104;</code>
        */
       public boolean hasUnknown4() {
-        return ((bitField0_ & 0x00000040) == 0x00000040);
+        return ((bitField0_ & 0x00000040) != 0);
       }
       /**
        * <pre>
@@ -10542,11 +10852,13 @@ public final class TrackerProto {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -10568,11 +10880,12 @@ public final class TrackerProto {
 
     @java.lang.Deprecated public static final com.google.protobuf.Parser<Record2>
         PARSER = new com.google.protobuf.AbstractParser<Record2>() {
+      @java.lang.Override
       public Record2 parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new Record2(input, extensionRegistry);
+        return new Record2(input, extensionRegistry);
       }
     };
 
@@ -10585,6 +10898,7 @@ public final class TrackerProto {
       return PARSER;
     }
 
+    @java.lang.Override
     public net.studioblueplanet.tomtomwatch.TrackerProto.Record2 getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -10624,12 +10938,19 @@ public final class TrackerProto {
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:tutorial.TagValueContainer)
       TagValueContainerOrBuilder {
+  private static final long serialVersionUID = 0L;
     // Use TagValueContainer.newBuilder() to construct.
     private TagValueContainer(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
     private TagValueContainer() {
-      tag_ = 0;
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new TagValueContainer();
     }
 
     @java.lang.Override
@@ -10642,6 +10963,9 @@ public final class TrackerProto {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -10653,13 +10977,6 @@ public final class TrackerProto {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownField(input, unknownFields,
-                                     extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 8: {
               bitField0_ |= 0x00000001;
               tag_ = input.readInt32();
@@ -10667,7 +10984,7 @@ public final class TrackerProto {
             }
             case 18: {
               net.studioblueplanet.tomtomwatch.TrackerProto.ValueContainer.Builder subBuilder = null;
-              if (((bitField0_ & 0x00000002) == 0x00000002)) {
+              if (((bitField0_ & 0x00000002) != 0)) {
                 subBuilder = valueContainer_.toBuilder();
               }
               valueContainer_ = input.readMessage(net.studioblueplanet.tomtomwatch.TrackerProto.ValueContainer.PARSER, extensionRegistry);
@@ -10676,6 +10993,13 @@ public final class TrackerProto {
                 valueContainer_ = subBuilder.buildPartial();
               }
               bitField0_ |= 0x00000002;
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -10695,6 +11019,7 @@ public final class TrackerProto {
       return net.studioblueplanet.tomtomwatch.TrackerProto.internal_static_tutorial_TagValueContainer_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return net.studioblueplanet.tomtomwatch.TrackerProto.internal_static_tutorial_TagValueContainer_fieldAccessorTable
@@ -10709,7 +11034,7 @@ public final class TrackerProto {
      * <code>required int32 tag = 1;</code>
      */
     public boolean hasTag() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
+      return ((bitField0_ & 0x00000001) != 0);
     }
     /**
      * <code>required int32 tag = 1;</code>
@@ -10724,7 +11049,7 @@ public final class TrackerProto {
      * <code>required .tutorial.ValueContainer valueContainer = 2;</code>
      */
     public boolean hasValueContainer() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
+      return ((bitField0_ & 0x00000002) != 0);
     }
     /**
      * <code>required .tutorial.ValueContainer valueContainer = 2;</code>
@@ -10740,6 +11065,7 @@ public final class TrackerProto {
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -10761,27 +11087,29 @@ public final class TrackerProto {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         output.writeInt32(1, tag_);
       }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+      if (((bitField0_ & 0x00000002) != 0)) {
         output.writeMessage(2, getValueContainer());
       }
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
 
       size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(1, tag_);
       }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+      if (((bitField0_ & 0x00000002) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(2, getValueContainer());
       }
@@ -10790,7 +11118,6 @@ public final class TrackerProto {
       return size;
     }
 
-    private static final long serialVersionUID = 0L;
     @java.lang.Override
     public boolean equals(final java.lang.Object obj) {
       if (obj == this) {
@@ -10801,19 +11128,18 @@ public final class TrackerProto {
       }
       net.studioblueplanet.tomtomwatch.TrackerProto.TagValueContainer other = (net.studioblueplanet.tomtomwatch.TrackerProto.TagValueContainer) obj;
 
-      boolean result = true;
-      result = result && (hasTag() == other.hasTag());
+      if (hasTag() != other.hasTag()) return false;
       if (hasTag()) {
-        result = result && (getTag()
-            == other.getTag());
+        if (getTag()
+            != other.getTag()) return false;
       }
-      result = result && (hasValueContainer() == other.hasValueContainer());
+      if (hasValueContainer() != other.hasValueContainer()) return false;
       if (hasValueContainer()) {
-        result = result && getValueContainer()
-            .equals(other.getValueContainer());
+        if (!getValueContainer()
+            .equals(other.getValueContainer())) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -10906,6 +11232,7 @@ public final class TrackerProto {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -10913,6 +11240,7 @@ public final class TrackerProto {
     public static Builder newBuilder(net.studioblueplanet.tomtomwatch.TrackerProto.TagValueContainer prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -10936,6 +11264,7 @@ public final class TrackerProto {
         return net.studioblueplanet.tomtomwatch.TrackerProto.internal_static_tutorial_TagValueContainer_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return net.studioblueplanet.tomtomwatch.TrackerProto.internal_static_tutorial_TagValueContainer_fieldAccessorTable
@@ -10959,6 +11288,7 @@ public final class TrackerProto {
           getValueContainerFieldBuilder();
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         tag_ = 0;
@@ -10972,15 +11302,18 @@ public final class TrackerProto {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return net.studioblueplanet.tomtomwatch.TrackerProto.internal_static_tutorial_TagValueContainer_descriptor;
       }
 
+      @java.lang.Override
       public net.studioblueplanet.tomtomwatch.TrackerProto.TagValueContainer getDefaultInstanceForType() {
         return net.studioblueplanet.tomtomwatch.TrackerProto.TagValueContainer.getDefaultInstance();
       }
 
+      @java.lang.Override
       public net.studioblueplanet.tomtomwatch.TrackerProto.TagValueContainer build() {
         net.studioblueplanet.tomtomwatch.TrackerProto.TagValueContainer result = buildPartial();
         if (!result.isInitialized()) {
@@ -10989,53 +11322,61 @@ public final class TrackerProto {
         return result;
       }
 
+      @java.lang.Override
       public net.studioblueplanet.tomtomwatch.TrackerProto.TagValueContainer buildPartial() {
         net.studioblueplanet.tomtomwatch.TrackerProto.TagValueContainer result = new net.studioblueplanet.tomtomwatch.TrackerProto.TagValueContainer(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          result.tag_ = tag_;
           to_bitField0_ |= 0x00000001;
         }
-        result.tag_ = tag_;
-        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+        if (((from_bitField0_ & 0x00000002) != 0)) {
+          if (valueContainerBuilder_ == null) {
+            result.valueContainer_ = valueContainer_;
+          } else {
+            result.valueContainer_ = valueContainerBuilder_.build();
+          }
           to_bitField0_ |= 0x00000002;
-        }
-        if (valueContainerBuilder_ == null) {
-          result.valueContainer_ = valueContainer_;
-        } else {
-          result.valueContainer_ = valueContainerBuilder_.build();
         }
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          Object value) {
-        return (Builder) super.setField(field, value);
+          java.lang.Object value) {
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof net.studioblueplanet.tomtomwatch.TrackerProto.TagValueContainer) {
           return mergeFrom((net.studioblueplanet.tomtomwatch.TrackerProto.TagValueContainer)other);
@@ -11058,6 +11399,7 @@ public final class TrackerProto {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         if (!hasTag()) {
           return false;
@@ -11071,6 +11413,7 @@ public final class TrackerProto {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -11095,7 +11438,7 @@ public final class TrackerProto {
        * <code>required int32 tag = 1;</code>
        */
       public boolean hasTag() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
+        return ((bitField0_ & 0x00000001) != 0);
       }
       /**
        * <code>required int32 tag = 1;</code>
@@ -11122,14 +11465,14 @@ public final class TrackerProto {
         return this;
       }
 
-      private net.studioblueplanet.tomtomwatch.TrackerProto.ValueContainer valueContainer_ = null;
+      private net.studioblueplanet.tomtomwatch.TrackerProto.ValueContainer valueContainer_;
       private com.google.protobuf.SingleFieldBuilderV3<
           net.studioblueplanet.tomtomwatch.TrackerProto.ValueContainer, net.studioblueplanet.tomtomwatch.TrackerProto.ValueContainer.Builder, net.studioblueplanet.tomtomwatch.TrackerProto.ValueContainerOrBuilder> valueContainerBuilder_;
       /**
        * <code>required .tutorial.ValueContainer valueContainer = 2;</code>
        */
       public boolean hasValueContainer() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
+        return ((bitField0_ & 0x00000002) != 0);
       }
       /**
        * <code>required .tutorial.ValueContainer valueContainer = 2;</code>
@@ -11176,7 +11519,7 @@ public final class TrackerProto {
        */
       public Builder mergeValueContainer(net.studioblueplanet.tomtomwatch.TrackerProto.ValueContainer value) {
         if (valueContainerBuilder_ == null) {
-          if (((bitField0_ & 0x00000002) == 0x00000002) &&
+          if (((bitField0_ & 0x00000002) != 0) &&
               valueContainer_ != null &&
               valueContainer_ != net.studioblueplanet.tomtomwatch.TrackerProto.ValueContainer.getDefaultInstance()) {
             valueContainer_ =
@@ -11239,11 +11582,13 @@ public final class TrackerProto {
         }
         return valueContainerBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -11265,11 +11610,12 @@ public final class TrackerProto {
 
     @java.lang.Deprecated public static final com.google.protobuf.Parser<TagValueContainer>
         PARSER = new com.google.protobuf.AbstractParser<TagValueContainer>() {
+      @java.lang.Override
       public TagValueContainer parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new TagValueContainer(input, extensionRegistry);
+        return new TagValueContainer(input, extensionRegistry);
       }
     };
 
@@ -11282,6 +11628,7 @@ public final class TrackerProto {
       return PARSER;
     }
 
+    @java.lang.Override
     public net.studioblueplanet.tomtomwatch.TrackerProto.TagValueContainer getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -11308,12 +11655,19 @@ public final class TrackerProto {
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:tutorial.ValueContainer)
       ValueContainerOrBuilder {
+  private static final long serialVersionUID = 0L;
     // Use ValueContainer.newBuilder() to construct.
     private ValueContainer(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
     private ValueContainer() {
-      value_ = 0;
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ValueContainer();
     }
 
     @java.lang.Override
@@ -11326,6 +11680,9 @@ public final class TrackerProto {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -11337,16 +11694,16 @@ public final class TrackerProto {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownField(input, unknownFields,
-                                     extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 24: {
               bitField0_ |= 0x00000001;
               value_ = input.readInt32();
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -11366,6 +11723,7 @@ public final class TrackerProto {
       return net.studioblueplanet.tomtomwatch.TrackerProto.internal_static_tutorial_ValueContainer_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return net.studioblueplanet.tomtomwatch.TrackerProto.internal_static_tutorial_ValueContainer_fieldAccessorTable
@@ -11380,7 +11738,7 @@ public final class TrackerProto {
      * <code>required int32 value = 3;</code>
      */
     public boolean hasValue() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
+      return ((bitField0_ & 0x00000001) != 0);
     }
     /**
      * <code>required int32 value = 3;</code>
@@ -11390,6 +11748,7 @@ public final class TrackerProto {
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -11403,20 +11762,22 @@ public final class TrackerProto {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         output.writeInt32(3, value_);
       }
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
 
       size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(3, value_);
       }
@@ -11425,7 +11786,6 @@ public final class TrackerProto {
       return size;
     }
 
-    private static final long serialVersionUID = 0L;
     @java.lang.Override
     public boolean equals(final java.lang.Object obj) {
       if (obj == this) {
@@ -11436,14 +11796,13 @@ public final class TrackerProto {
       }
       net.studioblueplanet.tomtomwatch.TrackerProto.ValueContainer other = (net.studioblueplanet.tomtomwatch.TrackerProto.ValueContainer) obj;
 
-      boolean result = true;
-      result = result && (hasValue() == other.hasValue());
+      if (hasValue() != other.hasValue()) return false;
       if (hasValue()) {
-        result = result && (getValue()
-            == other.getValue());
+        if (getValue()
+            != other.getValue()) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -11532,6 +11891,7 @@ public final class TrackerProto {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -11539,6 +11899,7 @@ public final class TrackerProto {
     public static Builder newBuilder(net.studioblueplanet.tomtomwatch.TrackerProto.ValueContainer prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -11562,6 +11923,7 @@ public final class TrackerProto {
         return net.studioblueplanet.tomtomwatch.TrackerProto.internal_static_tutorial_ValueContainer_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return net.studioblueplanet.tomtomwatch.TrackerProto.internal_static_tutorial_ValueContainer_fieldAccessorTable
@@ -11584,6 +11946,7 @@ public final class TrackerProto {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         value_ = 0;
@@ -11591,15 +11954,18 @@ public final class TrackerProto {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return net.studioblueplanet.tomtomwatch.TrackerProto.internal_static_tutorial_ValueContainer_descriptor;
       }
 
+      @java.lang.Override
       public net.studioblueplanet.tomtomwatch.TrackerProto.ValueContainer getDefaultInstanceForType() {
         return net.studioblueplanet.tomtomwatch.TrackerProto.ValueContainer.getDefaultInstance();
       }
 
+      @java.lang.Override
       public net.studioblueplanet.tomtomwatch.TrackerProto.ValueContainer build() {
         net.studioblueplanet.tomtomwatch.TrackerProto.ValueContainer result = buildPartial();
         if (!result.isInitialized()) {
@@ -11608,45 +11974,53 @@ public final class TrackerProto {
         return result;
       }
 
+      @java.lang.Override
       public net.studioblueplanet.tomtomwatch.TrackerProto.ValueContainer buildPartial() {
         net.studioblueplanet.tomtomwatch.TrackerProto.ValueContainer result = new net.studioblueplanet.tomtomwatch.TrackerProto.ValueContainer(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          result.value_ = value_;
           to_bitField0_ |= 0x00000001;
         }
-        result.value_ = value_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          Object value) {
-        return (Builder) super.setField(field, value);
+          java.lang.Object value) {
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof net.studioblueplanet.tomtomwatch.TrackerProto.ValueContainer) {
           return mergeFrom((net.studioblueplanet.tomtomwatch.TrackerProto.ValueContainer)other);
@@ -11666,6 +12040,7 @@ public final class TrackerProto {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         if (!hasValue()) {
           return false;
@@ -11673,6 +12048,7 @@ public final class TrackerProto {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -11697,7 +12073,7 @@ public final class TrackerProto {
        * <code>required int32 value = 3;</code>
        */
       public boolean hasValue() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
+        return ((bitField0_ & 0x00000001) != 0);
       }
       /**
        * <code>required int32 value = 3;</code>
@@ -11723,11 +12099,13 @@ public final class TrackerProto {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -11749,11 +12127,12 @@ public final class TrackerProto {
 
     @java.lang.Deprecated public static final com.google.protobuf.Parser<ValueContainer>
         PARSER = new com.google.protobuf.AbstractParser<ValueContainer>() {
+      @java.lang.Override
       public ValueContainer parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new ValueContainer(input, extensionRegistry);
+        return new ValueContainer(input, extensionRegistry);
       }
     };
 
@@ -11766,6 +12145,7 @@ public final class TrackerProto {
       return PARSER;
     }
 
+    @java.lang.Override
     public net.studioblueplanet.tomtomwatch.TrackerProto.ValueContainer getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -11868,16 +12248,19 @@ public final class TrackerProto {
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:tutorial.HeartRecord)
       HeartRecordOrBuilder {
+  private static final long serialVersionUID = 0L;
     // Use HeartRecord.newBuilder() to construct.
     private HeartRecord(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
     private HeartRecord() {
-      time_ = 0;
-      interval_ = 0;
-      heartRate_ = 0;
-      value01_ = 0;
-      value02_ = 0;
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new HeartRecord();
     }
 
     @java.lang.Override
@@ -11890,6 +12273,9 @@ public final class TrackerProto {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -11901,13 +12287,6 @@ public final class TrackerProto {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownField(input, unknownFields,
-                                     extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 13: {
               bitField0_ |= 0x00000001;
               time_ = input.readFixed32();
@@ -11933,6 +12312,13 @@ public final class TrackerProto {
               value02_ = input.readInt32();
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -11950,6 +12336,7 @@ public final class TrackerProto {
       return net.studioblueplanet.tomtomwatch.TrackerProto.internal_static_tutorial_HeartRecord_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return net.studioblueplanet.tomtomwatch.TrackerProto.internal_static_tutorial_HeartRecord_fieldAccessorTable
@@ -11968,7 +12355,7 @@ public final class TrackerProto {
      * <code>required fixed32 time = 1;</code>
      */
     public boolean hasTime() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
+      return ((bitField0_ & 0x00000001) != 0);
     }
     /**
      * <pre>
@@ -11991,7 +12378,7 @@ public final class TrackerProto {
      * <code>required int32 interval = 2;</code>
      */
     public boolean hasInterval() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
+      return ((bitField0_ & 0x00000002) != 0);
     }
     /**
      * <pre>
@@ -12014,7 +12401,7 @@ public final class TrackerProto {
      * <code>required int32 heartRate = 3;</code>
      */
     public boolean hasHeartRate() {
-      return ((bitField0_ & 0x00000004) == 0x00000004);
+      return ((bitField0_ & 0x00000004) != 0);
     }
     /**
      * <pre>
@@ -12037,7 +12424,7 @@ public final class TrackerProto {
      * <code>required int32 value01 = 4;</code>
      */
     public boolean hasValue01() {
-      return ((bitField0_ & 0x00000008) == 0x00000008);
+      return ((bitField0_ & 0x00000008) != 0);
     }
     /**
      * <pre>
@@ -12060,7 +12447,7 @@ public final class TrackerProto {
      * <code>required int32 value02 = 5;</code>
      */
     public boolean hasValue02() {
-      return ((bitField0_ & 0x00000010) == 0x00000010);
+      return ((bitField0_ & 0x00000010) != 0);
     }
     /**
      * <pre>
@@ -12074,6 +12461,7 @@ public final class TrackerProto {
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -12103,48 +12491,50 @@ public final class TrackerProto {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         output.writeFixed32(1, time_);
       }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+      if (((bitField0_ & 0x00000002) != 0)) {
         output.writeInt32(2, interval_);
       }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+      if (((bitField0_ & 0x00000004) != 0)) {
         output.writeInt32(3, heartRate_);
       }
-      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+      if (((bitField0_ & 0x00000008) != 0)) {
         output.writeInt32(4, value01_);
       }
-      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+      if (((bitField0_ & 0x00000010) != 0)) {
         output.writeInt32(5, value02_);
       }
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
 
       size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeFixed32Size(1, time_);
       }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+      if (((bitField0_ & 0x00000002) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(2, interval_);
       }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+      if (((bitField0_ & 0x00000004) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(3, heartRate_);
       }
-      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+      if (((bitField0_ & 0x00000008) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(4, value01_);
       }
-      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+      if (((bitField0_ & 0x00000010) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(5, value02_);
       }
@@ -12153,7 +12543,6 @@ public final class TrackerProto {
       return size;
     }
 
-    private static final long serialVersionUID = 0L;
     @java.lang.Override
     public boolean equals(final java.lang.Object obj) {
       if (obj == this) {
@@ -12164,34 +12553,33 @@ public final class TrackerProto {
       }
       net.studioblueplanet.tomtomwatch.TrackerProto.HeartRecord other = (net.studioblueplanet.tomtomwatch.TrackerProto.HeartRecord) obj;
 
-      boolean result = true;
-      result = result && (hasTime() == other.hasTime());
+      if (hasTime() != other.hasTime()) return false;
       if (hasTime()) {
-        result = result && (getTime()
-            == other.getTime());
+        if (getTime()
+            != other.getTime()) return false;
       }
-      result = result && (hasInterval() == other.hasInterval());
+      if (hasInterval() != other.hasInterval()) return false;
       if (hasInterval()) {
-        result = result && (getInterval()
-            == other.getInterval());
+        if (getInterval()
+            != other.getInterval()) return false;
       }
-      result = result && (hasHeartRate() == other.hasHeartRate());
+      if (hasHeartRate() != other.hasHeartRate()) return false;
       if (hasHeartRate()) {
-        result = result && (getHeartRate()
-            == other.getHeartRate());
+        if (getHeartRate()
+            != other.getHeartRate()) return false;
       }
-      result = result && (hasValue01() == other.hasValue01());
+      if (hasValue01() != other.hasValue01()) return false;
       if (hasValue01()) {
-        result = result && (getValue01()
-            == other.getValue01());
+        if (getValue01()
+            != other.getValue01()) return false;
       }
-      result = result && (hasValue02() == other.hasValue02());
+      if (hasValue02() != other.hasValue02()) return false;
       if (hasValue02()) {
-        result = result && (getValue02()
-            == other.getValue02());
+        if (getValue02()
+            != other.getValue02()) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -12296,6 +12684,7 @@ public final class TrackerProto {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -12303,6 +12692,7 @@ public final class TrackerProto {
     public static Builder newBuilder(net.studioblueplanet.tomtomwatch.TrackerProto.HeartRecord prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -12326,6 +12716,7 @@ public final class TrackerProto {
         return net.studioblueplanet.tomtomwatch.TrackerProto.internal_static_tutorial_HeartRecord_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return net.studioblueplanet.tomtomwatch.TrackerProto.internal_static_tutorial_HeartRecord_fieldAccessorTable
@@ -12348,6 +12739,7 @@ public final class TrackerProto {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         time_ = 0;
@@ -12363,15 +12755,18 @@ public final class TrackerProto {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return net.studioblueplanet.tomtomwatch.TrackerProto.internal_static_tutorial_HeartRecord_descriptor;
       }
 
+      @java.lang.Override
       public net.studioblueplanet.tomtomwatch.TrackerProto.HeartRecord getDefaultInstanceForType() {
         return net.studioblueplanet.tomtomwatch.TrackerProto.HeartRecord.getDefaultInstance();
       }
 
+      @java.lang.Override
       public net.studioblueplanet.tomtomwatch.TrackerProto.HeartRecord build() {
         net.studioblueplanet.tomtomwatch.TrackerProto.HeartRecord result = buildPartial();
         if (!result.isInitialized()) {
@@ -12380,61 +12775,69 @@ public final class TrackerProto {
         return result;
       }
 
+      @java.lang.Override
       public net.studioblueplanet.tomtomwatch.TrackerProto.HeartRecord buildPartial() {
         net.studioblueplanet.tomtomwatch.TrackerProto.HeartRecord result = new net.studioblueplanet.tomtomwatch.TrackerProto.HeartRecord(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          result.time_ = time_;
           to_bitField0_ |= 0x00000001;
         }
-        result.time_ = time_;
-        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+        if (((from_bitField0_ & 0x00000002) != 0)) {
+          result.interval_ = interval_;
           to_bitField0_ |= 0x00000002;
         }
-        result.interval_ = interval_;
-        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+        if (((from_bitField0_ & 0x00000004) != 0)) {
+          result.heartRate_ = heartRate_;
           to_bitField0_ |= 0x00000004;
         }
-        result.heartRate_ = heartRate_;
-        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+        if (((from_bitField0_ & 0x00000008) != 0)) {
+          result.value01_ = value01_;
           to_bitField0_ |= 0x00000008;
         }
-        result.value01_ = value01_;
-        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+        if (((from_bitField0_ & 0x00000010) != 0)) {
+          result.value02_ = value02_;
           to_bitField0_ |= 0x00000010;
         }
-        result.value02_ = value02_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          Object value) {
-        return (Builder) super.setField(field, value);
+          java.lang.Object value) {
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof net.studioblueplanet.tomtomwatch.TrackerProto.HeartRecord) {
           return mergeFrom((net.studioblueplanet.tomtomwatch.TrackerProto.HeartRecord)other);
@@ -12466,6 +12869,7 @@ public final class TrackerProto {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         if (!hasTime()) {
           return false;
@@ -12485,6 +12889,7 @@ public final class TrackerProto {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -12513,7 +12918,7 @@ public final class TrackerProto {
        * <code>required fixed32 time = 1;</code>
        */
       public boolean hasTime() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
+        return ((bitField0_ & 0x00000001) != 0);
       }
       /**
        * <pre>
@@ -12561,7 +12966,7 @@ public final class TrackerProto {
        * <code>required int32 interval = 2;</code>
        */
       public boolean hasInterval() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
+        return ((bitField0_ & 0x00000002) != 0);
       }
       /**
        * <pre>
@@ -12609,7 +13014,7 @@ public final class TrackerProto {
        * <code>required int32 heartRate = 3;</code>
        */
       public boolean hasHeartRate() {
-        return ((bitField0_ & 0x00000004) == 0x00000004);
+        return ((bitField0_ & 0x00000004) != 0);
       }
       /**
        * <pre>
@@ -12657,7 +13062,7 @@ public final class TrackerProto {
        * <code>required int32 value01 = 4;</code>
        */
       public boolean hasValue01() {
-        return ((bitField0_ & 0x00000008) == 0x00000008);
+        return ((bitField0_ & 0x00000008) != 0);
       }
       /**
        * <pre>
@@ -12705,7 +13110,7 @@ public final class TrackerProto {
        * <code>required int32 value02 = 5;</code>
        */
       public boolean hasValue02() {
-        return ((bitField0_ & 0x00000010) == 0x00000010);
+        return ((bitField0_ & 0x00000010) != 0);
       }
       /**
        * <pre>
@@ -12743,11 +13148,13 @@ public final class TrackerProto {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -12769,11 +13176,12 @@ public final class TrackerProto {
 
     @java.lang.Deprecated public static final com.google.protobuf.Parser<HeartRecord>
         PARSER = new com.google.protobuf.AbstractParser<HeartRecord>() {
+      @java.lang.Override
       public HeartRecord parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new HeartRecord(input, extensionRegistry);
+        return new HeartRecord(input, extensionRegistry);
       }
     };
 
@@ -12786,6 +13194,7 @@ public final class TrackerProto {
       return PARSER;
     }
 
+    @java.lang.Override
     public net.studioblueplanet.tomtomwatch.TrackerProto.HeartRecord getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -12862,14 +13271,20 @@ public final class TrackerProto {
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:tutorial.Record4)
       Record4OrBuilder {
+  private static final long serialVersionUID = 0L;
     // Use Record4.newBuilder() to construct.
     private Record4(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
     private Record4() {
-      time_ = 0;
-      interval_ = 0;
-      value_ = java.util.Collections.emptyList();
+      value_ = emptyIntList();
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new Record4();
     }
 
     @java.lang.Override
@@ -12882,6 +13297,9 @@ public final class TrackerProto {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -12893,13 +13311,6 @@ public final class TrackerProto {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownField(input, unknownFields,
-                                     extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 13: {
               bitField0_ |= 0x00000001;
               time_ = input.readFixed32();
@@ -12911,24 +13322,31 @@ public final class TrackerProto {
               break;
             }
             case 24: {
-              if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
-                value_ = new java.util.ArrayList<java.lang.Integer>();
+              if (!((mutable_bitField0_ & 0x00000004) != 0)) {
+                value_ = newIntList();
                 mutable_bitField0_ |= 0x00000004;
               }
-              value_.add(input.readInt32());
+              value_.addInt(input.readInt32());
               break;
             }
             case 26: {
               int length = input.readRawVarint32();
               int limit = input.pushLimit(length);
-              if (!((mutable_bitField0_ & 0x00000004) == 0x00000004) && input.getBytesUntilLimit() > 0) {
-                value_ = new java.util.ArrayList<java.lang.Integer>();
+              if (!((mutable_bitField0_ & 0x00000004) != 0) && input.getBytesUntilLimit() > 0) {
+                value_ = newIntList();
                 mutable_bitField0_ |= 0x00000004;
               }
               while (input.getBytesUntilLimit() > 0) {
-                value_.add(input.readInt32());
+                value_.addInt(input.readInt32());
               }
               input.popLimit(limit);
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -12939,8 +13357,8 @@ public final class TrackerProto {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
-          value_ = java.util.Collections.unmodifiableList(value_);
+        if (((mutable_bitField0_ & 0x00000004) != 0)) {
+          value_.makeImmutable(); // C
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -12951,6 +13369,7 @@ public final class TrackerProto {
       return net.studioblueplanet.tomtomwatch.TrackerProto.internal_static_tutorial_Record4_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return net.studioblueplanet.tomtomwatch.TrackerProto.internal_static_tutorial_Record4_fieldAccessorTable
@@ -12969,7 +13388,7 @@ public final class TrackerProto {
      * <code>required fixed32 time = 1;</code>
      */
     public boolean hasTime() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
+      return ((bitField0_ & 0x00000001) != 0);
     }
     /**
      * <pre>
@@ -12992,7 +13411,7 @@ public final class TrackerProto {
      * <code>required int32 interval = 2;</code>
      */
     public boolean hasInterval() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
+      return ((bitField0_ & 0x00000002) != 0);
     }
     /**
      * <pre>
@@ -13006,7 +13425,7 @@ public final class TrackerProto {
     }
 
     public static final int VALUE_FIELD_NUMBER = 3;
-    private java.util.List<java.lang.Integer> value_;
+    private com.google.protobuf.Internal.IntList value_;
     /**
      * <pre>
      * 6 values in the message
@@ -13036,10 +13455,11 @@ public final class TrackerProto {
      * <code>repeated int32 value = 3;</code>
      */
     public int getValue(int index) {
-      return value_.get(index);
+      return value_.getInt(index);
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -13057,30 +13477,32 @@ public final class TrackerProto {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         output.writeFixed32(1, time_);
       }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+      if (((bitField0_ & 0x00000002) != 0)) {
         output.writeInt32(2, interval_);
       }
       for (int i = 0; i < value_.size(); i++) {
-        output.writeInt32(3, value_.get(i));
+        output.writeInt32(3, value_.getInt(i));
       }
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
 
       size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeFixed32Size(1, time_);
       }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+      if (((bitField0_ & 0x00000002) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(2, interval_);
       }
@@ -13088,7 +13510,7 @@ public final class TrackerProto {
         int dataSize = 0;
         for (int i = 0; i < value_.size(); i++) {
           dataSize += com.google.protobuf.CodedOutputStream
-            .computeInt32SizeNoTag(value_.get(i));
+            .computeInt32SizeNoTag(value_.getInt(i));
         }
         size += dataSize;
         size += 1 * getValueList().size();
@@ -13098,7 +13520,6 @@ public final class TrackerProto {
       return size;
     }
 
-    private static final long serialVersionUID = 0L;
     @java.lang.Override
     public boolean equals(final java.lang.Object obj) {
       if (obj == this) {
@@ -13109,21 +13530,20 @@ public final class TrackerProto {
       }
       net.studioblueplanet.tomtomwatch.TrackerProto.Record4 other = (net.studioblueplanet.tomtomwatch.TrackerProto.Record4) obj;
 
-      boolean result = true;
-      result = result && (hasTime() == other.hasTime());
+      if (hasTime() != other.hasTime()) return false;
       if (hasTime()) {
-        result = result && (getTime()
-            == other.getTime());
+        if (getTime()
+            != other.getTime()) return false;
       }
-      result = result && (hasInterval() == other.hasInterval());
+      if (hasInterval() != other.hasInterval()) return false;
       if (hasInterval()) {
-        result = result && (getInterval()
-            == other.getInterval());
+        if (getInterval()
+            != other.getInterval()) return false;
       }
-      result = result && getValueList()
-          .equals(other.getValueList());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getValueList()
+          .equals(other.getValueList())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -13220,6 +13640,7 @@ public final class TrackerProto {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -13227,6 +13648,7 @@ public final class TrackerProto {
     public static Builder newBuilder(net.studioblueplanet.tomtomwatch.TrackerProto.Record4 prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -13250,6 +13672,7 @@ public final class TrackerProto {
         return net.studioblueplanet.tomtomwatch.TrackerProto.internal_static_tutorial_Record4_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return net.studioblueplanet.tomtomwatch.TrackerProto.internal_static_tutorial_Record4_fieldAccessorTable
@@ -13272,26 +13695,30 @@ public final class TrackerProto {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         time_ = 0;
         bitField0_ = (bitField0_ & ~0x00000001);
         interval_ = 0;
         bitField0_ = (bitField0_ & ~0x00000002);
-        value_ = java.util.Collections.emptyList();
+        value_ = emptyIntList();
         bitField0_ = (bitField0_ & ~0x00000004);
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return net.studioblueplanet.tomtomwatch.TrackerProto.internal_static_tutorial_Record4_descriptor;
       }
 
+      @java.lang.Override
       public net.studioblueplanet.tomtomwatch.TrackerProto.Record4 getDefaultInstanceForType() {
         return net.studioblueplanet.tomtomwatch.TrackerProto.Record4.getDefaultInstance();
       }
 
+      @java.lang.Override
       public net.studioblueplanet.tomtomwatch.TrackerProto.Record4 build() {
         net.studioblueplanet.tomtomwatch.TrackerProto.Record4 result = buildPartial();
         if (!result.isInitialized()) {
@@ -13300,20 +13727,21 @@ public final class TrackerProto {
         return result;
       }
 
+      @java.lang.Override
       public net.studioblueplanet.tomtomwatch.TrackerProto.Record4 buildPartial() {
         net.studioblueplanet.tomtomwatch.TrackerProto.Record4 result = new net.studioblueplanet.tomtomwatch.TrackerProto.Record4(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          result.time_ = time_;
           to_bitField0_ |= 0x00000001;
         }
-        result.time_ = time_;
-        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+        if (((from_bitField0_ & 0x00000002) != 0)) {
+          result.interval_ = interval_;
           to_bitField0_ |= 0x00000002;
         }
-        result.interval_ = interval_;
-        if (((bitField0_ & 0x00000004) == 0x00000004)) {
-          value_ = java.util.Collections.unmodifiableList(value_);
+        if (((bitField0_ & 0x00000004) != 0)) {
+          value_.makeImmutable();
           bitField0_ = (bitField0_ & ~0x00000004);
         }
         result.value_ = value_;
@@ -13322,32 +13750,39 @@ public final class TrackerProto {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          Object value) {
-        return (Builder) super.setField(field, value);
+          java.lang.Object value) {
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof net.studioblueplanet.tomtomwatch.TrackerProto.Record4) {
           return mergeFrom((net.studioblueplanet.tomtomwatch.TrackerProto.Record4)other);
@@ -13380,6 +13815,7 @@ public final class TrackerProto {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         if (!hasTime()) {
           return false;
@@ -13390,6 +13826,7 @@ public final class TrackerProto {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -13418,7 +13855,7 @@ public final class TrackerProto {
        * <code>required fixed32 time = 1;</code>
        */
       public boolean hasTime() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
+        return ((bitField0_ & 0x00000001) != 0);
       }
       /**
        * <pre>
@@ -13466,7 +13903,7 @@ public final class TrackerProto {
        * <code>required int32 interval = 2;</code>
        */
       public boolean hasInterval() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
+        return ((bitField0_ & 0x00000002) != 0);
       }
       /**
        * <pre>
@@ -13505,10 +13942,10 @@ public final class TrackerProto {
         return this;
       }
 
-      private java.util.List<java.lang.Integer> value_ = java.util.Collections.emptyList();
+      private com.google.protobuf.Internal.IntList value_ = emptyIntList();
       private void ensureValueIsMutable() {
-        if (!((bitField0_ & 0x00000004) == 0x00000004)) {
-          value_ = new java.util.ArrayList<java.lang.Integer>(value_);
+        if (!((bitField0_ & 0x00000004) != 0)) {
+          value_ = mutableCopy(value_);
           bitField0_ |= 0x00000004;
          }
       }
@@ -13521,7 +13958,8 @@ public final class TrackerProto {
        */
       public java.util.List<java.lang.Integer>
           getValueList() {
-        return java.util.Collections.unmodifiableList(value_);
+        return ((bitField0_ & 0x00000004) != 0) ?
+                 java.util.Collections.unmodifiableList(value_) : value_;
       }
       /**
        * <pre>
@@ -13541,7 +13979,7 @@ public final class TrackerProto {
        * <code>repeated int32 value = 3;</code>
        */
       public int getValue(int index) {
-        return value_.get(index);
+        return value_.getInt(index);
       }
       /**
        * <pre>
@@ -13553,7 +13991,7 @@ public final class TrackerProto {
       public Builder setValue(
           int index, int value) {
         ensureValueIsMutable();
-        value_.set(index, value);
+        value_.setInt(index, value);
         onChanged();
         return this;
       }
@@ -13566,7 +14004,7 @@ public final class TrackerProto {
        */
       public Builder addValue(int value) {
         ensureValueIsMutable();
-        value_.add(value);
+        value_.addInt(value);
         onChanged();
         return this;
       }
@@ -13593,16 +14031,18 @@ public final class TrackerProto {
        * <code>repeated int32 value = 3;</code>
        */
       public Builder clearValue() {
-        value_ = java.util.Collections.emptyList();
+        value_ = emptyIntList();
         bitField0_ = (bitField0_ & ~0x00000004);
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -13624,11 +14064,12 @@ public final class TrackerProto {
 
     @java.lang.Deprecated public static final com.google.protobuf.Parser<Record4>
         PARSER = new com.google.protobuf.AbstractParser<Record4>() {
+      @java.lang.Override
       public Record4 parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new Record4(input, extensionRegistry);
+        return new Record4(input, extensionRegistry);
       }
     };
 
@@ -13641,6 +14082,7 @@ public final class TrackerProto {
       return PARSER;
     }
 
+    @java.lang.Override
     public net.studioblueplanet.tomtomwatch.TrackerProto.Record4 getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -13832,28 +14274,20 @@ public final class TrackerProto {
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:tutorial.UserData)
       UserDataOrBuilder {
+  private static final long serialVersionUID = 0L;
     // Use UserData.newBuilder() to construct.
     private UserData(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
     private UserData() {
       version_ = "";
-      unknown1_ = 0;
-      unknown2_ = 0;
-      unknown3_ = 0;
-      length_ = 0;
-      weight_ = 0;
-      unknown4_ = 0;
-      unknown5_ = 0;
-      unknown6_ = 0;
-      unknown7_ = 0;
-      unknown8_ = 0;
-      unknown9_ = 0;
-      unknown10_ = 0;
-      unknown13_ = 0;
-      unknown14_ = 0;
-      unknown15_ = 0;
-      unknown16_ = 0;
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new UserData();
     }
 
     @java.lang.Override
@@ -13866,6 +14300,9 @@ public final class TrackerProto {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -13877,13 +14314,6 @@ public final class TrackerProto {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownField(input, unknownFields,
-                                     extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000001;
@@ -13970,6 +14400,13 @@ public final class TrackerProto {
               unknown16_ = input.readInt32();
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -13987,6 +14424,7 @@ public final class TrackerProto {
       return net.studioblueplanet.tomtomwatch.TrackerProto.internal_static_tutorial_UserData_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return net.studioblueplanet.tomtomwatch.TrackerProto.internal_static_tutorial_UserData_fieldAccessorTable
@@ -14001,7 +14439,7 @@ public final class TrackerProto {
      * <code>required string version = 1;</code>
      */
     public boolean hasVersion() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
+      return ((bitField0_ & 0x00000001) != 0);
     }
     /**
      * <code>required string version = 1;</code>
@@ -14043,7 +14481,7 @@ public final class TrackerProto {
      * <code>required int32 unknown1 = 2;</code>
      */
     public boolean hasUnknown1() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
+      return ((bitField0_ & 0x00000002) != 0);
     }
     /**
      * <code>required int32 unknown1 = 2;</code>
@@ -14058,7 +14496,7 @@ public final class TrackerProto {
      * <code>required int32 unknown2 = 3;</code>
      */
     public boolean hasUnknown2() {
-      return ((bitField0_ & 0x00000004) == 0x00000004);
+      return ((bitField0_ & 0x00000004) != 0);
     }
     /**
      * <code>required int32 unknown2 = 3;</code>
@@ -14073,7 +14511,7 @@ public final class TrackerProto {
      * <code>required int32 unknown3 = 4;</code>
      */
     public boolean hasUnknown3() {
-      return ((bitField0_ & 0x00000008) == 0x00000008);
+      return ((bitField0_ & 0x00000008) != 0);
     }
     /**
      * <code>required int32 unknown3 = 4;</code>
@@ -14092,7 +14530,7 @@ public final class TrackerProto {
      * <code>required int32 length = 5;</code>
      */
     public boolean hasLength() {
-      return ((bitField0_ & 0x00000010) == 0x00000010);
+      return ((bitField0_ & 0x00000010) != 0);
     }
     /**
      * <pre>
@@ -14115,7 +14553,7 @@ public final class TrackerProto {
      * <code>required int32 weight = 6;</code>
      */
     public boolean hasWeight() {
-      return ((bitField0_ & 0x00000020) == 0x00000020);
+      return ((bitField0_ & 0x00000020) != 0);
     }
     /**
      * <pre>
@@ -14134,7 +14572,7 @@ public final class TrackerProto {
      * <code>required int32 unknown4 = 7;</code>
      */
     public boolean hasUnknown4() {
-      return ((bitField0_ & 0x00000040) == 0x00000040);
+      return ((bitField0_ & 0x00000040) != 0);
     }
     /**
      * <code>required int32 unknown4 = 7;</code>
@@ -14149,7 +14587,7 @@ public final class TrackerProto {
      * <code>required int32 unknown5 = 8;</code>
      */
     public boolean hasUnknown5() {
-      return ((bitField0_ & 0x00000080) == 0x00000080);
+      return ((bitField0_ & 0x00000080) != 0);
     }
     /**
      * <code>required int32 unknown5 = 8;</code>
@@ -14164,7 +14602,7 @@ public final class TrackerProto {
      * <code>required int32 unknown6 = 9;</code>
      */
     public boolean hasUnknown6() {
-      return ((bitField0_ & 0x00000100) == 0x00000100);
+      return ((bitField0_ & 0x00000100) != 0);
     }
     /**
      * <code>required int32 unknown6 = 9;</code>
@@ -14179,7 +14617,7 @@ public final class TrackerProto {
      * <code>required int32 unknown7 = 10;</code>
      */
     public boolean hasUnknown7() {
-      return ((bitField0_ & 0x00000200) == 0x00000200);
+      return ((bitField0_ & 0x00000200) != 0);
     }
     /**
      * <code>required int32 unknown7 = 10;</code>
@@ -14194,7 +14632,7 @@ public final class TrackerProto {
      * <code>required int32 unknown8 = 11;</code>
      */
     public boolean hasUnknown8() {
-      return ((bitField0_ & 0x00000400) == 0x00000400);
+      return ((bitField0_ & 0x00000400) != 0);
     }
     /**
      * <code>required int32 unknown8 = 11;</code>
@@ -14209,7 +14647,7 @@ public final class TrackerProto {
      * <code>required int32 unknown9 = 12;</code>
      */
     public boolean hasUnknown9() {
-      return ((bitField0_ & 0x00000800) == 0x00000800);
+      return ((bitField0_ & 0x00000800) != 0);
     }
     /**
      * <code>required int32 unknown9 = 12;</code>
@@ -14224,7 +14662,7 @@ public final class TrackerProto {
      * <code>required int32 unknown10 = 13;</code>
      */
     public boolean hasUnknown10() {
-      return ((bitField0_ & 0x00001000) == 0x00001000);
+      return ((bitField0_ & 0x00001000) != 0);
     }
     /**
      * <code>required int32 unknown10 = 13;</code>
@@ -14239,7 +14677,7 @@ public final class TrackerProto {
      * <code>required int32 unknown13 = 16;</code>
      */
     public boolean hasUnknown13() {
-      return ((bitField0_ & 0x00002000) == 0x00002000);
+      return ((bitField0_ & 0x00002000) != 0);
     }
     /**
      * <code>required int32 unknown13 = 16;</code>
@@ -14254,7 +14692,7 @@ public final class TrackerProto {
      * <code>required int32 unknown14 = 17;</code>
      */
     public boolean hasUnknown14() {
-      return ((bitField0_ & 0x00004000) == 0x00004000);
+      return ((bitField0_ & 0x00004000) != 0);
     }
     /**
      * <code>required int32 unknown14 = 17;</code>
@@ -14269,7 +14707,7 @@ public final class TrackerProto {
      * <code>required int32 unknown15 = 18;</code>
      */
     public boolean hasUnknown15() {
-      return ((bitField0_ & 0x00008000) == 0x00008000);
+      return ((bitField0_ & 0x00008000) != 0);
     }
     /**
      * <code>required int32 unknown15 = 18;</code>
@@ -14284,7 +14722,7 @@ public final class TrackerProto {
      * <code>required int32 unknown16 = 19;</code>
      */
     public boolean hasUnknown16() {
-      return ((bitField0_ & 0x00010000) == 0x00010000);
+      return ((bitField0_ & 0x00010000) != 0);
     }
     /**
      * <code>required int32 unknown16 = 19;</code>
@@ -14294,6 +14732,7 @@ public final class TrackerProto {
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -14371,131 +14810,133 @@ public final class TrackerProto {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 1, version_);
       }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+      if (((bitField0_ & 0x00000002) != 0)) {
         output.writeInt32(2, unknown1_);
       }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+      if (((bitField0_ & 0x00000004) != 0)) {
         output.writeInt32(3, unknown2_);
       }
-      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+      if (((bitField0_ & 0x00000008) != 0)) {
         output.writeInt32(4, unknown3_);
       }
-      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+      if (((bitField0_ & 0x00000010) != 0)) {
         output.writeInt32(5, length_);
       }
-      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+      if (((bitField0_ & 0x00000020) != 0)) {
         output.writeInt32(6, weight_);
       }
-      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+      if (((bitField0_ & 0x00000040) != 0)) {
         output.writeInt32(7, unknown4_);
       }
-      if (((bitField0_ & 0x00000080) == 0x00000080)) {
+      if (((bitField0_ & 0x00000080) != 0)) {
         output.writeInt32(8, unknown5_);
       }
-      if (((bitField0_ & 0x00000100) == 0x00000100)) {
+      if (((bitField0_ & 0x00000100) != 0)) {
         output.writeInt32(9, unknown6_);
       }
-      if (((bitField0_ & 0x00000200) == 0x00000200)) {
+      if (((bitField0_ & 0x00000200) != 0)) {
         output.writeInt32(10, unknown7_);
       }
-      if (((bitField0_ & 0x00000400) == 0x00000400)) {
+      if (((bitField0_ & 0x00000400) != 0)) {
         output.writeInt32(11, unknown8_);
       }
-      if (((bitField0_ & 0x00000800) == 0x00000800)) {
+      if (((bitField0_ & 0x00000800) != 0)) {
         output.writeInt32(12, unknown9_);
       }
-      if (((bitField0_ & 0x00001000) == 0x00001000)) {
+      if (((bitField0_ & 0x00001000) != 0)) {
         output.writeInt32(13, unknown10_);
       }
-      if (((bitField0_ & 0x00002000) == 0x00002000)) {
+      if (((bitField0_ & 0x00002000) != 0)) {
         output.writeInt32(16, unknown13_);
       }
-      if (((bitField0_ & 0x00004000) == 0x00004000)) {
+      if (((bitField0_ & 0x00004000) != 0)) {
         output.writeInt32(17, unknown14_);
       }
-      if (((bitField0_ & 0x00008000) == 0x00008000)) {
+      if (((bitField0_ & 0x00008000) != 0)) {
         output.writeInt32(18, unknown15_);
       }
-      if (((bitField0_ & 0x00010000) == 0x00010000)) {
+      if (((bitField0_ & 0x00010000) != 0)) {
         output.writeInt32(19, unknown16_);
       }
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
 
       size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, version_);
       }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+      if (((bitField0_ & 0x00000002) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(2, unknown1_);
       }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+      if (((bitField0_ & 0x00000004) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(3, unknown2_);
       }
-      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+      if (((bitField0_ & 0x00000008) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(4, unknown3_);
       }
-      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+      if (((bitField0_ & 0x00000010) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(5, length_);
       }
-      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+      if (((bitField0_ & 0x00000020) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(6, weight_);
       }
-      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+      if (((bitField0_ & 0x00000040) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(7, unknown4_);
       }
-      if (((bitField0_ & 0x00000080) == 0x00000080)) {
+      if (((bitField0_ & 0x00000080) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(8, unknown5_);
       }
-      if (((bitField0_ & 0x00000100) == 0x00000100)) {
+      if (((bitField0_ & 0x00000100) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(9, unknown6_);
       }
-      if (((bitField0_ & 0x00000200) == 0x00000200)) {
+      if (((bitField0_ & 0x00000200) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(10, unknown7_);
       }
-      if (((bitField0_ & 0x00000400) == 0x00000400)) {
+      if (((bitField0_ & 0x00000400) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(11, unknown8_);
       }
-      if (((bitField0_ & 0x00000800) == 0x00000800)) {
+      if (((bitField0_ & 0x00000800) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(12, unknown9_);
       }
-      if (((bitField0_ & 0x00001000) == 0x00001000)) {
+      if (((bitField0_ & 0x00001000) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(13, unknown10_);
       }
-      if (((bitField0_ & 0x00002000) == 0x00002000)) {
+      if (((bitField0_ & 0x00002000) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(16, unknown13_);
       }
-      if (((bitField0_ & 0x00004000) == 0x00004000)) {
+      if (((bitField0_ & 0x00004000) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(17, unknown14_);
       }
-      if (((bitField0_ & 0x00008000) == 0x00008000)) {
+      if (((bitField0_ & 0x00008000) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(18, unknown15_);
       }
-      if (((bitField0_ & 0x00010000) == 0x00010000)) {
+      if (((bitField0_ & 0x00010000) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(19, unknown16_);
       }
@@ -14504,7 +14945,6 @@ public final class TrackerProto {
       return size;
     }
 
-    private static final long serialVersionUID = 0L;
     @java.lang.Override
     public boolean equals(final java.lang.Object obj) {
       if (obj == this) {
@@ -14515,94 +14955,93 @@ public final class TrackerProto {
       }
       net.studioblueplanet.tomtomwatch.TrackerProto.UserData other = (net.studioblueplanet.tomtomwatch.TrackerProto.UserData) obj;
 
-      boolean result = true;
-      result = result && (hasVersion() == other.hasVersion());
+      if (hasVersion() != other.hasVersion()) return false;
       if (hasVersion()) {
-        result = result && getVersion()
-            .equals(other.getVersion());
+        if (!getVersion()
+            .equals(other.getVersion())) return false;
       }
-      result = result && (hasUnknown1() == other.hasUnknown1());
+      if (hasUnknown1() != other.hasUnknown1()) return false;
       if (hasUnknown1()) {
-        result = result && (getUnknown1()
-            == other.getUnknown1());
+        if (getUnknown1()
+            != other.getUnknown1()) return false;
       }
-      result = result && (hasUnknown2() == other.hasUnknown2());
+      if (hasUnknown2() != other.hasUnknown2()) return false;
       if (hasUnknown2()) {
-        result = result && (getUnknown2()
-            == other.getUnknown2());
+        if (getUnknown2()
+            != other.getUnknown2()) return false;
       }
-      result = result && (hasUnknown3() == other.hasUnknown3());
+      if (hasUnknown3() != other.hasUnknown3()) return false;
       if (hasUnknown3()) {
-        result = result && (getUnknown3()
-            == other.getUnknown3());
+        if (getUnknown3()
+            != other.getUnknown3()) return false;
       }
-      result = result && (hasLength() == other.hasLength());
+      if (hasLength() != other.hasLength()) return false;
       if (hasLength()) {
-        result = result && (getLength()
-            == other.getLength());
+        if (getLength()
+            != other.getLength()) return false;
       }
-      result = result && (hasWeight() == other.hasWeight());
+      if (hasWeight() != other.hasWeight()) return false;
       if (hasWeight()) {
-        result = result && (getWeight()
-            == other.getWeight());
+        if (getWeight()
+            != other.getWeight()) return false;
       }
-      result = result && (hasUnknown4() == other.hasUnknown4());
+      if (hasUnknown4() != other.hasUnknown4()) return false;
       if (hasUnknown4()) {
-        result = result && (getUnknown4()
-            == other.getUnknown4());
+        if (getUnknown4()
+            != other.getUnknown4()) return false;
       }
-      result = result && (hasUnknown5() == other.hasUnknown5());
+      if (hasUnknown5() != other.hasUnknown5()) return false;
       if (hasUnknown5()) {
-        result = result && (getUnknown5()
-            == other.getUnknown5());
+        if (getUnknown5()
+            != other.getUnknown5()) return false;
       }
-      result = result && (hasUnknown6() == other.hasUnknown6());
+      if (hasUnknown6() != other.hasUnknown6()) return false;
       if (hasUnknown6()) {
-        result = result && (getUnknown6()
-            == other.getUnknown6());
+        if (getUnknown6()
+            != other.getUnknown6()) return false;
       }
-      result = result && (hasUnknown7() == other.hasUnknown7());
+      if (hasUnknown7() != other.hasUnknown7()) return false;
       if (hasUnknown7()) {
-        result = result && (getUnknown7()
-            == other.getUnknown7());
+        if (getUnknown7()
+            != other.getUnknown7()) return false;
       }
-      result = result && (hasUnknown8() == other.hasUnknown8());
+      if (hasUnknown8() != other.hasUnknown8()) return false;
       if (hasUnknown8()) {
-        result = result && (getUnknown8()
-            == other.getUnknown8());
+        if (getUnknown8()
+            != other.getUnknown8()) return false;
       }
-      result = result && (hasUnknown9() == other.hasUnknown9());
+      if (hasUnknown9() != other.hasUnknown9()) return false;
       if (hasUnknown9()) {
-        result = result && (getUnknown9()
-            == other.getUnknown9());
+        if (getUnknown9()
+            != other.getUnknown9()) return false;
       }
-      result = result && (hasUnknown10() == other.hasUnknown10());
+      if (hasUnknown10() != other.hasUnknown10()) return false;
       if (hasUnknown10()) {
-        result = result && (getUnknown10()
-            == other.getUnknown10());
+        if (getUnknown10()
+            != other.getUnknown10()) return false;
       }
-      result = result && (hasUnknown13() == other.hasUnknown13());
+      if (hasUnknown13() != other.hasUnknown13()) return false;
       if (hasUnknown13()) {
-        result = result && (getUnknown13()
-            == other.getUnknown13());
+        if (getUnknown13()
+            != other.getUnknown13()) return false;
       }
-      result = result && (hasUnknown14() == other.hasUnknown14());
+      if (hasUnknown14() != other.hasUnknown14()) return false;
       if (hasUnknown14()) {
-        result = result && (getUnknown14()
-            == other.getUnknown14());
+        if (getUnknown14()
+            != other.getUnknown14()) return false;
       }
-      result = result && (hasUnknown15() == other.hasUnknown15());
+      if (hasUnknown15() != other.hasUnknown15()) return false;
       if (hasUnknown15()) {
-        result = result && (getUnknown15()
-            == other.getUnknown15());
+        if (getUnknown15()
+            != other.getUnknown15()) return false;
       }
-      result = result && (hasUnknown16() == other.hasUnknown16());
+      if (hasUnknown16() != other.hasUnknown16()) return false;
       if (hasUnknown16()) {
-        result = result && (getUnknown16()
-            == other.getUnknown16());
+        if (getUnknown16()
+            != other.getUnknown16()) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -14755,6 +15194,7 @@ public final class TrackerProto {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -14762,6 +15202,7 @@ public final class TrackerProto {
     public static Builder newBuilder(net.studioblueplanet.tomtomwatch.TrackerProto.UserData prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -14785,6 +15226,7 @@ public final class TrackerProto {
         return net.studioblueplanet.tomtomwatch.TrackerProto.internal_static_tutorial_UserData_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return net.studioblueplanet.tomtomwatch.TrackerProto.internal_static_tutorial_UserData_fieldAccessorTable
@@ -14807,6 +15249,7 @@ public final class TrackerProto {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         version_ = "";
@@ -14846,15 +15289,18 @@ public final class TrackerProto {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return net.studioblueplanet.tomtomwatch.TrackerProto.internal_static_tutorial_UserData_descriptor;
       }
 
+      @java.lang.Override
       public net.studioblueplanet.tomtomwatch.TrackerProto.UserData getDefaultInstanceForType() {
         return net.studioblueplanet.tomtomwatch.TrackerProto.UserData.getDefaultInstance();
       }
 
+      @java.lang.Override
       public net.studioblueplanet.tomtomwatch.TrackerProto.UserData build() {
         net.studioblueplanet.tomtomwatch.TrackerProto.UserData result = buildPartial();
         if (!result.isInitialized()) {
@@ -14863,109 +15309,117 @@ public final class TrackerProto {
         return result;
       }
 
+      @java.lang.Override
       public net.studioblueplanet.tomtomwatch.TrackerProto.UserData buildPartial() {
         net.studioblueplanet.tomtomwatch.TrackerProto.UserData result = new net.studioblueplanet.tomtomwatch.TrackerProto.UserData(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+        if (((from_bitField0_ & 0x00000001) != 0)) {
           to_bitField0_ |= 0x00000001;
         }
         result.version_ = version_;
-        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+        if (((from_bitField0_ & 0x00000002) != 0)) {
+          result.unknown1_ = unknown1_;
           to_bitField0_ |= 0x00000002;
         }
-        result.unknown1_ = unknown1_;
-        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+        if (((from_bitField0_ & 0x00000004) != 0)) {
+          result.unknown2_ = unknown2_;
           to_bitField0_ |= 0x00000004;
         }
-        result.unknown2_ = unknown2_;
-        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+        if (((from_bitField0_ & 0x00000008) != 0)) {
+          result.unknown3_ = unknown3_;
           to_bitField0_ |= 0x00000008;
         }
-        result.unknown3_ = unknown3_;
-        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+        if (((from_bitField0_ & 0x00000010) != 0)) {
+          result.length_ = length_;
           to_bitField0_ |= 0x00000010;
         }
-        result.length_ = length_;
-        if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
+        if (((from_bitField0_ & 0x00000020) != 0)) {
+          result.weight_ = weight_;
           to_bitField0_ |= 0x00000020;
         }
-        result.weight_ = weight_;
-        if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
+        if (((from_bitField0_ & 0x00000040) != 0)) {
+          result.unknown4_ = unknown4_;
           to_bitField0_ |= 0x00000040;
         }
-        result.unknown4_ = unknown4_;
-        if (((from_bitField0_ & 0x00000080) == 0x00000080)) {
+        if (((from_bitField0_ & 0x00000080) != 0)) {
+          result.unknown5_ = unknown5_;
           to_bitField0_ |= 0x00000080;
         }
-        result.unknown5_ = unknown5_;
-        if (((from_bitField0_ & 0x00000100) == 0x00000100)) {
+        if (((from_bitField0_ & 0x00000100) != 0)) {
+          result.unknown6_ = unknown6_;
           to_bitField0_ |= 0x00000100;
         }
-        result.unknown6_ = unknown6_;
-        if (((from_bitField0_ & 0x00000200) == 0x00000200)) {
+        if (((from_bitField0_ & 0x00000200) != 0)) {
+          result.unknown7_ = unknown7_;
           to_bitField0_ |= 0x00000200;
         }
-        result.unknown7_ = unknown7_;
-        if (((from_bitField0_ & 0x00000400) == 0x00000400)) {
+        if (((from_bitField0_ & 0x00000400) != 0)) {
+          result.unknown8_ = unknown8_;
           to_bitField0_ |= 0x00000400;
         }
-        result.unknown8_ = unknown8_;
-        if (((from_bitField0_ & 0x00000800) == 0x00000800)) {
+        if (((from_bitField0_ & 0x00000800) != 0)) {
+          result.unknown9_ = unknown9_;
           to_bitField0_ |= 0x00000800;
         }
-        result.unknown9_ = unknown9_;
-        if (((from_bitField0_ & 0x00001000) == 0x00001000)) {
+        if (((from_bitField0_ & 0x00001000) != 0)) {
+          result.unknown10_ = unknown10_;
           to_bitField0_ |= 0x00001000;
         }
-        result.unknown10_ = unknown10_;
-        if (((from_bitField0_ & 0x00002000) == 0x00002000)) {
+        if (((from_bitField0_ & 0x00002000) != 0)) {
+          result.unknown13_ = unknown13_;
           to_bitField0_ |= 0x00002000;
         }
-        result.unknown13_ = unknown13_;
-        if (((from_bitField0_ & 0x00004000) == 0x00004000)) {
+        if (((from_bitField0_ & 0x00004000) != 0)) {
+          result.unknown14_ = unknown14_;
           to_bitField0_ |= 0x00004000;
         }
-        result.unknown14_ = unknown14_;
-        if (((from_bitField0_ & 0x00008000) == 0x00008000)) {
+        if (((from_bitField0_ & 0x00008000) != 0)) {
+          result.unknown15_ = unknown15_;
           to_bitField0_ |= 0x00008000;
         }
-        result.unknown15_ = unknown15_;
-        if (((from_bitField0_ & 0x00010000) == 0x00010000)) {
+        if (((from_bitField0_ & 0x00010000) != 0)) {
+          result.unknown16_ = unknown16_;
           to_bitField0_ |= 0x00010000;
         }
-        result.unknown16_ = unknown16_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          Object value) {
-        return (Builder) super.setField(field, value);
+          java.lang.Object value) {
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof net.studioblueplanet.tomtomwatch.TrackerProto.UserData) {
           return mergeFrom((net.studioblueplanet.tomtomwatch.TrackerProto.UserData)other);
@@ -15035,6 +15489,7 @@ public final class TrackerProto {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         if (!hasVersion()) {
           return false;
@@ -15090,6 +15545,7 @@ public final class TrackerProto {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -15114,7 +15570,7 @@ public final class TrackerProto {
        * <code>required string version = 1;</code>
        */
       public boolean hasVersion() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
+        return ((bitField0_ & 0x00000001) != 0);
       }
       /**
        * <code>required string version = 1;</code>
@@ -15190,7 +15646,7 @@ public final class TrackerProto {
        * <code>required int32 unknown1 = 2;</code>
        */
       public boolean hasUnknown1() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
+        return ((bitField0_ & 0x00000002) != 0);
       }
       /**
        * <code>required int32 unknown1 = 2;</code>
@@ -15222,7 +15678,7 @@ public final class TrackerProto {
        * <code>required int32 unknown2 = 3;</code>
        */
       public boolean hasUnknown2() {
-        return ((bitField0_ & 0x00000004) == 0x00000004);
+        return ((bitField0_ & 0x00000004) != 0);
       }
       /**
        * <code>required int32 unknown2 = 3;</code>
@@ -15254,7 +15710,7 @@ public final class TrackerProto {
        * <code>required int32 unknown3 = 4;</code>
        */
       public boolean hasUnknown3() {
-        return ((bitField0_ & 0x00000008) == 0x00000008);
+        return ((bitField0_ & 0x00000008) != 0);
       }
       /**
        * <code>required int32 unknown3 = 4;</code>
@@ -15290,7 +15746,7 @@ public final class TrackerProto {
        * <code>required int32 length = 5;</code>
        */
       public boolean hasLength() {
-        return ((bitField0_ & 0x00000010) == 0x00000010);
+        return ((bitField0_ & 0x00000010) != 0);
       }
       /**
        * <pre>
@@ -15338,7 +15794,7 @@ public final class TrackerProto {
        * <code>required int32 weight = 6;</code>
        */
       public boolean hasWeight() {
-        return ((bitField0_ & 0x00000020) == 0x00000020);
+        return ((bitField0_ & 0x00000020) != 0);
       }
       /**
        * <pre>
@@ -15382,7 +15838,7 @@ public final class TrackerProto {
        * <code>required int32 unknown4 = 7;</code>
        */
       public boolean hasUnknown4() {
-        return ((bitField0_ & 0x00000040) == 0x00000040);
+        return ((bitField0_ & 0x00000040) != 0);
       }
       /**
        * <code>required int32 unknown4 = 7;</code>
@@ -15414,7 +15870,7 @@ public final class TrackerProto {
        * <code>required int32 unknown5 = 8;</code>
        */
       public boolean hasUnknown5() {
-        return ((bitField0_ & 0x00000080) == 0x00000080);
+        return ((bitField0_ & 0x00000080) != 0);
       }
       /**
        * <code>required int32 unknown5 = 8;</code>
@@ -15446,7 +15902,7 @@ public final class TrackerProto {
        * <code>required int32 unknown6 = 9;</code>
        */
       public boolean hasUnknown6() {
-        return ((bitField0_ & 0x00000100) == 0x00000100);
+        return ((bitField0_ & 0x00000100) != 0);
       }
       /**
        * <code>required int32 unknown6 = 9;</code>
@@ -15478,7 +15934,7 @@ public final class TrackerProto {
        * <code>required int32 unknown7 = 10;</code>
        */
       public boolean hasUnknown7() {
-        return ((bitField0_ & 0x00000200) == 0x00000200);
+        return ((bitField0_ & 0x00000200) != 0);
       }
       /**
        * <code>required int32 unknown7 = 10;</code>
@@ -15510,7 +15966,7 @@ public final class TrackerProto {
        * <code>required int32 unknown8 = 11;</code>
        */
       public boolean hasUnknown8() {
-        return ((bitField0_ & 0x00000400) == 0x00000400);
+        return ((bitField0_ & 0x00000400) != 0);
       }
       /**
        * <code>required int32 unknown8 = 11;</code>
@@ -15542,7 +15998,7 @@ public final class TrackerProto {
        * <code>required int32 unknown9 = 12;</code>
        */
       public boolean hasUnknown9() {
-        return ((bitField0_ & 0x00000800) == 0x00000800);
+        return ((bitField0_ & 0x00000800) != 0);
       }
       /**
        * <code>required int32 unknown9 = 12;</code>
@@ -15574,7 +16030,7 @@ public final class TrackerProto {
        * <code>required int32 unknown10 = 13;</code>
        */
       public boolean hasUnknown10() {
-        return ((bitField0_ & 0x00001000) == 0x00001000);
+        return ((bitField0_ & 0x00001000) != 0);
       }
       /**
        * <code>required int32 unknown10 = 13;</code>
@@ -15606,7 +16062,7 @@ public final class TrackerProto {
        * <code>required int32 unknown13 = 16;</code>
        */
       public boolean hasUnknown13() {
-        return ((bitField0_ & 0x00002000) == 0x00002000);
+        return ((bitField0_ & 0x00002000) != 0);
       }
       /**
        * <code>required int32 unknown13 = 16;</code>
@@ -15638,7 +16094,7 @@ public final class TrackerProto {
        * <code>required int32 unknown14 = 17;</code>
        */
       public boolean hasUnknown14() {
-        return ((bitField0_ & 0x00004000) == 0x00004000);
+        return ((bitField0_ & 0x00004000) != 0);
       }
       /**
        * <code>required int32 unknown14 = 17;</code>
@@ -15670,7 +16126,7 @@ public final class TrackerProto {
        * <code>required int32 unknown15 = 18;</code>
        */
       public boolean hasUnknown15() {
-        return ((bitField0_ & 0x00008000) == 0x00008000);
+        return ((bitField0_ & 0x00008000) != 0);
       }
       /**
        * <code>required int32 unknown15 = 18;</code>
@@ -15702,7 +16158,7 @@ public final class TrackerProto {
        * <code>required int32 unknown16 = 19;</code>
        */
       public boolean hasUnknown16() {
-        return ((bitField0_ & 0x00010000) == 0x00010000);
+        return ((bitField0_ & 0x00010000) != 0);
       }
       /**
        * <code>required int32 unknown16 = 19;</code>
@@ -15728,11 +16184,13 @@ public final class TrackerProto {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -15754,11 +16212,12 @@ public final class TrackerProto {
 
     @java.lang.Deprecated public static final com.google.protobuf.Parser<UserData>
         PARSER = new com.google.protobuf.AbstractParser<UserData>() {
+      @java.lang.Override
       public UserData parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new UserData(input, extensionRegistry);
+        return new UserData(input, extensionRegistry);
       }
     };
 
@@ -15771,6 +16230,7 @@ public final class TrackerProto {
       return PARSER;
     }
 
+    @java.lang.Override
     public net.studioblueplanet.tomtomwatch.TrackerProto.UserData getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -15926,20 +16386,19 @@ public final class TrackerProto {
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:tutorial.FitnessRecord)
       FitnessRecordOrBuilder {
+  private static final long serialVersionUID = 0L;
     // Use FitnessRecord.newBuilder() to construct.
     private FitnessRecord(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
     private FitnessRecord() {
-      time_ = 0;
-      interval_ = 0;
-      unknown1_ = 0;
-      unknown2_ = 0;
-      unknown3_ = 0;
-      unknown4_ = 0;
-      unknown5_ = 0;
-      fitnessPoints1_ = 0;
-      fitnessPoints2_ = 0;
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new FitnessRecord();
     }
 
     @java.lang.Override
@@ -15952,6 +16411,9 @@ public final class TrackerProto {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -15963,13 +16425,6 @@ public final class TrackerProto {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownField(input, unknownFields,
-                                     extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 16: {
               bitField0_ |= 0x00000001;
               time_ = input.readInt32();
@@ -15982,7 +16437,7 @@ public final class TrackerProto {
             }
             case 42: {
               net.studioblueplanet.tomtomwatch.TrackerProto.UserData.Builder subBuilder = null;
-              if (((bitField0_ & 0x00000004) == 0x00000004)) {
+              if (((bitField0_ & 0x00000004) != 0)) {
                 subBuilder = userData_.toBuilder();
               }
               userData_ = input.readMessage(net.studioblueplanet.tomtomwatch.TrackerProto.UserData.PARSER, extensionRegistry);
@@ -16028,6 +16483,13 @@ public final class TrackerProto {
               fitnessPoints2_ = input.readInt32();
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -16045,6 +16507,7 @@ public final class TrackerProto {
       return net.studioblueplanet.tomtomwatch.TrackerProto.internal_static_tutorial_FitnessRecord_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return net.studioblueplanet.tomtomwatch.TrackerProto.internal_static_tutorial_FitnessRecord_fieldAccessorTable
@@ -16063,7 +16526,7 @@ public final class TrackerProto {
      * <code>required int32 time = 2;</code>
      */
     public boolean hasTime() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
+      return ((bitField0_ & 0x00000001) != 0);
     }
     /**
      * <pre>
@@ -16086,7 +16549,7 @@ public final class TrackerProto {
      * <code>required int32 interval = 3;</code>
      */
     public boolean hasInterval() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
+      return ((bitField0_ & 0x00000002) != 0);
     }
     /**
      * <pre>
@@ -16109,7 +16572,7 @@ public final class TrackerProto {
      * <code>optional .tutorial.UserData userData = 5;</code>
      */
     public boolean hasUserData() {
-      return ((bitField0_ & 0x00000004) == 0x00000004);
+      return ((bitField0_ & 0x00000004) != 0);
     }
     /**
      * <pre>
@@ -16138,7 +16601,7 @@ public final class TrackerProto {
      * <code>optional int32 unknown1 = 7;</code>
      */
     public boolean hasUnknown1() {
-      return ((bitField0_ & 0x00000008) == 0x00000008);
+      return ((bitField0_ & 0x00000008) != 0);
     }
     /**
      * <code>optional int32 unknown1 = 7;</code>
@@ -16153,7 +16616,7 @@ public final class TrackerProto {
      * <code>optional int32 unknown2 = 8;</code>
      */
     public boolean hasUnknown2() {
-      return ((bitField0_ & 0x00000010) == 0x00000010);
+      return ((bitField0_ & 0x00000010) != 0);
     }
     /**
      * <code>optional int32 unknown2 = 8;</code>
@@ -16168,7 +16631,7 @@ public final class TrackerProto {
      * <code>optional int32 unknown3 = 10;</code>
      */
     public boolean hasUnknown3() {
-      return ((bitField0_ & 0x00000020) == 0x00000020);
+      return ((bitField0_ & 0x00000020) != 0);
     }
     /**
      * <code>optional int32 unknown3 = 10;</code>
@@ -16183,7 +16646,7 @@ public final class TrackerProto {
      * <code>optional int32 unknown4 = 11;</code>
      */
     public boolean hasUnknown4() {
-      return ((bitField0_ & 0x00000040) == 0x00000040);
+      return ((bitField0_ & 0x00000040) != 0);
     }
     /**
      * <code>optional int32 unknown4 = 11;</code>
@@ -16198,7 +16661,7 @@ public final class TrackerProto {
      * <code>optional int32 unknown5 = 12;</code>
      */
     public boolean hasUnknown5() {
-      return ((bitField0_ & 0x00000080) == 0x00000080);
+      return ((bitField0_ & 0x00000080) != 0);
     }
     /**
      * <code>optional int32 unknown5 = 12;</code>
@@ -16217,7 +16680,7 @@ public final class TrackerProto {
      * <code>required int32 fitnessPoints1 = 15;</code>
      */
     public boolean hasFitnessPoints1() {
-      return ((bitField0_ & 0x00000100) == 0x00000100);
+      return ((bitField0_ & 0x00000100) != 0);
     }
     /**
      * <pre>
@@ -16240,7 +16703,7 @@ public final class TrackerProto {
      * <code>required int32 fitnessPoints2 = 16;</code>
      */
     public boolean hasFitnessPoints2() {
-      return ((bitField0_ & 0x00000200) == 0x00000200);
+      return ((bitField0_ & 0x00000200) != 0);
     }
     /**
      * <pre>
@@ -16254,6 +16717,7 @@ public final class TrackerProto {
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -16285,83 +16749,85 @@ public final class TrackerProto {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         output.writeInt32(2, time_);
       }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+      if (((bitField0_ & 0x00000002) != 0)) {
         output.writeInt32(3, interval_);
       }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+      if (((bitField0_ & 0x00000004) != 0)) {
         output.writeMessage(5, getUserData());
       }
-      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+      if (((bitField0_ & 0x00000008) != 0)) {
         output.writeInt32(7, unknown1_);
       }
-      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+      if (((bitField0_ & 0x00000010) != 0)) {
         output.writeInt32(8, unknown2_);
       }
-      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+      if (((bitField0_ & 0x00000020) != 0)) {
         output.writeInt32(10, unknown3_);
       }
-      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+      if (((bitField0_ & 0x00000040) != 0)) {
         output.writeInt32(11, unknown4_);
       }
-      if (((bitField0_ & 0x00000080) == 0x00000080)) {
+      if (((bitField0_ & 0x00000080) != 0)) {
         output.writeInt32(12, unknown5_);
       }
-      if (((bitField0_ & 0x00000100) == 0x00000100)) {
+      if (((bitField0_ & 0x00000100) != 0)) {
         output.writeInt32(15, fitnessPoints1_);
       }
-      if (((bitField0_ & 0x00000200) == 0x00000200)) {
+      if (((bitField0_ & 0x00000200) != 0)) {
         output.writeInt32(16, fitnessPoints2_);
       }
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
 
       size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(2, time_);
       }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+      if (((bitField0_ & 0x00000002) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(3, interval_);
       }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+      if (((bitField0_ & 0x00000004) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(5, getUserData());
       }
-      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+      if (((bitField0_ & 0x00000008) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(7, unknown1_);
       }
-      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+      if (((bitField0_ & 0x00000010) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(8, unknown2_);
       }
-      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+      if (((bitField0_ & 0x00000020) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(10, unknown3_);
       }
-      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+      if (((bitField0_ & 0x00000040) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(11, unknown4_);
       }
-      if (((bitField0_ & 0x00000080) == 0x00000080)) {
+      if (((bitField0_ & 0x00000080) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(12, unknown5_);
       }
-      if (((bitField0_ & 0x00000100) == 0x00000100)) {
+      if (((bitField0_ & 0x00000100) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(15, fitnessPoints1_);
       }
-      if (((bitField0_ & 0x00000200) == 0x00000200)) {
+      if (((bitField0_ & 0x00000200) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(16, fitnessPoints2_);
       }
@@ -16370,7 +16836,6 @@ public final class TrackerProto {
       return size;
     }
 
-    private static final long serialVersionUID = 0L;
     @java.lang.Override
     public boolean equals(final java.lang.Object obj) {
       if (obj == this) {
@@ -16381,59 +16846,58 @@ public final class TrackerProto {
       }
       net.studioblueplanet.tomtomwatch.TrackerProto.FitnessRecord other = (net.studioblueplanet.tomtomwatch.TrackerProto.FitnessRecord) obj;
 
-      boolean result = true;
-      result = result && (hasTime() == other.hasTime());
+      if (hasTime() != other.hasTime()) return false;
       if (hasTime()) {
-        result = result && (getTime()
-            == other.getTime());
+        if (getTime()
+            != other.getTime()) return false;
       }
-      result = result && (hasInterval() == other.hasInterval());
+      if (hasInterval() != other.hasInterval()) return false;
       if (hasInterval()) {
-        result = result && (getInterval()
-            == other.getInterval());
+        if (getInterval()
+            != other.getInterval()) return false;
       }
-      result = result && (hasUserData() == other.hasUserData());
+      if (hasUserData() != other.hasUserData()) return false;
       if (hasUserData()) {
-        result = result && getUserData()
-            .equals(other.getUserData());
+        if (!getUserData()
+            .equals(other.getUserData())) return false;
       }
-      result = result && (hasUnknown1() == other.hasUnknown1());
+      if (hasUnknown1() != other.hasUnknown1()) return false;
       if (hasUnknown1()) {
-        result = result && (getUnknown1()
-            == other.getUnknown1());
+        if (getUnknown1()
+            != other.getUnknown1()) return false;
       }
-      result = result && (hasUnknown2() == other.hasUnknown2());
+      if (hasUnknown2() != other.hasUnknown2()) return false;
       if (hasUnknown2()) {
-        result = result && (getUnknown2()
-            == other.getUnknown2());
+        if (getUnknown2()
+            != other.getUnknown2()) return false;
       }
-      result = result && (hasUnknown3() == other.hasUnknown3());
+      if (hasUnknown3() != other.hasUnknown3()) return false;
       if (hasUnknown3()) {
-        result = result && (getUnknown3()
-            == other.getUnknown3());
+        if (getUnknown3()
+            != other.getUnknown3()) return false;
       }
-      result = result && (hasUnknown4() == other.hasUnknown4());
+      if (hasUnknown4() != other.hasUnknown4()) return false;
       if (hasUnknown4()) {
-        result = result && (getUnknown4()
-            == other.getUnknown4());
+        if (getUnknown4()
+            != other.getUnknown4()) return false;
       }
-      result = result && (hasUnknown5() == other.hasUnknown5());
+      if (hasUnknown5() != other.hasUnknown5()) return false;
       if (hasUnknown5()) {
-        result = result && (getUnknown5()
-            == other.getUnknown5());
+        if (getUnknown5()
+            != other.getUnknown5()) return false;
       }
-      result = result && (hasFitnessPoints1() == other.hasFitnessPoints1());
+      if (hasFitnessPoints1() != other.hasFitnessPoints1()) return false;
       if (hasFitnessPoints1()) {
-        result = result && (getFitnessPoints1()
-            == other.getFitnessPoints1());
+        if (getFitnessPoints1()
+            != other.getFitnessPoints1()) return false;
       }
-      result = result && (hasFitnessPoints2() == other.hasFitnessPoints2());
+      if (hasFitnessPoints2() != other.hasFitnessPoints2()) return false;
       if (hasFitnessPoints2()) {
-        result = result && (getFitnessPoints2()
-            == other.getFitnessPoints2());
+        if (getFitnessPoints2()
+            != other.getFitnessPoints2()) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -16558,6 +17022,7 @@ public final class TrackerProto {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -16565,6 +17030,7 @@ public final class TrackerProto {
     public static Builder newBuilder(net.studioblueplanet.tomtomwatch.TrackerProto.FitnessRecord prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -16588,6 +17054,7 @@ public final class TrackerProto {
         return net.studioblueplanet.tomtomwatch.TrackerProto.internal_static_tutorial_FitnessRecord_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return net.studioblueplanet.tomtomwatch.TrackerProto.internal_static_tutorial_FitnessRecord_fieldAccessorTable
@@ -16611,6 +17078,7 @@ public final class TrackerProto {
           getUserDataFieldBuilder();
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         time_ = 0;
@@ -16640,15 +17108,18 @@ public final class TrackerProto {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return net.studioblueplanet.tomtomwatch.TrackerProto.internal_static_tutorial_FitnessRecord_descriptor;
       }
 
+      @java.lang.Override
       public net.studioblueplanet.tomtomwatch.TrackerProto.FitnessRecord getDefaultInstanceForType() {
         return net.studioblueplanet.tomtomwatch.TrackerProto.FitnessRecord.getDefaultInstance();
       }
 
+      @java.lang.Override
       public net.studioblueplanet.tomtomwatch.TrackerProto.FitnessRecord build() {
         net.studioblueplanet.tomtomwatch.TrackerProto.FitnessRecord result = buildPartial();
         if (!result.isInitialized()) {
@@ -16657,85 +17128,93 @@ public final class TrackerProto {
         return result;
       }
 
+      @java.lang.Override
       public net.studioblueplanet.tomtomwatch.TrackerProto.FitnessRecord buildPartial() {
         net.studioblueplanet.tomtomwatch.TrackerProto.FitnessRecord result = new net.studioblueplanet.tomtomwatch.TrackerProto.FitnessRecord(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          result.time_ = time_;
           to_bitField0_ |= 0x00000001;
         }
-        result.time_ = time_;
-        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+        if (((from_bitField0_ & 0x00000002) != 0)) {
+          result.interval_ = interval_;
           to_bitField0_ |= 0x00000002;
         }
-        result.interval_ = interval_;
-        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+        if (((from_bitField0_ & 0x00000004) != 0)) {
+          if (userDataBuilder_ == null) {
+            result.userData_ = userData_;
+          } else {
+            result.userData_ = userDataBuilder_.build();
+          }
           to_bitField0_ |= 0x00000004;
         }
-        if (userDataBuilder_ == null) {
-          result.userData_ = userData_;
-        } else {
-          result.userData_ = userDataBuilder_.build();
-        }
-        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+        if (((from_bitField0_ & 0x00000008) != 0)) {
+          result.unknown1_ = unknown1_;
           to_bitField0_ |= 0x00000008;
         }
-        result.unknown1_ = unknown1_;
-        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+        if (((from_bitField0_ & 0x00000010) != 0)) {
+          result.unknown2_ = unknown2_;
           to_bitField0_ |= 0x00000010;
         }
-        result.unknown2_ = unknown2_;
-        if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
+        if (((from_bitField0_ & 0x00000020) != 0)) {
+          result.unknown3_ = unknown3_;
           to_bitField0_ |= 0x00000020;
         }
-        result.unknown3_ = unknown3_;
-        if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
+        if (((from_bitField0_ & 0x00000040) != 0)) {
+          result.unknown4_ = unknown4_;
           to_bitField0_ |= 0x00000040;
         }
-        result.unknown4_ = unknown4_;
-        if (((from_bitField0_ & 0x00000080) == 0x00000080)) {
+        if (((from_bitField0_ & 0x00000080) != 0)) {
+          result.unknown5_ = unknown5_;
           to_bitField0_ |= 0x00000080;
         }
-        result.unknown5_ = unknown5_;
-        if (((from_bitField0_ & 0x00000100) == 0x00000100)) {
+        if (((from_bitField0_ & 0x00000100) != 0)) {
+          result.fitnessPoints1_ = fitnessPoints1_;
           to_bitField0_ |= 0x00000100;
         }
-        result.fitnessPoints1_ = fitnessPoints1_;
-        if (((from_bitField0_ & 0x00000200) == 0x00000200)) {
+        if (((from_bitField0_ & 0x00000200) != 0)) {
+          result.fitnessPoints2_ = fitnessPoints2_;
           to_bitField0_ |= 0x00000200;
         }
-        result.fitnessPoints2_ = fitnessPoints2_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          Object value) {
-        return (Builder) super.setField(field, value);
+          java.lang.Object value) {
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof net.studioblueplanet.tomtomwatch.TrackerProto.FitnessRecord) {
           return mergeFrom((net.studioblueplanet.tomtomwatch.TrackerProto.FitnessRecord)other);
@@ -16782,6 +17261,7 @@ public final class TrackerProto {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         if (!hasTime()) {
           return false;
@@ -16803,6 +17283,7 @@ public final class TrackerProto {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -16831,7 +17312,7 @@ public final class TrackerProto {
        * <code>required int32 time = 2;</code>
        */
       public boolean hasTime() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
+        return ((bitField0_ & 0x00000001) != 0);
       }
       /**
        * <pre>
@@ -16879,7 +17360,7 @@ public final class TrackerProto {
        * <code>required int32 interval = 3;</code>
        */
       public boolean hasInterval() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
+        return ((bitField0_ & 0x00000002) != 0);
       }
       /**
        * <pre>
@@ -16918,7 +17399,7 @@ public final class TrackerProto {
         return this;
       }
 
-      private net.studioblueplanet.tomtomwatch.TrackerProto.UserData userData_ = null;
+      private net.studioblueplanet.tomtomwatch.TrackerProto.UserData userData_;
       private com.google.protobuf.SingleFieldBuilderV3<
           net.studioblueplanet.tomtomwatch.TrackerProto.UserData, net.studioblueplanet.tomtomwatch.TrackerProto.UserData.Builder, net.studioblueplanet.tomtomwatch.TrackerProto.UserDataOrBuilder> userDataBuilder_;
       /**
@@ -16929,7 +17410,7 @@ public final class TrackerProto {
        * <code>optional .tutorial.UserData userData = 5;</code>
        */
       public boolean hasUserData() {
-        return ((bitField0_ & 0x00000004) == 0x00000004);
+        return ((bitField0_ & 0x00000004) != 0);
       }
       /**
        * <pre>
@@ -16992,7 +17473,7 @@ public final class TrackerProto {
        */
       public Builder mergeUserData(net.studioblueplanet.tomtomwatch.TrackerProto.UserData value) {
         if (userDataBuilder_ == null) {
-          if (((bitField0_ & 0x00000004) == 0x00000004) &&
+          if (((bitField0_ & 0x00000004) != 0) &&
               userData_ != null &&
               userData_ != net.studioblueplanet.tomtomwatch.TrackerProto.UserData.getDefaultInstance()) {
             userData_ =
@@ -17077,7 +17558,7 @@ public final class TrackerProto {
        * <code>optional int32 unknown1 = 7;</code>
        */
       public boolean hasUnknown1() {
-        return ((bitField0_ & 0x00000008) == 0x00000008);
+        return ((bitField0_ & 0x00000008) != 0);
       }
       /**
        * <code>optional int32 unknown1 = 7;</code>
@@ -17109,7 +17590,7 @@ public final class TrackerProto {
        * <code>optional int32 unknown2 = 8;</code>
        */
       public boolean hasUnknown2() {
-        return ((bitField0_ & 0x00000010) == 0x00000010);
+        return ((bitField0_ & 0x00000010) != 0);
       }
       /**
        * <code>optional int32 unknown2 = 8;</code>
@@ -17141,7 +17622,7 @@ public final class TrackerProto {
        * <code>optional int32 unknown3 = 10;</code>
        */
       public boolean hasUnknown3() {
-        return ((bitField0_ & 0x00000020) == 0x00000020);
+        return ((bitField0_ & 0x00000020) != 0);
       }
       /**
        * <code>optional int32 unknown3 = 10;</code>
@@ -17173,7 +17654,7 @@ public final class TrackerProto {
        * <code>optional int32 unknown4 = 11;</code>
        */
       public boolean hasUnknown4() {
-        return ((bitField0_ & 0x00000040) == 0x00000040);
+        return ((bitField0_ & 0x00000040) != 0);
       }
       /**
        * <code>optional int32 unknown4 = 11;</code>
@@ -17205,7 +17686,7 @@ public final class TrackerProto {
        * <code>optional int32 unknown5 = 12;</code>
        */
       public boolean hasUnknown5() {
-        return ((bitField0_ & 0x00000080) == 0x00000080);
+        return ((bitField0_ & 0x00000080) != 0);
       }
       /**
        * <code>optional int32 unknown5 = 12;</code>
@@ -17241,7 +17722,7 @@ public final class TrackerProto {
        * <code>required int32 fitnessPoints1 = 15;</code>
        */
       public boolean hasFitnessPoints1() {
-        return ((bitField0_ & 0x00000100) == 0x00000100);
+        return ((bitField0_ & 0x00000100) != 0);
       }
       /**
        * <pre>
@@ -17289,7 +17770,7 @@ public final class TrackerProto {
        * <code>required int32 fitnessPoints2 = 16;</code>
        */
       public boolean hasFitnessPoints2() {
-        return ((bitField0_ & 0x00000200) == 0x00000200);
+        return ((bitField0_ & 0x00000200) != 0);
       }
       /**
        * <pre>
@@ -17327,11 +17808,13 @@ public final class TrackerProto {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -17353,11 +17836,12 @@ public final class TrackerProto {
 
     @java.lang.Deprecated public static final com.google.protobuf.Parser<FitnessRecord>
         PARSER = new com.google.protobuf.AbstractParser<FitnessRecord>() {
+      @java.lang.Override
       public FitnessRecord parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new FitnessRecord(input, extensionRegistry);
+        return new FitnessRecord(input, extensionRegistry);
       }
     };
 
@@ -17370,6 +17854,7 @@ public final class TrackerProto {
       return PARSER;
     }
 
+    @java.lang.Override
     public net.studioblueplanet.tomtomwatch.TrackerProto.FitnessRecord getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -17414,14 +17899,19 @@ public final class TrackerProto {
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:tutorial.Record6Sub)
       Record6SubOrBuilder {
+  private static final long serialVersionUID = 0L;
     // Use Record6Sub.newBuilder() to construct.
     private Record6Sub(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
     private Record6Sub() {
-      unknown1_ = 0;
-      unknown2_ = 0;
-      unknown3_ = 0;
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new Record6Sub();
     }
 
     @java.lang.Override
@@ -17434,6 +17924,9 @@ public final class TrackerProto {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -17445,13 +17938,6 @@ public final class TrackerProto {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownField(input, unknownFields,
-                                     extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 8: {
               bitField0_ |= 0x00000001;
               unknown1_ = input.readInt32();
@@ -17465,6 +17951,13 @@ public final class TrackerProto {
             case 24: {
               bitField0_ |= 0x00000004;
               unknown3_ = input.readInt32();
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -17484,6 +17977,7 @@ public final class TrackerProto {
       return net.studioblueplanet.tomtomwatch.TrackerProto.internal_static_tutorial_Record6Sub_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return net.studioblueplanet.tomtomwatch.TrackerProto.internal_static_tutorial_Record6Sub_fieldAccessorTable
@@ -17498,7 +17992,7 @@ public final class TrackerProto {
      * <code>required int32 unknown1 = 1;</code>
      */
     public boolean hasUnknown1() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
+      return ((bitField0_ & 0x00000001) != 0);
     }
     /**
      * <code>required int32 unknown1 = 1;</code>
@@ -17513,7 +18007,7 @@ public final class TrackerProto {
      * <code>required int32 unknown2 = 2;</code>
      */
     public boolean hasUnknown2() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
+      return ((bitField0_ & 0x00000002) != 0);
     }
     /**
      * <code>required int32 unknown2 = 2;</code>
@@ -17528,7 +18022,7 @@ public final class TrackerProto {
      * <code>required int32 unknown3 = 3;</code>
      */
     public boolean hasUnknown3() {
-      return ((bitField0_ & 0x00000004) == 0x00000004);
+      return ((bitField0_ & 0x00000004) != 0);
     }
     /**
      * <code>required int32 unknown3 = 3;</code>
@@ -17538,6 +18032,7 @@ public final class TrackerProto {
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -17559,34 +18054,36 @@ public final class TrackerProto {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         output.writeInt32(1, unknown1_);
       }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+      if (((bitField0_ & 0x00000002) != 0)) {
         output.writeInt32(2, unknown2_);
       }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+      if (((bitField0_ & 0x00000004) != 0)) {
         output.writeInt32(3, unknown3_);
       }
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
 
       size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(1, unknown1_);
       }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+      if (((bitField0_ & 0x00000002) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(2, unknown2_);
       }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+      if (((bitField0_ & 0x00000004) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(3, unknown3_);
       }
@@ -17595,7 +18092,6 @@ public final class TrackerProto {
       return size;
     }
 
-    private static final long serialVersionUID = 0L;
     @java.lang.Override
     public boolean equals(final java.lang.Object obj) {
       if (obj == this) {
@@ -17606,24 +18102,23 @@ public final class TrackerProto {
       }
       net.studioblueplanet.tomtomwatch.TrackerProto.Record6Sub other = (net.studioblueplanet.tomtomwatch.TrackerProto.Record6Sub) obj;
 
-      boolean result = true;
-      result = result && (hasUnknown1() == other.hasUnknown1());
+      if (hasUnknown1() != other.hasUnknown1()) return false;
       if (hasUnknown1()) {
-        result = result && (getUnknown1()
-            == other.getUnknown1());
+        if (getUnknown1()
+            != other.getUnknown1()) return false;
       }
-      result = result && (hasUnknown2() == other.hasUnknown2());
+      if (hasUnknown2() != other.hasUnknown2()) return false;
       if (hasUnknown2()) {
-        result = result && (getUnknown2()
-            == other.getUnknown2());
+        if (getUnknown2()
+            != other.getUnknown2()) return false;
       }
-      result = result && (hasUnknown3() == other.hasUnknown3());
+      if (hasUnknown3() != other.hasUnknown3()) return false;
       if (hasUnknown3()) {
-        result = result && (getUnknown3()
-            == other.getUnknown3());
+        if (getUnknown3()
+            != other.getUnknown3()) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -17720,6 +18215,7 @@ public final class TrackerProto {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -17727,6 +18223,7 @@ public final class TrackerProto {
     public static Builder newBuilder(net.studioblueplanet.tomtomwatch.TrackerProto.Record6Sub prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -17750,6 +18247,7 @@ public final class TrackerProto {
         return net.studioblueplanet.tomtomwatch.TrackerProto.internal_static_tutorial_Record6Sub_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return net.studioblueplanet.tomtomwatch.TrackerProto.internal_static_tutorial_Record6Sub_fieldAccessorTable
@@ -17772,6 +18270,7 @@ public final class TrackerProto {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         unknown1_ = 0;
@@ -17783,15 +18282,18 @@ public final class TrackerProto {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return net.studioblueplanet.tomtomwatch.TrackerProto.internal_static_tutorial_Record6Sub_descriptor;
       }
 
+      @java.lang.Override
       public net.studioblueplanet.tomtomwatch.TrackerProto.Record6Sub getDefaultInstanceForType() {
         return net.studioblueplanet.tomtomwatch.TrackerProto.Record6Sub.getDefaultInstance();
       }
 
+      @java.lang.Override
       public net.studioblueplanet.tomtomwatch.TrackerProto.Record6Sub build() {
         net.studioblueplanet.tomtomwatch.TrackerProto.Record6Sub result = buildPartial();
         if (!result.isInitialized()) {
@@ -17800,53 +18302,61 @@ public final class TrackerProto {
         return result;
       }
 
+      @java.lang.Override
       public net.studioblueplanet.tomtomwatch.TrackerProto.Record6Sub buildPartial() {
         net.studioblueplanet.tomtomwatch.TrackerProto.Record6Sub result = new net.studioblueplanet.tomtomwatch.TrackerProto.Record6Sub(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          result.unknown1_ = unknown1_;
           to_bitField0_ |= 0x00000001;
         }
-        result.unknown1_ = unknown1_;
-        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+        if (((from_bitField0_ & 0x00000002) != 0)) {
+          result.unknown2_ = unknown2_;
           to_bitField0_ |= 0x00000002;
         }
-        result.unknown2_ = unknown2_;
-        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+        if (((from_bitField0_ & 0x00000004) != 0)) {
+          result.unknown3_ = unknown3_;
           to_bitField0_ |= 0x00000004;
         }
-        result.unknown3_ = unknown3_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          Object value) {
-        return (Builder) super.setField(field, value);
+          java.lang.Object value) {
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof net.studioblueplanet.tomtomwatch.TrackerProto.Record6Sub) {
           return mergeFrom((net.studioblueplanet.tomtomwatch.TrackerProto.Record6Sub)other);
@@ -17872,6 +18382,7 @@ public final class TrackerProto {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         if (!hasUnknown1()) {
           return false;
@@ -17885,6 +18396,7 @@ public final class TrackerProto {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -17909,7 +18421,7 @@ public final class TrackerProto {
        * <code>required int32 unknown1 = 1;</code>
        */
       public boolean hasUnknown1() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
+        return ((bitField0_ & 0x00000001) != 0);
       }
       /**
        * <code>required int32 unknown1 = 1;</code>
@@ -17941,7 +18453,7 @@ public final class TrackerProto {
        * <code>required int32 unknown2 = 2;</code>
        */
       public boolean hasUnknown2() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
+        return ((bitField0_ & 0x00000002) != 0);
       }
       /**
        * <code>required int32 unknown2 = 2;</code>
@@ -17973,7 +18485,7 @@ public final class TrackerProto {
        * <code>required int32 unknown3 = 3;</code>
        */
       public boolean hasUnknown3() {
-        return ((bitField0_ & 0x00000004) == 0x00000004);
+        return ((bitField0_ & 0x00000004) != 0);
       }
       /**
        * <code>required int32 unknown3 = 3;</code>
@@ -17999,11 +18511,13 @@ public final class TrackerProto {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -18025,11 +18539,12 @@ public final class TrackerProto {
 
     @java.lang.Deprecated public static final com.google.protobuf.Parser<Record6Sub>
         PARSER = new com.google.protobuf.AbstractParser<Record6Sub>() {
+      @java.lang.Override
       public Record6Sub parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new Record6Sub(input, extensionRegistry);
+        return new Record6Sub(input, extensionRegistry);
       }
     };
 
@@ -18042,6 +18557,7 @@ public final class TrackerProto {
       return PARSER;
     }
 
+    @java.lang.Override
     public net.studioblueplanet.tomtomwatch.TrackerProto.Record6Sub getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -18146,15 +18662,20 @@ public final class TrackerProto {
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:tutorial.Record6)
       Record6OrBuilder {
+  private static final long serialVersionUID = 0L;
     // Use Record6.newBuilder() to construct.
     private Record6(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
     private Record6() {
-      time_ = 0;
-      interval_ = 0;
-      unknown1_ = 0;
       sub_ = java.util.Collections.emptyList();
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new Record6();
     }
 
     @java.lang.Override
@@ -18167,6 +18688,9 @@ public final class TrackerProto {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -18178,13 +18702,6 @@ public final class TrackerProto {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownField(input, unknownFields,
-                                     extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 8: {
               bitField0_ |= 0x00000001;
               time_ = input.readInt32();
@@ -18201,12 +18718,19 @@ public final class TrackerProto {
               break;
             }
             case 34: {
-              if (!((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
+              if (!((mutable_bitField0_ & 0x00000008) != 0)) {
                 sub_ = new java.util.ArrayList<net.studioblueplanet.tomtomwatch.TrackerProto.Record6Sub>();
                 mutable_bitField0_ |= 0x00000008;
               }
               sub_.add(
                   input.readMessage(net.studioblueplanet.tomtomwatch.TrackerProto.Record6Sub.PARSER, extensionRegistry));
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -18217,7 +18741,7 @@ public final class TrackerProto {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
+        if (((mutable_bitField0_ & 0x00000008) != 0)) {
           sub_ = java.util.Collections.unmodifiableList(sub_);
         }
         this.unknownFields = unknownFields.build();
@@ -18229,6 +18753,7 @@ public final class TrackerProto {
       return net.studioblueplanet.tomtomwatch.TrackerProto.internal_static_tutorial_Record6_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return net.studioblueplanet.tomtomwatch.TrackerProto.internal_static_tutorial_Record6_fieldAccessorTable
@@ -18247,7 +18772,7 @@ public final class TrackerProto {
      * <code>required int32 time = 1;</code>
      */
     public boolean hasTime() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
+      return ((bitField0_ & 0x00000001) != 0);
     }
     /**
      * <pre>
@@ -18270,7 +18795,7 @@ public final class TrackerProto {
      * <code>required int32 interval = 2;</code>
      */
     public boolean hasInterval() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
+      return ((bitField0_ & 0x00000002) != 0);
     }
     /**
      * <pre>
@@ -18289,7 +18814,7 @@ public final class TrackerProto {
      * <code>required int32 unknown1 = 3;</code>
      */
     public boolean hasUnknown1() {
-      return ((bitField0_ & 0x00000004) == 0x00000004);
+      return ((bitField0_ & 0x00000004) != 0);
     }
     /**
      * <code>required int32 unknown1 = 3;</code>
@@ -18354,6 +18879,7 @@ public final class TrackerProto {
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -18381,15 +18907,16 @@ public final class TrackerProto {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         output.writeInt32(1, time_);
       }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+      if (((bitField0_ & 0x00000002) != 0)) {
         output.writeInt32(2, interval_);
       }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+      if (((bitField0_ & 0x00000004) != 0)) {
         output.writeInt32(3, unknown1_);
       }
       for (int i = 0; i < sub_.size(); i++) {
@@ -18398,20 +18925,21 @@ public final class TrackerProto {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
 
       size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(1, time_);
       }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+      if (((bitField0_ & 0x00000002) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(2, interval_);
       }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+      if (((bitField0_ & 0x00000004) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(3, unknown1_);
       }
@@ -18424,7 +18952,6 @@ public final class TrackerProto {
       return size;
     }
 
-    private static final long serialVersionUID = 0L;
     @java.lang.Override
     public boolean equals(final java.lang.Object obj) {
       if (obj == this) {
@@ -18435,26 +18962,25 @@ public final class TrackerProto {
       }
       net.studioblueplanet.tomtomwatch.TrackerProto.Record6 other = (net.studioblueplanet.tomtomwatch.TrackerProto.Record6) obj;
 
-      boolean result = true;
-      result = result && (hasTime() == other.hasTime());
+      if (hasTime() != other.hasTime()) return false;
       if (hasTime()) {
-        result = result && (getTime()
-            == other.getTime());
+        if (getTime()
+            != other.getTime()) return false;
       }
-      result = result && (hasInterval() == other.hasInterval());
+      if (hasInterval() != other.hasInterval()) return false;
       if (hasInterval()) {
-        result = result && (getInterval()
-            == other.getInterval());
+        if (getInterval()
+            != other.getInterval()) return false;
       }
-      result = result && (hasUnknown1() == other.hasUnknown1());
+      if (hasUnknown1() != other.hasUnknown1()) return false;
       if (hasUnknown1()) {
-        result = result && (getUnknown1()
-            == other.getUnknown1());
+        if (getUnknown1()
+            != other.getUnknown1()) return false;
       }
-      result = result && getSubList()
-          .equals(other.getSubList());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getSubList()
+          .equals(other.getSubList())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -18555,6 +19081,7 @@ public final class TrackerProto {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -18562,6 +19089,7 @@ public final class TrackerProto {
     public static Builder newBuilder(net.studioblueplanet.tomtomwatch.TrackerProto.Record6 prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -18585,6 +19113,7 @@ public final class TrackerProto {
         return net.studioblueplanet.tomtomwatch.TrackerProto.internal_static_tutorial_Record6_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return net.studioblueplanet.tomtomwatch.TrackerProto.internal_static_tutorial_Record6_fieldAccessorTable
@@ -18608,6 +19137,7 @@ public final class TrackerProto {
           getSubFieldBuilder();
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         time_ = 0;
@@ -18625,15 +19155,18 @@ public final class TrackerProto {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return net.studioblueplanet.tomtomwatch.TrackerProto.internal_static_tutorial_Record6_descriptor;
       }
 
+      @java.lang.Override
       public net.studioblueplanet.tomtomwatch.TrackerProto.Record6 getDefaultInstanceForType() {
         return net.studioblueplanet.tomtomwatch.TrackerProto.Record6.getDefaultInstance();
       }
 
+      @java.lang.Override
       public net.studioblueplanet.tomtomwatch.TrackerProto.Record6 build() {
         net.studioblueplanet.tomtomwatch.TrackerProto.Record6 result = buildPartial();
         if (!result.isInitialized()) {
@@ -18642,24 +19175,25 @@ public final class TrackerProto {
         return result;
       }
 
+      @java.lang.Override
       public net.studioblueplanet.tomtomwatch.TrackerProto.Record6 buildPartial() {
         net.studioblueplanet.tomtomwatch.TrackerProto.Record6 result = new net.studioblueplanet.tomtomwatch.TrackerProto.Record6(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          result.time_ = time_;
           to_bitField0_ |= 0x00000001;
         }
-        result.time_ = time_;
-        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+        if (((from_bitField0_ & 0x00000002) != 0)) {
+          result.interval_ = interval_;
           to_bitField0_ |= 0x00000002;
         }
-        result.interval_ = interval_;
-        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+        if (((from_bitField0_ & 0x00000004) != 0)) {
+          result.unknown1_ = unknown1_;
           to_bitField0_ |= 0x00000004;
         }
-        result.unknown1_ = unknown1_;
         if (subBuilder_ == null) {
-          if (((bitField0_ & 0x00000008) == 0x00000008)) {
+          if (((bitField0_ & 0x00000008) != 0)) {
             sub_ = java.util.Collections.unmodifiableList(sub_);
             bitField0_ = (bitField0_ & ~0x00000008);
           }
@@ -18672,32 +19206,39 @@ public final class TrackerProto {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          Object value) {
-        return (Builder) super.setField(field, value);
+          java.lang.Object value) {
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof net.studioblueplanet.tomtomwatch.TrackerProto.Record6) {
           return mergeFrom((net.studioblueplanet.tomtomwatch.TrackerProto.Record6)other);
@@ -18749,6 +19290,7 @@ public final class TrackerProto {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         if (!hasTime()) {
           return false;
@@ -18767,6 +19309,7 @@ public final class TrackerProto {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -18795,7 +19338,7 @@ public final class TrackerProto {
        * <code>required int32 time = 1;</code>
        */
       public boolean hasTime() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
+        return ((bitField0_ & 0x00000001) != 0);
       }
       /**
        * <pre>
@@ -18843,7 +19386,7 @@ public final class TrackerProto {
        * <code>required int32 interval = 2;</code>
        */
       public boolean hasInterval() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
+        return ((bitField0_ & 0x00000002) != 0);
       }
       /**
        * <pre>
@@ -18887,7 +19430,7 @@ public final class TrackerProto {
        * <code>required int32 unknown1 = 3;</code>
        */
       public boolean hasUnknown1() {
-        return ((bitField0_ & 0x00000004) == 0x00000004);
+        return ((bitField0_ & 0x00000004) != 0);
       }
       /**
        * <code>required int32 unknown1 = 3;</code>
@@ -18917,7 +19460,7 @@ public final class TrackerProto {
       private java.util.List<net.studioblueplanet.tomtomwatch.TrackerProto.Record6Sub> sub_ =
         java.util.Collections.emptyList();
       private void ensureSubIsMutable() {
-        if (!((bitField0_ & 0x00000008) == 0x00000008)) {
+        if (!((bitField0_ & 0x00000008) != 0)) {
           sub_ = new java.util.ArrayList<net.studioblueplanet.tomtomwatch.TrackerProto.Record6Sub>(sub_);
           bitField0_ |= 0x00000008;
          }
@@ -19218,18 +19761,20 @@ public final class TrackerProto {
           subBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               net.studioblueplanet.tomtomwatch.TrackerProto.Record6Sub, net.studioblueplanet.tomtomwatch.TrackerProto.Record6Sub.Builder, net.studioblueplanet.tomtomwatch.TrackerProto.Record6SubOrBuilder>(
                   sub_,
-                  ((bitField0_ & 0x00000008) == 0x00000008),
+                  ((bitField0_ & 0x00000008) != 0),
                   getParentForChildren(),
                   isClean());
           sub_ = null;
         }
         return subBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -19251,11 +19796,12 @@ public final class TrackerProto {
 
     @java.lang.Deprecated public static final com.google.protobuf.Parser<Record6>
         PARSER = new com.google.protobuf.AbstractParser<Record6>() {
+      @java.lang.Override
       public Record6 parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new Record6(input, extensionRegistry);
+        return new Record6(input, extensionRegistry);
       }
     };
 
@@ -19268,6 +19814,7 @@ public final class TrackerProto {
       return PARSER;
     }
 
+    @java.lang.Override
     public net.studioblueplanet.tomtomwatch.TrackerProto.Record6 getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -19309,12 +19856,20 @@ public final class TrackerProto {
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:tutorial.Root)
       RootOrBuilder {
+  private static final long serialVersionUID = 0L;
     // Use Root.newBuilder() to construct.
     private Root(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
     private Root() {
       rootContainer_ = java.util.Collections.emptyList();
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new Root();
     }
 
     @java.lang.Override
@@ -19327,6 +19882,9 @@ public final class TrackerProto {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -19338,20 +19896,20 @@ public final class TrackerProto {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownField(input, unknownFields,
-                                     extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
-              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 rootContainer_ = new java.util.ArrayList<net.studioblueplanet.tomtomwatch.TrackerProto.RootContainer>();
                 mutable_bitField0_ |= 0x00000001;
               }
               rootContainer_.add(
                   input.readMessage(net.studioblueplanet.tomtomwatch.TrackerProto.RootContainer.PARSER, extensionRegistry));
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -19362,7 +19920,7 @@ public final class TrackerProto {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
           rootContainer_ = java.util.Collections.unmodifiableList(rootContainer_);
         }
         this.unknownFields = unknownFields.build();
@@ -19374,6 +19932,7 @@ public final class TrackerProto {
       return net.studioblueplanet.tomtomwatch.TrackerProto.internal_static_tutorial_Root_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return net.studioblueplanet.tomtomwatch.TrackerProto.internal_static_tutorial_Root_fieldAccessorTable
@@ -19417,6 +19976,7 @@ public final class TrackerProto {
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -19432,6 +19992,7 @@ public final class TrackerProto {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       for (int i = 0; i < rootContainer_.size(); i++) {
@@ -19440,6 +20001,7 @@ public final class TrackerProto {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -19454,7 +20016,6 @@ public final class TrackerProto {
       return size;
     }
 
-    private static final long serialVersionUID = 0L;
     @java.lang.Override
     public boolean equals(final java.lang.Object obj) {
       if (obj == this) {
@@ -19465,11 +20026,10 @@ public final class TrackerProto {
       }
       net.studioblueplanet.tomtomwatch.TrackerProto.Root other = (net.studioblueplanet.tomtomwatch.TrackerProto.Root) obj;
 
-      boolean result = true;
-      result = result && getRootContainerList()
-          .equals(other.getRootContainerList());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getRootContainerList()
+          .equals(other.getRootContainerList())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -19558,6 +20118,7 @@ public final class TrackerProto {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -19565,6 +20126,7 @@ public final class TrackerProto {
     public static Builder newBuilder(net.studioblueplanet.tomtomwatch.TrackerProto.Root prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -19588,6 +20150,7 @@ public final class TrackerProto {
         return net.studioblueplanet.tomtomwatch.TrackerProto.internal_static_tutorial_Root_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return net.studioblueplanet.tomtomwatch.TrackerProto.internal_static_tutorial_Root_fieldAccessorTable
@@ -19611,6 +20174,7 @@ public final class TrackerProto {
           getRootContainerFieldBuilder();
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (rootContainerBuilder_ == null) {
@@ -19622,15 +20186,18 @@ public final class TrackerProto {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return net.studioblueplanet.tomtomwatch.TrackerProto.internal_static_tutorial_Root_descriptor;
       }
 
+      @java.lang.Override
       public net.studioblueplanet.tomtomwatch.TrackerProto.Root getDefaultInstanceForType() {
         return net.studioblueplanet.tomtomwatch.TrackerProto.Root.getDefaultInstance();
       }
 
+      @java.lang.Override
       public net.studioblueplanet.tomtomwatch.TrackerProto.Root build() {
         net.studioblueplanet.tomtomwatch.TrackerProto.Root result = buildPartial();
         if (!result.isInitialized()) {
@@ -19639,11 +20206,12 @@ public final class TrackerProto {
         return result;
       }
 
+      @java.lang.Override
       public net.studioblueplanet.tomtomwatch.TrackerProto.Root buildPartial() {
         net.studioblueplanet.tomtomwatch.TrackerProto.Root result = new net.studioblueplanet.tomtomwatch.TrackerProto.Root(this);
         int from_bitField0_ = bitField0_;
         if (rootContainerBuilder_ == null) {
-          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+          if (((bitField0_ & 0x00000001) != 0)) {
             rootContainer_ = java.util.Collections.unmodifiableList(rootContainer_);
             bitField0_ = (bitField0_ & ~0x00000001);
           }
@@ -19655,32 +20223,39 @@ public final class TrackerProto {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          Object value) {
-        return (Builder) super.setField(field, value);
+          java.lang.Object value) {
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof net.studioblueplanet.tomtomwatch.TrackerProto.Root) {
           return mergeFrom((net.studioblueplanet.tomtomwatch.TrackerProto.Root)other);
@@ -19723,6 +20298,7 @@ public final class TrackerProto {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         for (int i = 0; i < getRootContainerCount(); i++) {
           if (!getRootContainer(i).isInitialized()) {
@@ -19732,6 +20308,7 @@ public final class TrackerProto {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -19754,7 +20331,7 @@ public final class TrackerProto {
       private java.util.List<net.studioblueplanet.tomtomwatch.TrackerProto.RootContainer> rootContainer_ =
         java.util.Collections.emptyList();
       private void ensureRootContainerIsMutable() {
-        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+        if (!((bitField0_ & 0x00000001) != 0)) {
           rootContainer_ = new java.util.ArrayList<net.studioblueplanet.tomtomwatch.TrackerProto.RootContainer>(rootContainer_);
           bitField0_ |= 0x00000001;
          }
@@ -19983,18 +20560,20 @@ public final class TrackerProto {
           rootContainerBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               net.studioblueplanet.tomtomwatch.TrackerProto.RootContainer, net.studioblueplanet.tomtomwatch.TrackerProto.RootContainer.Builder, net.studioblueplanet.tomtomwatch.TrackerProto.RootContainerOrBuilder>(
                   rootContainer_,
-                  ((bitField0_ & 0x00000001) == 0x00000001),
+                  ((bitField0_ & 0x00000001) != 0),
                   getParentForChildren(),
                   isClean());
           rootContainer_ = null;
         }
         return rootContainerBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -20016,11 +20595,12 @@ public final class TrackerProto {
 
     @java.lang.Deprecated public static final com.google.protobuf.Parser<Root>
         PARSER = new com.google.protobuf.AbstractParser<Root>() {
+      @java.lang.Override
       public Root parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new Root(input, extensionRegistry);
+        return new Root(input, extensionRegistry);
       }
     };
 
@@ -20033,6 +20613,7 @@ public final class TrackerProto {
       return PARSER;
     }
 
+    @java.lang.Override
     public net.studioblueplanet.tomtomwatch.TrackerProto.Root getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -20152,7 +20733,7 @@ public final class TrackerProto {
       "ntainer\"\260\002\n\020SubDataContainer\022(\n\ndeviceIn" +
       "fo\030\001 \001(\0132\024.tutorial.DeviceInfo\022*\n\013trackR" +
       "ecord\030\002 \001(\0132\025.tutorial.TrackRecord\022\"\n\007re" +
-      "cord2\030\003 \001(\0132\021.tutorial.Record2\022\"\n\007record",
+      "cord2\030\003 \001(\0132\021.tutorial.Record2\022\"\n\007record" +
       "6\030\005 \001(\0132\021.tutorial.Record6\022*\n\013heartRecor" +
       "d\030\006 \001(\0132\025.tutorial.HeartRecord\022\"\n\007record" +
       "4\030\007 \001(\0132\021.tutorial.Record4\022.\n\rfitnessRec" +
@@ -20162,7 +20743,7 @@ public final class TrackerProto {
       "oftwareVersion\"\244\001\n\017SoftwareVersion\022\024\n\014ma" +
       "jorVersion\030\001 \002(\005\022\025\n\rmediumVersion\030\002 \002(\005\022" +
       "\024\n\014minorVersion\030\003 \002(\005\022&\n\tunknown01\030\004 \002(\013" +
-      "2\023.tutorial.Unknown01\022&\n\tunknown02\030\005 \001(\013",
+      "2\023.tutorial.Unknown01\022&\n\tunknown02\030\005 \001(\013" +
       "2\023.tutorial.Unknown02\"\032\n\tUnknown01\022\r\n\005du" +
       "mmy\030\001 \001(\005\"\032\n\tUnknown02\022\r\n\005dummy\030\001 \001(\005\"\332\001" +
       "\n\013TrackRecord\022\020\n\010recordId\030\001 \002(\005\022\014\n\004time\030" +
@@ -20172,7 +20753,7 @@ public final class TrackerProto {
       "(\005\022\020\n\010unknown1\030\013 \002(\005\022\021\n\tsleepTime\030\014 \001(\005\022" +
       "\021\n\tsleepMode\030\r \001(\005\"\240\001\n\007Record2\022\014\n\004time\030\001" +
       " \002(\007\022\020\n\010interval\030\002 \002(\005\022-\n\010tagValue\030\003 \003(\013" +
-      "2\033.tutorial.TagValueContainer\022\020\n\010unknown",
+      "2\033.tutorial.TagValueContainer\022\020\n\010unknown" +
       "1\030\004 \002(\005\022\020\n\010unknown2\030\005 \002(\005\022\020\n\010unknown3\030\006 " +
       "\001(\005\022\020\n\010unknown4\030h \001(\007\"R\n\021TagValueContain" +
       "er\022\013\n\003tag\030\001 \002(\005\0220\n\016valueContainer\030\002 \002(\0132" +
@@ -20182,7 +20763,7 @@ public final class TrackerProto {
       " \002(\005\022\017\n\007value01\030\004 \002(\005\022\017\n\007value02\030\005 \002(\005\"8" +
       "\n\007Record4\022\014\n\004time\030\001 \002(\007\022\020\n\010interval\030\002 \002(" +
       "\005\022\r\n\005value\030\003 \003(\005\"\274\002\n\010UserData\022\017\n\007version" +
-      "\030\001 \002(\t\022\020\n\010unknown1\030\002 \002(\005\022\020\n\010unknown2\030\003 \002",
+      "\030\001 \002(\t\022\020\n\010unknown1\030\002 \002(\005\022\020\n\010unknown2\030\003 \002" +
       "(\005\022\020\n\010unknown3\030\004 \002(\005\022\016\n\006length\030\005 \002(\005\022\016\n\006" +
       "weight\030\006 \002(\005\022\020\n\010unknown4\030\007 \002(\005\022\020\n\010unknow" +
       "n5\030\010 \002(\005\022\020\n\010unknown6\030\t \002(\005\022\020\n\010unknown7\030\n" +
@@ -20192,7 +20773,7 @@ public final class TrackerProto {
       "unknown16\030\023 \002(\005\"\337\001\n\rFitnessRecord\022\014\n\004tim" +
       "e\030\002 \002(\005\022\020\n\010interval\030\003 \002(\005\022$\n\010userData\030\005 " +
       "\001(\0132\022.tutorial.UserData\022\020\n\010unknown1\030\007 \001(" +
-      "\005\022\020\n\010unknown2\030\010 \001(\005\022\020\n\010unknown3\030\n \001(\005\022\020\n",
+      "\005\022\020\n\010unknown2\030\010 \001(\005\022\020\n\010unknown3\030\n \001(\005\022\020\n" +
       "\010unknown4\030\013 \001(\005\022\020\n\010unknown5\030\014 \001(\005\022\026\n\016fit" +
       "nessPoints1\030\017 \002(\005\022\026\n\016fitnessPoints2\030\020 \002(" +
       "\005\"B\n\nRecord6Sub\022\020\n\010unknown1\030\001 \002(\005\022\020\n\010unk" +
@@ -20203,18 +20784,10 @@ public final class TrackerProto {
       "utorial.RootContainerB0\n net.studiobluep" +
       "lanet.tomtomwatchB\014TrackerProto"
     };
-    com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
-        new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
-          public com.google.protobuf.ExtensionRegistry assignDescriptors(
-              com.google.protobuf.Descriptors.FileDescriptor root) {
-            descriptor = root;
-            return null;
-          }
-        };
-    com.google.protobuf.Descriptors.FileDescriptor
+    descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
-        }, assigner);
+        });
     internal_static_tutorial_RootContainer_descriptor =
       getDescriptor().getMessageTypes().get(0);
     internal_static_tutorial_RootContainer_fieldAccessorTable = new
