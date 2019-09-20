@@ -5,9 +5,6 @@
  */
 package net.studioblueplanet.usb;
 
-import net.studioblueplanet.usb.UsbConnection;
-import net.studioblueplanet.usb.UsbPacket;
-
 import org.mockito.Mockito;
 import org.mockito.stubbing.Answer;
 import org.mockito.invocation.InvocationOnMock;
@@ -21,7 +18,6 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import org.mockito.ArgumentCaptor;
 
 import java.util.ArrayList;
 
