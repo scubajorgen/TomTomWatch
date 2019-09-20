@@ -55,8 +55,8 @@ public class CommunicationProcess implements Runnable, ProgressListener
     // Guarded data
     private final LinkedList<ThreadCommand>     commandQueue;
     private final ArrayList<ActivityData>       activities;
-    private ArrayList<UsbFile>                  newRouteFiles;
-    private ArrayList<UsbFile>                  watchRouteFiles;
+    private final ArrayList<UsbFile>            newRouteFiles;
+    private final ArrayList<UsbFile>            watchRouteFiles;
     private String                              newDeviceName;
     private int                                 fileIdToWrite;
     private String                              fileToUpload;
@@ -423,6 +423,7 @@ public class CommunicationProcess implements Runnable, ProgressListener
      * Process executing the communication commands
      */
     @Override
+    @SuppressWarnings("SleepWhileInLoop")
     public void run()
     {
         boolean         connected;
@@ -2611,7 +2612,6 @@ public class CommunicationProcess implements Runnable, ProgressListener
         WatchSettings   settings;
         
         theView.setStatus("Reading watch settings...");
-        error = false;
 
         settingsFile=new UsbFile();
         settingsFile.fileId=WatchInterface.FILEID_MANIFEST1;
