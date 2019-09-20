@@ -11,6 +11,8 @@ package net.studioblueplanet.tomtomwatch;
  */
 public enum ThreadCommand
 {
+    THREADCOMMAND_CONNECT,
+    THREADCOMMAND_GETDEVICESERIAL,
     THREADCOMMAND_GETTIME,
     THREADCOMMAND_SYNCTIME,
     THREADCOMMAND_DOWNLOAD,
