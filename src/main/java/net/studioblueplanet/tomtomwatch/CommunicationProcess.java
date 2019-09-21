@@ -90,6 +90,8 @@ public class CommunicationProcess implements ProgressListener
     /**
      * Constructor. Initializes the instance 
      * @param watchInterface Interface to the watch to use
+     * @param executor Executor to use to execute subsequent requests to the watch in a
+     *                 serialized order
      */
     public CommunicationProcess(WatchInterface watchInterface, SerialExecutor executor)
     {
@@ -167,13 +169,13 @@ public class CommunicationProcess implements ProgressListener
                 r=() ->{uploadGpsData(watchInterface);};
                 break;
             case THREADCOMMAND_PREFERENCES:
-                r=() ->{boolean error=getXmlPreferences(watchInterface);};
+                r=() ->{getXmlPreferences(watchInterface);};
                 break;
             case THREADCOMMAND_DELETEPREFERENCES:
-                r=() ->{boolean error=deleteXmlPreferences(watchInterface);};
+                r=() ->{deleteXmlPreferences(watchInterface);};
                 break;
             case THREADCOMMAND_LISTFILES:
-                r=() ->{boolean error=listFiles(watchInterface);};
+                r=() ->{listFiles(watchInterface);};
                 break;
             case THREADCOMMAND_GETNAME:
                 r=() ->{getDeviceName(watchInterface);};
@@ -182,73 +184,73 @@ public class CommunicationProcess implements ProgressListener
                 r=() ->{setDeviceName(watchInterface);};
                 break;
             case THREADCOMMAND_SAVEFILE:
-                r=() ->{boolean error=saveDeviceFile(watchInterface);};
+                r=() ->{saveDeviceFile(watchInterface);};
                 break;
             case THREADCOMMAND_UPLOADFILE:
-                r=() ->{boolean error=uploadDeviceFile(watchInterface);};
+                r=() ->{uploadDeviceFile(watchInterface);};
                 break;
             case THREADCOMMAND_DELETEFILE:
-                r=() ->{boolean error=deleteDeviceFile(watchInterface);};
+                r=() ->{deleteDeviceFile(watchInterface);};
                 break;
             case THREADCOMMAND_REBOOT:
-                r=() ->{boolean error=reboot(watchInterface);};
+                r=() ->{reboot(watchInterface);};
                 break;
             case THREADCOMMAND_LOADTTBINFILE:
-                r=() ->{boolean error=loadActivityFromTtbinFile();};
+                r=() ->{loadActivityFromTtbinFile();};
                 break;
             case THREADCOMMAND_LISTHISTORY:
-                r=() ->{boolean error=listHistory(watchInterface);};
+                r=() ->{listHistory(watchInterface);};
                 break;
             case THREADCOMMAND_LISTHISTORYSUMMARY:
-                r=() ->{boolean error=listHistorySummary(watchInterface);};
+                r=() ->{listHistorySummary(watchInterface);};
                 break;
             case TRHEADCOMMAND_CLEARDATA:
-                r=() ->{boolean error=clearData(watchInterface);};
+                r=() ->{clearData(watchInterface);};
                 break;
             case THREADCOMMAND_UPLOADROUTE:
-                r=() ->{boolean error=uploadRouteFile(watchInterface);};
+                r=() ->{uploadRouteFile(watchInterface);};
                 break;
             case THREADCOMMAND_UPLOADROUTES:
-                r=() ->{boolean error=uploadRouteFiles(watchInterface);};
+                r=() ->{uploadRouteFiles(watchInterface);};
                 break;
             case THREADCOMMAND_DOWNLOADROUTES:
-                r=() ->{boolean error=listRouteFiles(watchInterface);};
+                r=() ->{listRouteFiles(watchInterface);};
                 break;
             case THREADCOMMAND_CLEARROUTES:
-                r=() ->{boolean error=this.clearRouteFiles(watchInterface);};
+                r=() ->{this.clearRouteFiles(watchInterface);};
                 break;
             case THREADCOMMAND_LISTRACES:
-                r=() ->{boolean error=listRaces(watchInterface);};
+                r=() ->{listRaces(watchInterface);};
                 break;
             case THREADCOMMAND_GETPRODUCTID:
-                r=() ->{boolean error=getProductId(watchInterface);};
+                r=() ->{getProductId(watchInterface);};
                 break;
             case THREADCOMMAND_GETFIRMWAREVERSION:
-                r=() ->{boolean error=getFirmwareVersion(watchInterface);};
+                r=() ->{getFirmwareVersion(watchInterface);};
                 break;
             case THREADCOMMAND_UPDATEFIRMWARE:
-                r=() ->{boolean error=updateFirmware(watchInterface);};
+                r=() ->{updateFirmware(watchInterface);};
                 break;
             case THREADCOMMAND_SAVESIMULATIONSET:
-                r=() ->{boolean error=saveSimulationSet(watchInterface);};
+                r=() ->{saveSimulationSet(watchInterface);};
                 break;
             case THREADCOMMAND_SHOWFILE:
-                r=() ->{boolean error=showFile(watchInterface);};
+                r=() ->{showFile(watchInterface);};
                 break;
             case THREADCOMMAND_LISTTRACKEDACTIVITY:
-                r=() ->{boolean error=showTrackedActivity(watchInterface);};
+                r=() ->{showTrackedActivity(watchInterface);};
                 break;
             case THREADCOMMAND_DELETETRACKEDACTIVITY:
-                r=() ->{boolean error=deleteTrackedActivity(watchInterface);};
+                r=() ->{deleteTrackedActivity(watchInterface);};
                 break;
             case THREADCOMMAND_SHOWWATCHSETTINGS:
-                r=() ->{boolean error=showWatchSettings(watchInterface);};
+                r=() ->{showWatchSettings(watchInterface);};
                 break;
             case THREADCOMMAND_SYNCTIME:
-                r=() ->{boolean error=syncTime(watchInterface);};
+                r=() ->{syncTime(watchInterface);};
                 break;
             case THREADCOMMAND_FACTORYRESET:
-                r=() ->{boolean error=factoryReset(watchInterface);};
+                r=() ->{factoryReset(watchInterface);};
                 break;    
             default:
                 r=null;
@@ -588,6 +590,27 @@ public class CommunicationProcess implements ProgressListener
     }
     
     /**
+     * Initializes the progres bar by calculating the expected number of bytes
+     * and resetting the received bytes
+     * @param files List of files to download/upload
+     */
+    private void initializeProgressBar(ArrayList<UsbFile> files)
+    {
+        Iterator<UsbFile>   it;
+        UsbFile             file;
+        // Initialize the data for the progressbar
+        bytesToDownload=0;
+        bytesDownloaded=0;
+        it = files.iterator();
+        while (it.hasNext())
+        {
+            file=it.next();
+            bytesToDownload+=file.length;
+        }        
+        theView.setProgress(0);
+    }
+    
+    /**
      * This method reports the progress file reading
      * @param bytesRead Number of bytes that have been written
      */
@@ -605,9 +628,7 @@ public class CommunicationProcess implements ProgressListener
     @Override
     public void reportWriteProgress(int bytesWritten)
     {
-        
     }
-    
     
     /**
      * Load the activity from a ttbin file. It results in an
@@ -869,6 +890,9 @@ public class CommunicationProcess implements ProgressListener
             // The array list of USB files seems not to be sorted. So sort it
             sort(files);
 
+            // Initialize the data for the progressbar
+            this.initializeProgressBar(files);
+
             if (theView.isDownloadMostRecent())
             {
                 startIndex  =Math.max(files.size()-3, 0);
@@ -881,18 +905,6 @@ public class CommunicationProcess implements ProgressListener
                 endIndex    =files.size();
                 theView.setStatus("Downloading all "+(endIndex-startIndex)+" files... Please wait");
             }
-
-            // Initialize the data for the progressbar
-            bytesToDownload=0;
-            bytesDownloaded=0;
-            index=startIndex;
-            while (index<endIndex)
-            {
-                file=files.get(index);
-                bytesToDownload+=file.length;
-                index++;
-            }
-            theView.setProgress(0);
 
             fileSaveError   =false;
             index           =endIndex-1;
@@ -1125,14 +1137,10 @@ public class CommunicationProcess implements ProgressListener
      * Reads the watch preference file and displays the XML content in the
      * status pane
      * @param watchInterface USB Interface to use
-     * @return True if an error occurred, false if not
      */
-    private boolean getXmlPreferences(WatchInterface watchInterface)
+    private void getXmlPreferences(WatchInterface watchInterface)
     {
         UsbFile file;
-        boolean error;
-        
-        error=false;
         
         file=watchInterface.readPreferences();
         
@@ -1142,22 +1150,19 @@ public class CommunicationProcess implements ProgressListener
         }
         else
         {
-            error=true;
+            toErrorState();
             DebugLogger.error("Error reading preferences");
         }
         
         this.preferenceFile=file;
-        
-        return error;        
     }
 
     /**
      * Delete the watch preference file. This is needed to clear the 
      * TomTom Mysports connectivity data.
      * @param watchInterface USB Interface to use
-     * @return True if an error occurred, false if not
      */
-    private boolean deleteXmlPreferences(WatchInterface watchInterface)
+    private void deleteXmlPreferences(WatchInterface watchInterface)
     {
         UsbFile file;
         boolean error;
@@ -1176,10 +1181,8 @@ public class CommunicationProcess implements ProgressListener
         }
         else
         {
-            
+            toErrorState();
         }
-        
-        return error;        
     }
     
 
@@ -1187,18 +1190,14 @@ public class CommunicationProcess implements ProgressListener
     /**
      * Reads the file list and displays it in the status area
      * @param watchInterface THe interface to ue
-     * @return True if an error occurred
      */
-    private boolean listFiles(WatchInterface watchInterface)
+    private void listFiles(WatchInterface watchInterface)
     {
         ArrayList<UsbFile>  files;
         UsbFile             file;
         Iterator<UsbFile>   it;
-        boolean             error;
-        
-        error   =false;
+
         files   =watchInterface.getFileList(WatchInterface.FileType.TTWATCH_FILE_ALL);
-        
         if (files!=null)
         {
             theView.setStatus("File ID    File Size   \n"+
@@ -1212,17 +1211,14 @@ public class CommunicationProcess implements ProgressListener
         }
         else
         {
-            error=true;
+            toErrorState();
         }
-        
-        return error;
     }
     
     /**
      * This method gets the device name from the watch and displays
      * it on the screen
      * @param watchInterface The USB interface to use
-     * @return True if an error occurred, false if all went well
      */
     private void getDeviceName(WatchInterface watchInterface)
     {
@@ -1272,9 +1268,8 @@ public class CommunicationProcess implements ProgressListener
     /**
      * Reads a file from the watch and saves it to disk
      * @param watchInterface The USB interface for reading from the watch
-     * @return True if an error occurred
      */
-    private boolean saveDeviceFile(WatchInterface watchInterface)
+    private void saveDeviceFile(WatchInterface watchInterface)
     {
         ArrayList<UsbFile>  watchFiles;
         Iterator<UsbFile>   it;
@@ -1293,7 +1288,6 @@ public class CommunicationProcess implements ProgressListener
            fileId   =this.fileIdToWrite;
            path     =this.debugFilePath;
         }
-        
         
         // Get a list of all files
         watchFiles = watchInterface.getFileList(WatchInterface.FileType.TTWATCH_FILE_ALL);
@@ -1356,16 +1350,17 @@ public class CommunicationProcess implements ProgressListener
         {
             error=true;
         }
-
-        return error;
+        if (error)
+        {
+            toErrorState();
+        }
     }
     
     /**
      * Reads a file from the watch and saves it to disk
      * @param watchInterface The USB interface for reading from the watch
-     * @return True if an error occurred
      */
-    private boolean uploadDeviceFile(WatchInterface watchInterface)
+    private void uploadDeviceFile(WatchInterface watchInterface)
     {
         RandomAccessFile    diskFile;
         UsbFile             usbFile;
@@ -1380,9 +1375,6 @@ public class CommunicationProcess implements ProgressListener
         Pattern             p;
         Matcher             m;
         String              digits;
-
-        
-        error=false;
 
         synchronized(this)
         {
@@ -1419,6 +1411,7 @@ public class CommunicationProcess implements ProgressListener
                 else
                 {
                     theView.appendStatus("Failed!!\n");
+                    toErrorState();
                 }
             }
             catch (FileNotFoundException e)
@@ -1436,20 +1429,13 @@ public class CommunicationProcess implements ProgressListener
         {
             theView.setStatus("The filename '"+fileName+"' does not fit the required format: 0xnnnnnnnn.bin");
         }
-        
-        
-        
-        
-        
-        return error;
     }    
 
     /**
      * Deletes the file indicated by the field fileIdToDelete.
      * @param watchInterface The USB interface for accessing from the watch
-     * @return True if an error occurred
      */
-    private boolean deleteDeviceFile(WatchInterface watchInterface)
+    private void deleteDeviceFile(WatchInterface watchInterface)
     {
         ArrayList<UsbFile>  watchFiles;
         Iterator<UsbFile>   it;
@@ -1504,17 +1490,18 @@ public class CommunicationProcess implements ProgressListener
         {
             error=true;
         }
-
-        return error;
+        if (error)
+        {
+            toErrorState();
+        }
     }
     
 
     /**
      * Download and list the activity history
      * @param watchInterface USB interface to use
-     * @return True if an error occurred, false if successful
      */
-    private boolean listHistorySummary(WatchInterface watchInterface)
+    private void listHistorySummary(WatchInterface watchInterface)
     {
         UsbFile             file;
  //       String              fileString;
@@ -1530,75 +1517,63 @@ public class CommunicationProcess implements ProgressListener
         theView.setStatus("Downloading history... Please wait");
         
         error = false;
-        if (!error)
+        // Enumerate all TTBIN files on the device
+        files = watchInterface.getFileList(WatchInterface.FileType.TTWATCH_FILE_HISTORY_SUMMARY);
+
+        // If any found, download the data of each file
+        if (files != null)
         {
-            // Enumerate all TTBIN files on the device
-            files = watchInterface.getFileList(WatchInterface.FileType.TTWATCH_FILE_HISTORY_SUMMARY);
+            // The array list of USB files seems not to be sorted. So sort it
+            sort(files);
 
-            // If any found, download the data of each file
-            if (files != null)
+            // Initialize the data for the progressbar
+            this.initializeProgressBar(files);
+
+            theView.setStatus("Downloading "+files.size()+" files... Please wait");
+
+            description     ="";
+            it              = files.iterator();
+            while (it.hasNext() && !error)
             {
-                // The array list of USB files seems not to be sorted. So sort it
-                sort(files);
+                file = it.next();
+                DebugLogger.info("File " + String.format("0x%08x", file.fileId) + " length " + file.length);
 
-                // Initialize the data for the progressbar
-                bytesToDownload=0;
-                bytesDownloaded=0;
-                it = files.iterator();
-                while (it.hasNext())
+                // Read the file data
+                error = watchInterface.readFile(file);
+                if (file.fileData != null)
                 {
-                    file=it.next();
-                    bytesToDownload+=file.length;
+                    entry=new HistorySummary(file);
+
+                    description+=entry.getDescription()+"\n";
                 }
-
-                theView.setProgress(0);
-
-                theView.setStatus("Downloading "+files.size()+" files... Please wait");
-            
-                description     ="";
-                it              = files.iterator();
-                while (it.hasNext() && !error)
+                else
                 {
-                    file = it.next();
-                    DebugLogger.info("File " + String.format("0x%08x", file.fileId) + " length " + file.length);
-
-                    // Read the file data
-                    error = watchInterface.readFile(file);
-                    if (file.fileData != null)
-                    {
-                        entry=new HistorySummary(file);
-                        
-                        description+=entry.getDescription()+"\n";
-
-                    }
-                    else
-                    {
-                        error=true;
-                    }
+                    error=true;
                 }
-                if (!error)
-                {
-                    theView.setStatus(description);
-                }
-            } 
-            else
-            {
-                error = true;
             }
+            if (!error)
+            {
+                theView.setStatus(description);
+            }
+        } 
+        else
+        {
+            error = true;
         }
-
-        watchInterface.setProgressListener(null);
+        if (error)
+        {
+            toErrorState();
+        }
         
-        return error;
+        watchInterface.setProgressListener(null);
     }
     
     
     /**
      * This method lists the device history
      * @param watchInterface USB interface to use
-     * @return True if an error occurred, false if successful
      */
-    public boolean listHistory(WatchInterface watchInterface)
+    public void listHistory(WatchInterface watchInterface)
     {
         UsbFile             file;
  //       String              fileString;
@@ -1618,72 +1593,61 @@ public class CommunicationProcess implements ProgressListener
         theView.setStatus("Downloading history... Please wait");
         
         error = false;
-        if (!error)
+        // Enumerate all history files
+        files = watchInterface.getFileList(WatchInterface.FileType.TTWATCH_FILE_HISTORY_DATA);
+
+        // If any found, download the data of each file
+        if (files != null)
         {
-            // Enumerate all history files
-            files = watchInterface.getFileList(WatchInterface.FileType.TTWATCH_FILE_HISTORY_DATA);
+            // The array list of USB files seems not to be sorted. So sort it
+            sort(files);
 
-            // If any found, download the data of each file
-            if (files != null)
+            // Initialize the data for the progressbar
+            // Initialize the data for the progressbar
+            this.initializeProgressBar(files);
+
+            theView.setStatus("Downloading "+files.size()+" files... Please wait");
+
+            description     ="";
+            it              = files.iterator();
+            while (it.hasNext() && !error)
             {
-                // The array list of USB files seems not to be sorted. So sort it
-                sort(files);
+                file = it.next();
+                DebugLogger.info("File " + String.format("0x%08x", file.fileId) + " length " + file.length);
 
-                // Initialize the data for the progressbar
-                bytesToDownload=0;
-                bytesDownloaded=0;
-                it = files.iterator();
-                while (it.hasNext())
+                // Read the file data
+                error = watchInterface.readFile(file);
+                if (file.fileData != null)
                 {
-                    file=it.next();
-                    bytesToDownload+=file.length;
+                    history.addHistoryItemFromFile(file);
                 }
-
-                theView.setProgress(0);
-
-                theView.setStatus("Downloading "+files.size()+" files... Please wait");
-            
-                description     ="";
-                it              = files.iterator();
-                while (it.hasNext() && !error)
+                else
                 {
-                    file = it.next();
-                    DebugLogger.info("File " + String.format("0x%08x", file.fileId) + " length " + file.length);
-
-                    // Read the file data
-                    error = watchInterface.readFile(file);
-                    if (file.fileData != null)
-                    {
-                        history.addHistoryItemFromFile(file);
-                    }
-                    else
-                    {
-                        error=true;
-                    }
+                    error=true;
                 }
-                if (!error)
-                {
-                    theView.setStatus(history.getDescription());
-                }
-            } 
-            else
-            {
-                error = true;
             }
+            if (!error)
+            {
+                theView.setStatus(history.getDescription());
+            }
+        } 
+        else
+        {
+            error = true;
         }
-
+        if (error)
+        {
+            toErrorState();
+        }
         watchInterface.setProgressListener(null);
-        
-        return error;        
     }
     
     
     /**
      * Clear the activity and history data
      * @param watchInterface USB interface to use
-     * @return True if an error occurred, false if successful
      */
-    private boolean clearData(WatchInterface watchInterface)
+    private void clearData(WatchInterface watchInterface)
     {
         UsbFile             file;
  //       String              fileString;
@@ -1738,7 +1702,6 @@ public class CommunicationProcess implements ProgressListener
                 while (it.hasNext() && !error)
                 {
                     file=it.next();
-                    
 
                     // The summary contains the last (up to) 10 summary records for the given activity
                     // Read the summary file, clear the enties and write it back.
@@ -1772,10 +1735,9 @@ public class CommunicationProcess implements ProgressListener
         }
         else
         {
+            toErrorState();
             theView.appendStatus("Error!\n");
         }
-        
-        return error;
     }
     
     
@@ -1783,9 +1745,8 @@ public class CommunicationProcess implements ProgressListener
      * This method reads a GPX file, converts it to protobuf and uploads the file
      * to the watch
      * @param watchInterface USB interface to use
-     * @return True if an error occurred, false if successful
      */
-    private boolean uploadRouteFile(WatchInterface watchInterface)
+    private void uploadRouteFile(WatchInterface watchInterface)
     {
         boolean                 error;
         String                  name;
@@ -1854,9 +1815,6 @@ public class CommunicationProcess implements ProgressListener
             }
         }
         
-        
-
-        
         // Now we've found an ID, read the GPX file and convert it to protobuf
         if (!error && usbFile!=null)
         {
@@ -1873,7 +1831,6 @@ public class CommunicationProcess implements ProgressListener
             route=new RouteTomTom();
 
             error=reader.readRouteFromFile(file, route);
-            
             
             // Just set the name
             route.setRouteName(name);
@@ -1899,7 +1856,10 @@ public class CommunicationProcess implements ProgressListener
             }
         }
         
-        return error;
+        if (error)
+        {
+            toErrorState();
+        }
     }
     
      /**
@@ -1907,9 +1867,8 @@ public class CommunicationProcess implements ProgressListener
      * which means route files are selectively erased and/or uploaded. Unmodified
      * files are kept in place.
      * @param watchInterface WatchInterface to use
-     * @return True if an error, false if all went ok
      */
-    private boolean uploadRouteFiles(WatchInterface watchInterface)
+    private void uploadRouteFiles(WatchInterface watchInterface)
     {
         boolean             error;
         Iterator<UsbFile>   it;
@@ -1962,6 +1921,7 @@ public class CommunicationProcess implements ProgressListener
             }
             else
             {
+                toErrorState();
                 theView.appendStatus("Error updating files to watch\n");
             }
         }
@@ -1970,16 +1930,14 @@ public class CommunicationProcess implements ProgressListener
             theView.appendStatus("To many routes to upload. Reduce to "+MAXROUTES);
         }
         theView.enableRouteButtons(true);
-        return error;
     }    
 
     /**
      * This method lists the route files
      * to the watch
      * @param watchInterface USB interface to use
-     * @return True if an error occurred, false if successful
      */
-    private boolean listRouteFiles(WatchInterface watchInterface)
+    private void listRouteFiles(WatchInterface watchInterface)
     {
         UsbFile             file;
         UsbFile             watchFile;
@@ -1994,74 +1952,64 @@ public class CommunicationProcess implements ProgressListener
         theView.setStatus("Downloading routes... Please wait\n");
         
         error = false;
-        if (!error)
+
+        // Enumerate all TTBIN files on the device
+        newRouteFiles.clear();
+        newRouteFiles.addAll(watchInterface.getFileList(WatchInterface.FileType.TTWATCH_FILE_TRACKPLANNING));
+
+        // If any found, download the data of each file
+        if (newRouteFiles != null)
         {
-            // Enumerate all TTBIN files on the device
-            newRouteFiles.clear();
-            newRouteFiles.addAll(watchInterface.getFileList(WatchInterface.FileType.TTWATCH_FILE_TRACKPLANNING));
+            // The array list of USB files seems not to be sorted. So sort it
+            sort(newRouteFiles);
 
-            // If any found, download the data of each file
-            if (newRouteFiles != null)
+            // Initialize the data for the progressbar
+            this.initializeProgressBar(newRouteFiles);
+
+            theView.appendStatus("Downloading "+newRouteFiles.size()+" files... Please wait\n");
+
+            it              = newRouteFiles.iterator();
+            watchRouteFiles.clear();
+            while (it.hasNext() && !error)
             {
-                // The array list of USB files seems not to be sorted. So sort it
-                sort(newRouteFiles);
+                file = it.next();
+                DebugLogger.info("File " + String.format("0x%08x", file.fileId) + " length " + file.length);
 
-                // Initialize the data for the progressbar
-                bytesToDownload=0;
-                bytesDownloaded=0;
-                it = newRouteFiles.iterator();
-
-                while (it.hasNext())
+                // Read the file data
+                error = watchInterface.readFile(file);
+                if (file.fileData == null)
                 {
-                    file=it.next();
-                    bytesToDownload+=file.length;
+                    error=true;
                 }
 
-                theView.setProgress(0);
-
-                theView.appendStatus("Downloading "+newRouteFiles.size()+" files... Please wait\n");
-            
-                it              = newRouteFiles.iterator();
-                watchRouteFiles.clear();
-                while (it.hasNext() && !error)
-                {
-                    file = it.next();
-                    DebugLogger.info("File " + String.format("0x%08x", file.fileId) + " length " + file.length);
-
-                    // Read the file data
-                    error = watchInterface.readFile(file);
-                    if (file.fileData == null)
-                    {
-                        error=true;
-                    }
-                    
-                    watchFile=new UsbFile();
-                    watchFile.fileId=file.fileId;
-                    watchRouteFiles.add(watchFile);
-                }
-                if (!error)
-                {
-                    theView.addRoutesToListBoxLater(newRouteFiles, 0);
-                }
-            } 
-            else
-            {
-                error = true;
+                watchFile=new UsbFile();
+                watchFile.fileId=file.fileId;
+                watchRouteFiles.add(watchFile);
             }
+            if (!error)
+            {
+                theView.addRoutesToListBoxLater(newRouteFiles, 0);
+            }
+        } 
+        else
+        {
+            error = true;
+        }
+        if (error)
+        {
+            toErrorState();
         }
         watchInterface.setProgressListener(null);
         theView.enableRouteButtons(true);
         theView.appendStatus("Done downloading route files\n");
-        return error;
     }
     
 
     /**
      * This method lists the races that are stored on the watch
      * @param watchInterface USB interface to use
-     * @return True if an error occurred, false if successful
      */
-    private boolean listRaces(WatchInterface watchInterface)
+    private void listRaces(WatchInterface watchInterface)
     {
         UsbFile             file;
  //       String              fileString;
@@ -2078,68 +2026,55 @@ public class CommunicationProcess implements ProgressListener
         theView.setStatus("Downloading races... Please wait");
         
         error = false;
-        if (!error)
+
+        // Enumerate all TTBIN files on the device
+        files = watchInterface.getFileList(WatchInterface.FileType.TTWATCH_FILE_RACE_DATA);
+
+        // If any found, download the data of each file
+        if (files != null)
         {
-            // Enumerate all TTBIN files on the device
-            files = watchInterface.getFileList(WatchInterface.FileType.TTWATCH_FILE_RACE_DATA);
+            // The array list of USB files seems not to be sorted. So sort it
+            sort(files);
 
-            // If any found, download the data of each file
-            if (files != null)
+            // Initialize the data for the progressbar
+            this.initializeProgressBar(files);
+
+            theView.setStatus("Downloading "+files.size()+" files... Please wait");
+
+
+            description     = "File ID    Activity       Name            Dist     Duration Checkpoints (m) \n";
+            description     +="__________ ______________ _______________ ________ ________ ______________________________________\n";
+            it              = files.iterator();
+            while (it.hasNext() && !error)
             {
-                // The array list of USB files seems not to be sorted. So sort it
-                sort(files);
+                file = it.next();
+                DebugLogger.info("File " + String.format("0x%08x", file.fileId) + " length " + file.length);
 
-                // Initialize the data for the progressbar
-                bytesToDownload=0;
-                bytesDownloaded=0;
-                it = files.iterator();
-                while (it.hasNext())
+                // Read the file data
+                error = watchInterface.readFile(file);
+                if (!error && (file.fileData != null))
                 {
-                    file=it.next();
-                    bytesToDownload+=file.length;
+                        race=new Race(file);
+
+                        description+=race.getInfo()+"\n";
                 }
-
-                theView.setProgress(0);
-
-                theView.setStatus("Downloading "+files.size()+" files... Please wait");
-            
-                
-                description     = "File ID    Activity       Name            Dist     Duration Checkpoints (m) \n";
-                description     +="__________ ______________ _______________ ________ ________ ______________________________________\n";
-                it              = files.iterator();
-                while (it.hasNext() && !error)
+                else
                 {
-                    file = it.next();
-                    DebugLogger.info("File " + String.format("0x%08x", file.fileId) + " length " + file.length);
-
-                    // Read the file data
-                    error = watchInterface.readFile(file);
-                    if (!error && (file.fileData != null))
-                    {
-                            race=new Race(file);
-                            
-                            description+=race.getInfo()+"\n";
-                    }
-                    else
-                    {
-                        error=true;
-                    }
+                    error=true;
                 }
-                if (!error)
-                {
-                    theView.setStatus(description);
-                }
-            } 
-            else
-            {
-                error = true;
             }
+            if (!error)
+            {
+                theView.setStatus(description);
+            }
+        } 
+        else
+        {
+            error = true;
         }
 
-        watchInterface.setProgressListener(null);
-        
-        return error;
 
+        watchInterface.setProgressListener(null);
     }
 
     /**
@@ -2147,7 +2082,7 @@ public class CommunicationProcess implements ProgressListener
      * @param watchInterface USB interface to use
      * @return True if an error occurred, false if successful
      */
-    private boolean clearRouteFiles(WatchInterface watchInterface)
+    private void clearRouteFiles(WatchInterface watchInterface)
     {
         boolean error;
 
@@ -2155,26 +2090,22 @@ public class CommunicationProcess implements ProgressListener
         error=this.eraseFiles(watchInterface, WatchInterface.FileType.TTWATCH_FILE_TRACKPLANNING);
         theView.appendStatus("Done!\n");
 
-        return error;
+        if (error)
+        {
+            toErrorState();
+        }
     }
     
     /**
      * Request the firmware version from the device
      * @param watchInterface USB interface to use
-     * @return True if an error occurred, false if successful
      */
-    private boolean getFirmwareVersion(WatchInterface watchInterface)
+    private void getFirmwareVersion(WatchInterface watchInterface)
     {
-        boolean     error;
         String      version;
         String[]    parts;
         
-        error=false;
-        
         version=watchInterface.readFirmwareVersion();
-        
-
-        
         
         if (version!=null)
         {
@@ -2194,23 +2125,17 @@ public class CommunicationProcess implements ProgressListener
         }
         else
         {
-            error=true;
+            toErrorState();
         }
-        
-        return error;
     }
     
     /**
      * Request the firmware version from the device
      * @param watchInterface USB interface to use
-     * @return True if an error occurred, false if successful
      */
-    private boolean getProductId(WatchInterface watchInterface)
+    private void getProductId(WatchInterface watchInterface)
     {
-        boolean error;
         int     id;
-        
-        error=false;
         
         id=watchInterface.getProductId();
         
@@ -2224,26 +2149,20 @@ public class CommunicationProcess implements ProgressListener
         }
         else
         {
-            error=true;
+            toErrorState();
         }
-        
-        return error;
     }
     
     
     /**
      * This method updates the firmware
      * @param watchInterface USB interface to use
-     * @return True if an error occurred, false if successful
      */
-    private boolean updateFirmware(WatchInterface watchInterface)
+    private void updateFirmware(WatchInterface watchInterface)
     {
-        boolean     error;
         Firmware    firmware;
         int         id;
         long        firmwareVersion;
-        
-        error=false;
 
         synchronized(this)
         {
@@ -2255,19 +2174,14 @@ public class CommunicationProcess implements ProgressListener
         
         // Check if updates are available and if so, update the firmware
         firmware.updateFirmware(watchInterface, id, firmwareVersion, theView);
-        
-        
-        
-        return error;
     }
     
     /**
      * This method save a 'simulation set'. The set consists of all files
      * on the watch and a JSON file containing the firmware versions.
      * @param watchInterface USB interface to use
-     * @return True if an error occurred, false if successful
      */
-    public boolean saveSimulationSet(WatchInterface watchInterface)
+    public void saveSimulationSet(WatchInterface watchInterface)
     {
         UsbFile                     file;
         boolean                     error;
@@ -2296,129 +2210,115 @@ public class CommunicationProcess implements ProgressListener
         theView.setStatus("Creating simulation set... Please wait\n");
         
         error = false;
-        if (!error)
+
+        // Enumerate all history files
+        files = watchInterface.getFileList(WatchInterface.FileType.TTWATCH_FILE_ALL);
+
+        // If any found, download the data of each file
+        if (files != null)
         {
-            // Enumerate all history files
-            files = watchInterface.getFileList(WatchInterface.FileType.TTWATCH_FILE_ALL);
+            // Initialize the data for the progressbar
+            this.initializeProgressBar(files);
 
-            // If any found, download the data of each file
-            if (files != null)
+            theView.appendStatus("Downloading "+files.size()+" files... ("+bytesToDownload+" bytes) Please wait\n");
+
+            saveError       =false;
+            it              =files.iterator();
+            while (it.hasNext() && !error && !saveError)
             {
-                // Initialize the data for the progressbar
-                bytesToDownload=0;
-                bytesDownloaded=0;
-                it = files.iterator();
-                while (it.hasNext())
+                file = it.next();
+
+                // Only read file when length>0; 0x00000000 with size 0 results in error....
+                if (file.length>0)
                 {
-                    file=it.next();
-                    bytesToDownload+=file.length;
-                }
+                    DebugLogger.info("File " + String.format("0x%08x", file.fileId) + " length " + file.length);
 
-                theView.setProgress(0);
-
-                theView.appendStatus("Downloading "+files.size()+" files... ("+bytesToDownload+" bytes) Please wait\n");
-
-                saveError       =false;
-                it              =files.iterator();
-                while (it.hasNext() && !error && !saveError)
-                {
-                    file = it.next();
-
-                    // Only read file when length>0; 0x00000000 with size 0 results in error....
-                    if (file.length>0)
+                    // Read the file data
+                    error = watchInterface.readFile(file);
+                    if (file.fileData != null)
                     {
-                        DebugLogger.info("File " + String.format("0x%08x", file.fileId) + " length " + file.length);
-
-                        // Read the file data
-                        error = watchInterface.readFile(file);
-                        if (file.fileData != null)
+                        fileName=String.format("%s0x%08x.bin", path, file.fileId);
+                        saveError=ToolBox.writeBytesToFile(fileName, file.fileData);
+                        if (!saveError)
                         {
-                            fileName=String.format("%s0x%08x.bin", path, file.fileId);
-                            saveError=ToolBox.writeBytesToFile(fileName, file.fileData);
-                            if (!saveError)
-                            {
-                                theView.appendStatus(String.format("File 0x%08x written to %s\n", file.fileId, fileName));
-                            }
-                        }
-                        else
-                        {
-                            error=true;
+                            theView.appendStatus(String.format("File 0x%08x written to %s\n", file.fileId, fileName));
                         }
                     }
+                    else
+                    {
+                        error=true;
+                    }
                 }
-                if (!error)
-                {
-                    theView.appendStatus("Done!\n");
-                }
-                else
-                {
-                    theView.appendStatus("Error reading files\n");
-                }
-                if (saveError)
-                {
-                    theView.appendStatus("Error writing file to disk\n");
-                }
-            } 
+            }
+            if (!error)
+            {
+                theView.appendStatus("Done!\n");
+            }
             else
             {
-                error = true;
+                theView.appendStatus("Error reading files\n");
             }
-        
-            versions=new UsbTestInterface.Versions();
-           
-            if (!error)
+            if (saveError)
             {
-                versions.serialNumber=watchInterface.getDeviceSerialNumber();
-                if (versions.serialNumber==null)
-                {
-                    error=true;
-                }
+                theView.appendStatus("Error writing file to disk\n");
             }
-            if (!error)
+        } 
+        else
+        {
+            error = true;
+        }
+
+        versions=new UsbTestInterface.Versions();
+        if (!error)
+        {
+            versions.serialNumber=watchInterface.getDeviceSerialNumber();
+            if (versions.serialNumber==null)
             {
-                versions.firmwareVersion=watchInterface.readFirmwareVersion();
-                if (versions.firmwareVersion==null)
-                {
-                    error=true;
-                }
+                error=true;
             }
-            if (!error)
+        }
+        if (!error)
+        {
+            versions.firmwareVersion=watchInterface.readFirmwareVersion();
+            if (versions.firmwareVersion==null)
             {
-                versions.bleVersion=watchInterface.readBleVersion();
-                if (versions.bleVersion==null)
-                {
-                    error=true;
-                }
+                error=true;
             }
-            if (!error)
+        }
+        if (!error)
+        {
+            versions.bleVersion=watchInterface.readBleVersion();
+            if (versions.bleVersion==null)
             {
-                versions.productId=watchInterface.getProductId();
-                if (versions.productId==WatchInterface.PRODUCTID_UNKNOWN)
-                {
-                    error=true;
-                }
+                error=true;
             }
-            if (!error)
+        }
+        if (!error)
+        {
+            versions.productId=watchInterface.getProductId();
+            if (versions.productId==WatchInterface.PRODUCTID_UNKNOWN)
             {
-                json=versions.serialize();
-                ToolBox.writeStringToFile(path+"versions.json", json);
+                error=true;
             }
+        }
+        if (!error)
+        {
+            json=versions.serialize();
+            ToolBox.writeStringToFile(path+"versions.json", json);
+        }
+        else
+        {
+            toErrorState();
         }
 
         watchInterface.setProgressListener(null);
-        
-        
-        
-        
-        return error;
     }
     
     /**
      * This method displays the file with id 'fileIdToShow'
      * @param watchInterface The watch interface
-     * @return True if an error occurred, false if successful
      */
-    private boolean showFile(WatchInterface watchInterface)
+    private void showFile(WatchInterface watchInterface)
     {
         boolean error;
         int     id;
@@ -2446,22 +2346,24 @@ public class CommunicationProcess implements ProgressListener
                     log     =new String(file.fileData);
                     theView.setStatus(log);
                 }
+                else
+                {
+                    toErrorState();
+                }
             }  
             else
             {
                 theView.setStatus("Requested file does not exist on the watch.");
             }
         }
-        return error;
     }
     
     /**
      * This method displays the activity tracked by the watch. This info is 
      * stored in the 0x00b1nnnn files.
      * @param watchInterface The watch interface
-     * @return True if an error occurred, false if successful
      */
-    private boolean showTrackedActivity(WatchInterface watchInterface)
+    private void showTrackedActivity(WatchInterface watchInterface)
     {
         boolean error;
         Tracker tracker;
@@ -2519,51 +2421,48 @@ public class CommunicationProcess implements ProgressListener
                                   tracker.sleepingPeriodsToString());
             }
         }
-        return error;    
+        if (error)
+        {
+            toErrorState();
+        }  
     }    
     
     /**
      * Delete the tracked activity files
      * @param watchInterface Watch interface to use.
-     * @return True if an error occurred
      */
-    private boolean deleteTrackedActivity(WatchInterface watchInterface)
+    private void deleteTrackedActivity(WatchInterface watchInterface)
     {
         boolean error;
         theView.setStatus("Erasing tracked activity\n");
         error=this.eraseFiles(watchInterface, WatchInterface.FileType.TTWATCH_FILE_TRACKEDACTIVITY);
         theView.appendStatus("Done\n");
-        return error;
+        if (error)
+        {
+            toErrorState();
+        }
     }
     
 
     /**
      * This method reboots the watch
      * @param watchInterface The watch interface
-     * @return True if an error occurred, false if successful
      */
-    private boolean reboot(WatchInterface watchInterface)
+    private void reboot(WatchInterface watchInterface)
     {
-        boolean error;
-
-        
-        error = false;
-
         watchInterface.resetDevice();
         theView.setStatus("Rebooted...");
-
-        return error;    
+        toErrorState();
     }    
 
      /**
      * This method resets the watch to factory resets. All userdata is erased.
      * @param watchInterface The watch interface
-     * @return True if an error occurred, false if successful
      */
-    private boolean factoryReset(WatchInterface watchInterface)
+    private void factoryReset(WatchInterface watchInterface)
     {
-        boolean error;
-        Firmware firmware;
+        boolean     error;
+        Firmware    firmware;
         
         theView.setStatus("Factory reset proces started. Do not disconnect watch.\n");
 
@@ -2592,16 +2491,18 @@ public class CommunicationProcess implements ProgressListener
         {
             theView.appendStatus("Unable to prepare download firmware update. Cannot factory reset.");
         }
-        return error;    
+        if (error)
+        {
+            toErrorState();
+        } 
     }    
 
     /**
      * This method downloads the settings from the Manifest File in the watch
      * and displays it based on the settings defintion
      * @param watchInterface The watch interface
-     * @return True if an error occurred, false if successful
      */
-    private boolean showWatchSettings(WatchInterface watchInterface)
+    private void showWatchSettings(WatchInterface watchInterface)
     {
         boolean         error;
         UsbFile         settingsFile;
@@ -2619,16 +2520,17 @@ public class CommunicationProcess implements ProgressListener
             settings=new WatchSettings(settingsFile.fileData, this.currentFirmwareVersion);
             theView.setStatus(settings.getSettingDescriptions());
         }
-        
-        return error;    
+        else
+        {
+            toErrorState();
+        }
     }    
     
     /**
      * This method syncs the time to the local computer time
      * @param watchInterface The watch interface
-     * @return True if an error occurred, false if successful
      */
-    private boolean syncTime(WatchInterface watchInterface)
+    private void syncTime(WatchInterface watchInterface)
     {
         boolean         error;
         UsbFile         settingsFile;
@@ -2731,7 +2633,9 @@ public class CommunicationProcess implements ProgressListener
         {
             error=true;
         }
-        
-        return error;    
+        if (error)
+        {
+            toErrorState();
+        }   
     }    
 }
