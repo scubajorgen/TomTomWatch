@@ -57,7 +57,7 @@ public class SerialExecutorTest
     {
         System.out.println("execute");
 
-        SerialExecutor instance = new SerialExecutor();
+        SerialExecutor instance = new SerialExecutor(new ThreadExecutor());
         instance.execute(r);
         
         Mockito.verify(r, timeout(1000).times(1)).run();
@@ -90,7 +90,7 @@ public class SerialExecutorTest
         }).when(r).run();   
         
         
-        SerialExecutor instance = new SerialExecutor();
+        SerialExecutor instance = new SerialExecutor(new ThreadExecutor());
         instance.execute(r);
         instance.execute(r);
         

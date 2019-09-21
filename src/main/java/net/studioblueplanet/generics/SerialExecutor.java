@@ -1,7 +1,6 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * This Excutor class queues and exectutes offered Runnables in a serialized
+ * way
  */
 package net.studioblueplanet.generics;
 
@@ -15,15 +14,18 @@ import java.util.ArrayDeque;
  */
 public class SerialExecutor implements Executor
 {
-     final Queue<Runnable> tasks;
-     Runnable active;
+     final Queue<Runnable>  tasks;
+     Runnable               active;
+     Executor               executor;
 
      /**
       * Constructor
+      * @param executor Secondary executor to do the actual execution
       */
-     public SerialExecutor(/*Executor executor*/) 
+     public SerialExecutor(Executor executor) 
      {
          tasks          = new ArrayDeque<>();
+         this.executor  = executor;
      }
 
      
@@ -35,7 +37,7 @@ public class SerialExecutor implements Executor
          active = tasks.poll();
          if (active != null) 
          {
-             new Thread(active).start();
+             executor.execute(active);
          }
      }
      
@@ -48,9 +50,12 @@ public class SerialExecutor implements Executor
      {
          tasks.offer((Runnable)() -> 
                         {
-                            try {
+                            try 
+                            {
                                 r.run();
-                            } finally {
+                            } 
+                            finally 
+                            {
                                 scheduleNext();
                             }
                         });

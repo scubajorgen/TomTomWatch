@@ -6,6 +6,7 @@
 package net.studioblueplanet.tomtomwatch;
 
 import net.studioblueplanet.generics.SerialExecutor;
+import net.studioblueplanet.generics.ThreadExecutor;
 import net.studioblueplanet.settings.ConfigSettings;
 import net.studioblueplanet.usb.WatchInterface;
 import net.studioblueplanet.usb.UsbInterface;
@@ -68,7 +69,7 @@ public class DependencyInjector
             UsbConnection usbConnection=new UsbConnection();
             watchInterface  = new UsbInterface(usbConnection);
         }
-        SerialExecutor          executor   =new SerialExecutor();
+        SerialExecutor          executor   =new SerialExecutor(new ThreadExecutor());
         CommunicationProcess    commProcess=new CommunicationProcess(watchInterface, executor);
         TomTomWatchView         view=new TomTomWatchView(commProcess);
         theApplication.injectView(view);
