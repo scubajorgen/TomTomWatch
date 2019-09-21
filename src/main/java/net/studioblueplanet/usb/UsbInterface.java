@@ -506,7 +506,14 @@ public class UsbInterface extends WatchInterface
         boolean error;
         
         error   =false;
-        connection.connect();
+        try
+        {
+            connection.connect();
+        }
+        catch (Exception e)
+        {
+            DebugLogger.error("Error connecting: "+e.getMessage());
+        }
         if (!connection.isError())
         {
             connected=true;

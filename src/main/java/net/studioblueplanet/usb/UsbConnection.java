@@ -13,6 +13,7 @@ import net.studioblueplanet.logger.DebugLogger;
 import javax.usb.UsbDevice;
 import javax.usb.UsbException;
 import javax.usb.UsbDisconnectedException;
+import javax.usb.UsbNotClaimedException;
 import javax.usb.UsbHostManager;
 import javax.usb.UsbHub;
 import javax.usb.UsbServices;
@@ -449,6 +450,16 @@ public class UsbConnection
                     }
                 }
                 catch(UsbException e)
+                {
+                    isError=true;
+                    lastError="USB Error while sending packet: "+e.getMessage();
+                }
+                catch(UsbDisconnectedException e)
+                {
+                    isError=true;
+                    lastError="USB Error while sending packet: "+e.getMessage();
+                }
+                catch(UsbNotClaimedException e)
                 {
                     isError=true;
                     lastError="USB Error while sending packet: "+e.getMessage();
