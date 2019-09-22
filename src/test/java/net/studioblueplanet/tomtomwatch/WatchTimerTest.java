@@ -49,6 +49,21 @@ public class WatchTimerTest
     }
 
     /**
+     * Just a simple sleep
+     * @param millis Milliseconds to sleep
+     */
+    private void wait(int millis)
+    {
+        try
+        {
+            Thread.sleep(millis);
+        }
+        catch(Exception e)
+        {
+        }        
+    }
+    
+    /**
      * Test of run method, of class WatchTimer.
      */
     @Test
@@ -78,7 +93,8 @@ public class WatchTimerTest
         WatchTimer instance = new WatchTimer(process);
         when(process.isConnected()).thenReturn(true);
         instance.start();
-        verify(process, timeout(2500).times(2)).pushCommand(ThreadCommand.THREADCOMMAND_GETTIME);
+        wait(2500);
+        verify(process, times(3)).pushCommand(ThreadCommand.THREADCOMMAND_GETTIME);
         instance.stop();
     }
 
@@ -92,16 +108,10 @@ public class WatchTimerTest
         WatchTimer instance = new WatchTimer(process);
         when(process.isConnected()).thenReturn(true);
         instance.start();
-        try
-        {
-            Thread.sleep(2500);
-        }
-        catch(Exception e)
-        {
-            
-        }
+        wait(2500);
         instance.stop();
-        verify(process, timeout(4500).times(3)).pushCommand(ThreadCommand.THREADCOMMAND_GETTIME);
+        wait(4500);
+        verify(process, times(3)).pushCommand(ThreadCommand.THREADCOMMAND_GETTIME);
     }
     
 }
