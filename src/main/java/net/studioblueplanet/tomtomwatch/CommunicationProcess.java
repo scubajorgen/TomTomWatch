@@ -23,6 +23,7 @@ import java.util.LinkedList;
 import java.util.TimeZone;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
+import java.util.concurrent.Executor;
 import hirondelle.date4j.DateTime;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
@@ -79,7 +80,7 @@ public class CommunicationProcess implements ProgressListener
     
     private UsbFile                             preferenceFile;
     
-    private final SerialExecutor                executor;
+    private final Executor                      executor;
     
     private final WatchTimer                    timer;
     
@@ -93,7 +94,7 @@ public class CommunicationProcess implements ProgressListener
      * @param executor Executor to use to execute subsequent requests to the watch in a
      *                 serialized order
      */
-    public CommunicationProcess(WatchInterface watchInterface, SerialExecutor executor)
+    public CommunicationProcess(WatchInterface watchInterface, Executor executor)
     {
         ConfigSettings  settings;
         
