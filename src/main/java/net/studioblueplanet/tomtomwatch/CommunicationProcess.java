@@ -14,12 +14,10 @@ import net.studioblueplanet.ttbin.TomTomReader;
 import net.studioblueplanet.logger.DebugLogger;
 import net.studioblueplanet.settings.ConfigSettings;
 import net.studioblueplanet.generics.ToolBox;
-import net.studioblueplanet.generics.SerialExecutor;
 
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.TimeZone;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
@@ -34,7 +32,6 @@ import java.io.FileNotFoundException;
 import java.io.File;
 
 import javax.swing.DefaultListModel;
-import javax.swing.JOptionPane;
 
 import org.json.JSONObject;
 
@@ -285,7 +282,7 @@ public class CommunicationProcess implements ProgressListener
         }
         else
         {
-            JOptionPane.showMessageDialog(theView, "Illegel Watch Name", "Error", JOptionPane.ERROR_MESSAGE);
+            theView.showErrorDialog("Illegel Watch Name "+name);
         }
     }
     
@@ -682,12 +679,12 @@ public class CommunicationProcess implements ProgressListener
         catch (FileNotFoundException e)
         {
             error=true;
-            JOptionPane.showMessageDialog(theView, "Error loading file: "+e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            theView.showErrorDialog("Error loading file: "+e.getMessage());
         }
         catch (IOException e)
         {
             error=true;
-            JOptionPane.showMessageDialog(theView, "Error loading file: "+e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            theView.showErrorDialog("Error loading file: "+e.getMessage());
         }
         theView.appendStatus("Done!");
         
@@ -961,17 +958,17 @@ public class CommunicationProcess implements ProgressListener
                                 }
                                 else
                                 {
-                                    JOptionPane.showMessageDialog(theView, "Error verifying TTBIN file. TTBIN file saving stopped.", "Error", JOptionPane.ERROR_MESSAGE);
+                                    theView.showErrorDialog("Error verifying TTBIN file. TTBIN file saving stopped.");
                                 }
                             }
                             else
                             {
-                                JOptionPane.showMessageDialog(theView, "Error saving TTBIN file. TTBIN file saving stopped.", "Error", JOptionPane.ERROR_MESSAGE);
+                                theView.showErrorDialog("Error saving TTBIN file. TTBIN file saving stopped.");
                             }
                         }
                         else
                         {
-                            JOptionPane.showMessageDialog(theView, "Error generating TTBIN filename. TTBIN file saving stopped.", "Error", JOptionPane.ERROR_MESSAGE);
+                            theView.showErrorDialog("Error generating TTBIN filename. TTBIN file saving stopped.");
                             fileSaveError=true;
                         }
                     }
@@ -1045,7 +1042,7 @@ public class CommunicationProcess implements ProgressListener
         }
         else
         {
-            JOptionPane.showMessageDialog(theView, "No activities downloaded, first download activities", "Warning", JOptionPane.WARNING_MESSAGE);
+            theView.showWarningDialog("No activities downloaded, first download activities");
         }
     }    
     
@@ -1111,7 +1108,7 @@ public class CommunicationProcess implements ProgressListener
 
                 if (!error)
                 {
-                    JOptionPane.showMessageDialog(theView, "GPS Quickfix data sent", "Info", JOptionPane.PLAIN_MESSAGE);
+                    theView.showInfoDialog("GPS Quickfix data sent");
                 }
             }
             else
@@ -1127,7 +1124,7 @@ public class CommunicationProcess implements ProgressListener
         }
         if (error)
         {
-            JOptionPane.showMessageDialog(theView, "Error sending GPS Quickfix data sent", "Error", JOptionPane.ERROR_MESSAGE);
+            theView.showErrorDialog("Error sending GPS Quickfix data sent");
             toErrorState();
         }
         theView.appendStatus("Done\n");
@@ -1338,13 +1335,13 @@ public class CommunicationProcess implements ProgressListener
                     }
                     else
                     {
-                        JOptionPane.showMessageDialog(theView, "Error writing file "+fileName);
+                        theView.showErrorDialog("Error writing file "+fileName);
                     }
                 }        
             }
             else
             {
-                JOptionPane.showMessageDialog(theView, String.format("File with ID 0x%08x does not exist on watch", fileId), "Error", JOptionPane.ERROR_MESSAGE);
+                theView.showErrorDialog(String.format("File with ID 0x%08x does not exist on watch", fileId));
             }
         }
         else
@@ -1484,7 +1481,7 @@ public class CommunicationProcess implements ProgressListener
             }
             else
             {
-                JOptionPane.showMessageDialog(theView, String.format("File with ID 0x%08x does not exist on watch", fileId), "Error", JOptionPane.ERROR_MESSAGE);
+                theView.showErrorDialog(String.format("File with ID 0x%08x does not exist on watch", fileId));
             }
         }
         else
@@ -2548,7 +2545,7 @@ public class CommunicationProcess implements ProgressListener
         int             timeOffsetSeconds;
         long            newTimeOffset;
         TimeZone        utcTimeZone;
-        int             response;
+        boolean         yesPressed;
         
         theView.setStatus("Synchronizing time...");
         error = false;
@@ -2604,9 +2601,8 @@ public class CommunicationProcess implements ProgressListener
 
                     if (newTimeOffset!=timeOffset)
                     {
-                        response = JOptionPane.showConfirmDialog(null, "Sync watch time offset to PC time?", "Confirm",
-                                                                 JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-                        if (response == JOptionPane.YES_OPTION)
+                        yesPressed = theView.showConfirmDialog("Sync watch time offset to PC time?");
+                        if (yesPressed)
                         {
                             settings.setSettingsValueInt("options/utc_offset", newTimeOffset);
                             settingsFile.fileData=settings.convertSettingsToData();
