@@ -1894,14 +1894,14 @@ public class CommunicationProcess implements ProgressListener
                         {
                             watchFile=watchRouteFiles.get(i);
                             error=watchInterface.deleteFile(watchFile);
-                            DebugLogger.info("Erasing "+String.format("0x%8x", watchFile.fileId));
+                            DebugLogger.info("Erasing "+String.format("0x%08x", watchFile.fileId));
                         }
                         if (!error)
                         {
                             // The file ID consist of the two MSB values=0x00b8 and the two LSB values=i
                             newFile.fileId=fileId;
                             error=watchInterface.writeVerifyFile(newFile);
-                            DebugLogger.info("Writing "+String.format("0x%8x", newFile.fileId));
+                            DebugLogger.info("Writing "+String.format("0x%08x", newFile.fileId));
                         }
                     }
                 }
