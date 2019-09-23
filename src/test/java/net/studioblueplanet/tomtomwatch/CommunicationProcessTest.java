@@ -28,10 +28,15 @@ import static org.mockito.Mockito.*;
  */
 public class CommunicationProcessTest
 {
-    private final WatchInterface    watchInterface;
-    private final DirectExecutor    executor;
-    private final TomTomWatchView   theView;
-    private CommunicationProcess    theInstance;
+    private final WatchInterface      watchInterface;
+    private final DirectExecutor      executor;
+    private final TomTomWatchView     theView;
+    private CommunicationProcess      theInstance;
+    private ArgumentCaptor<String>    stringCaptor=ArgumentCaptor.forClass(String.class);
+    private ArgumentCaptor<Integer>   intCaptor=ArgumentCaptor.forClass(Integer.class);
+    private ArgumentCaptor<DateTime>  datetimeCaptor=ArgumentCaptor.forClass(DateTime.class);
+
+
     
     public CommunicationProcessTest()
     {
@@ -103,8 +108,6 @@ public class CommunicationProcessTest
     @Test
     public void testStartProcess()
     {
-        ArgumentCaptor<String> stringCaptor=ArgumentCaptor.forClass(String.class);
-        ArgumentCaptor<Integer> intCaptor=ArgumentCaptor.forClass(Integer.class);
         System.out.println("startProcess");
 
         // The startProcess is called in the setup() method
@@ -152,30 +155,48 @@ public class CommunicationProcessTest
      * Test of pushCommand method, of class CommunicationProcess.
      */
     @Test
-    @Ignore
-    public void testPushCommand()
+    public void testPushCommandGetDeviceSerial()
     {
-        System.out.println("pushCommand");
-        ThreadCommand command = null;
-        CommunicationProcess instance = null;
-        instance.pushCommand(command);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println("pushCommand - THREADCOMMAND_GETDEVICESERIAL");
+        ThreadCommand command = ThreadCommand.THREADCOMMAND_GETDEVICESERIAL;
+        theInstance.pushCommand(command);
+        // Once called during startup hence 2 times expected
+        verify(watchInterface, times(2)).getDeviceSerialNumber();
+        verify(theView, times(2)).setSerial(stringCaptor.capture());
+        assertEquals("SerialNumber", stringCaptor.getValue());
     }
+    
+    /**
+     * Test of pushCommand method, of class CommunicationProcess.
+     */
+    @Test
+    public void testPushCommandGetTime()
+    {
+        System.out.println("pushCommand - THREADCOMMAND_GETTIME");
+        ThreadCommand command = ThreadCommand.THREADCOMMAND_GETTIME;
+        theInstance.pushCommand(command);
+        // TO DO: sometimes called twice!
+        verify(watchInterface, times(1)).getWatchTime();
+        verify(theView, times(1)).showTime(datetimeCaptor.capture());
+        assertEquals("07:36:00", datetimeCaptor.getValue().format("hh:mm:ss"));
+    }
+    
 
     /**
      * Test of requestSetNewDeviceName method, of class CommunicationProcess.
      */
     @Test
-    @Ignore
     public void testRequestSetNewDeviceName()
     {
+        ArgumentCaptor<String>    prefCaptor=ArgumentCaptor.forClass(String.class);
+        ArgumentCaptor<String>    nameCaptor=ArgumentCaptor.forClass(String.class);
+
         System.out.println("requestSetNewDeviceName");
-        String name = "";
-        CommunicationProcess instance = null;
-        instance.requestSetNewDeviceName(name);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        String name = "NewName";
+        theInstance.requestSetNewDeviceName(name);
+        verify(watchInterface).setPreference(prefCaptor.capture(), nameCaptor.capture());
+        assertEquals("watchName", prefCaptor.getValue());
+        assertEquals("NewName", nameCaptor.getValue());
     }
 
     /**
