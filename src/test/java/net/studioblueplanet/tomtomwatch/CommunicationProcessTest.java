@@ -6,10 +6,11 @@
 package net.studioblueplanet.tomtomwatch;
 
 import net.studioblueplanet.usb.UsbFile;
-import net.studioblueplanet.usb.UsbFile;
 import net.studioblueplanet.usb.WatchInterface;
 import net.studioblueplanet.generics.DirectExecutor;
+import net.studioblueplanet.ttbin.TtbinFileDefinition;
 import hirondelle.date4j.DateTime;
+import java.util.ArrayList;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -32,9 +33,7 @@ public class CommunicationProcessTest
     private final DirectExecutor      executor;
     private final TomTomWatchView     theView;
     private CommunicationProcess      theInstance;
-    private ArgumentCaptor<String>    stringCaptor=ArgumentCaptor.forClass(String.class);
-    private ArgumentCaptor<Integer>   intCaptor=ArgumentCaptor.forClass(Integer.class);
-    private ArgumentCaptor<DateTime>  datetimeCaptor=ArgumentCaptor.forClass(DateTime.class);
+
 
 
     
@@ -66,6 +65,20 @@ public class CommunicationProcessTest
     public void setUp()
     {
         // When started the process will connect
+        
+        ArrayList<UsbFile>  watchFiles;
+        UsbFile             file;
+        
+        watchFiles=new ArrayList<>();
+        file=new UsbFile();
+        file.fileId=0x00000123;
+        file.length=3;
+        file.fileData=new byte[]{0, 1, 2};
+        watchFiles.add(file);
+        file.fileId=0x00000321;
+        file.length=3;
+        file.fileData=new byte[]{3, 2, 1};
+        watchFiles.add(file);
 
         Mockito.reset(theView);
         Mockito.reset(watchInterface);
@@ -75,7 +88,8 @@ public class CommunicationProcessTest
         when(watchInterface.getPreference("watchName")).thenReturn("Test Watch");
         when(watchInterface.readFirmwareVersion()).thenReturn("01.02.03");
         when(watchInterface.getProductId()).thenReturn(0x00E70000);
-        when(watchInterface.getDeviceSerialNumber()).thenReturn("SerialNumber");    
+        when(watchInterface.getDeviceSerialNumber()).thenReturn("SerialNumber"); 
+        when(watchInterface.getFileList(any())).thenReturn(watchFiles);
 
         theInstance=new CommunicationProcess(this.watchInterface, this.executor);
         theInstance.startProcess(theView);
@@ -108,6 +122,8 @@ public class CommunicationProcessTest
     @Test
     public void testStartProcess()
     {
+        ArgumentCaptor<String>    stringCaptor=ArgumentCaptor.forClass(String.class);
+        ArgumentCaptor<Integer>   intCaptor=ArgumentCaptor.forClass(Integer.class);
         System.out.println("startProcess");
 
         // The startProcess is called in the setup() method
@@ -157,6 +173,9 @@ public class CommunicationProcessTest
     @Test
     public void testPushCommandGetDeviceSerial()
     {
+        ArgumentCaptor<DateTime>  datetimeCaptor=ArgumentCaptor.forClass(DateTime.class);
+        ArgumentCaptor<String>    stringCaptor=ArgumentCaptor.forClass(String.class);
+
         System.out.println("pushCommand - THREADCOMMAND_GETDEVICESERIAL");
         ThreadCommand command = ThreadCommand.THREADCOMMAND_GETDEVICESERIAL;
         theInstance.pushCommand(command);
@@ -172,12 +191,20 @@ public class CommunicationProcessTest
     @Test
     public void testPushCommandGetTime()
     {
+        ArgumentCaptor<DateTime>  datetimeCaptor=ArgumentCaptor.forClass(DateTime.class);
+
         System.out.println("pushCommand - THREADCOMMAND_GETTIME");
         ThreadCommand command = ThreadCommand.THREADCOMMAND_GETTIME;
-        theInstance.pushCommand(command);
-        // TO DO: sometimes called twice!
+
+        // TO DO: When started, the first call is made
+        wait(500);
         verify(watchInterface, times(1)).getWatchTime();
         verify(theView, times(1)).showTime(datetimeCaptor.capture());
+        
+        // Second call
+        theInstance.pushCommand(command);
+        verify(watchInterface, times(2)).getWatchTime();
+        verify(theView, times(2)).showTime(datetimeCaptor.capture());
         assertEquals("07:36:00", datetimeCaptor.getValue().format("hh:mm:ss"));
     }
     
@@ -189,29 +216,51 @@ public class CommunicationProcessTest
     public void testRequestSetNewDeviceName()
     {
         ArgumentCaptor<String>    prefCaptor=ArgumentCaptor.forClass(String.class);
-        ArgumentCaptor<String>    nameCaptor=ArgumentCaptor.forClass(String.class);
-
+        ArgumentCaptor<String>    stringCaptor=ArgumentCaptor.forClass(String.class);
+        String                    name;
+        
+        // Bad device name
         System.out.println("requestSetNewDeviceName");
-        String name = "NewName";
+        name = "New_Device_Name#$%";
         theInstance.requestSetNewDeviceName(name);
-        verify(watchInterface).setPreference(prefCaptor.capture(), nameCaptor.capture());
+        verify(watchInterface, never()).setPreference(any(), any());
+        verify(theView).showErrorDialog(stringCaptor.capture());
+        assertEquals("Illegel Watch Name "+name, stringCaptor.getValue());
+
+        // Good flow
+        name = "New_Device_Name";
+        theInstance.requestSetNewDeviceName(name);
+        verify(watchInterface, times(1)).setPreference(prefCaptor.capture(), stringCaptor.capture());
         assertEquals("watchName", prefCaptor.getValue());
-        assertEquals("NewName", nameCaptor.getValue());
+        assertEquals(name, stringCaptor.getValue());
     }
 
     /**
      * Test of requestLoadActivityFromTtbinFile method, of class CommunicationProcess.
      */
     @Test
-    @Ignore
     public void testRequestLoadActivityFromTtbinFile()
     {
+        ArgumentCaptor<ActivityData>    dataCaptor  =ArgumentCaptor.forClass(ActivityData.class);
+        ArgumentCaptor<String>          stringCaptor=ArgumentCaptor.forClass(String.class);
+        String                          fileName;
         System.out.println("requestLoadActivityFromTtbinFile");
-        String fileName = "";
-        CommunicationProcess instance = null;
-        instance.requestLoadActivityFromTtbinFile(fileName);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
+        // Non existing file
+        fileName="PietjePuk";
+        theInstance.requestLoadActivityFromTtbinFile(fileName);
+        verify(theView).showErrorDialog(stringCaptor.capture());
+        verify(theView, never()).addListItem(any(), any());
+        assertEquals("Error loading file: ", stringCaptor.getValue().substring(0, 20));
+
+        // Good flow
+        fileName = "src/test/resources/test.ttbin";
+        theInstance.requestLoadActivityFromTtbinFile(fileName);
+        verify(theView).addListItem(dataCaptor.capture(), stringCaptor.capture());
+        assertEquals("file  ", stringCaptor.getValue());
+        assertEquals(TtbinFileDefinition.ACTIVITY_FREESTYLE, dataCaptor.getValue().activity.getActivityType());
+        assertEquals("2019-09-20", dataCaptor.getValue().activity.getStartDateTime().format("YYYY-MM-DD"));
+        assertEquals(3.80455, dataCaptor.getValue().activity.getDistance(), 0.0001);
     }
 
     /**
@@ -221,12 +270,13 @@ public class CommunicationProcessTest
     @Ignore
     public void testRequestWriteDeviceFileToDisk()
     {
+        int fileId;
         System.out.println("requestWriteDeviceFileToDisk");
-        int fileId = 0;
-        CommunicationProcess instance = null;
-        instance.requestWriteDeviceFileToDisk(fileId);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        fileId = 0x0000123;
+        theInstance.requestWriteDeviceFileToDisk(fileId);
+        
+        // TO DO: How to test?
+
     }
 
     /**
@@ -330,7 +380,7 @@ public class CommunicationProcessTest
         expResult = false;
         result = instance.isConnected();
         assertEquals(expResult, result);
-        verify(watchInterface, times(0)).openConnection();
+        verify(watchInterface, never()).openConnection();
     }
 
     /**
