@@ -1328,7 +1328,7 @@ public class CommunicationProcess implements ProgressListener
                         path+="/";
                     }
                     fileName=String.format("%s0x%08x.bin", path, fileId);
-                    
+
                     if (!ToolBox.writeBytesToFile(fileName, usbFile.fileData))
                     {
                         theView.setStatus("File written to: "+fileName);
@@ -1337,7 +1337,11 @@ public class CommunicationProcess implements ProgressListener
                     {
                         theView.showErrorDialog("Error writing file "+fileName);
                     }
-                }        
+                }
+                else
+                {
+                    theView.showErrorDialog(String.format("Error reading file with ID 0x%08x", fileId));
+                }
             }
             else
             {
