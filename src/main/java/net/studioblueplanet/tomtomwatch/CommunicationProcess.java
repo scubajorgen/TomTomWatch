@@ -1351,6 +1351,7 @@ public class CommunicationProcess implements ProgressListener
         else
         {
             error=true;
+            theView.showErrorDialog("Error: file list could not be retrieved from watch");
         }
         if (error)
         {

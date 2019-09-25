@@ -10,6 +10,7 @@ import net.studioblueplanet.usb.WatchInterface;
 import net.studioblueplanet.generics.DirectExecutor;
 import net.studioblueplanet.generics.ToolBox;
 import net.studioblueplanet.ttbin.TtbinFileDefinition;
+import net.studioblueplanet.settings.ConfigSettings;
 import hirondelle.date4j.DateTime;
 import java.util.ArrayList;
 import net.studioblueplanet.usb.UsbPacket;
@@ -55,14 +56,9 @@ public class CommunicationProcessTest
         watchInterface  = mock(WatchInterface.class);
         executor        = new DirectExecutor();
         theView         = mock(TomTomWatchView.class);
-/*
-        when(watchInterface.openConnection()).thenReturn(false);
-        when(watchInterface.getWatchTime()).thenReturn(new DateTime("2019-09-22 07:36:00"));
-        when(watchInterface.getPreference("watchName")).thenReturn("Test Watch");
-        when(watchInterface.readFirmwareVersion()).thenReturn("01.02.03");
-        when(watchInterface.getProductId()).thenReturn(0x00E70000);
-        when(watchInterface.getDeviceSerialNumber()).thenReturn("SerialNumber");    
-*/        
+        // Set test values for the settings
+        ConfigSettings.setPropertiesFile("src/test/resources/tomtomwatch.properties");
+        ConfigSettings.getInstance();
     }
     
     @BeforeClass
@@ -89,7 +85,7 @@ public class CommunicationProcessTest
         file1.fileData=new byte[]{0, 1, 2};
         watchFiles.add(file1);
         file2=new UsbFile();
-        file2.fileId=0x00000321;
+        file2.fileId=0x00004321;
         file2.length=3;
         file2.fileData=new byte[]{3, 2, 1};
         watchFiles.add(file2);
@@ -107,30 +103,44 @@ public class CommunicationProcessTest
 
         
         // Read File
-
-        doReturn(false).doAnswer(new Answer()
-                {
-                    @Override
-                    public Object answer(InvocationOnMock invocation) 
-                    {
-                        Object[]    args = invocation.getArguments();
-                        UsbFile     usbFile; 
-                        usbFile =((UsbFile)args[0]);
-                        if (usbFile.fileId==0x00000123)
-                        {
-                            usbFile.length=3;
-                            usbFile.fileData=new byte[3];
-                            usbFile.fileData[0]=0;
-                            usbFile.fileData[1]=1;
-                            usbFile.fileData[2]=2;
-                        }
-                        return null; // void method, so return null
-                    }
-                }).when(watchInterface).readFile(anyObject());
+        when(watchInterface.readFile(any()))
+        .thenAnswer
+        (
+          new Answer()
+          {
+              @Override
+              public Object answer(InvocationOnMock invocation) 
+              {
+                  Object[]    args = invocation.getArguments();
+                  UsbFile     usbFile; 
+                  usbFile =((UsbFile)args[0]);
+                  if (usbFile.fileId==0x00000123)
+                  {
+                      usbFile.length=3;
+                      usbFile.fileData=new byte[3];
+                      usbFile.fileData[0]=0;
+                      usbFile.fileData[1]=1;
+                      usbFile.fileData[2]=2;
+                  }
+                  else if (usbFile.fileId==0x00004321)
+                  {
+                      usbFile.length=4;
+                      usbFile.fileData=new byte[4];
+                      usbFile.fileData[0]=4;
+                      usbFile.fileData[1]=3;
+                      usbFile.fileData[2]=2;
+                      usbFile.fileData[3]=1;
+                  }
+                  return null; // void method, so return null
+              }
+          }
+        )
+        .thenReturn(false);
 
         theInstance=new CommunicationProcess(this.watchInterface, this.executor);
         // When started the process will connect
         theInstance.startProcess(theView);
+
     }
     
     @After
@@ -310,7 +320,7 @@ public class CommunicationProcessTest
         ArgumentCaptor<String>  stringCaptor;
         ArgumentCaptor<byte[]>  bytesCaptor;
         byte[]                  bytes;
-        int fileId;
+        int                     fileId;
 
         // Mock the ToolBox
         PowerMockito.mockStatic(ToolBox.class);
@@ -318,30 +328,45 @@ public class CommunicationProcessTest
         System.out.println("requestWriteDeviceFileToDisk");
         stringCaptor=ArgumentCaptor.forClass(String.class);
         bytesCaptor =ArgumentCaptor.forClass(byte[].class);
-        
-        fileId = 0x0000123;
-        when(ToolBox.writeBytesToFile(stringCaptor.capture(), bytesCaptor.capture())).thenReturn(false);
 
+        // Happy flow
+        fileId = 0x00000123;
+        when(ToolBox.writeBytesToFile(stringCaptor.capture(), bytesCaptor.capture())).thenReturn(false);
         theInstance.requestWriteDeviceFileToDisk(fileId);
-        
         assertEquals(".\\working\\files\\0x00000123.bin", stringCaptor.getValue());
         bytes=bytesCaptor.getValue();
         assertEquals(3, bytes.length);
         assertEquals(0x00, bytes[0]);
         assertEquals(0x01, bytes[1]);
         assertEquals(0x02, bytes[2]);
-/*
+
+        // Error writing file
+        fileId = 0x00000123;
+        when(ToolBox.writeBytesToFile(stringCaptor.capture(), bytesCaptor.capture())).thenReturn(true);
+        theInstance.requestWriteDeviceFileToDisk(fileId);
+        verify(theView, times(1)).showErrorDialog(stringCaptor.capture());
+        assertEquals("Error writing file .\\working\\files\\0x00000123.bin", stringCaptor.getValue());
+
+        // Error fetching file from watch
         fileId = 0x00000123;
         when(watchInterface.readFile(any())).thenReturn(true);
         theInstance.requestWriteDeviceFileToDisk(fileId);
-        verify(theView).showErrorDialog(stringCaptor.capture());
+        verify(theView, times(2)).showErrorDialog(stringCaptor.capture());
         assertEquals("Error reading file with ID 0x00000123", stringCaptor.getValue());
-*/        
-        
+
+        // Non existing file on watch
         fileId = 0x00000001;
         theInstance.requestWriteDeviceFileToDisk(fileId);
-        verify(theView).showErrorDialog(stringCaptor.capture());
+        verify(theView, times(3)).showErrorDialog(stringCaptor.capture());
         assertEquals("File with ID 0x00000001 does not exist on watch", stringCaptor.getValue());
+
+        // Error fetching file list
+        fileId = 0x00000123;
+        when(ToolBox.writeBytesToFile(stringCaptor.capture(), bytesCaptor.capture())).thenReturn(false);
+        when(watchInterface.getFileList(any())).thenReturn(null);
+        theInstance.requestWriteDeviceFileToDisk(fileId);
+        verify(theView, times(4)).showErrorDialog(stringCaptor.capture());
+        assertEquals("Error: file list could not be retrieved from watch", stringCaptor.getValue());
     }
 
     /**
