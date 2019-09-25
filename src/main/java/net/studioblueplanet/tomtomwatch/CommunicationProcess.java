@@ -865,14 +865,13 @@ public class CommunicationProcess implements ProgressListener
         String              localDeviceName;
         String              fileName;
         boolean             fileSaveError;
-        int                 startIndex;
-        int                 endIndex;
+        int                 numOfFiles;
         int                 index;
 
         // Add progress listener, for file reading
         watchInterface.setProgressListener(this);
         
-        theView.setStatus("Downloading... Please wait");
+        theView.setStatus("Retrieving file information, please wait...\n");
         reader = TomTomReader.getInstance();
 
         clear();
@@ -888,25 +887,28 @@ public class CommunicationProcess implements ProgressListener
             // The array list of USB files seems not to be sorted. So sort it
             sort(files);
 
-            // Initialize the data for the progressbar
-            this.initializeProgressBar(files);
-
             if (theView.isDownloadMostRecent())
             {
-                startIndex  =Math.max(files.size()-3, 0);
-                endIndex    =files.size();
-                theView.setStatus("Downloading "+(endIndex-startIndex)+" most recent files... Please wait");
+                numOfFiles=Math.min(files.size(), 3);
+                // Remove files until less than or equal to 3 files left
+                while (files.size()>numOfFiles)
+                {
+                    files.remove(0);
+                }
             }
             else
             {
-                startIndex  =0;
-                endIndex    =files.size();
-                theView.setStatus("Downloading all "+(endIndex-startIndex)+" files... Please wait");
+                numOfFiles=files.size();
             }
-
+            theView.appendStatus("Downloading "+numOfFiles+" files\n");
+            
+            // Initialize the data for the progressbar
+            this.initializeProgressBar(files);
+            
             fileSaveError   =false;
-            index           =endIndex-1;
-            while ((index>=startIndex) && !error)
+
+            index           =numOfFiles-1;
+            while ((index>=0) && !error)
             {
                 file = files.get(index);
                 DebugLogger.info("File " + String.format("0x%08x", file.fileId) + " length " + file.length);
@@ -976,7 +978,7 @@ public class CommunicationProcess implements ProgressListener
                     // Add the activity info to the listbox
                     theView.addListItem(data, "watch ");
 
-                    if (index==endIndex-1)
+                    if (index==numOfFiles-1)
                     {
                         theView.selectFirstListIndex();
                     }
@@ -993,7 +995,7 @@ public class CommunicationProcess implements ProgressListener
             toErrorState();
         }
         
-        theView.setStatus("Finished!");
+        theView.appendStatus("Finished!");
         
         // remove progress listener to prevent unwanted effects
         watchInterface.setProgressListener(null);        
@@ -1312,17 +1314,6 @@ public class CommunicationProcess implements ProgressListener
 
                 if (!error)
                 {
-/*                    
-                    String f;
-                    f="";
-                    int i=0;
-                    while (i<usbFile.length)
-                    {
-                        f+=String.format("%02x ", usbFile.fileData[i]);
-                        i++;
-                    }
-                    theView.setStatus(f);
-*/        
                     if (!path.endsWith("/") && !path.endsWith("\\"))
                     {
                         path+="/";
