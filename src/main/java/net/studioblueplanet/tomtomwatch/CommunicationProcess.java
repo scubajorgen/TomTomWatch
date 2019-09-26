@@ -1440,7 +1440,8 @@ public class CommunicationProcess implements ProgressListener
         {
            fileId   =this.fileIdToDelete;
         }
-        
+        theView.setStatus(String.format("Deleting file 0x%08x, please wait...\n", fileId));
+
         
         // Get a list of all files
         watchFiles = watchInterface.getFileList(WatchInterface.FileType.TTWATCH_FILE_ALL);
@@ -1467,8 +1468,12 @@ public class CommunicationProcess implements ProgressListener
 
                 if (!error)
                 {
-                    theView.setStatus(String.format("File 0x%08x deleted!", fileId));
-                }        
+                    theView.appendStatus(String.format("File 0x%08x deleted!", fileId));
+                }
+                else
+                {
+                    theView.showErrorDialog(String.format("File with ID 0x%08x could not be deleted", fileId));
+                }
             }
             else
             {
@@ -1477,6 +1482,7 @@ public class CommunicationProcess implements ProgressListener
         }
         else
         {
+            theView.showErrorDialog(String.format("Error retrieving file info from watch on file while deleting 0x%08x", fileId));
             error=true;
         }
         if (error)
@@ -1821,14 +1827,16 @@ public class CommunicationProcess implements ProgressListener
 
             error=reader.readRouteFromFile(file, route);
             
-            // Just set the name
-            route.setRouteName(name);
-            
-            // Convert it to serialized protobuf bytes. Add the bytes to the file
-            usbFile.fileData=route.getTomTomRouteData();
-            usbFile.length=usbFile.fileData.length;
-            theView.appendStatus("File read and converted\n");
+            if (!error)
+            {
+                // Just set the name
+                route.setRouteName(name);
 
+                // Convert it to serialized protobuf bytes. Add the bytes to the file
+                usbFile.fileData=route.getTomTomRouteData();
+                usbFile.length=usbFile.fileData.length;
+                theView.appendStatus("File read and converted\n");
+            }
         }
         
         // The usbFile is ready for writing. Write it!
@@ -1934,6 +1942,7 @@ public class CommunicationProcess implements ProgressListener
         Iterator<UsbFile>   it;
         HistorySummary      entry;
         String              description="";
+        ArrayList<UsbFile>  files;
         
         // Add progress listener, for file reading
         watchInterface.setProgressListener(this);
@@ -1944,11 +1953,14 @@ public class CommunicationProcess implements ProgressListener
 
         // Enumerate all TTBIN files on the device
         newRouteFiles.clear();
-        newRouteFiles.addAll(watchInterface.getFileList(WatchInterface.FileType.TTWATCH_FILE_TRACKPLANNING));
+        files=watchInterface.getFileList(WatchInterface.FileType.TTWATCH_FILE_TRACKPLANNING);
+        
 
         // If any found, download the data of each file
-        if (newRouteFiles != null)
+        if (files != null)
         {
+            newRouteFiles.addAll(files);
+            
             // The array list of USB files seems not to be sorted. So sort it
             sort(newRouteFiles);
 
@@ -1966,8 +1978,9 @@ public class CommunicationProcess implements ProgressListener
 
                 // Read the file data
                 error = watchInterface.readFile(file);
-                if (file.fileData == null)
+                if (error || file.fileData == null)
                 {
+                    theView.showErrorDialog(String.format("Error reading file 0x%08x", file.fileId));
                     error=true;
                 }
 
@@ -1982,6 +1995,7 @@ public class CommunicationProcess implements ProgressListener
         } 
         else
         {
+            theView.showErrorDialog("Error retrieving file info from watch");
             error = true;
         }
         if (error)

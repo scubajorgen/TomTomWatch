@@ -11,7 +11,7 @@ package net.studioblueplanet.usb;
  * @author Jorgen
  */
 public class UsbFile
-{
+{                                           
     /** ID of the file as on the watch */
     public int                  fileId      =-1;
     
@@ -26,4 +26,24 @@ public class UsbFile
     
     /** Indicates whether a copy has been stored on disk. E.g. in case of ttbin files */
     public boolean              stored      =false;
+    
+    /**
+     *  Default Consturctor
+     */
+    public UsbFile()
+    {
+    }
+    
+    /**
+     *  Easy initialisation constructor
+     *  @param fileId File ID
+     *  @param length Data lenght (number of bytes)
+     *  @param fileData File data, can be null
+     */
+    public UsbFile(int fileId, int length, byte[] fileData)
+    {
+        this.fileId=fileId;
+        this.length=length;
+        this.fileData=fileData;
+    }
 }

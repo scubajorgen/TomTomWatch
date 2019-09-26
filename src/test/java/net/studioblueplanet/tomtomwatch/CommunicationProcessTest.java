@@ -71,24 +71,60 @@ public class CommunicationProcessTest
     {
     }
     
+    private void returnFileData(UsbFile usbFile)
+    {
+        if (usbFile.fileId==0x00000123)
+        {
+            usbFile.length=3;
+            usbFile.fileData=new byte[3];
+            usbFile.fileData[0]=0;
+            usbFile.fileData[1]=1;
+            usbFile.fileData[2]=2;
+        }
+        else if (usbFile.fileId==0x00004321)
+        {
+            usbFile.length=4;
+            usbFile.fileData=new byte[4];
+            usbFile.fileData[0]=4;
+            usbFile.fileData[1]=3;
+            usbFile.fileData[2]=2;
+            usbFile.fileData[3]=1;
+        }
+        else if (usbFile.fileId==0x00B80001)
+        {
+            usbFile.length=4;
+            usbFile.fileData=new byte[4];
+            usbFile.fileData[0]=4;
+            usbFile.fileData[1]=3;
+            usbFile.fileData[2]=2;
+            usbFile.fileData[3]=1;
+        }
+        else if (usbFile.fileId==0x00B80002)
+        {
+            usbFile.length=4;
+            usbFile.fileData=new byte[4];
+            usbFile.fileData[0]=4;
+            usbFile.fileData[1]=3;
+            usbFile.fileData[2]=2;
+            usbFile.fileData[3]=1;
+        }
+        
+    }
+    
     @Before
     public void setUp()
     {
         ArrayList<UsbFile>  watchFiles;
-        UsbFile             file1;
-        UsbFile             file2;
         
         watchFiles=new ArrayList<>();
-        file1=new UsbFile();
-        file1.fileId=0x00000123;
-        file1.length=3;
-        file1.fileData=new byte[]{0, 1, 2};
+        UsbFile file1=new UsbFile(0x00000123, 3, new byte[]{0, 1, 2});
         watchFiles.add(file1);
-        file2=new UsbFile();
-        file2.fileId=0x00004321;
-        file2.length=3;
-        file2.fileData=new byte[]{3, 2, 1};
+        UsbFile file2=new UsbFile(0x00004321, 3, new byte[]{3, 2, 1});
         watchFiles.add(file2);
+        UsbFile file3=new UsbFile(0x00B80001, 3, null);
+        watchFiles.add(file3);
+        UsbFile file4=new UsbFile(0x00B80002, 3, null);
+        watchFiles.add(file4);
 
         Mockito.reset(theView);
         Mockito.reset(watchInterface);
@@ -99,40 +135,36 @@ public class CommunicationProcessTest
         when(watchInterface.readFirmwareVersion()).thenReturn("01.02.03");
         when(watchInterface.getProductId()).thenReturn(0x00E70000);
         when(watchInterface.getDeviceSerialNumber()).thenReturn("SerialNumber"); 
-        when(watchInterface.getFileList(any())).thenReturn(watchFiles);
-
         
-        // Read File
+        when(watchInterface.getFileList(any())).thenReturn(watchFiles);
+        
+        // Read File; prepare for two subsequent calls
+
         when(watchInterface.readFile(any()))
         .thenAnswer
         ((InvocationOnMock invocation) ->
         {
             Object[]    args = invocation.getArguments();
             UsbFile usbFile =(UsbFile)args[0];
-            if (usbFile.fileId==0x00000123)
-            {
-                usbFile.length=3;
-                usbFile.fileData=new byte[3];
-                usbFile.fileData[0]=0;
-                usbFile.fileData[1]=1;
-                usbFile.fileData[2]=2;
-            }
-            else if (usbFile.fileId==0x00004321)
-            {
-                usbFile.length=4;
-                usbFile.fileData=new byte[4];
-                usbFile.fileData[0]=4;
-                usbFile.fileData[1]=3;
-                usbFile.fileData[2]=2;
-                usbFile.fileData[3]=1;
-            }
-            return null; // void method, so return null
-        })
-        .thenReturn(false);
+            returnFileData(usbFile);
+            return false; 
+        });
 
+/*        
+        doAnswer
+        ((InvocationOnMock invocation) ->
+        {
+            Object[]    args = invocation.getArguments();
+            UsbFile usbFile =(UsbFile)args[0];
+            returnFileData(usbFile);
+            return false; // void method, so return null
+        })
+        .when(watchInterface).readFile(any());
+*/        
         when(watchInterface.writeVerifyFile(any())).thenReturn(false);
-        
-        theInstance=new CommunicationProcess(this.watchInterface, this.executor);
+        when(watchInterface.deleteFile(any())).thenReturn(false);
+
+        theInstance=new CommunicationProcess(this.watchInterface, this.executor);  
         // When started the process will connect
         theInstance.startProcess(theView);
 
@@ -251,6 +283,50 @@ public class CommunicationProcessTest
         assertEquals("07:36:00", datetimeCaptor.getValue().format("hh:mm:ss"));
     }
     
+    /**
+     * Test of pushCommand method, of class CommunicationProcess.
+     */
+    @Test
+    public void testPushCommandListRouteFiles()
+    {
+        ArgumentCaptor<UsbFile> fileCaptor;
+        ArgumentCaptor<String>  stringCaptor;
+
+        ArrayList<UsbFile>  watchFiles=new ArrayList<>();
+        UsbFile file1=new UsbFile(0x00B80001, 4, null);
+        watchFiles.add(file1);
+        UsbFile file2=new UsbFile(0x00B80002, 4, null);
+        watchFiles.add(file2);
+        when(watchInterface.getFileList(any())).thenReturn(watchFiles);
+        
+        fileCaptor  =ArgumentCaptor.forClass(UsbFile.class);
+        stringCaptor=ArgumentCaptor.forClass(String.class);
+        
+        System.out.println("pushCommand - THREADCOMMAND_DOWNLOADROUTES");
+        ThreadCommand command = ThreadCommand.THREADCOMMAND_DOWNLOADROUTES;
+
+        // Good flow
+        theInstance.pushCommand(command);
+        verify(watchInterface, times(2)).readFile(fileCaptor.capture());
+        assertEquals(0x00b80001, fileCaptor.getAllValues().get(0).fileId);
+        assertEquals(0x00b80002, fileCaptor.getAllValues().get(1).fileId);
+        assertNotEquals(null, fileCaptor.getAllValues().get(0).fileData);
+        assertNotEquals(null, fileCaptor.getAllValues().get(1).fileData);
+        verify(theView).addRoutesToListBoxLater(any(), anyInt());
+        
+        // File read error
+        doReturn(true).when(watchInterface).readFile(any());
+        theInstance.pushCommand(command);
+        verify(theView, times(1)).showErrorDialog(stringCaptor.capture());
+        assertEquals("Error reading file 0x00b80001", stringCaptor.getValue());
+
+        // No file info
+        when(watchInterface.getFileList(any())).thenReturn(null);
+        theInstance.pushCommand(command);
+        verify(theView, times(2)).showErrorDialog(stringCaptor.capture());
+        assertEquals("Error retrieving file info from watch", stringCaptor.getValue());
+    }
+    
 
     /**
      * Test of requestSetNewDeviceName method, of class CommunicationProcess.
@@ -344,7 +420,8 @@ public class CommunicationProcessTest
 
         // Error fetching file from watch
         fileId = 0x00000123;
-        when(watchInterface.readFile(any())).thenReturn(true);
+        // we have to use doReturn.when here iso. when.thenReturn, otherwise null pointer exception...
+        doReturn(true).when(watchInterface).readFile(any());
         theInstance.requestWriteDeviceFileToDisk(fileId);
         verify(theView, times(2)).showErrorDialog(stringCaptor.capture());
         assertEquals("Error reading file with ID 0x00000123", stringCaptor.getValue());
@@ -419,15 +496,43 @@ public class CommunicationProcessTest
      * Test of requestDeleteDeviceFileFromWatch method, of class CommunicationProcess.
      */
     @Test
-    @Ignore
     public void testRequestDeleteDeviceFileFromWatch()
     {
+        int fileId;
+        ArgumentCaptor<UsbFile> fileCaptor;
+        ArgumentCaptor<String>  stringCaptor;
+        
         System.out.println("requestDeleteDeviceFileFromWatch");
-        int fileId = 0;
-        CommunicationProcess instance = null;
-        instance.requestDeleteDeviceFileFromWatch(fileId);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+
+        fileCaptor=ArgumentCaptor.forClass(UsbFile.class);
+        stringCaptor=ArgumentCaptor.forClass(String.class);
+        // Good flow
+        fileId = 0x00000123;
+        theInstance.requestDeleteDeviceFileFromWatch(fileId);
+        verify(watchInterface).deleteFile(fileCaptor.capture());
+        verify(theView).appendStatus(stringCaptor.capture());
+        assertEquals(fileId, fileCaptor.getValue().fileId);
+        assertEquals("File 0x00000123 deleted!", stringCaptor.getValue());
+        
+        // Non existing file
+        fileId = 0x00000001;
+        theInstance.requestDeleteDeviceFileFromWatch(fileId);
+        verify(theView, atLeast(1)).showErrorDialog(stringCaptor.capture());
+        assertEquals("File with ID 0x00000001 does not exist on watch", stringCaptor.getValue());
+        
+        // Error deleting file
+        fileId = 0x00000123;
+        when(watchInterface.deleteFile(any())).thenReturn(true);
+        theInstance.requestDeleteDeviceFileFromWatch(fileId);
+        verify(theView, atLeast(1)).showErrorDialog(stringCaptor.capture());
+        assertEquals("File with ID 0x00000123 could not be deleted", stringCaptor.getValue());
+        
+        // Error reading file info
+        fileId = 0x12300123;
+        when(watchInterface.getFileList(any())).thenReturn(null);
+        theInstance.requestDeleteDeviceFileFromWatch(fileId);
+        verify(theView, atLeast(1)).showErrorDialog(stringCaptor.capture());
+        assertEquals("Error retrieving file info from watch on file while deleting 0x12300123", stringCaptor.getValue());
     }
 
     /**
@@ -438,12 +543,14 @@ public class CommunicationProcessTest
     public void testRequestUploadGpxFile()
     {
         System.out.println("requestUploadGpxFile");
-        String file = "";
+        String file = "fileName";
         String name = "";
-        CommunicationProcess instance = null;
-        instance.requestUploadGpxFile(file, name);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+
+        PowerMockito.mockStatic(ToolBox.class);
+        when(ToolBox.readStringFromUrl("fileName")).thenReturn("<gpx></wpt lat=\"52.22182\" lon=\"6.89512\"></wpt lat=\"52.22109\" lon=\"6.89304\"></gpx>");
+
+        theInstance.requestUploadGpxFile(file, name);
+
     }
 
     /**
