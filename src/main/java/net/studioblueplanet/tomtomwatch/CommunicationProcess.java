@@ -1198,8 +1198,10 @@ public class CommunicationProcess implements ProgressListener
         Iterator<UsbFile>   it;
 
         files   =watchInterface.getFileList(WatchInterface.FileType.TTWATCH_FILE_ALL);
+
         if (files!=null)
         {
+            sort(files);
             theView.setStatus("File ID    File Size   \n"+
                               "__________ ____________\n");
             it=files.iterator();
@@ -1388,13 +1390,12 @@ public class CommunicationProcess implements ProgressListener
             usbFile         =new UsbFile();
             usbFile.fileId  =Integer.parseInt(digits, 16);
             
-            try
+             
+            usbFile.fileData=ToolBox.readBytesFromFile(filePath);
+            
+            if (usbFile.fileData!=null)
             {
-                diskFile            =new RandomAccessFile(filePath, "r");  
-                usbFile.length      =(int)diskFile.length();
-                usbFile.fileData    =new byte[(int)diskFile.length()];  
-                diskFile.readFully(usbFile.fileData);
-                
+                usbFile.length=usbFile.fileData.length;
                 theView.setStatus(String.format("Uploading %s to ID %08x\n", filePath, usbFile.fileId));
                 error=watchInterface.writeVerifyFile(usbFile);
                 
@@ -1408,20 +1409,14 @@ public class CommunicationProcess implements ProgressListener
                     toErrorState();
                 }
             }
-            catch (FileNotFoundException e)
+            else
             {
-                DebugLogger.error("File not found: "+filePath);
-                theView.appendStatus("File not found\n");
-            }
-            catch (IOException e)
-            {
-                DebugLogger.error("Error reading file: "+filePath);
-                theView.appendStatus("Error reading file\n");
+                theView.showErrorDialog("The filename '"+fileName+"' could not be read");
             }
         } 
         else
         {
-            theView.setStatus("The filename '"+fileName+"' does not fit the required format: 0xnnnnnnnn.bin");
+            theView.showErrorDialog("The filename '"+fileName+"' does not fit the required format: 0xnnnnnnnn.bin");
         }
     }    
 

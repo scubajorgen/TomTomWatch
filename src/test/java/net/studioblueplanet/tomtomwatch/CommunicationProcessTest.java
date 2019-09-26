@@ -13,7 +13,7 @@ import net.studioblueplanet.ttbin.TtbinFileDefinition;
 import net.studioblueplanet.settings.ConfigSettings;
 import hirondelle.date4j.DateTime;
 import java.util.ArrayList;
-import net.studioblueplanet.usb.UsbPacket;
+
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -31,7 +31,7 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.junit.runner.RunWith;
 import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
+
 
 /**
  *
@@ -105,38 +105,33 @@ public class CommunicationProcessTest
         // Read File
         when(watchInterface.readFile(any()))
         .thenAnswer
-        (
-          new Answer()
-          {
-              @Override
-              public Object answer(InvocationOnMock invocation) 
-              {
-                  Object[]    args = invocation.getArguments();
-                  UsbFile     usbFile; 
-                  usbFile =((UsbFile)args[0]);
-                  if (usbFile.fileId==0x00000123)
-                  {
-                      usbFile.length=3;
-                      usbFile.fileData=new byte[3];
-                      usbFile.fileData[0]=0;
-                      usbFile.fileData[1]=1;
-                      usbFile.fileData[2]=2;
-                  }
-                  else if (usbFile.fileId==0x00004321)
-                  {
-                      usbFile.length=4;
-                      usbFile.fileData=new byte[4];
-                      usbFile.fileData[0]=4;
-                      usbFile.fileData[1]=3;
-                      usbFile.fileData[2]=2;
-                      usbFile.fileData[3]=1;
-                  }
-                  return null; // void method, so return null
-              }
-          }
-        )
+        ((InvocationOnMock invocation) ->
+        {
+            Object[]    args = invocation.getArguments();
+            UsbFile usbFile =(UsbFile)args[0];
+            if (usbFile.fileId==0x00000123)
+            {
+                usbFile.length=3;
+                usbFile.fileData=new byte[3];
+                usbFile.fileData[0]=0;
+                usbFile.fileData[1]=1;
+                usbFile.fileData[2]=2;
+            }
+            else if (usbFile.fileId==0x00004321)
+            {
+                usbFile.length=4;
+                usbFile.fileData=new byte[4];
+                usbFile.fileData[0]=4;
+                usbFile.fileData[1]=3;
+                usbFile.fileData[2]=2;
+                usbFile.fileData[3]=1;
+            }
+            return null; // void method, so return null
+        })
         .thenReturn(false);
 
+        when(watchInterface.writeVerifyFile(any())).thenReturn(false);
+        
         theInstance=new CommunicationProcess(this.watchInterface, this.executor);
         // When started the process will connect
         theInstance.startProcess(theView);
@@ -186,7 +181,7 @@ public class CommunicationProcessTest
         
         verify(watchInterface).getProductId();
         verify(theView).setProductId(intCaptor.capture());
-        assertEquals(0x00E70000, intCaptor.getValue().intValue());
+        assertEquals(0x00E70000, (int)intCaptor.getValue());
         
         verify(watchInterface).getDeviceSerialNumber();
         verify(theView).setSerial(stringCaptor.capture());
@@ -373,16 +368,52 @@ public class CommunicationProcessTest
      * Test of requestUploadFile method, of class CommunicationProcess.
      */
     @Test
-    @Ignore
     public void testRequestUploadFile()
     {
+        String                      fileName;
+        ArgumentCaptor<UsbFile>     fileCaptor;
+        ArgumentCaptor<String>      stringCaptor;
+        UsbFile                     file;
+        
         System.out.println("requestUploadFile");
-        String fileName = "";
-        CommunicationProcess instance = null;
-        instance.requestUploadFile(fileName);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
+
+        fileCaptor  =ArgumentCaptor.forClass(UsbFile.class);
+        stringCaptor=ArgumentCaptor.forClass(String.class);
+        
+        // Good flow
+        fileName = "src/test/resources/0x00000123.bin";
+        PowerMockito.mockStatic(ToolBox.class);
+        when(ToolBox.readBytesFromFile(stringCaptor.capture())).thenReturn(new byte[]{'a', 'b', 'c', 'd'});
+        theInstance.requestUploadFile(fileName);
+        verify(watchInterface).writeVerifyFile(fileCaptor.capture());
+        file=fileCaptor.getValue();
+        assertEquals(0x00000123, file.fileId);
+        assertEquals(4, file.length);
+        assertEquals(fileName, stringCaptor.getValue());
+        
+        // Illegal file name
+        fileCaptor=ArgumentCaptor.forClass(UsbFile.class);
+        fileName = "src/test/resources/PietjePuk.bin";
+        theInstance.requestUploadFile(fileName);
+        verify(theView, times(1)).showErrorDialog(stringCaptor.capture());
+        assertEquals("The filename 'PietjePuk.bin' does not fit the required format: 0xnnnnnnnn.bin", stringCaptor.getValue());
+        
+        // Writing to watch fails
+        fileName = "src/test/resources/0x00000123.bin";
+        when(watchInterface.writeVerifyFile(any())).thenReturn(true);
+        theInstance.requestUploadFile(fileName);
+        verify(theView, times(2)).appendStatus(stringCaptor.capture());
+        assertEquals("Failed!!\n", stringCaptor.getValue());
+
+        // Reading file fails
+        fileName = "src/test/resources/0x00000123.bin";
+        when(watchInterface.writeVerifyFile(any())).thenReturn(false);
+        when(ToolBox.readBytesFromFile(stringCaptor.capture())).thenReturn(null);
+        theInstance.requestUploadFile(fileName);
+        verify(theView, times(2)).showErrorDialog(stringCaptor.capture());
+        assertEquals("The filename '0x00000123.bin' could not be read", stringCaptor.getValue());
+
+}
 
     /**
      * Test of requestDeleteDeviceFileFromWatch method, of class CommunicationProcess.
