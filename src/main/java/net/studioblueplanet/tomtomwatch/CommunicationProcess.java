@@ -1445,7 +1445,8 @@ public class CommunicationProcess implements ProgressListener
         {
            fileId   =this.fileIdToDelete;
         }
-        
+        theView.setStatus(String.format("Deleting file 0x%08x, please wait...", fileId));
+
         
         // Get a list of all files
         watchFiles = watchInterface.getFileList(WatchInterface.FileType.TTWATCH_FILE_ALL);
@@ -1472,8 +1473,12 @@ public class CommunicationProcess implements ProgressListener
 
                 if (!error)
                 {
-                    theView.setStatus(String.format("File 0x%08x deleted!", fileId));
-                }        
+                    theView.appendStatus(String.format("File 0x%08x deleted!", fileId));
+                }
+                else
+                {
+                    theView.showErrorDialog(String.format("File with ID 0x%08x could not be deleted", fileId));
+                }
             }
             else
             {
@@ -1482,6 +1487,7 @@ public class CommunicationProcess implements ProgressListener
         }
         else
         {
+            theView.showErrorDialog(String.format("Error retrieving file info from watch on file while deleting 0x%08x", fileId));
             error=true;
         }
         if (error)
