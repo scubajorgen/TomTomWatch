@@ -1283,14 +1283,11 @@ public class TomTomWatchView extends javax.swing.JFrame
         String                      fileName;
         String                      path;
         String                      appName;
-        
-        TomTomWatch     app;
-        ResourceMap     appResourceMap;
+        String                      appVersion;
+        TomTomWatchBuild            build;
 
-        app=TomTomWatch.getApplication();
-
-        appResourceMap=app.getContext().getResourceMap();
-        appName="TomTomWatch "+appResourceMap.getString("Application.version");
+        build=TomTomWatchBuild.getInstance();
+        appName="TomTomWatch "+build.getGitCommitDescription()+" ("+build.getBuildTime()+")";
         
         index = this.jListActivities.getSelectedIndex();
         
@@ -1413,8 +1410,10 @@ public class TomTomWatchView extends javax.swing.JFrame
     {//GEN-HEADEREND:event_jMenuItemAboutActionPerformed
         TomTomWatch     app;
         ResourceMap     appResourceMap;
-
+        TomTomWatchBuild build;
+        
         app=TomTomWatch.getApplication();
+        build=TomTomWatchBuild.getInstance();
 
         appResourceMap=app.getContext().getResourceMap();
 
@@ -1423,7 +1422,7 @@ public class TomTomWatchView extends javax.swing.JFrame
             aboutBox = new TomTomWatchAbout(this, true);
             aboutBox.setLocationRelativeTo(this);
 
-            aboutBox.setVersion(appResourceMap.getString("Application.version"));
+            aboutBox.setVersion(build.getGitCommitDescription()+" ("+build.getBuildTime()+")mv");
             aboutBox.setAuthor(appResourceMap.getString("Application.author"));
             aboutBox.setHomePage(appResourceMap.getString("Application.homepage"));
         }

@@ -60,6 +60,9 @@ public class TomTomWatch extends SingleFrameApplication
         // Register new fonts and apply them to the UI
         loadFonts(); 
         view.setFont();
+        
+        TomTomWatchBuild build=TomTomWatchBuild.getInstance();
+        DebugLogger.info("Build "+build.getGitCommitDescription()+" "+build.getBuildTime());
     }
     
     /**
