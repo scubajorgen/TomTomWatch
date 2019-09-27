@@ -115,7 +115,7 @@ public class TomTomWatchView extends javax.swing.JFrame
         
         // Get the communication process. This starts the process
         this.communicationProcess=communicationProcess;
-        this.communicationProcess.startProcess(this);
+        communicationProcess.startProcess(this);
 
         // Set the track smoothing to the TomTom TTBIN reader
         trackSmoothing          =settings.getBooleanValue("trackSmoothingEnabled");
@@ -2251,6 +2251,52 @@ public class TomTomWatchView extends javax.swing.JFrame
     }
     
     /**
+     * Show error in dialog box
+     * @param message Error message
+     */
+    public void showErrorDialog(String message)
+    {
+        JOptionPane.showMessageDialog(this, message, "Error", JOptionPane.ERROR_MESSAGE);        
+    }
+    
+    /**
+     * Show warning in dialog box
+     * @param message Warning message
+     */
+    public void showWarningDialog(String message)
+    {
+        JOptionPane.showMessageDialog(this, message, "Warning", JOptionPane.WARNING_MESSAGE);        
+    }
+    
+    /**
+     * Show info in dialog box
+     * @param message Info message
+     */
+    public void showInfoDialog(String message)
+    {
+        JOptionPane.showMessageDialog(this, message, "Info", JOptionPane.PLAIN_MESSAGE);        
+    }
+    
+    /**
+     * Show confirm dialog.
+     * @param message Message to show
+     * @return True if confirmed, false if canceled.
+     */
+    public boolean showConfirmDialog(String message)
+    {
+        int     response;
+        boolean yesPressed;
+        
+        yesPressed=false;
+        response = JOptionPane.showConfirmDialog(null, message, "Confirm", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        if (response == JOptionPane.YES_OPTION)
+        {
+            yesPressed=true;
+        }
+        return yesPressed;
+    }
+    
+    /**
      * Clear the route list
      */
     public void clearRoutes()
@@ -2453,10 +2499,9 @@ public class TomTomWatchView extends javax.swing.JFrame
         else
         {
             // Invoke call in Swing EDT 
-            SwingUtilities.invokeLater(new Runnable() {
-                public void run() {
-                  addRoutesToListBox(routes, index);
-                }
+            SwingUtilities.invokeLater(() ->
+            {
+                addRoutesToListBox(routes, index);
             });
         }
     }

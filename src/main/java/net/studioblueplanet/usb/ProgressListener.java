@@ -17,6 +17,18 @@ package net.studioblueplanet.usb;
 public interface ProgressListener
 {
     /**
+     * Sets the number of expected bytes to be read
+     * @param bytes Number of bytes
+     */
+    public void setReadExpectedBytes(int bytes);
+    
+    /**
+     * Sets the number of expected bytes to be writen
+     * @param bytes Number of bytes
+     */
+    public void setWriteExpectedBytes(int bytes); 
+    
+    /**
      * This method reports the progress file reading
      * @param bytesRead Number of bytes that have been written
      */
