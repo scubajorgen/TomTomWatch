@@ -5,6 +5,7 @@
  */
 package net.studioblueplanet.tomtomwatch;
 
+import net.studioblueplanet.generics.GitBuildInfo;
 import org.jdesktop.application.Application;
 import org.jdesktop.application.SingleFrameApplication;
 import org.jdesktop.application.ResourceMap;
@@ -61,7 +62,7 @@ public class TomTomWatch extends SingleFrameApplication
         loadFonts(); 
         view.setFont();
         
-        TomTomWatchBuild build=TomTomWatchBuild.getInstance();
+        GitBuildInfo build=GitBuildInfo.getInstance();
         DebugLogger.info("Build "+build.getGitCommitDescription()+" "+build.getBuildTime());
     }
     

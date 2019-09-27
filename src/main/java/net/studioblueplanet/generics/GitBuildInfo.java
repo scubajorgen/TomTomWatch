@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package net.studioblueplanet.tomtomwatch;
+package net.studioblueplanet.generics;
 
 import net.studioblueplanet.logger.DebugLogger;
 
@@ -15,16 +15,16 @@ import java.util.Properties;
  *
  * @author jorgen
  */
-public class TomTomWatchBuild
+public class GitBuildInfo
 {
     private Properties buildProperties;
 
-    private static TomTomWatchBuild theInstance;
+    private static GitBuildInfo theInstance;
     
     /**
      * Constructor
      */
-    private TomTomWatchBuild()
+    private GitBuildInfo()
     {
         try 
         {
@@ -41,11 +41,11 @@ public class TomTomWatchBuild
      * Get the one and only instance of this Singleton class
      * @return The instance
      */
-    public static TomTomWatchBuild getInstance()
+    public static GitBuildInfo getInstance()
     {
         if (theInstance==null)
         {
-            theInstance=new TomTomWatchBuild();
+            theInstance=new GitBuildInfo();
         }
         return theInstance;
     }

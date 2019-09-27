@@ -6,6 +6,7 @@
 package net.studioblueplanet.tomtomwatch;
 
 
+import net.studioblueplanet.generics.GitBuildInfo;
 import net.studioblueplanet.usb.UsbFile;
 import net.studioblueplanet.ttbin.TomTomReader;
 import net.studioblueplanet.ttbin.Activity;
@@ -1284,9 +1285,9 @@ public class TomTomWatchView extends javax.swing.JFrame
         String                      path;
         String                      appName;
         String                      appVersion;
-        TomTomWatchBuild            build;
+        GitBuildInfo                build;
 
-        build=TomTomWatchBuild.getInstance();
+        build=GitBuildInfo.getInstance();
         appName="TomTomWatch "+build.getGitCommitDescription()+" ("+build.getBuildTime()+")";
         
         index = this.jListActivities.getSelectedIndex();
@@ -1410,10 +1411,10 @@ public class TomTomWatchView extends javax.swing.JFrame
     {//GEN-HEADEREND:event_jMenuItemAboutActionPerformed
         TomTomWatch     app;
         ResourceMap     appResourceMap;
-        TomTomWatchBuild build;
+        GitBuildInfo build;
         
         app=TomTomWatch.getApplication();
-        build=TomTomWatchBuild.getInstance();
+        build=GitBuildInfo.getInstance();
 
         appResourceMap=app.getContext().getResourceMap();
 
@@ -1422,7 +1423,7 @@ public class TomTomWatchView extends javax.swing.JFrame
             aboutBox = new TomTomWatchAbout(this, true);
             aboutBox.setLocationRelativeTo(this);
 
-            aboutBox.setVersion(build.getGitCommitDescription()+" ("+build.getBuildTime()+")mv");
+            aboutBox.setVersion(build.getGitCommitDescription()+" ("+build.getBuildTime()+")");
             aboutBox.setAuthor(appResourceMap.getString("Application.author"));
             aboutBox.setHomePage(appResourceMap.getString("Application.homepage"));
         }
