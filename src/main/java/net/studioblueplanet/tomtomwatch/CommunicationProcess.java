@@ -608,6 +608,17 @@ public class CommunicationProcess implements ProgressListener
         theView.setProgress(0);
     }
     
+    @Override
+    public void setReadExpectedBytes(int bytes)
+    {
+        this.bytesToDownload=bytes;
+    }
+    
+    @Override
+    public void setWriteExpectedBytes(int bytes)
+    {
+    }
+    
     /**
      * This method reports the progress file reading
      * @param bytesRead Number of bytes that have been written
@@ -2184,7 +2195,7 @@ public class CommunicationProcess implements ProgressListener
      * on the watch and a JSON file containing the firmware versions.
      * @param watchInterface USB interface to use
      */
-    public void saveSimulationSet(WatchInterface watchInterface)
+    private void saveSimulationSet(WatchInterface watchInterface)
     {
         UsbFile                     file;
         boolean                     error;
@@ -2238,17 +2249,22 @@ public class CommunicationProcess implements ProgressListener
 
                     // Read the file data
                     error = watchInterface.readFile(file);
-                    if (file.fileData != null)
+                    if (!error && file.fileData != null)
                     {
                         fileName=String.format("%s0x%08x.bin", path, file.fileId);
-                        saveError=ToolBox.writeBytesToFile(fileName, file.fileData);
-                        if (!saveError)
+                        error=ToolBox.writeBytesToFile(fileName, file.fileData);
+                        if (!error)
                         {
                             theView.appendStatus(String.format("File 0x%08x written to %s\n", file.fileId, fileName));
+                        }
+                        else
+                        {
+                            theView.showErrorDialog(String.format("Error writing file 0x%08x to disk as %s", file.fileId, fileName));
                         }
                     }
                     else
                     {
+                        theView.showErrorDialog(String.format("Error reading file 0x%08x", file.fileId));
                         error=true;
                     }
                 }
@@ -2257,17 +2273,11 @@ public class CommunicationProcess implements ProgressListener
             {
                 theView.appendStatus("Done!\n");
             }
-            else
-            {
-                theView.appendStatus("Error reading files\n");
-            }
-            if (saveError)
-            {
-                theView.appendStatus("Error writing file to disk\n");
-            }
+
         } 
         else
         {
+            theView.showErrorDialog("Error retrieving file info from watch");
             error = true;
         }
 

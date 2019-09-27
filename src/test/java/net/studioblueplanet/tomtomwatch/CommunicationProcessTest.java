@@ -6,6 +6,7 @@
 package net.studioblueplanet.tomtomwatch;
 
 import net.studioblueplanet.usb.UsbFile;
+import net.studioblueplanet.usb.WatchInterface.FileType;
 import net.studioblueplanet.usb.WatchInterface;
 import net.studioblueplanet.generics.DirectExecutor;
 import net.studioblueplanet.generics.ToolBox;
@@ -324,6 +325,55 @@ public class CommunicationProcessTest
         when(watchInterface.getFileList(any())).thenReturn(null);
         theInstance.pushCommand(command);
         verify(theView, times(2)).showErrorDialog(stringCaptor.capture());
+        assertEquals("Error retrieving file info from watch", stringCaptor.getValue());
+    }
+    
+    /**
+     * Test of pushCommand method, of class CommunicationProcess.
+     */
+    @Test
+    public void testPushCommandSaveSimulationSet()
+    {
+        ArgumentCaptor<UsbFile>     fileCaptor;
+        ArgumentCaptor<String>      stringCaptor;
+        ArgumentCaptor<FileType>    fileTypeCaptor;
+
+        
+        fileCaptor  =ArgumentCaptor.forClass(UsbFile.class);
+        stringCaptor=ArgumentCaptor.forClass(String.class);
+        fileTypeCaptor=ArgumentCaptor.forClass(FileType.class);
+        
+        
+        System.out.println("pushCommand - THREADCOMMAND_SAVESIMULATIONSET");
+        ThreadCommand command = ThreadCommand.THREADCOMMAND_SAVESIMULATIONSET;
+
+        // Good flow
+        // Mock the ToolBox
+        PowerMockito.mockStatic(ToolBox.class);
+        when(ToolBox.writeBytesToFile(any(), any())).thenReturn(false);
+        theInstance.pushCommand(command);
+        verify(watchInterface).getFileList(fileTypeCaptor.capture());
+        assertEquals(FileType.TTWATCH_FILE_ALL, fileTypeCaptor.getValue());
+        verify(watchInterface, times(4)).readFile(fileCaptor.capture());
+        PowerMockito.verifyStatic(Mockito.times(4));
+        ToolBox.writeBytesToFile(stringCaptor.capture(), any());
+
+        // Error writing file
+        when(ToolBox.writeBytesToFile(any(), any())).thenReturn(true);
+        theInstance.pushCommand(command);
+        verify(theView, times(1)).showErrorDialog(stringCaptor.capture());
+        assertEquals("Error writing file 0x00000123 to disk as .\\working\\simulation\\0x00000123.bin", stringCaptor.getValue());        
+        
+        // File read error
+        doReturn(true).when(watchInterface).readFile(any());
+        theInstance.pushCommand(command);
+        verify(theView, times(2)).showErrorDialog(stringCaptor.capture());
+        assertEquals("Error reading file 0x00000123", stringCaptor.getValue());
+
+        // No file info
+        when(watchInterface.getFileList(any())).thenReturn(null);
+        theInstance.pushCommand(command);
+        verify(theView, times(3)).showErrorDialog(stringCaptor.capture());
         assertEquals("Error retrieving file info from watch", stringCaptor.getValue());
     }
     
@@ -721,30 +771,20 @@ public class CommunicationProcessTest
      * Test of reportReadProgress method, of class CommunicationProcess.
      */
     @Test
-    @Ignore
     public void testReportReadProgress()
     {
         System.out.println("reportReadProgress");
         int bytesRead = 0;
-        CommunicationProcess instance = null;
-        instance.reportReadProgress(bytesRead);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
 
-    /**
-     * Test of reportWriteProgress method, of class CommunicationProcess.
-     */
-    @Test
-    @Ignore
-    public void testReportWriteProgress()
-    {
-        System.out.println("reportWriteProgress");
-        int bytesWritten = 0;
-        CommunicationProcess instance = null;
-        instance.reportWriteProgress(bytesWritten);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        theInstance.setReadExpectedBytes(100);
+        theInstance.reportReadProgress(0);
+        verify(theView).setProgress(0);
+        theInstance.reportReadProgress(50);
+        verify(theView).setProgress(500);
+        theInstance.reportReadProgress(10);
+        verify(theView).setProgress(600);
+        theInstance.reportReadProgress(50);
+        verify(theView).setProgress(1100);
     }
 
     /**
@@ -777,20 +817,4 @@ public class CommunicationProcessTest
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
-
-    /**
-     * Test of saveSimulationSet method, of class CommunicationProcess.
-     */
-    @Test
-    @Ignore
-    public void testSaveSimulationSet()
-    {
-        System.out.println("saveSimulationSet");
-        WatchInterface watchInterface = null;
-        CommunicationProcess instance = null;
-        instance.saveSimulationSet(watchInterface);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-    
 }
