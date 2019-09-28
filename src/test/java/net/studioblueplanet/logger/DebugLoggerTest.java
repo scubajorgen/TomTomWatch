@@ -55,6 +55,24 @@ public class DebugLoggerTest
     public void tearDown()
     {
     }
+    
+    /** 
+     * Waits till next second. When it is now 12:12:12.900, it waits till
+     * 12:12:13.100
+     */
+    private void sync()
+    {
+        DateTime dateTime=DateTime.now(TimeZone.getDefault());
+        long wait=1100-dateTime.getMilliseconds(TimeZone.getDefault())%1000;
+        try
+        {
+            Thread.sleep(wait);
+        }
+        catch (Exception e)
+        {
+            
+        }
+    }
 
     /**
      * Test of setDebugLevel method, of class DebugLogger.
@@ -143,6 +161,7 @@ public class DebugLoggerTest
 
         Mockito.reset(mockInfoStream);
         DebugLogger.setDebugLevel(DebugLogger.DEBUGLEVEL_DEBUG);
+        sync(); // nasty way to prevent failing test at second boundary
         DebugLogger.debug(info);
         verify(mockInfoStream, times(1)).println(argument.capture());
         assertEquals("d " + DateTime.now(TimeZone.getDefault()).format("YYYY-MM-DD hh:mm:ss  ")+"test", argument.getValue());
@@ -178,6 +197,7 @@ public class DebugLoggerTest
 
         Mockito.reset(mockInfoStream);
         DebugLogger.setDebugLevel(DebugLogger.DEBUGLEVEL_DEBUG);
+        sync();
         DebugLogger.info(info);
         verify(mockInfoStream, times(1)).println(argument.capture());
         assertEquals("i " + DateTime.now(TimeZone.getDefault()).format("YYYY-MM-DD hh:mm:ss  ")+"caramba! info", argument.getValue());    
@@ -219,6 +239,7 @@ public class DebugLoggerTest
 
         Mockito.reset(mockInfoStream);
         Mockito.reset(mockErrorStream);
+        sync();
         DebugLogger.setDebugLevel(DebugLogger.DEBUGLEVEL_DEBUG);
         DebugLogger.error(info);
         verify(mockInfoStream, times(0)).println(anyString());

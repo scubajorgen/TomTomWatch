@@ -1186,7 +1186,7 @@ public class TomTomWatchView extends javax.swing.JFrame
         communicationProcess.setTrackSmoothing(trackSmoothingEnabled, trackSmoothingQFactor);
         
         // Do the download
-        checkAndPushCommand(ThreadCommand.THREADCOMMAND_DOWNLOAD);
+        checkAndPushCommand(ThreadCommand.THREADCOMMAND_DOWNLOADACTIVITIES);
     }//GEN-LAST:event_jButtonDownloadActionPerformed
 
     private void jRadioButtonRunningActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jRadioButtonRunningActionPerformed

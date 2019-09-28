@@ -190,7 +190,7 @@ public class TomTomReader
      * @return The byte array containing the record data
      * @throws IOException Error while reading from the input stream
      */
-    public byte[] readRecord(InputStream in, TtbinHeader header) throws IOException
+    private byte[] readRecord(InputStream in, TtbinHeader header) throws IOException
     {
         byte[]  recordData;
         byte[]  lengthData;

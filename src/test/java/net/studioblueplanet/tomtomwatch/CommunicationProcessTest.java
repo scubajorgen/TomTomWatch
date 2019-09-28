@@ -10,7 +10,9 @@ import net.studioblueplanet.usb.WatchInterface.FileType;
 import net.studioblueplanet.usb.WatchInterface;
 import net.studioblueplanet.generics.DirectExecutor;
 import net.studioblueplanet.generics.ToolBox;
-import net.studioblueplanet.ttbin.TtbinFileDefinition;
+import net.studioblueplanet.ttbin.TomTomReader;
+import net.studioblueplanet.ttbin.Activity;
+import net.studioblueplanet.ttbin.TtbinHeader;
 import net.studioblueplanet.settings.ConfigSettings;
 import hirondelle.date4j.DateTime;
 import java.util.ArrayList;
@@ -44,12 +46,20 @@ import org.mockito.invocation.InvocationOnMock;
 @PrepareForTest(ToolBox.class)
 public class CommunicationProcessTest
 {
-    private final WatchInterface      watchInterface;
-    private final DirectExecutor      executor;
-    private final TomTomWatchView     theView;
-    private CommunicationProcess      theInstance;
+    private final WatchInterface                watchInterface;
+    private final DirectExecutor                executor;
+    private final TomTomWatchView               theView;
+    private CommunicationProcess                theInstance;
+    private final TomTomReader                  ttbinReader;
+    private final GpxReader                     gpxReader;
 
-
+    private final ArgumentCaptor<UsbFile>       fileCaptor;
+    private final ArgumentCaptor<String>        stringCaptor;
+    private final ArgumentCaptor<Integer>       intCaptor;
+    private final ArgumentCaptor<DateTime>      datetimeCaptor;
+    private final ArgumentCaptor<FileType>      fileTypeCaptor;
+    private final ArgumentCaptor<ActivityData>  dataCaptor;
+    private final ArgumentCaptor<byte[]>        bytesCaptor;
 
     
     public CommunicationProcessTest()
@@ -57,9 +67,19 @@ public class CommunicationProcessTest
         watchInterface  = mock(WatchInterface.class);
         executor        = new DirectExecutor();
         theView         = mock(TomTomWatchView.class);
+        ttbinReader     = mock(TomTomReader.class);
+        gpxReader       = mock(GpxReader.class);
         // Set test values for the settings
         ConfigSettings.setPropertiesFile("src/test/resources/tomtomwatch.properties");
         ConfigSettings.getInstance();
+        
+        intCaptor       =ArgumentCaptor.forClass(Integer.class);
+        stringCaptor    =ArgumentCaptor.forClass(String.class);
+        fileCaptor      =ArgumentCaptor.forClass(UsbFile.class);
+        datetimeCaptor  =ArgumentCaptor.forClass(DateTime.class);
+        fileTypeCaptor  =ArgumentCaptor.forClass(FileType.class);
+        dataCaptor      =ArgumentCaptor.forClass(ActivityData.class);
+        bytesCaptor     =ArgumentCaptor.forClass(byte[].class);
     }
     
     @BeforeClass
@@ -91,6 +111,15 @@ public class CommunicationProcessTest
             usbFile.fileData[2]=2;
             usbFile.fileData[3]=1;
         }
+        else if (usbFile.fileId==0x00B80000)
+        {
+            usbFile.length=4;
+            usbFile.fileData=new byte[4];
+            usbFile.fileData[0]=4;
+            usbFile.fileData[1]=3;
+            usbFile.fileData[2]=2;
+            usbFile.fileData[3]=1;
+        }
         else if (usbFile.fileId==0x00B80001)
         {
             usbFile.length=4;
@@ -100,14 +129,37 @@ public class CommunicationProcessTest
             usbFile.fileData[2]=2;
             usbFile.fileData[3]=1;
         }
-        else if (usbFile.fileId==0x00B80002)
+        else if (usbFile.fileId==0x00910000)
         {
             usbFile.length=4;
-            usbFile.fileData=new byte[4];
-            usbFile.fileData[0]=4;
-            usbFile.fileData[1]=3;
-            usbFile.fileData[2]=2;
-            usbFile.fileData[3]=1;
+            usbFile.fileData=new byte[3];
+            usbFile.fileData[0]=10;
+            usbFile.fileData[1]=30;
+            usbFile.fileData[2]=20;
+        }
+        else if (usbFile.fileId==0x00910001)
+        {
+            usbFile.length=4;
+            usbFile.fileData=new byte[3];
+            usbFile.fileData[0]=40;
+            usbFile.fileData[1]=30;
+            usbFile.fileData[2]=22;
+        }
+        else if (usbFile.fileId==0x00910002)
+        {
+            usbFile.length=4;
+            usbFile.fileData=new byte[3];
+            usbFile.fileData[0]=40;
+            usbFile.fileData[1]=30;
+            usbFile.fileData[2]=22;
+        }
+        else if (usbFile.fileId==0x00910003)
+        {
+            usbFile.length=4;
+            usbFile.fileData=new byte[3];
+            usbFile.fileData[0]=40;
+            usbFile.fileData[1]=30;
+            usbFile.fileData[2]=22;
         }
         
     }
@@ -115,18 +167,36 @@ public class CommunicationProcessTest
     @Before
     public void setUp()
     {
-        ArrayList<UsbFile>  watchFiles;
-        
-        watchFiles=new ArrayList<>();
-        UsbFile file1=new UsbFile(0x00000123, 3, new byte[]{0, 1, 2});
-        watchFiles.add(file1);
-        UsbFile file2=new UsbFile(0x00004321, 3, new byte[]{3, 2, 1});
-        watchFiles.add(file2);
-        UsbFile file3=new UsbFile(0x00B80001, 3, null);
-        watchFiles.add(file3);
-        UsbFile file4=new UsbFile(0x00B80002, 3, null);
-        watchFiles.add(file4);
+        ArrayList<UsbFile>  watchFiles=new ArrayList<>();
+        ArrayList<UsbFile>  routeFiles=new ArrayList<>();
+        ArrayList<UsbFile>  activityFiles=new ArrayList<>();
 
+        UsbFile file1=new UsbFile(0x00000123, 3, null);
+        UsbFile file2=new UsbFile(0x00004321, 3, null);
+        UsbFile file3=new UsbFile(0x00B80000, 4, null);
+        UsbFile file4=new UsbFile(0x00B80001, 4, null);
+        UsbFile file5=new UsbFile(0x00910000, 3, null);
+        UsbFile file6=new UsbFile(0x00910001, 3, null);
+        UsbFile file7=new UsbFile(0x00910002, 3, null);
+        UsbFile file8=new UsbFile(0x00910003, 3, null);
+
+        watchFiles.add(file1);
+        watchFiles.add(file2);
+        watchFiles.add(file3);
+        watchFiles.add(file4);
+        watchFiles.add(file5);
+        watchFiles.add(file6);
+        watchFiles.add(file7);
+        watchFiles.add(file8);
+        
+        routeFiles.add(file3);
+        routeFiles.add(file4);
+
+        activityFiles.add(file5);
+        activityFiles.add(file6);
+        activityFiles.add(file7);
+        activityFiles.add(file8);
+        
         Mockito.reset(theView);
         Mockito.reset(watchInterface);
 
@@ -137,7 +207,9 @@ public class CommunicationProcessTest
         when(watchInterface.getProductId()).thenReturn(0x00E70000);
         when(watchInterface.getDeviceSerialNumber()).thenReturn("SerialNumber"); 
         
-        when(watchInterface.getFileList(any())).thenReturn(watchFiles);
+        when(watchInterface.getFileList(FileType.TTWATCH_FILE_ALL)).thenReturn(watchFiles);
+        when(watchInterface.getFileList(FileType.TTWATCH_FILE_TTBIN_DATA)).thenReturn(activityFiles);
+        when(watchInterface.getFileList(FileType.TTWATCH_FILE_TRACKPLANNING)).thenReturn(routeFiles);
         
         // Read File; prepare for two subsequent calls
 
@@ -151,24 +223,29 @@ public class CommunicationProcessTest
             return false; 
         });
 
-/*        
-        doAnswer
-        ((InvocationOnMock invocation) ->
-        {
-            Object[]    args = invocation.getArguments();
-            UsbFile usbFile =(UsbFile)args[0];
-            returnFileData(usbFile);
-            return false; // void method, so return null
-        })
-        .when(watchInterface).readFile(any());
-*/        
         when(watchInterface.writeVerifyFile(any())).thenReturn(false);
         when(watchInterface.deleteFile(any())).thenReturn(false);
+        when(watchInterface.fileExists(anyInt())).thenReturn(true);
 
-        theInstance=new CommunicationProcess(this.watchInterface, this.executor);  
+        theInstance=new CommunicationProcess(watchInterface, executor, ttbinReader, gpxReader);  
         // When started the process will connect
         theInstance.startProcess(theView);
 
+        
+        when(gpxReader.readRouteFromFile(any(), any()))
+        .thenAnswer
+        ((InvocationOnMock invocation) ->
+        {
+            Object[]    args = invocation.getArguments();
+            Route route =(Route)args[1];
+            RouteSegment segment;
+            RoutePoint   point;
+            segment=route.appendRouteSegment();
+            point=new RoutePoint(53.2523616, 6.5884867);
+            point=new RoutePoint(52.2221127, 6.9107758);
+            segment.appendRoutePoint(point);
+            return false; 
+        });        
     }
     
     @After
@@ -198,9 +275,7 @@ public class CommunicationProcessTest
     @Test
     public void testStartProcess()
     {
-        ArgumentCaptor<String>    stringCaptor=ArgumentCaptor.forClass(String.class);
-        ArgumentCaptor<Integer>   intCaptor=ArgumentCaptor.forClass(Integer.class);
-        System.out.println("startProcess");
+        System.out.println("TEST: startProcess");
 
         // The startProcess is called in the setup() method
         
@@ -233,7 +308,7 @@ public class CommunicationProcessTest
     @Test
     public void testRequestStop()
     {
-        System.out.println("requestStop");
+        System.out.println("TEST: requestStop");
 
         wait(500);
         theInstance.requestStop();
@@ -249,10 +324,7 @@ public class CommunicationProcessTest
     @Test
     public void testPushCommandGetDeviceSerial()
     {
-        ArgumentCaptor<DateTime>  datetimeCaptor=ArgumentCaptor.forClass(DateTime.class);
-        ArgumentCaptor<String>    stringCaptor=ArgumentCaptor.forClass(String.class);
-
-        System.out.println("pushCommand - THREADCOMMAND_GETDEVICESERIAL");
+        System.out.println("TEST: pushCommand - THREADCOMMAND_GETDEVICESERIAL");
         ThreadCommand command = ThreadCommand.THREADCOMMAND_GETDEVICESERIAL;
         theInstance.pushCommand(command);
         // Once called during startup hence 2 times expected
@@ -267,9 +339,7 @@ public class CommunicationProcessTest
     @Test
     public void testPushCommandGetTime()
     {
-        ArgumentCaptor<DateTime>  datetimeCaptor=ArgumentCaptor.forClass(DateTime.class);
-
-        System.out.println("pushCommand - THREADCOMMAND_GETTIME");
+        System.out.println("TEST: pushCommand - THREADCOMMAND_GETTIME");
         ThreadCommand command = ThreadCommand.THREADCOMMAND_GETTIME;
 
         // TO DO: When started, the first call is made
@@ -283,6 +353,52 @@ public class CommunicationProcessTest
         verify(theView, times(2)).showTime(datetimeCaptor.capture());
         assertEquals("07:36:00", datetimeCaptor.getValue().format("hh:mm:ss"));
     }
+
+    /**
+     * Test of pushCommand method, of class CommunicationProcess.
+     */
+    @Test
+    public void testPushCommandListActivityFiles()
+    {
+        System.out.println("TEST: pushCommand - THREADCOMMAND_DOWNLOADACTIVITIES");
+        ThreadCommand command = ThreadCommand.THREADCOMMAND_DOWNLOADACTIVITIES;
+
+        // Good flow - download all
+        when(theView.isDownloadMostRecent()).thenReturn(false);
+        when(ttbinReader.readTtbinFile((UsbFile)any())).thenReturn(new Activity(new TtbinHeader()));
+
+        theInstance.pushCommand(command);
+        verify(watchInterface, times(4)).readFile(fileCaptor.capture());
+        assertEquals(0x00910003, fileCaptor.getAllValues().get(0).fileId);
+        assertEquals(0x00910002, fileCaptor.getAllValues().get(1).fileId);
+        assertEquals(0x00910001, fileCaptor.getAllValues().get(2).fileId);
+        assertEquals(0x00910000, fileCaptor.getAllValues().get(3).fileId);
+        verify(theView, times(4)).addListItem(any(), any());
+
+        // Good flow - download all
+        when(theView.isDownloadMostRecent()).thenReturn(true);
+        theInstance.pushCommand(command);
+        verify(watchInterface, times(7)).readFile(fileCaptor.capture());
+        assertEquals(0x00910003, fileCaptor.getAllValues().get(0).fileId);
+        assertEquals(0x00910002, fileCaptor.getAllValues().get(1).fileId);
+        assertEquals(0x00910001, fileCaptor.getAllValues().get(2).fileId);
+        verify(theView, times(7)).addListItem(any(), any());
+        
+        
+        // File read error
+        doReturn(true).when(watchInterface).readFile(any());
+        theInstance.pushCommand(command);
+        verify(theView, times(1)).showErrorDialog(stringCaptor.capture());
+        assertEquals("Error reading file 0x00910003", stringCaptor.getValue());
+
+        // No file info
+        when(watchInterface.getFileList(any())).thenReturn(null);
+        theInstance.pushCommand(command);
+        verify(theView, times(2)).showErrorDialog(stringCaptor.capture());
+        assertEquals("Error retrieving file info from watch", stringCaptor.getValue());
+
+    }
+
     
     /**
      * Test of pushCommand method, of class CommunicationProcess.
@@ -290,27 +406,14 @@ public class CommunicationProcessTest
     @Test
     public void testPushCommandListRouteFiles()
     {
-        ArgumentCaptor<UsbFile> fileCaptor;
-        ArgumentCaptor<String>  stringCaptor;
-
-        ArrayList<UsbFile>  watchFiles=new ArrayList<>();
-        UsbFile file1=new UsbFile(0x00B80001, 4, null);
-        watchFiles.add(file1);
-        UsbFile file2=new UsbFile(0x00B80002, 4, null);
-        watchFiles.add(file2);
-        when(watchInterface.getFileList(any())).thenReturn(watchFiles);
-        
-        fileCaptor  =ArgumentCaptor.forClass(UsbFile.class);
-        stringCaptor=ArgumentCaptor.forClass(String.class);
-        
-        System.out.println("pushCommand - THREADCOMMAND_DOWNLOADROUTES");
+        System.out.println("TEST: pushCommand - THREADCOMMAND_DOWNLOADROUTES");
         ThreadCommand command = ThreadCommand.THREADCOMMAND_DOWNLOADROUTES;
 
         // Good flow
         theInstance.pushCommand(command);
         verify(watchInterface, times(2)).readFile(fileCaptor.capture());
-        assertEquals(0x00b80001, fileCaptor.getAllValues().get(0).fileId);
-        assertEquals(0x00b80002, fileCaptor.getAllValues().get(1).fileId);
+        assertEquals(0x00b80000, fileCaptor.getAllValues().get(0).fileId);
+        assertEquals(0x00b80001, fileCaptor.getAllValues().get(1).fileId);
         assertNotEquals(null, fileCaptor.getAllValues().get(0).fileData);
         assertNotEquals(null, fileCaptor.getAllValues().get(1).fileData);
         verify(theView).addRoutesToListBoxLater(any(), anyInt());
@@ -319,7 +422,7 @@ public class CommunicationProcessTest
         doReturn(true).when(watchInterface).readFile(any());
         theInstance.pushCommand(command);
         verify(theView, times(1)).showErrorDialog(stringCaptor.capture());
-        assertEquals("Error reading file 0x00b80001", stringCaptor.getValue());
+        assertEquals("Error reading file 0x00b80000", stringCaptor.getValue());
 
         // No file info
         when(watchInterface.getFileList(any())).thenReturn(null);
@@ -327,6 +430,98 @@ public class CommunicationProcessTest
         verify(theView, times(2)).showErrorDialog(stringCaptor.capture());
         assertEquals("Error retrieving file info from watch", stringCaptor.getValue());
     }
+
+    /**
+     * Test of pushCommand method, of class CommunicationProcess.
+     */
+    @Test
+    public void testPushCommandUploadRouteFiles()
+    {
+        ArrayList<UsbFile>  watchFiles=new ArrayList<>();
+        UsbFile file1=new UsbFile(0x00B80000, 4, null);
+        watchFiles.add(file1);
+        UsbFile file2=new UsbFile(0x00B80001, 4, null);
+        watchFiles.add(file2);
+        when(watchInterface.getFileList(any())).thenReturn(watchFiles);
+        
+        System.out.println("TEST: pushCommand - THREADCOMMAND_UPLOADROUTES");
+        ThreadCommand command = ThreadCommand.THREADCOMMAND_UPLOADROUTES;
+
+        // Good flow: download and upload
+        // Prepare: download the routes
+        theInstance.deleteAllRouteFiles();
+        theInstance.pushCommand(ThreadCommand.THREADCOMMAND_DOWNLOADROUTES);
+        theInstance.pushCommand(command);
+        verify(watchInterface, never()).deleteFile(any());
+        verify(watchInterface, never()).writeVerifyFile(any());
+
+        // Good flow: download and upload
+        // Prepare: download, delete the last route
+        theInstance.deleteAllRouteFiles();
+        theInstance.pushCommand(ThreadCommand.THREADCOMMAND_DOWNLOADROUTES);
+        theInstance.deleteRouteFile(1);
+        theInstance.pushCommand(command);
+        verify(watchInterface, times(1)).deleteFile(fileCaptor.capture());
+        assertEquals(0x00b80001, fileCaptor.getValue().fileId);
+        verify(watchInterface, never()).writeVerifyFile(any());
+        
+        // Good flow: download, append new file and upload
+        // Prepare: download the routes
+        theInstance.deleteAllRouteFiles();
+        theInstance.pushCommand(ThreadCommand.THREADCOMMAND_DOWNLOADROUTES);
+        theInstance.addRouteFile("testRoute", "fileName", 2);
+        theInstance.pushCommand(command);
+        verify(watchInterface, times(1)).deleteFile(any());
+        verify(watchInterface, times(1)).writeVerifyFile(fileCaptor.capture());
+        assertEquals(0x00b80002, fileCaptor.getValue().fileId);
+
+        // Good flow: download, add new file and upload
+        // Prepare: download the routes
+        theInstance.deleteAllRouteFiles();
+        theInstance.pushCommand(ThreadCommand.THREADCOMMAND_DOWNLOADROUTES);
+        theInstance.addRouteFile("testRoute", "fileName", 1);
+        theInstance.pushCommand(command);
+        verify(watchInterface, times(2)).deleteFile(fileCaptor.capture());
+        assertEquals(0x00b80001, fileCaptor.getValue().fileId);
+        verify(watchInterface, times(3)).writeVerifyFile(fileCaptor.capture());
+        assertEquals(0x00b80001, fileCaptor.getAllValues().get(0).fileId);
+        assertEquals(0x00b80002, fileCaptor.getAllValues().get(1).fileId);
+
+        // Bad flow: to many routes
+        // Prepare: download the routes
+        theInstance.deleteAllRouteFiles();
+        int i=0;
+        while (i<16)
+        {
+            theInstance.addRouteFile("testRoute", "fileName", 0);
+            i++;
+        }
+        theInstance.pushCommand(command);
+        verify(theView).showErrorDialog(stringCaptor.capture());
+        assertEquals("To many routes to upload. Reduce to 15", stringCaptor.getValue());
+        
+        // Bad flow: error while deleting
+        // Good flow: download and upload
+        // Prepare: download, delete the last route
+        when(watchInterface.deleteFile(any())).thenReturn(true);
+        theInstance.deleteAllRouteFiles();
+        theInstance.pushCommand(ThreadCommand.THREADCOMMAND_DOWNLOADROUTES);
+        theInstance.deleteRouteFile(1);
+        theInstance.pushCommand(command);
+        verify(theView, times(2)).showErrorDialog(stringCaptor.capture());
+        assertEquals("Error updating files to watch", stringCaptor.getValue());
+        
+        // Bad flow: error while deleting
+        // Prepare: download, delete the last route
+        when(watchInterface.deleteFile(any())).thenReturn(false);
+        when(watchInterface.writeVerifyFile(any())).thenReturn(true);
+        theInstance.deleteAllRouteFiles();
+        theInstance.addRouteFile("testRoute", "fileName", 0);
+        theInstance.pushCommand(command);
+        verify(theView, times(3)).showErrorDialog(stringCaptor.capture());
+        assertEquals("Error updating files to watch", stringCaptor.getValue());
+    }    
+    
     
     /**
      * Test of pushCommand method, of class CommunicationProcess.
@@ -334,17 +529,7 @@ public class CommunicationProcessTest
     @Test
     public void testPushCommandSaveSimulationSet()
     {
-        ArgumentCaptor<UsbFile>     fileCaptor;
-        ArgumentCaptor<String>      stringCaptor;
-        ArgumentCaptor<FileType>    fileTypeCaptor;
-
-        
-        fileCaptor  =ArgumentCaptor.forClass(UsbFile.class);
-        stringCaptor=ArgumentCaptor.forClass(String.class);
-        fileTypeCaptor=ArgumentCaptor.forClass(FileType.class);
-        
-        
-        System.out.println("pushCommand - THREADCOMMAND_SAVESIMULATIONSET");
+        System.out.println("TEST: pushCommand - THREADCOMMAND_SAVESIMULATIONSET");
         ThreadCommand command = ThreadCommand.THREADCOMMAND_SAVESIMULATIONSET;
 
         // Good flow
@@ -354,8 +539,8 @@ public class CommunicationProcessTest
         theInstance.pushCommand(command);
         verify(watchInterface).getFileList(fileTypeCaptor.capture());
         assertEquals(FileType.TTWATCH_FILE_ALL, fileTypeCaptor.getValue());
-        verify(watchInterface, times(4)).readFile(fileCaptor.capture());
-        PowerMockito.verifyStatic(Mockito.times(4));
+        verify(watchInterface, times(8)).readFile(fileCaptor.capture());
+        PowerMockito.verifyStatic(Mockito.times(8));
         ToolBox.writeBytesToFile(stringCaptor.capture(), any());
 
         // Error writing file
@@ -385,11 +570,10 @@ public class CommunicationProcessTest
     public void testRequestSetNewDeviceName()
     {
         ArgumentCaptor<String>    prefCaptor=ArgumentCaptor.forClass(String.class);
-        ArgumentCaptor<String>    stringCaptor=ArgumentCaptor.forClass(String.class);
         String                    name;
         
         // Bad device name
-        System.out.println("requestSetNewDeviceName");
+        System.out.println("TEST: requestSetNewDeviceName");
         name = "New_Device_Name#$%";
         theInstance.requestSetNewDeviceName(name);
         verify(watchInterface, never()).setPreference(any(), any());
@@ -410,13 +594,15 @@ public class CommunicationProcessTest
     @Test
     public void testRequestLoadActivityFromTtbinFile()
     {
-        ArgumentCaptor<ActivityData>    dataCaptor  =ArgumentCaptor.forClass(ActivityData.class);
-        ArgumentCaptor<String>          stringCaptor=ArgumentCaptor.forClass(String.class);
         String                          fileName;
-        System.out.println("requestLoadActivityFromTtbinFile");
+        System.out.println("TEST: requestLoadActivityFromTtbinFile");
+
+        // Mock the ToolBox
+        PowerMockito.mockStatic(ToolBox.class);
         
         // Non existing file
         fileName="PietjePuk";
+        when(ToolBox.readBytesFromFile(fileName)).thenReturn(null);
         theInstance.requestLoadActivityFromTtbinFile(fileName);
         verify(theView).showErrorDialog(stringCaptor.capture());
         verify(theView, never()).addListItem(any(), any());
@@ -424,12 +610,10 @@ public class CommunicationProcessTest
 
         // Good flow
         fileName = "src/test/resources/test.ttbin";
+        when(ToolBox.readBytesFromFile(fileName)).thenReturn(new byte[]{1, 2, 3});
+        when(ttbinReader.readTtbinFile((UsbFile)any())).thenReturn(null);
         theInstance.requestLoadActivityFromTtbinFile(fileName);
         verify(theView).addListItem(dataCaptor.capture(), stringCaptor.capture());
-        assertEquals("file  ", stringCaptor.getValue());
-        assertEquals(TtbinFileDefinition.ACTIVITY_FREESTYLE, dataCaptor.getValue().activity.getActivityType());
-        assertEquals("2019-09-20", dataCaptor.getValue().activity.getStartDateTime().format("YYYY-MM-DD"));
-        assertEquals(3.80455, dataCaptor.getValue().activity.getDistance(), 0.0001);
     }
 
     /**
@@ -438,17 +622,13 @@ public class CommunicationProcessTest
     @Test
     public void testRequestWriteDeviceFileToDisk()
     {
-        ArgumentCaptor<String>  stringCaptor;
-        ArgumentCaptor<byte[]>  bytesCaptor;
         byte[]                  bytes;
         int                     fileId;
 
         // Mock the ToolBox
         PowerMockito.mockStatic(ToolBox.class);
         
-        System.out.println("requestWriteDeviceFileToDisk");
-        stringCaptor=ArgumentCaptor.forClass(String.class);
-        bytesCaptor =ArgumentCaptor.forClass(byte[].class);
+        System.out.println("TEST: requestWriteDeviceFileToDisk");
 
         // Happy flow
         fileId = 0x00000123;
@@ -498,14 +678,9 @@ public class CommunicationProcessTest
     public void testRequestUploadFile()
     {
         String                      fileName;
-        ArgumentCaptor<UsbFile>     fileCaptor;
-        ArgumentCaptor<String>      stringCaptor;
         UsbFile                     file;
         
-        System.out.println("requestUploadFile");
-
-        fileCaptor  =ArgumentCaptor.forClass(UsbFile.class);
-        stringCaptor=ArgumentCaptor.forClass(String.class);
+        System.out.println("TEST: requestUploadFile");
         
         // Good flow
         fileName = "src/test/resources/0x00000123.bin";
@@ -519,7 +694,6 @@ public class CommunicationProcessTest
         assertEquals(fileName, stringCaptor.getValue());
         
         // Illegal file name
-        fileCaptor=ArgumentCaptor.forClass(UsbFile.class);
         fileName = "src/test/resources/PietjePuk.bin";
         theInstance.requestUploadFile(fileName);
         verify(theView, times(1)).showErrorDialog(stringCaptor.capture());
@@ -549,13 +723,9 @@ public class CommunicationProcessTest
     public void testRequestDeleteDeviceFileFromWatch()
     {
         int fileId;
-        ArgumentCaptor<UsbFile> fileCaptor;
-        ArgumentCaptor<String>  stringCaptor;
         
-        System.out.println("requestDeleteDeviceFileFromWatch");
+        System.out.println("TEST: requestDeleteDeviceFileFromWatch");
 
-        fileCaptor=ArgumentCaptor.forClass(UsbFile.class);
-        stringCaptor=ArgumentCaptor.forClass(String.class);
         // Good flow
         fileId = 0x00000123;
         theInstance.requestDeleteDeviceFileFromWatch(fileId);
@@ -586,53 +756,60 @@ public class CommunicationProcessTest
     }
 
     /**
-     * Test of requestUploadGpxFile method, of class CommunicationProcess.
-     */
-    @Test
-    @Ignore
-    public void testRequestUploadGpxFile()
-    {
-        System.out.println("requestUploadGpxFile");
-        String file = "fileName";
-        String name = "";
-
-        PowerMockito.mockStatic(ToolBox.class);
-        when(ToolBox.readStringFromUrl("fileName")).thenReturn("<gpx></wpt lat=\"52.22182\" lon=\"6.89512\"></wpt lat=\"52.22109\" lon=\"6.89304\"></gpx>");
-
-        theInstance.requestUploadGpxFile(file, name);
-
-    }
-
-    /**
      * Test of requestShowFile method, of class CommunicationProcess.
      */
     @Test
-    @Ignore
     public void testRequestShowFile()
     {
-        System.out.println("requestShowFile");
-        int fileId = 0;
-        CommunicationProcess instance = null;
-        instance.requestShowFile(fileId);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        int fileId;
+        
+        System.out.println("TEST: requestShowFile");
+
+        // Good flow
+        fileId = 0x00000123;
+        theInstance.requestShowFile(fileId);
+        verify(watchInterface).readFile(fileCaptor.capture());
+        assertEquals(fileId, fileCaptor.getValue().fileId);
+        
+        // Illegal file ID
+        fileId = WatchInterface.FILEID_INVALID;
+        theInstance.requestShowFile(fileId);
+        verify(theView).showErrorDialog(stringCaptor.capture());
+        assertEquals("Illegal file ID", stringCaptor.getValue());
+        
+        // Non existing file
+        fileId = 0x00000123;
+        when(watchInterface.fileExists(fileId)).thenReturn(false);
+        theInstance.requestShowFile(fileId);
+        verify(theView, times(2)).showErrorDialog(stringCaptor.capture());
+        assertEquals("Requested file does not exist on the watch.", stringCaptor.getValue());
     }
 
     /**
      * Test of getActivityData method, of class CommunicationProcess.
      */
     @Test
-    @Ignore
     public void testGetActivityData()
     {
-        System.out.println("getActivityData");
-        int index = 0;
-        CommunicationProcess instance = null;
-        ActivityData expResult = null;
-        ActivityData result = instance.getActivityData(index);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        int             index;
+        ActivityData    result;
+        
+        System.out.println("TEST: getActivityData");
+
+        // Prepare: donwload some activitities
+        when(theView.isDownloadMostRecent()).thenReturn(false);
+        when(ttbinReader.readTtbinFile((UsbFile)any())).thenReturn(new Activity(new TtbinHeader()));
+        theInstance.pushCommand(ThreadCommand.THREADCOMMAND_DOWNLOADACTIVITIES);
+
+        index = 0;
+        result = theInstance.getActivityData(index);
+        assertNotEquals(null, result);
+        index = 3;
+        result = theInstance.getActivityData(index);
+        assertNotEquals(null, result);
+        index = 4;
+        result = theInstance.getActivityData(index);
+        assertEquals(null, result);
     }
 
     /**
@@ -644,7 +821,7 @@ public class CommunicationProcessTest
         boolean expResult;
         boolean result;
 
-        System.out.println("isConnected");
+        System.out.println("TEST: isConnected");
 
         // When started, the process is connected
         expResult = true;
@@ -652,9 +829,9 @@ public class CommunicationProcessTest
         assertEquals(expResult, result);
         verify(watchInterface).openConnection();
 
-        CommunicationProcess instance = new CommunicationProcess(this.watchInterface, this.executor);
         Mockito.reset(watchInterface);
         // When created, the process is not connected
+        CommunicationProcess instance=new CommunicationProcess(watchInterface, executor, ttbinReader, gpxReader);
         expResult = false;
         result = instance.isConnected();
         assertEquals(expResult, result);
@@ -667,7 +844,7 @@ public class CommunicationProcessTest
     @Test
     public void testGetDeviceName()
     {
-        System.out.println("getDeviceName");
+        System.out.println("TEST: getDeviceName");
 
         String expResult = "Test Watch";
         String result = theInstance.getDeviceName();
@@ -678,93 +855,125 @@ public class CommunicationProcessTest
      * Test of setTrackSmoothing method, of class CommunicationProcess.
      */
     @Test
-    @Ignore
     public void testSetTrackSmoothing()
     {
-        System.out.println("setTrackSmoothing");
-        boolean enabled = false;
+        System.out.println("TEST: setTrackSmoothing");
+        boolean enabled = true;
         float qFactor = 0.0F;
-        CommunicationProcess instance = null;
-        instance.setTrackSmoothing(enabled, qFactor);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        theInstance.setTrackSmoothing(enabled, qFactor);
+        verify(ttbinReader).setTrackSmoothing(enabled, qFactor);
+
     }
 
     /**
      * Test of addRouteFile method, of class CommunicationProcess.
      */
     @Test
-    @Ignore
     public void testAddRouteFile()
     {
-        System.out.println("addRouteFile");
-        String name = "";
-        String file = "";
-        int index = 0;
-        CommunicationProcess instance = null;
-        instance.addRouteFile(name, file, index);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        // Good flow
+        System.out.println("TEST: addRouteFile");
+        theInstance.deleteAllRouteFiles();
+        String name = "testRoute";
+        String file = "testFile";
+        int index   = 0;
+        theInstance.addRouteFile(name, file, index);
+        verify(gpxReader).readRouteFromFile(stringCaptor.capture(), any());
+        assertEquals(file, stringCaptor.getValue());
+        UsbFile usbFile=theInstance.getRouteFile(0);
+        assertNotEquals(null, usbFile);
+        assertNotEquals(0, usbFile.length);
+        
+        // File read error
+        doReturn(true).when(gpxReader).readRouteFromFile(any(), any());
+        theInstance.addRouteFile(name, file, index);
+        verify(theView).showErrorDialog(stringCaptor.capture());
+        assertEquals("Error reading route file", stringCaptor.getValue());
     }
 
     /**
      * Test of deleteAllRouteFiles method, of class CommunicationProcess.
      */
     @Test
-    @Ignore
     public void testDeleteAllRouteFiles()
     {
-        System.out.println("deleteAllRouteFiles");
-        CommunicationProcess instance = null;
-        instance.deleteAllRouteFiles();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println("TEST: deleteAllRouteFiles");
+        theInstance.deleteAllRouteFiles();
+        verify(theView).addRoutesToListBox(any(), anyInt());
     }
 
     /**
      * Test of deleteRouteFile method, of class CommunicationProcess.
      */
     @Test
-    @Ignore
     public void testDeleteRouteFile()
     {
-        System.out.println("deleteRouteFile");
-        int index = 0;
-        CommunicationProcess instance = null;
-        instance.deleteRouteFile(index);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println("TEST: deleteRouteFile");
+        theInstance.deleteAllRouteFiles();
+        verify(theView, times(1)).addRoutesToListBox(any(), anyInt());
+        String name = "testRoute";
+        String file = "testFile";
+        int index   = 0;
+        theInstance.addRouteFile(name, file, index);
+        verify(gpxReader).readRouteFromFile(stringCaptor.capture(), any());
+        assertEquals(file, stringCaptor.getValue());
+        UsbFile usbFile=theInstance.getRouteFile(0);
+        verify(theView, times(2)).addRoutesToListBox(any(), anyInt());
+        
+        // Illegal index
+        theInstance.deleteRouteFile(1);
+        verify(theView).showErrorDialog(stringCaptor.capture());
+        assertEquals("Error while deleting route file", stringCaptor.getValue());
+
+        // Illegal index
+        theInstance.deleteRouteFile(-1);
+        verify(theView, times(2)).showErrorDialog(stringCaptor.capture());
+        assertEquals("Error while deleting route file", stringCaptor.getValue());
+
+        // Good flow
+        theInstance.deleteRouteFile(0);
+        verify(theView, times(3)).addRoutesToListBox(any(), anyInt());
     }
+    
 
     /**
      * Test of getRouteFile method, of class CommunicationProcess.
      */
     @Test
-    @Ignore
     public void testGetRouteFile()
     {
-        System.out.println("getRouteFile");
+        UsbFile result;
+        
+        System.out.println("TEST: getRouteFile");
+
+        // Fail: no routes
         int index = 0;
-        CommunicationProcess instance = null;
         UsbFile expResult = null;
-        UsbFile result = instance.getRouteFile(index);
+        result = theInstance.getRouteFile(index);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
+        // good flow: request added file
+        theInstance.deleteAllRouteFiles();
+        String name = "testRoute";
+        String file = "testFile";
+        index   = 0;
+        theInstance.addRouteFile(name, file, index);        
+        result = theInstance.getRouteFile(index);
+        assertNotEquals(null, result);
+        assertEquals(0xffffffff, result.fileId);
+        assertNotEquals(0, result.length);
+        assertNotEquals(null, result.fileData);
     }
 
     /**
      * Test of clear method, of class CommunicationProcess.
      */
     @Test
-    @Ignore
     public void testClear()
     {
-        System.out.println("clear");
-        CommunicationProcess instance = null;
-        instance.clear();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println("TEST: clear");
+        theInstance.clear();
+        verify(theView).clear();
     }
 
     /**
@@ -773,7 +982,7 @@ public class CommunicationProcessTest
     @Test
     public void testReportReadProgress()
     {
-        System.out.println("reportReadProgress");
+        System.out.println("TEST: reportReadProgress");
         int bytesRead = 0;
 
         theInstance.setReadExpectedBytes(100);
@@ -785,36 +994,5 @@ public class CommunicationProcessTest
         verify(theView).setProgress(600);
         theInstance.reportReadProgress(50);
         verify(theView).setProgress(1100);
-    }
-
-    /**
-     * Test of loadActivityFromTtbinFile method, of class CommunicationProcess.
-     */
-    @Test
-    @Ignore
-    public void testLoadActivityFromTtbinFile()
-    {
-        System.out.println("loadActivityFromTtbinFile");
-        CommunicationProcess instance = null;
-        boolean expResult = false;
-        boolean result = instance.loadActivityFromTtbinFile();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of listHistory method, of class CommunicationProcess.
-     */
-    @Test
-    @Ignore
-    public void testListHistory()
-    {
-        System.out.println("listHistory");
-        WatchInterface watchInterface = null;
-        CommunicationProcess instance = null;
-        instance.listHistory(watchInterface);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 }

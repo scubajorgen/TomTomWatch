@@ -81,6 +81,9 @@ public class CommunicationProcess implements ProgressListener
     
     private final WatchTimer                    timer;
     
+    private final TomTomReader                  ttbinReader;
+    private final GpxReader                     gpxReader;
+    
     /*############################################################################################*\
      * PUBLIC METHODS
     \*############################################################################################*/    
@@ -90,8 +93,10 @@ public class CommunicationProcess implements ProgressListener
      * @param watchInterface Interface to the watch to use
      * @param executor Executor to use to execute subsequent requests to the watch in a
      *                 serialized order
+     * @param ttbinReader The reader/decoder to use for TTBIN files
+     * @param gpxReader The reader to use for GPX files
      */
-    public CommunicationProcess(WatchInterface watchInterface, Executor executor)
+    public CommunicationProcess(WatchInterface watchInterface, Executor executor, TomTomReader ttbinReader, GpxReader gpxReader)
     {
         ConfigSettings  settings;
         
@@ -113,6 +118,8 @@ public class CommunicationProcess implements ProgressListener
         
         this.watchInterface=watchInterface;
         this.executor       =executor;
+        this.ttbinReader    =ttbinReader;
+        this.gpxReader      =gpxReader;
     }    
 
     
@@ -157,7 +164,7 @@ public class CommunicationProcess implements ProgressListener
             case THREADCOMMAND_GETDEVICESERIAL:
                 r=() ->{getDeviceSerial(watchInterface);};
                 break;
-            case THREADCOMMAND_DOWNLOAD:
+            case THREADCOMMAND_DOWNLOADACTIVITIES:
                 r=() ->{downloadActivityFiles(watchInterface);};
                 break;
             case THREADCOMMAND_DELETETTBINFILES:
@@ -342,24 +349,6 @@ public class CommunicationProcess implements ProgressListener
     }
 
     /**
-     * Converts and upload a GPX route file. 
-     * The request is processed asynchronously by the thread.
-     * @param file Filename of the file to upload
-     * @param name Name of the route by which it becomes visible on the 
-     *             watch
-     */
-    public void requestUploadGpxFile(String file, String name)
-    {
-        synchronized(this)
-        {
-            this.uploadGpxFile=file;
-            this.uploadGpxName=name;
-            this.pushCommand(ThreadCommand.THREADCOMMAND_UPLOADROUTE);
-            this.pushCommand(ThreadCommand.THREADCOMMAND_DOWNLOADROUTES);
-        }
-    }
-
-    /**
      * This method requests to display the contents of indicated file.
      * The request is processed asynchronously by the thread.
      * @param fileId ID of file to show
@@ -432,12 +421,9 @@ public class CommunicationProcess implements ProgressListener
      */
     public void setTrackSmoothing(boolean enabled, float qFactor)
     {
-        TomTomReader    reader;
-        
         synchronized(this)
         {
-            reader=TomTomReader.getInstance();
-            reader.setTrackSmoothing(enabled, qFactor);            
+            ttbinReader.setTrackSmoothing(enabled, qFactor);            
         }
     }
     
@@ -449,32 +435,37 @@ public class CommunicationProcess implements ProgressListener
      */
     public void addRouteFile(String name, String file, int index)
     {
-        GpxReader                   reader;
         RouteTomTom                 route;
         boolean                     error;
         UsbFile                     usbFile;
 
-        reader=GpxReader.getInstance();
         // The log contains now the route read
         route=new RouteTomTom();
-        error=reader.readRouteFromFile(file, route);
-        // Just set the name
-        route.setRouteName(name);
-
-        // Convert it to serialized protobuf bytes. Add the bytes to the file
-        usbFile         =new UsbFile();
-        usbFile.fileData=route.getTomTomRouteData();
-        usbFile.length  =usbFile.fileData.length;
-        if (index>=0)
+        error=gpxReader.readRouteFromFile(file, route);
+        if (!error)
         {
-            this.newRouteFiles.add(index, usbFile);
+            // Just set the name
+            route.setRouteName(name);
+
+            // Convert it to serialized protobuf bytes. Add the bytes to the file
+            usbFile         =new UsbFile();
+            usbFile.fileData=route.getTomTomRouteData();
+            usbFile.length  =usbFile.fileData.length;
+            if (index>=0)
+            {
+                this.newRouteFiles.add(index, usbFile);
+            }
+            else
+            {
+                this.newRouteFiles.add(usbFile);
+            }
+            theView.appendStatus("File read and converted\n"); 
+            theView.addRoutesToListBox(newRouteFiles, index);
         }
         else
         {
-            this.newRouteFiles.add(usbFile);
+            theView.showErrorDialog("Error reading route file");
         }
-        theView.appendStatus("File read and converted\n"); 
-        theView.addRoutesToListBox(newRouteFiles, index);
     }
 
     /**
@@ -500,7 +491,7 @@ public class CommunicationProcess implements ProgressListener
         else
         {
             DebugLogger.error("Illegal route file array index while deleting route file");
-            theView.appendStatus("Error while deleting route file");
+            theView.showErrorDialog("Error while deleting route file");
         }
     }
     
@@ -644,13 +635,13 @@ public class CommunicationProcess implements ProgressListener
      * ActivityData item appended to the lists.
      * @return  True if an error occurred
      */
-    public boolean loadActivityFromTtbinFile()
+    private boolean loadActivityFromTtbinFile()
     {
         RandomAccessFile    file;
         ActivityData        data;
-        TomTomReader        reader;
         String              fileName;
         boolean             error;
+        byte[]              fileData;
         
         error=false;
         
@@ -661,24 +652,22 @@ public class CommunicationProcess implements ProgressListener
         
         theView.setStatus("Loading "+fileName+"\n");
         
-        try
+
+        fileData            =ToolBox.readBytesFromFile(fileName);
+        if (fileData!=null)
         {
-            file                = new RandomAccessFile(fileName, "r");
             data                =new ActivityData();
 
             // Read the TTBIN file data
             data.file           =new UsbFile();
             data.file.fileId    =0xFFFFFFFF;
-            data.file.fileData  = new byte[(int)file.length()];
-            data.file.length    = (int)file.length();
-            file.readFully(data.file.fileData);   
-            file.close();
+            data.file.fileData  =fileData;
+            data.file.length    =fileData.length;
 
             // Transfer to activity
-            reader=TomTomReader.getInstance();
-            data.activity       =reader.readTtbinFile(data.file);
+            data.activity       =ttbinReader.readTtbinFile(data.file);
             data.ttbinSaved     =true;
-            
+
             // Append the new data item to the list
             synchronized(this)
             {
@@ -687,16 +676,11 @@ public class CommunicationProcess implements ProgressListener
             theView.addListItem(data, "file  ");
             theView.selectLastListIndex();
         }
-        catch (FileNotFoundException e)
+        else
         {
-            error=true;
-            theView.showErrorDialog("Error loading file: "+e.getMessage());
+            theView.showErrorDialog("Error loading file: "+fileName);
         }
-        catch (IOException e)
-        {
-            error=true;
-            theView.showErrorDialog("Error loading file: "+e.getMessage());
-        }
+
         theView.appendStatus("Done!");
         
         return error;
@@ -869,7 +853,6 @@ public class CommunicationProcess implements ProgressListener
         boolean             error;
         ArrayList<UsbFile>  files;
         Iterator<UsbFile>   it;
-        TomTomReader        reader;
         Activity            activity;
         ActivityData        data;
         TtbinFileWriter     writer;
@@ -883,7 +866,6 @@ public class CommunicationProcess implements ProgressListener
         watchInterface.setProgressListener(this);
         
         theView.setStatus("Retrieving file information, please wait...\n");
-        reader = TomTomReader.getInstance();
 
         clear();
 
@@ -926,10 +908,10 @@ public class CommunicationProcess implements ProgressListener
 
                 // Read the file data
                 error = watchInterface.readFile(file);
-                if (file.fileData != null)
+                if (!error && file.fileData != null)
                 {
                     // Convert the file data into an Activity
-                    activity = reader.readTtbinFile(file);
+                    activity = ttbinReader.readTtbinFile(file);
                     activity.setDeviceName(this.deviceName);
                     activity.setDeviceSerialNumber(this.deviceSerial);
 
@@ -995,10 +977,15 @@ public class CommunicationProcess implements ProgressListener
                     }
                     index--;
                 }
+                else
+                {
+                    theView.showErrorDialog(String.format("Error reading file 0x%08x", file.fileId));
+                }
             }
         } 
         else
         {
+            theView.showErrorDialog("Error retrieving file info from watch");
             error = true;
         }
         if (error)
@@ -1579,7 +1566,7 @@ public class CommunicationProcess implements ProgressListener
      * This method lists the device history
      * @param watchInterface USB interface to use
      */
-    public void listHistory(WatchInterface watchInterface)
+    private void listHistory(WatchInterface watchInterface)
     {
         UsbFile             file;
  //       String              fileString;
@@ -1757,7 +1744,6 @@ public class CommunicationProcess implements ProgressListener
         boolean                 error;
         String                  name;
         String                  file;
-        GpxReader               reader;
         RouteTomTom             route;
         ArrayList<UsbFile>      files;
         Iterator<UsbFile>       it;
@@ -1830,13 +1816,11 @@ public class CommunicationProcess implements ProgressListener
                 name        =this.uploadGpxName;
             }
             
-            // Read the route
-            reader=GpxReader.getInstance();
 
             // The log contains now the route read
             route=new RouteTomTom();
 
-            error=reader.readRouteFromFile(file, route);
+            error=gpxReader.readRouteFromFile(file, route);
             
             if (!error)
             {
@@ -1929,13 +1913,13 @@ public class CommunicationProcess implements ProgressListener
             }
             else
             {
+                theView.showErrorDialog("Error updating files to watch");
                 toErrorState();
-                theView.appendStatus("Error updating files to watch\n");
             }
         }
         else
         {
-            theView.appendStatus("To many routes to upload. Reduce to "+MAXROUTES);
+            theView.showErrorDialog("To many routes to upload. Reduce to "+MAXROUTES);
         }
         theView.enableRouteButtons(true);
     }    
@@ -2366,8 +2350,12 @@ public class CommunicationProcess implements ProgressListener
             }  
             else
             {
-                theView.setStatus("Requested file does not exist on the watch.");
+                theView.showErrorDialog("Requested file does not exist on the watch.");
             }
+        }
+        else
+        {
+            theView.showErrorDialog("Illegal file ID");
         }
     }
     
