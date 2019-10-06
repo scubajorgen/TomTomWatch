@@ -242,8 +242,8 @@ public class ActivitySegment
                 {
                     distance+=ToolBox.distance(prevGpsRecord.getLatitude(), prevGpsRecord.getLongitude(),
                                                gpsRecord.getLatitude()    , gpsRecord.getLongitude());
+                    prevGpsRecord=gpsRecord;
                 }
-                prevGpsRecord=gpsRecord;
             }                
             i++;
         }
