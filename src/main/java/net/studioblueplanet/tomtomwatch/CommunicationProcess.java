@@ -1078,16 +1078,15 @@ public class CommunicationProcess implements ProgressListener
         error=false;
         
         theView.setStatus("Uploading GPS Quickfix data\n");
-        // Get the ConfigURL from the watch
-        urlString=watchInterface.getPreference("ConfigURL").trim();
-
-       
-        DebugLogger.info("Write GPX Quickfix data: config url: "+urlString);
-        theView.appendStatus("Configuration URL: "+urlString+"\n");
         
-        
+        urlString=watchInterface.getPreference("ConfigURL");
         if (urlString!=null)
         {
+            // Get the ConfigURL from the watch
+            urlString=urlString.trim();
+            DebugLogger.info("Write GPX Quickfix data: config url: "+urlString);
+            theView.appendStatus("Configuration URL: "+urlString+"\n");
+
             // Read the config file from this url
             fileString=ToolBox.readStringFromUrl(urlString);
 
@@ -1108,23 +1107,28 @@ public class CommunicationProcess implements ProgressListener
 
                 if (!error)
                 {
-                    theView.showInfoDialog("GPS Quickfix data sent");
+                    theView.appendStatus("GPS Quickfix data sent to watch\n");
+                }
+                else
+                {
+                    theView.showErrorDialog("Unable to send quickfix file to the watch");
+                    DebugLogger.error("Unable to read quickfix file from TomTom");                    
                 }
             }
             else
             {
-                theView.appendStatus("Unable to read quickfix file from TomTom\n");
+                theView.showErrorDialog("Unable to read quickfix file from TomTom");
                 DebugLogger.error("Unable to read quickfix file from TomTom");
             }
         }
         else
         {
+            theView.showErrorDialog("Error reading preference from the Watch");
             DebugLogger.error("Error reading preference from the Watch");
             error=true;
         }
         if (error)
         {
-            theView.showErrorDialog("Error sending GPS Quickfix data sent");
             toErrorState();
         }
         theView.appendStatus("Done\n");

@@ -203,6 +203,7 @@ public class CommunicationProcessTest
         when(watchInterface.openConnection()).thenReturn(false);
         when(watchInterface.getWatchTime()).thenReturn(new DateTime("2019-09-22 07:36:00"));
         when(watchInterface.getPreference("watchName")).thenReturn("Test Watch");
+        when(watchInterface.getPreference("ConfigURL")).thenReturn("preferenceValue");
         when(watchInterface.readFirmwareVersion()).thenReturn("01.02.03");
         when(watchInterface.getProductId()).thenReturn(0x00E70000);
         when(watchInterface.getDeviceSerialNumber()).thenReturn("SerialNumber"); 
@@ -226,6 +227,7 @@ public class CommunicationProcessTest
         when(watchInterface.writeVerifyFile(any())).thenReturn(false);
         when(watchInterface.deleteFile(any())).thenReturn(false);
         when(watchInterface.fileExists(anyInt())).thenReturn(true);
+        when(watchInterface.writeGpxQuickFixFile(any())).thenReturn(false);
 
         theInstance=new CommunicationProcess(watchInterface, executor, ttbinReader, gpxReader);  
         // When started the process will connect
@@ -561,6 +563,50 @@ public class CommunicationProcessTest
         verify(theView, times(3)).showErrorDialog(stringCaptor.capture());
         assertEquals("Error retrieving file info from watch", stringCaptor.getValue());
     }
+    
+    /**
+     * Test of pushCommand method, of class CommunicationProcess.
+     */
+    @Test
+    public void testPushCommandUploadGpsQuickfix()
+    {
+        System.out.println("TEST: pushCommand - THREADCOMMAND_UPLOADGPSDATAS");
+        ThreadCommand command = ThreadCommand.THREADCOMMAND_UPLOADGPSDATA;
+
+        // Mock the ToolBox
+        PowerMockito.mockStatic(ToolBox.class);        
+        
+        // Good flow
+        when(ToolBox.readStringFromUrl("preferenceValue")).thenReturn("{\"service:ephemeris\":\"TEST{DAYS}\"}");
+        when(ToolBox.readBytesFromUrl("TEST7")).thenReturn(new byte[]{0, 1, 2});
+        theInstance.pushCommand(command);
+        verify(watchInterface).writeGpxQuickFixFile(any());
+        verify(theView).setStatus(stringCaptor.capture());
+        verify(theView, times(4)).appendStatus(stringCaptor.capture());
+        assertEquals("Uploading GPS Quickfix data\n", stringCaptor.getAllValues().get(0)); 
+        assertEquals("Configuration URL: preferenceValue\n", stringCaptor.getAllValues().get(1));
+        assertEquals("Quickfix data URL: TEST7\n", stringCaptor.getAllValues().get(2));
+        assertEquals("GPS Quickfix data sent to watch\n", stringCaptor.getAllValues().get(3));        
+        assertEquals("Done\n", stringCaptor.getAllValues().get(4));
+
+        // Cannot write to watch
+        when(watchInterface.writeGpxQuickFixFile(any())).thenReturn(true);
+        theInstance.pushCommand(command);
+        verify(theView).showErrorDialog(stringCaptor.capture());
+        assertEquals("Unable to send quickfix file to the watch", stringCaptor.getValue());
+
+        // Cannot read quick fix file
+        when(ToolBox.readBytesFromUrl(any())).thenReturn(null);
+        theInstance.pushCommand(command);
+        verify(theView, times(2)).showErrorDialog(stringCaptor.capture());
+        assertEquals("Unable to read quickfix file from TomTom", stringCaptor.getValue());
+        
+        // No preference found
+        doReturn(null).when(watchInterface).getPreference("ConfigURL");
+        theInstance.pushCommand(command);
+        verify(theView, times(3)).showErrorDialog(stringCaptor.capture());
+        assertEquals("Error reading preference from the Watch", stringCaptor.getValue());
+    }    
     
 
     /**
