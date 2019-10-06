@@ -67,7 +67,7 @@ public class TomTomReaderTest
         assertEquals("Freestyle", result.getActivityDescription());
         assertEquals("TomTom", result.getDeviceName());
         assertEquals("Unknown", result.getDeviceSerialNumber());
-        assertEquals(3.80455, result.getDistance(), 0.0001);
+        assertEquals(3.80562, result.getDistance(), 0.0001);
         assertEquals("2019-09-20 15:16:39",  result.getFirstActiveRecordTime().format("YYYY-MM-DD hh:mm:ss"));
         assertEquals(0, result.getFitnessPoints());
         assertEquals(1, result.getNumberOfSegments());
@@ -102,7 +102,7 @@ public class TomTomReaderTest
         Activity result=instance.readTtbinFile(new UsbFile(0xFFFFFFFF, this.ttbinFileData.length, this.ttbinFileData));
         assertEquals(3.21, result.getTrackSmoothingQFactor(), 0.0001);
         // The disstance is affectuated by the smoothing
-        assertEquals(3.7952, result.getDistance(), 0.0001);
+        assertEquals(3.79630, result.getDistance(), 0.0001);
         // The summary originates from teh watch and is not affected
         assertEquals(3773.17798, result.summaryDistance, 0.0001);
     }

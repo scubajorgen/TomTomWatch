@@ -380,7 +380,7 @@ public class ToolBoxTest
         
         System.out.println("distance");
         
-        expResult=116.62265727444301;
+        expResult=116.65552391524595;
         result=ToolBox.distance(53.25266034638638, 6.588575466231305, 52.22214720325971, 6.910776465847903);
         
         assertEquals(expResult, result, 0.00001);

@@ -497,7 +497,7 @@ public class ToolBox
     }    
     
     
-    private static final int EARTH_RADIUS = 6371; // Approx Earth radius in KM
+    private static final double EARTH_RADIUS = 6372.795477598; // Approx Earth radius in KM
 
     /**
      * Calculates the distance between two coordinates
@@ -526,6 +526,4 @@ public class ToolBox
     {
         return Math.pow(Math.sin(val / 2), 2);
     }
-    
-    
 }
