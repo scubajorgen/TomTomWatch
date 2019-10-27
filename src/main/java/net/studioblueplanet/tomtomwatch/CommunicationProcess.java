@@ -1016,6 +1016,7 @@ public class CommunicationProcess implements ProgressListener
 
         if (activities.size()>0)
         {
+            theView.setStatus("Deleting activities from the watch\n");
             synchronized(this)
             {
                 it=activities.iterator();
@@ -1037,7 +1038,12 @@ public class CommunicationProcess implements ProgressListener
             
             if (error)
             {
+                theView.showErrorDialog("Error deleting files from watch");
                 toErrorState();
+            }
+            else
+            {
+                theView.appendStatus("Done!\n");
             }
         }
         else
@@ -2132,7 +2138,7 @@ public class CommunicationProcess implements ProgressListener
     }
     
     /**
-     * Request the firmware version from the device
+     * Request the productID from the device
      * @param watchInterface USB interface to use
      */
     private void getProductId(WatchInterface watchInterface)
@@ -2173,9 +2179,10 @@ public class CommunicationProcess implements ProgressListener
         }
         
         firmware=Firmware.getInstance();
+        firmware.setView(theView);
         
         // Check if updates are available and if so, update the firmware
-        firmware.updateFirmware(watchInterface, id, firmwareVersion, theView);
+        firmware.updateFirmware(watchInterface, id, firmwareVersion);
     }
     
     /**
@@ -2474,6 +2481,7 @@ public class CommunicationProcess implements ProgressListener
         theView.appendStatus("Preparing firmware download...\n");
 
         firmware=Firmware.getInstance();
+        firmware.setView(theView);
         
         error=firmware.prepareFirmware(watchInterface, productId);
         
@@ -2483,7 +2491,7 @@ public class CommunicationProcess implements ProgressListener
             theView.appendStatus("Factory reset initialized.\n");
             if (!error)
             {
-                error=firmware.forceUpdateFirmware(watchInterface, theView);
+                error=firmware.forceUpdateFirmware(watchInterface);
                 theView.appendStatus("Reconnect watch to TomTomWatch to write default off-line preferences.\n");
                 theView.appendStatus("Connect to TomTom Sports Connect to connect the watch to TomTom account.\n");
             }

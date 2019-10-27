@@ -341,7 +341,7 @@ public abstract class WatchInterface
      * This method returns the preference from the watch XML preference file
      * indicated by the tag. Quick and dirty XML parsing :-)
      * @param tag Tag in the XML file, without the braces
-     * @return The preference value as string
+     * @return The preference value as string or null if not found
      */
     public String getPreference(String tag)
     {

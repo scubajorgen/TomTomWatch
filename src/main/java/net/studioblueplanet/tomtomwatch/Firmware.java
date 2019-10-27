@@ -12,6 +12,7 @@ import net.studioblueplanet.usb.WatchInterface;
 import net.studioblueplanet.generics.ToolBox;
 
 import org.json.JSONObject;
+import org.json.JSONException;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 import java.util.ArrayList;
@@ -61,8 +62,7 @@ public class Firmware
      * Extract the latest firmware version out of the XML firmware definition
      * file
      * @param xmlDefinition Definition
-     * @return Integer. 0x00HHMMLL - HH Major, MM Minor, LL Build. Or 0 if
-     *         something went wrong
+     * @return False if no errors occurred
      */
     private boolean getLatestFirmwareVersion(String xmlDefinition)
     {
@@ -174,6 +174,10 @@ public class Firmware
                     if (nodeList.getLength()>0)
                     {
                         numberOfFiles+=nodeList.getLength();
+                        if (bleUrl!=null)
+                        {
+                            numberOfFiles++;
+                        }
                         updatedFileNames=new String[numberOfFiles];
                         i=0;
                         while (i<nodeList.getLength())
@@ -443,15 +447,23 @@ public class Firmware
     }    
     
     /**
+     * Defines the view to use for feedback
+     * @param view The TomTomWatch view
+     */
+    public void setView(TomTomWatchView view)
+    {
+        this.theView=view;
+    }
+    
+    /**
      * Check the latest firmware and update the firmware if it is newer than the 
      * version in the watch
      * @param watchInterface The WatchInterface to use 
      * @param productId Product ID of the watch
      * @param currentFirmware Current firmware int the watch
-     * @param view Application view to use for UI feedback
      * @return False if an error occurred, true if successful
      */
-    public boolean updateFirmware(WatchInterface watchInterface, int productId, long currentFirmware, TomTomWatchView view)
+    public boolean updateFirmware(WatchInterface watchInterface, int productId, long currentFirmware)
     {
         
         boolean     error;
@@ -468,10 +480,9 @@ public class Firmware
         
         error                   =false;
 
-        this.theView            =view;
         this.watchInterface     =watchInterface;
         
-        prepareFirmware(watchInterface, productId);
+        error=prepareFirmware(watchInterface, productId);
         
         feedback = "Current firmware: "+((currentFirmware>>32)&0xff)+"."+
                                         ((currentFirmware>>16)&0xff)+"."+
@@ -521,40 +532,70 @@ public class Firmware
         
         // The configuration URL
         configUrl               =watchInterface.getPreference("ConfigURL");
+        firmwareDefinitionUrl   =null;
+        error                   =false;
         
-        // Read the page at the config URL
-        page                    =ToolBox.readStringFromUrl(configUrl);
-        
-        if (page!=null)
+        if (configUrl!=null)
         {
-            // Get the firmware definition URL. Fill in the approriate product ID
-            jsonObj                 =new JSONObject(page);
-            firmwareDefinitionUrl   =jsonObj.getString("service:firmware");
-            firmwareDefinitionUrl   =firmwareDefinitionUrl.replace("{PRODUCT_ID}", String.format("%08x", productId).toUpperCase());
+            // Read the page at the config URL
+            page                    =ToolBox.readStringFromUrl(configUrl);
 
-            DebugLogger.info("Firmware definition URL: "+firmwareDefinitionUrl);
+            if (page!=null)
+            {
+                // Get the firmware definition URL. Fill in the approriate product ID
+                jsonObj                 =new JSONObject(page);
+                try
+                {
+                    firmwareDefinitionUrl   =jsonObj.getString("service:firmware");
+                }
+                catch (JSONException e)
+                {
+                    theView.showErrorDialog("Error downloading firmware: no service URL from "+configUrl);
+                    error=true;                       
+                }
+                if (firmwareDefinitionUrl!=null)
+                {
+                    firmwareDefinitionUrl   =firmwareDefinitionUrl.replace("{PRODUCT_ID}", String.format("%08x", productId).toUpperCase());
 
-            // Derive the base url
-            firmwareBaseUrl         =firmwareDefinitionUrl.substring(0, firmwareDefinitionUrl.lastIndexOf('/')+1);
+                    DebugLogger.info("Firmware definition URL: "+firmwareDefinitionUrl);
 
-            // Read the XML defining the last firmware version avaialble
-            firmwareDefinition      =ToolBox.readStringFromUrl(firmwareDefinitionUrl);
+                    // Derive the base url
+                    firmwareBaseUrl         =firmwareDefinitionUrl.substring(0, firmwareDefinitionUrl.lastIndexOf('/')+1);
 
+                    // Read the XML defining the last firmware version avaialble
+                    firmwareDefinition      =ToolBox.readStringFromUrl(firmwareDefinitionUrl);
 
-            // Get BLE firmware version
-            bleFirmwareVersion=watchInterface.readBleVersion();
+                    if (firmwareDefinition!=null)
+                    {
+                        // Get the latest firmware version and download the firmware files
+                        error               =getLatestFirmwareVersion(firmwareDefinition);                     
+                    }
+                    else
+                    {
+                        theView.showErrorDialog("Error downloading firmware: no information from "+firmwareDefinitionUrl);
+                        error=true;
+                    }
+                    // Get BLE firmware version
+                    bleFirmwareVersion=watchInterface.readBleVersion();
 
-
-            // Get the latest firmware version and download the firmware files
-            error                   =getLatestFirmwareVersion(firmwareDefinition);
+                    if (bleFirmwareVersion==null)
+                    {
+                        theView.showErrorDialog("Error downloading firmware: no BLE info from watch");
+                        error=true;
+                    }                     
+                }
+            }
+            else
+            {
+                theView.showErrorDialog("Error downloading firmware: no information from "+configUrl);
+                error=true;
+            }
         }
         else
         {
-            DebugLogger.error("Error downloading firmware information");
-            error=true;
+            theView.showErrorDialog("Error downloading firmware: no config URL found in preferences");
+            error=true;            
         }
-        
-        
         return error;
     }
     
@@ -563,10 +604,9 @@ public class Firmware
      * Thist method executes a firmware update. The method requires 
      * prepareFirmware to have been executed.
      * @param watchInterface The WatchInterface to use 
-     * @param view Application view to use for UI feedback
      * @return False if an error occurred, true if succesfull
      */
-    public boolean forceUpdateFirmware(WatchInterface watchInterface, TomTomWatchView view)
+    public boolean forceUpdateFirmware(WatchInterface watchInterface)
     {
         
         boolean     error;
@@ -582,7 +622,6 @@ public class Firmware
         
         error                   =false;
 
-        this.theView            =view;
         this.watchInterface     =watchInterface;
         
         feedback = "Downloading firmware: "+((latestVersionAvailable>>32)&0xff)+"."+
