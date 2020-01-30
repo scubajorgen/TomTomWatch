@@ -34,7 +34,6 @@ public class TomTomWatch extends SingleFrameApplication
     private final String FONT1="net/studioblueplanet/tomtomwatch/resources/Raleway-Regular.ttf";
     private final String FONT2="net/studioblueplanet/tomtomwatch/resources/VeraMono.ttf";
     
-    //private TomTomWatchView view;
     
     /**
      * At startup create and show the main frame of the application.
