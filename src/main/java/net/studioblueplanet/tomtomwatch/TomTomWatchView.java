@@ -1409,9 +1409,9 @@ public class TomTomWatchView extends javax.swing.JFrame
 
     private void jMenuItemAboutActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jMenuItemAboutActionPerformed
     {//GEN-HEADEREND:event_jMenuItemAboutActionPerformed
-        TomTomWatch     app;
-        ResourceMap     appResourceMap;
-        GitBuildInfo build;
+        TomTomWatch             app;
+        ResourceMap             appResourceMap;
+        GitBuildInfo            build;
         
         app=TomTomWatch.getApplication();
         build=GitBuildInfo.getInstance();

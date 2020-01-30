@@ -5,52 +5,51 @@
  */
 package net.studioblueplanet.tomtomwatch;
 
-import net.studioblueplanet.generics.GitBuildInfo;
-import org.jdesktop.application.Application;
-import org.jdesktop.application.SingleFrameApplication;
-import org.jdesktop.application.ResourceMap;
-import org.jdesktop.application.ApplicationContext;
-
-
-import javax.swing.ImageIcon;
-import java.awt.Image;
-import java.util.ArrayList;
-import java.util.Locale;
-
-import java.io.InputStream;
-import java.io.IOException;
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.GraphicsEnvironment;
+import java.awt.Image;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Locale;
+import javax.swing.ImageIcon;
+import net.studioblueplanet.generics.GitBuildInfo;
 import net.studioblueplanet.logger.DebugLogger;
+import org.jdesktop.application.Application;
+import org.jdesktop.application.ApplicationContext;
+import org.jdesktop.application.ResourceMap;
+import org.jdesktop.application.SingleFrameApplication;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 /**
  *
  * @author Jorgen
  */
-public class TomTomWatch extends SingleFrameApplication 
+public class TomTomWatch extends SingleFrameApplication
 {
 //    private final String FONT1="net/studioblueplanet/tomtomwatch/resources/BAUHS93.TTF";
     private final String FONT1="net/studioblueplanet/tomtomwatch/resources/Raleway-Regular.ttf";
     private final String FONT2="net/studioblueplanet/tomtomwatch/resources/VeraMono.ttf";
     
-    private TomTomWatchView     view;
+    //private TomTomWatchView view;
+    
     /**
      * At startup create and show the main frame of the application.
      */
     @Override protected void startup() 
     {
-        
+        TomTomWatchView     view;
         ArrayList<Image>    iconList;
-        DependencyInjector  injector;
  
         // Prevent comma as decimal separator
         Locale.setDefault(new Locale("en", "US"));       
         
-        injector=DependencyInjector.getInstance();
-        
-        injector.inject(this);
-        
+        AnnotationConfigApplicationContext context=new AnnotationConfigApplicationContext(BeanConfiguration.class);
+        view=context.getBean(TomTomWatchView.class);
+
         // Create the application view
         view.setVisible(true);
 
@@ -61,20 +60,11 @@ public class TomTomWatch extends SingleFrameApplication
         // Register new fonts and apply them to the UI
         loadFonts(); 
         view.setFont();
-        
+     
         GitBuildInfo build=GitBuildInfo.getInstance();
         DebugLogger.info("Build "+build.getGitCommitDescription()+" "+build.getBuildTime());
     }
-    
-    /**
-     * Inject the TomTomWatchView
-     * @param view The view
-     */
-    public void injectView(TomTomWatchView view)
-    {
-        this.view=view;
-    }
-    
+
     /**
      * This method loads the application icon resources
      * @return List of icons
@@ -152,8 +142,8 @@ public class TomTomWatch extends SingleFrameApplication
      */
     @Override protected void configureWindow(java.awt.Window root) 
     {
-    }
-
+    }    
+    
     /**
      * Returns the application instance
      * @return The instance
@@ -168,6 +158,6 @@ public class TomTomWatch extends SingleFrameApplication
      */
     public static void main(String[] args)
     {
-         launch(TomTomWatch.class, args);
+        launch(TomTomWatch.class, args);
     }
 }

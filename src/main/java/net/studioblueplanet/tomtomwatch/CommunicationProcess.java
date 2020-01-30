@@ -26,14 +26,13 @@ import hirondelle.date4j.DateTime;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.RandomAccessFile;
-import java.io.FileNotFoundException;
 import java.io.File;
 
 import javax.swing.DefaultListModel;
 
 import org.json.JSONObject;
+
 
 /**
  * This class executes the commands involving communication to the device.
@@ -47,7 +46,6 @@ public class CommunicationProcess implements ProgressListener
     private TomTomWatchView                     theView;
     
     private final WatchInterface                watchInterface;
-    
 
     // Guarded data
     private final ArrayList<ActivityData>       activities;
@@ -76,12 +74,13 @@ public class CommunicationProcess implements ProgressListener
     private long                                bytesDownloaded;
     
     private UsbFile                             preferenceFile;
-    
+
     private final Executor                      executor;
     
     private final WatchTimer                    timer;
     
     private final TomTomReader                  ttbinReader;
+    
     private final GpxReader                     gpxReader;
     
     /*############################################################################################*\
