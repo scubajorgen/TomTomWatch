@@ -229,7 +229,11 @@ public class Firmware
     }        
 
     
-   
+    /**
+     * Download the firmware update files from TomTom. First make a backup
+     * of the files if they exists on the watch (what to do with this backup?)
+     * @return True if an error occurred
+     */
     private boolean downloadFiles()
     {
         boolean             error;
@@ -260,7 +264,7 @@ public class Firmware
             id          =Integer.parseInt(idString, 16);
             
             // backup the file, if it exists on the watch
-            // First find in in the list of files on the watch
+            // First find it in the list of files on the watch
             it          =files.iterator();
             found       =false;
             while (!found && it.hasNext())
@@ -273,6 +277,7 @@ public class Firmware
                     backupFiles.add(watchFile);
                 }
             }
+            // TO DO: use backup files to restore if anything goes wrong?
             
             // Download the file from the tomtom site
             fileUrl     =this.firmwareBaseUrl+updatedFileNames[i];
