@@ -59,6 +59,8 @@ public class Activity
      
     protected               String                      route;
     
+    protected               int                         secondsToFix;   // Time it took to find satellite fix
+    
     private final           ArrayList<ActivitySegment>  segments;
     private final           ArrayList<ActivityRecord>   waypoints;
     private                 ActivityRecord              newRecord;
@@ -784,6 +786,16 @@ public class Activity
         unknown3            =ToolBox.readUnsignedInt(recordData,  4, 1, true);
     }   
 
+    /**
+     * Parse the record indicating the period to get ready
+     * @param recordData 
+     */
+    private void parseRecordTimeToSatelliteFix(byte[] recordData)
+    {
+        secondsToFix=ToolBox.readUnsignedInt(recordData,  1, 2, true);
+        DebugLogger.info("Time to get a fix: "+secondsToFix+" s");
+    }
+    
     
 
     /**
@@ -823,7 +835,8 @@ public class Activity
             case TtbinFileDefinition.TAG_MOVEMENT:
 //                parseRecordMovement(recordData);
                 break;
-            case TtbinFileDefinition.TAG_30:
+            case TtbinFileDefinition.TAG_TIMETOFIX:  
+                parseRecordTimeToSatelliteFix(recordData);
                 break;
             case TtbinFileDefinition.TAG_37:
                 break;
@@ -835,7 +848,7 @@ public class Activity
             case TtbinFileDefinition.TAG_FITNESSPOINTS:
                 parseRecordActivityPoints(recordData);
                 break;
-            case TtbinFileDefinition.TAG_4B:      // 4 bytes after tag
+            case TtbinFileDefinition.TAG_4B:      // 27, 32, 33, 82, 88.... bytes incl tag
                 break;
             case TtbinFileDefinition.TAG_HEART_RATE_RECOVERY:
                 parseRecordHeartRateRecovery(recordData);

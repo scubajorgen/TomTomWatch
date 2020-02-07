@@ -26,7 +26,7 @@ public class TtbinFileDefinition
     public static final    byte                        TAG_WHEEL_SIZE          =0x2b;
     public static final    byte                        TAG_TRAINING_SETUP      =0x2d;
     public static final    byte                        TAG_LAP                 =0x2f;
-    public static final    byte                        TAG_30                  =0x30;
+    public static final    byte                        TAG_TIMETOFIX           =0x30;
     public static final    byte                        TAG_CYCLING_CADENCE     =0x31;
     public static final    byte                        TAG_TREADMILL           =0x32;
     public static final    byte                        TAG_SWIM                =0x34;
