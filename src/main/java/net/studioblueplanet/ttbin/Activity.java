@@ -413,7 +413,6 @@ public class Activity
         
         // If a gps record is encountered, this marks the start of a new record
         newRecord   =new ActivityRecordGps();
-        this.newActivitySegment.addRecord(newRecord);
         
         lat         =ToolBox.readInt(recordData,  1, 4, true);
         lon         =ToolBox.readInt(recordData,  5, 4, true);
@@ -425,20 +424,29 @@ public class Activity
         cumDistance =ToolBox.readUnsignedInt(recordData, 23, 4, true); // float
         cycles      =ToolBox.readUnsignedInt(recordData, 27, 1, true);
 
-        latF=(double)lat/1.0E7;
-        lonF=(double)lon/1.0E7;
+        // Sometimes a weird record is encountered. Skip it
+        if (timestamp!=4294967295L)
+        {        
+            latF=(double)lat/1.0E7;
+            lonF=(double)lon/1.0E7;
 
-        ((ActivityRecordGps)newRecord).setUtcTime(timestamp);
-        ((ActivityRecordGps)newRecord).setCoordinate(latF, lonF);
-        ((ActivityRecordGps)newRecord).setHeading((double)heading/100.0);
-        ((ActivityRecordGps)newRecord).setSpeed((double)speed/100.0);
-        ((ActivityRecordGps)newRecord).setCalories(calories);
-        ((ActivityRecordGps)newRecord).setInstantaneousSpeed(Float.intBitsToFloat(instantSpeed));
-        ((ActivityRecordGps)newRecord).setDistance(Float.intBitsToFloat(cumDistance));
-        ((ActivityRecordGps)newRecord).setCycles(cycles);
+            ((ActivityRecordGps)newRecord).setUtcTime(timestamp);
+            ((ActivityRecordGps)newRecord).setCoordinate(latF, lonF);
+            ((ActivityRecordGps)newRecord).setHeading((double)heading/100.0);
+            ((ActivityRecordGps)newRecord).setSpeed((double)speed/100.0);
+            ((ActivityRecordGps)newRecord).setCalories(calories);
+            ((ActivityRecordGps)newRecord).setInstantaneousSpeed(Float.intBitsToFloat(instantSpeed));
+            ((ActivityRecordGps)newRecord).setDistance(Float.intBitsToFloat(cumDistance));
+            ((ActivityRecordGps)newRecord).setCycles(cycles);
 
-        // Sets the current value of the batterylevel
-        newRecord.setBatteryLevel(this.batteryLevel);
+            // Sets the current value of the batterylevel
+            newRecord.setBatteryLevel(this.batteryLevel);
+            this.newActivitySegment.addRecord(newRecord);
+        }
+        else
+        {
+            DebugLogger.info("Invalid record");
+        }
     }
     
     /**

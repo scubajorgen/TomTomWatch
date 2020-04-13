@@ -544,7 +544,31 @@ public class ActivityRecordGps extends ActivityRecord
         return this.movementState;
     }
     
-    
+    /**
+     * Checks if this record equals the record passed
+     * @param record
+     * @return 
+     */
+    @Override
+    public boolean equals(ActivityRecord record)
+    {
+        ActivityRecordGps compareRecord;
+        boolean isEqual;
+
+        isEqual=super.equals(record);
+        
+        compareRecord=(ActivityRecordGps)record;
+        
+        if (this.rawLat!=compareRecord.rawLat)
+        {
+            isEqual=false;
+        }
+        if (this.rawLon!=compareRecord.rawLon)
+        {
+            isEqual=false;
+        }
+        return isEqual;
+    }    
     /*############################################################################################*\
      * DEBUGGING
     \*############################################################################################*/    

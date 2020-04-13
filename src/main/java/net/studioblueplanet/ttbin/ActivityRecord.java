@@ -89,6 +89,28 @@ public class ActivityRecord
         return this.batteryLevel;
     }
     
+    /**
+     * Checks if this record equals the record passed
+     * @param record
+     * @return 
+     */
+    public boolean equals(ActivityRecord record)
+    {
+        boolean isEqual;
+        
+        isEqual=true;
+        
+        if (this.dateTime==null)
+        {
+            System.err.println();
+        }
+        
+        if (!this.dateTime.equals(record.dateTime))
+        {
+            isEqual=false;
+        }
+        return isEqual;
+    }
     
     /*############################################################################################*\
      * DEBUGGING

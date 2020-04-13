@@ -40,12 +40,23 @@ public class ActivitySegment
     }
 
     /**
-     * Add a record to the segment
+     * Add a record to the segment. It is only added if it differs from
+     * previous record.
      * @param record The record to add
      */
     public void addRecord(ActivityRecord record)
     {
-        records.add(record);
+        if (records.size()>0)
+        {
+            if (!record.equals(records.get(records.size()-1)))
+            {
+                records.add(record);
+            }
+        }
+        else
+        {
+            records.add(record);
+        }
     }
     
     /** 
