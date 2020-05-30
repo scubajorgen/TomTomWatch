@@ -5,7 +5,6 @@
  */
 package net.studioblueplanet.tomtomwatch;
 
-import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
 import java.util.Iterator;
 import java.util.List;

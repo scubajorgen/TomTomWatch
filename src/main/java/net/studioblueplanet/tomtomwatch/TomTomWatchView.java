@@ -282,6 +282,7 @@ public class TomTomWatchView extends javax.swing.JFrame
         jMenuItemEraseData = new javax.swing.JMenuItem();
         jMenuItemShowTrackedActivity = new javax.swing.JMenuItem();
         jMenuDeleteTrackedActivity = new javax.swing.JMenuItem();
+        jMenuItemShowWorkouts = new javax.swing.JMenuItem();
         jMenuItemPlaylists = new javax.swing.JMenuItem();
         jMenuItemUpdateFirmware = new javax.swing.JMenuItem();
         jMenuItemListRaces = new javax.swing.JMenuItem();
@@ -923,6 +924,16 @@ public class TomTomWatchView extends javax.swing.JFrame
             }
         });
         jMenuDevice.add(jMenuDeleteTrackedActivity);
+
+        jMenuItemShowWorkouts.setText("Show Workouts");
+        jMenuItemShowWorkouts.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                jMenuItemShowWorkoutsActionPerformed(evt);
+            }
+        });
+        jMenuDevice.add(jMenuItemShowWorkouts);
 
         jMenuItemPlaylists.setText("Playlists");
         jMenuItemPlaylists.addActionListener(new java.awt.event.ActionListener()
@@ -1953,6 +1964,11 @@ public class TomTomWatchView extends javax.swing.JFrame
         }
     }//GEN-LAST:event_jListRoutesValueChanged
 
+    private void jMenuItemShowWorkoutsActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jMenuItemShowWorkoutsActionPerformed
+    {//GEN-HEADEREND:event_jMenuItemShowWorkoutsActionPerformed
+        this.checkAndPushCommand(ThreadCommand.THREADCOMMAND_LISTWORKOUTS);
+    }//GEN-LAST:event_jMenuItemShowWorkoutsActionPerformed
+
     /*############################################################################################*\
      * HELPER FUNCTIONS     
     \*############################################################################################*/    
@@ -2582,6 +2598,7 @@ public class TomTomWatchView extends javax.swing.JFrame
     private javax.swing.JMenuItem jMenuItemShowSettings;
     private javax.swing.JMenuItem jMenuItemShowTrackedActivity;
     private javax.swing.JMenuItem jMenuItemShowUpdateLog;
+    private javax.swing.JMenuItem jMenuItemShowWorkouts;
     private javax.swing.JMenuItem jMenuItemSyncTime;
     private javax.swing.JMenuItem jMenuItemUpdateFirmware;
     private javax.swing.JMenuItem jMenuItemUploadFile;

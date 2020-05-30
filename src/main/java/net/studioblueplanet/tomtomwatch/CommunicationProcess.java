@@ -248,6 +248,9 @@ public class CommunicationProcess implements ProgressListener
             case THREADCOMMAND_DELETETRACKEDACTIVITY:
                 r=() ->{deleteTrackedActivity(watchInterface);};
                 break;
+            case THREADCOMMAND_LISTWORKOUTS:
+                r=() ->{showWorkouts(watchInterface);};
+                break;
             case THREADCOMMAND_SHOWWATCHSETTINGS:
                 r=() ->{showWatchSettings(watchInterface);};
                 break;
@@ -2455,6 +2458,77 @@ public class CommunicationProcess implements ProgressListener
         }
     }
     
+    /**
+     * This method displays the activity tracked by the watch. This info is 
+     * stored in the 0x00b1nnnn files.
+     * @param watchInterface The watch interface
+     */
+    private void showWorkouts(WatchInterface watchInterface)
+    {
+        boolean error;
+        Workouts workout;
+
+        theView.setStatus("Downloading workout files... Please wait.");
+        
+        UsbFile             file;
+        ArrayList<UsbFile>  files;
+        Iterator<UsbFile>   it;
+        
+        error = false;
+
+        workout=new Workouts();
+        
+        // Enumerate all files of given type from the device
+        files = watchInterface.getFileList(WatchInterface.FileType.TTWATCH_FILE_WORKOUTS);
+
+        // If any found, download the data of each file
+        if (files != null)
+        {
+            this.sort(files);
+
+            it = files.iterator();
+            while (it.hasNext() && !error)
+            {
+                file=it.next();
+
+                error=watchInterface.readFile(file);
+                
+                if (!error)
+                {
+                    DebugLogger.info("Appending "+String.format("0x%08x", file.fileId)+" length "+file.length);
+
+                    // Just another check, double check
+                    if (watchInterface.isFileType(file, WatchInterface.FileType.TTWATCH_FILE_WORKOUTS) &&
+                        file.fileId!=0x00be0000)  
+                    {
+                        error=workout.appendFromData(file.fileData);
+                    }
+                    else
+                    {
+                        DebugLogger.error("Inconsistency while requesting tracked activity files");
+                    }
+                }
+                else
+                {
+                    DebugLogger.error("Error reading file "+String.format("0x%08x", file.fileId));
+                }
+            }
+        
+            if (!error)
+            {
+/*                
+                tracker.convertToHourly();
+                theView.setStatus(tracker.trackedActivityToString()+"\n"+
+                                  tracker.heartRatesToString()+"\n"+
+                                  tracker.sleepingPeriodsToString());
+*/                
+            }
+        }
+        if (error)
+        {
+            toErrorState();
+        }  
+    }    
 
     /**
      * This method reboots the watch
