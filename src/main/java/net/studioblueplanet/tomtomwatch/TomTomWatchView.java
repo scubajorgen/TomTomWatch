@@ -149,8 +149,8 @@ public class TomTomWatchView extends javax.swing.JFrame
         proportional12pt=new Font("Raleway", Font.PLAIN, 12);
         proportional14pt=new Font("Raleway", Font.PLAIN, 14);
         proportional14ptBold=new Font("Raleway", Font.BOLD, 14);
-        monospace11pt   =new Font("Bitstream Vera Sans Mono", Font.PLAIN, 11);
-        monospace14pt   =new Font("Bitstream Vera Sans Mono", Font.PLAIN, 14);
+        monospace11pt   =new Font("DejaVu Sans Mono", Font.PLAIN, 11);
+        monospace14pt   =new Font("DejaVu Sans Mono", Font.PLAIN, 14);
         
         jLabel4.setFont(proportional14pt);
         jLabel8.setFont(proportional14pt);

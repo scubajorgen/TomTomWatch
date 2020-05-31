@@ -30,9 +30,8 @@ import net.studioblueplanet.logger.DebugLogger;
  */
 public class TomTomWatch extends SingleFrameApplication 
 {
-//    private final String FONT1="net/studioblueplanet/tomtomwatch/resources/BAUHS93.TTF";
-    private final String FONT1="net/studioblueplanet/tomtomwatch/resources/Raleway-Regular.ttf";
-    private final String FONT2="net/studioblueplanet/tomtomwatch/resources/VeraMono.ttf";
+    private final String        FONT1="net/studioblueplanet/tomtomwatch/resources/Raleway-Regular.ttf";
+    private final String        FONT2="net/studioblueplanet/tomtomwatch/resources/DejaVuSansMono.ttf";
     
     private TomTomWatchView     view;
     /**

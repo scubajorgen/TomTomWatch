@@ -16,10 +16,10 @@ public class WorkoutStep
      */
     public enum WorkoutStepType 
     {
-        WARMUP(1, "Warmup"),
+        WARMUP(1, "Warm Up"),
         WORK(2, "Work"),
         REST(3, "Rest"),
-        COOLDOWN(5, "Cooldown");
+        COOLDOWN(5, "Cool Down");
         
         private final int    value;
         private final String description;
@@ -114,7 +114,7 @@ public class WorkoutStep
     public enum HrZone
     {
         EASY(1, "Easy"),
-        FATBURN(2, "Fat burn"),
+        FATBURN(2, "Fat Burn"),
         CARDIO(3, "Cardio"),
         PERFORM(4, "Perform"),
         PEAK(5, "Peak");
@@ -148,6 +148,12 @@ public class WorkoutStep
             }
             return null;
         } 
+        
+        @Override
+        public String toString()
+        {
+            return description;
+        }
     }
     
     
@@ -330,7 +336,7 @@ public class WorkoutStep
     {
         String outputString;
         
-        outputString=String.format("%8s - %8s - %13s ", name, type, stepExtent);
+        outputString=String.format("%-9s - %-9s - %-13s ", name, type, stepExtent);
         switch (stepExtent)
         {
             case DURATION:
@@ -344,6 +350,20 @@ public class WorkoutStep
                 break;
             case REACHHRZONE:
                 outputString+=String.format("%8s", this.extentReachHrZone);
+                break;
+        }
+        switch (stepIntensity)
+        {
+            case SPEED:
+                outputString+=String.format(" @ %5.1f km/h", (float)intensitySpeed/3600.0);
+                break;
+            case PACE:
+                int min=intensityPace/60000;
+                int sec=(intensityPace-60000*min)/1000;
+                outputString+=String.format(" @ %d:%02d min/km", min, sec);
+                break;
+            case HRZONE:
+                outputString+=String.format(" @ %s", intensityHrZone);
                 break;
         }
         outputString+="\n";

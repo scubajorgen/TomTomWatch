@@ -20,22 +20,24 @@ public class Workout
      */
     public enum WorkoutClass
     {
-        FATBURN(1),
-        ENDURANCE(2),
-        FITNESS(3),
-        SPEED(4),
-        POWER(5),
-        CUSTOM(6); //?
+        FATBURN(1, "FAT BURN"),
+        ENDURANCE(2, "ENDURANCE"),
+        FITNESS(3, "FITNESS"),
+        SPEED(4, "SPEED"),
+        POWER(5, "POWER"),
+        CUSTOM(6,"CUSTOM"); //?
 
-        private final int value;
+        private final int       value;
+        private final String    description;
 
         /**
          * Constructor
          * @param i Enum value
          */
-        WorkoutClass(int i)
+        WorkoutClass(int i, String description)
         {
-            this.value = i;
+            this.value          = i;
+            this.description    =description;
         }
 
         /**
@@ -53,6 +55,12 @@ public class Workout
                 }
             }
             return null;
+        }
+        
+        @Override
+        public String toString()
+        {
+            return description;
         }
     }
 
@@ -132,7 +140,8 @@ public class Workout
         String  outputString;
         int     i;
         
-        outputString=name+" "+description+"\n";
+        outputString ="_____________________________________________________________________________\n";
+        outputString+=String.format("%-10s - %s", workoutClass, name)+"\n"+description+"\n";
         i=0;
         while (i<workoutSteps.size())
         {

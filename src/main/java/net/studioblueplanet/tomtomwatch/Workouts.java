@@ -227,7 +227,7 @@ public class Workouts
     {
         String outputString;
         
-        outputString="--- WORKOUTS ---\n";
+        outputString="";
         for(Workout workout : workouts)
         {
             outputString+=workout;
