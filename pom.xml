@@ -179,6 +179,7 @@
                     <sourceFileExcludes>
                             <sourceFileExclude>**/net/studioblueplanet/tomtomwatch/RouteProto.java</sourceFileExclude>
                             <sourceFileExclude>**/net/studioblueplanet/tomtomwatch/TrackerProto.java</sourceFileExclude>
+                            <sourceFileExclude>**/net/studioblueplanet/tomtomwatch/WorkoutProto.java</sourceFileExclude>
                     </sourceFileExcludes>                    
                 </configuration>
                 <executions>

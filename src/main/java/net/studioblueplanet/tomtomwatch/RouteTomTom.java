@@ -37,8 +37,6 @@ public class RouteTomTom extends Route
         super();
     }
     
-    
-
     /**
      * Return the current time encoded according to the TomTom format in the 
      * route files (emperically found).
@@ -97,15 +95,11 @@ public class RouteTomTom extends Route
    {
        RouteProto.Coordinate           coordinate;
        RouteProto.Coordinate.Builder   coordinateBuilder;
-
        
        coordinateBuilder=RouteProto.Coordinate.newBuilder();
-
        coordinateBuilder.setLat(this.buildLatLon(lat));
        coordinateBuilder.setLon(this.buildLatLon(lon));
-
        coordinate=coordinateBuilder.build();
-       
        return coordinate;
    }
 
@@ -114,21 +108,15 @@ public class RouteTomTom extends Route
      * CoordinateData: Enclosing message for a Coordinate value
      * @return The message
      */
-
    private RouteProto.CoordinateData buildCoordinateData(int lat, int lon)
    {
         RouteProto.CoordinateData          message;
         RouteProto.CoordinateData.Builder         builder;
-
         
         builder                 =RouteProto.CoordinateData.newBuilder();
-        
         builder.setCoordinate(this.buildCoordinate(lat, lon));
-        
         message=builder.build();
-        
         return message;
-       
    }
    
     /**
@@ -143,11 +131,9 @@ public class RouteTomTom extends Route
        RouteProto.StartCoordinate.Builder      builder;
        
        builder=RouteProto.StartCoordinate.newBuilder();
-       
        builder.setCoordinate(this.buildCoordinate(lat, lon));
        builder.setIndex(index);
        message=builder.build();
-       
        return message;
    }
     
@@ -165,17 +151,14 @@ public class RouteTomTom extends Route
         RouteProto.MetaData.Builder        metadataBuilder;
 
         metadataBuilder     =RouteProto.MetaData.newBuilder();
-        
         // Set the values: appear to be the same always...
-        metadataBuilder.setUnknown1(0x1234DAEB);
-        metadataBuilder.setUnknown2(0x00070100);
-        
+        metadataBuilder.setManufacturer(0x1234DAEB);
+        metadataBuilder.setFileType(0x00070100);
         metadata            =metadataBuilder.build();
 
         rootContainerBuilder=RouteProto.RootContainer.newBuilder();
         rootContainerBuilder.setMetaData(metadata);
         rootContainer=rootContainerBuilder.build();
-        
         return rootContainer;
     }
     
@@ -193,7 +176,6 @@ public class RouteTomTom extends Route
         int                     maxLat;
         int                     minLon;
         int                     maxLon;
-       
         
         builder=RouteProto.BoundingBox.newBuilder();
         
@@ -236,9 +218,6 @@ public class RouteTomTom extends Route
         builder.setTime(ByteString.copyFrom(bytes));
 
         metaData=builder.build();
-        
-        
-        
         return metaData;
     }
     
@@ -260,13 +239,9 @@ public class RouteTomTom extends Route
         float                               increment;
         int                                 index;
         int                                 i;
-
-        
         
         builder                 =RouteProto.Segment.newBuilder();
-
         points=routeSegment.getRoutePoints();
-        
         if (points.size()>numberOfPoints)
         {
             increment=(float)(points.size()-1)/(float)(numberOfPoints-1);
@@ -276,10 +251,8 @@ public class RouteTomTom extends Route
             numberOfPoints=points.size();
             increment=1.0f;
         }
-        
         builder.setNumberOfCoordinates(numberOfPoints);
-        
-        
+ 
         i=0;
         while (i<numberOfPoints)
         {
@@ -292,7 +265,6 @@ public class RouteTomTom extends Route
             i++;
         }        
         message=builder.build();
-        
         return message;
         
     }
@@ -312,7 +284,6 @@ public class RouteTomTom extends Route
         float                               increment;
         int                                 segmentCount;
         
-        
         // Total number of points in the route
         numberOfPoints=this.getNumberOfPoints();
         
@@ -326,10 +297,7 @@ public class RouteTomTom extends Route
         {
             increment=(float)numberOfPoints/(float)MAX_ROUTEPOINTS;
         }
-        
-        
         builder                 =RouteProto.SegmentData.newBuilder();
-
         
         segmentCount            =0;
         it=segments.iterator();
@@ -352,7 +320,6 @@ public class RouteTomTom extends Route
         builder.setNumberOfSegments(segmentCount);
 
         message=builder.build();
-        
         return message;
     }
     
@@ -362,19 +329,19 @@ public class RouteTomTom extends Route
      * TrackLevel2: the actual route data: metadata and segments
      * @return The message
      */
-    private RouteProto.TrackLevel2 buildTrack()
+    private RouteProto.SubDataContainer buildTrack()
     {
-        RouteProto.TrackLevel2             message;
-        RouteProto.TrackLevel2.Builder     builder;
-        RoutePoint              first;
-        RoutePoint              last;
-        RouteSegment            segment;
-        Iterator<RouteSegment>  it;
+        RouteProto.SubDataContainer             message;
+        RouteProto.SubDataContainer.Builder     builder;
+        RoutePoint                              first;
+        RoutePoint                              last;
+        RouteSegment                            segment;
+        Iterator<RouteSegment>                  it;
         
-        builder=RouteProto.TrackLevel2.newBuilder();
+        builder=RouteProto.SubDataContainer.newBuilder();
         
         // Set the TrackMetadata (name, bounding box, timestamp)
-        builder.setMetadata(this.buildTrackMetadata());
+        builder.setTrackMetadata(this.buildTrackMetadata());
         
         // Set the first point of the first segment with index 1
         first=this.getFirstSegment().getFirstPoint();
@@ -388,7 +355,6 @@ public class RouteTomTom extends Route
         builder.setData(this.buildSegmentData());
         
         message=builder.build();
-
         
         return message;
     }
@@ -405,47 +371,22 @@ public class RouteTomTom extends Route
         RouteProto.RootContainer           rootContainer;
         RouteProto.RootContainer.Builder   rootContainerBuilder;
 
-        RouteProto.TrackLevel1             level1;
-        RouteProto.TrackLevel1.Builder     level1Builder;
-        RouteProto.TrackLevel2             level2;
+        RouteProto.DataContainer           level1;
+        RouteProto.DataContainer.Builder   level1Builder;
+        RouteProto.SubDataContainer        level2;
         
-        level1Builder   =RouteProto.TrackLevel1.newBuilder();
+        level1Builder   =RouteProto.DataContainer.newBuilder();
         
         level2          =this.buildTrack();
-        level1Builder.setLevel2(level2);
+        level1Builder.setSubDataContainer(level2);
         level1          =level1Builder.build();
 
         rootContainerBuilder       =RouteProto.RootContainer.newBuilder();
-        rootContainerBuilder.setLevel1(level1);
+        rootContainerBuilder.setDataContainer(level1);
         rootContainer=rootContainerBuilder.build();
         
         return rootContainer;
-
-
-
-
-/*
-        RouteProto.TrackLevel0             level0;
-        RouteProto.TrackLevel0.Builder     level0Builder;
-        RouteProto.TrackLevel1             level1;
-        RouteProto.TrackLevel1.Builder     level1Builder;
-        RouteProto.TrackLevel2             level2;
-        
-        level1Builder   =RouteProto.TrackLevel1.newBuilder();
-        
-        level2          =this.buildTrack();
-        level1Builder.setLevel2(level2);
-        level1          =level1Builder.build();
-        
-        level0Builder   =RouteProto.TrackLevel0.newBuilder();
-        level0Builder.setLevel1(level1);
-        level0          =level0Builder.build();
-        
-        return level0;
-*/        
     }
-    
-    
     
     /**
      * This method returns the protobuf serialized data representing the 
@@ -462,9 +403,9 @@ public class RouteTomTom extends Route
 
         rootBuilder         =RouteProto.Root.newBuilder();
         
-        rootBuilder.addContainer(buildRootContainer());
+        rootBuilder.addSubDataContainer(buildRootContainer());
         
-        rootBuilder.addContainer(this.buildTrackLevels());
+        rootBuilder.addSubDataContainer(this.buildTrackLevels());
 
         root                =rootBuilder.build();
 
@@ -473,7 +414,6 @@ public class RouteTomTom extends Route
         
         return bytes;
     }
-    
 
     /**
      * This method accepts the protobuf data from the watch and loads the route
@@ -487,8 +427,8 @@ public class RouteTomTom extends Route
         RouteProto.RootContainer            container;
         List<RouteProto.RootContainer>      containers;
         Iterator<RouteProto.RootContainer>  containerIt;
-        RouteProto.TrackLevel1              level1;
-        RouteProto.TrackLevel2              level2;
+        RouteProto.DataContainer            level1;
+        RouteProto.SubDataContainer         level2;
         RouteProto.TrackMetaData            metadata;
         RouteProto.SegmentData              segmentData;
         List<RouteProto.Segment>            segments;
@@ -501,12 +441,8 @@ public class RouteTomTom extends Route
         double                              lat;
         double                              lon;
         boolean                             exit;
-        
-        
         RouteSegment                        routeSegment;
         RoutePoint                          routePoint;
-        
-        
         boolean                             error;
         int                                 numberOfSegments;
         int                                 numberOfPoints;
@@ -516,21 +452,32 @@ public class RouteTomTom extends Route
         try
         {
             root                =RouteProto.Root.parseFrom(data);
-            
             exit                =false;
-                
-            
-            containers                 =root.getContainerList();
-            containerIt                =containers.iterator();
+            containers          =root.getSubDataContainerList();
+            containerIt         =containers.iterator();
             while (containerIt.hasNext() && !exit)
             {
                 container=containerIt.next();
 
-                if (container.hasLevel1())
+                if (container.hasMetaData())
+                {
+                    RouteProto.MetaData metaData=container.getMetaData();
+                    if (metaData.getFileType()!=0x00070100)
+                    {
+                        error=true;
+                        DebugLogger.error("Error parsing route file: invalid file type");
+                    }
+                    if (metaData.getManufacturer()!=0x1234DAEB)
+                    {
+                        error=true;
+                        DebugLogger.error("Error parsing route file: invalid manufacturer ID");                        
+                    }
+                }
+                if (container.hasDataContainer())
                 {                
-                    level1=container.getLevel1();
-                    level2              =level1.getLevel2();
-                    metadata            =level2.getMetadata();
+                    level1=container.getDataContainer();
+                    level2              =level1.getSubDataContainer();
+                    metadata            =level2.getTrackMetadata();
                     this.routeName      =metadata.getName();
 
                     segmentData         =level2.getData();
@@ -557,8 +504,6 @@ public class RouteTomTom extends Route
                         {
                             DebugLogger.error("Inconsistent protobuf data: number of points incorrect");
                         }
-
-
                         coordDataIt     =coordDatas.iterator();
                         while (coordDataIt.hasNext())
                         {
@@ -583,9 +528,5 @@ public class RouteTomTom extends Route
         }
         
         return error;
-        
     }
-    
-
-    
 }
