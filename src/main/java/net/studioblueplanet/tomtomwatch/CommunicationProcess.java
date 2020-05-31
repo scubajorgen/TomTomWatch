@@ -2466,7 +2466,7 @@ public class CommunicationProcess implements ProgressListener
     private void showWorkouts(WatchInterface watchInterface)
     {
         boolean error;
-        Workouts workout;
+        Workouts workouts;
 
         theView.setStatus("Downloading workout files... Please wait.");
         
@@ -2476,7 +2476,7 @@ public class CommunicationProcess implements ProgressListener
         
         error = false;
 
-        workout=new Workouts();
+        workouts=new Workouts();
         
         // Enumerate all files of given type from the device
         files = watchInterface.getFileList(WatchInterface.FileType.TTWATCH_FILE_WORKOUTS);
@@ -2501,7 +2501,7 @@ public class CommunicationProcess implements ProgressListener
                     if (watchInterface.isFileType(file, WatchInterface.FileType.TTWATCH_FILE_WORKOUTS) &&
                         file.fileId!=0x00be0000)  
                     {
-                        error=workout.appendFromData(file.fileData);
+                        error=workouts.appendFromData(file.fileData);
                     }
                     else
                     {
@@ -2516,6 +2516,7 @@ public class CommunicationProcess implements ProgressListener
         
             if (!error)
             {
+                theView.setStatus(workouts.toString());
 /*                
                 tracker.convertToHourly();
                 theView.setStatus(tracker.trackedActivityToString()+"\n"+

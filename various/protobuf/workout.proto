@@ -11,6 +11,13 @@ package tutorial;
 option java_package         = "net.studioblueplanet.tomtomwatch";
 option java_outer_classname = "WorkoutProto";
 
+//#################################################################################################
+// ROOT level
+//#################################################################################################
+message Root
+{
+  repeated RootContainer        SubDataContainer             =1;
+}
 
 //#################################################################################################
 // 1st level: root container
@@ -29,7 +36,7 @@ message RootContainer
 message Metadata
 {
   required fixed32              manufacturer      =1;  // always 0x1234DAEB
-  required fixed32              fileType          =2;  // always 0x00090100 for 0x00BEnnnn
+  required fixed32              fileType          =2;  // 0x00080100 for 0x00BE0000, 0x00090100 for 0x00BEnnnn where nnnn>0
 }
 
 //#################################################################################################
@@ -48,8 +55,11 @@ message DataContainer
 
 message SubDataContainer
 {
-  repeated Description          description       =4;
-  required Program              program           =7;
+  repeated Description          itemDescription     =6;   // 0x00BE0000
+  repeated WorkoutListItem      workoutListItem     =5;   // 0x00BE0000
+
+  repeated Description          workoutDescription  =4;   // 0x00BEnnnn
+  optional Workout              workout             =7;   // 0x00BEnnnn
 }
 
 
@@ -63,30 +73,49 @@ message Description
 }
 
 //#################################################################################################
-// 4th level: the program as list of steps
+// 4th level: the workout as list of steps
 //#################################################################################################
-message Program
+message Workout
 {
   required int32                unknown2          =2;   // value 0
   required int32                unknown3          =3;   // value 0 or 1; only for run!?
   required bytes                unknown4          =4;   // 16 bytes
   required int32                Type              =10;  // 1: Fat burn, 2: Endurance, 3: Fitness, 4: Speed, 5: Power, 6: Custom 
   required int32                unknown11         =11;  // value 2
-  repeated ProgramStep          step              =12;  // Steps that make up the workout
+  repeated WorkoutStep          step              =12;  // Steps that make up the workout
 }
 
 //#################################################################################################
-// 5th level: Program step
+// 4th level: an Item in the Workout list/menu
 //#################################################################################################
-message ProgramStep
+message WorkoutListItem
 {
-  required ProgramStepSub       stepSub           =8;
+  required int32                fileId            =1;     // File ID representing the workout, like 0x00BE0001 
+  required bytes                unknown2          =2;     // 16 bytes   
+  required int32                itemName          =3;     // Workout Name in the menu, like '★☆☆30 min'
+  required int32                itemDescription   =4;     // Workout Description in the menu, like 'Keep going and stay in the Fat Burn HR zone for the entire time'
+  required bytes                unknown5          =5;     // 16 bytes, same bytes as unknown4 in Program
+  required int32                unknown7          =7;   
+  required int32                unknown8          =8;   
+  required int32                unknown9          =9;   
+  required int64                unknown10         =10;   
+  required int32                type              =11;    // 1: Fat burn, 2: Endurance, 3: Fitness, 4: Speed, 5: Power, 6: Custom 
+  required int32                unknown12         =12;    // value=2
+  required int32                unknown13         =13;    // value=1
 }
 
 //#################################################################################################
-// 6th level: Program step sub
+// 5th level: Workout step
 //#################################################################################################
-message ProgramStepSub
+message WorkoutStep
+{
+  required WorkoutStepSub       stepSub           =8;
+}
+
+//#################################################################################################
+// 6th level: Workout step sub
+//#################################################################################################
+message WorkoutStepSub
 {
   required int32                stepName              =1;   // refers to a description ID (e.g. 'warm up', 'work')
   required int32                stepDescription       =2;   // refers to a description ID (e.g. 'Get into the Fat Burn HR zone')
@@ -118,11 +147,3 @@ message Intensity
   optional int32                speed                   =3; // @speed in mm/sec
 }
 
-//#################################################################################################
-// ROOT level
-//#################################################################################################
-
-message Root
-{
-  repeated RootContainer        SubDataContainer             =1;
-}
