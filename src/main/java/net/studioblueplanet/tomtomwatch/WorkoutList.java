@@ -265,9 +265,9 @@ public class WorkoutList
     }    
     
     /**
-     * 
-     * @param data
-     * @return 
+     * Creates the workout list from the data from file 0x00BE0000
+     * @param data The data
+     * @return True if something went wrong
      */
     public boolean createWorkoutListFromData(byte[] data)
     {

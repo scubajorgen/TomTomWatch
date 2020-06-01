@@ -16,9 +16,13 @@ public class WorkoutListItem
     private final String        workoutName;
     private final String        workoutDescription;
     private final WorkoutClass  workoutClass;
+    
     /**
      * Constructor
-     * @param fileId 
+     * @param fileId File ID, like 0x00BE0001
+     * @param name Name/title of the workout
+     * @param description Description of the workout
+     * @param workoutClass Class/type of the workout
      */
     public WorkoutListItem(int fileId, String name, String description, WorkoutClass workoutClass)
     {

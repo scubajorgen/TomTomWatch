@@ -73,8 +73,6 @@ public class Workout
 
     /**
      * Constructor, initializes the instance
-     *
-     * @param workoutClass Class of the workout
      */
     public Workout()
     {
