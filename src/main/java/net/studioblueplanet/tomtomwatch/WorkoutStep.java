@@ -176,6 +176,7 @@ public class WorkoutStep
     
     /**
      * Constructor. Defines the type of step
+     * @param no Step number
      * @param name Name of the workout step
      * @param description Description of the workout step
      * @param type Type of the workout
