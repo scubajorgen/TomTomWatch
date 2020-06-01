@@ -90,7 +90,7 @@ message Workout
 //#################################################################################################
 message WorkoutListItem
 {
-  required int32                fileId            =1;     // File ID representing the workout, like 0x00BE0001 
+  required fixed32              fileId            =1;     // File ID representing the workout, like 0x00BE0001 
   required bytes                unknown2          =2;     // 16 bytes   
   required int32                itemName          =3;     // Workout Name in the menu, like '★☆☆30 min'
   required int32                itemDescription   =4;     // Workout Description in the menu, like 'Keep going and stay in the Fat Burn HR zone for the entire time'
@@ -98,7 +98,7 @@ message WorkoutListItem
   required int32                unknown7          =7;   
   required int32                unknown8          =8;   
   required int32                unknown9          =9;   
-  required int64                unknown10         =10;   
+  required fixed64              unknown10         =10;   
   required int32                type              =11;    // 1: Fat burn, 2: Endurance, 3: Fitness, 4: Speed, 5: Power, 6: Custom 
   required int32                unknown12         =12;    // value=2
   required int32                unknown13         =13;    // value=1

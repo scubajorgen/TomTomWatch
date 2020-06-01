@@ -134,6 +134,14 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuDeleteTrackedActivityActionPerformed"/>
               </Events>
             </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuItemWorkoutList">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Show Workout List"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemWorkoutListActionPerformed"/>
+              </Events>
+            </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItemShowWorkouts">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Show Workouts"/>

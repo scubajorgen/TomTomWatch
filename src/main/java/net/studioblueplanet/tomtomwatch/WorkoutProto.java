@@ -7489,7 +7489,7 @@ public final class WorkoutProto {
      * File ID representing the workout, like 0x00BE0001 
      * </pre>
      *
-     * <code>required int32 fileId = 1;</code>
+     * <code>required fixed32 fileId = 1;</code>
      */
     boolean hasFileId();
     /**
@@ -7497,7 +7497,7 @@ public final class WorkoutProto {
      * File ID representing the workout, like 0x00BE0001 
      * </pre>
      *
-     * <code>required int32 fileId = 1;</code>
+     * <code>required fixed32 fileId = 1;</code>
      */
     int getFileId();
 
@@ -7597,11 +7597,11 @@ public final class WorkoutProto {
     int getUnknown9();
 
     /**
-     * <code>required int64 unknown10 = 10;</code>
+     * <code>required fixed64 unknown10 = 10;</code>
      */
     boolean hasUnknown10();
     /**
-     * <code>required int64 unknown10 = 10;</code>
+     * <code>required fixed64 unknown10 = 10;</code>
      */
     long getUnknown10();
 
@@ -7710,9 +7710,9 @@ public final class WorkoutProto {
             case 0:
               done = true;
               break;
-            case 8: {
+            case 13: {
               bitField0_ |= 0x00000001;
-              fileId_ = input.readInt32();
+              fileId_ = input.readFixed32();
               break;
             }
             case 18: {
@@ -7750,9 +7750,9 @@ public final class WorkoutProto {
               unknown9_ = input.readInt32();
               break;
             }
-            case 80: {
+            case 81: {
               bitField0_ |= 0x00000100;
-              unknown10_ = input.readInt64();
+              unknown10_ = input.readFixed64();
               break;
             }
             case 88: {
@@ -7810,7 +7810,7 @@ public final class WorkoutProto {
      * File ID representing the workout, like 0x00BE0001 
      * </pre>
      *
-     * <code>required int32 fileId = 1;</code>
+     * <code>required fixed32 fileId = 1;</code>
      */
     public boolean hasFileId() {
       return ((bitField0_ & 0x00000001) != 0);
@@ -7820,7 +7820,7 @@ public final class WorkoutProto {
      * File ID representing the workout, like 0x00BE0001 
      * </pre>
      *
-     * <code>required int32 fileId = 1;</code>
+     * <code>required fixed32 fileId = 1;</code>
      */
     public int getFileId() {
       return fileId_;
@@ -7966,13 +7966,13 @@ public final class WorkoutProto {
     public static final int UNKNOWN10_FIELD_NUMBER = 10;
     private long unknown10_;
     /**
-     * <code>required int64 unknown10 = 10;</code>
+     * <code>required fixed64 unknown10 = 10;</code>
      */
     public boolean hasUnknown10() {
       return ((bitField0_ & 0x00000100) != 0);
     }
     /**
-     * <code>required int64 unknown10 = 10;</code>
+     * <code>required fixed64 unknown10 = 10;</code>
      */
     public long getUnknown10() {
       return unknown10_;
@@ -8110,7 +8110,7 @@ public final class WorkoutProto {
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (((bitField0_ & 0x00000001) != 0)) {
-        output.writeInt32(1, fileId_);
+        output.writeFixed32(1, fileId_);
       }
       if (((bitField0_ & 0x00000002) != 0)) {
         output.writeBytes(2, unknown2_);
@@ -8134,7 +8134,7 @@ public final class WorkoutProto {
         output.writeInt32(9, unknown9_);
       }
       if (((bitField0_ & 0x00000100) != 0)) {
-        output.writeInt64(10, unknown10_);
+        output.writeFixed64(10, unknown10_);
       }
       if (((bitField0_ & 0x00000200) != 0)) {
         output.writeInt32(11, type_);
@@ -8156,7 +8156,7 @@ public final class WorkoutProto {
       size = 0;
       if (((bitField0_ & 0x00000001) != 0)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(1, fileId_);
+          .computeFixed32Size(1, fileId_);
       }
       if (((bitField0_ & 0x00000002) != 0)) {
         size += com.google.protobuf.CodedOutputStream
@@ -8188,7 +8188,7 @@ public final class WorkoutProto {
       }
       if (((bitField0_ & 0x00000100) != 0)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt64Size(10, unknown10_);
+          .computeFixed64Size(10, unknown10_);
       }
       if (((bitField0_ & 0x00000200) != 0)) {
         size += com.google.protobuf.CodedOutputStream
@@ -8733,7 +8733,7 @@ public final class WorkoutProto {
        * File ID representing the workout, like 0x00BE0001 
        * </pre>
        *
-       * <code>required int32 fileId = 1;</code>
+       * <code>required fixed32 fileId = 1;</code>
        */
       public boolean hasFileId() {
         return ((bitField0_ & 0x00000001) != 0);
@@ -8743,7 +8743,7 @@ public final class WorkoutProto {
        * File ID representing the workout, like 0x00BE0001 
        * </pre>
        *
-       * <code>required int32 fileId = 1;</code>
+       * <code>required fixed32 fileId = 1;</code>
        */
       public int getFileId() {
         return fileId_;
@@ -8753,7 +8753,7 @@ public final class WorkoutProto {
        * File ID representing the workout, like 0x00BE0001 
        * </pre>
        *
-       * <code>required int32 fileId = 1;</code>
+       * <code>required fixed32 fileId = 1;</code>
        */
       public Builder setFileId(int value) {
         bitField0_ |= 0x00000001;
@@ -8766,7 +8766,7 @@ public final class WorkoutProto {
        * File ID representing the workout, like 0x00BE0001 
        * </pre>
        *
-       * <code>required int32 fileId = 1;</code>
+       * <code>required fixed32 fileId = 1;</code>
        */
       public Builder clearFileId() {
         bitField0_ = (bitField0_ & ~0x00000001);
@@ -9071,19 +9071,19 @@ public final class WorkoutProto {
 
       private long unknown10_ ;
       /**
-       * <code>required int64 unknown10 = 10;</code>
+       * <code>required fixed64 unknown10 = 10;</code>
        */
       public boolean hasUnknown10() {
         return ((bitField0_ & 0x00000100) != 0);
       }
       /**
-       * <code>required int64 unknown10 = 10;</code>
+       * <code>required fixed64 unknown10 = 10;</code>
        */
       public long getUnknown10() {
         return unknown10_;
       }
       /**
-       * <code>required int64 unknown10 = 10;</code>
+       * <code>required fixed64 unknown10 = 10;</code>
        */
       public Builder setUnknown10(long value) {
         bitField0_ |= 0x00000100;
@@ -9092,7 +9092,7 @@ public final class WorkoutProto {
         return this;
       }
       /**
-       * <code>required int64 unknown10 = 10;</code>
+       * <code>required fixed64 unknown10 = 10;</code>
        */
       public Builder clearUnknown10() {
         bitField0_ = (bitField0_ & ~0x00000100);
@@ -13185,11 +13185,11 @@ public final class WorkoutProto {
       "unknown3\030\003 \002(\005\022\020\n\010unknown4\030\004 \002(\014\022\014\n\004Type" +
       "\030\n \002(\005\022\021\n\tunknown11\030\013 \002(\005\022#\n\004step\030\014 \003(\0132" +
       "\025.tutorial.WorkoutStep\"\355\001\n\017WorkoutListIt" +
-      "em\022\016\n\006fileId\030\001 \002(\005\022\020\n\010unknown2\030\002 \002(\014\022\020\n\010" +
+      "em\022\016\n\006fileId\030\001 \002(\007\022\020\n\010unknown2\030\002 \002(\014\022\020\n\010" +
       "itemName\030\003 \002(\005\022\027\n\017itemDescription\030\004 \002(\005\022" +
       "\020\n\010unknown5\030\005 \002(\014\022\020\n\010unknown7\030\007 \002(\005\022\020\n\010u" +
       "nknown8\030\010 \002(\005\022\020\n\010unknown9\030\t \002(\005\022\021\n\tunkno" +
-      "wn10\030\n \002(\003\022\014\n\004type\030\013 \002(\005\022\021\n\tunknown12\030\014 " +
+      "wn10\030\n \002(\006\022\014\n\004type\030\013 \002(\005\022\021\n\tunknown12\030\014 " +
       "\002(\005\022\021\n\tunknown13\030\r \002(\005\"8\n\013WorkoutStep\022)\n" +
       "\007stepSub\030\010 \002(\0132\030.tutorial.WorkoutStepSub" +
       "\"\253\001\n\016WorkoutStepSub\022\020\n\010stepName\030\001 \002(\005\022\027\n" +

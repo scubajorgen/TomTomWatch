@@ -282,6 +282,7 @@ public class TomTomWatchView extends javax.swing.JFrame
         jMenuItemEraseData = new javax.swing.JMenuItem();
         jMenuItemShowTrackedActivity = new javax.swing.JMenuItem();
         jMenuDeleteTrackedActivity = new javax.swing.JMenuItem();
+        jMenuItemWorkoutList = new javax.swing.JMenuItem();
         jMenuItemShowWorkouts = new javax.swing.JMenuItem();
         jMenuItemPlaylists = new javax.swing.JMenuItem();
         jMenuItemUpdateFirmware = new javax.swing.JMenuItem();
@@ -924,6 +925,16 @@ public class TomTomWatchView extends javax.swing.JFrame
             }
         });
         jMenuDevice.add(jMenuDeleteTrackedActivity);
+
+        jMenuItemWorkoutList.setText("Show Workout List");
+        jMenuItemWorkoutList.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                jMenuItemWorkoutListActionPerformed(evt);
+            }
+        });
+        jMenuDevice.add(jMenuItemWorkoutList);
 
         jMenuItemShowWorkouts.setText("Show Workouts");
         jMenuItemShowWorkouts.addActionListener(new java.awt.event.ActionListener()
@@ -1969,6 +1980,11 @@ public class TomTomWatchView extends javax.swing.JFrame
         this.checkAndPushCommand(ThreadCommand.THREADCOMMAND_LISTWORKOUTS);
     }//GEN-LAST:event_jMenuItemShowWorkoutsActionPerformed
 
+    private void jMenuItemWorkoutListActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jMenuItemWorkoutListActionPerformed
+    {//GEN-HEADEREND:event_jMenuItemWorkoutListActionPerformed
+        this.checkAndPushCommand(ThreadCommand.THREADCOMMAND_LISTWORKOUTSUMMARY);
+    }//GEN-LAST:event_jMenuItemWorkoutListActionPerformed
+
     /*############################################################################################*\
      * HELPER FUNCTIONS     
     \*############################################################################################*/    
@@ -2602,6 +2618,7 @@ public class TomTomWatchView extends javax.swing.JFrame
     private javax.swing.JMenuItem jMenuItemSyncTime;
     private javax.swing.JMenuItem jMenuItemUpdateFirmware;
     private javax.swing.JMenuItem jMenuItemUploadFile;
+    private javax.swing.JMenuItem jMenuItemWorkoutList;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;

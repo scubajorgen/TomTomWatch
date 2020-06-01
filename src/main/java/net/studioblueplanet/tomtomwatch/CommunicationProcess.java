@@ -248,6 +248,9 @@ public class CommunicationProcess implements ProgressListener
             case THREADCOMMAND_DELETETRACKEDACTIVITY:
                 r=() ->{deleteTrackedActivity(watchInterface);};
                 break;
+            case THREADCOMMAND_LISTWORKOUTSUMMARY:
+                r=() ->{showWorkoutList(watchInterface);};
+                break;
             case THREADCOMMAND_LISTWORKOUTS:
                 r=() ->{showWorkouts(watchInterface);};
                 break;
@@ -2459,14 +2462,14 @@ public class CommunicationProcess implements ProgressListener
     }
     
     /**
-     * This method displays the activity tracked by the watch. This info is 
-     * stored in the 0x00b1nnnn files.
+     * This method displays the full workout details on the watch. This info is 
+     * stored in the 0x00bennnn files where nnnn larger 0.
      * @param watchInterface The watch interface
      */
     private void showWorkouts(WatchInterface watchInterface)
     {
         boolean error;
-        Workouts workouts;
+        WorkoutList workouts;
 
         theView.setStatus("Downloading workout files... Please wait.");
         
@@ -2476,7 +2479,7 @@ public class CommunicationProcess implements ProgressListener
         
         error = false;
 
-        workouts=new Workouts();
+        workouts=new WorkoutList();
         
         // Enumerate all files of given type from the device
         files = watchInterface.getFileList(WatchInterface.FileType.TTWATCH_FILE_WORKOUTS);
@@ -2498,10 +2501,16 @@ public class CommunicationProcess implements ProgressListener
                     DebugLogger.info("Appending "+String.format("0x%08x", file.fileId)+" length "+file.length);
 
                     // Just another check, double check
-                    if (watchInterface.isFileType(file, WatchInterface.FileType.TTWATCH_FILE_WORKOUTS) &&
-                        file.fileId!=0x00be0000)  
+                    if (watchInterface.isFileType(file, WatchInterface.FileType.TTWATCH_FILE_WORKOUTS))  
                     {
-                        error=workouts.appendFromData(file.fileData);
+                        if (file.fileId==0x00be0000)
+                        {
+                            error=workouts.createWorkoutListFromData(file.fileData);
+                        }
+                        else
+                        {
+                            error=workouts.appendWorkoutFromData(file.fileId, file.fileData);
+                        }
                     }
                     else
                     {
@@ -2517,15 +2526,70 @@ public class CommunicationProcess implements ProgressListener
             if (!error)
             {
                 theView.setStatus(workouts.toString());
-/*                
-                tracker.convertToHourly();
-                theView.setStatus(tracker.trackedActivityToString()+"\n"+
-                                  tracker.heartRatesToString()+"\n"+
-                                  tracker.sleepingPeriodsToString());
-*/                
             }
         }
         if (error)
+        {
+            toErrorState();
+        }  
+    }    
+
+    /**
+     * This method displays the full workout details on the watch. This info is 
+     * stored in the 0x00bennnn files where nnnn larger 0.
+     * @param watchInterface The watch interface
+     */
+    private void showWorkoutList(WatchInterface watchInterface)
+    {
+        boolean error;
+        WorkoutList workouts;
+
+        theView.setStatus("Downloading workout list file... Please wait.");
+        
+        UsbFile             file;
+        ArrayList<UsbFile>  files;
+        Iterator<UsbFile>   it;
+        
+        error = false;
+
+        workouts=new WorkoutList();
+        
+        file=new UsbFile();
+        file.fileId=0x00BE0000;
+        error=watchInterface.readFile(file);
+
+        if (!error)
+        {
+            DebugLogger.info("Appending "+String.format("0x%08x", file.fileId)+" length "+file.length);
+
+            // Just another check, double check
+            if (watchInterface.isFileType(file, WatchInterface.FileType.TTWATCH_FILE_WORKOUTS))  
+            {
+                if (file.fileId==0x00be0000)
+                {
+                    error=workouts.createWorkoutListFromData(file.fileData);
+                }
+                else
+                {
+                    error=workouts.appendWorkoutFromData(file.fileId, file.fileData);
+                }
+            }
+            else
+            {
+                DebugLogger.error("Inconsistency while requesting tracked activity files");
+            }
+        }
+        else
+        {
+            DebugLogger.error("Error reading file "+String.format("0x%08x", file.fileId));
+        }
+
+        
+        if (!error)
+        {
+            theView.setStatus(workouts.toString());
+        }
+        else
         {
             toErrorState();
         }  

@@ -64,44 +64,81 @@ public class Workout
         }
     }
 
-    private final WorkoutClass                  workoutClass;
-    private final String                        name;
-    private final String                        description;
+    private final HashMap<Integer, String>      workoutDescriptions;
+    
+    private WorkoutClass                        workoutClass;
+    private String                              name;
+    private String                              description;
     private final HashMap<Integer, WorkoutStep> workoutSteps;
 
     /**
      * Constructor, initializes the instance
      *
-     * @param name Name of the workout
-     * @param description Description of the workout;
      * @param workoutClass Class of the workout
      */
-    public Workout(String name, String description, WorkoutClass workoutClass)
+    public Workout()
     {
-        this.name           = name;
-        this.description    = description;
-        this.workoutClass   = workoutClass;
         workoutSteps        = new HashMap<>();
+        workoutDescriptions = new HashMap<>();
     }
 
+    /**
+     * This method adds a description to the list of descriptions associated
+     * with this workout
+     * @param id ID of the description
+     * @param descriptionText Description text
+     */
+    public void putDescription(int id, String descriptionText)
+    {
+        workoutDescriptions.put(id, description);
+        if (id==0)
+        {
+            this.name=descriptionText;
+        }
+        else if (id==1)
+        {
+            this.description=descriptionText;
+        }
+    }
+    
+    /**
+     * Returns a description text from the list of descriptions associated
+     * with this workout
+     * @param id ID of the descriptioni
+     * @return The description text.
+     */
+    public String getDescription(int id)
+    {
+        return workoutDescriptions.get(id);
+    }
+    
     /**
      * Returns the name of the workout
      *
      * @return The name (like 'Warm up', 'Work', 'Rest')
      */
-    public String getName()
+    public String getWorkoutName()
     {
         return name;
     }
 
     /**
-     * Returns the description of the step
+     * Returns the description of the workout
      *
      * @return The description, like 'Get into the Fat Burn HR zone'
      */
-    public String getDescription()
+    public String getWorkoutDescription()
     {
         return description;
+    }
+    
+    /**
+     * Sets the class/type of the workout
+     * @param workoutClass The class/type
+     */
+    public void setWorkoutClass(WorkoutClass workoutClass)
+    {
+        this.workoutClass=workoutClass;
     }
 
     /**
@@ -140,7 +177,7 @@ public class Workout
         String  outputString;
         int     i;
         
-        outputString ="_____________________________________________________________________________\n";
+        outputString ="____________________________________________________________________________________________________\n";
         outputString+=String.format("%-10s - %s", workoutClass, name)+"\n"+description+"\n";
         i=0;
         while (i<workoutSteps.size())
