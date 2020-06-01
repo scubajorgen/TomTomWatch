@@ -68,5 +68,13 @@ public class WorkoutListItem
         return workoutClass;
     }
     
-    
+    @Override
+    public String toString()
+    {
+        String outputString;
+        outputString="____________________________________________________________________________________________________\n";
+        outputString+=String.format("%-10s - %s\n", workoutClass, workoutName);
+        outputString+=workoutDescription+"\n";
+        return outputString;
+    }
 }

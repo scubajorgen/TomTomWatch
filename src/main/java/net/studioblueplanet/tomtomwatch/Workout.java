@@ -88,7 +88,7 @@ public class Workout
      */
     public void putDescription(int id, String descriptionText)
     {
-        workoutDescriptions.put(id, description);
+        workoutDescriptions.put(id, descriptionText);
         if (id==0)
         {
             this.name=descriptionText;

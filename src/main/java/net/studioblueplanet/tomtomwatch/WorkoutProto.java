@@ -5951,7 +5951,7 @@ public final class WorkoutProto {
      * value 0 or 1; only for run!?
      * </pre>
      *
-     * <code>required int32 unknown3 = 3;</code>
+     * <code>optional int32 unknown3 = 3;</code>
      */
     boolean hasUnknown3();
     /**
@@ -5959,7 +5959,7 @@ public final class WorkoutProto {
      * value 0 or 1; only for run!?
      * </pre>
      *
-     * <code>required int32 unknown3 = 3;</code>
+     * <code>optional int32 unknown3 = 3;</code>
      */
     int getUnknown3();
 
@@ -6212,7 +6212,7 @@ public final class WorkoutProto {
      * value 0 or 1; only for run!?
      * </pre>
      *
-     * <code>required int32 unknown3 = 3;</code>
+     * <code>optional int32 unknown3 = 3;</code>
      */
     public boolean hasUnknown3() {
       return ((bitField0_ & 0x00000002) != 0);
@@ -6222,7 +6222,7 @@ public final class WorkoutProto {
      * value 0 or 1; only for run!?
      * </pre>
      *
-     * <code>required int32 unknown3 = 3;</code>
+     * <code>optional int32 unknown3 = 3;</code>
      */
     public int getUnknown3() {
       return unknown3_;
@@ -6360,10 +6360,6 @@ public final class WorkoutProto {
       if (isInitialized == 0) return false;
 
       if (!hasUnknown2()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      if (!hasUnknown3()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -6833,9 +6829,6 @@ public final class WorkoutProto {
         if (!hasUnknown2()) {
           return false;
         }
-        if (!hasUnknown3()) {
-          return false;
-        }
         if (!hasUnknown4()) {
           return false;
         }
@@ -6927,7 +6920,7 @@ public final class WorkoutProto {
        * value 0 or 1; only for run!?
        * </pre>
        *
-       * <code>required int32 unknown3 = 3;</code>
+       * <code>optional int32 unknown3 = 3;</code>
        */
       public boolean hasUnknown3() {
         return ((bitField0_ & 0x00000002) != 0);
@@ -6937,7 +6930,7 @@ public final class WorkoutProto {
        * value 0 or 1; only for run!?
        * </pre>
        *
-       * <code>required int32 unknown3 = 3;</code>
+       * <code>optional int32 unknown3 = 3;</code>
        */
       public int getUnknown3() {
         return unknown3_;
@@ -6947,7 +6940,7 @@ public final class WorkoutProto {
        * value 0 or 1; only for run!?
        * </pre>
        *
-       * <code>required int32 unknown3 = 3;</code>
+       * <code>optional int32 unknown3 = 3;</code>
        */
       public Builder setUnknown3(int value) {
         bitField0_ |= 0x00000002;
@@ -6960,7 +6953,7 @@ public final class WorkoutProto {
        * value 0 or 1; only for run!?
        * </pre>
        *
-       * <code>required int32 unknown3 = 3;</code>
+       * <code>optional int32 unknown3 = 3;</code>
        */
       public Builder clearUnknown3() {
         bitField0_ = (bitField0_ & ~0x00000002);
@@ -9972,7 +9965,7 @@ public final class WorkoutProto {
      * refers to a description ID (e.g. 'Get into the Fat Burn HR zone')
      * </pre>
      *
-     * <code>required int32 stepDescription = 2;</code>
+     * <code>optional int32 stepDescription = 2;</code>
      */
     boolean hasStepDescription();
     /**
@@ -9980,7 +9973,7 @@ public final class WorkoutProto {
      * refers to a description ID (e.g. 'Get into the Fat Burn HR zone')
      * </pre>
      *
-     * <code>required int32 stepDescription = 2;</code>
+     * <code>optional int32 stepDescription = 2;</code>
      */
     int getStepDescription();
 
@@ -10229,7 +10222,7 @@ public final class WorkoutProto {
      * refers to a description ID (e.g. 'Get into the Fat Burn HR zone')
      * </pre>
      *
-     * <code>required int32 stepDescription = 2;</code>
+     * <code>optional int32 stepDescription = 2;</code>
      */
     public boolean hasStepDescription() {
       return ((bitField0_ & 0x00000002) != 0);
@@ -10239,7 +10232,7 @@ public final class WorkoutProto {
      * refers to a description ID (e.g. 'Get into the Fat Burn HR zone')
      * </pre>
      *
-     * <code>required int32 stepDescription = 2;</code>
+     * <code>optional int32 stepDescription = 2;</code>
      */
     public int getStepDescription() {
       return stepDescription_;
@@ -10365,10 +10358,6 @@ public final class WorkoutProto {
       if (isInitialized == 0) return false;
 
       if (!hasStepName()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      if (!hasStepDescription()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -10816,9 +10805,6 @@ public final class WorkoutProto {
         if (!hasStepName()) {
           return false;
         }
-        if (!hasStepDescription()) {
-          return false;
-        }
         if (!hasStepNumber()) {
           return false;
         }
@@ -10902,7 +10888,7 @@ public final class WorkoutProto {
        * refers to a description ID (e.g. 'Get into the Fat Burn HR zone')
        * </pre>
        *
-       * <code>required int32 stepDescription = 2;</code>
+       * <code>optional int32 stepDescription = 2;</code>
        */
       public boolean hasStepDescription() {
         return ((bitField0_ & 0x00000002) != 0);
@@ -10912,7 +10898,7 @@ public final class WorkoutProto {
        * refers to a description ID (e.g. 'Get into the Fat Burn HR zone')
        * </pre>
        *
-       * <code>required int32 stepDescription = 2;</code>
+       * <code>optional int32 stepDescription = 2;</code>
        */
       public int getStepDescription() {
         return stepDescription_;
@@ -10922,7 +10908,7 @@ public final class WorkoutProto {
        * refers to a description ID (e.g. 'Get into the Fat Burn HR zone')
        * </pre>
        *
-       * <code>required int32 stepDescription = 2;</code>
+       * <code>optional int32 stepDescription = 2;</code>
        */
       public Builder setStepDescription(int value) {
         bitField0_ |= 0x00000002;
@@ -10935,7 +10921,7 @@ public final class WorkoutProto {
        * refers to a description ID (e.g. 'Get into the Fat Burn HR zone')
        * </pre>
        *
-       * <code>required int32 stepDescription = 2;</code>
+       * <code>optional int32 stepDescription = 2;</code>
        */
       public Builder clearStepDescription() {
         bitField0_ = (bitField0_ & ~0x00000002);
@@ -13182,7 +13168,7 @@ public final class WorkoutProto {
       "on\022\"\n\007workout\030\007 \001(\0132\021.tutorial.Workout\"." +
       "\n\013Description\022\n\n\002id\030\001 \002(\005\022\023\n\013description" +
       "\030\002 \002(\t\"\205\001\n\007Workout\022\020\n\010unknown2\030\002 \002(\005\022\020\n\010" +
-      "unknown3\030\003 \002(\005\022\020\n\010unknown4\030\004 \002(\014\022\014\n\004Type" +
+      "unknown3\030\003 \001(\005\022\020\n\010unknown4\030\004 \002(\014\022\014\n\004Type" +
       "\030\n \002(\005\022\021\n\tunknown11\030\013 \002(\005\022#\n\004step\030\014 \003(\0132" +
       "\025.tutorial.WorkoutStep\"\355\001\n\017WorkoutListIt" +
       "em\022\016\n\006fileId\030\001 \002(\007\022\020\n\010unknown2\030\002 \002(\014\022\020\n\010" +
@@ -13193,7 +13179,7 @@ public final class WorkoutProto {
       "\002(\005\022\021\n\tunknown13\030\r \002(\005\"8\n\013WorkoutStep\022)\n" +
       "\007stepSub\030\010 \002(\0132\030.tutorial.WorkoutStepSub" +
       "\"\253\001\n\016WorkoutStepSub\022\020\n\010stepName\030\001 \002(\005\022\027\n" +
-      "\017stepDescription\030\002 \002(\005\022\022\n\nstepNumber\030\004 \002" +
+      "\017stepDescription\030\002 \001(\005\022\022\n\nstepNumber\030\004 \002" +
       "(\005\022\020\n\010stepType\030\006 \002(\005\022 \n\010stepSize\030\007 \001(\0132\016" +
       ".tutorial.Size\022&\n\tintensity\030\010 \001(\0132\023.tuto" +
       "rial.Intensity\"M\n\004Size\022\020\n\010duration\030\001 \001(\005" +

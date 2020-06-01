@@ -78,7 +78,7 @@ message Description
 message Workout
 {
   required int32                unknown2          =2;   // value 0
-  required int32                unknown3          =3;   // value 0 or 1; only for run!?
+  optional int32                unknown3          =3;   // value 0 or 1; only for run!?
   required bytes                unknown4          =4;   // 16 bytes
   required int32                Type              =10;  // 1: Fat burn, 2: Endurance, 3: Fitness, 4: Speed, 5: Power, 6: Custom 
   required int32                unknown11         =11;  // value 2
@@ -118,7 +118,7 @@ message WorkoutStep
 message WorkoutStepSub
 {
   required int32                stepName              =1;   // refers to a description ID (e.g. 'warm up', 'work')
-  required int32                stepDescription       =2;   // refers to a description ID (e.g. 'Get into the Fat Burn HR zone')
+  optional int32                stepDescription       =2;   // refers to a description ID (e.g. 'Get into the Fat Burn HR zone')
   required int32                stepNumber            =4;   // 0, 1, 2, 3,...
   required int32                stepType              =6;   // 1: warm up, 2: work, 3: rest, 4: ?, 5: cool down
   optional Size                 stepSize              =7;   // Duration or distance (called Length by TomTom)

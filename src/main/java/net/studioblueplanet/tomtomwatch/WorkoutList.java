@@ -105,7 +105,10 @@ public class WorkoutList
                 step                =stepContainer.getStepSub();
                 int id              =step.getStepNumber();
                 WorkoutStepType type=WorkoutStepType.getWorkoutStepType(step.getStepType());
-                workoutStep         =new WorkoutStep(workout.getDescription(step.getStepName()), workout.getDescription(step.getStepDescription()), type);
+                workoutStep         =new WorkoutStep(step.getStepNumber(), 
+                                                     workout.getDescription(step.getStepName()), 
+                                                     workout.getDescription(step.getStepDescription()), 
+                                                     type);
                 
                 // Set the extent of the workout step
                 if (step.hasStepSize())
@@ -349,9 +352,7 @@ public class WorkoutList
             }
             else
             {
-                outputString+="____________________________________________________________________________________________________\n";
-                outputString+=String.format("%-10s - %s", item.getWorkoutClass(), item.getWorkoutName());
-                outputString+=item.getWorkoutDescription()+"\n";
+                outputString+=item;
             }
         }
         return outputString;

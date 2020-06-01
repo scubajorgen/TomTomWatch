@@ -157,7 +157,7 @@ public class WorkoutStep
     }
     
     
-    
+    private final int                 stepNo;
     private final String              name;
     private final String              description;
     private final WorkoutStepType     type;
@@ -180,8 +180,9 @@ public class WorkoutStep
      * @param description Description of the workout step
      * @param type Type of the workout
      */
-    public WorkoutStep(String name, String description, WorkoutStepType type)
+    public WorkoutStep(int no, String name, String description, WorkoutStepType type)
     {
+        this.stepNo         =no;
         this.name           =name;
         this.description    =description;
         this.type           =type;
@@ -336,7 +337,7 @@ public class WorkoutStep
     {
         String outputString;
         
-        outputString=String.format("%-9s - %-9s - %-13s ", name, type, stepExtent);
+        outputString=String.format("%02d: %-9s - %-9s - %-13s ", stepNo, name, type, stepExtent);
         switch (stepExtent)
         {
             case DURATION:
@@ -365,6 +366,14 @@ public class WorkoutStep
             case HRZONE:
                 outputString+=String.format(" @ %s", intensityHrZone);
                 break;
+        }
+        if (description!=null)
+        {
+            outputString+=String.format("\n    %s", description);
+        }
+        else
+        {
+            outputString+="\n";
         }
         outputString+="\n";
         return outputString;
