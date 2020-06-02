@@ -95,10 +95,10 @@ message WorkoutListItem
   required int32                itemName          =3;     // Workout Name in the menu, like '★☆☆30 min'
   required int32                itemDescription   =4;     // Workout Description in the menu, like 'Keep going and stay in the Fat Burn HR zone for the entire time'
   required bytes                unknown5          =5;     // 16 bytes, same bytes as unknown4 in Program
-  required int32                unknown7          =7;   
-  required int32                unknown8          =8;   
-  required int32                unknown9          =9;   
-  required fixed64              unknown10         =10;   
+  required int32                unknown7          =7;     // value=0
+  required int32                unknown8          =8;     // value=0
+  required int32                unknown9          =9;     // definitly used, usage unknown
+  required fixed64              activity          =10;    // 0x0802 for cycling, 0x4181 for running   
   required int32                type              =11;    // 1: Fat burn, 2: Endurance, 3: Fitness, 4: Speed, 5: Power, 6: Custom 
   required int32                unknown12         =12;    // value=2
   required int32                unknown13         =13;    // value=1
