@@ -7563,40 +7563,72 @@ public final class WorkoutProto {
     com.google.protobuf.ByteString getUnknown5();
 
     /**
+     * <pre>
+     * value=0
+     * </pre>
+     *
      * <code>required int32 unknown7 = 7;</code>
      */
     boolean hasUnknown7();
     /**
+     * <pre>
+     * value=0
+     * </pre>
+     *
      * <code>required int32 unknown7 = 7;</code>
      */
     int getUnknown7();
 
     /**
+     * <pre>
+     * value=0
+     * </pre>
+     *
      * <code>required int32 unknown8 = 8;</code>
      */
     boolean hasUnknown8();
     /**
+     * <pre>
+     * value=0
+     * </pre>
+     *
      * <code>required int32 unknown8 = 8;</code>
      */
     int getUnknown8();
 
     /**
+     * <pre>
+     * definitly used, usage unknown
+     * </pre>
+     *
      * <code>required int32 unknown9 = 9;</code>
      */
     boolean hasUnknown9();
     /**
+     * <pre>
+     * definitly used, usage unknown
+     * </pre>
+     *
      * <code>required int32 unknown9 = 9;</code>
      */
     int getUnknown9();
 
     /**
-     * <code>required fixed64 unknown10 = 10;</code>
+     * <pre>
+     * 0x0802 for cycling, 0x4181 for running   
+     * </pre>
+     *
+     * <code>required fixed64 activity = 10;</code>
      */
-    boolean hasUnknown10();
+    boolean hasActivity();
     /**
-     * <code>required fixed64 unknown10 = 10;</code>
+     * <pre>
+     * 0x0802 for cycling, 0x4181 for running   
+     * </pre>
+     *
+     * <code>required fixed64 activity = 10;</code>
      */
-    long getUnknown10();
+    long getActivity();
 
     /**
      * <pre>
@@ -7745,7 +7777,7 @@ public final class WorkoutProto {
             }
             case 81: {
               bitField0_ |= 0x00000100;
-              unknown10_ = input.readFixed64();
+              activity_ = input.readFixed64();
               break;
             }
             case 88: {
@@ -7914,12 +7946,20 @@ public final class WorkoutProto {
     public static final int UNKNOWN7_FIELD_NUMBER = 7;
     private int unknown7_;
     /**
+     * <pre>
+     * value=0
+     * </pre>
+     *
      * <code>required int32 unknown7 = 7;</code>
      */
     public boolean hasUnknown7() {
       return ((bitField0_ & 0x00000020) != 0);
     }
     /**
+     * <pre>
+     * value=0
+     * </pre>
+     *
      * <code>required int32 unknown7 = 7;</code>
      */
     public int getUnknown7() {
@@ -7929,12 +7969,20 @@ public final class WorkoutProto {
     public static final int UNKNOWN8_FIELD_NUMBER = 8;
     private int unknown8_;
     /**
+     * <pre>
+     * value=0
+     * </pre>
+     *
      * <code>required int32 unknown8 = 8;</code>
      */
     public boolean hasUnknown8() {
       return ((bitField0_ & 0x00000040) != 0);
     }
     /**
+     * <pre>
+     * value=0
+     * </pre>
+     *
      * <code>required int32 unknown8 = 8;</code>
      */
     public int getUnknown8() {
@@ -7944,31 +7992,47 @@ public final class WorkoutProto {
     public static final int UNKNOWN9_FIELD_NUMBER = 9;
     private int unknown9_;
     /**
+     * <pre>
+     * definitly used, usage unknown
+     * </pre>
+     *
      * <code>required int32 unknown9 = 9;</code>
      */
     public boolean hasUnknown9() {
       return ((bitField0_ & 0x00000080) != 0);
     }
     /**
+     * <pre>
+     * definitly used, usage unknown
+     * </pre>
+     *
      * <code>required int32 unknown9 = 9;</code>
      */
     public int getUnknown9() {
       return unknown9_;
     }
 
-    public static final int UNKNOWN10_FIELD_NUMBER = 10;
-    private long unknown10_;
+    public static final int ACTIVITY_FIELD_NUMBER = 10;
+    private long activity_;
     /**
-     * <code>required fixed64 unknown10 = 10;</code>
+     * <pre>
+     * 0x0802 for cycling, 0x4181 for running   
+     * </pre>
+     *
+     * <code>required fixed64 activity = 10;</code>
      */
-    public boolean hasUnknown10() {
+    public boolean hasActivity() {
       return ((bitField0_ & 0x00000100) != 0);
     }
     /**
-     * <code>required fixed64 unknown10 = 10;</code>
+     * <pre>
+     * 0x0802 for cycling, 0x4181 for running   
+     * </pre>
+     *
+     * <code>required fixed64 activity = 10;</code>
      */
-    public long getUnknown10() {
-      return unknown10_;
+    public long getActivity() {
+      return activity_;
     }
 
     public static final int TYPE_FIELD_NUMBER = 11;
@@ -8079,7 +8143,7 @@ public final class WorkoutProto {
         memoizedIsInitialized = 0;
         return false;
       }
-      if (!hasUnknown10()) {
+      if (!hasActivity()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -8127,7 +8191,7 @@ public final class WorkoutProto {
         output.writeInt32(9, unknown9_);
       }
       if (((bitField0_ & 0x00000100) != 0)) {
-        output.writeFixed64(10, unknown10_);
+        output.writeFixed64(10, activity_);
       }
       if (((bitField0_ & 0x00000200) != 0)) {
         output.writeInt32(11, type_);
@@ -8181,7 +8245,7 @@ public final class WorkoutProto {
       }
       if (((bitField0_ & 0x00000100) != 0)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFixed64Size(10, unknown10_);
+          .computeFixed64Size(10, activity_);
       }
       if (((bitField0_ & 0x00000200) != 0)) {
         size += com.google.protobuf.CodedOutputStream
@@ -8250,10 +8314,10 @@ public final class WorkoutProto {
         if (getUnknown9()
             != other.getUnknown9()) return false;
       }
-      if (hasUnknown10() != other.hasUnknown10()) return false;
-      if (hasUnknown10()) {
-        if (getUnknown10()
-            != other.getUnknown10()) return false;
+      if (hasActivity() != other.hasActivity()) return false;
+      if (hasActivity()) {
+        if (getActivity()
+            != other.getActivity()) return false;
       }
       if (hasType() != other.hasType()) return false;
       if (hasType()) {
@@ -8313,10 +8377,10 @@ public final class WorkoutProto {
         hash = (37 * hash) + UNKNOWN9_FIELD_NUMBER;
         hash = (53 * hash) + getUnknown9();
       }
-      if (hasUnknown10()) {
-        hash = (37 * hash) + UNKNOWN10_FIELD_NUMBER;
+      if (hasActivity()) {
+        hash = (37 * hash) + ACTIVITY_FIELD_NUMBER;
         hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-            getUnknown10());
+            getActivity());
       }
       if (hasType()) {
         hash = (37 * hash) + TYPE_FIELD_NUMBER;
@@ -8485,7 +8549,7 @@ public final class WorkoutProto {
         bitField0_ = (bitField0_ & ~0x00000040);
         unknown9_ = 0;
         bitField0_ = (bitField0_ & ~0x00000080);
-        unknown10_ = 0L;
+        activity_ = 0L;
         bitField0_ = (bitField0_ & ~0x00000100);
         type_ = 0;
         bitField0_ = (bitField0_ & ~0x00000200);
@@ -8554,7 +8618,7 @@ public final class WorkoutProto {
           to_bitField0_ |= 0x00000080;
         }
         if (((from_bitField0_ & 0x00000100) != 0)) {
-          result.unknown10_ = unknown10_;
+          result.activity_ = activity_;
           to_bitField0_ |= 0x00000100;
         }
         if (((from_bitField0_ & 0x00000200) != 0)) {
@@ -8642,8 +8706,8 @@ public final class WorkoutProto {
         if (other.hasUnknown9()) {
           setUnknown9(other.getUnknown9());
         }
-        if (other.hasUnknown10()) {
-          setUnknown10(other.getUnknown10());
+        if (other.hasActivity()) {
+          setActivity(other.getActivity());
         }
         if (other.hasType()) {
           setType(other.getType());
@@ -8685,7 +8749,7 @@ public final class WorkoutProto {
         if (!hasUnknown9()) {
           return false;
         }
-        if (!hasUnknown10()) {
+        if (!hasActivity()) {
           return false;
         }
         if (!hasType()) {
@@ -8968,18 +9032,30 @@ public final class WorkoutProto {
 
       private int unknown7_ ;
       /**
+       * <pre>
+       * value=0
+       * </pre>
+       *
        * <code>required int32 unknown7 = 7;</code>
        */
       public boolean hasUnknown7() {
         return ((bitField0_ & 0x00000020) != 0);
       }
       /**
+       * <pre>
+       * value=0
+       * </pre>
+       *
        * <code>required int32 unknown7 = 7;</code>
        */
       public int getUnknown7() {
         return unknown7_;
       }
       /**
+       * <pre>
+       * value=0
+       * </pre>
+       *
        * <code>required int32 unknown7 = 7;</code>
        */
       public Builder setUnknown7(int value) {
@@ -8989,6 +9065,10 @@ public final class WorkoutProto {
         return this;
       }
       /**
+       * <pre>
+       * value=0
+       * </pre>
+       *
        * <code>required int32 unknown7 = 7;</code>
        */
       public Builder clearUnknown7() {
@@ -9000,18 +9080,30 @@ public final class WorkoutProto {
 
       private int unknown8_ ;
       /**
+       * <pre>
+       * value=0
+       * </pre>
+       *
        * <code>required int32 unknown8 = 8;</code>
        */
       public boolean hasUnknown8() {
         return ((bitField0_ & 0x00000040) != 0);
       }
       /**
+       * <pre>
+       * value=0
+       * </pre>
+       *
        * <code>required int32 unknown8 = 8;</code>
        */
       public int getUnknown8() {
         return unknown8_;
       }
       /**
+       * <pre>
+       * value=0
+       * </pre>
+       *
        * <code>required int32 unknown8 = 8;</code>
        */
       public Builder setUnknown8(int value) {
@@ -9021,6 +9113,10 @@ public final class WorkoutProto {
         return this;
       }
       /**
+       * <pre>
+       * value=0
+       * </pre>
+       *
        * <code>required int32 unknown8 = 8;</code>
        */
       public Builder clearUnknown8() {
@@ -9032,18 +9128,30 @@ public final class WorkoutProto {
 
       private int unknown9_ ;
       /**
+       * <pre>
+       * definitly used, usage unknown
+       * </pre>
+       *
        * <code>required int32 unknown9 = 9;</code>
        */
       public boolean hasUnknown9() {
         return ((bitField0_ & 0x00000080) != 0);
       }
       /**
+       * <pre>
+       * definitly used, usage unknown
+       * </pre>
+       *
        * <code>required int32 unknown9 = 9;</code>
        */
       public int getUnknown9() {
         return unknown9_;
       }
       /**
+       * <pre>
+       * definitly used, usage unknown
+       * </pre>
+       *
        * <code>required int32 unknown9 = 9;</code>
        */
       public Builder setUnknown9(int value) {
@@ -9053,6 +9161,10 @@ public final class WorkoutProto {
         return this;
       }
       /**
+       * <pre>
+       * definitly used, usage unknown
+       * </pre>
+       *
        * <code>required int32 unknown9 = 9;</code>
        */
       public Builder clearUnknown9() {
@@ -9062,34 +9174,50 @@ public final class WorkoutProto {
         return this;
       }
 
-      private long unknown10_ ;
+      private long activity_ ;
       /**
-       * <code>required fixed64 unknown10 = 10;</code>
+       * <pre>
+       * 0x0802 for cycling, 0x4181 for running   
+       * </pre>
+       *
+       * <code>required fixed64 activity = 10;</code>
        */
-      public boolean hasUnknown10() {
+      public boolean hasActivity() {
         return ((bitField0_ & 0x00000100) != 0);
       }
       /**
-       * <code>required fixed64 unknown10 = 10;</code>
+       * <pre>
+       * 0x0802 for cycling, 0x4181 for running   
+       * </pre>
+       *
+       * <code>required fixed64 activity = 10;</code>
        */
-      public long getUnknown10() {
-        return unknown10_;
+      public long getActivity() {
+        return activity_;
       }
       /**
-       * <code>required fixed64 unknown10 = 10;</code>
+       * <pre>
+       * 0x0802 for cycling, 0x4181 for running   
+       * </pre>
+       *
+       * <code>required fixed64 activity = 10;</code>
        */
-      public Builder setUnknown10(long value) {
+      public Builder setActivity(long value) {
         bitField0_ |= 0x00000100;
-        unknown10_ = value;
+        activity_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required fixed64 unknown10 = 10;</code>
+       * <pre>
+       * 0x0802 for cycling, 0x4181 for running   
+       * </pre>
+       *
+       * <code>required fixed64 activity = 10;</code>
        */
-      public Builder clearUnknown10() {
+      public Builder clearActivity() {
         bitField0_ = (bitField0_ & ~0x00000100);
-        unknown10_ = 0L;
+        activity_ = 0L;
         onChanged();
         return this;
       }
@@ -13170,24 +13298,24 @@ public final class WorkoutProto {
       "\030\002 \002(\t\"\205\001\n\007Workout\022\020\n\010unknown2\030\002 \002(\005\022\020\n\010" +
       "unknown3\030\003 \001(\005\022\020\n\010unknown4\030\004 \002(\014\022\014\n\004Type" +
       "\030\n \002(\005\022\021\n\tunknown11\030\013 \002(\005\022#\n\004step\030\014 \003(\0132" +
-      "\025.tutorial.WorkoutStep\"\355\001\n\017WorkoutListIt" +
+      "\025.tutorial.WorkoutStep\"\354\001\n\017WorkoutListIt" +
       "em\022\016\n\006fileId\030\001 \002(\007\022\020\n\010unknown2\030\002 \002(\014\022\020\n\010" +
       "itemName\030\003 \002(\005\022\027\n\017itemDescription\030\004 \002(\005\022" +
       "\020\n\010unknown5\030\005 \002(\014\022\020\n\010unknown7\030\007 \002(\005\022\020\n\010u" +
-      "nknown8\030\010 \002(\005\022\020\n\010unknown9\030\t \002(\005\022\021\n\tunkno" +
-      "wn10\030\n \002(\006\022\014\n\004type\030\013 \002(\005\022\021\n\tunknown12\030\014 " +
-      "\002(\005\022\021\n\tunknown13\030\r \002(\005\"8\n\013WorkoutStep\022)\n" +
-      "\007stepSub\030\010 \002(\0132\030.tutorial.WorkoutStepSub" +
-      "\"\253\001\n\016WorkoutStepSub\022\020\n\010stepName\030\001 \002(\005\022\027\n" +
-      "\017stepDescription\030\002 \001(\005\022\022\n\nstepNumber\030\004 \002" +
-      "(\005\022\020\n\010stepType\030\006 \002(\005\022 \n\010stepSize\030\007 \001(\0132\016" +
-      ".tutorial.Size\022&\n\tintensity\030\010 \001(\0132\023.tuto" +
-      "rial.Intensity\"M\n\004Size\022\020\n\010duration\030\001 \001(\005" +
-      "\022\020\n\010distance\030\002 \001(\005\022\021\n\treachZone\030\004 \001(\005\022\016\n" +
-      "\006manual\030\005 \001(\005\"?\n\tIntensity\022\025\n\rheartratez" +
-      "one\030\001 \001(\005\022\014\n\004pace\030\002 \001(\005\022\r\n\005speed\030\003 \001(\005B0" +
-      "\n net.studioblueplanet.tomtomwatchB\014Work" +
-      "outProto"
+      "nknown8\030\010 \002(\005\022\020\n\010unknown9\030\t \002(\005\022\020\n\010activ" +
+      "ity\030\n \002(\006\022\014\n\004type\030\013 \002(\005\022\021\n\tunknown12\030\014 \002" +
+      "(\005\022\021\n\tunknown13\030\r \002(\005\"8\n\013WorkoutStep\022)\n\007" +
+      "stepSub\030\010 \002(\0132\030.tutorial.WorkoutStepSub\"" +
+      "\253\001\n\016WorkoutStepSub\022\020\n\010stepName\030\001 \002(\005\022\027\n\017" +
+      "stepDescription\030\002 \001(\005\022\022\n\nstepNumber\030\004 \002(" +
+      "\005\022\020\n\010stepType\030\006 \002(\005\022 \n\010stepSize\030\007 \001(\0132\016." +
+      "tutorial.Size\022&\n\tintensity\030\010 \001(\0132\023.tutor" +
+      "ial.Intensity\"M\n\004Size\022\020\n\010duration\030\001 \001(\005\022" +
+      "\020\n\010distance\030\002 \001(\005\022\021\n\treachZone\030\004 \001(\005\022\016\n\006" +
+      "manual\030\005 \001(\005\"?\n\tIntensity\022\025\n\rheartratezo" +
+      "ne\030\001 \001(\005\022\014\n\004pace\030\002 \001(\005\022\r\n\005speed\030\003 \001(\005B0\n" +
+      " net.studioblueplanet.tomtomwatchB\014Worko" +
+      "utProto"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -13240,7 +13368,7 @@ public final class WorkoutProto {
     internal_static_tutorial_WorkoutListItem_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_tutorial_WorkoutListItem_descriptor,
-        new java.lang.String[] { "FileId", "Unknown2", "ItemName", "ItemDescription", "Unknown5", "Unknown7", "Unknown8", "Unknown9", "Unknown10", "Type", "Unknown12", "Unknown13", });
+        new java.lang.String[] { "FileId", "Unknown2", "ItemName", "ItemDescription", "Unknown5", "Unknown7", "Unknown8", "Unknown9", "Activity", "Type", "Unknown12", "Unknown13", });
     internal_static_tutorial_WorkoutStep_descriptor =
       getDescriptor().getMessageTypes().get(8);
     internal_static_tutorial_WorkoutStep_fieldAccessorTable = new

@@ -36,10 +36,19 @@ public class Workout
          */
         WorkoutClass(int i, String description)
         {
-            this.value          = i;
+            this.value          =i;
             this.description    =description;
         }
 
+        /**
+         * Returns the value of this enum entry
+         * @return The value
+         */
+        public int getValue()
+        {
+            return value;
+        }
+        
         /**
          * Get the enum based on the enum value passed
          * @param i Enum value
@@ -176,7 +185,7 @@ public class Workout
         int     i;
         
         outputString ="____________________________________________________________________________________________________\n";
-        outputString+=String.format("%-10s - %s", workoutClass, name)+"\n"+description+"\n";
+        outputString+=String.format("    %-10s - %s", workoutClass, name)+"\n    "+description+"\n";
         i=0;
         while (i<workoutSteps.size())
         {

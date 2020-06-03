@@ -7,12 +7,14 @@ package net.studioblueplanet.tomtomwatch;
 
 import com.google.protobuf.InvalidProtocolBufferException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.HashMap;
 import net.studioblueplanet.logger.DebugLogger;
 
 import net.studioblueplanet.tomtomwatch.Workout.WorkoutClass;
+import net.studioblueplanet.tomtomwatch.WorkoutListItem.ActivityType;
 import net.studioblueplanet.tomtomwatch.WorkoutStep.HrZone;
 import net.studioblueplanet.tomtomwatch.WorkoutStep.WorkoutStepType;
 
@@ -177,6 +179,7 @@ public class WorkoutList
         String                              name;
         String                              description;
         WorkoutClass                        workoutClass;
+        ActivityType                        activity;
         int                                 fileId;
         
         items=data.getWorkoutListItemList();
@@ -185,8 +188,9 @@ public class WorkoutList
             fileId      =item.getFileId();
             name        =workoutListDescriptions.get(item.getItemName());
             description =workoutListDescriptions.get(item.getItemDescription());
+            activity    =ActivityType.getActivityType(item.getActivity());
             workoutClass=WorkoutClass.getWorkoutClass(item.getType());
-            listItem=new WorkoutListItem(fileId, name, description, workoutClass);
+            listItem=new WorkoutListItem(fileId, name, description, activity, workoutClass);
             
             workoutListItems.add(listItem);
         }
@@ -319,11 +323,11 @@ public class WorkoutList
                 if (container.hasDataContainer())
                 {
                     dataContainer   =container.getDataContainer().getSubDataContainer();
-                        processItemDescriptions(dataContainer);
-                        processWorkoutList(dataContainer);
+                    processItemDescriptions(dataContainer);
+                    processWorkoutList(dataContainer);
                 }                
             }            
-                    
+            Collections.sort(this.workoutListItems);      
         }
         catch (InvalidProtocolBufferException e)
         {
@@ -348,6 +352,7 @@ public class WorkoutList
             // If the workout has been added, print it; otherwise just print the metadata
             if (workout!=null)
             {
+                outputString+=item;
                 outputString+=workout;
             }
             else

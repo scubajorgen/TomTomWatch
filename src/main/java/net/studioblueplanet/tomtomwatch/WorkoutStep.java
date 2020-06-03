@@ -338,7 +338,7 @@ public class WorkoutStep
     {
         String outputString;
         
-        outputString=String.format("%02d: %-9s - %-9s - %-13s ", stepNo, name, type, stepExtent);
+        outputString=String.format("    %02d: %-9s - %-9s - %-13s ", stepNo, name, type, stepExtent);
         switch (stepExtent)
         {
             case DURATION:
@@ -370,7 +370,7 @@ public class WorkoutStep
         }
         if (description!=null)
         {
-            outputString+=String.format("\n    %s", description);
+            outputString+=String.format("\n        %s", description);
         }
         else
         {
