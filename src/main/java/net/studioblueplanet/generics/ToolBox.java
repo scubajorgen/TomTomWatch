@@ -11,12 +11,17 @@ import java.io.BufferedReader;
 import java.io.RandomAccessFile;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.io.InputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.UUID;
+
 
 /**
  *
@@ -164,22 +169,19 @@ public class ToolBox
      * @param data Byte array containing the data
      * @param offset Offset in the array
      * @param chars Number of characters to read
-     * @return The string read
+     * @return The string read or "Error" if failed
      */
     public static String readString(byte[] data, int offset, int chars)
     {
         int     i;
         String  string;
-        
-        string="";
-        i=0;
-        while (i<chars)
+        try
         {
-            if (data[offset+i]>0)
-            {
-                string+=(char)data[offset+i];
-            }
-            i++;
+           string=new String(data, offset, chars, "UTF-8"); 
+        }
+        catch (UnsupportedEncodingException e)
+        {
+           string="Error";
         }
         return string;
     }    
@@ -525,5 +527,22 @@ public class ToolBox
     private static double haversin(double val) 
     {
         return Math.pow(Math.sin(val / 2), 2);
+    }
+    
+    
+    /**
+     * Return UUID as buffer of 16 bytes
+     * @return UUID as 16 bytes
+     */
+    public static byte[] getUUID()
+    {
+        UUID uuid = UUID.randomUUID();
+        byte[] uuidBytes = new byte[16];
+        ByteBuffer.wrap(uuidBytes)
+        .order(ByteOrder.BIG_ENDIAN)
+        .putLong(uuid.getMostSignificantBits())
+        .putLong(uuid.getLeastSignificantBits());   
+        
+        return uuidBytes;
     }
 }

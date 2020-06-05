@@ -386,4 +386,15 @@ public class ToolBoxTest
         assertEquals(expResult, result, 0.00001);
     }
     
+    /**
+     * Test of getUUID() method, of class ToolBox.
+     */
+    @Test
+    public void testGetUUID()
+    {
+        System.out.println("getUUID");
+        byte[] result=ToolBox.getUUID();
+        assertEquals(16, result.length);
+    }
+    
 }
