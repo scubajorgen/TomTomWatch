@@ -2344,10 +2344,12 @@ public class TomTomWatchView extends javax.swing.JFrame
     /**
      * Displays the time in the time text box
      * @param time DateTime to show
+     * @return Workaround for Mockito bug(?)
      */
-    public void showTime(DateTime time)
+    public boolean showTime(DateTime time)
     {
         this.jTextFieldTime.setText(time.format("hh:mm:ss"));
+        return false;
     }
 
     /**
