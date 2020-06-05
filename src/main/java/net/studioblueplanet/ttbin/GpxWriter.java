@@ -741,7 +741,6 @@ public class GpxWriter
         int     fitnessPoints;
         String  workout;
         String  workoutDescription;
-        String  workoutSteps;
         float   trackSmoothing;
         boolean isSmoothed;
         String  routeName;
@@ -773,16 +772,13 @@ public class GpxWriter
         if (workout!=null)
         {
             workoutDescription  =track.getWorkoutDescription();
-            workoutSteps        =track.getWorkoutSteps();
             element             = doc.createElement("u-gotMe:tomtomWorkout");
             element.appendChild(doc.createTextNode(workout));
             extensionsElement.appendChild(element);            
             element             = doc.createElement("u-gotMe:tomtomWorkoutDescription");
             element.appendChild(doc.createTextNode(workoutDescription));
-            extensionsElement.appendChild(element);            
-            element             = doc.createElement("u-gotMe:tomtomWorkoutSteps");
-            element.appendChild(doc.createTextNode(workoutSteps));
-            extensionsElement.appendChild(element);            
+            extensionsElement.appendChild(element);
+            // TO DO: add workout steps if it is implemented right
         }
 
         

@@ -817,6 +817,17 @@ public class Activity
         int     index;
         int     length;
         
+        // TO DO: The implementation is not correct
+        // the section from byte 24 contains an array of descriptions starting
+        // with 6 bytes header:
+        // 0x22 ? 0x08 ID 0x12 length
+        // followed by the string of size length
+        // 
+        // 0-23: Workout?
+        // last part: workout steps?
+        //
+        // Usually description 0 is the workout name, 1 the description
+        
         try
         {
             index=24;
@@ -831,20 +842,6 @@ public class Activity
             index++;
             workoutDescription=new String(recordData, index, length, "UTF-8");
             index+=length;
-
-            workoutSteps="";
-            while (recordData[index]==0x22)
-            {
-                if (workoutSteps.length()>0)
-                {
-                    workoutSteps+=", "; 
-                }
-                index+=5;
-                length=recordData[index];
-                index+=1;
-                workoutSteps+=new String(recordData, index, length, "UTF-8");
-                index+=length;
-            }
         }
         catch (UnsupportedEncodingException e)
         {
