@@ -69,6 +69,15 @@ public class WorkoutListItem implements Comparable<WorkoutListItem>
     private final ActivityType  activity;
     private final WorkoutClass  workoutClass;
     
+    private byte[]              id;
+    private byte[]              workoutId;
+    private int                 unknown7;
+    private int                 unknown8;
+    private int                 unknown9;
+    private int                 unknown12;
+    private int                 unknown13;
+    
+    
     /**
      * Constructor
      * @param fileId File ID, like 0x00BE0001
@@ -83,6 +92,11 @@ public class WorkoutListItem implements Comparable<WorkoutListItem>
         this.workoutDescription =description;
         this.activity           =activity;
         this.workoutClass       =workoutClass;
+        
+        this.unknown7           =0;
+        this.unknown8           =0;
+        this.unknown12          =6;
+        this.unknown13          =2;
     }
 
     /**
@@ -130,6 +144,93 @@ public class WorkoutListItem implements Comparable<WorkoutListItem>
         return workoutClass;
     }
 
+    /**
+     * Get the ID of this list item
+     * @return The unique ID as an array of 16 bytes
+     */
+    public byte[] getId()
+    {
+        return id;
+    }
+
+    /**
+     * Sets the ID of this list item
+     * @param id The ID as an array of 16 bytes
+     */
+    public void setId(byte[] id)
+    {
+        this.id = id;
+    }
+
+    /**
+     * Get the ID of the workout this list item refers to
+     * @return The unique ID as an array of 16 bytes
+     */
+    public byte[] getWorkoutId()
+    {
+        return workoutId;
+    }
+
+    /**
+     * Sets the ID of the workout this list item refers to
+     * @param workoutId The ID as an array of 16 bytes
+     */
+    public void setWorkoutId(byte[] workoutId)
+    {
+        this.workoutId = workoutId;
+    }
+
+    
+    public int getUnknown7()
+    {
+        return unknown7;
+    }
+
+    public void setUnknown7(int unknown7)
+    {
+        this.unknown7 = unknown7;
+    }
+
+    public int getUnknown8()
+    {
+        return unknown8;
+    }
+
+    public void setUnknown8(int unknown8)
+    {
+        this.unknown8 = unknown8;
+    }
+
+    public int getUnknown9()
+    {
+        return unknown9;
+    }
+
+    public void setUnknown9(int unknown9)
+    {
+        this.unknown9 = unknown9;
+    }
+
+    public int getUnknown12()
+    {
+        return unknown12;
+    }
+
+    public void setUnknown12(int unknown12)
+    {
+        this.unknown12 = unknown12;
+    }
+
+    public int getUnknown13()
+    {
+        return unknown13;
+    }
+
+    public void setUnknown13(int unknown13)
+    {
+        this.unknown13 = unknown13;
+    }
+    
     @Override
     public int compareTo(WorkoutListItem item)
     {
@@ -150,7 +251,7 @@ public class WorkoutListItem implements Comparable<WorkoutListItem>
     {
         String outputString;
         outputString="____________________________________________________________________________________________________\n";
-        outputString+=String.format("%s - %-10s - %s\n", activity, workoutClass, workoutName);
+        outputString+=String.format("%s - %08x - %-10s - %s\n", activity, fileId, workoutClass, workoutName);
         outputString+=workoutDescription+"\n";
         return outputString;
     }

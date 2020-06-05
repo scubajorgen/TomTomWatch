@@ -16,9 +16,9 @@ public class WorkoutStep
      */
     public enum WorkoutStepType 
     {
-        WARMUP(1, "Warm Up"),
-        WORK(2, "Work"),
-        REST(3, "Rest"),
+        WARMUP  (1, "Warm Up"),
+        WORK    (2, "Work"),
+        REST    (3, "Rest"),
         COOLDOWN(5, "Cool Down");
         
         private final int    value;
@@ -52,6 +52,11 @@ public class WorkoutStep
             return null;
         }    
         
+        public int getValue()
+        {
+            return value;
+        }
+        
         @Override
         public String toString()
         {
@@ -64,17 +69,24 @@ public class WorkoutStep
      */
     public enum WorkoutStepExtentType
     {
-        NONE(""),
-        DISTANCE("Distance"),
-        DURATION("Duration"),
-        REACHHRZONE("Reach HR zone"),
-        MANUAL("Manual");
+        NONE       (0, ""),
+        DURATION   (1, "Duration"),
+        DISTANCE   (2, "Distance"),
+        REACHHRZONE(4, "Reach HR zone"),
+        MANUAL     (5, "Manual");
         
+        private final int    value;
         private final String description;
         
-        WorkoutStepExtentType(String description)
+        WorkoutStepExtentType(int value, String description)
         {
+            this.value      =value;
             this.description=description;
+        }
+        
+        public int getValue()
+        {
+            return value;
         }
         
         @Override
@@ -89,16 +101,23 @@ public class WorkoutStep
      */
     public enum WorkoutStepIntensityType
     {
-        NONE(""),
-        HRZONE("HR Zone"),
-        PACE("Pace"),
-        SPEED("Speed");
+        NONE  (0, ""),
+        HRZONE(1, "HR Zone"),
+        PACE  (2, "Pace"),
+        SPEED (3, "Speed");
         
         private final String description;
+        private final int    value;
         
-        WorkoutStepIntensityType(String description)
+        WorkoutStepIntensityType(int value, String description)
         {
+            this.value      =value;
             this.description=description;
+        }
+        
+        public int getValue()
+        {
+            return value;
         }
         
         @Override
@@ -113,11 +132,12 @@ public class WorkoutStep
      */
     public enum HrZone
     {
-        EASY(1, "Easy"),
+        NONE   (0, "-"),
+        EASY   (1, "Easy"),
         FATBURN(2, "Fat Burn"),
-        CARDIO(3, "Cardio"),
+        CARDIO (3, "Cardio"),
         PERFORM(4, "Perform"),
-        PEAK(5, "Peak");
+        PEAK   (5, "Peak");
         
         private final int       value;
         private final String    description;
@@ -148,6 +168,11 @@ public class WorkoutStep
             }
             return null;
         } 
+        
+        public int getValue()
+        {
+            return value;
+        }
         
         @Override
         public String toString()
@@ -187,15 +212,44 @@ public class WorkoutStep
         this.name           =name;
         this.description    =description;
         this.type           =type;
-        this.stepExtent    =WorkoutStepExtentType.NONE;
+        this.stepExtent     =WorkoutStepExtentType.NONE;
         this.stepIntensity  =WorkoutStepIntensityType.NONE;
     }
+
+    /**
+     * Get the title of the step
+     * @return The title
+     */
+    public String getName()
+    {
+        return name;
+    }
+
+    /**
+     * Get the description of the step
+     * @return The description
+     */
+    public String getDescription()
+    {
+        return description;
+    }
+
+    /**
+     * Get the type of the step
+     * @return The type/phase in the workout, like WARM UP, WORK
+     */
+    public WorkoutStepType getType()
+    {
+        return type;
+    }
+
+
     
     /**
      * Set the workout step extent to distance
      * @param distance Distance in mm
      */
-    public void setStepExtentDistance(int distance)
+    public void setExtentDistance(int distance)
     {
         this.stepExtent            =WorkoutStepExtentType.DISTANCE;
         this.extentDistance         =distance;       
@@ -205,7 +259,7 @@ public class WorkoutStep
      * Set the workout step extent to duration
      * @param duration Duration in seconds
      */
-    public void setStepExtentDuration(int duration)
+    public void setExtentDuration(int duration)
     {
         this.stepExtent            =WorkoutStepExtentType.DURATION;
         this.extentDuration         =duration;       
@@ -215,7 +269,7 @@ public class WorkoutStep
      * Set the workout step extent to reach HR Zone
      * @param zone HR Zone to reach
      */
-    public void setStepExtentReachHrZone(HrZone zone)
+    public void setExtentReachHrZone(HrZone zone)
     {
         this.stepExtent            =WorkoutStepExtentType.REACHHRZONE;
         this.extentReachHrZone      =zone;       
@@ -224,7 +278,7 @@ public class WorkoutStep
     /**
      * Set the workout step extent to manual
      */
-    public void setStepExtentManual()
+    public void setExtentManual()
     {
         this.stepExtent            =WorkoutStepExtentType.MANUAL;
     }
@@ -238,12 +292,54 @@ public class WorkoutStep
     {
         return this.stepExtent;
     }
+
+    /**
+     * Get the extent in terms of HR Zone to reach
+     * @return The HR Zone to reach, or NONE if the extent type is not REACH HR ZONE
+     */
+    public HrZone getExtentReachHrZone()
+    {
+        if (stepExtent==WorkoutStepExtentType.REACHHRZONE)
+        {
+            return extentReachHrZone;
+        }
+        return HrZone.NONE;
+    }
+
+    /**
+     * Get the extent in terms of distance to cover
+     * @return The distance in mm, or -1 if the extent type is not DISTANCE
+     */
+    public int getExtentDistance()
+    {
+        if (stepExtent==WorkoutStepExtentType.DISTANCE)
+        {
+            return extentDistance;
+        }
+        return -1;
+    }
+
+    /**
+     * Get the extent in terms of duration
+     * @return The duration in s, or -1 if the extent type is not DURATION
+     */
+    public int getExtentDuration()
+    {
+        if (stepExtent==WorkoutStepExtentType.DURATION)
+        {
+            return extentDuration;
+        }
+        return -1;
+    }
+
+
+
     
     /**
      * Sets the intensity of the step to pace
      * @param pace Pace in milliseconds per km
      */
-    public void setStepIntensityPace(int pace)
+    public void setIntensityPace(int pace)
     {
         this.stepIntensity  =WorkoutStepIntensityType.PACE;
         this.intensityPace  =pace;
@@ -253,7 +349,7 @@ public class WorkoutStep
      * Sets the intensity of the step to speed
      * @param speed Pace in millimeters per per second
      */
-    public void setStepIntensitySpeed(int speed)
+    public void setIntensitySpeed(int speed)
     {
         this.stepIntensity  =WorkoutStepIntensityType.SPEED;
         this.intensitySpeed =speed;
@@ -264,12 +360,53 @@ public class WorkoutStep
      * performed
      * @param zone HR Zone
      */
-    public void setStepIntensityHrZone(HrZone zone)
+    public void setIntensityHrZone(HrZone zone)
     {
         this.stepIntensity  =WorkoutStepIntensityType.HRZONE;
         this.intensityHrZone=zone;
     }
 
+    /**
+     * Get the step intensity pace
+     * @return The pace in msec/km or -1 if the step intensity is not of the PACE type
+     */
+    public int getIntensityPace()
+    {
+        if (this.stepIntensity==WorkoutStepIntensityType.PACE)
+        {
+            return intensityPace;
+        }
+        return -1;
+    }
+
+    /**
+     * Get the step intensity speed
+     * @return The speed in mm/s or -1 if the step intensity is not of the SPEED type
+     */
+    public int getIntensitySpeed()
+    {
+        if (this.stepIntensity==WorkoutStepIntensityType.SPEED)
+        {
+            return intensitySpeed;
+        }
+        return -1;
+    }
+
+    /**
+     * Get the step intensity HR Zone
+     * @return The HR Zone or NONE if the step intensity is not of the HRZONE type
+     */
+     public HrZone getIntensityHrZone()
+    {
+        if (this.stepIntensity==WorkoutStepIntensityType.HRZONE)
+        {
+            return intensityHrZone;
+        }
+        return HrZone.NONE;
+    }
+
+    
+    
     /**
      * Returns the intensity goal of the workout step
      * @return The intensity goal; the goal is optional
@@ -332,7 +469,8 @@ public class WorkoutStep
         }
         return zone;
     }
-
+   
+    
     @Override
     public String toString()
     {

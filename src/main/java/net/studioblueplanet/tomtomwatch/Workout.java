@@ -5,8 +5,7 @@
  */
 package net.studioblueplanet.tomtomwatch;
 
-import java.util.List;
-import java.util.ArrayList;
+import com.google.protobuf.ByteString;
 import java.util.HashMap;
 
 /**
@@ -72,12 +71,16 @@ public class Workout
             return description;
         }
     }
-
+    private static final int MANUFACTURER_ID   =0x1234DAEB;
+    private static final int FILEID_WORKOUT    =0x00090100;
+    
     private final HashMap<Integer, String>      workoutDescriptions;
     
+    private byte[]                              id;
     private WorkoutClass                        workoutClass;
-    private String                              name;
-    private String                              description;
+    private int                                 workoutNameId=0;
+    private int                                 workoutDescriptionId=1;
+    private int                                 unknown11=2;
     private final HashMap<Integer, WorkoutStep> workoutSteps;
 
     /**
@@ -98,37 +101,64 @@ public class Workout
     public void putDescription(int id, String descriptionText)
     {
         workoutDescriptions.put(id, descriptionText);
-        if (id==0)
-        {
-            this.name=descriptionText;
-        }
-        else if (id==1)
-        {
-            this.description=descriptionText;
-        }
     }
     
     /**
      * Returns a description text from the list of descriptions associated
      * with this workout
-     * @param id ID of the descriptioni
+     * @param id ID of the description
      * @return The description text.
      */
     public String getDescription(int id)
     {
         return workoutDescriptions.get(id);
     }
+
+    /** 
+     * Find the index for a given description
+     * @param description Description to find
+     * @return The index, or -1 if not found
+     */
+    private int findDescriptionIndex(String description)
+    {
+        for (Integer key   : workoutDescriptions.keySet()) 
+        {
+             String value = workoutDescriptions.get(key);  //get() is less efficient 
+             if (value.equals(description))
+             {
+                 return key;
+             }
+        }        
+        return -1;
+    }
+    
+    /**
+     * Sets the workout name, as ID in the descriptions list
+     * @param workoutNameId The ID in the description list
+     */
+    public void setWorkoutName(int workoutNameId)
+    {
+        this.workoutNameId=workoutNameId;
+    }
     
     /**
      * Returns the name of the workout
-     *
      * @return The name (like 'Warm up', 'Work', 'Rest')
      */
     public String getWorkoutName()
     {
-        return name;
+        return workoutDescriptions.get(workoutNameId);
     }
 
+    /**
+     * Sets the workout description, as ID in the descriptions list
+     * @param workoutDescriptionId The ID in the description list
+     */
+    public void setWorkoutDescription(int workoutDescriptionId)
+    {
+        this.workoutDescriptionId=workoutDescriptionId;
+    }
+    
     /**
      * Returns the description of the workout
      *
@@ -136,7 +166,42 @@ public class Workout
      */
     public String getWorkoutDescription()
     {
-        return description;
+        return workoutDescriptions.get(workoutDescriptionId);
+    }
+    /**
+     * Get the UUID
+     * @return The UUID as 16 bytes
+     */
+    public byte[] getId()
+    {
+        return id;
+    }
+
+    /**
+     * Set the UUID
+     * @param id The UUID as 16 byte value
+     */
+    public void setId(byte[] id)
+    {
+        this.id = id;
+    }
+
+    /**
+     * Get the unknown 11 value
+     * @return The value
+     */
+    public int getUnknown11()
+    {
+        return unknown11;
+    }
+
+    /**
+     * Set the unknown11 value
+     * @param unknown11 The unknown11 value
+     */
+    public void setUnknown11(int unknown11)
+    {
+        this.unknown11 = unknown11;
     }
     
     /**
@@ -177,7 +242,223 @@ public class Workout
     {
         workoutSteps.put(id, workoutStep);
     }
+    /*############################################################################################*\
+     * The Protobuf methods     
+    \*############################################################################################*/    
 
+    /**
+     * Level 7: get the step intensity
+     * @param step The step to encode
+     * @return A fully 
+     */
+    private WorkoutProto.Intensity buildIntensity(WorkoutStep step)
+    {
+        WorkoutProto.Intensity.Builder builder;
+        
+        builder=WorkoutProto.Intensity.newBuilder();
+        
+        switch (step.getStepIntensity())
+        {
+            case HRZONE:
+                builder.setHeartratezone(step.getIntensityHrZone().getValue());
+                break;
+            case PACE:
+                builder.setPace(step.getIntensityPace());
+                break;
+            case SPEED:
+                builder.setPace(step.getIntensitySpeed());
+                break;
+        }
+        
+        return builder.build();
+    }
+    
+    /**
+     * Level 7: build the step extent
+     * @param step The step to encode
+     * @return Fully populated extent
+     */
+    private WorkoutProto.Extent buildExtent(WorkoutStep step)
+    {
+        WorkoutProto.Extent.Builder builder;
+        
+        builder=WorkoutProto.Extent.newBuilder();
+        
+        switch (step.getStepExtent())
+        {
+            case DURATION:
+                builder.setDuration(step.getExtentDuration());
+                break;
+            case DISTANCE:
+                builder.setDistance(step.getExtentDistance());
+                break;
+            case REACHHRZONE:
+                builder.setReachZone(step.getExtentReachHrZone().getValue());
+                break;
+        }
+        
+        return builder.build();        
+    }
+    
+    /**
+     * Level 5 and 6: build a workout step
+     * @param id ID/number of the step
+     * @param step The step
+     * @return A fully populated step
+     */
+    private WorkoutProto.WorkoutStep buildWorkoutStep(int id, WorkoutStep step)
+    {
+        WorkoutProto.WorkoutStep.Builder subBuilder;
+        WorkoutProto.WorkoutStepSub.Builder stepBuilder;
+        
+        subBuilder=WorkoutProto.WorkoutStep.newBuilder();
+        
+        stepBuilder=WorkoutProto.WorkoutStepSub.newBuilder();
+        
+        stepBuilder.setStepName(findDescriptionIndex(step.getName()));
+        stepBuilder.setStepDescription(findDescriptionIndex(step.getDescription()));
+        stepBuilder.setStepNumber(id);
+        stepBuilder.setStepType(step.getType().getValue());
+        stepBuilder.setStepExtent(buildExtent(step));
+        stepBuilder.setIntensity(buildIntensity(step));
+        
+        subBuilder.setStepSub(stepBuilder.build());
+        return subBuilder.build();
+    }
+    
+    /**
+     * Level 4: Build single item description
+     * @param id Id of the description
+     * @param description Text of the description
+     * @return A fully populated item
+     */
+    private WorkoutProto.Description buildWorkoutDescription(int id, String description)
+    {
+        WorkoutProto.Description.Builder builder;
+        
+        builder=WorkoutProto.Description.newBuilder();
+        builder.setId(id);
+        builder.setDescription(description);
+        return builder.build();
+    }
+    
+    /**
+     * Level 4: Build the workout
+     * @return The fully populated workout
+     */
+    private WorkoutProto.Workout buildWorkout()
+    {
+        WorkoutProto.Workout.Builder builder;
+        
+        builder=WorkoutProto.Workout.newBuilder();
+        builder.setName(workoutNameId);
+        builder.setDescription(workoutDescriptionId);
+        builder.setId(ByteString.copyFrom(id));
+        builder.setType(workoutClass.getValue());
+        builder.setUnknown11(unknown11);
+        for (Integer key   : workoutSteps.keySet()) 
+        {
+             WorkoutStep step = workoutSteps.get(key);  //get() is less efficient 
+             builder.addStep(buildWorkoutStep(key, step));
+        }
+        return builder.build();
+    }
+    
+    /**
+     * Level 3: build the sub-data container
+     * @return 
+     */
+    private WorkoutProto.SubDataContainer buildSubDataContainer()
+    {
+        WorkoutProto.SubDataContainer.Builder   builder;
+
+        builder=WorkoutProto.SubDataContainer.newBuilder();
+
+        for (Integer key   : workoutDescriptions.keySet()) 
+        {
+             String value = workoutDescriptions.get(key);  //get() is less efficient 
+             builder.addWorkoutDescription(buildWorkoutDescription(key, value));
+        }
+        
+        builder.setWorkout(buildWorkout());
+        return builder.build();
+    }    
+    /**
+     * Level 2: build the metadata
+     * @return The metadata, fully populated
+     */
+    private WorkoutProto.Metadata buildMetadata()
+    {
+        WorkoutProto.Metadata.Builder        metadataBuilder;
+
+        metadataBuilder     =WorkoutProto.Metadata.newBuilder();
+        // Set the values: appear to be the same always...
+        metadataBuilder.setManufacturer(MANUFACTURER_ID);
+        metadataBuilder.setFileType(FILEID_WORKOUT);
+        return metadataBuilder.build();
+    }
+    
+    /**
+     * Level 2: Build the data container
+     * @return The data container, fully populated
+     */
+    private WorkoutProto.DataContainer buildDataContainer()
+    {
+        WorkoutProto.DataContainer.Builder      builder;
+        
+        builder=WorkoutProto.DataContainer.newBuilder();
+        builder.setSubDataContainer(buildSubDataContainer());
+        return builder.build();
+    }
+    
+    /**
+     * Level 1: Build the root container with metadata
+     * @return The container recursively filled
+     */
+    private WorkoutProto.RootContainer buildRootContainerForMetadata()
+    {
+        WorkoutProto.RootContainer.Builder   rootContainerBuilder;
+        WorkoutProto.Metadata.Builder        metadataBuilder;
+
+        rootContainerBuilder=WorkoutProto.RootContainer.newBuilder();
+        rootContainerBuilder.setMetadata(buildMetadata());
+        return rootContainerBuilder.build();
+    }
+    
+     /**
+     * Level 1: Build the root container with data
+     * @return The container recursively filled
+     */
+    private WorkoutProto.RootContainer buildRootContainerForData()
+    {
+        WorkoutProto.RootContainer.Builder   rootContainerBuilder;
+        WorkoutProto.DataContainer.Builder   builder;
+
+        rootContainerBuilder=WorkoutProto.RootContainer.newBuilder();
+        rootContainerBuilder.setDataContainer(buildDataContainer());
+        return rootContainerBuilder.build();
+    }    
+    /**
+     * Returns the workout as protobuf data
+     * @return 
+     */
+    public byte[] getWorkoutData()
+    {
+        WorkoutProto.Root           root;
+        WorkoutProto.Root.Builder   rootBuilder;
+        
+        rootBuilder         =WorkoutProto.Root.newBuilder();
+        
+        rootBuilder.addRootContainer(buildRootContainerForMetadata());
+
+        rootBuilder.addRootContainer(buildRootContainerForData());
+        
+
+        root                =rootBuilder.build();
+        return root.toByteArray(); 
+    }
+    
+    
     @Override
     public String toString()
     {
@@ -185,7 +466,8 @@ public class Workout
         int     i;
         
         outputString ="____________________________________________________________________________________________________\n";
-        outputString+=String.format("    %-10s - %s", workoutClass, name)+"\n    "+description+"\n";
+        outputString+=String.format("    %-10s - %s", workoutClass, workoutDescriptions.get(workoutNameId))+"\n    "+
+                      workoutDescriptions.get(workoutDescriptionId)+"\n";
         i=0;
         while (i<workoutSteps.size())
         {
