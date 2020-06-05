@@ -175,13 +175,16 @@ public class ToolBox
     {
         int     i;
         String  string;
-        try
+        
+        string="";
+        i=0;
+        while (i<chars)
         {
-           string=new String(data, offset, chars, "UTF-8"); 
-        }
-        catch (UnsupportedEncodingException e)
-        {
-           string="Error";
+            if (data[offset+i]>0)
+            {
+                string+=(char)data[offset+i];
+            }
+            i++;
         }
         return string;
     }    
