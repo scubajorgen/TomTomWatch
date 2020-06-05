@@ -42,17 +42,13 @@ import hirondelle.date4j.DateTime;
 public class GpxWriter
 {
     private static GpxWriter    theInstance=null;
-
-
     private int                 trackPoints;
     private int                 wayPoints;
     private String              gpxVersion;
-    private boolean             ugotmeGpxExtensions;
-    private boolean             garminGpxExtensions;
-
+    private final boolean       ugotmeGpxExtensions;
+    private final boolean       garminGpxExtensions;
     Document                    doc;
     Element                     gpxElement;
-
 
     /**
      * Constructor
@@ -61,12 +57,11 @@ public class GpxWriter
     {
         ConfigSettings  settings;
         
-        gpxVersion      =new String("1.1");
+        gpxVersion      ="1.1";
         settings=ConfigSettings.getInstance();
         
-        this.ugotmeGpxExtensions =settings.getBooleanValue("ugotmeGpxExtensions");
+        this.ugotmeGpxExtensions=settings.getBooleanValue("ugotmeGpxExtensions");
         this.garminGpxExtensions=settings.getBooleanValue("garminGpxExtensions");
-        
     }
 
     /**
@@ -79,7 +74,6 @@ public class GpxWriter
         {
             theInstance=new GpxWriter();
         }
-
         return theInstance;
     }
 
@@ -100,7 +94,6 @@ public class GpxWriter
         }
     }
 
-
     /**
      * This method creates the XML document, adds the GPX headers and
      * creates the <gpx> element. The variables doc and gpxElement will
@@ -111,18 +104,15 @@ public class GpxWriter
     {
         String      creator;
 
-
         DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
 
         // The document
         doc = docBuilder.newDocument();
 
-
         // gpx elements
         gpxElement = doc.createElement("gpx");
         doc.appendChild(gpxElement);
-
 
         if (gpxVersion.equals("1.0"))
         {
@@ -217,7 +207,7 @@ public class GpxWriter
         if (ugotmeGpxExtensions)
         {
             attr = doc.createAttribute("xmlns:u-gotMe");
-            attr.setValue("http://tracklog.studioblueplanet.net/gpxextensions/v1");
+            attr.setValue("http://tracklog.studioblueplanet.net/gpxextensions/v2");
             gpxElement.setAttributeNode(attr);
         }
         // garmin namespaces
@@ -238,7 +228,7 @@ public class GpxWriter
         if (ugotmeGpxExtensions)
         {
             
-            schemaLocations+=" http://tracklog.studioblueplanet.net/gpxextensions/v1 http://tracklog.studioblueplanet.net/gpxextensions/v1/ugotme-gpx.xsd";
+            schemaLocations+=" http://tracklog.studioblueplanet.net/gpxextensions/v2 http://tracklog.studioblueplanet.net/gpxextensions/v2/ugotme-gpx.xsd";
         }
         if (garminGpxExtensions)
         {
@@ -295,7 +285,6 @@ public class GpxWriter
         double                      latitude;
         double                      longitude;
         double                      elevation;
-
 
         points=segment.getRecords();
 
@@ -387,12 +376,10 @@ public class GpxWriter
         int                         ehpe;
         int                         evpe;
         int                         hdop;
-        
 
         points=segment.getRecords();
 
         iterator=points.iterator();
-
         while (iterator.hasNext())
         {
             point           =iterator.next();
@@ -408,7 +395,6 @@ public class GpxWriter
             ehpe            =((ActivityRecordGps)point).getEhpe();
             evpe            =((ActivityRecordGps)point).getEvpe();
             hdop            =((ActivityRecordGps)point).getHdop();
-            
             
             // TO DO: add or not add. Can be derived...
             heading         =((ActivityRecordGps)point).getHeading();
@@ -619,8 +605,6 @@ public class GpxWriter
 
     }
 
-
-
     /**
      * This method adds the track segments to the track.
      * @param doc XML document
@@ -755,6 +739,9 @@ public class GpxWriter
     private void addTrackExtensions(Activity track, Element trackElement)
     {
         int     fitnessPoints;
+        String  workout;
+        String  workoutDescription;
+        String  workoutSteps;
         float   trackSmoothing;
         boolean isSmoothed;
         String  routeName;
@@ -780,7 +767,25 @@ public class GpxWriter
             element.appendChild(doc.createTextNode(String.valueOf(fitnessPoints)));
             extensionsElement.appendChild(element);
         }
+        
+        // Extensions: workout
+        workout=track.getWorkout();
+        if (workout!=null)
+        {
+            workoutDescription  =track.getWorkoutDescription();
+            workoutSteps        =track.getWorkoutSteps();
+            element             = doc.createElement("u-gotMe:tomtomWorkout");
+            element.appendChild(doc.createTextNode(workout));
+            extensionsElement.appendChild(element);            
+            element             = doc.createElement("u-gotMe:tomtomWorkoutDescription");
+            element.appendChild(doc.createTextNode(workoutDescription));
+            extensionsElement.appendChild(element);            
+            element             = doc.createElement("u-gotMe:tomtomWorkoutSteps");
+            element.appendChild(doc.createTextNode(workoutSteps));
+            extensionsElement.appendChild(element);            
+        }
 
+        
         isSmoothed          =track.isSmoothed();
         if (isSmoothed)
         {
@@ -799,10 +804,6 @@ public class GpxWriter
         }
     }
 
-
-
-
-
     /* ************************************************************************\
      * The interface functions
      * ************************************************************************/
@@ -820,7 +821,6 @@ public class GpxWriter
         Attr        attr;
         String      creator;
 
-
         wayPoints=0;
         trackPoints=0;
 
@@ -828,7 +828,6 @@ public class GpxWriter
         {
             // create the GPX file
             createGpxDocument(appName, track);
-
 
             addTrack(doc, gpxElement, track, appName);
 

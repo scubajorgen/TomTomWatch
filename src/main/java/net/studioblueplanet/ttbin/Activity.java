@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package net.studioblueplanet.ttbin;
 
 import net.studioblueplanet.generics.ToolBox;
@@ -18,14 +17,14 @@ import java.util.Iterator;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.BufferedWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.TimeZone;
 
 import org.json.JSONObject;
 import org.json.JSONArray;
 
-
 /**
- *
+ * This class represents a TomTom activity, like a run or a cycle trip
  * @author Jorgen
  */
 public class Activity
@@ -38,7 +37,6 @@ public class Activity
         double lon;
         double elevation;
     }
-    
     
     // If acitivity is paused for less than this time, the pause/activate is marked as waypoint
     private static final    long                        WAYPOINTPAUSETIME       =10;  
@@ -56,7 +54,10 @@ public class Activity
     
     protected               int                         fitnessPointsStart;
     protected               int                         fitnessPointsEnd;
-     
+    protected               String                      workout;
+    protected               String                      workoutDescription;
+    protected               String                      workoutSteps;
+    
     protected               String                      route;
     
     protected               int                         secondsToFix;   // Time it took to find satellite fix
@@ -83,8 +84,6 @@ public class Activity
     /* ******************************************************************************************* *\
      * CONSTRUCTOR
     \* ******************************************************************************************* */
-
-
     /**
      * Constructor
      * @param header Header defining the ttbin file
@@ -116,9 +115,6 @@ public class Activity
     /* ******************************************************************************************* *\
      * GETTERS & SETTERS
     \* ******************************************************************************************* */
-
-    
-    
     /**
      * Sets the name or id of the device
      * @param name The name of the device
@@ -242,9 +238,6 @@ public class Activity
         return getActivityDescription(this.summaryActivity);
     }
     
-    
-    
-    
     /**
      * Returns the activity type. Use TtbinFileDefinition 
      * ACTIVITY_... definitions for identification
@@ -255,8 +248,6 @@ public class Activity
         return this.summaryActivity;
     }
     
-    
-    
    /**
      * Returns the number of segments in this Acitivity. Segments are 
      * discerned by pressing pause/continue on the TomTom
@@ -266,7 +257,6 @@ public class Activity
     {
         return this.segments.size();
     }
-
 
     /**
      * Return the indicated segment number
@@ -377,7 +367,34 @@ public class Activity
         }
         return points;
     }
-            
+
+    /**
+     * Get the workout that was performed
+     * @return The workout or null if none
+     */
+    public String getWorkout()
+    {
+        return workout;
+    }
+
+    /**
+     * Get the description of the workout that was performed
+     * @return The description or null if none
+     */
+    public String getWorkoutDescription()
+    {
+        return workoutDescription;
+    }
+
+    /**
+     * Get the list of workout steps 
+     * @return The steps or null if none
+     */
+    public String getWorkoutSteps()
+    {
+        return workoutSteps;
+    }
+   
     /**
      * Returns the name of the planned route that was followed
      * @return The route name as String, or "" if no route followed
@@ -387,11 +404,9 @@ public class Activity
         return this.route;
     }
     
-    
     /* ******************************************************************************************* *\
      * TTBIN FILE RECORD PARSING
     \* ******************************************************************************************* */
-
     /**
      * Parse the GPS record
      * @param recordData The record data
@@ -668,19 +683,8 @@ public class Activity
         ((ActivityRecordGps)newRecord).unknownInt4=ToolBox.readUnsignedInt(recordData,  9, 1, true);
         ((ActivityRecordGps)newRecord).unknownInt5=ToolBox.readUnsignedInt(recordData, 10, 1, true);
         ((ActivityRecordGps)newRecord).unknownInt6=ToolBox.readUnsignedInt(recordData, 11, 1, true);
-/*        
-        int i;
-        i=5;
-        while (i<20)
-        {
-            System.out.print(ToolBox.readUnsignedInt(recordData,  i, 1, true)+",");
-            i++;
-        }
-        System.out.println("");
-*/        
     }
 
-    
     /**
      * Parse activity point record
      * @param recordData Record data
@@ -696,7 +700,6 @@ public class Activity
         // Both values seem to be the same...
         points1     =ToolBox.readUnsignedInt(recordData,  5, 2, true);
         points2     =ToolBox.readUnsignedInt(recordData,  7, 2, true);
-
 
         // Get the first value
         if (fitnessPointsStart<0)
@@ -804,6 +807,51 @@ public class Activity
         DebugLogger.info("Time to get a fix: "+secondsToFix+" s");
     }
     
+   
+    /**
+     * 
+     * @param recordData 
+     */
+    private void parseRecordWorkout(byte[] recordData)
+    {
+        int     index;
+        int     length;
+        
+        try
+        {
+            index=24;
+            index+=5;
+            length=recordData[index];
+            index++;
+            workout=new String(recordData, index, length, "UTF-8");
+            index+=length;
+
+            index+=5;
+            length=recordData[index];
+            index++;
+            workoutDescription=new String(recordData, index, length, "UTF-8");
+            index+=length;
+
+            workoutSteps="";
+            while (recordData[index]==0x22)
+            {
+                if (workoutSteps.length()>0)
+                {
+                    workoutSteps+=", "; 
+                }
+                index+=5;
+                length=recordData[index];
+                index+=1;
+                workoutSteps+=new String(recordData, index, length, "UTF-8");
+                index+=length;
+            }
+        }
+        catch (UnsupportedEncodingException e)
+        {
+            DebugLogger.error("Error converting bytes to UTF-8 string");
+        }
+    }
+    
     
 
     /**
@@ -816,8 +864,8 @@ public class Activity
         byte tag;
         
         tag=recordData[0];
-//System.out.println(String.format("tag 0x%02x: unknown, length %d", tag, this.header.getLength(tag)));        
-//System.out.println(tag);      
+//System.out.println(String.format("tag 0x%02x: length %d", tag, this.header.getLength(tag)));        
+//System.out.println(tag);     
         switch(tag)
         {
             case TtbinFileDefinition.TAG_SUMMARY:
@@ -838,7 +886,6 @@ public class Activity
                 break;
             case TtbinFileDefinition.TAG_PRECISION:
                 parseRecordPrecision(recordData);
-//                dumpRecordData(recordData);
                 break;
             case TtbinFileDefinition.TAG_MOVEMENT:
 //                parseRecordMovement(recordData);
@@ -858,6 +905,9 @@ public class Activity
                 break;
             case TtbinFileDefinition.TAG_4B:      // 27, 32, 33, 82, 88.... bytes incl tag
                 break;
+            case TtbinFileDefinition.TAG_WORKOUT:
+                parseRecordWorkout(recordData);
+                break;
             case TtbinFileDefinition.TAG_HEART_RATE_RECOVERY:
                 parseRecordHeartRateRecovery(recordData);
                 break;
@@ -874,27 +924,39 @@ public class Activity
     /* ******************************************************************************************* *\
      * DEBUGGING METHODS
     \* ******************************************************************************************* */
-
-    
     /**
      * Dump the record data as hexadecimals
      * @param recordData The record data. 
+     * @param asText False: print hex, True: print ascii
+     * @param maxSize Truncate after this number of characters
      */
-    public void dumpRecordData(byte[] recordData)
+    public void dumpRecordData(byte[] recordData, boolean asText, int maxSize)
     {
         String data;
         int i;
         
         data="";
         i=0;
-        while (i<recordData.length)
+        while (i<Math.min(recordData.length, maxSize))
         {
-            data+=String.format("%02x ", recordData[i]);
-//            data+=String.format("%03d, ", recordData[i]);
+            if (asText)
+            {
+                if (recordData[i]>32 && recordData[i]<128)
+                {
+                    data+=String.format("%c  ", recordData[i]);
+                }
+                else
+                {
+                    data+="-  ";
+                }
+            }
+            else
+            {
+                data+=String.format("%02x ", recordData[i]);
+            }
             i++;
         }
         DebugLogger.info(data);
-//        System.out.println(data);
     }  
     
     
@@ -1216,8 +1278,6 @@ public class Activity
     /* ******************************************************************************************* *\
      * TRACK SMOOTHING
     \* ******************************************************************************************* */
-
-
     /**
      * This method smoothes the track, by applying a Kalman filter
      * @param trackSmoothingQFactor The factor influencing the smoothing.
@@ -1232,7 +1292,6 @@ public class Activity
         isSmoothed=true;
         this.trackSmoothingQFactor=trackSmoothingQFactor;
     }
-
 
     /**
      * Returns the track smoothing Q factor that is used for the Kalman 
@@ -1256,8 +1315,6 @@ public class Activity
         isSmoothed=false;
         this.trackSmoothingQFactor=0.0f;
     }
-    
-    
     
     /**
      * Returns whether the track has been smoothed
