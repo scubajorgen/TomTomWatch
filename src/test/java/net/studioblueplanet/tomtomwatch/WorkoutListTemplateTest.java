@@ -132,7 +132,7 @@ public class WorkoutListTemplateTest
         String result=instance.toJson();
         
         // Read expected result
-        String expected = new String(Files.readAllBytes((new File("src/test/resources/compareworkouts.json")).toPath()),"UTF-8");
+        String expected = new String(Files.readAllBytes((new File("src/test/resources/compareworkouts.json")).toPath()),"UTF-8").replace("\n\r", "\n");
         
         // Compare!
         assertEquals(expected, result);
@@ -195,7 +195,7 @@ public class WorkoutListTemplateTest
         WorkoutList         workoutList;
         byte[]              data;
         System.out.println("fromToJson Roundtrip");
-        String json = new String(Files.readAllBytes((new File("src/test/resources/testworkouts.json")).toPath()));   
+        String json = new String(Files.readAllBytes((new File("src/test/resources/testworkouts.json")).toPath())).replace("\n\r", "\n");   
         instance=WorkoutListTemplate.fromJson(json);
         String result=instance.toJson();
         assertEquals(json, result);
