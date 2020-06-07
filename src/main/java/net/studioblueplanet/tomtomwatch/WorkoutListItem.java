@@ -5,14 +5,16 @@
  */
 package net.studioblueplanet.tomtomwatch;
 
-import net.studioblueplanet.tomtomwatch.Workout.WorkoutClass;
+import net.studioblueplanet.tomtomwatch.Workout.WorkoutType;
 /**
- *
+ * This class represents the metadata of a workout as present in the 
+ * 0x00BE0000 file. Basically, ID, name, description and some type info.
+ * It also contains a reference to the actual workout file and ID
  * @author jorgen
  */
 public class WorkoutListItem implements Comparable<WorkoutListItem>
 {
-    enum ActivityType
+    public enum ActivityType
     {
         RUNNING(0x4181, "RUNNING"),
         CYCLING(0x0802, "CYCLING");
@@ -62,16 +64,70 @@ public class WorkoutListItem implements Comparable<WorkoutListItem>
             return description;
         }
     }
+
+    public enum IntensityLevel
+    {
+        EASIEST  (19, "Easiest"),
+        EASIER   ( 9, "Easier"),
+        STANDARD ( 0, "Standard"),
+        HARDER   (10, "Harder"),
+        HARDEST  (20, "Hardest");
+
+        private final int       value;
+        private final String    description;
+
+        /**
+         * Constructor
+         * @param i Enum value
+         */
+        IntensityLevel(int i, String description)
+        {
+            this.value          =i;
+            this.description    =description;
+        }
+
+        /**
+         * Returns the value of this enum entry
+         * @return The value
+         */
+        public int getValue()
+        {
+            return value;
+        }
+        
+        /**
+         * Get the enum based on the enum value passed
+         * @param i Enum value
+         * @return The enum or null if not found
+         */
+        public static IntensityLevel getIntensityLevel(int i)
+        {
+            for (IntensityLevel level : IntensityLevel.values())
+            {
+                if (level.value == i)
+                {
+                    return level;
+                }
+            }
+            return null;
+        }
+        
+        @Override
+        public String toString()
+        {
+            return description;
+        }
+    }
     
     private final int           fileId;
     private final String        workoutName;
     private final String        workoutDescription;
     private final ActivityType  activity;
-    private final WorkoutClass  workoutClass;
+    private final WorkoutType   workoutType;
     
     private byte[]              id;
     private byte[]              workoutId;
-    private int                 unknown7;
+    private IntensityLevel      intensityLevel;
     private int                 unknown8;
     private int                 unknown9;
     private int                 unknown12;
@@ -83,20 +139,21 @@ public class WorkoutListItem implements Comparable<WorkoutListItem>
      * @param fileId File ID, like 0x00BE0001
      * @param name Name/title of the workout
      * @param description Description of the workout
-     * @param workoutClass Class/type of the workout
+     * @param activity The activity (i.e. RUNNING, CYCLING) of this item
+     * @param workoutType Class/type of the workout
      */
-    public WorkoutListItem(int fileId, String name, String description, ActivityType activity, WorkoutClass workoutClass)
+    public WorkoutListItem(int fileId, String name, String description, ActivityType activity, WorkoutType workoutType)
     {
         this.fileId             =fileId;
         this.workoutName        =name;
         this.workoutDescription =description;
         this.activity           =activity;
-        this.workoutClass       =workoutClass;
+        this.workoutType        =workoutType;
         
-        this.unknown7           =0;
+        this.intensityLevel     =IntensityLevel.STANDARD;
         this.unknown8           =0;
-        this.unknown12          =6;
-        this.unknown13          =2;
+        this.unknown12          =2;
+        this.unknown13          =1;
     }
 
     /**
@@ -139,9 +196,9 @@ public class WorkoutListItem implements Comparable<WorkoutListItem>
      * Returns the class/type of workout 
      * @return The class (FAT BURN, ENDURANCE, etc)
      */
-    public WorkoutClass getWorkoutClass()
+    public WorkoutType getWorkoutClass()
     {
-        return workoutClass;
+        return workoutType;
     }
 
     /**
@@ -180,15 +237,22 @@ public class WorkoutListItem implements Comparable<WorkoutListItem>
         this.workoutId = workoutId;
     }
 
-    
-    public int getUnknown7()
+    /**
+     * Gets the intensity level (e.g. EASIEST, ... HARDEST) of the workout
+     * @return The level
+     */
+    public IntensityLevel getIntensityLevel()
     {
-        return unknown7;
+        return intensityLevel;
     }
 
-    public void setUnknown7(int unknown7)
+    /**
+     * Sets the intensity level of the workout
+     * @param level The level
+     */
+    public void setIntensityLevel(IntensityLevel level)
     {
-        this.unknown7 = unknown7;
+        this.intensityLevel = level;
     }
 
     public int getUnknown8()
@@ -231,27 +295,37 @@ public class WorkoutListItem implements Comparable<WorkoutListItem>
         this.unknown13 = unknown13;
     }
     
+    /**
+     * Compares this item to another
+     * @param item Item to compare to
+     * @return 0 if equal, small 0 if comes before, larger 0 if comes after
+     */
     @Override
     public int compareTo(WorkoutListItem item)
     {
         int compare;
         if (this.activity.getValue()==item.getActivity().getValue())
         {
-            compare=this.workoutClass.getValue()-item.workoutClass.getValue();
+            compare=this.workoutType.getValue()-item.workoutType.getValue();
         }
         else
         {
-            compare=(int)(this.activity.getValue()-item.getActivity().getValue());
+            // RUNNING before CYCLING
+            compare=(int)(item.getActivity().getValue()-this.activity.getValue());
         }
         return compare;
     }
     
+    /**
+     * Returns a textual representation of the Workout List item
+     * @return The string
+     */
     @Override
     public String toString()
     {
         String outputString;
         outputString="____________________________________________________________________________________________________\n";
-        outputString+=String.format("%s - %08x - %-10s - %s\n", activity, fileId, workoutClass, workoutName);
+        outputString+=String.format("%s - %08x - %-10s - %s\n", activity, fileId, workoutType, workoutName);
         outputString+=workoutDescription+"\n";
         return outputString;
     }

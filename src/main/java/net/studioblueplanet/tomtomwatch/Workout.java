@@ -9,7 +9,9 @@ import com.google.protobuf.ByteString;
 import java.util.HashMap;
 
 /**
- *
+ * This class represents the workout as defined by a TomTom workout file 
+ * (0x00BEnnnn, where nnnn larger than 0). It contains name, ID, description,
+ * type and the steps defining the  workout
  * @author jorgen
  */
 public class Workout
@@ -17,14 +19,14 @@ public class Workout
     /**
      * Class of the workout
      */
-    public enum WorkoutClass
+    public enum WorkoutType
     {
-        FATBURN(1, "FAT BURN"),
+        FATBURN  (1, "FAT BURN"),
         ENDURANCE(2, "ENDURANCE"),
-        FITNESS(3, "FITNESS"),
-        SPEED(4, "SPEED"),
-        POWER(5, "POWER"),
-        CUSTOM(6,"CUSTOM"); //?
+        FITNESS  (3, "FITNESS"),
+        SPEED    (4, "SPEED"),
+        POWER    (5, "POWER"),
+        CUSTOM   (6,"CUSTOM"); //?
 
         private final int       value;
         private final String    description;
@@ -33,7 +35,7 @@ public class Workout
          * Constructor
          * @param i Enum value
          */
-        WorkoutClass(int i, String description)
+        WorkoutType(int i, String description)
         {
             this.value          =i;
             this.description    =description;
@@ -53,9 +55,9 @@ public class Workout
          * @param i Enum value
          * @return The enum or null if not found
          */
-        public static WorkoutClass getWorkoutClass(int i)
+        public static WorkoutType getWorkoutClass(int i)
         {
-            for (WorkoutClass w : WorkoutClass.values())
+            for (WorkoutType w : WorkoutType.values())
             {
                 if (w.value == i)
                 {
@@ -71,13 +73,14 @@ public class Workout
             return description;
         }
     }
+    
     private static final int MANUFACTURER_ID   =0x1234DAEB;
     private static final int FILEID_WORKOUT    =0x00090100;
     
     private final HashMap<Integer, String>      workoutDescriptions;
     
     private byte[]                              id;
-    private WorkoutClass                        workoutClass;
+    private WorkoutType                         workoutType;
     private int                                 workoutNameId=0;
     private int                                 workoutDescriptionId=1;
     private int                                 unknown11=2;
@@ -131,7 +134,7 @@ public class Workout
         }        
         return -1;
     }
-    
+
     /**
      * Sets the workout name, as ID in the descriptions list
      * @param workoutNameId The ID in the description list
@@ -206,11 +209,11 @@ public class Workout
     
     /**
      * Sets the class/type of the workout
-     * @param workoutClass The class/type
+     * @param workoutType The class/type
      */
-    public void setWorkoutClass(WorkoutClass workoutClass)
+    public void setWorkoutClass(WorkoutType workoutType)
     {
-        this.workoutClass=workoutClass;
+        this.workoutType=workoutType;
     }
 
     /**
@@ -218,14 +221,13 @@ public class Workout
      *
      * @return The class, like ENDURANCE, FATBURN
      */
-    public WorkoutClass getWorkoutClass()
+    public WorkoutType getWorkoutType()
     {
-        return workoutClass;
+        return workoutType;
     }
 
     /**
      * Returns the list of steps that make up the workout
-     *
      * @return List of steps
      */
     public HashMap<Integer, WorkoutStep> getSteps()
@@ -257,7 +259,7 @@ public class Workout
         
         builder=WorkoutProto.Intensity.newBuilder();
         
-        switch (step.getStepIntensity())
+        switch (step.getIntensity())
         {
             case HRZONE:
                 builder.setHeartratezone(step.getIntensityHrZone().getValue());
@@ -278,16 +280,16 @@ public class Workout
      * @param step The step to encode
      * @return Fully populated extent
      */
-    private WorkoutProto.Extent buildExtent(WorkoutStep step)
+    private WorkoutProto.Length buildExtent(WorkoutStep step)
     {
-        WorkoutProto.Extent.Builder builder;
+        WorkoutProto.Length.Builder builder;
         
-        builder=WorkoutProto.Extent.newBuilder();
+        builder=WorkoutProto.Length.newBuilder();
         
         switch (step.getStepExtent())
         {
-            case DURATION:
-                builder.setDuration(step.getExtentDuration());
+            case TIME:
+                builder.setTime(step.getExtentTime());
                 break;
             case DISTANCE:
                 builder.setDistance(step.getExtentDistance());
@@ -319,7 +321,7 @@ public class Workout
         stepBuilder.setStepDescription(findDescriptionIndex(step.getDescription()));
         stepBuilder.setStepNumber(id);
         stepBuilder.setStepType(step.getType().getValue());
-        stepBuilder.setStepExtent(buildExtent(step));
+        stepBuilder.setStepLength(buildExtent(step));
         stepBuilder.setIntensity(buildIntensity(step));
         
         subBuilder.setStepSub(stepBuilder.build());
@@ -354,7 +356,7 @@ public class Workout
         builder.setName(workoutNameId);
         builder.setDescription(workoutDescriptionId);
         builder.setId(ByteString.copyFrom(id));
-        builder.setType(workoutClass.getValue());
+        builder.setType(workoutType.getValue());
         builder.setUnknown11(unknown11);
         for (Integer key   : workoutSteps.keySet()) 
         {
@@ -440,7 +442,7 @@ public class Workout
     }    
     /**
      * Returns the workout as protobuf data
-     * @return 
+     * @return The protobuf data as bytes
      */
     public byte[] getWorkoutData()
     {
@@ -458,7 +460,10 @@ public class Workout
         return root.toByteArray(); 
     }
     
-    
+    /**
+     * Returns a textual representation of the workout
+     * @return String, multiple lines
+     */
     @Override
     public String toString()
     {
@@ -466,7 +471,7 @@ public class Workout
         int     i;
         
         outputString ="____________________________________________________________________________________________________\n";
-        outputString+=String.format("    %-10s - %s", workoutClass, workoutDescriptions.get(workoutNameId))+"\n    "+
+        outputString+=String.format("    %-10s - %s", workoutType, workoutDescriptions.get(workoutNameId))+"\n    "+
                       workoutDescriptions.get(workoutDescriptionId)+"\n";
         i=0;
         while (i<workoutSteps.size())

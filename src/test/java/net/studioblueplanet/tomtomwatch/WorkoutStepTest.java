@@ -13,6 +13,11 @@ import org.junit.Test;
 import org.junit.Ignore;
 import static org.junit.Assert.*;
 
+import net.studioblueplanet.tomtomwatch.WorkoutStep.HrZone;
+import net.studioblueplanet.tomtomwatch.WorkoutStep.ExtentType;
+import net.studioblueplanet.tomtomwatch.WorkoutStep.IntensityType;
+import net.studioblueplanet.tomtomwatch.WorkoutStep.StepType;
+
 /**
  *
  * @author jorgen
@@ -38,7 +43,7 @@ public class WorkoutStepTest
     @Before
     public void setUp()
     {
-        theInstance=new WorkoutStep(5, "Name", "Description", WorkoutStep.WorkoutStepType.REST);
+        theInstance=new WorkoutStep(5, "Name", "Description", WorkoutStep.StepType.REST);
     }
     
     @After
@@ -78,259 +83,170 @@ public class WorkoutStepTest
     public void testGetType()
     {
         System.out.println("getType");
-        WorkoutStep.WorkoutStepType expResult = WorkoutStep.WorkoutStepType.REST;
-        WorkoutStep.WorkoutStepType result = theInstance.getType();
+        StepType expResult = StepType.REST;
+        StepType result = theInstance.getType();
         assertEquals(expResult, result);
     }
 
     /**
-     * Test of setGerExtentDistance method, of class WorkoutStep.
+     * Test of set and getExtentDistance method, of class WorkoutStep.
      */
     @Test
     public void testSetGetExtentDistance()
     {
         System.out.println("setGetExtentDistance");
   
-        WorkoutStep.WorkoutStepExtentType expType=WorkoutStep.WorkoutStepExtentType.NONE;
-        WorkoutStep.WorkoutStepExtentType type=theInstance.getStepExtent();
+        ExtentType expType=ExtentType.NONE;
+        ExtentType type=theInstance.getStepExtent();
         assertEquals(expType, type);
         
         int expResult = 500;
         theInstance.setExtentDistance(expResult);
         int distance=theInstance.getExtentDistance();
         assertEquals(expResult, distance);
-        expType=WorkoutStep.WorkoutStepExtentType.DISTANCE;
+        expType=ExtentType.DISTANCE;
         type=theInstance.getStepExtent();
         assertEquals(expType, type);
     }
 
     /**
-     * Test of setGetExtentReachHrZone method, of class WorkoutStep.
+     * Test of setExtentReachHrZone and getExtentReachHrZone method, of class WorkoutStep.
      */
     @Test
     public void testSetGetExtentReachHrZone()
     {
         System.out.println("setGetExtentReachHrZone");
   
-        WorkoutStep.WorkoutStepExtentType expType=WorkoutStep.WorkoutStepExtentType.NONE;
-        WorkoutStep.WorkoutStepExtentType type=theInstance.getStepExtent();
+        ExtentType expType=ExtentType.NONE;
+        ExtentType type=theInstance.getStepExtent();
         assertEquals(expType, type);
         
-        WorkoutStep.HrZone expResult = WorkoutStep.HrZone.FATBURN;
+        HrZone expResult = HrZone.FATBURN;
         theInstance.setExtentReachHrZone(expResult);
-        WorkoutStep.HrZone zone=theInstance.getExtentReachHrZone();
+        HrZone zone=theInstance.getExtentReachHrZone();
         assertEquals(expResult, zone);
-        expType=WorkoutStep.WorkoutStepExtentType.REACHHRZONE;
+        expType=ExtentType.REACHHRZONE;
         type=theInstance.getStepExtent();
         assertEquals(expType, type);
     }
 
     /**
-     * Test of setExtentManual method, of class WorkoutStep.
+     * Test of setExtentManual and getExtentManual method, of class WorkoutStep.
      */
     @Test
-    @Ignore
-    public void testSetExtentManual()
+    public void testSetGetExtentManual()
     {
-        System.out.println("setExtentManual");
-        WorkoutStep instance = null;
-        instance.setExtentManual();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println("setGetExtentManual");
+
+        ExtentType expType=ExtentType.NONE;
+        ExtentType type=theInstance.getStepExtent();
+        assertEquals(expType, type);
+
+        theInstance.setExtentManual();
+        HrZone zone=theInstance.getExtentReachHrZone();
+        assertEquals(HrZone.NONE, theInstance.getExtentReachHrZone());
+        assertEquals(-1, theInstance.getExtentDistance());
+        assertEquals(-1, theInstance.getExtentTime());
+        expType=ExtentType.MANUAL;
+        type=theInstance.getStepExtent();
+        assertEquals(expType, type);
     }
 
     /**
-     * Test of getExtentDuration method, of class WorkoutStep.
+     * Test of setExtentTime and getExtentTime method, of class WorkoutStep.
      */
     @Test
-    public void testSetGetExtentDuration()
+    public void testSetGetExtentTime()
     {
-        System.out.println("setGetExtentDuration");
+        System.out.println("setGetExtentTime");
   
-        WorkoutStep.WorkoutStepExtentType expType=WorkoutStep.WorkoutStepExtentType.NONE;
-        WorkoutStep.WorkoutStepExtentType type=theInstance.getStepExtent();
+        ExtentType expType=ExtentType.NONE;
+        ExtentType type=theInstance.getStepExtent();
         assertEquals(expType, type);
         
         int expResult = 213;
         theInstance.setExtentDuration(expResult);
-        int duration=theInstance.getExtentDuration();
+        int duration=theInstance.getExtentTime();
         assertEquals(expResult, duration);
-        expType=WorkoutStep.WorkoutStepExtentType.DURATION;
+        expType=ExtentType.TIME;
         type=theInstance.getStepExtent();
         assertEquals(expType, type);
     }
 
     /**
-     * Test of setIntensityPace method, of class WorkoutStep.
+     * Test of getIntensity, setIntensityPace and setIntensityPace  method, 
+     * of class WorkoutStep.
      */
     @Test
-    @Ignore
-    public void testSetIntensityPace()
+    public void testSetGetIntensityPace()
     {
-        System.out.println("setIntensityPace");
-        int pace = 0;
-        WorkoutStep instance = null;
-        instance.setIntensityPace(pace);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println("setIntensityPace, setIntensityPace, getIntensity");
+        int pace = 123;
+
+        theInstance.setIntensityPace(pace);
+        
+        IntensityType expected=IntensityType.PACE;
+        IntensityType result=theInstance.getIntensity();
+        assertEquals(expected, result);
+        
+        assertEquals(pace, theInstance.getIntensityPace());
+        assertEquals(-1, theInstance.getIntensitySpeed());
+        assertEquals(HrZone.NONE, theInstance.getIntensityHrZone());
     }
 
     /**
-     * Test of setIntensitySpeed method, of class WorkoutStep.
+     * Test of getIntensity, getIntensitySpeed, setIntensitySpeed method, of class WorkoutStep.
      */
     @Test
-    @Ignore
-    public void testSetIntensitySpeed()
+    public void testSetGetIntensitySpeed()
     {
-        System.out.println("setIntensitySpeed");
-        int speed = 0;
-        WorkoutStep instance = null;
-        instance.setIntensitySpeed(speed);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println("setIntensitySpeed, setIntensitySpeed, getIntensity");
+        int speed = 10000;
+
+        theInstance.setIntensitySpeed(speed);
+        
+        IntensityType expected=IntensityType.SPEED;
+        IntensityType result=theInstance.getIntensity();
+        assertEquals(expected, result);
+        
+        assertEquals(speed, theInstance.getIntensitySpeed());
+        assertEquals(-1, theInstance.getIntensityPace());
+        assertEquals(HrZone.NONE, theInstance.getIntensityHrZone());
     }
 
     /**
-     * Test of setIntensityHrZone method, of class WorkoutStep.
+     * Test of getIntensity, setIntensityHrZone and getIntensityHrZone method, 
+     * of class WorkoutStep.
      */
     @Test
-    @Ignore
-    public void testSetIntensityHrZone()
+    public void testSetGetIntensityHrZone()
     {
-        System.out.println("setIntensityHrZone");
-        WorkoutStep.HrZone zone = null;
-        WorkoutStep instance = null;
-        instance.setIntensityHrZone(zone);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
+        System.out.println("setIntensityHrZone, setIntensityHrZone, getIntensity");
+        HrZone zone = HrZone.CARDIO;
 
-    /**
-     * Test of getIntensityPace method, of class WorkoutStep.
-     */
-    @Test
-    @Ignore
-    public void testGetIntensityPace()
-    {
-        System.out.println("getIntensityPace");
-        WorkoutStep instance = null;
-        int expResult = 0;
-        int result = instance.getIntensityPace();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        theInstance.setIntensityHrZone(zone);
+        
+        IntensityType expected=IntensityType.HRZONE;
+        IntensityType result=theInstance.getIntensity();
+        assertEquals(expected, result);
+        
+        assertEquals(zone, theInstance.getIntensityHrZone());
+        assertEquals(-1, theInstance.getIntensityPace());
+        assertEquals(-1, theInstance.getIntensitySpeed());
     }
-
-    /**
-     * Test of getIntensitySpeed method, of class WorkoutStep.
-     */
-    @Test
-    @Ignore
-    public void testGetIntensitySpeed()
-    {
-        System.out.println("getIntensitySpeed");
-        WorkoutStep instance = null;
-        int expResult = 0;
-        int result = instance.getIntensitySpeed();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getIntensityHrZone method, of class WorkoutStep.
-     */
-    @Test
-    @Ignore
-    public void testGetIntensityHrZone()
-    {
-        System.out.println("getIntensityHrZone");
-        WorkoutStep instance = null;
-        WorkoutStep.HrZone expResult = null;
-        WorkoutStep.HrZone result = instance.getIntensityHrZone();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getStepIntensity method, of class WorkoutStep.
-     */
-    @Test
-    @Ignore
-    public void testGetStepIntensity()
-    {
-        System.out.println("getStepIntensity");
-        WorkoutStep instance = null;
-        WorkoutStep.WorkoutStepIntensityType expResult = null;
-        WorkoutStep.WorkoutStepIntensityType result = instance.getStepIntensity();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getStepIntensityPace method, of class WorkoutStep.
-     */
-    @Test
-    @Ignore
-    public void testGetStepIntensityPace()
-    {
-        System.out.println("getStepIntensityPace");
-        WorkoutStep instance = null;
-        int expResult = 0;
-        int result = instance.getStepIntensityPace();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getStepIntensitySpeed method, of class WorkoutStep.
-     */
-    @Test
-    @Ignore
-    public void testGetStepIntensitySpeed()
-    {
-        System.out.println("getStepIntensitySpeed");
-        WorkoutStep instance = null;
-        int expResult = 0;
-        int result = instance.getStepIntensitySpeed();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getStepIntensityHrZone method, of class WorkoutStep.
-     */
-    @Test
-    @Ignore
-    public void testGetStepIntensityHrZone()
-    {
-        System.out.println("getStepIntensityHrZone");
-        WorkoutStep instance = null;
-        WorkoutStep.HrZone expResult = null;
-        WorkoutStep.HrZone result = instance.getStepIntensityHrZone();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
     /**
      * Test of toString method, of class WorkoutStep.
      */
     @Test
-    @Ignore
     public void testToString()
     {
         System.out.println("toString");
-        WorkoutStep instance = null;
-        String expResult = "";
-        String result = instance.toString();
+        theInstance.setExtentDistance(100000);
+        theInstance.setIntensityHrZone(HrZone.CARDIO);
+        
+        String expResult = String.format("    %02d: %-9s - %-9s - %-13s  100 m   @ Cardio\n        Description\n", 5, "Name", "Rest", "Distance");
+        String result = theInstance.toString();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
     
 }

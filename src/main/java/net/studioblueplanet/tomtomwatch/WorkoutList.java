@@ -14,10 +14,11 @@ import java.util.List;
 import java.util.HashMap;
 import net.studioblueplanet.logger.DebugLogger;
 
-import net.studioblueplanet.tomtomwatch.Workout.WorkoutClass;
+import net.studioblueplanet.tomtomwatch.Workout.WorkoutType;
 import net.studioblueplanet.tomtomwatch.WorkoutListItem.ActivityType;
+import net.studioblueplanet.tomtomwatch.WorkoutListItem.IntensityLevel;
 import net.studioblueplanet.tomtomwatch.WorkoutStep.HrZone;
-import net.studioblueplanet.tomtomwatch.WorkoutStep.WorkoutStepType;
+import net.studioblueplanet.tomtomwatch.WorkoutStep.StepType;
 
 /**
  * This class represents the list of workouts. On the TomTom watch, this list is 
@@ -69,6 +70,16 @@ public class WorkoutList
     public HashMap<Integer, Workout> getWorkouts()
     {
         return workouts;
+    }
+    
+    /**
+     * Return the workout belonging to the given list item;
+     * @param item The workout list item
+     * @return The workout
+     */
+    public Workout getWorkout(WorkoutListItem item)
+    {
+        return workouts.get(item.getFileId());
     }
     
     /** 
@@ -127,7 +138,7 @@ public class WorkoutList
     {
         WorkoutProto.Workout            protoWorkout;
         WorkoutProto.WorkoutStepSub     step;
-        WorkoutProto.Extent             extent;
+        WorkoutProto.Length             extent;
         WorkoutProto.Intensity          intensity;
         List<WorkoutProto.WorkoutStep>  workoutSteps;
         WorkoutStep                     workoutStep;
@@ -140,29 +151,29 @@ public class WorkoutList
             workout.setWorkoutName(protoWorkout.getName());
             workout.setWorkoutDescription(protoWorkout.getDescription());
             workout.setId(protoWorkout.getId().toByteArray());
-            workout.setWorkoutClass(WorkoutClass.getWorkoutClass(protoWorkout.getType()));
+            workout.setWorkoutClass(WorkoutType.getWorkoutClass(protoWorkout.getType()));
             workout.setUnknown11(protoWorkout.getUnknown11());
             workoutSteps=protoWorkout.getStepList();
             for (WorkoutProto.WorkoutStep stepContainer : workoutSteps)
             {
                 step                =stepContainer.getStepSub();
                 int stepNumber      =step.getStepNumber();
-                WorkoutStepType type=WorkoutStepType.getWorkoutStepType(step.getStepType());
+                StepType type=StepType.getWorkoutStepType(step.getStepType());
                 workoutStep         =new WorkoutStep(stepNumber,
                                                      workout.getDescription(step.getStepName()), 
                                                      workout.getDescription(step.getStepDescription()), 
                                                      type);
                 
                 // Set the extent of the workout step
-                if (step.hasStepExtent())
+                if (step.hasStepLength())
                 {
-                    extent=step.getStepExtent();
+                    extent=step.getStepLength();
                     if (extent.hasDistance())
                     {
                         workoutStep.setExtentDistance(extent.getDistance());
-                    } else if (extent.hasDuration())
+                    } else if (extent.hasTime())
                     {
-                        workoutStep.setExtentDuration(extent.getDuration());
+                        workoutStep.setExtentDuration(extent.getTime());
                     } else if (extent.hasManual())
                     {
                         workoutStep.setExtentManual();
@@ -219,7 +230,7 @@ public class WorkoutList
         WorkoutListItem                     listItem;
         String                              name;
         String                              description;
-        WorkoutClass                        workoutClass;
+        WorkoutType                         workoutType;
         ActivityType                        activity;
         int                                 fileId;
         
@@ -230,11 +241,11 @@ public class WorkoutList
             name        =workoutListDescriptions.get(item.getItemName());
             description =workoutListDescriptions.get(item.getItemDescription());
             activity    =ActivityType.getActivityType(item.getActivity());
-            workoutClass=WorkoutClass.getWorkoutClass(item.getType());
-            listItem=new WorkoutListItem(fileId, name, description, activity, workoutClass);
+            workoutType=WorkoutType.getWorkoutClass(item.getType());
+            listItem=new WorkoutListItem(fileId, name, description, activity, workoutType);
             listItem.setId(item.getId().toByteArray());
             listItem.setWorkoutId(item.getWorkoutId().toByteArray());
-            listItem.setUnknown7(item.getUnknown7());
+            listItem.setIntensityLevel(IntensityLevel.getIntensityLevel(item.getIntensityLevel()));
             listItem.setUnknown8(item.getUnknown8());
             listItem.setUnknown9(item.getUnknown9());
             listItem.setUnknown12(item.getUnknown12());
@@ -429,7 +440,7 @@ public class WorkoutList
         builder.setItemDescription(findDescriptionIndex(item.getWorkoutDescription()));
         builder.setFileId(item.getFileId());
         builder.setType(item.getWorkoutClass().getValue());
-        builder.setUnknown7(item.getUnknown7());
+        builder.setIntensityLevel(item.getIntensityLevel().getValue());
         builder.setUnknown8(item.getUnknown8());
         builder.setUnknown9(item.getUnknown9());
         builder.setUnknown12(item.getUnknown12());
@@ -538,8 +549,10 @@ public class WorkoutList
     }
     
     /**
-     * Returns the workout as protobuf data
-     * @return 
+     * Returns the workout as protobuf data. Delegates the serialization to
+     * the Workout class
+     * @param fileId The File ID (e.g. 0x00BE0001) of the workout to serialize
+     * @return The protobuf data as bytes array
      */
     public byte[] getWorkoutData(int fileId)
     {

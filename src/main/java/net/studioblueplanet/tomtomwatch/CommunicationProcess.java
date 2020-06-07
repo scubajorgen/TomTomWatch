@@ -2506,6 +2506,7 @@ public class CommunicationProcess implements ProgressListener
                         if (file.fileId==0x00be0000)
                         {
                             error=workouts.createWorkoutListFromData(file.fileData);
+                            workouts.sort();
                         }
                         else
                         {

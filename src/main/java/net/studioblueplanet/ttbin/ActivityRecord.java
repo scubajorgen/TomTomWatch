@@ -91,8 +91,8 @@ public class ActivityRecord
     
     /**
      * Checks if this record equals the record passed
-     * @param record
-     * @return 
+     * @param record Record to compare to
+     * @return True if equal, false if not
      */
     public boolean equals(ActivityRecord record)
     {

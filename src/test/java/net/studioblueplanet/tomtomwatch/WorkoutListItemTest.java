@@ -12,6 +12,9 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
+import net.studioblueplanet.tomtomwatch.WorkoutListItem.ActivityType;
+import net.studioblueplanet.tomtomwatch.WorkoutListItem.IntensityLevel;
+
 /**
  *
  * @author jorgen
@@ -37,7 +40,7 @@ public class WorkoutListItemTest
     @Before
     public void setUp()
     {
-        theInstance = new WorkoutListItem(0x00BE0012, "Name", "Description", WorkoutListItem.ActivityType.CYCLING, Workout.WorkoutClass.ENDURANCE);
+        theInstance = new WorkoutListItem(0x00BE0012, "Name", "Description", WorkoutListItem.ActivityType.CYCLING, Workout.WorkoutType.ENDURANCE);
     }
     
     @After
@@ -100,8 +103,8 @@ public class WorkoutListItemTest
     public void testGetWorkoutClass()
     {
         System.out.println("getWorkoutClass");
-        Workout.WorkoutClass expResult = Workout.WorkoutClass.ENDURANCE;
-        Workout.WorkoutClass result = theInstance.getWorkoutClass();
+        Workout.WorkoutType expResult = Workout.WorkoutType.ENDURANCE;
+        Workout.WorkoutType result = theInstance.getWorkoutClass();
         assertEquals(expResult, result);
     }
 
@@ -132,16 +135,19 @@ public class WorkoutListItemTest
     }
 
     /**
-     * Test of getUnknown7 method, of class WorkoutListItem.
+     * Test of setIntensityLevel and getIntensityLevel method, of class WorkoutListItem.
      */
     @Test
-    public void testSetGetUnknown7()
+    public void testSetGetIntensityLevel()
     {
-        System.out.println("set/getUnknown7");
-        int expResult = 5;
-        theInstance.setUnknown7(expResult);
-        int result = theInstance.getUnknown7();
-        assertEquals(expResult, result);
+        System.out.println("set/getIntensityLevel");
+        
+        // Default value
+        assertEquals(IntensityLevel.STANDARD, theInstance.getIntensityLevel());
+        
+        IntensityLevel expResult = IntensityLevel.HARDER;
+        theInstance.setIntensityLevel(expResult);
+        assertEquals(expResult, theInstance.getIntensityLevel());
     }
 
     /**
@@ -204,23 +210,23 @@ public class WorkoutListItemTest
     {
         WorkoutListItem item;
         System.out.println("compareTo");
-        item = new WorkoutListItem(0x00be1234, "Name", "Description", WorkoutListItem.ActivityType.CYCLING, Workout.WorkoutClass.ENDURANCE);
+        item = new WorkoutListItem(0x00be1234, "Name", "Description", WorkoutListItem.ActivityType.CYCLING, Workout.WorkoutType.ENDURANCE);
         int expResult = 0;
         int result = theInstance.compareTo(item);
         assertEquals(expResult, result);
  
-        item = new WorkoutListItem(0x00be1234, "Name", "Description", WorkoutListItem.ActivityType.CYCLING, Workout.WorkoutClass.FATBURN);
+        item = new WorkoutListItem(0x00be1234, "Name", "Description", WorkoutListItem.ActivityType.CYCLING, Workout.WorkoutType.FATBURN);
         expResult = 1;
         result = theInstance.compareTo(item);
         assertEquals(expResult, result);
 
-        item = new WorkoutListItem(0x00be1234, "Name", "Description", WorkoutListItem.ActivityType.CYCLING, Workout.WorkoutClass.POWER);
+        item = new WorkoutListItem(0x00be1234, "Name", "Description", WorkoutListItem.ActivityType.CYCLING, Workout.WorkoutType.POWER);
         expResult = -3;
         result = theInstance.compareTo(item);
         assertEquals(expResult, result);
 
-        item = new WorkoutListItem(0x00be1234, "Name", "Description", WorkoutListItem.ActivityType.RUNNING, Workout.WorkoutClass.POWER);
-        expResult = 0x0802-0x4181;
+        item = new WorkoutListItem(0x00be1234, "Name", "Description", WorkoutListItem.ActivityType.RUNNING, Workout.WorkoutType.POWER);
+        expResult = 0x4181-0x0802;
         result = theInstance.compareTo(item);
         assertEquals(expResult, result);
 
@@ -234,7 +240,7 @@ public class WorkoutListItemTest
     {
         System.out.println("toString");
         String expResult = "____________________________________________________________________________________________________\n";
-        expResult+=String.format("%s - %08x - %-10s - %s\n", WorkoutListItem.ActivityType.CYCLING, 0x00BE0012, Workout.WorkoutClass.ENDURANCE, "Name");
+        expResult+=String.format("%s - %08x - %-10s - %s\n", WorkoutListItem.ActivityType.CYCLING, 0x00BE0012, Workout.WorkoutType.ENDURANCE, "Name");
         expResult+="Description\n";
         String result = theInstance.toString();
         assertEquals(expResult, result);

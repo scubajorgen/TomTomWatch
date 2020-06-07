@@ -10,7 +10,6 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.junit.Ignore;
 import static org.junit.Assert.*;
 import java.io.File;
 import java.io.IOException;
@@ -69,14 +68,14 @@ public class WorkoutListTest
         assertNotNull(workout);
         assertEquals("★★★60 min", workout.getWorkoutName());
         assertEquals("Workout alternating between comfortable and medium and hard efforts", workout.getWorkoutDescription());
-        assertEquals(Workout.WorkoutClass.ENDURANCE, workout.getWorkoutClass());
+        assertEquals(Workout.WorkoutType.ENDURANCE, workout.getWorkoutType());
         HashMap<Integer, WorkoutStep> steps=workout.getSteps();
         assertEquals(14, steps.size());
         WorkoutStep step=steps.get(1);
-        assertEquals(WorkoutStep.WorkoutStepExtentType.DURATION, step.getStepExtent());
+        assertEquals(WorkoutStep.ExtentType.TIME, step.getStepExtent());
         assertEquals("Warm up", step.getName());
         assertEquals("Get into the Cardio HR zone", step.getDescription());
-        assertEquals(60, step.getExtentDuration());
+        assertEquals(60, step.getExtentTime());
         assertEquals(-1, step.getExtentDistance());
         assertEquals(WorkoutStep.HrZone.NONE, step.getExtentReachHrZone());
     }
@@ -97,13 +96,13 @@ public class WorkoutListTest
         
         List<WorkoutListItem> list=instance.getWorkoutList();
         assertEquals(54, list.size());
-        WorkoutListItem item=list.get(9);
+        WorkoutListItem item=list.get(37);
         assertEquals(0x00be0023, item.getFileId());
         assertEquals("★★★60 min", item.getWorkoutName());
         assertEquals("Workout alternating between comfortable and medium and hard efforts", item.getWorkoutDescription());
         assertEquals(WorkoutListItem.ActivityType.CYCLING, item.getActivity());
-        assertEquals(Workout.WorkoutClass.ENDURANCE, item.getWorkoutClass());
-        assertEquals(0, item.getUnknown7());
+        assertEquals(Workout.WorkoutType.ENDURANCE, item.getWorkoutClass());
+        assertEquals(WorkoutListItem.IntensityLevel.STANDARD, item.getIntensityLevel());
         assertEquals(0, item.getUnknown8());
         assertEquals(617, item.getUnknown9());
         assertEquals(2, item.getUnknown12());

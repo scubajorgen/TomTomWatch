@@ -95,7 +95,7 @@ message WorkoutListItem
   required int32                itemName          =3;     // Workout Name in the menu, like '★☆☆30 min'
   required int32                itemDescription   =4;     // Workout Description in the menu, like 'Keep going and stay in the Fat Burn HR zone for the entire time'
   required bytes                workoutId         =5;     // 16 bytes, same bytes as unknown4 in Program
-  required int32                unknown7          =7;     // value=0
+  required int32                intensityLevel    =7;     // Easiest: 19, Easier 9, Standard 0, Harder 10, Hardest 20
   required int32                unknown8          =8;     // value=0
   required int32                unknown9          =9;     // definitly used, usage unknown
   required fixed64              activity          =10;    // 0x0802 for cycling, 0x4181 for running   
@@ -121,7 +121,7 @@ message WorkoutStepSub
   optional int32                stepDescription       =2;   // refers to a description ID (e.g. 'Get into the Fat Burn HR zone')
   required int32                stepNumber            =4;   // 0, 1, 2, 3,...
   required int32                stepType              =6;   // 1: warm up, 2: work, 3: rest, 4: ?, 5: cool down
-  optional Extent               stepExtent            =7;   // Duration or distance (called Length by TomTom)
+  optional Length               stepLength            =7;   // Duration or distance (called Length by TomTom)
   optional Intensity            intensity             =8;   // Intensity goal (HR zone, pace, speed) of the step; optional
 
 }
@@ -129,10 +129,10 @@ message WorkoutStepSub
 //#################################################################################################
 // 7th level: Step size in terms of duration or distance
 //#################################################################################################
-message Extent
+message Length
 {
-  optional int32                duration                =1; // duration in second
-  optional int32                distance                =2; // min 10000: distance in mm
+  optional int32                time                    =1; // duration in second
+  optional int32                distance                =2; // distance in mm
   optional int32                reachZone               =4; // HR zone to reach: 1: Easy 2: Fat burn, 3: Cardio, 4: Perform, 5: Peak (intensity not used)
   optional int32                manual                  =5; // value is always 1
 }

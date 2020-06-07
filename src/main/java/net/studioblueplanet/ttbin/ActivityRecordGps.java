@@ -546,8 +546,8 @@ public class ActivityRecordGps extends ActivityRecord
     
     /**
      * Checks if this record equals the record passed
-     * @param record
-     * @return 
+     * @param record Record to compare to
+     * @return True if the records are equal, false if not
      */
     @Override
     public boolean equals(ActivityRecord record)

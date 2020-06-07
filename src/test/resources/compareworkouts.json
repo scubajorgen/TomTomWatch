@@ -1,0 +1,46 @@
+{
+  "workouts": [
+    {
+      "fileId": "0x00be0001",
+      "listId": "e05b453335ec210a59130562cc3e5190",
+      "workoutId": "885785df42e95378a4ca3f848280c12d",
+      "name": "★☆☆30 min",
+      "description": "Keep going and stay in the Fat Burn HR zone for the entire time",
+      "activity": "RUNNING",
+      "type": "FATBURN",
+      "intensityLevel": "STANDARD",
+      "steps": [
+        {
+          "name": "Work",
+          "description": "Get into the Fat Burn HR zone",
+          "type": "WORK",
+          "length": "TIME",
+          "time": 1800,
+          "intensity": "HRZONE",
+          "hrZone": "FATBURN"
+        }
+      ]
+    },
+    {
+      "fileId": "0x00be0002",
+      "listId": "545cd4ce9e14a6e1486b7a3f0fe1e084",
+      "workoutId": "a55fe1980a7157a495eb36fc77b544a3",
+      "name": "★☆☆30 min",
+      "description": "Introductory workout keeping within the Fat Burn HR zone",
+      "activity": "CYCLING",
+      "type": "FATBURN",
+      "intensityLevel": "STANDARD",
+      "steps": [
+        {
+          "name": "Work",
+          "description": "Get into the Fat Burn HR zone",
+          "type": "WORK",
+          "length": "TIME",
+          "time": 1800,
+          "intensity": "HRZONE",
+          "hrZone": "FATBURN"
+        }
+      ]
+    }
+  ]
+}
