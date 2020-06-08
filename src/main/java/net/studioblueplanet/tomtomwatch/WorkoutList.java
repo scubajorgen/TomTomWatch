@@ -39,7 +39,7 @@ public class WorkoutList
     private static final int FILEID_WORKOUT    =0x00090100;
     
 
-    private final HashMap<Integer, String>    workoutListDescriptions;
+    private final WorkoutDescriptions         workoutListDescriptions;
     private final HashMap<Integer, Workout>   workouts;
     private final ArrayList<WorkoutListItem>  workoutListItems;
     
@@ -48,7 +48,7 @@ public class WorkoutList
      */
     public WorkoutList()
     {
-        workoutListDescriptions =new HashMap<>();
+        workoutListDescriptions =new WorkoutDescriptions();
         workouts                =new HashMap<>();
         workoutListItems        =new ArrayList<>();
     }
@@ -89,15 +89,7 @@ public class WorkoutList
      */
     private int findDescriptionIndex(String description)
     {
-        for (Integer key   : workoutListDescriptions.keySet()) 
-        {
-             String value = workoutListDescriptions.get(key);  //get() is less efficient 
-             if (value.equals(description))
-             {
-                 return key;
-             }
-        }        
-        return -1;
+        return workoutListDescriptions.findDescriptionIndex(description);
     }
     
     /**
@@ -125,7 +117,7 @@ public class WorkoutList
         List<WorkoutProto.Description> descs=data.getItemDescriptionList();
         for(WorkoutProto.Description desc : descs)
         {
-            workoutListDescriptions.put(desc.getId(), desc.getDescription());
+            workoutListDescriptions.addDescription(desc.getId(), desc.getDescription());
         }
     }
     
@@ -238,8 +230,8 @@ public class WorkoutList
         for(WorkoutProto.WorkoutListItem item : items)
         {
             fileId      =item.getFileId();
-            name        =workoutListDescriptions.get(item.getItemName());
-            description =workoutListDescriptions.get(item.getItemDescription());
+            name        =workoutListDescriptions.findDescription(item.getItemName());
+            description =workoutListDescriptions.findDescription(item.getItemDescription());
             activity    =ActivityType.getActivityType(item.getActivity());
             workoutType=WorkoutType.getWorkoutClass(item.getType());
             listItem=new WorkoutListItem(fileId, name, description, activity, workoutType);
@@ -454,6 +446,9 @@ public class WorkoutList
      */
     private WorkoutProto.SubDataContainer buildSubDataContainer()
     {
+        Iterator<Integer>   it;
+        int                 index;
+        
         WorkoutProto.SubDataContainer.Builder   builder;
 
         builder=WorkoutProto.SubDataContainer.newBuilder();
@@ -463,10 +458,12 @@ public class WorkoutList
             builder.addWorkoutListItem(buildWorkoutListItem(item));
         }
 
-        for (Integer key   : workoutListDescriptions.keySet()) 
+        it=workoutListDescriptions.iterator();
+        while (it.hasNext()) 
         {
-             String value = workoutListDescriptions.get(key);  //get() is less efficient 
-             builder.addItemDescription(buildItemDescription(key, value));
+            index=it.next();
+            String value = workoutListDescriptions.findDescription(index);  
+            builder.addItemDescription(buildItemDescription(index, value));
         }
         return builder.build();
     }

@@ -7,6 +7,7 @@ package net.studioblueplanet.tomtomwatch;
 
 import com.google.protobuf.ByteString;
 import java.util.HashMap;
+import java.util.Iterator;
 
 /**
  * This class represents the workout as defined by a TomTom workout file 
@@ -77,7 +78,7 @@ public class Workout
     private static final int MANUFACTURER_ID   =0x1234DAEB;
     private static final int FILEID_WORKOUT    =0x00090100;
     
-    private final HashMap<Integer, String>      workoutDescriptions;
+    private final WorkoutDescriptions           workoutDescriptions;
     
     private byte[]                              id;
     private WorkoutType                         workoutType;
@@ -92,7 +93,7 @@ public class Workout
     public Workout()
     {
         workoutSteps        = new HashMap<>();
-        workoutDescriptions = new HashMap<>();
+        workoutDescriptions = new WorkoutDescriptions();
     }
 
     /**
@@ -103,7 +104,7 @@ public class Workout
      */
     public void putDescription(int id, String descriptionText)
     {
-        workoutDescriptions.put(id, descriptionText);
+        workoutDescriptions.addDescription(id, descriptionText);
     }
     
     /**
@@ -114,7 +115,7 @@ public class Workout
      */
     public String getDescription(int id)
     {
-        return workoutDescriptions.get(id);
+        return workoutDescriptions.findDescription(id);
     }
 
     /** 
@@ -124,15 +125,7 @@ public class Workout
      */
     private int findDescriptionIndex(String description)
     {
-        for (Integer key   : workoutDescriptions.keySet()) 
-        {
-             String value = workoutDescriptions.get(key);  //get() is less efficient 
-             if (value.equals(description))
-             {
-                 return key;
-             }
-        }        
-        return -1;
+        return workoutDescriptions.findDescriptionIndex(description);
     }
 
     /**
@@ -150,7 +143,7 @@ public class Workout
      */
     public String getWorkoutName()
     {
-        return workoutDescriptions.get(workoutNameId);
+        return workoutDescriptions.findDescription(workoutNameId);
     }
 
     /**
@@ -169,7 +162,7 @@ public class Workout
      */
     public String getWorkoutDescription()
     {
-        return workoutDescriptions.get(workoutDescriptionId);
+        return workoutDescriptions.findDescription(workoutDescriptionId);
     }
     /**
      * Get the UUID
@@ -372,14 +365,17 @@ public class Workout
      */
     private WorkoutProto.SubDataContainer buildSubDataContainer()
     {
+        Iterator<Integer>   it;
+        int                 index;
+        
         WorkoutProto.SubDataContainer.Builder   builder;
-
         builder=WorkoutProto.SubDataContainer.newBuilder();
-
-        for (Integer key   : workoutDescriptions.keySet()) 
+        it=workoutDescriptions.iterator();
+        while (it.hasNext()) 
         {
-             String value = workoutDescriptions.get(key);  //get() is less efficient 
-             builder.addWorkoutDescription(buildWorkoutDescription(key, value));
+            index=it.next();
+            String value = workoutDescriptions.findDescription(index);  
+            builder.addWorkoutDescription(buildWorkoutDescription(index, value));
         }
         
         builder.setWorkout(buildWorkout());
@@ -471,8 +467,8 @@ public class Workout
         int     i;
         
         outputString ="____________________________________________________________________________________________________\n";
-        outputString+=String.format("    %-10s - %s", workoutType, workoutDescriptions.get(workoutNameId))+"\n    "+
-                      workoutDescriptions.get(workoutDescriptionId)+"\n";
+        outputString+=String.format("    %-10s - %s", workoutType, workoutDescriptions.findDescription(workoutNameId))+"\n    "+
+                      workoutDescriptions.findDescription(workoutDescriptionId)+"\n";
         i=0;
         while (i<workoutSteps.size())
         {
