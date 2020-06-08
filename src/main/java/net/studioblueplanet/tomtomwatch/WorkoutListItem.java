@@ -265,12 +265,12 @@ public class WorkoutListItem implements Comparable<WorkoutListItem>
         this.unknown8 = unknown8;
     }
 
-    public int getUnknown9()
+    public int fileSize()
     {
         return unknown9;
     }
 
-    public void setUnknown9(int unknown9)
+    public void setFileSize(int unknown9)
     {
         this.unknown9 = unknown9;
     }

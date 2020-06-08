@@ -97,7 +97,7 @@ message WorkoutListItem
   required bytes                workoutId         =5;     // 16 bytes, same bytes as unknown4 in Program
   required int32                intensityLevel    =7;     // Easiest: 19, Easier 9, Standard 0, Harder 10, Hardest 20
   required int32                unknown8          =8;     // value=0
-  required int32                unknown9          =9;     // definitly used, usage unknown
+  required int32                fileSize          =9;     // Size of the workout file in bytes
   required fixed64              activity          =10;    // 0x0802 for cycling, 0x4181 for running   
   required int32                type              =11;    // 1: Fat burn, 2: Endurance, 3: Fitness, 4: Speed, 5: Power, 6: Custom 
   required int32                unknown12         =12;    // value=2

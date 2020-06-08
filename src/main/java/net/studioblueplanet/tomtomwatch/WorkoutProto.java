@@ -7598,20 +7598,20 @@ public final class WorkoutProto {
 
     /**
      * <pre>
-     * definitly used, usage unknown
+     * Size of the workout file in bytes
      * </pre>
      *
-     * <code>required int32 unknown9 = 9;</code>
+     * <code>required int32 fileSize = 9;</code>
      */
-    boolean hasUnknown9();
+    boolean hasFileSize();
     /**
      * <pre>
-     * definitly used, usage unknown
+     * Size of the workout file in bytes
      * </pre>
      *
-     * <code>required int32 unknown9 = 9;</code>
+     * <code>required int32 fileSize = 9;</code>
      */
-    int getUnknown9();
+    int getFileSize();
 
     /**
      * <pre>
@@ -7772,7 +7772,7 @@ public final class WorkoutProto {
             }
             case 72: {
               bitField0_ |= 0x00000080;
-              unknown9_ = input.readInt32();
+              fileSize_ = input.readInt32();
               break;
             }
             case 81: {
@@ -7989,27 +7989,27 @@ public final class WorkoutProto {
       return unknown8_;
     }
 
-    public static final int UNKNOWN9_FIELD_NUMBER = 9;
-    private int unknown9_;
+    public static final int FILESIZE_FIELD_NUMBER = 9;
+    private int fileSize_;
     /**
      * <pre>
-     * definitly used, usage unknown
+     * Size of the workout file in bytes
      * </pre>
      *
-     * <code>required int32 unknown9 = 9;</code>
+     * <code>required int32 fileSize = 9;</code>
      */
-    public boolean hasUnknown9() {
+    public boolean hasFileSize() {
       return ((bitField0_ & 0x00000080) != 0);
     }
     /**
      * <pre>
-     * definitly used, usage unknown
+     * Size of the workout file in bytes
      * </pre>
      *
-     * <code>required int32 unknown9 = 9;</code>
+     * <code>required int32 fileSize = 9;</code>
      */
-    public int getUnknown9() {
-      return unknown9_;
+    public int getFileSize() {
+      return fileSize_;
     }
 
     public static final int ACTIVITY_FIELD_NUMBER = 10;
@@ -8139,7 +8139,7 @@ public final class WorkoutProto {
         memoizedIsInitialized = 0;
         return false;
       }
-      if (!hasUnknown9()) {
+      if (!hasFileSize()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -8188,7 +8188,7 @@ public final class WorkoutProto {
         output.writeInt32(8, unknown8_);
       }
       if (((bitField0_ & 0x00000080) != 0)) {
-        output.writeInt32(9, unknown9_);
+        output.writeInt32(9, fileSize_);
       }
       if (((bitField0_ & 0x00000100) != 0)) {
         output.writeFixed64(10, activity_);
@@ -8241,7 +8241,7 @@ public final class WorkoutProto {
       }
       if (((bitField0_ & 0x00000080) != 0)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(9, unknown9_);
+          .computeInt32Size(9, fileSize_);
       }
       if (((bitField0_ & 0x00000100) != 0)) {
         size += com.google.protobuf.CodedOutputStream
@@ -8309,10 +8309,10 @@ public final class WorkoutProto {
         if (getUnknown8()
             != other.getUnknown8()) return false;
       }
-      if (hasUnknown9() != other.hasUnknown9()) return false;
-      if (hasUnknown9()) {
-        if (getUnknown9()
-            != other.getUnknown9()) return false;
+      if (hasFileSize() != other.hasFileSize()) return false;
+      if (hasFileSize()) {
+        if (getFileSize()
+            != other.getFileSize()) return false;
       }
       if (hasActivity() != other.hasActivity()) return false;
       if (hasActivity()) {
@@ -8373,9 +8373,9 @@ public final class WorkoutProto {
         hash = (37 * hash) + UNKNOWN8_FIELD_NUMBER;
         hash = (53 * hash) + getUnknown8();
       }
-      if (hasUnknown9()) {
-        hash = (37 * hash) + UNKNOWN9_FIELD_NUMBER;
-        hash = (53 * hash) + getUnknown9();
+      if (hasFileSize()) {
+        hash = (37 * hash) + FILESIZE_FIELD_NUMBER;
+        hash = (53 * hash) + getFileSize();
       }
       if (hasActivity()) {
         hash = (37 * hash) + ACTIVITY_FIELD_NUMBER;
@@ -8547,7 +8547,7 @@ public final class WorkoutProto {
         bitField0_ = (bitField0_ & ~0x00000020);
         unknown8_ = 0;
         bitField0_ = (bitField0_ & ~0x00000040);
-        unknown9_ = 0;
+        fileSize_ = 0;
         bitField0_ = (bitField0_ & ~0x00000080);
         activity_ = 0L;
         bitField0_ = (bitField0_ & ~0x00000100);
@@ -8614,7 +8614,7 @@ public final class WorkoutProto {
           to_bitField0_ |= 0x00000040;
         }
         if (((from_bitField0_ & 0x00000080) != 0)) {
-          result.unknown9_ = unknown9_;
+          result.fileSize_ = fileSize_;
           to_bitField0_ |= 0x00000080;
         }
         if (((from_bitField0_ & 0x00000100) != 0)) {
@@ -8703,8 +8703,8 @@ public final class WorkoutProto {
         if (other.hasUnknown8()) {
           setUnknown8(other.getUnknown8());
         }
-        if (other.hasUnknown9()) {
-          setUnknown9(other.getUnknown9());
+        if (other.hasFileSize()) {
+          setFileSize(other.getFileSize());
         }
         if (other.hasActivity()) {
           setActivity(other.getActivity());
@@ -8746,7 +8746,7 @@ public final class WorkoutProto {
         if (!hasUnknown8()) {
           return false;
         }
-        if (!hasUnknown9()) {
+        if (!hasFileSize()) {
           return false;
         }
         if (!hasActivity()) {
@@ -9126,50 +9126,50 @@ public final class WorkoutProto {
         return this;
       }
 
-      private int unknown9_ ;
+      private int fileSize_ ;
       /**
        * <pre>
-       * definitly used, usage unknown
+       * Size of the workout file in bytes
        * </pre>
        *
-       * <code>required int32 unknown9 = 9;</code>
+       * <code>required int32 fileSize = 9;</code>
        */
-      public boolean hasUnknown9() {
+      public boolean hasFileSize() {
         return ((bitField0_ & 0x00000080) != 0);
       }
       /**
        * <pre>
-       * definitly used, usage unknown
+       * Size of the workout file in bytes
        * </pre>
        *
-       * <code>required int32 unknown9 = 9;</code>
+       * <code>required int32 fileSize = 9;</code>
        */
-      public int getUnknown9() {
-        return unknown9_;
+      public int getFileSize() {
+        return fileSize_;
       }
       /**
        * <pre>
-       * definitly used, usage unknown
+       * Size of the workout file in bytes
        * </pre>
        *
-       * <code>required int32 unknown9 = 9;</code>
+       * <code>required int32 fileSize = 9;</code>
        */
-      public Builder setUnknown9(int value) {
+      public Builder setFileSize(int value) {
         bitField0_ |= 0x00000080;
-        unknown9_ = value;
+        fileSize_ = value;
         onChanged();
         return this;
       }
       /**
        * <pre>
-       * definitly used, usage unknown
+       * Size of the workout file in bytes
        * </pre>
        *
-       * <code>required int32 unknown9 = 9;</code>
+       * <code>required int32 fileSize = 9;</code>
        */
-      public Builder clearUnknown9() {
+      public Builder clearFileSize() {
         bitField0_ = (bitField0_ & ~0x00000080);
-        unknown9_ = 0;
+        fileSize_ = 0;
         onChanged();
         return this;
       }
@@ -13302,7 +13302,7 @@ public final class WorkoutProto {
       "d\030\001 \002(\007\022\n\n\002id\030\002 \002(\014\022\020\n\010itemName\030\003 \002(\005\022\027\n" +
       "\017itemDescription\030\004 \002(\005\022\021\n\tworkoutId\030\005 \002(" +
       "\014\022\026\n\016intensityLevel\030\007 \002(\005\022\020\n\010unknown8\030\010 " +
-      "\002(\005\022\020\n\010unknown9\030\t \002(\005\022\020\n\010activity\030\n \002(\006\022" +
+      "\002(\005\022\020\n\010fileSize\030\t \002(\005\022\020\n\010activity\030\n \002(\006\022" +
       "\014\n\004type\030\013 \002(\005\022\021\n\tunknown12\030\014 \002(\005\022\021\n\tunkn" +
       "own13\030\r \002(\005\"8\n\013WorkoutStep\022)\n\007stepSub\030\010 " +
       "\002(\0132\030.tutorial.WorkoutStepSub\"\257\001\n\016Workou" +
@@ -13367,7 +13367,7 @@ public final class WorkoutProto {
     internal_static_tutorial_WorkoutListItem_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_tutorial_WorkoutListItem_descriptor,
-        new java.lang.String[] { "FileId", "Id", "ItemName", "ItemDescription", "WorkoutId", "IntensityLevel", "Unknown8", "Unknown9", "Activity", "Type", "Unknown12", "Unknown13", });
+        new java.lang.String[] { "FileId", "Id", "ItemName", "ItemDescription", "WorkoutId", "IntensityLevel", "Unknown8", "FileSize", "Activity", "Type", "Unknown12", "Unknown13", });
     internal_static_tutorial_WorkoutStep_descriptor =
       getDescriptor().getMessageTypes().get(8);
     internal_static_tutorial_WorkoutStep_fieldAccessorTable = new

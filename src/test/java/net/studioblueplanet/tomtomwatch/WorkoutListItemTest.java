@@ -171,8 +171,8 @@ public class WorkoutListItemTest
     {
         System.out.println("set/getUnknown9");
         int expResult = 324;
-        theInstance.setUnknown9(expResult);
-        int result = theInstance.getUnknown9();
+        theInstance.setFileSize(expResult);
+        int result = theInstance.fileSize();
         assertEquals(expResult, result);
     }
 

@@ -247,7 +247,7 @@ public class WorkoutList
             listItem.setWorkoutId(item.getWorkoutId().toByteArray());
             listItem.setIntensityLevel(IntensityLevel.getIntensityLevel(item.getIntensityLevel()));
             listItem.setUnknown8(item.getUnknown8());
-            listItem.setUnknown9(item.getUnknown9());
+            listItem.setFileSize(item.getFileSize());
             listItem.setUnknown12(item.getUnknown12());
             listItem.setUnknown13(item.getUnknown13());
             
@@ -442,7 +442,7 @@ public class WorkoutList
         builder.setType(item.getWorkoutClass().getValue());
         builder.setIntensityLevel(item.getIntensityLevel().getValue());
         builder.setUnknown8(item.getUnknown8());
-        builder.setUnknown9(item.getUnknown9());
+        builder.setFileSize(item.fileSize());
         builder.setUnknown12(item.getUnknown12());
         builder.setUnknown13(item.getUnknown13());
         return builder.build();

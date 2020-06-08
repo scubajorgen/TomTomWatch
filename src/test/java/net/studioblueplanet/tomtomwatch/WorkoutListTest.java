@@ -104,7 +104,7 @@ public class WorkoutListTest
         assertEquals(Workout.WorkoutType.ENDURANCE, item.getWorkoutClass());
         assertEquals(WorkoutListItem.IntensityLevel.STANDARD, item.getIntensityLevel());
         assertEquals(0, item.getUnknown8());
-        assertEquals(617, item.getUnknown9());
+        assertEquals(617, item.fileSize());
         assertEquals(2, item.getUnknown12());
         assertEquals(1, item.getUnknown13());
         assertArrayEquals(javax.xml.bind.DatatypeConverter.parseHexBinary("E1E198719FF62F4000D051B02F8AE1F1"), item.getId());
