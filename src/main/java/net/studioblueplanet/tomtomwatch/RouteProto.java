@@ -830,17 +830,17 @@ public final class RouteProto {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>optional .tutorial.MetaData metaData = 7;</code>
+     * <code>optional .tutorial.Metadata metadata = 7;</code>
      */
-    boolean hasMetaData();
+    boolean hasMetadata();
     /**
-     * <code>optional .tutorial.MetaData metaData = 7;</code>
+     * <code>optional .tutorial.Metadata metadata = 7;</code>
      */
-    net.studioblueplanet.tomtomwatch.RouteProto.MetaData getMetaData();
+    net.studioblueplanet.tomtomwatch.RouteProto.Metadata getMetadata();
     /**
-     * <code>optional .tutorial.MetaData metaData = 7;</code>
+     * <code>optional .tutorial.Metadata metadata = 7;</code>
      */
-    net.studioblueplanet.tomtomwatch.RouteProto.MetaDataOrBuilder getMetaDataOrBuilder();
+    net.studioblueplanet.tomtomwatch.RouteProto.MetadataOrBuilder getMetadataOrBuilder();
 
     /**
      * <code>optional .tutorial.DataContainer dataContainer = 8;</code>
@@ -908,14 +908,14 @@ public final class RouteProto {
               done = true;
               break;
             case 58: {
-              net.studioblueplanet.tomtomwatch.RouteProto.MetaData.Builder subBuilder = null;
+              net.studioblueplanet.tomtomwatch.RouteProto.Metadata.Builder subBuilder = null;
               if (((bitField0_ & 0x00000001) != 0)) {
-                subBuilder = metaData_.toBuilder();
+                subBuilder = metadata_.toBuilder();
               }
-              metaData_ = input.readMessage(net.studioblueplanet.tomtomwatch.RouteProto.MetaData.PARSER, extensionRegistry);
+              metadata_ = input.readMessage(net.studioblueplanet.tomtomwatch.RouteProto.Metadata.PARSER, extensionRegistry);
               if (subBuilder != null) {
-                subBuilder.mergeFrom(metaData_);
-                metaData_ = subBuilder.buildPartial();
+                subBuilder.mergeFrom(metadata_);
+                metadata_ = subBuilder.buildPartial();
               }
               bitField0_ |= 0x00000001;
               break;
@@ -967,24 +967,24 @@ public final class RouteProto {
 
     private int bitField0_;
     public static final int METADATA_FIELD_NUMBER = 7;
-    private net.studioblueplanet.tomtomwatch.RouteProto.MetaData metaData_;
+    private net.studioblueplanet.tomtomwatch.RouteProto.Metadata metadata_;
     /**
-     * <code>optional .tutorial.MetaData metaData = 7;</code>
+     * <code>optional .tutorial.Metadata metadata = 7;</code>
      */
-    public boolean hasMetaData() {
+    public boolean hasMetadata() {
       return ((bitField0_ & 0x00000001) != 0);
     }
     /**
-     * <code>optional .tutorial.MetaData metaData = 7;</code>
+     * <code>optional .tutorial.Metadata metadata = 7;</code>
      */
-    public net.studioblueplanet.tomtomwatch.RouteProto.MetaData getMetaData() {
-      return metaData_ == null ? net.studioblueplanet.tomtomwatch.RouteProto.MetaData.getDefaultInstance() : metaData_;
+    public net.studioblueplanet.tomtomwatch.RouteProto.Metadata getMetadata() {
+      return metadata_ == null ? net.studioblueplanet.tomtomwatch.RouteProto.Metadata.getDefaultInstance() : metadata_;
     }
     /**
-     * <code>optional .tutorial.MetaData metaData = 7;</code>
+     * <code>optional .tutorial.Metadata metadata = 7;</code>
      */
-    public net.studioblueplanet.tomtomwatch.RouteProto.MetaDataOrBuilder getMetaDataOrBuilder() {
-      return metaData_ == null ? net.studioblueplanet.tomtomwatch.RouteProto.MetaData.getDefaultInstance() : metaData_;
+    public net.studioblueplanet.tomtomwatch.RouteProto.MetadataOrBuilder getMetadataOrBuilder() {
+      return metadata_ == null ? net.studioblueplanet.tomtomwatch.RouteProto.Metadata.getDefaultInstance() : metadata_;
     }
 
     public static final int DATACONTAINER_FIELD_NUMBER = 8;
@@ -1015,8 +1015,8 @@ public final class RouteProto {
       if (isInitialized == 1) return true;
       if (isInitialized == 0) return false;
 
-      if (hasMetaData()) {
-        if (!getMetaData().isInitialized()) {
+      if (hasMetadata()) {
+        if (!getMetadata().isInitialized()) {
           memoizedIsInitialized = 0;
           return false;
         }
@@ -1035,7 +1035,7 @@ public final class RouteProto {
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (((bitField0_ & 0x00000001) != 0)) {
-        output.writeMessage(7, getMetaData());
+        output.writeMessage(7, getMetadata());
       }
       if (((bitField0_ & 0x00000002) != 0)) {
         output.writeMessage(8, getDataContainer());
@@ -1051,7 +1051,7 @@ public final class RouteProto {
       size = 0;
       if (((bitField0_ & 0x00000001) != 0)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(7, getMetaData());
+          .computeMessageSize(7, getMetadata());
       }
       if (((bitField0_ & 0x00000002) != 0)) {
         size += com.google.protobuf.CodedOutputStream
@@ -1072,10 +1072,10 @@ public final class RouteProto {
       }
       net.studioblueplanet.tomtomwatch.RouteProto.RootContainer other = (net.studioblueplanet.tomtomwatch.RouteProto.RootContainer) obj;
 
-      if (hasMetaData() != other.hasMetaData()) return false;
-      if (hasMetaData()) {
-        if (!getMetaData()
-            .equals(other.getMetaData())) return false;
+      if (hasMetadata() != other.hasMetadata()) return false;
+      if (hasMetadata()) {
+        if (!getMetadata()
+            .equals(other.getMetadata())) return false;
       }
       if (hasDataContainer() != other.hasDataContainer()) return false;
       if (hasDataContainer()) {
@@ -1093,9 +1093,9 @@ public final class RouteProto {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
-      if (hasMetaData()) {
+      if (hasMetadata()) {
         hash = (37 * hash) + METADATA_FIELD_NUMBER;
-        hash = (53 * hash) + getMetaData().hashCode();
+        hash = (53 * hash) + getMetadata().hashCode();
       }
       if (hasDataContainer()) {
         hash = (37 * hash) + DATACONTAINER_FIELD_NUMBER;
@@ -1235,17 +1235,17 @@ public final class RouteProto {
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessageV3
                 .alwaysUseFieldBuilders) {
-          getMetaDataFieldBuilder();
+          getMetadataFieldBuilder();
           getDataContainerFieldBuilder();
         }
       }
       @java.lang.Override
       public Builder clear() {
         super.clear();
-        if (metaDataBuilder_ == null) {
-          metaData_ = null;
+        if (metadataBuilder_ == null) {
+          metadata_ = null;
         } else {
-          metaDataBuilder_.clear();
+          metadataBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00000001);
         if (dataContainerBuilder_ == null) {
@@ -1283,10 +1283,10 @@ public final class RouteProto {
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
         if (((from_bitField0_ & 0x00000001) != 0)) {
-          if (metaDataBuilder_ == null) {
-            result.metaData_ = metaData_;
+          if (metadataBuilder_ == null) {
+            result.metadata_ = metadata_;
           } else {
-            result.metaData_ = metaDataBuilder_.build();
+            result.metadata_ = metadataBuilder_.build();
           }
           to_bitField0_ |= 0x00000001;
         }
@@ -1347,8 +1347,8 @@ public final class RouteProto {
 
       public Builder mergeFrom(net.studioblueplanet.tomtomwatch.RouteProto.RootContainer other) {
         if (other == net.studioblueplanet.tomtomwatch.RouteProto.RootContainer.getDefaultInstance()) return this;
-        if (other.hasMetaData()) {
-          mergeMetaData(other.getMetaData());
+        if (other.hasMetadata()) {
+          mergeMetadata(other.getMetadata());
         }
         if (other.hasDataContainer()) {
           mergeDataContainer(other.getDataContainer());
@@ -1360,8 +1360,8 @@ public final class RouteProto {
 
       @java.lang.Override
       public final boolean isInitialized() {
-        if (hasMetaData()) {
-          if (!getMetaData().isInitialized()) {
+        if (hasMetadata()) {
+          if (!getMetadata().isInitialized()) {
             return false;
           }
         }
@@ -1393,122 +1393,122 @@ public final class RouteProto {
       }
       private int bitField0_;
 
-      private net.studioblueplanet.tomtomwatch.RouteProto.MetaData metaData_;
+      private net.studioblueplanet.tomtomwatch.RouteProto.Metadata metadata_;
       private com.google.protobuf.SingleFieldBuilderV3<
-          net.studioblueplanet.tomtomwatch.RouteProto.MetaData, net.studioblueplanet.tomtomwatch.RouteProto.MetaData.Builder, net.studioblueplanet.tomtomwatch.RouteProto.MetaDataOrBuilder> metaDataBuilder_;
+          net.studioblueplanet.tomtomwatch.RouteProto.Metadata, net.studioblueplanet.tomtomwatch.RouteProto.Metadata.Builder, net.studioblueplanet.tomtomwatch.RouteProto.MetadataOrBuilder> metadataBuilder_;
       /**
-       * <code>optional .tutorial.MetaData metaData = 7;</code>
+       * <code>optional .tutorial.Metadata metadata = 7;</code>
        */
-      public boolean hasMetaData() {
+      public boolean hasMetadata() {
         return ((bitField0_ & 0x00000001) != 0);
       }
       /**
-       * <code>optional .tutorial.MetaData metaData = 7;</code>
+       * <code>optional .tutorial.Metadata metadata = 7;</code>
        */
-      public net.studioblueplanet.tomtomwatch.RouteProto.MetaData getMetaData() {
-        if (metaDataBuilder_ == null) {
-          return metaData_ == null ? net.studioblueplanet.tomtomwatch.RouteProto.MetaData.getDefaultInstance() : metaData_;
+      public net.studioblueplanet.tomtomwatch.RouteProto.Metadata getMetadata() {
+        if (metadataBuilder_ == null) {
+          return metadata_ == null ? net.studioblueplanet.tomtomwatch.RouteProto.Metadata.getDefaultInstance() : metadata_;
         } else {
-          return metaDataBuilder_.getMessage();
+          return metadataBuilder_.getMessage();
         }
       }
       /**
-       * <code>optional .tutorial.MetaData metaData = 7;</code>
+       * <code>optional .tutorial.Metadata metadata = 7;</code>
        */
-      public Builder setMetaData(net.studioblueplanet.tomtomwatch.RouteProto.MetaData value) {
-        if (metaDataBuilder_ == null) {
+      public Builder setMetadata(net.studioblueplanet.tomtomwatch.RouteProto.Metadata value) {
+        if (metadataBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
           }
-          metaData_ = value;
+          metadata_ = value;
           onChanged();
         } else {
-          metaDataBuilder_.setMessage(value);
+          metadataBuilder_.setMessage(value);
         }
         bitField0_ |= 0x00000001;
         return this;
       }
       /**
-       * <code>optional .tutorial.MetaData metaData = 7;</code>
+       * <code>optional .tutorial.Metadata metadata = 7;</code>
        */
-      public Builder setMetaData(
-          net.studioblueplanet.tomtomwatch.RouteProto.MetaData.Builder builderForValue) {
-        if (metaDataBuilder_ == null) {
-          metaData_ = builderForValue.build();
+      public Builder setMetadata(
+          net.studioblueplanet.tomtomwatch.RouteProto.Metadata.Builder builderForValue) {
+        if (metadataBuilder_ == null) {
+          metadata_ = builderForValue.build();
           onChanged();
         } else {
-          metaDataBuilder_.setMessage(builderForValue.build());
+          metadataBuilder_.setMessage(builderForValue.build());
         }
         bitField0_ |= 0x00000001;
         return this;
       }
       /**
-       * <code>optional .tutorial.MetaData metaData = 7;</code>
+       * <code>optional .tutorial.Metadata metadata = 7;</code>
        */
-      public Builder mergeMetaData(net.studioblueplanet.tomtomwatch.RouteProto.MetaData value) {
-        if (metaDataBuilder_ == null) {
+      public Builder mergeMetadata(net.studioblueplanet.tomtomwatch.RouteProto.Metadata value) {
+        if (metadataBuilder_ == null) {
           if (((bitField0_ & 0x00000001) != 0) &&
-              metaData_ != null &&
-              metaData_ != net.studioblueplanet.tomtomwatch.RouteProto.MetaData.getDefaultInstance()) {
-            metaData_ =
-              net.studioblueplanet.tomtomwatch.RouteProto.MetaData.newBuilder(metaData_).mergeFrom(value).buildPartial();
+              metadata_ != null &&
+              metadata_ != net.studioblueplanet.tomtomwatch.RouteProto.Metadata.getDefaultInstance()) {
+            metadata_ =
+              net.studioblueplanet.tomtomwatch.RouteProto.Metadata.newBuilder(metadata_).mergeFrom(value).buildPartial();
           } else {
-            metaData_ = value;
+            metadata_ = value;
           }
           onChanged();
         } else {
-          metaDataBuilder_.mergeFrom(value);
+          metadataBuilder_.mergeFrom(value);
         }
         bitField0_ |= 0x00000001;
         return this;
       }
       /**
-       * <code>optional .tutorial.MetaData metaData = 7;</code>
+       * <code>optional .tutorial.Metadata metadata = 7;</code>
        */
-      public Builder clearMetaData() {
-        if (metaDataBuilder_ == null) {
-          metaData_ = null;
+      public Builder clearMetadata() {
+        if (metadataBuilder_ == null) {
+          metadata_ = null;
           onChanged();
         } else {
-          metaDataBuilder_.clear();
+          metadataBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00000001);
         return this;
       }
       /**
-       * <code>optional .tutorial.MetaData metaData = 7;</code>
+       * <code>optional .tutorial.Metadata metadata = 7;</code>
        */
-      public net.studioblueplanet.tomtomwatch.RouteProto.MetaData.Builder getMetaDataBuilder() {
+      public net.studioblueplanet.tomtomwatch.RouteProto.Metadata.Builder getMetadataBuilder() {
         bitField0_ |= 0x00000001;
         onChanged();
-        return getMetaDataFieldBuilder().getBuilder();
+        return getMetadataFieldBuilder().getBuilder();
       }
       /**
-       * <code>optional .tutorial.MetaData metaData = 7;</code>
+       * <code>optional .tutorial.Metadata metadata = 7;</code>
        */
-      public net.studioblueplanet.tomtomwatch.RouteProto.MetaDataOrBuilder getMetaDataOrBuilder() {
-        if (metaDataBuilder_ != null) {
-          return metaDataBuilder_.getMessageOrBuilder();
+      public net.studioblueplanet.tomtomwatch.RouteProto.MetadataOrBuilder getMetadataOrBuilder() {
+        if (metadataBuilder_ != null) {
+          return metadataBuilder_.getMessageOrBuilder();
         } else {
-          return metaData_ == null ?
-              net.studioblueplanet.tomtomwatch.RouteProto.MetaData.getDefaultInstance() : metaData_;
+          return metadata_ == null ?
+              net.studioblueplanet.tomtomwatch.RouteProto.Metadata.getDefaultInstance() : metadata_;
         }
       }
       /**
-       * <code>optional .tutorial.MetaData metaData = 7;</code>
+       * <code>optional .tutorial.Metadata metadata = 7;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
-          net.studioblueplanet.tomtomwatch.RouteProto.MetaData, net.studioblueplanet.tomtomwatch.RouteProto.MetaData.Builder, net.studioblueplanet.tomtomwatch.RouteProto.MetaDataOrBuilder> 
-          getMetaDataFieldBuilder() {
-        if (metaDataBuilder_ == null) {
-          metaDataBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-              net.studioblueplanet.tomtomwatch.RouteProto.MetaData, net.studioblueplanet.tomtomwatch.RouteProto.MetaData.Builder, net.studioblueplanet.tomtomwatch.RouteProto.MetaDataOrBuilder>(
-                  getMetaData(),
+          net.studioblueplanet.tomtomwatch.RouteProto.Metadata, net.studioblueplanet.tomtomwatch.RouteProto.Metadata.Builder, net.studioblueplanet.tomtomwatch.RouteProto.MetadataOrBuilder> 
+          getMetadataFieldBuilder() {
+        if (metadataBuilder_ == null) {
+          metadataBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              net.studioblueplanet.tomtomwatch.RouteProto.Metadata, net.studioblueplanet.tomtomwatch.RouteProto.Metadata.Builder, net.studioblueplanet.tomtomwatch.RouteProto.MetadataOrBuilder>(
+                  getMetadata(),
                   getParentForChildren(),
                   isClean());
-          metaData_ = null;
+          metadata_ = null;
         }
-        return metaDataBuilder_;
+        return metadataBuilder_;
       }
 
       private net.studioblueplanet.tomtomwatch.RouteProto.DataContainer dataContainer_;
@@ -1681,8 +1681,8 @@ public final class RouteProto {
 
   }
 
-  public interface MetaDataOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:tutorial.MetaData)
+  public interface MetadataOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:tutorial.Metadata)
       com.google.protobuf.MessageOrBuilder {
 
     /**
@@ -1720,25 +1720,31 @@ public final class RouteProto {
     int getFileType();
   }
   /**
-   * Protobuf type {@code tutorial.MetaData}
+   * <pre>
+   *#################################################################################################
+   * 2nd level: metadata. Containing just two ints having the same value. Occurs often in one file
+   *#################################################################################################
+   * </pre>
+   *
+   * Protobuf type {@code tutorial.Metadata}
    */
-  public  static final class MetaData extends
+  public  static final class Metadata extends
       com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:tutorial.MetaData)
-      MetaDataOrBuilder {
+      // @@protoc_insertion_point(message_implements:tutorial.Metadata)
+      MetadataOrBuilder {
   private static final long serialVersionUID = 0L;
-    // Use MetaData.newBuilder() to construct.
-    private MetaData(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+    // Use Metadata.newBuilder() to construct.
+    private Metadata(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-    private MetaData() {
+    private Metadata() {
     }
 
     @java.lang.Override
     @SuppressWarnings({"unused"})
     protected java.lang.Object newInstance(
         UnusedPrivateParameter unused) {
-      return new MetaData();
+      return new Metadata();
     }
 
     @java.lang.Override
@@ -1746,7 +1752,7 @@ public final class RouteProto {
     getUnknownFields() {
       return this.unknownFields;
     }
-    private MetaData(
+    private Metadata(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -1796,15 +1802,15 @@ public final class RouteProto {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return net.studioblueplanet.tomtomwatch.RouteProto.internal_static_tutorial_MetaData_descriptor;
+      return net.studioblueplanet.tomtomwatch.RouteProto.internal_static_tutorial_Metadata_descriptor;
     }
 
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return net.studioblueplanet.tomtomwatch.RouteProto.internal_static_tutorial_MetaData_fieldAccessorTable
+      return net.studioblueplanet.tomtomwatch.RouteProto.internal_static_tutorial_Metadata_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              net.studioblueplanet.tomtomwatch.RouteProto.MetaData.class, net.studioblueplanet.tomtomwatch.RouteProto.MetaData.Builder.class);
+              net.studioblueplanet.tomtomwatch.RouteProto.Metadata.class, net.studioblueplanet.tomtomwatch.RouteProto.Metadata.Builder.class);
     }
 
     private int bitField0_;
@@ -1909,10 +1915,10 @@ public final class RouteProto {
       if (obj == this) {
        return true;
       }
-      if (!(obj instanceof net.studioblueplanet.tomtomwatch.RouteProto.MetaData)) {
+      if (!(obj instanceof net.studioblueplanet.tomtomwatch.RouteProto.Metadata)) {
         return super.equals(obj);
       }
-      net.studioblueplanet.tomtomwatch.RouteProto.MetaData other = (net.studioblueplanet.tomtomwatch.RouteProto.MetaData) obj;
+      net.studioblueplanet.tomtomwatch.RouteProto.Metadata other = (net.studioblueplanet.tomtomwatch.RouteProto.Metadata) obj;
 
       if (hasManufacturer() != other.hasManufacturer()) return false;
       if (hasManufacturer()) {
@@ -1948,69 +1954,69 @@ public final class RouteProto {
       return hash;
     }
 
-    public static net.studioblueplanet.tomtomwatch.RouteProto.MetaData parseFrom(
+    public static net.studioblueplanet.tomtomwatch.RouteProto.Metadata parseFrom(
         java.nio.ByteBuffer data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static net.studioblueplanet.tomtomwatch.RouteProto.MetaData parseFrom(
+    public static net.studioblueplanet.tomtomwatch.RouteProto.Metadata parseFrom(
         java.nio.ByteBuffer data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static net.studioblueplanet.tomtomwatch.RouteProto.MetaData parseFrom(
+    public static net.studioblueplanet.tomtomwatch.RouteProto.Metadata parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static net.studioblueplanet.tomtomwatch.RouteProto.MetaData parseFrom(
+    public static net.studioblueplanet.tomtomwatch.RouteProto.Metadata parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static net.studioblueplanet.tomtomwatch.RouteProto.MetaData parseFrom(byte[] data)
+    public static net.studioblueplanet.tomtomwatch.RouteProto.Metadata parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static net.studioblueplanet.tomtomwatch.RouteProto.MetaData parseFrom(
+    public static net.studioblueplanet.tomtomwatch.RouteProto.Metadata parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static net.studioblueplanet.tomtomwatch.RouteProto.MetaData parseFrom(java.io.InputStream input)
+    public static net.studioblueplanet.tomtomwatch.RouteProto.Metadata parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static net.studioblueplanet.tomtomwatch.RouteProto.MetaData parseFrom(
+    public static net.studioblueplanet.tomtomwatch.RouteProto.Metadata parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
-    public static net.studioblueplanet.tomtomwatch.RouteProto.MetaData parseDelimitedFrom(java.io.InputStream input)
+    public static net.studioblueplanet.tomtomwatch.RouteProto.Metadata parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
-    public static net.studioblueplanet.tomtomwatch.RouteProto.MetaData parseDelimitedFrom(
+    public static net.studioblueplanet.tomtomwatch.RouteProto.Metadata parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-    public static net.studioblueplanet.tomtomwatch.RouteProto.MetaData parseFrom(
+    public static net.studioblueplanet.tomtomwatch.RouteProto.Metadata parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static net.studioblueplanet.tomtomwatch.RouteProto.MetaData parseFrom(
+    public static net.studioblueplanet.tomtomwatch.RouteProto.Metadata parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -2023,7 +2029,7 @@ public final class RouteProto {
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-    public static Builder newBuilder(net.studioblueplanet.tomtomwatch.RouteProto.MetaData prototype) {
+    public static Builder newBuilder(net.studioblueplanet.tomtomwatch.RouteProto.Metadata prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
     @java.lang.Override
@@ -2039,26 +2045,32 @@ public final class RouteProto {
       return builder;
     }
     /**
-     * Protobuf type {@code tutorial.MetaData}
+     * <pre>
+     *#################################################################################################
+     * 2nd level: metadata. Containing just two ints having the same value. Occurs often in one file
+     *#################################################################################################
+     * </pre>
+     *
+     * Protobuf type {@code tutorial.Metadata}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:tutorial.MetaData)
-        net.studioblueplanet.tomtomwatch.RouteProto.MetaDataOrBuilder {
+        // @@protoc_insertion_point(builder_implements:tutorial.Metadata)
+        net.studioblueplanet.tomtomwatch.RouteProto.MetadataOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return net.studioblueplanet.tomtomwatch.RouteProto.internal_static_tutorial_MetaData_descriptor;
+        return net.studioblueplanet.tomtomwatch.RouteProto.internal_static_tutorial_Metadata_descriptor;
       }
 
       @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return net.studioblueplanet.tomtomwatch.RouteProto.internal_static_tutorial_MetaData_fieldAccessorTable
+        return net.studioblueplanet.tomtomwatch.RouteProto.internal_static_tutorial_Metadata_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                net.studioblueplanet.tomtomwatch.RouteProto.MetaData.class, net.studioblueplanet.tomtomwatch.RouteProto.MetaData.Builder.class);
+                net.studioblueplanet.tomtomwatch.RouteProto.Metadata.class, net.studioblueplanet.tomtomwatch.RouteProto.Metadata.Builder.class);
       }
 
-      // Construct using net.studioblueplanet.tomtomwatch.RouteProto.MetaData.newBuilder()
+      // Construct using net.studioblueplanet.tomtomwatch.RouteProto.Metadata.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -2086,17 +2098,17 @@ public final class RouteProto {
       @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return net.studioblueplanet.tomtomwatch.RouteProto.internal_static_tutorial_MetaData_descriptor;
+        return net.studioblueplanet.tomtomwatch.RouteProto.internal_static_tutorial_Metadata_descriptor;
       }
 
       @java.lang.Override
-      public net.studioblueplanet.tomtomwatch.RouteProto.MetaData getDefaultInstanceForType() {
-        return net.studioblueplanet.tomtomwatch.RouteProto.MetaData.getDefaultInstance();
+      public net.studioblueplanet.tomtomwatch.RouteProto.Metadata getDefaultInstanceForType() {
+        return net.studioblueplanet.tomtomwatch.RouteProto.Metadata.getDefaultInstance();
       }
 
       @java.lang.Override
-      public net.studioblueplanet.tomtomwatch.RouteProto.MetaData build() {
-        net.studioblueplanet.tomtomwatch.RouteProto.MetaData result = buildPartial();
+      public net.studioblueplanet.tomtomwatch.RouteProto.Metadata build() {
+        net.studioblueplanet.tomtomwatch.RouteProto.Metadata result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
@@ -2104,8 +2116,8 @@ public final class RouteProto {
       }
 
       @java.lang.Override
-      public net.studioblueplanet.tomtomwatch.RouteProto.MetaData buildPartial() {
-        net.studioblueplanet.tomtomwatch.RouteProto.MetaData result = new net.studioblueplanet.tomtomwatch.RouteProto.MetaData(this);
+      public net.studioblueplanet.tomtomwatch.RouteProto.Metadata buildPartial() {
+        net.studioblueplanet.tomtomwatch.RouteProto.Metadata result = new net.studioblueplanet.tomtomwatch.RouteProto.Metadata(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
         if (((from_bitField0_ & 0x00000001) != 0)) {
@@ -2155,16 +2167,16 @@ public final class RouteProto {
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof net.studioblueplanet.tomtomwatch.RouteProto.MetaData) {
-          return mergeFrom((net.studioblueplanet.tomtomwatch.RouteProto.MetaData)other);
+        if (other instanceof net.studioblueplanet.tomtomwatch.RouteProto.Metadata) {
+          return mergeFrom((net.studioblueplanet.tomtomwatch.RouteProto.Metadata)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(net.studioblueplanet.tomtomwatch.RouteProto.MetaData other) {
-        if (other == net.studioblueplanet.tomtomwatch.RouteProto.MetaData.getDefaultInstance()) return this;
+      public Builder mergeFrom(net.studioblueplanet.tomtomwatch.RouteProto.Metadata other) {
+        if (other == net.studioblueplanet.tomtomwatch.RouteProto.Metadata.getDefaultInstance()) return this;
         if (other.hasManufacturer()) {
           setManufacturer(other.getManufacturer());
         }
@@ -2192,11 +2204,11 @@ public final class RouteProto {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        net.studioblueplanet.tomtomwatch.RouteProto.MetaData parsedMessage = null;
+        net.studioblueplanet.tomtomwatch.RouteProto.Metadata parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (net.studioblueplanet.tomtomwatch.RouteProto.MetaData) e.getUnfinishedMessage();
+          parsedMessage = (net.studioblueplanet.tomtomwatch.RouteProto.Metadata) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
@@ -2315,41 +2327,41 @@ public final class RouteProto {
       }
 
 
-      // @@protoc_insertion_point(builder_scope:tutorial.MetaData)
+      // @@protoc_insertion_point(builder_scope:tutorial.Metadata)
     }
 
-    // @@protoc_insertion_point(class_scope:tutorial.MetaData)
-    private static final net.studioblueplanet.tomtomwatch.RouteProto.MetaData DEFAULT_INSTANCE;
+    // @@protoc_insertion_point(class_scope:tutorial.Metadata)
+    private static final net.studioblueplanet.tomtomwatch.RouteProto.Metadata DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new net.studioblueplanet.tomtomwatch.RouteProto.MetaData();
+      DEFAULT_INSTANCE = new net.studioblueplanet.tomtomwatch.RouteProto.Metadata();
     }
 
-    public static net.studioblueplanet.tomtomwatch.RouteProto.MetaData getDefaultInstance() {
+    public static net.studioblueplanet.tomtomwatch.RouteProto.Metadata getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    @java.lang.Deprecated public static final com.google.protobuf.Parser<MetaData>
-        PARSER = new com.google.protobuf.AbstractParser<MetaData>() {
+    @java.lang.Deprecated public static final com.google.protobuf.Parser<Metadata>
+        PARSER = new com.google.protobuf.AbstractParser<Metadata>() {
       @java.lang.Override
-      public MetaData parsePartialFrom(
+      public Metadata parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        return new MetaData(input, extensionRegistry);
+        return new Metadata(input, extensionRegistry);
       }
     };
 
-    public static com.google.protobuf.Parser<MetaData> parser() {
+    public static com.google.protobuf.Parser<Metadata> parser() {
       return PARSER;
     }
 
     @java.lang.Override
-    public com.google.protobuf.Parser<MetaData> getParserForType() {
+    public com.google.protobuf.Parser<Metadata> getParserForType() {
       return PARSER;
     }
 
     @java.lang.Override
-    public net.studioblueplanet.tomtomwatch.RouteProto.MetaData getDefaultInstanceForType() {
+    public net.studioblueplanet.tomtomwatch.RouteProto.Metadata getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
@@ -2373,6 +2385,12 @@ public final class RouteProto {
     net.studioblueplanet.tomtomwatch.RouteProto.SubDataContainerOrBuilder getSubDataContainerOrBuilder();
   }
   /**
+   * <pre>
+   *#################################################################################################
+   * 2nd level: data container. Contains various types of data
+   *#################################################################################################
+   * </pre>
+   *
    * Protobuf type {@code tutorial.DataContainer}
    */
   public  static final class DataContainer extends
@@ -2654,6 +2672,12 @@ public final class RouteProto {
       return builder;
     }
     /**
+     * <pre>
+     *#################################################################################################
+     * 2nd level: data container. Contains various types of data
+     *#################################################################################################
+     * </pre>
+     *
      * Protobuf type {@code tutorial.DataContainer}
      */
     public static final class Builder extends
@@ -4232,577 +4256,74 @@ public final class RouteProto {
 
   }
 
-  public interface LatLonOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:tutorial.LatLon)
+  public interface TrackMetaDataOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:tutorial.TrackMetaData)
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>required fixed32 value = 1;</code>
+     * <code>required string name = 1;</code>
      */
-    boolean hasValue();
+    boolean hasName();
     /**
-     * <code>required fixed32 value = 1;</code>
+     * <code>required string name = 1;</code>
      */
-    int getValue();
-  }
-  /**
-   * Protobuf type {@code tutorial.LatLon}
-   */
-  public  static final class LatLon extends
-      com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:tutorial.LatLon)
-      LatLonOrBuilder {
-  private static final long serialVersionUID = 0L;
-    // Use LatLon.newBuilder() to construct.
-    private LatLon(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
-      super(builder);
-    }
-    private LatLon() {
-    }
-
-    @java.lang.Override
-    @SuppressWarnings({"unused"})
-    protected java.lang.Object newInstance(
-        UnusedPrivateParameter unused) {
-      return new LatLon();
-    }
-
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-    getUnknownFields() {
-      return this.unknownFields;
-    }
-    private LatLon(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      this();
-      if (extensionRegistry == null) {
-        throw new java.lang.NullPointerException();
-      }
-      int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            case 13: {
-              bitField0_ |= 0x00000001;
-              value_ = input.readFixed32();
-              break;
-            }
-            default: {
-              if (!parseUnknownField(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e).setUnfinishedMessage(this);
-      } finally {
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
-    public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return net.studioblueplanet.tomtomwatch.RouteProto.internal_static_tutorial_LatLon_descriptor;
-    }
-
-    @java.lang.Override
-    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-        internalGetFieldAccessorTable() {
-      return net.studioblueplanet.tomtomwatch.RouteProto.internal_static_tutorial_LatLon_fieldAccessorTable
-          .ensureFieldAccessorsInitialized(
-              net.studioblueplanet.tomtomwatch.RouteProto.LatLon.class, net.studioblueplanet.tomtomwatch.RouteProto.LatLon.Builder.class);
-    }
-
-    private int bitField0_;
-    public static final int VALUE_FIELD_NUMBER = 1;
-    private int value_;
+    java.lang.String getName();
     /**
-     * <code>required fixed32 value = 1;</code>
+     * <code>required string name = 1;</code>
      */
-    public boolean hasValue() {
-      return ((bitField0_ & 0x00000001) != 0);
-    }
-    /**
-     * <code>required fixed32 value = 1;</code>
-     */
-    public int getValue() {
-      return value_;
-    }
-
-    private byte memoizedIsInitialized = -1;
-    @java.lang.Override
-    public final boolean isInitialized() {
-      byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
-
-      if (!hasValue()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      memoizedIsInitialized = 1;
-      return true;
-    }
-
-    @java.lang.Override
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
-      if (((bitField0_ & 0x00000001) != 0)) {
-        output.writeFixed32(1, value_);
-      }
-      unknownFields.writeTo(output);
-    }
-
-    @java.lang.Override
-    public int getSerializedSize() {
-      int size = memoizedSize;
-      if (size != -1) return size;
-
-      size = 0;
-      if (((bitField0_ & 0x00000001) != 0)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeFixed32Size(1, value_);
-      }
-      size += unknownFields.getSerializedSize();
-      memoizedSize = size;
-      return size;
-    }
-
-    @java.lang.Override
-    public boolean equals(final java.lang.Object obj) {
-      if (obj == this) {
-       return true;
-      }
-      if (!(obj instanceof net.studioblueplanet.tomtomwatch.RouteProto.LatLon)) {
-        return super.equals(obj);
-      }
-      net.studioblueplanet.tomtomwatch.RouteProto.LatLon other = (net.studioblueplanet.tomtomwatch.RouteProto.LatLon) obj;
-
-      if (hasValue() != other.hasValue()) return false;
-      if (hasValue()) {
-        if (getValue()
-            != other.getValue()) return false;
-      }
-      if (!unknownFields.equals(other.unknownFields)) return false;
-      return true;
-    }
-
-    @java.lang.Override
-    public int hashCode() {
-      if (memoizedHashCode != 0) {
-        return memoizedHashCode;
-      }
-      int hash = 41;
-      hash = (19 * hash) + getDescriptor().hashCode();
-      if (hasValue()) {
-        hash = (37 * hash) + VALUE_FIELD_NUMBER;
-        hash = (53 * hash) + getValue();
-      }
-      hash = (29 * hash) + unknownFields.hashCode();
-      memoizedHashCode = hash;
-      return hash;
-    }
-
-    public static net.studioblueplanet.tomtomwatch.RouteProto.LatLon parseFrom(
-        java.nio.ByteBuffer data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static net.studioblueplanet.tomtomwatch.RouteProto.LatLon parseFrom(
-        java.nio.ByteBuffer data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static net.studioblueplanet.tomtomwatch.RouteProto.LatLon parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static net.studioblueplanet.tomtomwatch.RouteProto.LatLon parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static net.studioblueplanet.tomtomwatch.RouteProto.LatLon parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static net.studioblueplanet.tomtomwatch.RouteProto.LatLon parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static net.studioblueplanet.tomtomwatch.RouteProto.LatLon parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
-    }
-    public static net.studioblueplanet.tomtomwatch.RouteProto.LatLon parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
-    }
-    public static net.studioblueplanet.tomtomwatch.RouteProto.LatLon parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input);
-    }
-    public static net.studioblueplanet.tomtomwatch.RouteProto.LatLon parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
-    }
-    public static net.studioblueplanet.tomtomwatch.RouteProto.LatLon parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
-    }
-    public static net.studioblueplanet.tomtomwatch.RouteProto.LatLon parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
-    }
-
-    @java.lang.Override
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder() {
-      return DEFAULT_INSTANCE.toBuilder();
-    }
-    public static Builder newBuilder(net.studioblueplanet.tomtomwatch.RouteProto.LatLon prototype) {
-      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
-    }
-    @java.lang.Override
-    public Builder toBuilder() {
-      return this == DEFAULT_INSTANCE
-          ? new Builder() : new Builder().mergeFrom(this);
-    }
-
-    @java.lang.Override
-    protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-      Builder builder = new Builder(parent);
-      return builder;
-    }
-    /**
-     * Protobuf type {@code tutorial.LatLon}
-     */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:tutorial.LatLon)
-        net.studioblueplanet.tomtomwatch.RouteProto.LatLonOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return net.studioblueplanet.tomtomwatch.RouteProto.internal_static_tutorial_LatLon_descriptor;
-      }
-
-      @java.lang.Override
-      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return net.studioblueplanet.tomtomwatch.RouteProto.internal_static_tutorial_LatLon_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                net.studioblueplanet.tomtomwatch.RouteProto.LatLon.class, net.studioblueplanet.tomtomwatch.RouteProto.LatLon.Builder.class);
-      }
-
-      // Construct using net.studioblueplanet.tomtomwatch.RouteProto.LatLon.newBuilder()
-      private Builder() {
-        maybeForceBuilderInitialization();
-      }
-
-      private Builder(
-          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-        super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessageV3
-                .alwaysUseFieldBuilders) {
-        }
-      }
-      @java.lang.Override
-      public Builder clear() {
-        super.clear();
-        value_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000001);
-        return this;
-      }
-
-      @java.lang.Override
-      public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
-        return net.studioblueplanet.tomtomwatch.RouteProto.internal_static_tutorial_LatLon_descriptor;
-      }
-
-      @java.lang.Override
-      public net.studioblueplanet.tomtomwatch.RouteProto.LatLon getDefaultInstanceForType() {
-        return net.studioblueplanet.tomtomwatch.RouteProto.LatLon.getDefaultInstance();
-      }
-
-      @java.lang.Override
-      public net.studioblueplanet.tomtomwatch.RouteProto.LatLon build() {
-        net.studioblueplanet.tomtomwatch.RouteProto.LatLon result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(result);
-        }
-        return result;
-      }
-
-      @java.lang.Override
-      public net.studioblueplanet.tomtomwatch.RouteProto.LatLon buildPartial() {
-        net.studioblueplanet.tomtomwatch.RouteProto.LatLon result = new net.studioblueplanet.tomtomwatch.RouteProto.LatLon(this);
-        int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) != 0)) {
-          result.value_ = value_;
-          to_bitField0_ |= 0x00000001;
-        }
-        result.bitField0_ = to_bitField0_;
-        onBuilt();
-        return result;
-      }
-
-      @java.lang.Override
-      public Builder clone() {
-        return super.clone();
-      }
-      @java.lang.Override
-      public Builder setField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return super.setField(field, value);
-      }
-      @java.lang.Override
-      public Builder clearField(
-          com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return super.clearField(field);
-      }
-      @java.lang.Override
-      public Builder clearOneof(
-          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return super.clearOneof(oneof);
-      }
-      @java.lang.Override
-      public Builder setRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, java.lang.Object value) {
-        return super.setRepeatedField(field, index, value);
-      }
-      @java.lang.Override
-      public Builder addRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return super.addRepeatedField(field, value);
-      }
-      @java.lang.Override
-      public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof net.studioblueplanet.tomtomwatch.RouteProto.LatLon) {
-          return mergeFrom((net.studioblueplanet.tomtomwatch.RouteProto.LatLon)other);
-        } else {
-          super.mergeFrom(other);
-          return this;
-        }
-      }
-
-      public Builder mergeFrom(net.studioblueplanet.tomtomwatch.RouteProto.LatLon other) {
-        if (other == net.studioblueplanet.tomtomwatch.RouteProto.LatLon.getDefaultInstance()) return this;
-        if (other.hasValue()) {
-          setValue(other.getValue());
-        }
-        this.mergeUnknownFields(other.unknownFields);
-        onChanged();
-        return this;
-      }
-
-      @java.lang.Override
-      public final boolean isInitialized() {
-        if (!hasValue()) {
-          return false;
-        }
-        return true;
-      }
-
-      @java.lang.Override
-      public Builder mergeFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        net.studioblueplanet.tomtomwatch.RouteProto.LatLon parsedMessage = null;
-        try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (net.studioblueplanet.tomtomwatch.RouteProto.LatLon) e.getUnfinishedMessage();
-          throw e.unwrapIOException();
-        } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
-        return this;
-      }
-      private int bitField0_;
-
-      private int value_ ;
-      /**
-       * <code>required fixed32 value = 1;</code>
-       */
-      public boolean hasValue() {
-        return ((bitField0_ & 0x00000001) != 0);
-      }
-      /**
-       * <code>required fixed32 value = 1;</code>
-       */
-      public int getValue() {
-        return value_;
-      }
-      /**
-       * <code>required fixed32 value = 1;</code>
-       */
-      public Builder setValue(int value) {
-        bitField0_ |= 0x00000001;
-        value_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required fixed32 value = 1;</code>
-       */
-      public Builder clearValue() {
-        bitField0_ = (bitField0_ & ~0x00000001);
-        value_ = 0;
-        onChanged();
-        return this;
-      }
-      @java.lang.Override
-      public final Builder setUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFields(unknownFields);
-      }
-
-      @java.lang.Override
-      public final Builder mergeUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.mergeUnknownFields(unknownFields);
-      }
-
-
-      // @@protoc_insertion_point(builder_scope:tutorial.LatLon)
-    }
-
-    // @@protoc_insertion_point(class_scope:tutorial.LatLon)
-    private static final net.studioblueplanet.tomtomwatch.RouteProto.LatLon DEFAULT_INSTANCE;
-    static {
-      DEFAULT_INSTANCE = new net.studioblueplanet.tomtomwatch.RouteProto.LatLon();
-    }
-
-    public static net.studioblueplanet.tomtomwatch.RouteProto.LatLon getDefaultInstance() {
-      return DEFAULT_INSTANCE;
-    }
-
-    @java.lang.Deprecated public static final com.google.protobuf.Parser<LatLon>
-        PARSER = new com.google.protobuf.AbstractParser<LatLon>() {
-      @java.lang.Override
-      public LatLon parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new LatLon(input, extensionRegistry);
-      }
-    };
-
-    public static com.google.protobuf.Parser<LatLon> parser() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<LatLon> getParserForType() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public net.studioblueplanet.tomtomwatch.RouteProto.LatLon getDefaultInstanceForType() {
-      return DEFAULT_INSTANCE;
-    }
-
-  }
-
-  public interface CoordinateOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:tutorial.Coordinate)
-      com.google.protobuf.MessageOrBuilder {
+    com.google.protobuf.ByteString
+        getNameBytes();
 
     /**
-     * <code>required .tutorial.LatLon lat = 1;</code>
+     * <code>required .tutorial.BoundingBox box = 2;</code>
      */
-    boolean hasLat();
+    boolean hasBox();
     /**
-     * <code>required .tutorial.LatLon lat = 1;</code>
+     * <code>required .tutorial.BoundingBox box = 2;</code>
      */
-    net.studioblueplanet.tomtomwatch.RouteProto.LatLon getLat();
+    net.studioblueplanet.tomtomwatch.RouteProto.BoundingBox getBox();
     /**
-     * <code>required .tutorial.LatLon lat = 1;</code>
+     * <code>required .tutorial.BoundingBox box = 2;</code>
      */
-    net.studioblueplanet.tomtomwatch.RouteProto.LatLonOrBuilder getLatOrBuilder();
+    net.studioblueplanet.tomtomwatch.RouteProto.BoundingBoxOrBuilder getBoxOrBuilder();
 
     /**
-     * <code>required .tutorial.LatLon lon = 2;</code>
+     * <code>required bytes time = 3;</code>
      */
-    boolean hasLon();
+    boolean hasTime();
     /**
-     * <code>required .tutorial.LatLon lon = 2;</code>
+     * <code>required bytes time = 3;</code>
      */
-    net.studioblueplanet.tomtomwatch.RouteProto.LatLon getLon();
-    /**
-     * <code>required .tutorial.LatLon lon = 2;</code>
-     */
-    net.studioblueplanet.tomtomwatch.RouteProto.LatLonOrBuilder getLonOrBuilder();
+    com.google.protobuf.ByteString getTime();
   }
   /**
    * <pre>
-   * Container
+   *#################################################################################################
+   * 4th level: Some information on the route
+   *#################################################################################################
    * </pre>
    *
-   * Protobuf type {@code tutorial.Coordinate}
+   * Protobuf type {@code tutorial.TrackMetaData}
    */
-  public  static final class Coordinate extends
+  public  static final class TrackMetaData extends
       com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:tutorial.Coordinate)
-      CoordinateOrBuilder {
+      // @@protoc_insertion_point(message_implements:tutorial.TrackMetaData)
+      TrackMetaDataOrBuilder {
   private static final long serialVersionUID = 0L;
-    // Use Coordinate.newBuilder() to construct.
-    private Coordinate(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+    // Use TrackMetaData.newBuilder() to construct.
+    private TrackMetaData(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-    private Coordinate() {
+    private TrackMetaData() {
+      name_ = "";
+      time_ = com.google.protobuf.ByteString.EMPTY;
     }
 
     @java.lang.Override
     @SuppressWarnings({"unused"})
     protected java.lang.Object newInstance(
         UnusedPrivateParameter unused) {
-      return new Coordinate();
+      return new TrackMetaData();
     }
 
     @java.lang.Override
@@ -4810,7 +4331,7 @@ public final class RouteProto {
     getUnknownFields() {
       return this.unknownFields;
     }
-    private Coordinate(
+    private TrackMetaData(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -4830,31 +4351,29 @@ public final class RouteProto {
               done = true;
               break;
             case 10: {
-              net.studioblueplanet.tomtomwatch.RouteProto.LatLon.Builder subBuilder = null;
-              if (((bitField0_ & 0x00000001) != 0)) {
-                subBuilder = lat_.toBuilder();
-              }
-              lat_ = input.readMessage(net.studioblueplanet.tomtomwatch.RouteProto.LatLon.PARSER, extensionRegistry);
-              if (subBuilder != null) {
-                subBuilder.mergeFrom(lat_);
-                lat_ = subBuilder.buildPartial();
-              }
+              com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000001;
+              name_ = bs;
               break;
             }
             case 18: {
-              net.studioblueplanet.tomtomwatch.RouteProto.LatLon.Builder subBuilder = null;
+              net.studioblueplanet.tomtomwatch.RouteProto.BoundingBox.Builder subBuilder = null;
               if (((bitField0_ & 0x00000002) != 0)) {
-                subBuilder = lon_.toBuilder();
+                subBuilder = box_.toBuilder();
               }
-              lon_ = input.readMessage(net.studioblueplanet.tomtomwatch.RouteProto.LatLon.PARSER, extensionRegistry);
+              box_ = input.readMessage(net.studioblueplanet.tomtomwatch.RouteProto.BoundingBox.PARSER, extensionRegistry);
               if (subBuilder != null) {
-                subBuilder.mergeFrom(lon_);
-                lon_ = subBuilder.buildPartial();
+                subBuilder.mergeFrom(box_);
+                box_ = subBuilder.buildPartial();
               }
               bitField0_ |= 0x00000002;
               break;
             }
+            case 26: {
+              bitField0_ |= 0x00000004;
+              time_ = input.readBytes();
+              break;
+            }
             default: {
               if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
@@ -4876,58 +4395,94 @@ public final class RouteProto {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return net.studioblueplanet.tomtomwatch.RouteProto.internal_static_tutorial_Coordinate_descriptor;
+      return net.studioblueplanet.tomtomwatch.RouteProto.internal_static_tutorial_TrackMetaData_descriptor;
     }
 
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return net.studioblueplanet.tomtomwatch.RouteProto.internal_static_tutorial_Coordinate_fieldAccessorTable
+      return net.studioblueplanet.tomtomwatch.RouteProto.internal_static_tutorial_TrackMetaData_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              net.studioblueplanet.tomtomwatch.RouteProto.Coordinate.class, net.studioblueplanet.tomtomwatch.RouteProto.Coordinate.Builder.class);
+              net.studioblueplanet.tomtomwatch.RouteProto.TrackMetaData.class, net.studioblueplanet.tomtomwatch.RouteProto.TrackMetaData.Builder.class);
     }
 
     private int bitField0_;
-    public static final int LAT_FIELD_NUMBER = 1;
-    private net.studioblueplanet.tomtomwatch.RouteProto.LatLon lat_;
+    public static final int NAME_FIELD_NUMBER = 1;
+    private volatile java.lang.Object name_;
     /**
-     * <code>required .tutorial.LatLon lat = 1;</code>
+     * <code>required string name = 1;</code>
      */
-    public boolean hasLat() {
+    public boolean hasName() {
       return ((bitField0_ & 0x00000001) != 0);
     }
     /**
-     * <code>required .tutorial.LatLon lat = 1;</code>
+     * <code>required string name = 1;</code>
      */
-    public net.studioblueplanet.tomtomwatch.RouteProto.LatLon getLat() {
-      return lat_ == null ? net.studioblueplanet.tomtomwatch.RouteProto.LatLon.getDefaultInstance() : lat_;
+    public java.lang.String getName() {
+      java.lang.Object ref = name_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          name_ = s;
+        }
+        return s;
+      }
     }
     /**
-     * <code>required .tutorial.LatLon lat = 1;</code>
+     * <code>required string name = 1;</code>
      */
-    public net.studioblueplanet.tomtomwatch.RouteProto.LatLonOrBuilder getLatOrBuilder() {
-      return lat_ == null ? net.studioblueplanet.tomtomwatch.RouteProto.LatLon.getDefaultInstance() : lat_;
+    public com.google.protobuf.ByteString
+        getNameBytes() {
+      java.lang.Object ref = name_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        name_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
     }
 
-    public static final int LON_FIELD_NUMBER = 2;
-    private net.studioblueplanet.tomtomwatch.RouteProto.LatLon lon_;
+    public static final int BOX_FIELD_NUMBER = 2;
+    private net.studioblueplanet.tomtomwatch.RouteProto.BoundingBox box_;
     /**
-     * <code>required .tutorial.LatLon lon = 2;</code>
+     * <code>required .tutorial.BoundingBox box = 2;</code>
      */
-    public boolean hasLon() {
+    public boolean hasBox() {
       return ((bitField0_ & 0x00000002) != 0);
     }
     /**
-     * <code>required .tutorial.LatLon lon = 2;</code>
+     * <code>required .tutorial.BoundingBox box = 2;</code>
      */
-    public net.studioblueplanet.tomtomwatch.RouteProto.LatLon getLon() {
-      return lon_ == null ? net.studioblueplanet.tomtomwatch.RouteProto.LatLon.getDefaultInstance() : lon_;
+    public net.studioblueplanet.tomtomwatch.RouteProto.BoundingBox getBox() {
+      return box_ == null ? net.studioblueplanet.tomtomwatch.RouteProto.BoundingBox.getDefaultInstance() : box_;
     }
     /**
-     * <code>required .tutorial.LatLon lon = 2;</code>
+     * <code>required .tutorial.BoundingBox box = 2;</code>
      */
-    public net.studioblueplanet.tomtomwatch.RouteProto.LatLonOrBuilder getLonOrBuilder() {
-      return lon_ == null ? net.studioblueplanet.tomtomwatch.RouteProto.LatLon.getDefaultInstance() : lon_;
+    public net.studioblueplanet.tomtomwatch.RouteProto.BoundingBoxOrBuilder getBoxOrBuilder() {
+      return box_ == null ? net.studioblueplanet.tomtomwatch.RouteProto.BoundingBox.getDefaultInstance() : box_;
+    }
+
+    public static final int TIME_FIELD_NUMBER = 3;
+    private com.google.protobuf.ByteString time_;
+    /**
+     * <code>required bytes time = 3;</code>
+     */
+    public boolean hasTime() {
+      return ((bitField0_ & 0x00000004) != 0);
+    }
+    /**
+     * <code>required bytes time = 3;</code>
+     */
+    public com.google.protobuf.ByteString getTime() {
+      return time_;
     }
 
     private byte memoizedIsInitialized = -1;
@@ -4937,19 +4492,19 @@ public final class RouteProto {
       if (isInitialized == 1) return true;
       if (isInitialized == 0) return false;
 
-      if (!hasLat()) {
+      if (!hasName()) {
         memoizedIsInitialized = 0;
         return false;
       }
-      if (!hasLon()) {
+      if (!hasBox()) {
         memoizedIsInitialized = 0;
         return false;
       }
-      if (!getLat().isInitialized()) {
+      if (!hasTime()) {
         memoizedIsInitialized = 0;
         return false;
       }
-      if (!getLon().isInitialized()) {
+      if (!getBox().isInitialized()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -4961,10 +4516,13 @@ public final class RouteProto {
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (((bitField0_ & 0x00000001) != 0)) {
-        output.writeMessage(1, getLat());
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, name_);
       }
       if (((bitField0_ & 0x00000002) != 0)) {
-        output.writeMessage(2, getLon());
+        output.writeMessage(2, getBox());
+      }
+      if (((bitField0_ & 0x00000004) != 0)) {
+        output.writeBytes(3, time_);
       }
       unknownFields.writeTo(output);
     }
@@ -4976,12 +4534,15 @@ public final class RouteProto {
 
       size = 0;
       if (((bitField0_ & 0x00000001) != 0)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(1, getLat());
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, name_);
       }
       if (((bitField0_ & 0x00000002) != 0)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(2, getLon());
+          .computeMessageSize(2, getBox());
+      }
+      if (((bitField0_ & 0x00000004) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(3, time_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -4993,20 +4554,25 @@ public final class RouteProto {
       if (obj == this) {
        return true;
       }
-      if (!(obj instanceof net.studioblueplanet.tomtomwatch.RouteProto.Coordinate)) {
+      if (!(obj instanceof net.studioblueplanet.tomtomwatch.RouteProto.TrackMetaData)) {
         return super.equals(obj);
       }
-      net.studioblueplanet.tomtomwatch.RouteProto.Coordinate other = (net.studioblueplanet.tomtomwatch.RouteProto.Coordinate) obj;
+      net.studioblueplanet.tomtomwatch.RouteProto.TrackMetaData other = (net.studioblueplanet.tomtomwatch.RouteProto.TrackMetaData) obj;
 
-      if (hasLat() != other.hasLat()) return false;
-      if (hasLat()) {
-        if (!getLat()
-            .equals(other.getLat())) return false;
+      if (hasName() != other.hasName()) return false;
+      if (hasName()) {
+        if (!getName()
+            .equals(other.getName())) return false;
       }
-      if (hasLon() != other.hasLon()) return false;
-      if (hasLon()) {
-        if (!getLon()
-            .equals(other.getLon())) return false;
+      if (hasBox() != other.hasBox()) return false;
+      if (hasBox()) {
+        if (!getBox()
+            .equals(other.getBox())) return false;
+      }
+      if (hasTime() != other.hasTime()) return false;
+      if (hasTime()) {
+        if (!getTime()
+            .equals(other.getTime())) return false;
       }
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
@@ -5019,82 +4585,86 @@ public final class RouteProto {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
-      if (hasLat()) {
-        hash = (37 * hash) + LAT_FIELD_NUMBER;
-        hash = (53 * hash) + getLat().hashCode();
+      if (hasName()) {
+        hash = (37 * hash) + NAME_FIELD_NUMBER;
+        hash = (53 * hash) + getName().hashCode();
       }
-      if (hasLon()) {
-        hash = (37 * hash) + LON_FIELD_NUMBER;
-        hash = (53 * hash) + getLon().hashCode();
+      if (hasBox()) {
+        hash = (37 * hash) + BOX_FIELD_NUMBER;
+        hash = (53 * hash) + getBox().hashCode();
+      }
+      if (hasTime()) {
+        hash = (37 * hash) + TIME_FIELD_NUMBER;
+        hash = (53 * hash) + getTime().hashCode();
       }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
     }
 
-    public static net.studioblueplanet.tomtomwatch.RouteProto.Coordinate parseFrom(
+    public static net.studioblueplanet.tomtomwatch.RouteProto.TrackMetaData parseFrom(
         java.nio.ByteBuffer data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static net.studioblueplanet.tomtomwatch.RouteProto.Coordinate parseFrom(
+    public static net.studioblueplanet.tomtomwatch.RouteProto.TrackMetaData parseFrom(
         java.nio.ByteBuffer data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static net.studioblueplanet.tomtomwatch.RouteProto.Coordinate parseFrom(
+    public static net.studioblueplanet.tomtomwatch.RouteProto.TrackMetaData parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static net.studioblueplanet.tomtomwatch.RouteProto.Coordinate parseFrom(
+    public static net.studioblueplanet.tomtomwatch.RouteProto.TrackMetaData parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static net.studioblueplanet.tomtomwatch.RouteProto.Coordinate parseFrom(byte[] data)
+    public static net.studioblueplanet.tomtomwatch.RouteProto.TrackMetaData parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static net.studioblueplanet.tomtomwatch.RouteProto.Coordinate parseFrom(
+    public static net.studioblueplanet.tomtomwatch.RouteProto.TrackMetaData parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static net.studioblueplanet.tomtomwatch.RouteProto.Coordinate parseFrom(java.io.InputStream input)
+    public static net.studioblueplanet.tomtomwatch.RouteProto.TrackMetaData parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static net.studioblueplanet.tomtomwatch.RouteProto.Coordinate parseFrom(
+    public static net.studioblueplanet.tomtomwatch.RouteProto.TrackMetaData parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
-    public static net.studioblueplanet.tomtomwatch.RouteProto.Coordinate parseDelimitedFrom(java.io.InputStream input)
+    public static net.studioblueplanet.tomtomwatch.RouteProto.TrackMetaData parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
-    public static net.studioblueplanet.tomtomwatch.RouteProto.Coordinate parseDelimitedFrom(
+    public static net.studioblueplanet.tomtomwatch.RouteProto.TrackMetaData parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-    public static net.studioblueplanet.tomtomwatch.RouteProto.Coordinate parseFrom(
+    public static net.studioblueplanet.tomtomwatch.RouteProto.TrackMetaData parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static net.studioblueplanet.tomtomwatch.RouteProto.Coordinate parseFrom(
+    public static net.studioblueplanet.tomtomwatch.RouteProto.TrackMetaData parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -5107,7 +4677,7 @@ public final class RouteProto {
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-    public static Builder newBuilder(net.studioblueplanet.tomtomwatch.RouteProto.Coordinate prototype) {
+    public static Builder newBuilder(net.studioblueplanet.tomtomwatch.RouteProto.TrackMetaData prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
     @java.lang.Override
@@ -5124,29 +4694,31 @@ public final class RouteProto {
     }
     /**
      * <pre>
-     * Container
+     *#################################################################################################
+     * 4th level: Some information on the route
+     *#################################################################################################
      * </pre>
      *
-     * Protobuf type {@code tutorial.Coordinate}
+     * Protobuf type {@code tutorial.TrackMetaData}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:tutorial.Coordinate)
-        net.studioblueplanet.tomtomwatch.RouteProto.CoordinateOrBuilder {
+        // @@protoc_insertion_point(builder_implements:tutorial.TrackMetaData)
+        net.studioblueplanet.tomtomwatch.RouteProto.TrackMetaDataOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return net.studioblueplanet.tomtomwatch.RouteProto.internal_static_tutorial_Coordinate_descriptor;
+        return net.studioblueplanet.tomtomwatch.RouteProto.internal_static_tutorial_TrackMetaData_descriptor;
       }
 
       @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return net.studioblueplanet.tomtomwatch.RouteProto.internal_static_tutorial_Coordinate_fieldAccessorTable
+        return net.studioblueplanet.tomtomwatch.RouteProto.internal_static_tutorial_TrackMetaData_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                net.studioblueplanet.tomtomwatch.RouteProto.Coordinate.class, net.studioblueplanet.tomtomwatch.RouteProto.Coordinate.Builder.class);
+                net.studioblueplanet.tomtomwatch.RouteProto.TrackMetaData.class, net.studioblueplanet.tomtomwatch.RouteProto.TrackMetaData.Builder.class);
       }
 
-      // Construct using net.studioblueplanet.tomtomwatch.RouteProto.Coordinate.newBuilder()
+      // Construct using net.studioblueplanet.tomtomwatch.RouteProto.TrackMetaData.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -5159,42 +4731,39 @@ public final class RouteProto {
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessageV3
                 .alwaysUseFieldBuilders) {
-          getLatFieldBuilder();
-          getLonFieldBuilder();
+          getBoxFieldBuilder();
         }
       }
       @java.lang.Override
       public Builder clear() {
         super.clear();
-        if (latBuilder_ == null) {
-          lat_ = null;
-        } else {
-          latBuilder_.clear();
-        }
+        name_ = "";
         bitField0_ = (bitField0_ & ~0x00000001);
-        if (lonBuilder_ == null) {
-          lon_ = null;
+        if (boxBuilder_ == null) {
+          box_ = null;
         } else {
-          lonBuilder_.clear();
+          boxBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00000002);
+        time_ = com.google.protobuf.ByteString.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000004);
         return this;
       }
 
       @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return net.studioblueplanet.tomtomwatch.RouteProto.internal_static_tutorial_Coordinate_descriptor;
+        return net.studioblueplanet.tomtomwatch.RouteProto.internal_static_tutorial_TrackMetaData_descriptor;
       }
 
       @java.lang.Override
-      public net.studioblueplanet.tomtomwatch.RouteProto.Coordinate getDefaultInstanceForType() {
-        return net.studioblueplanet.tomtomwatch.RouteProto.Coordinate.getDefaultInstance();
+      public net.studioblueplanet.tomtomwatch.RouteProto.TrackMetaData getDefaultInstanceForType() {
+        return net.studioblueplanet.tomtomwatch.RouteProto.TrackMetaData.getDefaultInstance();
       }
 
       @java.lang.Override
-      public net.studioblueplanet.tomtomwatch.RouteProto.Coordinate build() {
-        net.studioblueplanet.tomtomwatch.RouteProto.Coordinate result = buildPartial();
+      public net.studioblueplanet.tomtomwatch.RouteProto.TrackMetaData build() {
+        net.studioblueplanet.tomtomwatch.RouteProto.TrackMetaData result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
@@ -5202,26 +4771,26 @@ public final class RouteProto {
       }
 
       @java.lang.Override
-      public net.studioblueplanet.tomtomwatch.RouteProto.Coordinate buildPartial() {
-        net.studioblueplanet.tomtomwatch.RouteProto.Coordinate result = new net.studioblueplanet.tomtomwatch.RouteProto.Coordinate(this);
+      public net.studioblueplanet.tomtomwatch.RouteProto.TrackMetaData buildPartial() {
+        net.studioblueplanet.tomtomwatch.RouteProto.TrackMetaData result = new net.studioblueplanet.tomtomwatch.RouteProto.TrackMetaData(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
         if (((from_bitField0_ & 0x00000001) != 0)) {
-          if (latBuilder_ == null) {
-            result.lat_ = lat_;
-          } else {
-            result.lat_ = latBuilder_.build();
-          }
           to_bitField0_ |= 0x00000001;
         }
+        result.name_ = name_;
         if (((from_bitField0_ & 0x00000002) != 0)) {
-          if (lonBuilder_ == null) {
-            result.lon_ = lon_;
+          if (boxBuilder_ == null) {
+            result.box_ = box_;
           } else {
-            result.lon_ = lonBuilder_.build();
+            result.box_ = boxBuilder_.build();
           }
           to_bitField0_ |= 0x00000002;
         }
+        if (((from_bitField0_ & 0x00000004) != 0)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.time_ = time_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -5261,21 +4830,26 @@ public final class RouteProto {
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof net.studioblueplanet.tomtomwatch.RouteProto.Coordinate) {
-          return mergeFrom((net.studioblueplanet.tomtomwatch.RouteProto.Coordinate)other);
+        if (other instanceof net.studioblueplanet.tomtomwatch.RouteProto.TrackMetaData) {
+          return mergeFrom((net.studioblueplanet.tomtomwatch.RouteProto.TrackMetaData)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(net.studioblueplanet.tomtomwatch.RouteProto.Coordinate other) {
-        if (other == net.studioblueplanet.tomtomwatch.RouteProto.Coordinate.getDefaultInstance()) return this;
-        if (other.hasLat()) {
-          mergeLat(other.getLat());
+      public Builder mergeFrom(net.studioblueplanet.tomtomwatch.RouteProto.TrackMetaData other) {
+        if (other == net.studioblueplanet.tomtomwatch.RouteProto.TrackMetaData.getDefaultInstance()) return this;
+        if (other.hasName()) {
+          bitField0_ |= 0x00000001;
+          name_ = other.name_;
+          onChanged();
         }
-        if (other.hasLon()) {
-          mergeLon(other.getLon());
+        if (other.hasBox()) {
+          mergeBox(other.getBox());
+        }
+        if (other.hasTime()) {
+          setTime(other.getTime());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -5284,16 +4858,16 @@ public final class RouteProto {
 
       @java.lang.Override
       public final boolean isInitialized() {
-        if (!hasLat()) {
+        if (!hasName()) {
           return false;
         }
-        if (!hasLon()) {
+        if (!hasBox()) {
           return false;
         }
-        if (!getLat().isInitialized()) {
+        if (!hasTime()) {
           return false;
         }
-        if (!getLon().isInitialized()) {
+        if (!getBox().isInitialized()) {
           return false;
         }
         return true;
@@ -5304,11 +4878,11 @@ public final class RouteProto {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        net.studioblueplanet.tomtomwatch.RouteProto.Coordinate parsedMessage = null;
+        net.studioblueplanet.tomtomwatch.RouteProto.TrackMetaData parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (net.studioblueplanet.tomtomwatch.RouteProto.Coordinate) e.getUnfinishedMessage();
+          parsedMessage = (net.studioblueplanet.tomtomwatch.RouteProto.TrackMetaData) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
@@ -5319,240 +4893,233 @@ public final class RouteProto {
       }
       private int bitField0_;
 
-      private net.studioblueplanet.tomtomwatch.RouteProto.LatLon lat_;
-      private com.google.protobuf.SingleFieldBuilderV3<
-          net.studioblueplanet.tomtomwatch.RouteProto.LatLon, net.studioblueplanet.tomtomwatch.RouteProto.LatLon.Builder, net.studioblueplanet.tomtomwatch.RouteProto.LatLonOrBuilder> latBuilder_;
+      private java.lang.Object name_ = "";
       /**
-       * <code>required .tutorial.LatLon lat = 1;</code>
+       * <code>required string name = 1;</code>
        */
-      public boolean hasLat() {
+      public boolean hasName() {
         return ((bitField0_ & 0x00000001) != 0);
       }
       /**
-       * <code>required .tutorial.LatLon lat = 1;</code>
+       * <code>required string name = 1;</code>
        */
-      public net.studioblueplanet.tomtomwatch.RouteProto.LatLon getLat() {
-        if (latBuilder_ == null) {
-          return lat_ == null ? net.studioblueplanet.tomtomwatch.RouteProto.LatLon.getDefaultInstance() : lat_;
-        } else {
-          return latBuilder_.getMessage();
-        }
-      }
-      /**
-       * <code>required .tutorial.LatLon lat = 1;</code>
-       */
-      public Builder setLat(net.studioblueplanet.tomtomwatch.RouteProto.LatLon value) {
-        if (latBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
+      public java.lang.String getName() {
+        java.lang.Object ref = name_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            name_ = s;
           }
-          lat_ = value;
-          onChanged();
+          return s;
         } else {
-          latBuilder_.setMessage(value);
+          return (java.lang.String) ref;
         }
-        bitField0_ |= 0x00000001;
-        return this;
       }
       /**
-       * <code>required .tutorial.LatLon lat = 1;</code>
+       * <code>required string name = 1;</code>
        */
-      public Builder setLat(
-          net.studioblueplanet.tomtomwatch.RouteProto.LatLon.Builder builderForValue) {
-        if (latBuilder_ == null) {
-          lat_ = builderForValue.build();
-          onChanged();
+      public com.google.protobuf.ByteString
+          getNameBytes() {
+        java.lang.Object ref = name_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          name_ = b;
+          return b;
         } else {
-          latBuilder_.setMessage(builderForValue.build());
+          return (com.google.protobuf.ByteString) ref;
         }
-        bitField0_ |= 0x00000001;
-        return this;
       }
       /**
-       * <code>required .tutorial.LatLon lat = 1;</code>
+       * <code>required string name = 1;</code>
        */
-      public Builder mergeLat(net.studioblueplanet.tomtomwatch.RouteProto.LatLon value) {
-        if (latBuilder_ == null) {
-          if (((bitField0_ & 0x00000001) != 0) &&
-              lat_ != null &&
-              lat_ != net.studioblueplanet.tomtomwatch.RouteProto.LatLon.getDefaultInstance()) {
-            lat_ =
-              net.studioblueplanet.tomtomwatch.RouteProto.LatLon.newBuilder(lat_).mergeFrom(value).buildPartial();
-          } else {
-            lat_ = value;
-          }
-          onChanged();
-        } else {
-          latBuilder_.mergeFrom(value);
-        }
-        bitField0_ |= 0x00000001;
-        return this;
-      }
-      /**
-       * <code>required .tutorial.LatLon lat = 1;</code>
-       */
-      public Builder clearLat() {
-        if (latBuilder_ == null) {
-          lat_ = null;
-          onChanged();
-        } else {
-          latBuilder_.clear();
-        }
-        bitField0_ = (bitField0_ & ~0x00000001);
-        return this;
-      }
-      /**
-       * <code>required .tutorial.LatLon lat = 1;</code>
-       */
-      public net.studioblueplanet.tomtomwatch.RouteProto.LatLon.Builder getLatBuilder() {
-        bitField0_ |= 0x00000001;
+      public Builder setName(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        name_ = value;
         onChanged();
-        return getLatFieldBuilder().getBuilder();
+        return this;
       }
       /**
-       * <code>required .tutorial.LatLon lat = 1;</code>
+       * <code>required string name = 1;</code>
        */
-      public net.studioblueplanet.tomtomwatch.RouteProto.LatLonOrBuilder getLatOrBuilder() {
-        if (latBuilder_ != null) {
-          return latBuilder_.getMessageOrBuilder();
-        } else {
-          return lat_ == null ?
-              net.studioblueplanet.tomtomwatch.RouteProto.LatLon.getDefaultInstance() : lat_;
-        }
+      public Builder clearName() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        name_ = getDefaultInstance().getName();
+        onChanged();
+        return this;
       }
       /**
-       * <code>required .tutorial.LatLon lat = 1;</code>
+       * <code>required string name = 1;</code>
        */
-      private com.google.protobuf.SingleFieldBuilderV3<
-          net.studioblueplanet.tomtomwatch.RouteProto.LatLon, net.studioblueplanet.tomtomwatch.RouteProto.LatLon.Builder, net.studioblueplanet.tomtomwatch.RouteProto.LatLonOrBuilder> 
-          getLatFieldBuilder() {
-        if (latBuilder_ == null) {
-          latBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-              net.studioblueplanet.tomtomwatch.RouteProto.LatLon, net.studioblueplanet.tomtomwatch.RouteProto.LatLon.Builder, net.studioblueplanet.tomtomwatch.RouteProto.LatLonOrBuilder>(
-                  getLat(),
-                  getParentForChildren(),
-                  isClean());
-          lat_ = null;
-        }
-        return latBuilder_;
+      public Builder setNameBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        name_ = value;
+        onChanged();
+        return this;
       }
 
-      private net.studioblueplanet.tomtomwatch.RouteProto.LatLon lon_;
+      private net.studioblueplanet.tomtomwatch.RouteProto.BoundingBox box_;
       private com.google.protobuf.SingleFieldBuilderV3<
-          net.studioblueplanet.tomtomwatch.RouteProto.LatLon, net.studioblueplanet.tomtomwatch.RouteProto.LatLon.Builder, net.studioblueplanet.tomtomwatch.RouteProto.LatLonOrBuilder> lonBuilder_;
+          net.studioblueplanet.tomtomwatch.RouteProto.BoundingBox, net.studioblueplanet.tomtomwatch.RouteProto.BoundingBox.Builder, net.studioblueplanet.tomtomwatch.RouteProto.BoundingBoxOrBuilder> boxBuilder_;
       /**
-       * <code>required .tutorial.LatLon lon = 2;</code>
+       * <code>required .tutorial.BoundingBox box = 2;</code>
        */
-      public boolean hasLon() {
+      public boolean hasBox() {
         return ((bitField0_ & 0x00000002) != 0);
       }
       /**
-       * <code>required .tutorial.LatLon lon = 2;</code>
+       * <code>required .tutorial.BoundingBox box = 2;</code>
        */
-      public net.studioblueplanet.tomtomwatch.RouteProto.LatLon getLon() {
-        if (lonBuilder_ == null) {
-          return lon_ == null ? net.studioblueplanet.tomtomwatch.RouteProto.LatLon.getDefaultInstance() : lon_;
+      public net.studioblueplanet.tomtomwatch.RouteProto.BoundingBox getBox() {
+        if (boxBuilder_ == null) {
+          return box_ == null ? net.studioblueplanet.tomtomwatch.RouteProto.BoundingBox.getDefaultInstance() : box_;
         } else {
-          return lonBuilder_.getMessage();
+          return boxBuilder_.getMessage();
         }
       }
       /**
-       * <code>required .tutorial.LatLon lon = 2;</code>
+       * <code>required .tutorial.BoundingBox box = 2;</code>
        */
-      public Builder setLon(net.studioblueplanet.tomtomwatch.RouteProto.LatLon value) {
-        if (lonBuilder_ == null) {
+      public Builder setBox(net.studioblueplanet.tomtomwatch.RouteProto.BoundingBox value) {
+        if (boxBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
           }
-          lon_ = value;
+          box_ = value;
           onChanged();
         } else {
-          lonBuilder_.setMessage(value);
+          boxBuilder_.setMessage(value);
         }
         bitField0_ |= 0x00000002;
         return this;
       }
       /**
-       * <code>required .tutorial.LatLon lon = 2;</code>
+       * <code>required .tutorial.BoundingBox box = 2;</code>
        */
-      public Builder setLon(
-          net.studioblueplanet.tomtomwatch.RouteProto.LatLon.Builder builderForValue) {
-        if (lonBuilder_ == null) {
-          lon_ = builderForValue.build();
+      public Builder setBox(
+          net.studioblueplanet.tomtomwatch.RouteProto.BoundingBox.Builder builderForValue) {
+        if (boxBuilder_ == null) {
+          box_ = builderForValue.build();
           onChanged();
         } else {
-          lonBuilder_.setMessage(builderForValue.build());
+          boxBuilder_.setMessage(builderForValue.build());
         }
         bitField0_ |= 0x00000002;
         return this;
       }
       /**
-       * <code>required .tutorial.LatLon lon = 2;</code>
+       * <code>required .tutorial.BoundingBox box = 2;</code>
        */
-      public Builder mergeLon(net.studioblueplanet.tomtomwatch.RouteProto.LatLon value) {
-        if (lonBuilder_ == null) {
+      public Builder mergeBox(net.studioblueplanet.tomtomwatch.RouteProto.BoundingBox value) {
+        if (boxBuilder_ == null) {
           if (((bitField0_ & 0x00000002) != 0) &&
-              lon_ != null &&
-              lon_ != net.studioblueplanet.tomtomwatch.RouteProto.LatLon.getDefaultInstance()) {
-            lon_ =
-              net.studioblueplanet.tomtomwatch.RouteProto.LatLon.newBuilder(lon_).mergeFrom(value).buildPartial();
+              box_ != null &&
+              box_ != net.studioblueplanet.tomtomwatch.RouteProto.BoundingBox.getDefaultInstance()) {
+            box_ =
+              net.studioblueplanet.tomtomwatch.RouteProto.BoundingBox.newBuilder(box_).mergeFrom(value).buildPartial();
           } else {
-            lon_ = value;
+            box_ = value;
           }
           onChanged();
         } else {
-          lonBuilder_.mergeFrom(value);
+          boxBuilder_.mergeFrom(value);
         }
         bitField0_ |= 0x00000002;
         return this;
       }
       /**
-       * <code>required .tutorial.LatLon lon = 2;</code>
+       * <code>required .tutorial.BoundingBox box = 2;</code>
        */
-      public Builder clearLon() {
-        if (lonBuilder_ == null) {
-          lon_ = null;
+      public Builder clearBox() {
+        if (boxBuilder_ == null) {
+          box_ = null;
           onChanged();
         } else {
-          lonBuilder_.clear();
+          boxBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00000002);
         return this;
       }
       /**
-       * <code>required .tutorial.LatLon lon = 2;</code>
+       * <code>required .tutorial.BoundingBox box = 2;</code>
        */
-      public net.studioblueplanet.tomtomwatch.RouteProto.LatLon.Builder getLonBuilder() {
+      public net.studioblueplanet.tomtomwatch.RouteProto.BoundingBox.Builder getBoxBuilder() {
         bitField0_ |= 0x00000002;
         onChanged();
-        return getLonFieldBuilder().getBuilder();
+        return getBoxFieldBuilder().getBuilder();
       }
       /**
-       * <code>required .tutorial.LatLon lon = 2;</code>
+       * <code>required .tutorial.BoundingBox box = 2;</code>
        */
-      public net.studioblueplanet.tomtomwatch.RouteProto.LatLonOrBuilder getLonOrBuilder() {
-        if (lonBuilder_ != null) {
-          return lonBuilder_.getMessageOrBuilder();
+      public net.studioblueplanet.tomtomwatch.RouteProto.BoundingBoxOrBuilder getBoxOrBuilder() {
+        if (boxBuilder_ != null) {
+          return boxBuilder_.getMessageOrBuilder();
         } else {
-          return lon_ == null ?
-              net.studioblueplanet.tomtomwatch.RouteProto.LatLon.getDefaultInstance() : lon_;
+          return box_ == null ?
+              net.studioblueplanet.tomtomwatch.RouteProto.BoundingBox.getDefaultInstance() : box_;
         }
       }
       /**
-       * <code>required .tutorial.LatLon lon = 2;</code>
+       * <code>required .tutorial.BoundingBox box = 2;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
-          net.studioblueplanet.tomtomwatch.RouteProto.LatLon, net.studioblueplanet.tomtomwatch.RouteProto.LatLon.Builder, net.studioblueplanet.tomtomwatch.RouteProto.LatLonOrBuilder> 
-          getLonFieldBuilder() {
-        if (lonBuilder_ == null) {
-          lonBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-              net.studioblueplanet.tomtomwatch.RouteProto.LatLon, net.studioblueplanet.tomtomwatch.RouteProto.LatLon.Builder, net.studioblueplanet.tomtomwatch.RouteProto.LatLonOrBuilder>(
-                  getLon(),
+          net.studioblueplanet.tomtomwatch.RouteProto.BoundingBox, net.studioblueplanet.tomtomwatch.RouteProto.BoundingBox.Builder, net.studioblueplanet.tomtomwatch.RouteProto.BoundingBoxOrBuilder> 
+          getBoxFieldBuilder() {
+        if (boxBuilder_ == null) {
+          boxBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              net.studioblueplanet.tomtomwatch.RouteProto.BoundingBox, net.studioblueplanet.tomtomwatch.RouteProto.BoundingBox.Builder, net.studioblueplanet.tomtomwatch.RouteProto.BoundingBoxOrBuilder>(
+                  getBox(),
                   getParentForChildren(),
                   isClean());
-          lon_ = null;
+          box_ = null;
         }
-        return lonBuilder_;
+        return boxBuilder_;
+      }
+
+      private com.google.protobuf.ByteString time_ = com.google.protobuf.ByteString.EMPTY;
+      /**
+       * <code>required bytes time = 3;</code>
+       */
+      public boolean hasTime() {
+        return ((bitField0_ & 0x00000004) != 0);
+      }
+      /**
+       * <code>required bytes time = 3;</code>
+       */
+      public com.google.protobuf.ByteString getTime() {
+        return time_;
+      }
+      /**
+       * <code>required bytes time = 3;</code>
+       */
+      public Builder setTime(com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000004;
+        time_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required bytes time = 3;</code>
+       */
+      public Builder clearTime() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        time_ = getDefaultInstance().getTime();
+        onChanged();
+        return this;
       }
       @java.lang.Override
       public final Builder setUnknownFields(
@@ -5567,686 +5134,41 @@ public final class RouteProto {
       }
 
 
-      // @@protoc_insertion_point(builder_scope:tutorial.Coordinate)
+      // @@protoc_insertion_point(builder_scope:tutorial.TrackMetaData)
     }
 
-    // @@protoc_insertion_point(class_scope:tutorial.Coordinate)
-    private static final net.studioblueplanet.tomtomwatch.RouteProto.Coordinate DEFAULT_INSTANCE;
+    // @@protoc_insertion_point(class_scope:tutorial.TrackMetaData)
+    private static final net.studioblueplanet.tomtomwatch.RouteProto.TrackMetaData DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new net.studioblueplanet.tomtomwatch.RouteProto.Coordinate();
+      DEFAULT_INSTANCE = new net.studioblueplanet.tomtomwatch.RouteProto.TrackMetaData();
     }
 
-    public static net.studioblueplanet.tomtomwatch.RouteProto.Coordinate getDefaultInstance() {
+    public static net.studioblueplanet.tomtomwatch.RouteProto.TrackMetaData getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    @java.lang.Deprecated public static final com.google.protobuf.Parser<Coordinate>
-        PARSER = new com.google.protobuf.AbstractParser<Coordinate>() {
+    @java.lang.Deprecated public static final com.google.protobuf.Parser<TrackMetaData>
+        PARSER = new com.google.protobuf.AbstractParser<TrackMetaData>() {
       @java.lang.Override
-      public Coordinate parsePartialFrom(
+      public TrackMetaData parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        return new Coordinate(input, extensionRegistry);
+        return new TrackMetaData(input, extensionRegistry);
       }
     };
 
-    public static com.google.protobuf.Parser<Coordinate> parser() {
+    public static com.google.protobuf.Parser<TrackMetaData> parser() {
       return PARSER;
     }
 
     @java.lang.Override
-    public com.google.protobuf.Parser<Coordinate> getParserForType() {
+    public com.google.protobuf.Parser<TrackMetaData> getParserForType() {
       return PARSER;
     }
 
     @java.lang.Override
-    public net.studioblueplanet.tomtomwatch.RouteProto.Coordinate getDefaultInstanceForType() {
-      return DEFAULT_INSTANCE;
-    }
-
-  }
-
-  public interface CoordinateDataOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:tutorial.CoordinateData)
-      com.google.protobuf.MessageOrBuilder {
-
-    /**
-     * <code>required .tutorial.Coordinate coordinate = 1;</code>
-     */
-    boolean hasCoordinate();
-    /**
-     * <code>required .tutorial.Coordinate coordinate = 1;</code>
-     */
-    net.studioblueplanet.tomtomwatch.RouteProto.Coordinate getCoordinate();
-    /**
-     * <code>required .tutorial.Coordinate coordinate = 1;</code>
-     */
-    net.studioblueplanet.tomtomwatch.RouteProto.CoordinateOrBuilder getCoordinateOrBuilder();
-  }
-  /**
-   * <pre>
-   * Coordinate container
-   * </pre>
-   *
-   * Protobuf type {@code tutorial.CoordinateData}
-   */
-  public  static final class CoordinateData extends
-      com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:tutorial.CoordinateData)
-      CoordinateDataOrBuilder {
-  private static final long serialVersionUID = 0L;
-    // Use CoordinateData.newBuilder() to construct.
-    private CoordinateData(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
-      super(builder);
-    }
-    private CoordinateData() {
-    }
-
-    @java.lang.Override
-    @SuppressWarnings({"unused"})
-    protected java.lang.Object newInstance(
-        UnusedPrivateParameter unused) {
-      return new CoordinateData();
-    }
-
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-    getUnknownFields() {
-      return this.unknownFields;
-    }
-    private CoordinateData(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      this();
-      if (extensionRegistry == null) {
-        throw new java.lang.NullPointerException();
-      }
-      int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            case 10: {
-              net.studioblueplanet.tomtomwatch.RouteProto.Coordinate.Builder subBuilder = null;
-              if (((bitField0_ & 0x00000001) != 0)) {
-                subBuilder = coordinate_.toBuilder();
-              }
-              coordinate_ = input.readMessage(net.studioblueplanet.tomtomwatch.RouteProto.Coordinate.PARSER, extensionRegistry);
-              if (subBuilder != null) {
-                subBuilder.mergeFrom(coordinate_);
-                coordinate_ = subBuilder.buildPartial();
-              }
-              bitField0_ |= 0x00000001;
-              break;
-            }
-            default: {
-              if (!parseUnknownField(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e).setUnfinishedMessage(this);
-      } finally {
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
-    public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return net.studioblueplanet.tomtomwatch.RouteProto.internal_static_tutorial_CoordinateData_descriptor;
-    }
-
-    @java.lang.Override
-    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-        internalGetFieldAccessorTable() {
-      return net.studioblueplanet.tomtomwatch.RouteProto.internal_static_tutorial_CoordinateData_fieldAccessorTable
-          .ensureFieldAccessorsInitialized(
-              net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData.class, net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData.Builder.class);
-    }
-
-    private int bitField0_;
-    public static final int COORDINATE_FIELD_NUMBER = 1;
-    private net.studioblueplanet.tomtomwatch.RouteProto.Coordinate coordinate_;
-    /**
-     * <code>required .tutorial.Coordinate coordinate = 1;</code>
-     */
-    public boolean hasCoordinate() {
-      return ((bitField0_ & 0x00000001) != 0);
-    }
-    /**
-     * <code>required .tutorial.Coordinate coordinate = 1;</code>
-     */
-    public net.studioblueplanet.tomtomwatch.RouteProto.Coordinate getCoordinate() {
-      return coordinate_ == null ? net.studioblueplanet.tomtomwatch.RouteProto.Coordinate.getDefaultInstance() : coordinate_;
-    }
-    /**
-     * <code>required .tutorial.Coordinate coordinate = 1;</code>
-     */
-    public net.studioblueplanet.tomtomwatch.RouteProto.CoordinateOrBuilder getCoordinateOrBuilder() {
-      return coordinate_ == null ? net.studioblueplanet.tomtomwatch.RouteProto.Coordinate.getDefaultInstance() : coordinate_;
-    }
-
-    private byte memoizedIsInitialized = -1;
-    @java.lang.Override
-    public final boolean isInitialized() {
-      byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
-
-      if (!hasCoordinate()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      if (!getCoordinate().isInitialized()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      memoizedIsInitialized = 1;
-      return true;
-    }
-
-    @java.lang.Override
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
-      if (((bitField0_ & 0x00000001) != 0)) {
-        output.writeMessage(1, getCoordinate());
-      }
-      unknownFields.writeTo(output);
-    }
-
-    @java.lang.Override
-    public int getSerializedSize() {
-      int size = memoizedSize;
-      if (size != -1) return size;
-
-      size = 0;
-      if (((bitField0_ & 0x00000001) != 0)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(1, getCoordinate());
-      }
-      size += unknownFields.getSerializedSize();
-      memoizedSize = size;
-      return size;
-    }
-
-    @java.lang.Override
-    public boolean equals(final java.lang.Object obj) {
-      if (obj == this) {
-       return true;
-      }
-      if (!(obj instanceof net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData)) {
-        return super.equals(obj);
-      }
-      net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData other = (net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData) obj;
-
-      if (hasCoordinate() != other.hasCoordinate()) return false;
-      if (hasCoordinate()) {
-        if (!getCoordinate()
-            .equals(other.getCoordinate())) return false;
-      }
-      if (!unknownFields.equals(other.unknownFields)) return false;
-      return true;
-    }
-
-    @java.lang.Override
-    public int hashCode() {
-      if (memoizedHashCode != 0) {
-        return memoizedHashCode;
-      }
-      int hash = 41;
-      hash = (19 * hash) + getDescriptor().hashCode();
-      if (hasCoordinate()) {
-        hash = (37 * hash) + COORDINATE_FIELD_NUMBER;
-        hash = (53 * hash) + getCoordinate().hashCode();
-      }
-      hash = (29 * hash) + unknownFields.hashCode();
-      memoizedHashCode = hash;
-      return hash;
-    }
-
-    public static net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData parseFrom(
-        java.nio.ByteBuffer data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData parseFrom(
-        java.nio.ByteBuffer data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
-    }
-    public static net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
-    }
-    public static net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input);
-    }
-    public static net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
-    }
-    public static net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
-    }
-    public static net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
-    }
-
-    @java.lang.Override
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder() {
-      return DEFAULT_INSTANCE.toBuilder();
-    }
-    public static Builder newBuilder(net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData prototype) {
-      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
-    }
-    @java.lang.Override
-    public Builder toBuilder() {
-      return this == DEFAULT_INSTANCE
-          ? new Builder() : new Builder().mergeFrom(this);
-    }
-
-    @java.lang.Override
-    protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-      Builder builder = new Builder(parent);
-      return builder;
-    }
-    /**
-     * <pre>
-     * Coordinate container
-     * </pre>
-     *
-     * Protobuf type {@code tutorial.CoordinateData}
-     */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:tutorial.CoordinateData)
-        net.studioblueplanet.tomtomwatch.RouteProto.CoordinateDataOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return net.studioblueplanet.tomtomwatch.RouteProto.internal_static_tutorial_CoordinateData_descriptor;
-      }
-
-      @java.lang.Override
-      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return net.studioblueplanet.tomtomwatch.RouteProto.internal_static_tutorial_CoordinateData_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData.class, net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData.Builder.class);
-      }
-
-      // Construct using net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData.newBuilder()
-      private Builder() {
-        maybeForceBuilderInitialization();
-      }
-
-      private Builder(
-          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-        super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessageV3
-                .alwaysUseFieldBuilders) {
-          getCoordinateFieldBuilder();
-        }
-      }
-      @java.lang.Override
-      public Builder clear() {
-        super.clear();
-        if (coordinateBuilder_ == null) {
-          coordinate_ = null;
-        } else {
-          coordinateBuilder_.clear();
-        }
-        bitField0_ = (bitField0_ & ~0x00000001);
-        return this;
-      }
-
-      @java.lang.Override
-      public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
-        return net.studioblueplanet.tomtomwatch.RouteProto.internal_static_tutorial_CoordinateData_descriptor;
-      }
-
-      @java.lang.Override
-      public net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData getDefaultInstanceForType() {
-        return net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData.getDefaultInstance();
-      }
-
-      @java.lang.Override
-      public net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData build() {
-        net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(result);
-        }
-        return result;
-      }
-
-      @java.lang.Override
-      public net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData buildPartial() {
-        net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData result = new net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData(this);
-        int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) != 0)) {
-          if (coordinateBuilder_ == null) {
-            result.coordinate_ = coordinate_;
-          } else {
-            result.coordinate_ = coordinateBuilder_.build();
-          }
-          to_bitField0_ |= 0x00000001;
-        }
-        result.bitField0_ = to_bitField0_;
-        onBuilt();
-        return result;
-      }
-
-      @java.lang.Override
-      public Builder clone() {
-        return super.clone();
-      }
-      @java.lang.Override
-      public Builder setField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return super.setField(field, value);
-      }
-      @java.lang.Override
-      public Builder clearField(
-          com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return super.clearField(field);
-      }
-      @java.lang.Override
-      public Builder clearOneof(
-          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return super.clearOneof(oneof);
-      }
-      @java.lang.Override
-      public Builder setRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, java.lang.Object value) {
-        return super.setRepeatedField(field, index, value);
-      }
-      @java.lang.Override
-      public Builder addRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return super.addRepeatedField(field, value);
-      }
-      @java.lang.Override
-      public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData) {
-          return mergeFrom((net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData)other);
-        } else {
-          super.mergeFrom(other);
-          return this;
-        }
-      }
-
-      public Builder mergeFrom(net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData other) {
-        if (other == net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData.getDefaultInstance()) return this;
-        if (other.hasCoordinate()) {
-          mergeCoordinate(other.getCoordinate());
-        }
-        this.mergeUnknownFields(other.unknownFields);
-        onChanged();
-        return this;
-      }
-
-      @java.lang.Override
-      public final boolean isInitialized() {
-        if (!hasCoordinate()) {
-          return false;
-        }
-        if (!getCoordinate().isInitialized()) {
-          return false;
-        }
-        return true;
-      }
-
-      @java.lang.Override
-      public Builder mergeFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData parsedMessage = null;
-        try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData) e.getUnfinishedMessage();
-          throw e.unwrapIOException();
-        } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
-        return this;
-      }
-      private int bitField0_;
-
-      private net.studioblueplanet.tomtomwatch.RouteProto.Coordinate coordinate_;
-      private com.google.protobuf.SingleFieldBuilderV3<
-          net.studioblueplanet.tomtomwatch.RouteProto.Coordinate, net.studioblueplanet.tomtomwatch.RouteProto.Coordinate.Builder, net.studioblueplanet.tomtomwatch.RouteProto.CoordinateOrBuilder> coordinateBuilder_;
-      /**
-       * <code>required .tutorial.Coordinate coordinate = 1;</code>
-       */
-      public boolean hasCoordinate() {
-        return ((bitField0_ & 0x00000001) != 0);
-      }
-      /**
-       * <code>required .tutorial.Coordinate coordinate = 1;</code>
-       */
-      public net.studioblueplanet.tomtomwatch.RouteProto.Coordinate getCoordinate() {
-        if (coordinateBuilder_ == null) {
-          return coordinate_ == null ? net.studioblueplanet.tomtomwatch.RouteProto.Coordinate.getDefaultInstance() : coordinate_;
-        } else {
-          return coordinateBuilder_.getMessage();
-        }
-      }
-      /**
-       * <code>required .tutorial.Coordinate coordinate = 1;</code>
-       */
-      public Builder setCoordinate(net.studioblueplanet.tomtomwatch.RouteProto.Coordinate value) {
-        if (coordinateBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          coordinate_ = value;
-          onChanged();
-        } else {
-          coordinateBuilder_.setMessage(value);
-        }
-        bitField0_ |= 0x00000001;
-        return this;
-      }
-      /**
-       * <code>required .tutorial.Coordinate coordinate = 1;</code>
-       */
-      public Builder setCoordinate(
-          net.studioblueplanet.tomtomwatch.RouteProto.Coordinate.Builder builderForValue) {
-        if (coordinateBuilder_ == null) {
-          coordinate_ = builderForValue.build();
-          onChanged();
-        } else {
-          coordinateBuilder_.setMessage(builderForValue.build());
-        }
-        bitField0_ |= 0x00000001;
-        return this;
-      }
-      /**
-       * <code>required .tutorial.Coordinate coordinate = 1;</code>
-       */
-      public Builder mergeCoordinate(net.studioblueplanet.tomtomwatch.RouteProto.Coordinate value) {
-        if (coordinateBuilder_ == null) {
-          if (((bitField0_ & 0x00000001) != 0) &&
-              coordinate_ != null &&
-              coordinate_ != net.studioblueplanet.tomtomwatch.RouteProto.Coordinate.getDefaultInstance()) {
-            coordinate_ =
-              net.studioblueplanet.tomtomwatch.RouteProto.Coordinate.newBuilder(coordinate_).mergeFrom(value).buildPartial();
-          } else {
-            coordinate_ = value;
-          }
-          onChanged();
-        } else {
-          coordinateBuilder_.mergeFrom(value);
-        }
-        bitField0_ |= 0x00000001;
-        return this;
-      }
-      /**
-       * <code>required .tutorial.Coordinate coordinate = 1;</code>
-       */
-      public Builder clearCoordinate() {
-        if (coordinateBuilder_ == null) {
-          coordinate_ = null;
-          onChanged();
-        } else {
-          coordinateBuilder_.clear();
-        }
-        bitField0_ = (bitField0_ & ~0x00000001);
-        return this;
-      }
-      /**
-       * <code>required .tutorial.Coordinate coordinate = 1;</code>
-       */
-      public net.studioblueplanet.tomtomwatch.RouteProto.Coordinate.Builder getCoordinateBuilder() {
-        bitField0_ |= 0x00000001;
-        onChanged();
-        return getCoordinateFieldBuilder().getBuilder();
-      }
-      /**
-       * <code>required .tutorial.Coordinate coordinate = 1;</code>
-       */
-      public net.studioblueplanet.tomtomwatch.RouteProto.CoordinateOrBuilder getCoordinateOrBuilder() {
-        if (coordinateBuilder_ != null) {
-          return coordinateBuilder_.getMessageOrBuilder();
-        } else {
-          return coordinate_ == null ?
-              net.studioblueplanet.tomtomwatch.RouteProto.Coordinate.getDefaultInstance() : coordinate_;
-        }
-      }
-      /**
-       * <code>required .tutorial.Coordinate coordinate = 1;</code>
-       */
-      private com.google.protobuf.SingleFieldBuilderV3<
-          net.studioblueplanet.tomtomwatch.RouteProto.Coordinate, net.studioblueplanet.tomtomwatch.RouteProto.Coordinate.Builder, net.studioblueplanet.tomtomwatch.RouteProto.CoordinateOrBuilder> 
-          getCoordinateFieldBuilder() {
-        if (coordinateBuilder_ == null) {
-          coordinateBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-              net.studioblueplanet.tomtomwatch.RouteProto.Coordinate, net.studioblueplanet.tomtomwatch.RouteProto.Coordinate.Builder, net.studioblueplanet.tomtomwatch.RouteProto.CoordinateOrBuilder>(
-                  getCoordinate(),
-                  getParentForChildren(),
-                  isClean());
-          coordinate_ = null;
-        }
-        return coordinateBuilder_;
-      }
-      @java.lang.Override
-      public final Builder setUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFields(unknownFields);
-      }
-
-      @java.lang.Override
-      public final Builder mergeUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.mergeUnknownFields(unknownFields);
-      }
-
-
-      // @@protoc_insertion_point(builder_scope:tutorial.CoordinateData)
-    }
-
-    // @@protoc_insertion_point(class_scope:tutorial.CoordinateData)
-    private static final net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData DEFAULT_INSTANCE;
-    static {
-      DEFAULT_INSTANCE = new net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData();
-    }
-
-    public static net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData getDefaultInstance() {
-      return DEFAULT_INSTANCE;
-    }
-
-    @java.lang.Deprecated public static final com.google.protobuf.Parser<CoordinateData>
-        PARSER = new com.google.protobuf.AbstractParser<CoordinateData>() {
-      @java.lang.Override
-      public CoordinateData parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new CoordinateData(input, extensionRegistry);
-      }
-    };
-
-    public static com.google.protobuf.Parser<CoordinateData> parser() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<CoordinateData> getParserForType() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData getDefaultInstanceForType() {
+    public net.studioblueplanet.tomtomwatch.RouteProto.TrackMetaData getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
@@ -6280,7 +5202,9 @@ public final class RouteProto {
   }
   /**
    * <pre>
-   * Start coordinate
+   *#################################################################################################
+   * 4th level: Start coordinate
+   *#################################################################################################
    * </pre>
    *
    * Protobuf type {@code tutorial.StartCoordinate}
@@ -6605,7 +5529,9 @@ public final class RouteProto {
     }
     /**
      * <pre>
-     * Start coordinate
+     *#################################################################################################
+     * 4th level: Start coordinate
+     *#################################################################################################
      * </pre>
      *
      * Protobuf type {@code tutorial.StartCoordinate}
@@ -6990,909 +5916,6 @@ public final class RouteProto {
 
   }
 
-  public interface SegmentOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:tutorial.Segment)
-      com.google.protobuf.MessageOrBuilder {
-
-    /**
-     * <code>required int32 numberOfCoordinates = 1;</code>
-     */
-    boolean hasNumberOfCoordinates();
-    /**
-     * <code>required int32 numberOfCoordinates = 1;</code>
-     */
-    int getNumberOfCoordinates();
-
-    /**
-     * <code>repeated .tutorial.CoordinateData data = 2;</code>
-     */
-    java.util.List<net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData> 
-        getDataList();
-    /**
-     * <code>repeated .tutorial.CoordinateData data = 2;</code>
-     */
-    net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData getData(int index);
-    /**
-     * <code>repeated .tutorial.CoordinateData data = 2;</code>
-     */
-    int getDataCount();
-    /**
-     * <code>repeated .tutorial.CoordinateData data = 2;</code>
-     */
-    java.util.List<? extends net.studioblueplanet.tomtomwatch.RouteProto.CoordinateDataOrBuilder> 
-        getDataOrBuilderList();
-    /**
-     * <code>repeated .tutorial.CoordinateData data = 2;</code>
-     */
-    net.studioblueplanet.tomtomwatch.RouteProto.CoordinateDataOrBuilder getDataOrBuilder(
-        int index);
-  }
-  /**
-   * <pre>
-   * Route segment
-   * </pre>
-   *
-   * Protobuf type {@code tutorial.Segment}
-   */
-  public  static final class Segment extends
-      com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:tutorial.Segment)
-      SegmentOrBuilder {
-  private static final long serialVersionUID = 0L;
-    // Use Segment.newBuilder() to construct.
-    private Segment(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
-      super(builder);
-    }
-    private Segment() {
-      data_ = java.util.Collections.emptyList();
-    }
-
-    @java.lang.Override
-    @SuppressWarnings({"unused"})
-    protected java.lang.Object newInstance(
-        UnusedPrivateParameter unused) {
-      return new Segment();
-    }
-
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-    getUnknownFields() {
-      return this.unknownFields;
-    }
-    private Segment(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      this();
-      if (extensionRegistry == null) {
-        throw new java.lang.NullPointerException();
-      }
-      int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            case 8: {
-              bitField0_ |= 0x00000001;
-              numberOfCoordinates_ = input.readInt32();
-              break;
-            }
-            case 18: {
-              if (!((mutable_bitField0_ & 0x00000002) != 0)) {
-                data_ = new java.util.ArrayList<net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData>();
-                mutable_bitField0_ |= 0x00000002;
-              }
-              data_.add(
-                  input.readMessage(net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData.PARSER, extensionRegistry));
-              break;
-            }
-            default: {
-              if (!parseUnknownField(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e).setUnfinishedMessage(this);
-      } finally {
-        if (((mutable_bitField0_ & 0x00000002) != 0)) {
-          data_ = java.util.Collections.unmodifiableList(data_);
-        }
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
-    public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return net.studioblueplanet.tomtomwatch.RouteProto.internal_static_tutorial_Segment_descriptor;
-    }
-
-    @java.lang.Override
-    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-        internalGetFieldAccessorTable() {
-      return net.studioblueplanet.tomtomwatch.RouteProto.internal_static_tutorial_Segment_fieldAccessorTable
-          .ensureFieldAccessorsInitialized(
-              net.studioblueplanet.tomtomwatch.RouteProto.Segment.class, net.studioblueplanet.tomtomwatch.RouteProto.Segment.Builder.class);
-    }
-
-    private int bitField0_;
-    public static final int NUMBEROFCOORDINATES_FIELD_NUMBER = 1;
-    private int numberOfCoordinates_;
-    /**
-     * <code>required int32 numberOfCoordinates = 1;</code>
-     */
-    public boolean hasNumberOfCoordinates() {
-      return ((bitField0_ & 0x00000001) != 0);
-    }
-    /**
-     * <code>required int32 numberOfCoordinates = 1;</code>
-     */
-    public int getNumberOfCoordinates() {
-      return numberOfCoordinates_;
-    }
-
-    public static final int DATA_FIELD_NUMBER = 2;
-    private java.util.List<net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData> data_;
-    /**
-     * <code>repeated .tutorial.CoordinateData data = 2;</code>
-     */
-    public java.util.List<net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData> getDataList() {
-      return data_;
-    }
-    /**
-     * <code>repeated .tutorial.CoordinateData data = 2;</code>
-     */
-    public java.util.List<? extends net.studioblueplanet.tomtomwatch.RouteProto.CoordinateDataOrBuilder> 
-        getDataOrBuilderList() {
-      return data_;
-    }
-    /**
-     * <code>repeated .tutorial.CoordinateData data = 2;</code>
-     */
-    public int getDataCount() {
-      return data_.size();
-    }
-    /**
-     * <code>repeated .tutorial.CoordinateData data = 2;</code>
-     */
-    public net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData getData(int index) {
-      return data_.get(index);
-    }
-    /**
-     * <code>repeated .tutorial.CoordinateData data = 2;</code>
-     */
-    public net.studioblueplanet.tomtomwatch.RouteProto.CoordinateDataOrBuilder getDataOrBuilder(
-        int index) {
-      return data_.get(index);
-    }
-
-    private byte memoizedIsInitialized = -1;
-    @java.lang.Override
-    public final boolean isInitialized() {
-      byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
-
-      if (!hasNumberOfCoordinates()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      for (int i = 0; i < getDataCount(); i++) {
-        if (!getData(i).isInitialized()) {
-          memoizedIsInitialized = 0;
-          return false;
-        }
-      }
-      memoizedIsInitialized = 1;
-      return true;
-    }
-
-    @java.lang.Override
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
-      if (((bitField0_ & 0x00000001) != 0)) {
-        output.writeInt32(1, numberOfCoordinates_);
-      }
-      for (int i = 0; i < data_.size(); i++) {
-        output.writeMessage(2, data_.get(i));
-      }
-      unknownFields.writeTo(output);
-    }
-
-    @java.lang.Override
-    public int getSerializedSize() {
-      int size = memoizedSize;
-      if (size != -1) return size;
-
-      size = 0;
-      if (((bitField0_ & 0x00000001) != 0)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(1, numberOfCoordinates_);
-      }
-      for (int i = 0; i < data_.size(); i++) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(2, data_.get(i));
-      }
-      size += unknownFields.getSerializedSize();
-      memoizedSize = size;
-      return size;
-    }
-
-    @java.lang.Override
-    public boolean equals(final java.lang.Object obj) {
-      if (obj == this) {
-       return true;
-      }
-      if (!(obj instanceof net.studioblueplanet.tomtomwatch.RouteProto.Segment)) {
-        return super.equals(obj);
-      }
-      net.studioblueplanet.tomtomwatch.RouteProto.Segment other = (net.studioblueplanet.tomtomwatch.RouteProto.Segment) obj;
-
-      if (hasNumberOfCoordinates() != other.hasNumberOfCoordinates()) return false;
-      if (hasNumberOfCoordinates()) {
-        if (getNumberOfCoordinates()
-            != other.getNumberOfCoordinates()) return false;
-      }
-      if (!getDataList()
-          .equals(other.getDataList())) return false;
-      if (!unknownFields.equals(other.unknownFields)) return false;
-      return true;
-    }
-
-    @java.lang.Override
-    public int hashCode() {
-      if (memoizedHashCode != 0) {
-        return memoizedHashCode;
-      }
-      int hash = 41;
-      hash = (19 * hash) + getDescriptor().hashCode();
-      if (hasNumberOfCoordinates()) {
-        hash = (37 * hash) + NUMBEROFCOORDINATES_FIELD_NUMBER;
-        hash = (53 * hash) + getNumberOfCoordinates();
-      }
-      if (getDataCount() > 0) {
-        hash = (37 * hash) + DATA_FIELD_NUMBER;
-        hash = (53 * hash) + getDataList().hashCode();
-      }
-      hash = (29 * hash) + unknownFields.hashCode();
-      memoizedHashCode = hash;
-      return hash;
-    }
-
-    public static net.studioblueplanet.tomtomwatch.RouteProto.Segment parseFrom(
-        java.nio.ByteBuffer data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static net.studioblueplanet.tomtomwatch.RouteProto.Segment parseFrom(
-        java.nio.ByteBuffer data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static net.studioblueplanet.tomtomwatch.RouteProto.Segment parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static net.studioblueplanet.tomtomwatch.RouteProto.Segment parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static net.studioblueplanet.tomtomwatch.RouteProto.Segment parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static net.studioblueplanet.tomtomwatch.RouteProto.Segment parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static net.studioblueplanet.tomtomwatch.RouteProto.Segment parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
-    }
-    public static net.studioblueplanet.tomtomwatch.RouteProto.Segment parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
-    }
-    public static net.studioblueplanet.tomtomwatch.RouteProto.Segment parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input);
-    }
-    public static net.studioblueplanet.tomtomwatch.RouteProto.Segment parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
-    }
-    public static net.studioblueplanet.tomtomwatch.RouteProto.Segment parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
-    }
-    public static net.studioblueplanet.tomtomwatch.RouteProto.Segment parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
-    }
-
-    @java.lang.Override
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder() {
-      return DEFAULT_INSTANCE.toBuilder();
-    }
-    public static Builder newBuilder(net.studioblueplanet.tomtomwatch.RouteProto.Segment prototype) {
-      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
-    }
-    @java.lang.Override
-    public Builder toBuilder() {
-      return this == DEFAULT_INSTANCE
-          ? new Builder() : new Builder().mergeFrom(this);
-    }
-
-    @java.lang.Override
-    protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-      Builder builder = new Builder(parent);
-      return builder;
-    }
-    /**
-     * <pre>
-     * Route segment
-     * </pre>
-     *
-     * Protobuf type {@code tutorial.Segment}
-     */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:tutorial.Segment)
-        net.studioblueplanet.tomtomwatch.RouteProto.SegmentOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return net.studioblueplanet.tomtomwatch.RouteProto.internal_static_tutorial_Segment_descriptor;
-      }
-
-      @java.lang.Override
-      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return net.studioblueplanet.tomtomwatch.RouteProto.internal_static_tutorial_Segment_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                net.studioblueplanet.tomtomwatch.RouteProto.Segment.class, net.studioblueplanet.tomtomwatch.RouteProto.Segment.Builder.class);
-      }
-
-      // Construct using net.studioblueplanet.tomtomwatch.RouteProto.Segment.newBuilder()
-      private Builder() {
-        maybeForceBuilderInitialization();
-      }
-
-      private Builder(
-          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-        super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessageV3
-                .alwaysUseFieldBuilders) {
-          getDataFieldBuilder();
-        }
-      }
-      @java.lang.Override
-      public Builder clear() {
-        super.clear();
-        numberOfCoordinates_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000001);
-        if (dataBuilder_ == null) {
-          data_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000002);
-        } else {
-          dataBuilder_.clear();
-        }
-        return this;
-      }
-
-      @java.lang.Override
-      public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
-        return net.studioblueplanet.tomtomwatch.RouteProto.internal_static_tutorial_Segment_descriptor;
-      }
-
-      @java.lang.Override
-      public net.studioblueplanet.tomtomwatch.RouteProto.Segment getDefaultInstanceForType() {
-        return net.studioblueplanet.tomtomwatch.RouteProto.Segment.getDefaultInstance();
-      }
-
-      @java.lang.Override
-      public net.studioblueplanet.tomtomwatch.RouteProto.Segment build() {
-        net.studioblueplanet.tomtomwatch.RouteProto.Segment result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(result);
-        }
-        return result;
-      }
-
-      @java.lang.Override
-      public net.studioblueplanet.tomtomwatch.RouteProto.Segment buildPartial() {
-        net.studioblueplanet.tomtomwatch.RouteProto.Segment result = new net.studioblueplanet.tomtomwatch.RouteProto.Segment(this);
-        int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) != 0)) {
-          result.numberOfCoordinates_ = numberOfCoordinates_;
-          to_bitField0_ |= 0x00000001;
-        }
-        if (dataBuilder_ == null) {
-          if (((bitField0_ & 0x00000002) != 0)) {
-            data_ = java.util.Collections.unmodifiableList(data_);
-            bitField0_ = (bitField0_ & ~0x00000002);
-          }
-          result.data_ = data_;
-        } else {
-          result.data_ = dataBuilder_.build();
-        }
-        result.bitField0_ = to_bitField0_;
-        onBuilt();
-        return result;
-      }
-
-      @java.lang.Override
-      public Builder clone() {
-        return super.clone();
-      }
-      @java.lang.Override
-      public Builder setField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return super.setField(field, value);
-      }
-      @java.lang.Override
-      public Builder clearField(
-          com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return super.clearField(field);
-      }
-      @java.lang.Override
-      public Builder clearOneof(
-          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return super.clearOneof(oneof);
-      }
-      @java.lang.Override
-      public Builder setRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, java.lang.Object value) {
-        return super.setRepeatedField(field, index, value);
-      }
-      @java.lang.Override
-      public Builder addRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return super.addRepeatedField(field, value);
-      }
-      @java.lang.Override
-      public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof net.studioblueplanet.tomtomwatch.RouteProto.Segment) {
-          return mergeFrom((net.studioblueplanet.tomtomwatch.RouteProto.Segment)other);
-        } else {
-          super.mergeFrom(other);
-          return this;
-        }
-      }
-
-      public Builder mergeFrom(net.studioblueplanet.tomtomwatch.RouteProto.Segment other) {
-        if (other == net.studioblueplanet.tomtomwatch.RouteProto.Segment.getDefaultInstance()) return this;
-        if (other.hasNumberOfCoordinates()) {
-          setNumberOfCoordinates(other.getNumberOfCoordinates());
-        }
-        if (dataBuilder_ == null) {
-          if (!other.data_.isEmpty()) {
-            if (data_.isEmpty()) {
-              data_ = other.data_;
-              bitField0_ = (bitField0_ & ~0x00000002);
-            } else {
-              ensureDataIsMutable();
-              data_.addAll(other.data_);
-            }
-            onChanged();
-          }
-        } else {
-          if (!other.data_.isEmpty()) {
-            if (dataBuilder_.isEmpty()) {
-              dataBuilder_.dispose();
-              dataBuilder_ = null;
-              data_ = other.data_;
-              bitField0_ = (bitField0_ & ~0x00000002);
-              dataBuilder_ = 
-                com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
-                   getDataFieldBuilder() : null;
-            } else {
-              dataBuilder_.addAllMessages(other.data_);
-            }
-          }
-        }
-        this.mergeUnknownFields(other.unknownFields);
-        onChanged();
-        return this;
-      }
-
-      @java.lang.Override
-      public final boolean isInitialized() {
-        if (!hasNumberOfCoordinates()) {
-          return false;
-        }
-        for (int i = 0; i < getDataCount(); i++) {
-          if (!getData(i).isInitialized()) {
-            return false;
-          }
-        }
-        return true;
-      }
-
-      @java.lang.Override
-      public Builder mergeFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        net.studioblueplanet.tomtomwatch.RouteProto.Segment parsedMessage = null;
-        try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (net.studioblueplanet.tomtomwatch.RouteProto.Segment) e.getUnfinishedMessage();
-          throw e.unwrapIOException();
-        } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
-        return this;
-      }
-      private int bitField0_;
-
-      private int numberOfCoordinates_ ;
-      /**
-       * <code>required int32 numberOfCoordinates = 1;</code>
-       */
-      public boolean hasNumberOfCoordinates() {
-        return ((bitField0_ & 0x00000001) != 0);
-      }
-      /**
-       * <code>required int32 numberOfCoordinates = 1;</code>
-       */
-      public int getNumberOfCoordinates() {
-        return numberOfCoordinates_;
-      }
-      /**
-       * <code>required int32 numberOfCoordinates = 1;</code>
-       */
-      public Builder setNumberOfCoordinates(int value) {
-        bitField0_ |= 0x00000001;
-        numberOfCoordinates_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required int32 numberOfCoordinates = 1;</code>
-       */
-      public Builder clearNumberOfCoordinates() {
-        bitField0_ = (bitField0_ & ~0x00000001);
-        numberOfCoordinates_ = 0;
-        onChanged();
-        return this;
-      }
-
-      private java.util.List<net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData> data_ =
-        java.util.Collections.emptyList();
-      private void ensureDataIsMutable() {
-        if (!((bitField0_ & 0x00000002) != 0)) {
-          data_ = new java.util.ArrayList<net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData>(data_);
-          bitField0_ |= 0x00000002;
-         }
-      }
-
-      private com.google.protobuf.RepeatedFieldBuilderV3<
-          net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData, net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData.Builder, net.studioblueplanet.tomtomwatch.RouteProto.CoordinateDataOrBuilder> dataBuilder_;
-
-      /**
-       * <code>repeated .tutorial.CoordinateData data = 2;</code>
-       */
-      public java.util.List<net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData> getDataList() {
-        if (dataBuilder_ == null) {
-          return java.util.Collections.unmodifiableList(data_);
-        } else {
-          return dataBuilder_.getMessageList();
-        }
-      }
-      /**
-       * <code>repeated .tutorial.CoordinateData data = 2;</code>
-       */
-      public int getDataCount() {
-        if (dataBuilder_ == null) {
-          return data_.size();
-        } else {
-          return dataBuilder_.getCount();
-        }
-      }
-      /**
-       * <code>repeated .tutorial.CoordinateData data = 2;</code>
-       */
-      public net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData getData(int index) {
-        if (dataBuilder_ == null) {
-          return data_.get(index);
-        } else {
-          return dataBuilder_.getMessage(index);
-        }
-      }
-      /**
-       * <code>repeated .tutorial.CoordinateData data = 2;</code>
-       */
-      public Builder setData(
-          int index, net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData value) {
-        if (dataBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureDataIsMutable();
-          data_.set(index, value);
-          onChanged();
-        } else {
-          dataBuilder_.setMessage(index, value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .tutorial.CoordinateData data = 2;</code>
-       */
-      public Builder setData(
-          int index, net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData.Builder builderForValue) {
-        if (dataBuilder_ == null) {
-          ensureDataIsMutable();
-          data_.set(index, builderForValue.build());
-          onChanged();
-        } else {
-          dataBuilder_.setMessage(index, builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .tutorial.CoordinateData data = 2;</code>
-       */
-      public Builder addData(net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData value) {
-        if (dataBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureDataIsMutable();
-          data_.add(value);
-          onChanged();
-        } else {
-          dataBuilder_.addMessage(value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .tutorial.CoordinateData data = 2;</code>
-       */
-      public Builder addData(
-          int index, net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData value) {
-        if (dataBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureDataIsMutable();
-          data_.add(index, value);
-          onChanged();
-        } else {
-          dataBuilder_.addMessage(index, value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .tutorial.CoordinateData data = 2;</code>
-       */
-      public Builder addData(
-          net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData.Builder builderForValue) {
-        if (dataBuilder_ == null) {
-          ensureDataIsMutable();
-          data_.add(builderForValue.build());
-          onChanged();
-        } else {
-          dataBuilder_.addMessage(builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .tutorial.CoordinateData data = 2;</code>
-       */
-      public Builder addData(
-          int index, net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData.Builder builderForValue) {
-        if (dataBuilder_ == null) {
-          ensureDataIsMutable();
-          data_.add(index, builderForValue.build());
-          onChanged();
-        } else {
-          dataBuilder_.addMessage(index, builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .tutorial.CoordinateData data = 2;</code>
-       */
-      public Builder addAllData(
-          java.lang.Iterable<? extends net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData> values) {
-        if (dataBuilder_ == null) {
-          ensureDataIsMutable();
-          com.google.protobuf.AbstractMessageLite.Builder.addAll(
-              values, data_);
-          onChanged();
-        } else {
-          dataBuilder_.addAllMessages(values);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .tutorial.CoordinateData data = 2;</code>
-       */
-      public Builder clearData() {
-        if (dataBuilder_ == null) {
-          data_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000002);
-          onChanged();
-        } else {
-          dataBuilder_.clear();
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .tutorial.CoordinateData data = 2;</code>
-       */
-      public Builder removeData(int index) {
-        if (dataBuilder_ == null) {
-          ensureDataIsMutable();
-          data_.remove(index);
-          onChanged();
-        } else {
-          dataBuilder_.remove(index);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .tutorial.CoordinateData data = 2;</code>
-       */
-      public net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData.Builder getDataBuilder(
-          int index) {
-        return getDataFieldBuilder().getBuilder(index);
-      }
-      /**
-       * <code>repeated .tutorial.CoordinateData data = 2;</code>
-       */
-      public net.studioblueplanet.tomtomwatch.RouteProto.CoordinateDataOrBuilder getDataOrBuilder(
-          int index) {
-        if (dataBuilder_ == null) {
-          return data_.get(index);  } else {
-          return dataBuilder_.getMessageOrBuilder(index);
-        }
-      }
-      /**
-       * <code>repeated .tutorial.CoordinateData data = 2;</code>
-       */
-      public java.util.List<? extends net.studioblueplanet.tomtomwatch.RouteProto.CoordinateDataOrBuilder> 
-           getDataOrBuilderList() {
-        if (dataBuilder_ != null) {
-          return dataBuilder_.getMessageOrBuilderList();
-        } else {
-          return java.util.Collections.unmodifiableList(data_);
-        }
-      }
-      /**
-       * <code>repeated .tutorial.CoordinateData data = 2;</code>
-       */
-      public net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData.Builder addDataBuilder() {
-        return getDataFieldBuilder().addBuilder(
-            net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .tutorial.CoordinateData data = 2;</code>
-       */
-      public net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData.Builder addDataBuilder(
-          int index) {
-        return getDataFieldBuilder().addBuilder(
-            index, net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .tutorial.CoordinateData data = 2;</code>
-       */
-      public java.util.List<net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData.Builder> 
-           getDataBuilderList() {
-        return getDataFieldBuilder().getBuilderList();
-      }
-      private com.google.protobuf.RepeatedFieldBuilderV3<
-          net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData, net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData.Builder, net.studioblueplanet.tomtomwatch.RouteProto.CoordinateDataOrBuilder> 
-          getDataFieldBuilder() {
-        if (dataBuilder_ == null) {
-          dataBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
-              net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData, net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData.Builder, net.studioblueplanet.tomtomwatch.RouteProto.CoordinateDataOrBuilder>(
-                  data_,
-                  ((bitField0_ & 0x00000002) != 0),
-                  getParentForChildren(),
-                  isClean());
-          data_ = null;
-        }
-        return dataBuilder_;
-      }
-      @java.lang.Override
-      public final Builder setUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFields(unknownFields);
-      }
-
-      @java.lang.Override
-      public final Builder mergeUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.mergeUnknownFields(unknownFields);
-      }
-
-
-      // @@protoc_insertion_point(builder_scope:tutorial.Segment)
-    }
-
-    // @@protoc_insertion_point(class_scope:tutorial.Segment)
-    private static final net.studioblueplanet.tomtomwatch.RouteProto.Segment DEFAULT_INSTANCE;
-    static {
-      DEFAULT_INSTANCE = new net.studioblueplanet.tomtomwatch.RouteProto.Segment();
-    }
-
-    public static net.studioblueplanet.tomtomwatch.RouteProto.Segment getDefaultInstance() {
-      return DEFAULT_INSTANCE;
-    }
-
-    @java.lang.Deprecated public static final com.google.protobuf.Parser<Segment>
-        PARSER = new com.google.protobuf.AbstractParser<Segment>() {
-      @java.lang.Override
-      public Segment parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new Segment(input, extensionRegistry);
-      }
-    };
-
-    public static com.google.protobuf.Parser<Segment> parser() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<Segment> getParserForType() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public net.studioblueplanet.tomtomwatch.RouteProto.Segment getDefaultInstanceForType() {
-      return DEFAULT_INSTANCE;
-    }
-
-  }
-
   public interface SegmentDataOrBuilder extends
       // @@protoc_insertion_point(interface_extends:tutorial.SegmentData)
       com.google.protobuf.MessageOrBuilder {
@@ -7932,7 +5955,9 @@ public final class RouteProto {
   }
   /**
    * <pre>
-   * Segment section
+   *#################################################################################################
+   * 4th level: Segment section
+   *#################################################################################################
    * </pre>
    *
    * Protobuf type {@code tutorial.SegmentData}
@@ -8266,7 +6291,9 @@ public final class RouteProto {
     }
     /**
      * <pre>
-     * Segment section
+     *#################################################################################################
+     * 4th level: Segment section
+     *#################################################################################################
      * </pre>
      *
      * Protobuf type {@code tutorial.SegmentData}
@@ -10080,72 +8107,68 @@ public final class RouteProto {
 
   }
 
-  public interface TrackMetaDataOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:tutorial.TrackMetaData)
+  public interface SegmentOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:tutorial.Segment)
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>required string name = 1;</code>
+     * <code>required int32 numberOfCoordinates = 1;</code>
      */
-    boolean hasName();
+    boolean hasNumberOfCoordinates();
     /**
-     * <code>required string name = 1;</code>
+     * <code>required int32 numberOfCoordinates = 1;</code>
      */
-    java.lang.String getName();
-    /**
-     * <code>required string name = 1;</code>
-     */
-    com.google.protobuf.ByteString
-        getNameBytes();
+    int getNumberOfCoordinates();
 
     /**
-     * <code>required .tutorial.BoundingBox box = 2;</code>
+     * <code>repeated .tutorial.CoordinateData data = 2;</code>
      */
-    boolean hasBox();
+    java.util.List<net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData> 
+        getDataList();
     /**
-     * <code>required .tutorial.BoundingBox box = 2;</code>
+     * <code>repeated .tutorial.CoordinateData data = 2;</code>
      */
-    net.studioblueplanet.tomtomwatch.RouteProto.BoundingBox getBox();
+    net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData getData(int index);
     /**
-     * <code>required .tutorial.BoundingBox box = 2;</code>
+     * <code>repeated .tutorial.CoordinateData data = 2;</code>
      */
-    net.studioblueplanet.tomtomwatch.RouteProto.BoundingBoxOrBuilder getBoxOrBuilder();
-
+    int getDataCount();
     /**
-     * <code>required bytes time = 3;</code>
+     * <code>repeated .tutorial.CoordinateData data = 2;</code>
      */
-    boolean hasTime();
+    java.util.List<? extends net.studioblueplanet.tomtomwatch.RouteProto.CoordinateDataOrBuilder> 
+        getDataOrBuilderList();
     /**
-     * <code>required bytes time = 3;</code>
+     * <code>repeated .tutorial.CoordinateData data = 2;</code>
      */
-    com.google.protobuf.ByteString getTime();
+    net.studioblueplanet.tomtomwatch.RouteProto.CoordinateDataOrBuilder getDataOrBuilder(
+        int index);
   }
   /**
    * <pre>
-   * Some information on the route
+   * Route segment
    * </pre>
    *
-   * Protobuf type {@code tutorial.TrackMetaData}
+   * Protobuf type {@code tutorial.Segment}
    */
-  public  static final class TrackMetaData extends
+  public  static final class Segment extends
       com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:tutorial.TrackMetaData)
-      TrackMetaDataOrBuilder {
+      // @@protoc_insertion_point(message_implements:tutorial.Segment)
+      SegmentOrBuilder {
   private static final long serialVersionUID = 0L;
-    // Use TrackMetaData.newBuilder() to construct.
-    private TrackMetaData(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+    // Use Segment.newBuilder() to construct.
+    private Segment(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-    private TrackMetaData() {
-      name_ = "";
-      time_ = com.google.protobuf.ByteString.EMPTY;
+    private Segment() {
+      data_ = java.util.Collections.emptyList();
     }
 
     @java.lang.Override
     @SuppressWarnings({"unused"})
     protected java.lang.Object newInstance(
         UnusedPrivateParameter unused) {
-      return new TrackMetaData();
+      return new Segment();
     }
 
     @java.lang.Override
@@ -10153,7 +8176,7 @@ public final class RouteProto {
     getUnknownFields() {
       return this.unknownFields;
     }
-    private TrackMetaData(
+    private Segment(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -10172,28 +8195,18 @@ public final class RouteProto {
             case 0:
               done = true;
               break;
-            case 10: {
-              com.google.protobuf.ByteString bs = input.readBytes();
+            case 8: {
               bitField0_ |= 0x00000001;
-              name_ = bs;
+              numberOfCoordinates_ = input.readInt32();
               break;
             }
             case 18: {
-              net.studioblueplanet.tomtomwatch.RouteProto.BoundingBox.Builder subBuilder = null;
-              if (((bitField0_ & 0x00000002) != 0)) {
-                subBuilder = box_.toBuilder();
+              if (!((mutable_bitField0_ & 0x00000002) != 0)) {
+                data_ = new java.util.ArrayList<net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData>();
+                mutable_bitField0_ |= 0x00000002;
               }
-              box_ = input.readMessage(net.studioblueplanet.tomtomwatch.RouteProto.BoundingBox.PARSER, extensionRegistry);
-              if (subBuilder != null) {
-                subBuilder.mergeFrom(box_);
-                box_ = subBuilder.buildPartial();
-              }
-              bitField0_ |= 0x00000002;
-              break;
-            }
-            case 26: {
-              bitField0_ |= 0x00000004;
-              time_ = input.readBytes();
+              data_.add(
+                  input.readMessage(net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData.PARSER, extensionRegistry));
               break;
             }
             default: {
@@ -10211,100 +8224,75 @@ public final class RouteProto {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
+        if (((mutable_bitField0_ & 0x00000002) != 0)) {
+          data_ = java.util.Collections.unmodifiableList(data_);
+        }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return net.studioblueplanet.tomtomwatch.RouteProto.internal_static_tutorial_TrackMetaData_descriptor;
+      return net.studioblueplanet.tomtomwatch.RouteProto.internal_static_tutorial_Segment_descriptor;
     }
 
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return net.studioblueplanet.tomtomwatch.RouteProto.internal_static_tutorial_TrackMetaData_fieldAccessorTable
+      return net.studioblueplanet.tomtomwatch.RouteProto.internal_static_tutorial_Segment_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              net.studioblueplanet.tomtomwatch.RouteProto.TrackMetaData.class, net.studioblueplanet.tomtomwatch.RouteProto.TrackMetaData.Builder.class);
+              net.studioblueplanet.tomtomwatch.RouteProto.Segment.class, net.studioblueplanet.tomtomwatch.RouteProto.Segment.Builder.class);
     }
 
     private int bitField0_;
-    public static final int NAME_FIELD_NUMBER = 1;
-    private volatile java.lang.Object name_;
+    public static final int NUMBEROFCOORDINATES_FIELD_NUMBER = 1;
+    private int numberOfCoordinates_;
     /**
-     * <code>required string name = 1;</code>
+     * <code>required int32 numberOfCoordinates = 1;</code>
      */
-    public boolean hasName() {
+    public boolean hasNumberOfCoordinates() {
       return ((bitField0_ & 0x00000001) != 0);
     }
     /**
-     * <code>required string name = 1;</code>
+     * <code>required int32 numberOfCoordinates = 1;</code>
      */
-    public java.lang.String getName() {
-      java.lang.Object ref = name_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        if (bs.isValidUtf8()) {
-          name_ = s;
-        }
-        return s;
-      }
-    }
-    /**
-     * <code>required string name = 1;</code>
-     */
-    public com.google.protobuf.ByteString
-        getNameBytes() {
-      java.lang.Object ref = name_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        name_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
+    public int getNumberOfCoordinates() {
+      return numberOfCoordinates_;
     }
 
-    public static final int BOX_FIELD_NUMBER = 2;
-    private net.studioblueplanet.tomtomwatch.RouteProto.BoundingBox box_;
+    public static final int DATA_FIELD_NUMBER = 2;
+    private java.util.List<net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData> data_;
     /**
-     * <code>required .tutorial.BoundingBox box = 2;</code>
+     * <code>repeated .tutorial.CoordinateData data = 2;</code>
      */
-    public boolean hasBox() {
-      return ((bitField0_ & 0x00000002) != 0);
+    public java.util.List<net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData> getDataList() {
+      return data_;
     }
     /**
-     * <code>required .tutorial.BoundingBox box = 2;</code>
+     * <code>repeated .tutorial.CoordinateData data = 2;</code>
      */
-    public net.studioblueplanet.tomtomwatch.RouteProto.BoundingBox getBox() {
-      return box_ == null ? net.studioblueplanet.tomtomwatch.RouteProto.BoundingBox.getDefaultInstance() : box_;
+    public java.util.List<? extends net.studioblueplanet.tomtomwatch.RouteProto.CoordinateDataOrBuilder> 
+        getDataOrBuilderList() {
+      return data_;
     }
     /**
-     * <code>required .tutorial.BoundingBox box = 2;</code>
+     * <code>repeated .tutorial.CoordinateData data = 2;</code>
      */
-    public net.studioblueplanet.tomtomwatch.RouteProto.BoundingBoxOrBuilder getBoxOrBuilder() {
-      return box_ == null ? net.studioblueplanet.tomtomwatch.RouteProto.BoundingBox.getDefaultInstance() : box_;
-    }
-
-    public static final int TIME_FIELD_NUMBER = 3;
-    private com.google.protobuf.ByteString time_;
-    /**
-     * <code>required bytes time = 3;</code>
-     */
-    public boolean hasTime() {
-      return ((bitField0_ & 0x00000004) != 0);
+    public int getDataCount() {
+      return data_.size();
     }
     /**
-     * <code>required bytes time = 3;</code>
+     * <code>repeated .tutorial.CoordinateData data = 2;</code>
      */
-    public com.google.protobuf.ByteString getTime() {
-      return time_;
+    public net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData getData(int index) {
+      return data_.get(index);
+    }
+    /**
+     * <code>repeated .tutorial.CoordinateData data = 2;</code>
+     */
+    public net.studioblueplanet.tomtomwatch.RouteProto.CoordinateDataOrBuilder getDataOrBuilder(
+        int index) {
+      return data_.get(index);
     }
 
     private byte memoizedIsInitialized = -1;
@@ -10314,21 +8302,15 @@ public final class RouteProto {
       if (isInitialized == 1) return true;
       if (isInitialized == 0) return false;
 
-      if (!hasName()) {
+      if (!hasNumberOfCoordinates()) {
         memoizedIsInitialized = 0;
         return false;
       }
-      if (!hasBox()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      if (!hasTime()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      if (!getBox().isInitialized()) {
-        memoizedIsInitialized = 0;
-        return false;
+      for (int i = 0; i < getDataCount(); i++) {
+        if (!getData(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
       }
       memoizedIsInitialized = 1;
       return true;
@@ -10338,13 +8320,10 @@ public final class RouteProto {
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (((bitField0_ & 0x00000001) != 0)) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, name_);
+        output.writeInt32(1, numberOfCoordinates_);
       }
-      if (((bitField0_ & 0x00000002) != 0)) {
-        output.writeMessage(2, getBox());
-      }
-      if (((bitField0_ & 0x00000004) != 0)) {
-        output.writeBytes(3, time_);
+      for (int i = 0; i < data_.size(); i++) {
+        output.writeMessage(2, data_.get(i));
       }
       unknownFields.writeTo(output);
     }
@@ -10356,15 +8335,12 @@ public final class RouteProto {
 
       size = 0;
       if (((bitField0_ & 0x00000001) != 0)) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, name_);
-      }
-      if (((bitField0_ & 0x00000002) != 0)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(2, getBox());
+          .computeInt32Size(1, numberOfCoordinates_);
       }
-      if (((bitField0_ & 0x00000004) != 0)) {
+      for (int i = 0; i < data_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(3, time_);
+          .computeMessageSize(2, data_.get(i));
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -10376,26 +8352,18 @@ public final class RouteProto {
       if (obj == this) {
        return true;
       }
-      if (!(obj instanceof net.studioblueplanet.tomtomwatch.RouteProto.TrackMetaData)) {
+      if (!(obj instanceof net.studioblueplanet.tomtomwatch.RouteProto.Segment)) {
         return super.equals(obj);
       }
-      net.studioblueplanet.tomtomwatch.RouteProto.TrackMetaData other = (net.studioblueplanet.tomtomwatch.RouteProto.TrackMetaData) obj;
+      net.studioblueplanet.tomtomwatch.RouteProto.Segment other = (net.studioblueplanet.tomtomwatch.RouteProto.Segment) obj;
 
-      if (hasName() != other.hasName()) return false;
-      if (hasName()) {
-        if (!getName()
-            .equals(other.getName())) return false;
+      if (hasNumberOfCoordinates() != other.hasNumberOfCoordinates()) return false;
+      if (hasNumberOfCoordinates()) {
+        if (getNumberOfCoordinates()
+            != other.getNumberOfCoordinates()) return false;
       }
-      if (hasBox() != other.hasBox()) return false;
-      if (hasBox()) {
-        if (!getBox()
-            .equals(other.getBox())) return false;
-      }
-      if (hasTime() != other.hasTime()) return false;
-      if (hasTime()) {
-        if (!getTime()
-            .equals(other.getTime())) return false;
-      }
+      if (!getDataList()
+          .equals(other.getDataList())) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -10407,86 +8375,82 @@ public final class RouteProto {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
-      if (hasName()) {
-        hash = (37 * hash) + NAME_FIELD_NUMBER;
-        hash = (53 * hash) + getName().hashCode();
+      if (hasNumberOfCoordinates()) {
+        hash = (37 * hash) + NUMBEROFCOORDINATES_FIELD_NUMBER;
+        hash = (53 * hash) + getNumberOfCoordinates();
       }
-      if (hasBox()) {
-        hash = (37 * hash) + BOX_FIELD_NUMBER;
-        hash = (53 * hash) + getBox().hashCode();
-      }
-      if (hasTime()) {
-        hash = (37 * hash) + TIME_FIELD_NUMBER;
-        hash = (53 * hash) + getTime().hashCode();
+      if (getDataCount() > 0) {
+        hash = (37 * hash) + DATA_FIELD_NUMBER;
+        hash = (53 * hash) + getDataList().hashCode();
       }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
     }
 
-    public static net.studioblueplanet.tomtomwatch.RouteProto.TrackMetaData parseFrom(
+    public static net.studioblueplanet.tomtomwatch.RouteProto.Segment parseFrom(
         java.nio.ByteBuffer data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static net.studioblueplanet.tomtomwatch.RouteProto.TrackMetaData parseFrom(
+    public static net.studioblueplanet.tomtomwatch.RouteProto.Segment parseFrom(
         java.nio.ByteBuffer data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static net.studioblueplanet.tomtomwatch.RouteProto.TrackMetaData parseFrom(
+    public static net.studioblueplanet.tomtomwatch.RouteProto.Segment parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static net.studioblueplanet.tomtomwatch.RouteProto.TrackMetaData parseFrom(
+    public static net.studioblueplanet.tomtomwatch.RouteProto.Segment parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static net.studioblueplanet.tomtomwatch.RouteProto.TrackMetaData parseFrom(byte[] data)
+    public static net.studioblueplanet.tomtomwatch.RouteProto.Segment parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static net.studioblueplanet.tomtomwatch.RouteProto.TrackMetaData parseFrom(
+    public static net.studioblueplanet.tomtomwatch.RouteProto.Segment parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static net.studioblueplanet.tomtomwatch.RouteProto.TrackMetaData parseFrom(java.io.InputStream input)
+    public static net.studioblueplanet.tomtomwatch.RouteProto.Segment parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static net.studioblueplanet.tomtomwatch.RouteProto.TrackMetaData parseFrom(
+    public static net.studioblueplanet.tomtomwatch.RouteProto.Segment parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
-    public static net.studioblueplanet.tomtomwatch.RouteProto.TrackMetaData parseDelimitedFrom(java.io.InputStream input)
+    public static net.studioblueplanet.tomtomwatch.RouteProto.Segment parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
-    public static net.studioblueplanet.tomtomwatch.RouteProto.TrackMetaData parseDelimitedFrom(
+    public static net.studioblueplanet.tomtomwatch.RouteProto.Segment parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-    public static net.studioblueplanet.tomtomwatch.RouteProto.TrackMetaData parseFrom(
+    public static net.studioblueplanet.tomtomwatch.RouteProto.Segment parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static net.studioblueplanet.tomtomwatch.RouteProto.TrackMetaData parseFrom(
+    public static net.studioblueplanet.tomtomwatch.RouteProto.Segment parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -10499,7 +8463,7 @@ public final class RouteProto {
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-    public static Builder newBuilder(net.studioblueplanet.tomtomwatch.RouteProto.TrackMetaData prototype) {
+    public static Builder newBuilder(net.studioblueplanet.tomtomwatch.RouteProto.Segment prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
     @java.lang.Override
@@ -10516,29 +8480,29 @@ public final class RouteProto {
     }
     /**
      * <pre>
-     * Some information on the route
+     * Route segment
      * </pre>
      *
-     * Protobuf type {@code tutorial.TrackMetaData}
+     * Protobuf type {@code tutorial.Segment}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:tutorial.TrackMetaData)
-        net.studioblueplanet.tomtomwatch.RouteProto.TrackMetaDataOrBuilder {
+        // @@protoc_insertion_point(builder_implements:tutorial.Segment)
+        net.studioblueplanet.tomtomwatch.RouteProto.SegmentOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return net.studioblueplanet.tomtomwatch.RouteProto.internal_static_tutorial_TrackMetaData_descriptor;
+        return net.studioblueplanet.tomtomwatch.RouteProto.internal_static_tutorial_Segment_descriptor;
       }
 
       @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return net.studioblueplanet.tomtomwatch.RouteProto.internal_static_tutorial_TrackMetaData_fieldAccessorTable
+        return net.studioblueplanet.tomtomwatch.RouteProto.internal_static_tutorial_Segment_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                net.studioblueplanet.tomtomwatch.RouteProto.TrackMetaData.class, net.studioblueplanet.tomtomwatch.RouteProto.TrackMetaData.Builder.class);
+                net.studioblueplanet.tomtomwatch.RouteProto.Segment.class, net.studioblueplanet.tomtomwatch.RouteProto.Segment.Builder.class);
       }
 
-      // Construct using net.studioblueplanet.tomtomwatch.RouteProto.TrackMetaData.newBuilder()
+      // Construct using net.studioblueplanet.tomtomwatch.RouteProto.Segment.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -10551,39 +8515,37 @@ public final class RouteProto {
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessageV3
                 .alwaysUseFieldBuilders) {
-          getBoxFieldBuilder();
+          getDataFieldBuilder();
         }
       }
       @java.lang.Override
       public Builder clear() {
         super.clear();
-        name_ = "";
+        numberOfCoordinates_ = 0;
         bitField0_ = (bitField0_ & ~0x00000001);
-        if (boxBuilder_ == null) {
-          box_ = null;
+        if (dataBuilder_ == null) {
+          data_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000002);
         } else {
-          boxBuilder_.clear();
+          dataBuilder_.clear();
         }
-        bitField0_ = (bitField0_ & ~0x00000002);
-        time_ = com.google.protobuf.ByteString.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000004);
         return this;
       }
 
       @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return net.studioblueplanet.tomtomwatch.RouteProto.internal_static_tutorial_TrackMetaData_descriptor;
+        return net.studioblueplanet.tomtomwatch.RouteProto.internal_static_tutorial_Segment_descriptor;
       }
 
       @java.lang.Override
-      public net.studioblueplanet.tomtomwatch.RouteProto.TrackMetaData getDefaultInstanceForType() {
-        return net.studioblueplanet.tomtomwatch.RouteProto.TrackMetaData.getDefaultInstance();
+      public net.studioblueplanet.tomtomwatch.RouteProto.Segment getDefaultInstanceForType() {
+        return net.studioblueplanet.tomtomwatch.RouteProto.Segment.getDefaultInstance();
       }
 
       @java.lang.Override
-      public net.studioblueplanet.tomtomwatch.RouteProto.TrackMetaData build() {
-        net.studioblueplanet.tomtomwatch.RouteProto.TrackMetaData result = buildPartial();
+      public net.studioblueplanet.tomtomwatch.RouteProto.Segment build() {
+        net.studioblueplanet.tomtomwatch.RouteProto.Segment result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
@@ -10591,26 +8553,23 @@ public final class RouteProto {
       }
 
       @java.lang.Override
-      public net.studioblueplanet.tomtomwatch.RouteProto.TrackMetaData buildPartial() {
-        net.studioblueplanet.tomtomwatch.RouteProto.TrackMetaData result = new net.studioblueplanet.tomtomwatch.RouteProto.TrackMetaData(this);
+      public net.studioblueplanet.tomtomwatch.RouteProto.Segment buildPartial() {
+        net.studioblueplanet.tomtomwatch.RouteProto.Segment result = new net.studioblueplanet.tomtomwatch.RouteProto.Segment(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
         if (((from_bitField0_ & 0x00000001) != 0)) {
+          result.numberOfCoordinates_ = numberOfCoordinates_;
           to_bitField0_ |= 0x00000001;
         }
-        result.name_ = name_;
-        if (((from_bitField0_ & 0x00000002) != 0)) {
-          if (boxBuilder_ == null) {
-            result.box_ = box_;
-          } else {
-            result.box_ = boxBuilder_.build();
+        if (dataBuilder_ == null) {
+          if (((bitField0_ & 0x00000002) != 0)) {
+            data_ = java.util.Collections.unmodifiableList(data_);
+            bitField0_ = (bitField0_ & ~0x00000002);
           }
-          to_bitField0_ |= 0x00000002;
+          result.data_ = data_;
+        } else {
+          result.data_ = dataBuilder_.build();
         }
-        if (((from_bitField0_ & 0x00000004) != 0)) {
-          to_bitField0_ |= 0x00000004;
-        }
-        result.time_ = time_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -10650,26 +8609,44 @@ public final class RouteProto {
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof net.studioblueplanet.tomtomwatch.RouteProto.TrackMetaData) {
-          return mergeFrom((net.studioblueplanet.tomtomwatch.RouteProto.TrackMetaData)other);
+        if (other instanceof net.studioblueplanet.tomtomwatch.RouteProto.Segment) {
+          return mergeFrom((net.studioblueplanet.tomtomwatch.RouteProto.Segment)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(net.studioblueplanet.tomtomwatch.RouteProto.TrackMetaData other) {
-        if (other == net.studioblueplanet.tomtomwatch.RouteProto.TrackMetaData.getDefaultInstance()) return this;
-        if (other.hasName()) {
-          bitField0_ |= 0x00000001;
-          name_ = other.name_;
-          onChanged();
+      public Builder mergeFrom(net.studioblueplanet.tomtomwatch.RouteProto.Segment other) {
+        if (other == net.studioblueplanet.tomtomwatch.RouteProto.Segment.getDefaultInstance()) return this;
+        if (other.hasNumberOfCoordinates()) {
+          setNumberOfCoordinates(other.getNumberOfCoordinates());
         }
-        if (other.hasBox()) {
-          mergeBox(other.getBox());
-        }
-        if (other.hasTime()) {
-          setTime(other.getTime());
+        if (dataBuilder_ == null) {
+          if (!other.data_.isEmpty()) {
+            if (data_.isEmpty()) {
+              data_ = other.data_;
+              bitField0_ = (bitField0_ & ~0x00000002);
+            } else {
+              ensureDataIsMutable();
+              data_.addAll(other.data_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.data_.isEmpty()) {
+            if (dataBuilder_.isEmpty()) {
+              dataBuilder_.dispose();
+              dataBuilder_ = null;
+              data_ = other.data_;
+              bitField0_ = (bitField0_ & ~0x00000002);
+              dataBuilder_ = 
+                com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
+                   getDataFieldBuilder() : null;
+            } else {
+              dataBuilder_.addAllMessages(other.data_);
+            }
+          }
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -10678,17 +8655,13 @@ public final class RouteProto {
 
       @java.lang.Override
       public final boolean isInitialized() {
-        if (!hasName()) {
+        if (!hasNumberOfCoordinates()) {
           return false;
         }
-        if (!hasBox()) {
-          return false;
-        }
-        if (!hasTime()) {
-          return false;
-        }
-        if (!getBox().isInitialized()) {
-          return false;
+        for (int i = 0; i < getDataCount(); i++) {
+          if (!getData(i).isInitialized()) {
+            return false;
+          }
         }
         return true;
       }
@@ -10698,11 +8671,11 @@ public final class RouteProto {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        net.studioblueplanet.tomtomwatch.RouteProto.TrackMetaData parsedMessage = null;
+        net.studioblueplanet.tomtomwatch.RouteProto.Segment parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (net.studioblueplanet.tomtomwatch.RouteProto.TrackMetaData) e.getUnfinishedMessage();
+          parsedMessage = (net.studioblueplanet.tomtomwatch.RouteProto.Segment) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
@@ -10713,231 +8686,2302 @@ public final class RouteProto {
       }
       private int bitField0_;
 
-      private java.lang.Object name_ = "";
+      private int numberOfCoordinates_ ;
       /**
-       * <code>required string name = 1;</code>
+       * <code>required int32 numberOfCoordinates = 1;</code>
        */
-      public boolean hasName() {
+      public boolean hasNumberOfCoordinates() {
         return ((bitField0_ & 0x00000001) != 0);
       }
       /**
-       * <code>required string name = 1;</code>
+       * <code>required int32 numberOfCoordinates = 1;</code>
        */
-      public java.lang.String getName() {
-        java.lang.Object ref = name_;
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          if (bs.isValidUtf8()) {
-            name_ = s;
-          }
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
+      public int getNumberOfCoordinates() {
+        return numberOfCoordinates_;
       }
       /**
-       * <code>required string name = 1;</code>
+       * <code>required int32 numberOfCoordinates = 1;</code>
        */
-      public com.google.protobuf.ByteString
-          getNameBytes() {
-        java.lang.Object ref = name_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          name_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>required string name = 1;</code>
-       */
-      public Builder setName(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000001;
-        name_ = value;
+      public Builder setNumberOfCoordinates(int value) {
+        bitField0_ |= 0x00000001;
+        numberOfCoordinates_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required string name = 1;</code>
+       * <code>required int32 numberOfCoordinates = 1;</code>
        */
-      public Builder clearName() {
+      public Builder clearNumberOfCoordinates() {
         bitField0_ = (bitField0_ & ~0x00000001);
-        name_ = getDefaultInstance().getName();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required string name = 1;</code>
-       */
-      public Builder setNameBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000001;
-        name_ = value;
+        numberOfCoordinates_ = 0;
         onChanged();
         return this;
       }
 
-      private net.studioblueplanet.tomtomwatch.RouteProto.BoundingBox box_;
-      private com.google.protobuf.SingleFieldBuilderV3<
-          net.studioblueplanet.tomtomwatch.RouteProto.BoundingBox, net.studioblueplanet.tomtomwatch.RouteProto.BoundingBox.Builder, net.studioblueplanet.tomtomwatch.RouteProto.BoundingBoxOrBuilder> boxBuilder_;
-      /**
-       * <code>required .tutorial.BoundingBox box = 2;</code>
-       */
-      public boolean hasBox() {
-        return ((bitField0_ & 0x00000002) != 0);
+      private java.util.List<net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData> data_ =
+        java.util.Collections.emptyList();
+      private void ensureDataIsMutable() {
+        if (!((bitField0_ & 0x00000002) != 0)) {
+          data_ = new java.util.ArrayList<net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData>(data_);
+          bitField0_ |= 0x00000002;
+         }
       }
+
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData, net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData.Builder, net.studioblueplanet.tomtomwatch.RouteProto.CoordinateDataOrBuilder> dataBuilder_;
+
       /**
-       * <code>required .tutorial.BoundingBox box = 2;</code>
+       * <code>repeated .tutorial.CoordinateData data = 2;</code>
        */
-      public net.studioblueplanet.tomtomwatch.RouteProto.BoundingBox getBox() {
-        if (boxBuilder_ == null) {
-          return box_ == null ? net.studioblueplanet.tomtomwatch.RouteProto.BoundingBox.getDefaultInstance() : box_;
+      public java.util.List<net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData> getDataList() {
+        if (dataBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(data_);
         } else {
-          return boxBuilder_.getMessage();
+          return dataBuilder_.getMessageList();
         }
       }
       /**
-       * <code>required .tutorial.BoundingBox box = 2;</code>
+       * <code>repeated .tutorial.CoordinateData data = 2;</code>
        */
-      public Builder setBox(net.studioblueplanet.tomtomwatch.RouteProto.BoundingBox value) {
-        if (boxBuilder_ == null) {
+      public int getDataCount() {
+        if (dataBuilder_ == null) {
+          return data_.size();
+        } else {
+          return dataBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .tutorial.CoordinateData data = 2;</code>
+       */
+      public net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData getData(int index) {
+        if (dataBuilder_ == null) {
+          return data_.get(index);
+        } else {
+          return dataBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .tutorial.CoordinateData data = 2;</code>
+       */
+      public Builder setData(
+          int index, net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData value) {
+        if (dataBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
           }
-          box_ = value;
+          ensureDataIsMutable();
+          data_.set(index, value);
           onChanged();
         } else {
-          boxBuilder_.setMessage(value);
+          dataBuilder_.setMessage(index, value);
         }
-        bitField0_ |= 0x00000002;
         return this;
       }
       /**
-       * <code>required .tutorial.BoundingBox box = 2;</code>
+       * <code>repeated .tutorial.CoordinateData data = 2;</code>
        */
-      public Builder setBox(
-          net.studioblueplanet.tomtomwatch.RouteProto.BoundingBox.Builder builderForValue) {
-        if (boxBuilder_ == null) {
-          box_ = builderForValue.build();
+      public Builder setData(
+          int index, net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData.Builder builderForValue) {
+        if (dataBuilder_ == null) {
+          ensureDataIsMutable();
+          data_.set(index, builderForValue.build());
           onChanged();
         } else {
-          boxBuilder_.setMessage(builderForValue.build());
+          dataBuilder_.setMessage(index, builderForValue.build());
         }
-        bitField0_ |= 0x00000002;
         return this;
       }
       /**
-       * <code>required .tutorial.BoundingBox box = 2;</code>
+       * <code>repeated .tutorial.CoordinateData data = 2;</code>
        */
-      public Builder mergeBox(net.studioblueplanet.tomtomwatch.RouteProto.BoundingBox value) {
-        if (boxBuilder_ == null) {
-          if (((bitField0_ & 0x00000002) != 0) &&
-              box_ != null &&
-              box_ != net.studioblueplanet.tomtomwatch.RouteProto.BoundingBox.getDefaultInstance()) {
-            box_ =
-              net.studioblueplanet.tomtomwatch.RouteProto.BoundingBox.newBuilder(box_).mergeFrom(value).buildPartial();
+      public Builder addData(net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData value) {
+        if (dataBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureDataIsMutable();
+          data_.add(value);
+          onChanged();
+        } else {
+          dataBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .tutorial.CoordinateData data = 2;</code>
+       */
+      public Builder addData(
+          int index, net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData value) {
+        if (dataBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureDataIsMutable();
+          data_.add(index, value);
+          onChanged();
+        } else {
+          dataBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .tutorial.CoordinateData data = 2;</code>
+       */
+      public Builder addData(
+          net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData.Builder builderForValue) {
+        if (dataBuilder_ == null) {
+          ensureDataIsMutable();
+          data_.add(builderForValue.build());
+          onChanged();
+        } else {
+          dataBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .tutorial.CoordinateData data = 2;</code>
+       */
+      public Builder addData(
+          int index, net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData.Builder builderForValue) {
+        if (dataBuilder_ == null) {
+          ensureDataIsMutable();
+          data_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          dataBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .tutorial.CoordinateData data = 2;</code>
+       */
+      public Builder addAllData(
+          java.lang.Iterable<? extends net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData> values) {
+        if (dataBuilder_ == null) {
+          ensureDataIsMutable();
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, data_);
+          onChanged();
+        } else {
+          dataBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .tutorial.CoordinateData data = 2;</code>
+       */
+      public Builder clearData() {
+        if (dataBuilder_ == null) {
+          data_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000002);
+          onChanged();
+        } else {
+          dataBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .tutorial.CoordinateData data = 2;</code>
+       */
+      public Builder removeData(int index) {
+        if (dataBuilder_ == null) {
+          ensureDataIsMutable();
+          data_.remove(index);
+          onChanged();
+        } else {
+          dataBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .tutorial.CoordinateData data = 2;</code>
+       */
+      public net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData.Builder getDataBuilder(
+          int index) {
+        return getDataFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .tutorial.CoordinateData data = 2;</code>
+       */
+      public net.studioblueplanet.tomtomwatch.RouteProto.CoordinateDataOrBuilder getDataOrBuilder(
+          int index) {
+        if (dataBuilder_ == null) {
+          return data_.get(index);  } else {
+          return dataBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .tutorial.CoordinateData data = 2;</code>
+       */
+      public java.util.List<? extends net.studioblueplanet.tomtomwatch.RouteProto.CoordinateDataOrBuilder> 
+           getDataOrBuilderList() {
+        if (dataBuilder_ != null) {
+          return dataBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(data_);
+        }
+      }
+      /**
+       * <code>repeated .tutorial.CoordinateData data = 2;</code>
+       */
+      public net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData.Builder addDataBuilder() {
+        return getDataFieldBuilder().addBuilder(
+            net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .tutorial.CoordinateData data = 2;</code>
+       */
+      public net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData.Builder addDataBuilder(
+          int index) {
+        return getDataFieldBuilder().addBuilder(
+            index, net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .tutorial.CoordinateData data = 2;</code>
+       */
+      public java.util.List<net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData.Builder> 
+           getDataBuilderList() {
+        return getDataFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData, net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData.Builder, net.studioblueplanet.tomtomwatch.RouteProto.CoordinateDataOrBuilder> 
+          getDataFieldBuilder() {
+        if (dataBuilder_ == null) {
+          dataBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
+              net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData, net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData.Builder, net.studioblueplanet.tomtomwatch.RouteProto.CoordinateDataOrBuilder>(
+                  data_,
+                  ((bitField0_ & 0x00000002) != 0),
+                  getParentForChildren(),
+                  isClean());
+          data_ = null;
+        }
+        return dataBuilder_;
+      }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:tutorial.Segment)
+    }
+
+    // @@protoc_insertion_point(class_scope:tutorial.Segment)
+    private static final net.studioblueplanet.tomtomwatch.RouteProto.Segment DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new net.studioblueplanet.tomtomwatch.RouteProto.Segment();
+    }
+
+    public static net.studioblueplanet.tomtomwatch.RouteProto.Segment getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    @java.lang.Deprecated public static final com.google.protobuf.Parser<Segment>
+        PARSER = new com.google.protobuf.AbstractParser<Segment>() {
+      @java.lang.Override
+      public Segment parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new Segment(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<Segment> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<Segment> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public net.studioblueplanet.tomtomwatch.RouteProto.Segment getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface CoordinateDataOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:tutorial.CoordinateData)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>required .tutorial.Coordinate coordinate = 1;</code>
+     */
+    boolean hasCoordinate();
+    /**
+     * <code>required .tutorial.Coordinate coordinate = 1;</code>
+     */
+    net.studioblueplanet.tomtomwatch.RouteProto.Coordinate getCoordinate();
+    /**
+     * <code>required .tutorial.Coordinate coordinate = 1;</code>
+     */
+    net.studioblueplanet.tomtomwatch.RouteProto.CoordinateOrBuilder getCoordinateOrBuilder();
+  }
+  /**
+   * <pre>
+   * Coordinate container
+   * </pre>
+   *
+   * Protobuf type {@code tutorial.CoordinateData}
+   */
+  public  static final class CoordinateData extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:tutorial.CoordinateData)
+      CoordinateDataOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use CoordinateData.newBuilder() to construct.
+    private CoordinateData(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private CoordinateData() {
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new CoordinateData();
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private CoordinateData(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 10: {
+              net.studioblueplanet.tomtomwatch.RouteProto.Coordinate.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000001) != 0)) {
+                subBuilder = coordinate_.toBuilder();
+              }
+              coordinate_ = input.readMessage(net.studioblueplanet.tomtomwatch.RouteProto.Coordinate.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(coordinate_);
+                coordinate_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00000001;
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return net.studioblueplanet.tomtomwatch.RouteProto.internal_static_tutorial_CoordinateData_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return net.studioblueplanet.tomtomwatch.RouteProto.internal_static_tutorial_CoordinateData_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData.class, net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData.Builder.class);
+    }
+
+    private int bitField0_;
+    public static final int COORDINATE_FIELD_NUMBER = 1;
+    private net.studioblueplanet.tomtomwatch.RouteProto.Coordinate coordinate_;
+    /**
+     * <code>required .tutorial.Coordinate coordinate = 1;</code>
+     */
+    public boolean hasCoordinate() {
+      return ((bitField0_ & 0x00000001) != 0);
+    }
+    /**
+     * <code>required .tutorial.Coordinate coordinate = 1;</code>
+     */
+    public net.studioblueplanet.tomtomwatch.RouteProto.Coordinate getCoordinate() {
+      return coordinate_ == null ? net.studioblueplanet.tomtomwatch.RouteProto.Coordinate.getDefaultInstance() : coordinate_;
+    }
+    /**
+     * <code>required .tutorial.Coordinate coordinate = 1;</code>
+     */
+    public net.studioblueplanet.tomtomwatch.RouteProto.CoordinateOrBuilder getCoordinateOrBuilder() {
+      return coordinate_ == null ? net.studioblueplanet.tomtomwatch.RouteProto.Coordinate.getDefaultInstance() : coordinate_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      if (!hasCoordinate()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!getCoordinate().isInitialized()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (((bitField0_ & 0x00000001) != 0)) {
+        output.writeMessage(1, getCoordinate());
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, getCoordinate());
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData)) {
+        return super.equals(obj);
+      }
+      net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData other = (net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData) obj;
+
+      if (hasCoordinate() != other.hasCoordinate()) return false;
+      if (hasCoordinate()) {
+        if (!getCoordinate()
+            .equals(other.getCoordinate())) return false;
+      }
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (hasCoordinate()) {
+        hash = (37 * hash) + COORDINATE_FIELD_NUMBER;
+        hash = (53 * hash) + getCoordinate().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * <pre>
+     * Coordinate container
+     * </pre>
+     *
+     * Protobuf type {@code tutorial.CoordinateData}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:tutorial.CoordinateData)
+        net.studioblueplanet.tomtomwatch.RouteProto.CoordinateDataOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return net.studioblueplanet.tomtomwatch.RouteProto.internal_static_tutorial_CoordinateData_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return net.studioblueplanet.tomtomwatch.RouteProto.internal_static_tutorial_CoordinateData_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData.class, net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData.Builder.class);
+      }
+
+      // Construct using net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+          getCoordinateFieldBuilder();
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        if (coordinateBuilder_ == null) {
+          coordinate_ = null;
+        } else {
+          coordinateBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000001);
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return net.studioblueplanet.tomtomwatch.RouteProto.internal_static_tutorial_CoordinateData_descriptor;
+      }
+
+      @java.lang.Override
+      public net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData getDefaultInstanceForType() {
+        return net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData build() {
+        net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData buildPartial() {
+        net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData result = new net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          if (coordinateBuilder_ == null) {
+            result.coordinate_ = coordinate_;
           } else {
-            box_ = value;
+            result.coordinate_ = coordinateBuilder_.build();
+          }
+          to_bitField0_ |= 0x00000001;
+        }
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData) {
+          return mergeFrom((net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData other) {
+        if (other == net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData.getDefaultInstance()) return this;
+        if (other.hasCoordinate()) {
+          mergeCoordinate(other.getCoordinate());
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        if (!hasCoordinate()) {
+          return false;
+        }
+        if (!getCoordinate().isInitialized()) {
+          return false;
+        }
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      private net.studioblueplanet.tomtomwatch.RouteProto.Coordinate coordinate_;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          net.studioblueplanet.tomtomwatch.RouteProto.Coordinate, net.studioblueplanet.tomtomwatch.RouteProto.Coordinate.Builder, net.studioblueplanet.tomtomwatch.RouteProto.CoordinateOrBuilder> coordinateBuilder_;
+      /**
+       * <code>required .tutorial.Coordinate coordinate = 1;</code>
+       */
+      public boolean hasCoordinate() {
+        return ((bitField0_ & 0x00000001) != 0);
+      }
+      /**
+       * <code>required .tutorial.Coordinate coordinate = 1;</code>
+       */
+      public net.studioblueplanet.tomtomwatch.RouteProto.Coordinate getCoordinate() {
+        if (coordinateBuilder_ == null) {
+          return coordinate_ == null ? net.studioblueplanet.tomtomwatch.RouteProto.Coordinate.getDefaultInstance() : coordinate_;
+        } else {
+          return coordinateBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>required .tutorial.Coordinate coordinate = 1;</code>
+       */
+      public Builder setCoordinate(net.studioblueplanet.tomtomwatch.RouteProto.Coordinate value) {
+        if (coordinateBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          coordinate_ = value;
+          onChanged();
+        } else {
+          coordinateBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000001;
+        return this;
+      }
+      /**
+       * <code>required .tutorial.Coordinate coordinate = 1;</code>
+       */
+      public Builder setCoordinate(
+          net.studioblueplanet.tomtomwatch.RouteProto.Coordinate.Builder builderForValue) {
+        if (coordinateBuilder_ == null) {
+          coordinate_ = builderForValue.build();
+          onChanged();
+        } else {
+          coordinateBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000001;
+        return this;
+      }
+      /**
+       * <code>required .tutorial.Coordinate coordinate = 1;</code>
+       */
+      public Builder mergeCoordinate(net.studioblueplanet.tomtomwatch.RouteProto.Coordinate value) {
+        if (coordinateBuilder_ == null) {
+          if (((bitField0_ & 0x00000001) != 0) &&
+              coordinate_ != null &&
+              coordinate_ != net.studioblueplanet.tomtomwatch.RouteProto.Coordinate.getDefaultInstance()) {
+            coordinate_ =
+              net.studioblueplanet.tomtomwatch.RouteProto.Coordinate.newBuilder(coordinate_).mergeFrom(value).buildPartial();
+          } else {
+            coordinate_ = value;
           }
           onChanged();
         } else {
-          boxBuilder_.mergeFrom(value);
+          coordinateBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000001;
+        return this;
+      }
+      /**
+       * <code>required .tutorial.Coordinate coordinate = 1;</code>
+       */
+      public Builder clearCoordinate() {
+        if (coordinateBuilder_ == null) {
+          coordinate_ = null;
+          onChanged();
+        } else {
+          coordinateBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000001);
+        return this;
+      }
+      /**
+       * <code>required .tutorial.Coordinate coordinate = 1;</code>
+       */
+      public net.studioblueplanet.tomtomwatch.RouteProto.Coordinate.Builder getCoordinateBuilder() {
+        bitField0_ |= 0x00000001;
+        onChanged();
+        return getCoordinateFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>required .tutorial.Coordinate coordinate = 1;</code>
+       */
+      public net.studioblueplanet.tomtomwatch.RouteProto.CoordinateOrBuilder getCoordinateOrBuilder() {
+        if (coordinateBuilder_ != null) {
+          return coordinateBuilder_.getMessageOrBuilder();
+        } else {
+          return coordinate_ == null ?
+              net.studioblueplanet.tomtomwatch.RouteProto.Coordinate.getDefaultInstance() : coordinate_;
+        }
+      }
+      /**
+       * <code>required .tutorial.Coordinate coordinate = 1;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          net.studioblueplanet.tomtomwatch.RouteProto.Coordinate, net.studioblueplanet.tomtomwatch.RouteProto.Coordinate.Builder, net.studioblueplanet.tomtomwatch.RouteProto.CoordinateOrBuilder> 
+          getCoordinateFieldBuilder() {
+        if (coordinateBuilder_ == null) {
+          coordinateBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              net.studioblueplanet.tomtomwatch.RouteProto.Coordinate, net.studioblueplanet.tomtomwatch.RouteProto.Coordinate.Builder, net.studioblueplanet.tomtomwatch.RouteProto.CoordinateOrBuilder>(
+                  getCoordinate(),
+                  getParentForChildren(),
+                  isClean());
+          coordinate_ = null;
+        }
+        return coordinateBuilder_;
+      }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:tutorial.CoordinateData)
+    }
+
+    // @@protoc_insertion_point(class_scope:tutorial.CoordinateData)
+    private static final net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData();
+    }
+
+    public static net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    @java.lang.Deprecated public static final com.google.protobuf.Parser<CoordinateData>
+        PARSER = new com.google.protobuf.AbstractParser<CoordinateData>() {
+      @java.lang.Override
+      public CoordinateData parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new CoordinateData(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<CoordinateData> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<CoordinateData> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public net.studioblueplanet.tomtomwatch.RouteProto.CoordinateData getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface CoordinateOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:tutorial.Coordinate)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>required .tutorial.LatLon lat = 1;</code>
+     */
+    boolean hasLat();
+    /**
+     * <code>required .tutorial.LatLon lat = 1;</code>
+     */
+    net.studioblueplanet.tomtomwatch.RouteProto.LatLon getLat();
+    /**
+     * <code>required .tutorial.LatLon lat = 1;</code>
+     */
+    net.studioblueplanet.tomtomwatch.RouteProto.LatLonOrBuilder getLatOrBuilder();
+
+    /**
+     * <code>required .tutorial.LatLon lon = 2;</code>
+     */
+    boolean hasLon();
+    /**
+     * <code>required .tutorial.LatLon lon = 2;</code>
+     */
+    net.studioblueplanet.tomtomwatch.RouteProto.LatLon getLon();
+    /**
+     * <code>required .tutorial.LatLon lon = 2;</code>
+     */
+    net.studioblueplanet.tomtomwatch.RouteProto.LatLonOrBuilder getLonOrBuilder();
+  }
+  /**
+   * <pre>
+   * Container
+   * </pre>
+   *
+   * Protobuf type {@code tutorial.Coordinate}
+   */
+  public  static final class Coordinate extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:tutorial.Coordinate)
+      CoordinateOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use Coordinate.newBuilder() to construct.
+    private Coordinate(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private Coordinate() {
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new Coordinate();
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private Coordinate(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 10: {
+              net.studioblueplanet.tomtomwatch.RouteProto.LatLon.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000001) != 0)) {
+                subBuilder = lat_.toBuilder();
+              }
+              lat_ = input.readMessage(net.studioblueplanet.tomtomwatch.RouteProto.LatLon.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(lat_);
+                lat_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00000001;
+              break;
+            }
+            case 18: {
+              net.studioblueplanet.tomtomwatch.RouteProto.LatLon.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000002) != 0)) {
+                subBuilder = lon_.toBuilder();
+              }
+              lon_ = input.readMessage(net.studioblueplanet.tomtomwatch.RouteProto.LatLon.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(lon_);
+                lon_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00000002;
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return net.studioblueplanet.tomtomwatch.RouteProto.internal_static_tutorial_Coordinate_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return net.studioblueplanet.tomtomwatch.RouteProto.internal_static_tutorial_Coordinate_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              net.studioblueplanet.tomtomwatch.RouteProto.Coordinate.class, net.studioblueplanet.tomtomwatch.RouteProto.Coordinate.Builder.class);
+    }
+
+    private int bitField0_;
+    public static final int LAT_FIELD_NUMBER = 1;
+    private net.studioblueplanet.tomtomwatch.RouteProto.LatLon lat_;
+    /**
+     * <code>required .tutorial.LatLon lat = 1;</code>
+     */
+    public boolean hasLat() {
+      return ((bitField0_ & 0x00000001) != 0);
+    }
+    /**
+     * <code>required .tutorial.LatLon lat = 1;</code>
+     */
+    public net.studioblueplanet.tomtomwatch.RouteProto.LatLon getLat() {
+      return lat_ == null ? net.studioblueplanet.tomtomwatch.RouteProto.LatLon.getDefaultInstance() : lat_;
+    }
+    /**
+     * <code>required .tutorial.LatLon lat = 1;</code>
+     */
+    public net.studioblueplanet.tomtomwatch.RouteProto.LatLonOrBuilder getLatOrBuilder() {
+      return lat_ == null ? net.studioblueplanet.tomtomwatch.RouteProto.LatLon.getDefaultInstance() : lat_;
+    }
+
+    public static final int LON_FIELD_NUMBER = 2;
+    private net.studioblueplanet.tomtomwatch.RouteProto.LatLon lon_;
+    /**
+     * <code>required .tutorial.LatLon lon = 2;</code>
+     */
+    public boolean hasLon() {
+      return ((bitField0_ & 0x00000002) != 0);
+    }
+    /**
+     * <code>required .tutorial.LatLon lon = 2;</code>
+     */
+    public net.studioblueplanet.tomtomwatch.RouteProto.LatLon getLon() {
+      return lon_ == null ? net.studioblueplanet.tomtomwatch.RouteProto.LatLon.getDefaultInstance() : lon_;
+    }
+    /**
+     * <code>required .tutorial.LatLon lon = 2;</code>
+     */
+    public net.studioblueplanet.tomtomwatch.RouteProto.LatLonOrBuilder getLonOrBuilder() {
+      return lon_ == null ? net.studioblueplanet.tomtomwatch.RouteProto.LatLon.getDefaultInstance() : lon_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      if (!hasLat()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasLon()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!getLat().isInitialized()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!getLon().isInitialized()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (((bitField0_ & 0x00000001) != 0)) {
+        output.writeMessage(1, getLat());
+      }
+      if (((bitField0_ & 0x00000002) != 0)) {
+        output.writeMessage(2, getLon());
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, getLat());
+      }
+      if (((bitField0_ & 0x00000002) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(2, getLon());
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof net.studioblueplanet.tomtomwatch.RouteProto.Coordinate)) {
+        return super.equals(obj);
+      }
+      net.studioblueplanet.tomtomwatch.RouteProto.Coordinate other = (net.studioblueplanet.tomtomwatch.RouteProto.Coordinate) obj;
+
+      if (hasLat() != other.hasLat()) return false;
+      if (hasLat()) {
+        if (!getLat()
+            .equals(other.getLat())) return false;
+      }
+      if (hasLon() != other.hasLon()) return false;
+      if (hasLon()) {
+        if (!getLon()
+            .equals(other.getLon())) return false;
+      }
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (hasLat()) {
+        hash = (37 * hash) + LAT_FIELD_NUMBER;
+        hash = (53 * hash) + getLat().hashCode();
+      }
+      if (hasLon()) {
+        hash = (37 * hash) + LON_FIELD_NUMBER;
+        hash = (53 * hash) + getLon().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static net.studioblueplanet.tomtomwatch.RouteProto.Coordinate parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static net.studioblueplanet.tomtomwatch.RouteProto.Coordinate parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static net.studioblueplanet.tomtomwatch.RouteProto.Coordinate parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static net.studioblueplanet.tomtomwatch.RouteProto.Coordinate parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static net.studioblueplanet.tomtomwatch.RouteProto.Coordinate parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static net.studioblueplanet.tomtomwatch.RouteProto.Coordinate parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static net.studioblueplanet.tomtomwatch.RouteProto.Coordinate parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static net.studioblueplanet.tomtomwatch.RouteProto.Coordinate parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static net.studioblueplanet.tomtomwatch.RouteProto.Coordinate parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static net.studioblueplanet.tomtomwatch.RouteProto.Coordinate parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static net.studioblueplanet.tomtomwatch.RouteProto.Coordinate parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static net.studioblueplanet.tomtomwatch.RouteProto.Coordinate parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(net.studioblueplanet.tomtomwatch.RouteProto.Coordinate prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * <pre>
+     * Container
+     * </pre>
+     *
+     * Protobuf type {@code tutorial.Coordinate}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:tutorial.Coordinate)
+        net.studioblueplanet.tomtomwatch.RouteProto.CoordinateOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return net.studioblueplanet.tomtomwatch.RouteProto.internal_static_tutorial_Coordinate_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return net.studioblueplanet.tomtomwatch.RouteProto.internal_static_tutorial_Coordinate_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                net.studioblueplanet.tomtomwatch.RouteProto.Coordinate.class, net.studioblueplanet.tomtomwatch.RouteProto.Coordinate.Builder.class);
+      }
+
+      // Construct using net.studioblueplanet.tomtomwatch.RouteProto.Coordinate.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+          getLatFieldBuilder();
+          getLonFieldBuilder();
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        if (latBuilder_ == null) {
+          lat_ = null;
+        } else {
+          latBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000001);
+        if (lonBuilder_ == null) {
+          lon_ = null;
+        } else {
+          lonBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000002);
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return net.studioblueplanet.tomtomwatch.RouteProto.internal_static_tutorial_Coordinate_descriptor;
+      }
+
+      @java.lang.Override
+      public net.studioblueplanet.tomtomwatch.RouteProto.Coordinate getDefaultInstanceForType() {
+        return net.studioblueplanet.tomtomwatch.RouteProto.Coordinate.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public net.studioblueplanet.tomtomwatch.RouteProto.Coordinate build() {
+        net.studioblueplanet.tomtomwatch.RouteProto.Coordinate result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public net.studioblueplanet.tomtomwatch.RouteProto.Coordinate buildPartial() {
+        net.studioblueplanet.tomtomwatch.RouteProto.Coordinate result = new net.studioblueplanet.tomtomwatch.RouteProto.Coordinate(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          if (latBuilder_ == null) {
+            result.lat_ = lat_;
+          } else {
+            result.lat_ = latBuilder_.build();
+          }
+          to_bitField0_ |= 0x00000001;
+        }
+        if (((from_bitField0_ & 0x00000002) != 0)) {
+          if (lonBuilder_ == null) {
+            result.lon_ = lon_;
+          } else {
+            result.lon_ = lonBuilder_.build();
+          }
+          to_bitField0_ |= 0x00000002;
+        }
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof net.studioblueplanet.tomtomwatch.RouteProto.Coordinate) {
+          return mergeFrom((net.studioblueplanet.tomtomwatch.RouteProto.Coordinate)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(net.studioblueplanet.tomtomwatch.RouteProto.Coordinate other) {
+        if (other == net.studioblueplanet.tomtomwatch.RouteProto.Coordinate.getDefaultInstance()) return this;
+        if (other.hasLat()) {
+          mergeLat(other.getLat());
+        }
+        if (other.hasLon()) {
+          mergeLon(other.getLon());
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        if (!hasLat()) {
+          return false;
+        }
+        if (!hasLon()) {
+          return false;
+        }
+        if (!getLat().isInitialized()) {
+          return false;
+        }
+        if (!getLon().isInitialized()) {
+          return false;
+        }
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        net.studioblueplanet.tomtomwatch.RouteProto.Coordinate parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (net.studioblueplanet.tomtomwatch.RouteProto.Coordinate) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      private net.studioblueplanet.tomtomwatch.RouteProto.LatLon lat_;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          net.studioblueplanet.tomtomwatch.RouteProto.LatLon, net.studioblueplanet.tomtomwatch.RouteProto.LatLon.Builder, net.studioblueplanet.tomtomwatch.RouteProto.LatLonOrBuilder> latBuilder_;
+      /**
+       * <code>required .tutorial.LatLon lat = 1;</code>
+       */
+      public boolean hasLat() {
+        return ((bitField0_ & 0x00000001) != 0);
+      }
+      /**
+       * <code>required .tutorial.LatLon lat = 1;</code>
+       */
+      public net.studioblueplanet.tomtomwatch.RouteProto.LatLon getLat() {
+        if (latBuilder_ == null) {
+          return lat_ == null ? net.studioblueplanet.tomtomwatch.RouteProto.LatLon.getDefaultInstance() : lat_;
+        } else {
+          return latBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>required .tutorial.LatLon lat = 1;</code>
+       */
+      public Builder setLat(net.studioblueplanet.tomtomwatch.RouteProto.LatLon value) {
+        if (latBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          lat_ = value;
+          onChanged();
+        } else {
+          latBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000001;
+        return this;
+      }
+      /**
+       * <code>required .tutorial.LatLon lat = 1;</code>
+       */
+      public Builder setLat(
+          net.studioblueplanet.tomtomwatch.RouteProto.LatLon.Builder builderForValue) {
+        if (latBuilder_ == null) {
+          lat_ = builderForValue.build();
+          onChanged();
+        } else {
+          latBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000001;
+        return this;
+      }
+      /**
+       * <code>required .tutorial.LatLon lat = 1;</code>
+       */
+      public Builder mergeLat(net.studioblueplanet.tomtomwatch.RouteProto.LatLon value) {
+        if (latBuilder_ == null) {
+          if (((bitField0_ & 0x00000001) != 0) &&
+              lat_ != null &&
+              lat_ != net.studioblueplanet.tomtomwatch.RouteProto.LatLon.getDefaultInstance()) {
+            lat_ =
+              net.studioblueplanet.tomtomwatch.RouteProto.LatLon.newBuilder(lat_).mergeFrom(value).buildPartial();
+          } else {
+            lat_ = value;
+          }
+          onChanged();
+        } else {
+          latBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000001;
+        return this;
+      }
+      /**
+       * <code>required .tutorial.LatLon lat = 1;</code>
+       */
+      public Builder clearLat() {
+        if (latBuilder_ == null) {
+          lat_ = null;
+          onChanged();
+        } else {
+          latBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000001);
+        return this;
+      }
+      /**
+       * <code>required .tutorial.LatLon lat = 1;</code>
+       */
+      public net.studioblueplanet.tomtomwatch.RouteProto.LatLon.Builder getLatBuilder() {
+        bitField0_ |= 0x00000001;
+        onChanged();
+        return getLatFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>required .tutorial.LatLon lat = 1;</code>
+       */
+      public net.studioblueplanet.tomtomwatch.RouteProto.LatLonOrBuilder getLatOrBuilder() {
+        if (latBuilder_ != null) {
+          return latBuilder_.getMessageOrBuilder();
+        } else {
+          return lat_ == null ?
+              net.studioblueplanet.tomtomwatch.RouteProto.LatLon.getDefaultInstance() : lat_;
+        }
+      }
+      /**
+       * <code>required .tutorial.LatLon lat = 1;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          net.studioblueplanet.tomtomwatch.RouteProto.LatLon, net.studioblueplanet.tomtomwatch.RouteProto.LatLon.Builder, net.studioblueplanet.tomtomwatch.RouteProto.LatLonOrBuilder> 
+          getLatFieldBuilder() {
+        if (latBuilder_ == null) {
+          latBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              net.studioblueplanet.tomtomwatch.RouteProto.LatLon, net.studioblueplanet.tomtomwatch.RouteProto.LatLon.Builder, net.studioblueplanet.tomtomwatch.RouteProto.LatLonOrBuilder>(
+                  getLat(),
+                  getParentForChildren(),
+                  isClean());
+          lat_ = null;
+        }
+        return latBuilder_;
+      }
+
+      private net.studioblueplanet.tomtomwatch.RouteProto.LatLon lon_;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          net.studioblueplanet.tomtomwatch.RouteProto.LatLon, net.studioblueplanet.tomtomwatch.RouteProto.LatLon.Builder, net.studioblueplanet.tomtomwatch.RouteProto.LatLonOrBuilder> lonBuilder_;
+      /**
+       * <code>required .tutorial.LatLon lon = 2;</code>
+       */
+      public boolean hasLon() {
+        return ((bitField0_ & 0x00000002) != 0);
+      }
+      /**
+       * <code>required .tutorial.LatLon lon = 2;</code>
+       */
+      public net.studioblueplanet.tomtomwatch.RouteProto.LatLon getLon() {
+        if (lonBuilder_ == null) {
+          return lon_ == null ? net.studioblueplanet.tomtomwatch.RouteProto.LatLon.getDefaultInstance() : lon_;
+        } else {
+          return lonBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>required .tutorial.LatLon lon = 2;</code>
+       */
+      public Builder setLon(net.studioblueplanet.tomtomwatch.RouteProto.LatLon value) {
+        if (lonBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          lon_ = value;
+          onChanged();
+        } else {
+          lonBuilder_.setMessage(value);
         }
         bitField0_ |= 0x00000002;
         return this;
       }
       /**
-       * <code>required .tutorial.BoundingBox box = 2;</code>
+       * <code>required .tutorial.LatLon lon = 2;</code>
        */
-      public Builder clearBox() {
-        if (boxBuilder_ == null) {
-          box_ = null;
+      public Builder setLon(
+          net.studioblueplanet.tomtomwatch.RouteProto.LatLon.Builder builderForValue) {
+        if (lonBuilder_ == null) {
+          lon_ = builderForValue.build();
           onChanged();
         } else {
-          boxBuilder_.clear();
+          lonBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000002;
+        return this;
+      }
+      /**
+       * <code>required .tutorial.LatLon lon = 2;</code>
+       */
+      public Builder mergeLon(net.studioblueplanet.tomtomwatch.RouteProto.LatLon value) {
+        if (lonBuilder_ == null) {
+          if (((bitField0_ & 0x00000002) != 0) &&
+              lon_ != null &&
+              lon_ != net.studioblueplanet.tomtomwatch.RouteProto.LatLon.getDefaultInstance()) {
+            lon_ =
+              net.studioblueplanet.tomtomwatch.RouteProto.LatLon.newBuilder(lon_).mergeFrom(value).buildPartial();
+          } else {
+            lon_ = value;
+          }
+          onChanged();
+        } else {
+          lonBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000002;
+        return this;
+      }
+      /**
+       * <code>required .tutorial.LatLon lon = 2;</code>
+       */
+      public Builder clearLon() {
+        if (lonBuilder_ == null) {
+          lon_ = null;
+          onChanged();
+        } else {
+          lonBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00000002);
         return this;
       }
       /**
-       * <code>required .tutorial.BoundingBox box = 2;</code>
+       * <code>required .tutorial.LatLon lon = 2;</code>
        */
-      public net.studioblueplanet.tomtomwatch.RouteProto.BoundingBox.Builder getBoxBuilder() {
+      public net.studioblueplanet.tomtomwatch.RouteProto.LatLon.Builder getLonBuilder() {
         bitField0_ |= 0x00000002;
         onChanged();
-        return getBoxFieldBuilder().getBuilder();
+        return getLonFieldBuilder().getBuilder();
       }
       /**
-       * <code>required .tutorial.BoundingBox box = 2;</code>
+       * <code>required .tutorial.LatLon lon = 2;</code>
        */
-      public net.studioblueplanet.tomtomwatch.RouteProto.BoundingBoxOrBuilder getBoxOrBuilder() {
-        if (boxBuilder_ != null) {
-          return boxBuilder_.getMessageOrBuilder();
+      public net.studioblueplanet.tomtomwatch.RouteProto.LatLonOrBuilder getLonOrBuilder() {
+        if (lonBuilder_ != null) {
+          return lonBuilder_.getMessageOrBuilder();
         } else {
-          return box_ == null ?
-              net.studioblueplanet.tomtomwatch.RouteProto.BoundingBox.getDefaultInstance() : box_;
+          return lon_ == null ?
+              net.studioblueplanet.tomtomwatch.RouteProto.LatLon.getDefaultInstance() : lon_;
         }
       }
       /**
-       * <code>required .tutorial.BoundingBox box = 2;</code>
+       * <code>required .tutorial.LatLon lon = 2;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
-          net.studioblueplanet.tomtomwatch.RouteProto.BoundingBox, net.studioblueplanet.tomtomwatch.RouteProto.BoundingBox.Builder, net.studioblueplanet.tomtomwatch.RouteProto.BoundingBoxOrBuilder> 
-          getBoxFieldBuilder() {
-        if (boxBuilder_ == null) {
-          boxBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-              net.studioblueplanet.tomtomwatch.RouteProto.BoundingBox, net.studioblueplanet.tomtomwatch.RouteProto.BoundingBox.Builder, net.studioblueplanet.tomtomwatch.RouteProto.BoundingBoxOrBuilder>(
-                  getBox(),
+          net.studioblueplanet.tomtomwatch.RouteProto.LatLon, net.studioblueplanet.tomtomwatch.RouteProto.LatLon.Builder, net.studioblueplanet.tomtomwatch.RouteProto.LatLonOrBuilder> 
+          getLonFieldBuilder() {
+        if (lonBuilder_ == null) {
+          lonBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              net.studioblueplanet.tomtomwatch.RouteProto.LatLon, net.studioblueplanet.tomtomwatch.RouteProto.LatLon.Builder, net.studioblueplanet.tomtomwatch.RouteProto.LatLonOrBuilder>(
+                  getLon(),
                   getParentForChildren(),
                   isClean());
-          box_ = null;
+          lon_ = null;
         }
-        return boxBuilder_;
+        return lonBuilder_;
+      }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
       }
 
-      private com.google.protobuf.ByteString time_ = com.google.protobuf.ByteString.EMPTY;
-      /**
-       * <code>required bytes time = 3;</code>
-       */
-      public boolean hasTime() {
-        return ((bitField0_ & 0x00000004) != 0);
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
       }
-      /**
-       * <code>required bytes time = 3;</code>
-       */
-      public com.google.protobuf.ByteString getTime() {
-        return time_;
+
+
+      // @@protoc_insertion_point(builder_scope:tutorial.Coordinate)
+    }
+
+    // @@protoc_insertion_point(class_scope:tutorial.Coordinate)
+    private static final net.studioblueplanet.tomtomwatch.RouteProto.Coordinate DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new net.studioblueplanet.tomtomwatch.RouteProto.Coordinate();
+    }
+
+    public static net.studioblueplanet.tomtomwatch.RouteProto.Coordinate getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    @java.lang.Deprecated public static final com.google.protobuf.Parser<Coordinate>
+        PARSER = new com.google.protobuf.AbstractParser<Coordinate>() {
+      @java.lang.Override
+      public Coordinate parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new Coordinate(input, extensionRegistry);
       }
-      /**
-       * <code>required bytes time = 3;</code>
-       */
-      public Builder setTime(com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
+    };
+
+    public static com.google.protobuf.Parser<Coordinate> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<Coordinate> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public net.studioblueplanet.tomtomwatch.RouteProto.Coordinate getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
   }
-  bitField0_ |= 0x00000004;
-        time_ = value;
+
+  public interface LatLonOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:tutorial.LatLon)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>required fixed32 value = 1;</code>
+     */
+    boolean hasValue();
+    /**
+     * <code>required fixed32 value = 1;</code>
+     */
+    int getValue();
+  }
+  /**
+   * <pre>
+   * Lat lon
+   * </pre>
+   *
+   * Protobuf type {@code tutorial.LatLon}
+   */
+  public  static final class LatLon extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:tutorial.LatLon)
+      LatLonOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use LatLon.newBuilder() to construct.
+    private LatLon(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private LatLon() {
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new LatLon();
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private LatLon(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 13: {
+              bitField0_ |= 0x00000001;
+              value_ = input.readFixed32();
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return net.studioblueplanet.tomtomwatch.RouteProto.internal_static_tutorial_LatLon_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return net.studioblueplanet.tomtomwatch.RouteProto.internal_static_tutorial_LatLon_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              net.studioblueplanet.tomtomwatch.RouteProto.LatLon.class, net.studioblueplanet.tomtomwatch.RouteProto.LatLon.Builder.class);
+    }
+
+    private int bitField0_;
+    public static final int VALUE_FIELD_NUMBER = 1;
+    private int value_;
+    /**
+     * <code>required fixed32 value = 1;</code>
+     */
+    public boolean hasValue() {
+      return ((bitField0_ & 0x00000001) != 0);
+    }
+    /**
+     * <code>required fixed32 value = 1;</code>
+     */
+    public int getValue() {
+      return value_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      if (!hasValue()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (((bitField0_ & 0x00000001) != 0)) {
+        output.writeFixed32(1, value_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFixed32Size(1, value_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof net.studioblueplanet.tomtomwatch.RouteProto.LatLon)) {
+        return super.equals(obj);
+      }
+      net.studioblueplanet.tomtomwatch.RouteProto.LatLon other = (net.studioblueplanet.tomtomwatch.RouteProto.LatLon) obj;
+
+      if (hasValue() != other.hasValue()) return false;
+      if (hasValue()) {
+        if (getValue()
+            != other.getValue()) return false;
+      }
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (hasValue()) {
+        hash = (37 * hash) + VALUE_FIELD_NUMBER;
+        hash = (53 * hash) + getValue();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static net.studioblueplanet.tomtomwatch.RouteProto.LatLon parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static net.studioblueplanet.tomtomwatch.RouteProto.LatLon parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static net.studioblueplanet.tomtomwatch.RouteProto.LatLon parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static net.studioblueplanet.tomtomwatch.RouteProto.LatLon parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static net.studioblueplanet.tomtomwatch.RouteProto.LatLon parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static net.studioblueplanet.tomtomwatch.RouteProto.LatLon parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static net.studioblueplanet.tomtomwatch.RouteProto.LatLon parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static net.studioblueplanet.tomtomwatch.RouteProto.LatLon parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static net.studioblueplanet.tomtomwatch.RouteProto.LatLon parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static net.studioblueplanet.tomtomwatch.RouteProto.LatLon parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static net.studioblueplanet.tomtomwatch.RouteProto.LatLon parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static net.studioblueplanet.tomtomwatch.RouteProto.LatLon parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(net.studioblueplanet.tomtomwatch.RouteProto.LatLon prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * <pre>
+     * Lat lon
+     * </pre>
+     *
+     * Protobuf type {@code tutorial.LatLon}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:tutorial.LatLon)
+        net.studioblueplanet.tomtomwatch.RouteProto.LatLonOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return net.studioblueplanet.tomtomwatch.RouteProto.internal_static_tutorial_LatLon_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return net.studioblueplanet.tomtomwatch.RouteProto.internal_static_tutorial_LatLon_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                net.studioblueplanet.tomtomwatch.RouteProto.LatLon.class, net.studioblueplanet.tomtomwatch.RouteProto.LatLon.Builder.class);
+      }
+
+      // Construct using net.studioblueplanet.tomtomwatch.RouteProto.LatLon.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        value_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return net.studioblueplanet.tomtomwatch.RouteProto.internal_static_tutorial_LatLon_descriptor;
+      }
+
+      @java.lang.Override
+      public net.studioblueplanet.tomtomwatch.RouteProto.LatLon getDefaultInstanceForType() {
+        return net.studioblueplanet.tomtomwatch.RouteProto.LatLon.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public net.studioblueplanet.tomtomwatch.RouteProto.LatLon build() {
+        net.studioblueplanet.tomtomwatch.RouteProto.LatLon result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public net.studioblueplanet.tomtomwatch.RouteProto.LatLon buildPartial() {
+        net.studioblueplanet.tomtomwatch.RouteProto.LatLon result = new net.studioblueplanet.tomtomwatch.RouteProto.LatLon(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          result.value_ = value_;
+          to_bitField0_ |= 0x00000001;
+        }
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof net.studioblueplanet.tomtomwatch.RouteProto.LatLon) {
+          return mergeFrom((net.studioblueplanet.tomtomwatch.RouteProto.LatLon)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(net.studioblueplanet.tomtomwatch.RouteProto.LatLon other) {
+        if (other == net.studioblueplanet.tomtomwatch.RouteProto.LatLon.getDefaultInstance()) return this;
+        if (other.hasValue()) {
+          setValue(other.getValue());
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        if (!hasValue()) {
+          return false;
+        }
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        net.studioblueplanet.tomtomwatch.RouteProto.LatLon parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (net.studioblueplanet.tomtomwatch.RouteProto.LatLon) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      private int value_ ;
+      /**
+       * <code>required fixed32 value = 1;</code>
+       */
+      public boolean hasValue() {
+        return ((bitField0_ & 0x00000001) != 0);
+      }
+      /**
+       * <code>required fixed32 value = 1;</code>
+       */
+      public int getValue() {
+        return value_;
+      }
+      /**
+       * <code>required fixed32 value = 1;</code>
+       */
+      public Builder setValue(int value) {
+        bitField0_ |= 0x00000001;
+        value_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required bytes time = 3;</code>
+       * <code>required fixed32 value = 1;</code>
        */
-      public Builder clearTime() {
-        bitField0_ = (bitField0_ & ~0x00000004);
-        time_ = getDefaultInstance().getTime();
+      public Builder clearValue() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        value_ = 0;
         onChanged();
         return this;
       }
@@ -10954,41 +10998,41 @@ public final class RouteProto {
       }
 
 
-      // @@protoc_insertion_point(builder_scope:tutorial.TrackMetaData)
+      // @@protoc_insertion_point(builder_scope:tutorial.LatLon)
     }
 
-    // @@protoc_insertion_point(class_scope:tutorial.TrackMetaData)
-    private static final net.studioblueplanet.tomtomwatch.RouteProto.TrackMetaData DEFAULT_INSTANCE;
+    // @@protoc_insertion_point(class_scope:tutorial.LatLon)
+    private static final net.studioblueplanet.tomtomwatch.RouteProto.LatLon DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new net.studioblueplanet.tomtomwatch.RouteProto.TrackMetaData();
+      DEFAULT_INSTANCE = new net.studioblueplanet.tomtomwatch.RouteProto.LatLon();
     }
 
-    public static net.studioblueplanet.tomtomwatch.RouteProto.TrackMetaData getDefaultInstance() {
+    public static net.studioblueplanet.tomtomwatch.RouteProto.LatLon getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    @java.lang.Deprecated public static final com.google.protobuf.Parser<TrackMetaData>
-        PARSER = new com.google.protobuf.AbstractParser<TrackMetaData>() {
+    @java.lang.Deprecated public static final com.google.protobuf.Parser<LatLon>
+        PARSER = new com.google.protobuf.AbstractParser<LatLon>() {
       @java.lang.Override
-      public TrackMetaData parsePartialFrom(
+      public LatLon parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        return new TrackMetaData(input, extensionRegistry);
+        return new LatLon(input, extensionRegistry);
       }
     };
 
-    public static com.google.protobuf.Parser<TrackMetaData> parser() {
+    public static com.google.protobuf.Parser<LatLon> parser() {
       return PARSER;
     }
 
     @java.lang.Override
-    public com.google.protobuf.Parser<TrackMetaData> getParserForType() {
+    public com.google.protobuf.Parser<LatLon> getParserForType() {
       return PARSER;
     }
 
     @java.lang.Override
-    public net.studioblueplanet.tomtomwatch.RouteProto.TrackMetaData getDefaultInstanceForType() {
+    public net.studioblueplanet.tomtomwatch.RouteProto.LatLon getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
@@ -11005,10 +11049,10 @@ public final class RouteProto {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_tutorial_RootContainer_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_tutorial_MetaData_descriptor;
+    internal_static_tutorial_Metadata_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_tutorial_MetaData_fieldAccessorTable;
+      internal_static_tutorial_Metadata_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_tutorial_DataContainer_descriptor;
   private static final 
@@ -11020,30 +11064,15 @@ public final class RouteProto {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_tutorial_SubDataContainer_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_tutorial_LatLon_descriptor;
+    internal_static_tutorial_TrackMetaData_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_tutorial_LatLon_fieldAccessorTable;
-  private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_tutorial_Coordinate_descriptor;
-  private static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_tutorial_Coordinate_fieldAccessorTable;
-  private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_tutorial_CoordinateData_descriptor;
-  private static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_tutorial_CoordinateData_fieldAccessorTable;
+      internal_static_tutorial_TrackMetaData_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_tutorial_StartCoordinate_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_tutorial_StartCoordinate_fieldAccessorTable;
-  private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_tutorial_Segment_descriptor;
-  private static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_tutorial_Segment_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_tutorial_SegmentData_descriptor;
   private static final 
@@ -11055,10 +11084,25 @@ public final class RouteProto {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_tutorial_BoundingBox_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_tutorial_TrackMetaData_descriptor;
+    internal_static_tutorial_Segment_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_tutorial_TrackMetaData_fieldAccessorTable;
+      internal_static_tutorial_Segment_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_tutorial_CoordinateData_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_tutorial_CoordinateData_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_tutorial_Coordinate_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_tutorial_Coordinate_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_tutorial_LatLon_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_tutorial_LatLon_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -11070,32 +11114,32 @@ public final class RouteProto {
     java.lang.String[] descriptorData = {
       "\n\013route.proto\022\010tutorial\"9\n\004Root\0221\n\020SubDa" +
       "taContainer\030\001 \003(\0132\027.tutorial.RootContain" +
-      "er\"e\n\rRootContainer\022$\n\010metaData\030\007 \001(\0132\022." +
-      "tutorial.MetaData\022.\n\rdataContainer\030\010 \001(\013" +
-      "2\027.tutorial.DataContainer\"2\n\010MetaData\022\024\n" +
+      "er\"e\n\rRootContainer\022$\n\010metadata\030\007 \001(\0132\022." +
+      "tutorial.Metadata\022.\n\rdataContainer\030\010 \001(\013" +
+      "2\027.tutorial.DataContainer\"2\n\010Metadata\022\024\n" +
       "\014manufacturer\030\001 \002(\007\022\020\n\010fileType\030\002 \002(\007\"E\n" +
       "\rDataContainer\0224\n\020subDataContainer\030\001 \002(\013" +
       "2\032.tutorial.SubDataContainer\"\226\001\n\020SubData" +
       "Container\022.\n\rtrackMetadata\030\001 \002(\0132\027.tutor" +
       "ial.TrackMetaData\022-\n\ncoordinate\030\002 \003(\0132\031." +
       "tutorial.StartCoordinate\022#\n\004data\030\003 \002(\0132\025" +
-      ".tutorial.SegmentData\"\027\n\006LatLon\022\r\n\005value" +
-      "\030\001 \002(\007\"J\n\nCoordinate\022\035\n\003lat\030\001 \002(\0132\020.tuto" +
-      "rial.LatLon\022\035\n\003lon\030\002 \002(\0132\020.tutorial.LatL" +
-      "on\":\n\016CoordinateData\022(\n\ncoordinate\030\001 \002(\013" +
-      "2\024.tutorial.Coordinate\"J\n\017StartCoordinat" +
+      ".tutorial.SegmentData\"O\n\rTrackMetaData\022\014" +
+      "\n\004name\030\001 \002(\t\022\"\n\003box\030\002 \002(\0132\025.tutorial.Bou" +
+      "ndingBox\022\014\n\004time\030\003 \002(\014\"J\n\017StartCoordinat" +
       "e\022(\n\ncoordinate\030\001 \002(\0132\024.tutorial.Coordin" +
-      "ate\022\r\n\005index\030\002 \002(\005\"N\n\007Segment\022\033\n\023numberO" +
-      "fCoordinates\030\001 \002(\005\022&\n\004data\030\002 \003(\0132\030.tutor" +
-      "ial.CoordinateData\"H\n\013SegmentData\022\030\n\020num" +
+      "ate\022\r\n\005index\030\002 \002(\005\"H\n\013SegmentData\022\030\n\020num" +
       "berOfSegments\030\001 \002(\005\022\037\n\004data\030\002 \003(\0132\021.tuto" +
       "rial.Segment\"\230\001\n\013BoundingBox\022!\n\007latDown\030" +
       "\001 \002(\0132\020.tutorial.LatLon\022!\n\007lonLeft\030\002 \002(\013" +
       "2\020.tutorial.LatLon\022\037\n\005latUp\030\003 \002(\0132\020.tuto" +
       "rial.LatLon\022\"\n\010lonRight\030\004 \002(\0132\020.tutorial" +
-      ".LatLon\"O\n\rTrackMetaData\022\014\n\004name\030\001 \002(\t\022\"" +
-      "\n\003box\030\002 \002(\0132\025.tutorial.BoundingBox\022\014\n\004ti" +
-      "me\030\003 \002(\014B.\n net.studioblueplanet.tomtomw" +
+      ".LatLon\"N\n\007Segment\022\033\n\023numberOfCoordinate" +
+      "s\030\001 \002(\005\022&\n\004data\030\002 \003(\0132\030.tutorial.Coordin" +
+      "ateData\":\n\016CoordinateData\022(\n\ncoordinate\030" +
+      "\001 \002(\0132\024.tutorial.Coordinate\"J\n\nCoordinat" +
+      "e\022\035\n\003lat\030\001 \002(\0132\020.tutorial.LatLon\022\035\n\003lon\030" +
+      "\002 \002(\0132\020.tutorial.LatLon\"\027\n\006LatLon\022\r\n\005val" +
+      "ue\030\001 \002(\007B.\n net.studioblueplanet.tomtomw" +
       "atchB\nRouteProto"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
@@ -11113,12 +11157,12 @@ public final class RouteProto {
     internal_static_tutorial_RootContainer_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_tutorial_RootContainer_descriptor,
-        new java.lang.String[] { "MetaData", "DataContainer", });
-    internal_static_tutorial_MetaData_descriptor =
+        new java.lang.String[] { "Metadata", "DataContainer", });
+    internal_static_tutorial_Metadata_descriptor =
       getDescriptor().getMessageTypes().get(2);
-    internal_static_tutorial_MetaData_fieldAccessorTable = new
+    internal_static_tutorial_Metadata_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_tutorial_MetaData_descriptor,
+        internal_static_tutorial_Metadata_descriptor,
         new java.lang.String[] { "Manufacturer", "FileType", });
     internal_static_tutorial_DataContainer_descriptor =
       getDescriptor().getMessageTypes().get(3);
@@ -11132,54 +11176,54 @@ public final class RouteProto {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_tutorial_SubDataContainer_descriptor,
         new java.lang.String[] { "TrackMetadata", "Coordinate", "Data", });
-    internal_static_tutorial_LatLon_descriptor =
+    internal_static_tutorial_TrackMetaData_descriptor =
       getDescriptor().getMessageTypes().get(5);
-    internal_static_tutorial_LatLon_fieldAccessorTable = new
+    internal_static_tutorial_TrackMetaData_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_tutorial_LatLon_descriptor,
-        new java.lang.String[] { "Value", });
-    internal_static_tutorial_Coordinate_descriptor =
-      getDescriptor().getMessageTypes().get(6);
-    internal_static_tutorial_Coordinate_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_tutorial_Coordinate_descriptor,
-        new java.lang.String[] { "Lat", "Lon", });
-    internal_static_tutorial_CoordinateData_descriptor =
-      getDescriptor().getMessageTypes().get(7);
-    internal_static_tutorial_CoordinateData_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_tutorial_CoordinateData_descriptor,
-        new java.lang.String[] { "Coordinate", });
+        internal_static_tutorial_TrackMetaData_descriptor,
+        new java.lang.String[] { "Name", "Box", "Time", });
     internal_static_tutorial_StartCoordinate_descriptor =
-      getDescriptor().getMessageTypes().get(8);
+      getDescriptor().getMessageTypes().get(6);
     internal_static_tutorial_StartCoordinate_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_tutorial_StartCoordinate_descriptor,
         new java.lang.String[] { "Coordinate", "Index", });
+    internal_static_tutorial_SegmentData_descriptor =
+      getDescriptor().getMessageTypes().get(7);
+    internal_static_tutorial_SegmentData_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_tutorial_SegmentData_descriptor,
+        new java.lang.String[] { "NumberOfSegments", "Data", });
+    internal_static_tutorial_BoundingBox_descriptor =
+      getDescriptor().getMessageTypes().get(8);
+    internal_static_tutorial_BoundingBox_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_tutorial_BoundingBox_descriptor,
+        new java.lang.String[] { "LatDown", "LonLeft", "LatUp", "LonRight", });
     internal_static_tutorial_Segment_descriptor =
       getDescriptor().getMessageTypes().get(9);
     internal_static_tutorial_Segment_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_tutorial_Segment_descriptor,
         new java.lang.String[] { "NumberOfCoordinates", "Data", });
-    internal_static_tutorial_SegmentData_descriptor =
+    internal_static_tutorial_CoordinateData_descriptor =
       getDescriptor().getMessageTypes().get(10);
-    internal_static_tutorial_SegmentData_fieldAccessorTable = new
+    internal_static_tutorial_CoordinateData_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_tutorial_SegmentData_descriptor,
-        new java.lang.String[] { "NumberOfSegments", "Data", });
-    internal_static_tutorial_BoundingBox_descriptor =
+        internal_static_tutorial_CoordinateData_descriptor,
+        new java.lang.String[] { "Coordinate", });
+    internal_static_tutorial_Coordinate_descriptor =
       getDescriptor().getMessageTypes().get(11);
-    internal_static_tutorial_BoundingBox_fieldAccessorTable = new
+    internal_static_tutorial_Coordinate_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_tutorial_BoundingBox_descriptor,
-        new java.lang.String[] { "LatDown", "LonLeft", "LatUp", "LonRight", });
-    internal_static_tutorial_TrackMetaData_descriptor =
+        internal_static_tutorial_Coordinate_descriptor,
+        new java.lang.String[] { "Lat", "Lon", });
+    internal_static_tutorial_LatLon_descriptor =
       getDescriptor().getMessageTypes().get(12);
-    internal_static_tutorial_TrackMetaData_fieldAccessorTable = new
+    internal_static_tutorial_LatLon_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_tutorial_TrackMetaData_descriptor,
-        new java.lang.String[] { "Name", "Box", "Time", });
+        internal_static_tutorial_LatLon_descriptor,
+        new java.lang.String[] { "Value", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

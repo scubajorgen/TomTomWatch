@@ -147,17 +147,17 @@ public class RouteTomTom extends Route
     {
         RouteProto.RootContainer           rootContainer;
         RouteProto.RootContainer.Builder   rootContainerBuilder;
-        RouteProto.MetaData                metadata;
-        RouteProto.MetaData.Builder        metadataBuilder;
+        RouteProto.Metadata                metadata;
+        RouteProto.Metadata.Builder        metadataBuilder;
 
-        metadataBuilder     =RouteProto.MetaData.newBuilder();
+        metadataBuilder     =RouteProto.Metadata.newBuilder();
         // Set the values: appear to be the same always...
         metadataBuilder.setManufacturer(0x1234DAEB);
         metadataBuilder.setFileType(0x00070100);
         metadata            =metadataBuilder.build();
 
         rootContainerBuilder=RouteProto.RootContainer.newBuilder();
-        rootContainerBuilder.setMetaData(metadata);
+        rootContainerBuilder.setMetadata(metadata);
         rootContainer=rootContainerBuilder.build();
         return rootContainer;
     }
@@ -429,7 +429,7 @@ public class RouteTomTom extends Route
         Iterator<RouteProto.RootContainer>  containerIt;
         RouteProto.DataContainer            level1;
         RouteProto.SubDataContainer         level2;
-        RouteProto.TrackMetaData            metadata;
+        RouteProto.TrackMetaData            trackMetadata;
         RouteProto.SegmentData              segmentData;
         List<RouteProto.Segment>            segments;
         Iterator<RouteProto.Segment>        segmentIt;
@@ -459,15 +459,15 @@ public class RouteTomTom extends Route
             {
                 container=containerIt.next();
 
-                if (container.hasMetaData())
+                if (container.hasMetadata())
                 {
-                    RouteProto.MetaData metaData=container.getMetaData();
-                    if (metaData.getFileType()!=0x00070100)
+                    RouteProto.Metadata metadata=container.getMetadata();
+                    if (metadata.getFileType()!=0x00070100)
                     {
                         error=true;
                         DebugLogger.error("Error parsing route file: invalid file type");
                     }
-                    if (metaData.getManufacturer()!=0x1234DAEB)
+                    if (metadata.getManufacturer()!=0x1234DAEB)
                     {
                         error=true;
                         DebugLogger.error("Error parsing route file: invalid manufacturer ID");                        
@@ -477,8 +477,8 @@ public class RouteTomTom extends Route
                 {                
                     level1=container.getDataContainer();
                     level2              =level1.getSubDataContainer();
-                    metadata            =level2.getTrackMetadata();
-                    this.routeName      =metadata.getName();
+                    trackMetadata            =level2.getTrackMetadata();
+                    this.routeName      =trackMetadata.getName();
 
                     segmentData         =level2.getData();
                     numberOfSegments    =segmentData.getNumberOfSegments();
@@ -519,7 +519,6 @@ public class RouteTomTom extends Route
                     exit=true;
                 }
             }
-                    
         }
         catch (InvalidProtocolBufferException e)
         {
