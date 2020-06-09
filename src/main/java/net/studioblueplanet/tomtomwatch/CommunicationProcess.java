@@ -2476,6 +2476,8 @@ public class CommunicationProcess implements ProgressListener
         UsbFile             file;
         ArrayList<UsbFile>  files;
         Iterator<UsbFile>   it;
+        String              path;
+        String              fileName;
         
         error = false;
 
@@ -2527,6 +2529,28 @@ public class CommunicationProcess implements ProgressListener
             if (!error)
             {
                 theView.setStatus(workouts.toString());
+                WorkoutListTemplate template=WorkoutListTemplate.fromWorkoutList(workouts);
+                String jsonString=template.toJson();
+
+                // Write the workouts to JSON file
+                synchronized(this)
+                {
+                    path     =this.debugFilePath;
+                }
+                if (!path.endsWith("/") && !path.endsWith("\\"))
+                {
+                    path+="/";
+                }
+                fileName=String.format("%sworkouts.json", path);
+
+                if (!ToolBox.writeStringToUtf8File(fileName, jsonString))
+                {
+                    theView.appendStatus("Workouts written as JSON to: "+fileName);
+                }
+                else
+                {
+                    theView.showErrorDialog("Error writing file "+fileName);
+                }
             }
         }
         if (error)

@@ -58,20 +58,6 @@ public class WorkoutListTemplateTest
     {
     }
     
-    /**
-     * Handy piece of code to write JSON as UTF-8 to file
-     * @param fileName Filename to write to
-     * @param utf8String String (JSON) to write
-     * @throws IOException When writing goes problematic
-     */
-    private void writeUTF8File(String fileName, String utf8String) throws IOException
-    {
-        java.io.BufferedWriter writer = Files.newBufferedWriter((new File(fileName)).toPath(), java.nio.charset.StandardCharsets.UTF_8);
-        writer.append(utf8String);
-        writer.flush();
-        writer.close();        
-    }
-
     @Test
     public void testFromJson() throws IOException
     {

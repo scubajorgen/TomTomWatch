@@ -13,6 +13,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.math.BigInteger;
@@ -20,6 +21,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.file.Files;
 import java.util.UUID;
 
 
@@ -471,6 +473,30 @@ public class ToolBox
         return error;        
     }
     
+    /**
+     * Handy piece of code to write JSON as UTF-8 to file
+     * @param fileName Filename to write to
+     * @param utf8String String (JSON) to write
+     * @return True when an error occurred
+     */
+    public static boolean writeStringToUtf8File(String fileName, String utf8String)
+    {
+        boolean error;
+        error=false;
+
+        try (java.io.BufferedWriter writer = Files.newBufferedWriter((new File(fileName)).toPath(), 
+             java.nio.charset.StandardCharsets.UTF_8))
+        {
+            writer.append(utf8String);
+            writer.flush();
+        }
+
+        catch(IOException e)   
+        {
+            error=true;
+        }
+        return error;
+    }   
     
     /**
      * Reads all bytes from an input stream
@@ -552,6 +578,7 @@ public class ToolBox
     /**
      * Convert String to array of bytes
      * @param hexString String to convert
+     * @param arraySize Size of the byte array. Zero's are added at msb side
      * @return Byte array
      */
     public static byte[] hexStringToBytes(String hexString, int arraySize) 
