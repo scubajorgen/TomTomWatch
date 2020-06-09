@@ -11,11 +11,11 @@ import java.io.BufferedReader;
 import java.io.RandomAccessFile;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.io.InputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.math.BigInteger;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.net.MalformedURLException;
@@ -547,5 +547,55 @@ public class ToolBox
         .putLong(uuid.getLeastSignificantBits());   
         
         return uuidBytes;
+    }
+
+    /**
+     * Convert String to array of bytes
+     * @param hexString String to convert
+     * @return Byte array
+     */
+    public static byte[] hexStringToBytes(String hexString, int arraySize) 
+    {
+        byte[] byteArray;
+        byte[] output;
+        
+        byteArray = new BigInteger(hexString, 16).toByteArray();
+        if (byteArray[0]==0 || byteArray.length<arraySize)
+        {
+            output = new byte[arraySize];
+            if (byteArray[0]==0)
+            {
+                System.arraycopy(byteArray, 1, output, arraySize-byteArray.length+1, byteArray.length-1);
+            }
+            else
+            {
+                System.arraycopy(byteArray, 0, output, arraySize-byteArray.length, byteArray.length);
+            }
+        }
+        else
+        {
+            output=byteArray;
+        }
+
+        
+        return output;
+    }    
+    
+    /**
+     * Convert byte array to hex string
+     * @param bytes Byte array to convert
+     * @param stringLength Length to which the string must be padded
+     * @return String
+     */
+    public static String bytesToHexString(byte[] bytes, int stringLength)
+    {
+        String returnValue;
+        returnValue=new BigInteger(1, bytes).toString(16);
+        
+        while (returnValue.length()<stringLength)
+        {
+            returnValue="0"+returnValue;
+        }
+        return returnValue;
     }
 }

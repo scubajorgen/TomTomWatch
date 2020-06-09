@@ -397,4 +397,31 @@ public class ToolBoxTest
         assertEquals(16, result.length);
     }
     
+    @Test
+    public void testHexStringToBytes()
+    {
+        String test1    ="ff123456";
+        byte[] expected1={(byte)0xff, 0x12, 0x34, 0x56};
+        assertArrayEquals(expected1, ToolBox.hexStringToBytes(test1, 4));
+        String test2    ="01123456";
+        byte[] expected2={(byte)0x01, 0x12, 0x34, 0x56};
+        assertArrayEquals(expected2, ToolBox.hexStringToBytes(test2, 4));
+        String test3    ="00123456";
+        byte[] expected3={(byte)0x00, 0x12, 0x34, 0x56};
+        assertArrayEquals(expected3, ToolBox.hexStringToBytes(test3, 4));
+        String test4    ="00123456";
+        byte[] expected4={0x00, 0x00, 0x00, 0x12, 0x34, 0x56};
+        assertArrayEquals(expected4, ToolBox.hexStringToBytes(test4, 6));
+    }
+    
+    @Test
+    public void testBytesToHexString()
+    {
+        byte[] test1={(byte)0xFF, 0x04, 0x07, 0x55};
+        assertEquals("ff040755", ToolBox.bytesToHexString(test1, 8));
+        byte[] test2={(byte)0x01, 0x04, 0x07, 0x55};
+        assertEquals("01040755", ToolBox.bytesToHexString(test2, 8));
+        byte[] test3={(byte)0x00, 0x04, 0x07, 0x55};
+        assertEquals("00040755", ToolBox.bytesToHexString(test3, 8));
+    }
 }
