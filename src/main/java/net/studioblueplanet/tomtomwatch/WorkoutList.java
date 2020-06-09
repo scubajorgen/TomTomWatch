@@ -54,6 +54,16 @@ public class WorkoutList
     }
     
     /**
+     * Clears everyghing in the workout list
+     */
+    public void clear()
+    {
+        workoutListDescriptions.clear();
+        workoutListItems.clear();
+        workouts.clear();
+    }
+    
+    /**
      * Returns the list with workout metadata
      * @return The list
      */
@@ -80,6 +90,29 @@ public class WorkoutList
     public Workout getWorkout(WorkoutListItem item)
     {
         return workouts.get(item.getFileId());
+    }
+    
+    /**
+     * Add the workout to the WorkItemList
+     * @param fileId File ID
+     * @param workout the workout to add
+     */
+    public void addWorkout(int fileId, Workout workout)
+    {
+        workouts.put(fileId, workout);
+    }
+    
+    /**
+     * Add the workout metadata item to the WorkoutItemList
+     * @param item Item to add
+     */
+    public void addListItem(WorkoutListItem item)
+    {
+        // Add the list item
+        workoutListItems.add(item);
+        // Add the descriptions used in the item to the description list.
+        this.workoutListDescriptions.addDescription(item.getWorkoutName());
+        this.workoutListDescriptions.addDescription(item.getWorkoutDescription());
     }
     
     /** 
@@ -143,7 +176,7 @@ public class WorkoutList
             workout.setWorkoutName(protoWorkout.getName());
             workout.setWorkoutDescription(protoWorkout.getDescription());
             workout.setId(protoWorkout.getId().toByteArray());
-            workout.setWorkoutClass(WorkoutType.getWorkoutClass(protoWorkout.getType()));
+            workout.setWorkoutType(WorkoutType.getWorkoutClass(protoWorkout.getType()));
             workout.setUnknown11(protoWorkout.getUnknown11());
             workoutSteps=protoWorkout.getStepList();
             for (WorkoutProto.WorkoutStep stepContainer : workoutSteps)
@@ -431,7 +464,7 @@ public class WorkoutList
         builder.setItemName(findDescriptionIndex(item.getWorkoutName()));
         builder.setItemDescription(findDescriptionIndex(item.getWorkoutDescription()));
         builder.setFileId(item.getFileId());
-        builder.setType(item.getWorkoutClass().getValue());
+        builder.setType(item.getWorkoutType().getValue());
         builder.setIntensityLevel(item.getIntensityLevel().getValue());
         builder.setUnknown8(item.getUnknown8());
         builder.setFileSize(item.fileSize());

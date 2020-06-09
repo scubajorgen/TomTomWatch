@@ -129,7 +129,7 @@ public class WorkoutListItem implements Comparable<WorkoutListItem>
     private byte[]              workoutId;
     private IntensityLevel      intensityLevel;
     private int                 unknown8;
-    private int                 unknown9;
+    private int                 fileSize;
     private int                 unknown12;
     private int                 unknown13;
     
@@ -196,7 +196,7 @@ public class WorkoutListItem implements Comparable<WorkoutListItem>
      * Returns the class/type of workout 
      * @return The class (FAT BURN, ENDURANCE, etc)
      */
-    public WorkoutType getWorkoutClass()
+    public WorkoutType getWorkoutType()
     {
         return workoutType;
     }
@@ -267,12 +267,12 @@ public class WorkoutListItem implements Comparable<WorkoutListItem>
 
     public int fileSize()
     {
-        return unknown9;
+        return fileSize;
     }
 
     public void setFileSize(int unknown9)
     {
-        this.unknown9 = unknown9;
+        this.fileSize = unknown9;
     }
 
     public int getUnknown12()

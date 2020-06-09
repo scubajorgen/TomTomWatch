@@ -138,6 +138,37 @@ public class Workout
     }
     
     /**
+     * Sets the workout name as String. If the string does not exist in the 
+     * descriptions list, it will be added.
+     * @param name Name to add
+     */
+    public void setWorkoutName(String name)
+    {
+        int index;
+        index=workoutDescriptions.findDescriptionIndex(name);
+        if (index<0)
+        {
+            index=workoutDescriptions.addDescription(name);
+        }
+        this.workoutNameId=index;
+    }
+    
+    /**
+     * Sets the workout description as String. If the string does not exist in the 
+     * descriptions list, it will be added.
+     * @param description Description to add
+     */
+    public void setWorkoutDescription(String description)
+    {
+        int index;
+        index=workoutDescriptions.findDescriptionIndex(description);
+        if (index<0)
+        {
+            index=workoutDescriptions.addDescription(description);
+        }
+        this.workoutDescriptionId=index;
+    }
+    /**
      * Returns the name of the workout
      * @return The name (like 'Warm up', 'Work', 'Rest')
      */
@@ -204,7 +235,7 @@ public class Workout
      * Sets the class/type of the workout
      * @param workoutType The class/type
      */
-    public void setWorkoutClass(WorkoutType workoutType)
+    public void setWorkoutType(WorkoutType workoutType)
     {
         this.workoutType=workoutType;
     }
@@ -235,6 +266,8 @@ public class Workout
      */
     public void addWorkoutStep(int id, WorkoutStep workoutStep)
     {
+        workoutDescriptions.addDescription(workoutStep.getName());
+        workoutDescriptions.addDescription(workoutStep.getDescription());
         workoutSteps.put(id, workoutStep);
     }
     /*############################################################################################*\
@@ -454,6 +487,17 @@ public class Workout
 
         root                =rootBuilder.build();
         return root.toByteArray(); 
+    }
+    
+    /**
+     * Return the length of the protobuf data
+     * @return The length of the protobuf data
+     */
+    public int getWorkoutDataLength()
+    {
+        byte[] temp;
+        temp=getWorkoutData();
+        return temp.length;
     }
     
     /**

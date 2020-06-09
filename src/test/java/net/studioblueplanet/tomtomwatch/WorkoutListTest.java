@@ -101,7 +101,7 @@ public class WorkoutListTest
         assertEquals("★★★60 min", item.getWorkoutName());
         assertEquals("Workout alternating between comfortable and medium and hard efforts", item.getWorkoutDescription());
         assertEquals(WorkoutListItem.ActivityType.CYCLING, item.getActivity());
-        assertEquals(Workout.WorkoutType.ENDURANCE, item.getWorkoutClass());
+        assertEquals(Workout.WorkoutType.ENDURANCE, item.getWorkoutType());
         assertEquals(WorkoutListItem.IntensityLevel.STANDARD, item.getIntensityLevel());
         assertEquals(0, item.getUnknown8());
         assertEquals(617, item.fileSize());

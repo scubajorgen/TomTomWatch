@@ -104,7 +104,7 @@ public class WorkoutListItemTest
     {
         System.out.println("getWorkoutClass");
         Workout.WorkoutType expResult = Workout.WorkoutType.ENDURANCE;
-        Workout.WorkoutType result = theInstance.getWorkoutClass();
+        Workout.WorkoutType result = theInstance.getWorkoutType();
         assertEquals(expResult, result);
     }
 
