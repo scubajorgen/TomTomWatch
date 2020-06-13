@@ -14,11 +14,13 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import java.util.List;
+import java.util.LinkedHashMap;
 import java.io.IOException;
 import net.studioblueplanet.generics.ToolBox;
 
 import net.studioblueplanet.tomtomwatch.WorkoutListTemplate.StepTemplate;
 import net.studioblueplanet.tomtomwatch.WorkoutListTemplate.WorkoutTemplate;
+import net.studioblueplanet.tomtomwatch.WorkoutListTemplate.HrZoneTemplate;
 import net.studioblueplanet.tomtomwatch.Workout.WorkoutType;
 import net.studioblueplanet.tomtomwatch.WorkoutStep.HrZone;
 import net.studioblueplanet.tomtomwatch.WorkoutStep.ExtentType;
@@ -26,6 +28,14 @@ import net.studioblueplanet.tomtomwatch.WorkoutStep.IntensityType;
 import net.studioblueplanet.tomtomwatch.WorkoutStep.StepType;
 import net.studioblueplanet.tomtomwatch.WorkoutListItem.ActivityType;
 import net.studioblueplanet.tomtomwatch.WorkoutListItem.IntensityLevel;
+
+import org.mockito.ArgumentCaptor;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyLong;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 /**
  *
@@ -56,6 +66,22 @@ public class WorkoutListTemplateTest
     @After
     public void tearDown()
     {
+    }
+    
+    @Test
+    public void testGetHrZones()
+    {
+        System.out.println("getHrZones");
+        WorkoutListTemplate instance=new WorkoutListTemplate();
+        
+        LinkedHashMap<String, HrZoneTemplate> hrZones=instance.getHrZones();
+        assertEquals(5, hrZones.size());
+        
+        HrZoneTemplate hrZone=hrZones.get("cardio");
+        assertEquals(153, hrZone.hrMax);
+        
+        hrZone=hrZones.get("nonExisting");
+        assertNull(hrZone);
     }
     
     @Test
@@ -120,8 +146,6 @@ public class WorkoutListTemplateTest
         
         // Read expected result
         String expected = new String(Files.readAllBytes((new File("src/test/resources/compareworkouts.json")).toPath()),"UTF-8").replace("\r\n", "\n");
-        
-        // Compare!
         assertEquals(expected, result);
     }
     
@@ -221,8 +245,6 @@ public class WorkoutListTemplateTest
         assertEquals(-1, step.getExtentTime());
     }
 
-    
-
     @Test 
     public void testFromToJsonRoundtrip() throws IOException
     {
@@ -277,5 +299,72 @@ public class WorkoutListTemplateTest
         assertArrayEquals(result3, data3);
     }
 
+    @Test
+    public void testSetHrZonesFromSettings()
+    {
+        System.out.println("Set the HR Zone settings from WatchSettings");
+        
+        WorkoutListTemplate instance=new WorkoutListTemplate();
+        
+        WatchSettings settings;
+        
+        settings     = mock(WatchSettings.class);
+        when(settings.getSettingsValueInt("hrzone/easy/min")).thenReturn(87L);
+        when(settings.getSettingsValueInt("hrzone/easy/max")).thenReturn(103L);
+        
+        when(settings.getSettingsValueInt("hrzone/fatburn/min")).thenReturn(104L);
+        when(settings.getSettingsValueInt("hrzone/fatburn/max")).thenReturn(121L);
+        
+        when(settings.getSettingsValueInt("hrzone/cardio/min")).thenReturn(122L);
+        when(settings.getSettingsValueInt("hrzone/cardio/max")).thenReturn(138L);
+        
+        when(settings.getSettingsValueInt("hrzone/perform/min")).thenReturn(139L);
+        when(settings.getSettingsValueInt("hrzone/perform/max")).thenReturn(156L);
+        
+        when(settings.getSettingsValueInt("hrzone/peak/min")).thenReturn(157L);
+        when(settings.getSettingsValueInt("hrzone/peak/max")).thenReturn(174L);
+        
+        instance.setHrZonesFromSettings(settings);
+        verify(settings, times(10)).getSettingsValueInt(any());  
+        
+        LinkedHashMap<String, HrZoneTemplate> hrZones=instance.getHrZones();
+        assertEquals(87, hrZones.get("easy").hrMin);
+        assertEquals(156, hrZones.get("perform").hrMax);
+        assertEquals(174, hrZones.get("peak").hrMax);
+        
+        // Check if the default values are not overwritten when the 
+        // settings not found
+        instance=new WorkoutListTemplate();
+        when(settings.getSettingsValueInt(any())).thenReturn(-1L);
+        instance.setHrZonesFromSettings(settings);
+        hrZones=instance.getHrZones();
+        assertEquals(96, hrZones.get("easy").hrMin);
+        assertEquals(172, hrZones.get("perform").hrMax);
+        assertEquals(192, hrZones.get("peak").hrMax);      
+    }
     
+    @Test
+    public void testSetHrZonesToSettings()
+    {
+        System.out.println("Set the HR Zone settings to WatchSettings");
+        ArgumentCaptor<String>  stringCaptor;
+        ArgumentCaptor<Long>    longCaptor;
+        
+        WorkoutListTemplate instance=new WorkoutListTemplate();
+        
+        WatchSettings settings;
+        
+        settings     = mock(WatchSettings.class);
+        
+        stringCaptor=ArgumentCaptor.forClass(String.class);
+        longCaptor=ArgumentCaptor.forClass(Long.class);
+        instance.setHrZonesToSettings(settings);
+        verify(settings, times(10)).setSettingsValueInt(stringCaptor.capture(), longCaptor.capture());  
+        assertEquals("hrzone/easy/min", stringCaptor.getAllValues().get(0));
+        assertEquals(96L, longCaptor.getAllValues().get(0).longValue());
+        assertEquals("hrzone/cardio/max", stringCaptor.getAllValues().get(5));
+        assertEquals(153L, longCaptor.getAllValues().get(5).longValue());
+        assertEquals("hrzone/peak/max", stringCaptor.getAllValues().get(9));
+        assertEquals(192L, longCaptor.getAllValues().get(9).longValue());
+    }   
 }

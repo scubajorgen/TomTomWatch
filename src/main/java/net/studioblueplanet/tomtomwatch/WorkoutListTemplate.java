@@ -8,10 +8,9 @@ package net.studioblueplanet.tomtomwatch;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonSerializer;
 import net.studioblueplanet.generics.ToolBox;
 import net.studioblueplanet.logger.DebugLogger;
 
@@ -31,6 +30,22 @@ import net.studioblueplanet.tomtomwatch.WorkoutStep.ExtentType;
  */
 public class WorkoutListTemplate
 {
+    public static class HrZoneTemplate
+    {
+        public int                          hrMin;
+        public int                          hrMax;
+        
+        /**
+         * Constructor
+         * @param minRate Mininum heart rate in this zone
+         * @param maxRate Maximum heart rate in this zone
+         */
+        public HrZoneTemplate(int minRate, int maxRate)
+        {
+            hrMin=minRate;
+            hrMax=maxRate;
+        }
+    }
     /**
      * Represents the definition of a step in a workout
      */
@@ -70,13 +85,22 @@ public class WorkoutListTemplate
         }
     }
     
-    private final List<WorkoutTemplate>     workouts;
+    private final LinkedHashMap<String, HrZoneTemplate>     hrZones;
+    private final List<WorkoutTemplate>                     workouts;
     
     /**
      * Constructor. Initializes the list of workouts
      */
     public WorkoutListTemplate()
     {
+        hrZones=new LinkedHashMap<>();
+        // defaults
+        hrZones.put("easy"   , new HrZoneTemplate( 96, 114));
+        hrZones.put("fatburn", new HrZoneTemplate(115, 133));
+        hrZones.put("cardio" , new HrZoneTemplate(134, 153));
+        hrZones.put("perform", new HrZoneTemplate(154, 172));
+        hrZones.put("peak"   , new HrZoneTemplate(173, 192));
+        
         workouts=new ArrayList<>();
     }
     
@@ -87,6 +111,15 @@ public class WorkoutListTemplate
     public List<WorkoutTemplate> getWorkouts()
     {
         return workouts;
+    }
+    
+    /**
+     * Return the list with HR zone settings 
+     * @return The list with the 5 HR Zone min/max bpms
+     */
+    public LinkedHashMap<String, HrZoneTemplate> getHrZones()
+    {
+        return this.hrZones;
     }
     
     /**
@@ -282,4 +315,53 @@ public class WorkoutListTemplate
         
         return list;
     }
+    
+    /**
+     * Overwrite the default HR Zones with the values from the WatchSettings
+     * @param settings The WatchSettings
+     */
+    public void setHrZonesFromSettings(WatchSettings settings)
+    {
+        HrZoneTemplate hrZoneValue;
+        int            bpm;
+        
+        for(String zone : hrZones.keySet())
+        {
+            hrZoneValue=hrZones.get(zone);
+            bpm=(int)settings.getSettingsValueInt("hrzone/"+zone.toLowerCase()+"/min");
+            if (bpm>0)
+            {
+                hrZoneValue.hrMin=bpm;
+            }
+            else
+            {
+                DebugLogger.error("HR setting not found in WatchSettings. Setting not modified");
+            }
+            bpm=(int)settings.getSettingsValueInt("hrzone/"+zone.toLowerCase()+"/max");
+            if (bpm>0)
+            {
+                hrZoneValue.hrMax=bpm;
+            }
+            else
+            {
+                DebugLogger.error("HR setting not found in WatchSettings. Setting not modified");
+            }
+        }
+    }
+    
+    /**
+     * Set the HR Zones in this template to the WatchSettings
+     * @param settings The WatchSettings
+     */
+    public void setHrZonesToSettings(WatchSettings settings)
+    {
+        HrZoneTemplate hrZoneValue;
+        for(String zone : hrZones.keySet())
+        {
+            hrZoneValue=hrZones.get(zone);
+            settings.setSettingsValueInt("hrzone/"+zone.toLowerCase()+"/min", hrZoneValue.hrMin);
+            settings.setSettingsValueInt("hrzone/"+zone.toLowerCase()+"/max", hrZoneValue.hrMax);
+        }
+    }
+    
 }
