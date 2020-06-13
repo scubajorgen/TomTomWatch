@@ -5,6 +5,9 @@
  */
 package net.studioblueplanet.tomtomwatch;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -18,6 +21,8 @@ import static org.junit.Assert.*;
  */
 public class WatchSettingsTest
 {
+    private WatchSettings   theInstance;
+    private byte[]          bytes;
     
     public WatchSettingsTest()
     {
@@ -36,6 +41,13 @@ public class WatchSettingsTest
     @Before
     public void setUp()
     {
+        bytes=new byte[] {(byte)0x85, 0,                                    // file type
+                          2, 0,                                             // length
+                          2, 0,                                             // tag 01
+                          1, 0, 0, 0,                                       // value 01
+                          (byte)169, 0,                                     // tag 02
+                          (byte)0x17, (byte)0x1c, (byte)0x00, (byte)0x00};  // value 02
+        theInstance    =new WatchSettings(bytes, 0x000100070040L);
     }
     
     @After
@@ -57,7 +69,6 @@ public class WatchSettingsTest
 
         bytes=new byte[] {(byte)0x85, 0, 1, 0, 2, 0, 1, 0, 0, 0};
 
-        
         instance    =new WatchSettings(bytes, 1);
         result      =instance.getSettingDescriptions();
         expResult   ="No settings definition found for firmware version";
@@ -72,16 +83,9 @@ public class WatchSettingsTest
     public void testGetSettingDescriptions()
     {
         System.out.println("getSettingDescriptions");
-        WatchSettings instance;
-        byte[] bytes;
         String expResult;
         String result;
-
-        bytes=new byte[] {(byte)0x85, 0, 2, 0, 2, 0, 1, 0, 0, 0, (byte)169, 0, (byte)0x17, (byte)0x1c, (byte)0x00, (byte)0x00};
-
-        
-        instance    =new WatchSettings(bytes, 0x00010006001AL);
-        result      =instance.getSettingDescriptions();
+        result      =theInstance.getSettingDescriptions();
         expResult   = "   2 options/demo                                       on\n";
         expResult   +=" 169 options/utc_offset                                 7191\n";
         assertEquals(expResult, result);
@@ -94,16 +98,10 @@ public class WatchSettingsTest
     public void testGetSettingsValueInt() 
     {
         System.out.println("getSettingsValueInt");
-        WatchSettings instance;
         byte[] bytes;
         long   expResult;
         long   result;
-
-        bytes=new byte[] {(byte)0x85, 0, 2, 0, 2, 0, 1, 0, 0, 0, (byte)169, 0, (byte)0x17, (byte)0x1c, (byte)0x00, (byte)0x00};
-
-        
-        instance    =new WatchSettings(bytes, 0x00010006001AL);
-        result      =instance.getSettingsValueInt("options/utc_offset");
+        result      =theInstance.getSettingsValueInt("options/utc_offset");
         expResult   =0x1c17L;
         assertEquals(expResult, result);
     
@@ -116,23 +114,16 @@ public class WatchSettingsTest
     public void testSetSettingsValueInt() 
     {
         System.out.println("setSettingsValueInt");
-        WatchSettings instance;
-        byte[] bytes;
+         byte[] bytes;
         long   expResult;
         long   result;
-
-        bytes=new byte[] {(byte)0x85, 0, 2, 0, 2, 0, 1, 0, 0, 0, (byte)169, 0, (byte)0x17, (byte)0x1c, (byte)0x00, (byte)0x00};
-
-        
-        instance    =new WatchSettings(bytes, 0x00010006001AL);
         expResult   =0x1234;
-        instance.setSettingsValueInt("options/utc_offset", expResult);
-        result      =instance.getSettingsValueInt("options/utc_offset");
+        theInstance.setSettingsValueInt("options/utc_offset", expResult);
+        result      =theInstance.getSettingsValueInt("options/utc_offset");
         assertEquals(expResult, result);
 
-        
         expResult   =-1L;
-        result      =instance.getSettingsValueInt("some/non/existing/name");
+        result      =theInstance.getSettingsValueInt("some/non/existing/name");
         assertEquals(expResult, result);
     
     }    
@@ -144,43 +135,50 @@ public class WatchSettingsTest
     public void testConvertSettingsToData() 
     {
         System.out.println("getSettingsValueInt");
-        WatchSettings instance;
-        byte[] bytes;
         byte[] expResult;
         byte[] result;
         int i;
 
-        bytes=new byte[] {(byte)0x85, 0, 2, 0, 2, 0, 1, 0, 0, 0, (byte)169, 0, (byte)0x17, (byte)0x1c, (byte)0x00, (byte)0x00};
-
-        // Convert data to settings
-        instance    =new WatchSettings(bytes, 0x00010006001AL);
-        
         // Convert back the settings to data
-        result      =instance.convertSettingsToData();
+        result      =theInstance.convertSettingsToData();
         expResult   =bytes;
-        
-        assertEquals(result.length, expResult.length);
-        i=0;
-        while (i<expResult.length)
-        {
-            assertEquals(expResult[i], result[i]);
-            i++;
-        }
-        
-        // Second test, test convertSettingsToData icm convertSettingsToData
-        instance.setSettingsValueInt("options/utc_offset", 0xff345678);
-        expResult   =new byte[] {(byte)0x85, 0, 2, 0, 2, 0, 1, 0, 0, 0, (byte)169, 0, (byte)0x78, (byte)0x56, (byte)0x34, (byte)0xff};
-        result      =instance.convertSettingsToData();
-        
-        assertEquals(result.length, expResult.length);
-        i=0;
-        while (i<expResult.length)
-        {
-            assertEquals(expResult[i], result[i]);
-            i++;
-        }
-        
-        
-    }        
+        assertArrayEquals(expResult, result);
 
+        // Second test, test convertSettingsToData icm setSettingsValueInt
+        theInstance.setSettingsValueInt("options/utc_offset", 0xff345678);
+        expResult   =new byte[] {(byte)0x85, 0, 2, 0, 2, 0, 1, 0, 0, 0, (byte)169, 0, (byte)0x78, (byte)0x56, (byte)0x34, (byte)0xff};
+        result      =theInstance.convertSettingsToData();
+        assertArrayEquals(expResult, result);
+    }   
+    
+    @Test
+    public void testSettingsManifestToSettingsCsv() throws IOException
+    {
+        System.out.println("settingsManifestToSettingsCsv");
+        String csv=theInstance.settingsManifestToSettingsCsv();
+        String expected=new String(Files.readAllBytes((new File("src/main/java/net/studioblueplanet/tomtomwatch/resources/settings_00010007003e.csv")).toPath()));
+        expected=expected.replace("\r\n", "\n");
+        assertEquals(expected, csv);
+    }
+
+     @Test
+    public void testSettingsManifestToManifestCsv() throws IOException
+    {
+        System.out.println("settingsManifestToManifestCsv");
+        String expected=new String(Files.readAllBytes((new File("src/main/java/net/studioblueplanet/tomtomwatch/resources/manifest_0001073e.txt")).toPath()));
+        expected=expected.replace("\r\n", "\n");
+        String csv  =theInstance.settingsManifestToManifestCsv();
+        assertEquals(expected, csv);
+    }   
+    
+    @Test
+    public void testIsChanged()
+    {
+        System.out.println("isChanged");
+        assertEquals(false, theInstance.isChanged());
+        theInstance.setSettingsValueInt("options/demo", 1);
+        assertEquals(false, theInstance.isChanged());
+        theInstance.setSettingsValueInt("options/demo", 0);
+        assertEquals(true, theInstance.isChanged());
+    }
 }

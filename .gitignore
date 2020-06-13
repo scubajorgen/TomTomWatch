@@ -1,3 +1,6 @@
+/.settings
+/.classpath
+/.project
 /.gitignore
 /target
 /various/protobuf/protobuf-java-3.3.0.zip
