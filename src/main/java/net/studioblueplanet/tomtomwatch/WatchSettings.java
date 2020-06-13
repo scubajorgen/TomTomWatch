@@ -10,6 +10,8 @@ import net.studioblueplanet.logger.DebugLogger;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.TreeMap;
+import java.util.Map;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -79,60 +81,58 @@ public class WatchSettings
 
     }
     
-    
     /**
      * Represents the type of the setting
      */
     public enum SettingType
     {
-        ENTRYTYPE_ENUM,
-        ENTRYTYPE_INT,
-        ENTRYTYPE_FLOAT
-    }
-    
-    /**
-     * Represents an enum value. Couples the integer value to a description 
-     * string
-     */
-    public class EnumValue
-    {
-        public int      value;
-        public String   description;
+        ENTRYTYPE_ENUM("ENUM"),
+        ENTRYTYPE_INT("INT"),
+        ENTRYTYPE_FLOAT("FLOAT");
+        
+        private final String value;
+        
+        SettingType(String value)
+        {
+            this.value=value;
+        }
+        
+        @Override
+        public String toString()
+        {
+            return value;
+        }
     }
     
     /**
      * Represents a setting (entry in the Manifest file of the watch)
      */
-    public class ManifestEntry
+    public class ManifestEntry implements Comparable<ManifestEntry>
     {
-        public int         index;
-        public String      settingName;
-        public String      unit;
-        public long        minValue;
-        public long        maxValue;
-        public SettingType   type;
-        public boolean     writeable;
-        public EnumValue[] enumValues;
+        public int                          index;
+        public String                       settingName;
+        public String                       unit;
+        public Long                         minValue;
+        public Long                         maxValue;
+        public Long                         scaling;
+        public SettingType                  type;
+        public boolean                      writeable;
+        public Map<Integer, String>         enumValues;
+        
+        public ManifestEntry()
+        {
+            enumValues=new TreeMap<>();
+        }
         
         public String getDescriptionValue(int enumIndex)
         {
-            int         i;
-            boolean     found;
-            String      enumDescription;
-            
-            enumDescription="unknown";
-            found=false;
-            i=0;
-            while ((i<enumValues.length) && !found)
-            {
-                if (enumValues[i].value==enumIndex)
-                {
-                    enumDescription   =enumValues[i].description;
-                    found       =true;
-                }
-                i++;
-            }
-            return enumDescription;
+            return enumValues.get(enumIndex);
+        }
+        
+        @Override
+        public int compareTo(ManifestEntry entry)
+        {
+            return index-entry.index;
         }
         
     }
@@ -143,9 +143,21 @@ public class WatchSettings
     /** List of setting definitions */
     private ArrayList<ManifestEntry>            settingDefinitions;
     
-    /** The original settings data from the 0x0085000n file */
     private byte[]                              settingsData;
+
+    private String                              version;
+
+    private boolean                             isChanged;
     
+    /**
+     * Indicates whether the settings as loaded have been changed since loading
+     * @return True if changed, false if not
+     */
+    public boolean isChanged()
+    {
+        return isChanged;
+    }
+
     /**
      * Loads the setting definition file (csv) and stores the result 
      * in the settings definition list. Csv format:
@@ -161,9 +173,8 @@ public class WatchSettings
         String[]        enumValues;
         String[]        enumValueParts;
         ManifestEntry   entry;
-        EnumValue       value;
-        int             count;
         int             i;
+        int             count;
         InputStream     inStream;
         BufferedReader br;
         
@@ -175,8 +186,7 @@ public class WatchSettings
         {
             settingDefinitions.clear();
         }
-        
-        
+       
         try  
         {
             inStream = getClass().getResourceAsStream("/net/studioblueplanet/tomtomwatch/resources/"+fileName); 
@@ -224,16 +234,13 @@ public class WatchSettings
                     {
                         count=Integer.parseInt(fields[7]);
                         enumValues=fields[8].split("\\|");
-                        entry.enumValues=new EnumValue[enumValues.length];
                         i=0;
                         while (i<enumValues.length)
                         {
                             enumValueParts      =enumValues[i].split("=");
                             if (enumValueParts.length==2)
                             {
-                                entry.enumValues[i]=new EnumValue();
-                                entry.enumValues[i].value         =Integer.parseInt(enumValueParts[0].trim());
-                                entry.enumValues[i].description   =enumValueParts[1].trim();
+                                entry.enumValues.put(Integer.valueOf(enumValueParts[0].trim()), enumValueParts[1].trim());
                             }
                             else
                             {
@@ -247,14 +254,11 @@ public class WatchSettings
                     {
                         DebugLogger.error("Error parsing setting definition: undefined setting type");
                     }
-                    
-                        
                 }
                 else
                 {
                     DebugLogger.error("Error parsing settings definition file: invalid line length");
                 }
-
             }
 
         } 
@@ -263,6 +267,128 @@ public class WatchSettings
             DebugLogger.error("Error reading settings definition file");
         }   
     }
+    
+    /**
+     * Loads the setting definition file (csv) and stores the result 
+     * in the settings definition list. 
+     * TTWatch manifest format
+     * 1st line is skipped
+     * @param fileName Name of the file
+     */
+    private void loadSettingsManifest(String fileName)
+    {
+        String          line = "";
+        String          cvsSplitBy = ",";
+        String[]        fields;
+        String[]        enumValues;
+        ManifestEntry   entry;
+        int             i;
+        InputStream     inStream;
+        BufferedReader  br;
+        
+        if (settingDefinitions==null)
+        {
+            settingDefinitions=new ArrayList<>();
+        }
+        else
+        {
+            settingDefinitions.clear();
+        }
+        
+        
+        try  
+        {
+            inStream = getClass().getResourceAsStream("/net/studioblueplanet/tomtomwatch/resources/"+fileName); 
+            br = new BufferedReader(new InputStreamReader(inStream));
+            while ((line = br.readLine()) != null) 
+            {
+                if (line.trim().startsWith("#VERSION"))
+                {
+                    version=line.substring(9, 17);
+                }
+                else if (!line.trim().startsWith("#"))
+                {
+                    // use comma as separator
+                    fields = line.split(cvsSplitBy, -1);
+
+                    if (fields.length>=5)
+                    {
+                        entry               =new ManifestEntry();
+                        entry.index         =Integer.parseInt(fields[1]);
+                        entry.settingName   =fields[0];
+                        switch(fields[2].trim().charAt(0))
+                        {
+                            case 'i':
+                                entry.type      =SettingType.ENTRYTYPE_INT;
+                                entry.unit      =fields[4];
+                                if (!fields[5].equals(""))
+                                {
+                                    entry.minValue=Long.valueOf(fields[5]);
+                                }
+                                if (!fields[6].equals(""))
+                                {
+                                    entry.maxValue=Long.valueOf(fields[6]);
+                                }
+                                break;
+                            case 'f':
+                                entry.type      =SettingType.ENTRYTYPE_FLOAT;
+                                entry.unit      =fields[4];
+                                if (!fields[5].equals(""))
+                                {
+                                    entry.scaling=Long.valueOf(fields[5]);
+                                }
+                                if (!fields[6].equals(""))
+                                {
+                                    entry.minValue=Long.valueOf(fields[6]);
+                                }
+                                if (!fields[7].equals(""))
+                                {
+                                    entry.maxValue=Long.valueOf(fields[7]);
+                                }
+                                break;
+                            case 'e':
+                                entry.type      =SettingType.ENTRYTYPE_ENUM;
+                                i=4;
+                                while (i<fields.length)
+                                {
+                                    enumValues=fields[i].split("=");
+                                    if (enumValues.length==2)
+                                    {
+                                        entry.enumValues.put(Integer.valueOf(enumValues[0]), enumValues[1].trim());
+                                    }
+                                    else
+                                    {
+                                        DebugLogger.error("Error parsing settings definition file: invalid enum");
+                                    }
+                                    i++;
+                                }
+                                entry.unit="";
+                                break;
+                        }
+                        
+                        if (fields[3].trim().equals("1"))
+                        {
+                            entry.writeable=true;
+                        }
+                        else
+                        {
+                            entry.writeable=false;
+                        }                        
+                        settingDefinitions.add(entry);
+                    }
+                    else
+                    {
+                        DebugLogger.error("Error parsing settings definition file: invalid line length");
+                    }
+                }
+            }
+
+        } 
+        catch (IOException e) 
+        {
+            DebugLogger.error("Error reading settings definition file");
+        }   
+    }    
     
     /**
      * Loads the settings definitions, based on the firmware version
@@ -275,51 +401,60 @@ public class WatchSettings
         fileName=null;
         
         // RUNNER, ADVENTURER
+        if (firmwareVersion==0x000100010013L)       // 1.1.19
+        {
+            fileName="manifest_00010113.txt";
+        }
         if (firmwareVersion==0x00010003001BL)       // 1.3.27
         {
-            fileName="settings_00010003001b.csv";
+            fileName="manifest_0001031b.txt";
         }
         if (firmwareVersion==0x0001000300FFL)       // 1.3.255
         {
-            fileName="settings_00010003001b.csv";
-            // TO DO: Extend settins definition
+            fileName="manifest_0001031b.txt";
         }
         else if (firmwareVersion==0x00010006001AL)  // 1.6.26
         {
-            fileName="settings_00010003001b.csv";
-            // TO DO: Extend settins definition
+            fileName="manifest_0001031b.txt";
         }
         else if (firmwareVersion==0x000100070035L)  // 1.7.53
         {
-            fileName="settings_00010003001b.csv";
-            // TO DO: Extend settins definition
+            fileName="manifest_0001031b.txt";
         }
         else if (firmwareVersion==0x00010007003EL)  // 1.7.62
         {
-            fileName="settings_00010003001b.csv";
-            // TO DO: Extend settins definition
+            fileName="manifest_0001073e.txt";
         }
         else if (firmwareVersion==0x000100070040L)  // 1.7.64
         {
-            fileName="settings_00010003001b.csv";
-            // TO DO: Extend settins definition
+            fileName="manifest_0001073e.txt";
         }
         
         // MULTISPORTS
+        else if (firmwareVersion==0x000100080019L)  // 1.8.25
+        {
+            fileName="manifest_00010819.txt";
+        }
         else if (firmwareVersion==0x00010008002EL)  // 1.8.46
         {
-            fileName="settings_00010008002e.csv";
+            fileName="manifest_0001082e.txt";
         }
         else if (firmwareVersion==0x000100080034L)  // 1.8.52
         {
-            fileName="settings_00010008002e.csv";
-            // TO DO: Extend settins definition
+            fileName="manifest_0001082e.txt";
         }
 
-
+        // Support for TTWATCH manifest and CSV settings definition
         if (fileName!=null)
         {
-            loadSettingsDefinition(fileName);
+            if (fileName.startsWith("manifest"))
+            {
+                this.loadSettingsManifest(fileName);
+            }
+            else
+            {
+                loadSettingsDefinition(fileName);
+            }
         }
     }
     
@@ -361,9 +496,14 @@ public class WatchSettings
             
             settings.add(setting);
             i++;
-        }        
+        }    
+        isChanged=false;    
     }
 
+    /**
+     * Convert settings array to the byte data (from 0x0085000n file)
+     * @param settingsData Data to convert
+     */
     public byte[] convertSettingsToData()
     {
         byte[]  data;
@@ -402,6 +542,7 @@ public class WatchSettings
         loadSettingsDefinition(firmwareVersion);
     
         convertSettingsToData();
+        isChanged=false;
     }
     
     /**
@@ -494,7 +635,11 @@ public class WatchSettings
         return description;
     }
     
-    
+    /**
+     * Find setting by name
+     * @param settingName name of the setting
+     * @return The setting value or null if not found
+     */
     private WatchSetting findSetting(String settingName)
     {
         Iterator<ManifestEntry> itEntry;
@@ -518,7 +663,7 @@ public class WatchSettings
         }
         if (found)
         {
-            if (entry!=null && entry.type==SettingType.ENTRYTYPE_INT)
+            if (entry!=null)
             {
                 found=false;
                 itSetting=settings.iterator();
@@ -538,7 +683,7 @@ public class WatchSettings
             }
             else
             {
-                DebugLogger.error("Setting "+settingName+" is not an integer type");
+                DebugLogger.error("Setting "+settingName+" appears not to be a valid setting name");
             }
         }
         else
@@ -582,8 +727,142 @@ public class WatchSettings
         setting=this.findSetting(settingName);
         if (setting!=null)
         {
+            long oldValue=setting.value;
+            if (value!=oldValue)
+            {
+                isChanged=true;
+            }
             setting.setValue(value);
         }
     }
+    
+    /**
+     * Create a settings definition CSV string representing the manifest
+     * @return String representing the csv
+     */
+    public String settingsManifestToSettingsCsv()
+    {
+        String output;
+        output="Index,Name,Type,Writable,Unit,min,max,enum count,enum values\n";
+        java.util.Collections.sort(settingDefinitions);
+        for (ManifestEntry entry : settingDefinitions)
+        {
+            output+=String.format("%d,%s,%s,%d,%s,", entry.index, entry.settingName, entry.type, entry.writeable?1:0, entry.unit);
+            switch (entry.type)
+            {
+                case ENTRYTYPE_ENUM:
+                    output+=String.format(",,%d,", entry.enumValues.size());
+                    Iterator<Integer> it=entry.enumValues.keySet().iterator();
+                    while (it.hasNext())
+                    {
+                        Integer key=it.next();
+                        String value=entry.enumValues.get(key);
+                        output+=String.format("%d=%s", key, value);
+                        if (it.hasNext())
+                        {
+                            output+="|";
+                        }
+                    }
+                    break;
+                case ENTRYTYPE_INT:
+                    if (entry.minValue!=null)
+                    {
+                        output+=String.format("%d", entry.minValue);
+                    }
+                    output+=",";
+
+                    if (entry.maxValue!=null)
+                    {
+                        output+=String.format("%d,,", entry.maxValue);
+                    }
+                    output+=",,";
+                    break;
+                case ENTRYTYPE_FLOAT:
+                    if (entry.minValue!=null)
+                    {
+                        output+=String.format("%d", entry.minValue);
+                    }
+                    output+=",";
+
+                    if (entry.maxValue!=null)
+                    {
+                        output+=String.format("%d,,", entry.maxValue);
+                    }
+                    output+=",,";
+                    break;
+            }
+            output+="\n";
+        }
+        return output;
+    }
+
+    /**
+     * Create a settings definition CSV string representing the manifest
+     * @return String representing the csv
+     */
+    public String settingsManifestToManifestCsv()
+    {
+        String  output;
+        
+        output="# name,index,e,writable,0=first,1=second etc...\n" +
+               "# name,index,i,writable,units,min,max\n" +
+               "# name,index,f,writable,units,scaling factor,min,max\n"+
+               String.format("#VERSION=%s\n", version);
+        java.util.Collections.sort(settingDefinitions);
+        for (ManifestEntry entry : settingDefinitions)
+        {
+            switch (entry.type)
+            {
+                case ENTRYTYPE_ENUM:
+                    output+=String.format("%s,%d,e,%d,", entry.settingName, entry.index, entry.writeable?1:0);
+                    Iterator<Integer> it=entry.enumValues.keySet().iterator();
+                    while (it.hasNext())
+                    {
+                        Integer key=it.next();
+                        String value=entry.enumValues.get(key);
+                        output+=String.format("%d=%s", key, value);
+                        if (it.hasNext())
+                        {
+                            output+=",";
+                        }
+                    }
+                    break;
+                case ENTRYTYPE_INT:
+                    output+=String.format("%s,%d,i,%d,%s,", entry.settingName, entry.index, entry.writeable?1:0,entry.unit);
+                    if (entry.minValue!=null)
+                    {
+                        output+=String.format("%d", entry.minValue);
+                    }
+                    output+=",";
+
+                    if (entry.maxValue!=null)
+                    {
+                        output+=String.format("%d", entry.maxValue);
+                    }
+                    break;
+                case ENTRYTYPE_FLOAT:
+                    output+=String.format("%s,%d,f,%d,%s,", entry.settingName, entry.index, entry.writeable?1:0, entry.unit);
+                    if (entry.scaling!=null)
+                    {
+                        output+=String.format("%d", entry.scaling);
+                    }
+                    output+=",";
+                    if (entry.minValue!=null)
+                    {
+                        output+=String.format("%d", entry.minValue);
+                    }
+                    output+=",";
+
+                    if (entry.maxValue!=null)
+                    {
+                        output+=String.format("%d", entry.maxValue);
+                    }
+                    break;
+            }
+            output+="\n";
+        }
+        return output;
+    }
+
     
 }

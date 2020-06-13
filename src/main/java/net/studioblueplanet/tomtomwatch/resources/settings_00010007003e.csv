@@ -135,6 +135,16 @@ Index,Name,Type,Writable,Unit,min,max,enum count,enum values
 246,treadmill/training/race/recent/distance,INT,0,m,,,,
 247,treadmill/training/race/recent/time,INT,0,s,,,,
 251,options/flight_mode,ENUM,1,,,,2,0=off|1=on
+255,hrzone/easy/min,INT,1,bpm,,,,
+256,hrzone/easy/max,INT,1,bpm,,,,
+257,hrzone/fatburn/min,INT,1,bpm,,,,
+258,hrzone/fatburn/max,INT,1,bpm,,,,
+259,hrzone/cardio/min,INT,1,bpm,,,,
+260,hrzone/cardio/max,INT,1,bpm,,,,
+261,hrzone/perform/min,INT,1,bpm,,,,
+262,hrzone/perform/max,INT,1,bpm,,,,
+263,hrzone/peak/min,INT,1,bpm,,,,
+264,hrzone/peak/max,INT,1,bpm,,,,
 265,running/training/zones/heart/custom/low,INT,1,bpm,,,,
 266,running/training/zones/heart/custom/high,INT,1,bpm,,,,
 267,treadmill/training/zones/heart/custom/low,INT,1,bpm,,,,
@@ -186,7 +196,8 @@ Index,Name,Type,Writable,Unit,min,max,enum count,enum values
 322,freestyle/training/race/recent/file,INT,0,,,,,
 323,freestyle/training/race/mysports,INT,1,,0,4,,,,
 331,options/tracker,ENUM,1,,,,2,1=on|2=off
-333,options/tracker/goals/type,ENUM,1,,,,4,0=time|1=steps|2=calories|3=distance
+332,options/start_of_week,ENUM,1,,,,7,0=sunday|1=monday|2=tuesday|3=wednesday|4=thursday|5=friday|6=saturday
+333,options/tracker/goals/type,ENUM,1,,,,5,0=time|1=steps|2=calories|3=distance|6=points
 334,options/tracker/goals/calories,INT,1,,,,,
 335,options/tracker/goals/time,INT,0,s,,,,
 336,options/tracker/goals/distance,INT,0,m,,,,
