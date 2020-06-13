@@ -502,7 +502,7 @@ public class WatchSettings
 
     /**
      * Convert settings array to the byte data (from 0x0085000n file)
-     * @param settingsData Data to convert
+     * @return Byte array containing the content 
      */
     public byte[] convertSettingsToData()
     {
