@@ -18,6 +18,8 @@ import net.studioblueplanet.generics.ToolBox;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.Set;
 import java.util.TimeZone;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
@@ -26,9 +28,7 @@ import hirondelle.date4j.DateTime;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.RandomAccessFile;
-import java.io.FileNotFoundException;
 import java.io.File;
 
 import javax.swing.DefaultListModel;
@@ -47,7 +47,6 @@ public class CommunicationProcess implements ProgressListener
     private TomTomWatchView                     theView;
     
     private final WatchInterface                watchInterface;
-    
 
     // Guarded data
     private final ArrayList<ActivityData>       activities;
@@ -58,6 +57,7 @@ public class CommunicationProcess implements ProgressListener
     private String                              fileToUpload;
     private int                                 fileIdToDelete;
     private int                                 fileIdToShow;
+    private String                              workoutsToUpload;
     private String                              ttbinFileToLoad;
     private String                              deviceName;
     private String                              deviceSerial;
@@ -121,7 +121,6 @@ public class CommunicationProcess implements ProgressListener
         this.ttbinReader    =ttbinReader;
         this.gpxReader      =gpxReader;
     }    
-
     
     /**
      * Set the view and start the processing
@@ -252,7 +251,13 @@ public class CommunicationProcess implements ProgressListener
                 r=() ->{showWorkoutList(watchInterface);};
                 break;
             case THREADCOMMAND_LISTWORKOUTS:
-                r=() ->{showWorkouts(watchInterface);};
+                r=() ->{showWorkouts(watchInterface, false);};
+                break;
+            case THREADCOMMAND_DOWNLOADWORKOUTS:
+                r=() ->{showWorkouts(watchInterface, true);};
+                break;
+            case THREADCOMMAND_UPLOADWORKOUTS:
+                r=() ->{uploadWorkouts(watchInterface);};
                 break;
             case THREADCOMMAND_SHOWWATCHSETTINGS:
                 r=() ->{showWatchSettings(watchInterface);};
@@ -368,6 +373,18 @@ public class CommunicationProcess implements ProgressListener
         }
     }
 
+    /**
+     * Request the upload of the workouts defined in the JSON file
+     * @param fileName The file defining the workouts, JSON format
+     */
+    public void requestUploadWorkouts(String fileName)
+    {
+        synchronized(this)
+        {
+            this.workoutsToUpload=fileName;
+            this.pushCommand(ThreadCommand.THREADCOMMAND_UPLOADWORKOUTS);
+        }
+    }
 
 
     /**
@@ -634,6 +651,54 @@ public class CommunicationProcess implements ProgressListener
     @Override
     public void reportWriteProgress(int bytesWritten)
     {
+    }
+
+    /**
+     * This method reads a file from the watch
+     * @param watchInterface Watch interface to use
+     * @param fileId ID of the file
+     * @return The file read or null if not succeeded
+     */
+    private UsbFile readWatchFile(WatchInterface watchInterface, int fileId)
+    {
+        UsbFile settingsFile;
+        boolean error;
+        settingsFile=new UsbFile();
+        settingsFile.fileId=fileId;
+        
+        error=watchInterface.readFile(settingsFile);
+
+        if (error)
+        {
+            settingsFile=null;
+            toErrorState();
+        }
+        return settingsFile;
+    }
+    
+    /**
+     * Write file to watch
+     * @param watchInterface Watch interface to use
+     * @param fileId ID of the file to write
+     * @param data Data to write
+     * @return True if an error occured
+     */
+    private boolean writeWatchFile(WatchInterface watchInterface, int fileId, byte[] data)
+    {
+        UsbFile settingsFile;
+        boolean error;
+        settingsFile=new UsbFile();
+        settingsFile.fileId=fileId;
+        settingsFile.fileData=data;
+        settingsFile.length=data.length;
+        
+        error=watchInterface.writeVerifyFile(settingsFile);
+
+        if (error)
+        {
+            toErrorState();
+        }
+        return error;
     }
     
     /**
@@ -2466,7 +2531,7 @@ public class CommunicationProcess implements ProgressListener
      * stored in the 0x00bennnn files where nnnn larger 0.
      * @param watchInterface The watch interface
      */
-    private void showWorkouts(WatchInterface watchInterface)
+    private void showWorkouts(WatchInterface watchInterface, boolean withDownload)
     {
         boolean error;
         WorkoutList workouts;
@@ -2532,24 +2597,27 @@ public class CommunicationProcess implements ProgressListener
                 WorkoutListTemplate template=WorkoutListTemplate.fromWorkoutList(workouts);
                 String jsonString=template.toJson();
 
-                // Write the workouts to JSON file
-                synchronized(this)
+                if (withDownload)
                 {
-                    path     =this.debugFilePath;
-                }
-                if (!path.endsWith("/") && !path.endsWith("\\"))
-                {
-                    path+="/";
-                }
-                fileName=String.format("%sworkouts.json", path);
+                    // Write the workouts to JSON file
+                    synchronized(this)
+                    {
+                        path     =this.debugFilePath;
+                    }
+                    if (!path.endsWith("/") && !path.endsWith("\\"))
+                    {
+                        path+="/";
+                    }
+                    fileName=String.format("%sworkouts.json", path);
 
-                if (!ToolBox.writeStringToUtf8File(fileName, jsonString))
-                {
-                    theView.appendStatus("Workouts written as JSON to: "+fileName);
-                }
-                else
-                {
-                    theView.showErrorDialog("Error writing file "+fileName);
+                    if (!ToolBox.writeStringToUtf8File(fileName, jsonString))
+                    {
+                        theView.appendStatus("Workouts written as JSON to: "+fileName);
+                    }
+                    else
+                    {
+                        theView.showErrorDialog("Error writing file "+fileName);
+                    }
                 }
             }
         }
@@ -2621,6 +2689,95 @@ public class CommunicationProcess implements ProgressListener
     }    
 
     /**
+     * This method uploads the workouts defined in the file workoutsToUpload.
+     * The heart rate zones defined in this file are written the the 
+     * WatchSettings; the files 0x00BEnnnn are replaced.
+     * @param watchInterface The watch interface
+     */
+    private void uploadWorkouts(WatchInterface watchInterface)
+    {
+        WorkoutListTemplate template;
+        UsbFile             settingsFile;
+        WatchSettings       settings;
+        boolean             error;
+        String              json;
+        
+        theView.setStatus("Uploading workouts ("+workoutsToUpload+") to the watch\n");
+        json=ToolBox.readStringFromUtf8File(this.workoutsToUpload);
+        
+        error=false;
+        template=WorkoutListTemplate.fromJson(json);
+        
+        if (template!=null)
+        {
+            WorkoutList list=template.toWorkoutList();
+            
+            if (list!=null)
+            {
+                theView.appendStatus("Workouts JSON file read, updating HR zones to settings\n");
+                settingsFile=readWatchFile(watchInterface, WatchInterface.FILEID_MANIFEST1);
+                settings    =new WatchSettings(settingsFile.fileData, this.currentFirmwareVersion);
+                template.setHrZonesToSettings(settings);
+                if (settings.isChanged())
+                {
+                    theView.appendStatus("Settings changed, upload manifest/settings\n");
+                    error=writeWatchFile(watchInterface, WatchInterface.FILEID_MANIFEST1, settings.convertSettingsToData());
+                    if (error)
+                    {
+                        theView.appendStatus("Error writing settings\n");
+                    }
+                }
+                else
+                {
+                    theView.appendStatus("Settings not changed, no need to update\n");
+                }
+                if (!error)
+                {
+                    theView.appendStatus("Erasing existing workouts\n");
+                    error=this.eraseFiles(watchInterface, WatchInterface.FileType.TTWATCH_FILE_WORKOUTS);
+                    if (error)
+                    {
+                        theView.appendStatus("Error erasing workouts\n");
+                    }
+                }
+                if (!error)
+                {
+                    theView.appendStatus(String.format("Writing workout list to file %08x\n", 0x00BE0000));
+                    error=writeWatchFile(watchInterface, 0x00be0000, list.getWorkoutListData());
+                    if (error)
+                    {
+                        theView.appendStatus("Error writing workout list file\n");
+                    }
+                }
+                if (!error)
+                {
+                    LinkedHashMap<Integer, Workout> workouts=list.getWorkouts(); 
+                    Set<Integer> keys=workouts.keySet();
+                    Iterator<Integer> it=keys.iterator();
+                    while (it.hasNext() && !error)
+                    {
+                        Integer fileId=it.next();
+                        theView.appendStatus(String.format("Writing workout to file %08x\n", fileId));
+                        error=writeWatchFile(watchInterface, fileId, workouts.get(fileId).getWorkoutData());
+                        if (error)
+                        {
+                            theView.appendStatus("Error writing workout file\n");
+                        }
+                    }
+                }
+            }
+            else
+            {
+                theView.appendStatus("Error converting to workouts");
+            }
+        }
+        else
+        {
+            theView.appendStatus("Error importing JSON");
+        }
+    }
+    
+    /**
      * This method reboots the watch
      * @param watchInterface The watch interface
      */
@@ -2681,25 +2838,15 @@ public class CommunicationProcess implements ProgressListener
      */
     private void showWatchSettings(WatchInterface watchInterface)
     {
-        boolean         error;
         UsbFile         settingsFile;
         WatchSettings   settings;
         
         theView.setStatus("Reading watch settings...");
-
-        settingsFile=new UsbFile();
-        settingsFile.fileId=WatchInterface.FILEID_MANIFEST1;
-        
-        error=watchInterface.readFile(settingsFile);
-
-        if (!error)
+        settingsFile=readWatchFile(watchInterface, WatchInterface.FILEID_MANIFEST1);
+        if (settingsFile!=null)
         {
             settings=new WatchSettings(settingsFile.fileData, this.currentFirmwareVersion);
             theView.setStatus(settings.getSettingDescriptions());
-        }
-        else
-        {
-            toErrorState();
         }
     }    
     
@@ -2741,13 +2888,8 @@ public class CommunicationProcess implements ProgressListener
             theView.setStatus   ("Watch Time(UTC): "+utcWatchTime.format("DD-MM-YYYY hh:mm:ss.fff")+"\n");
             theView.appendStatus("PC Time   (UTC): "+utcTime.format("DD-MM-YYYY hh:mm:ss.fff")     +"\n");
             
-            
-            settingsFile=new UsbFile();
-            settingsFile.fileId=WatchInterface.FILEID_MANIFEST1;
-
-            error=watchInterface.readFile(settingsFile);
-
-            if (!error)
+            settingsFile=readWatchFile(watchInterface, WatchInterface.FILEID_MANIFEST1);
+            if (settingsFile!=null)
             {
                 settings    =new WatchSettings(settingsFile.fileData, this.currentFirmwareVersion);
                 timeOffset  =settings.getSettingsValueInt("options/utc_offset");
@@ -2784,9 +2926,11 @@ public class CommunicationProcess implements ProgressListener
                         if (yesPressed)
                         {
                             settings.setSettingsValueInt("options/utc_offset", newTimeOffset);
-                            settingsFile.fileData=settings.convertSettingsToData();
-                            error=watchInterface.writeFile(settingsFile);
-                            theView.appendStatus("Offset written to watch\n");
+                            error=writeWatchFile(watchInterface, WatchInterface.FILEID_MANIFEST1, settings.convertSettingsToData());
+                            if (!error)
+                            {
+                                theView.appendStatus("Offset written to watch\n");
+                            }
                         }
                         else
                         {
@@ -2798,20 +2942,11 @@ public class CommunicationProcess implements ProgressListener
                         theView.appendStatus("No need to sync the time");
                     }
                 }
-
             }
             else
             {
                 theView.appendStatus("Error syncing time!");
             }
         }
-        else
-        {
-            error=true;
-        }
-        if (error)
-        {
-            toErrorState();
-        }   
     }    
 }

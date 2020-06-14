@@ -416,6 +416,33 @@ public class ToolBox
     }
 
     /**
+     * Reads the content of a UTF-8 file into a string
+     * @param fileName Name of the UTF-8 encoded file
+     * @return The string read or null if not succeeded
+     */
+    public static String readStringFromUtf8File(String fileName)
+    {
+        String theString;
+
+        theString="";
+        try (java.io.BufferedReader reader = Files.newBufferedReader((new File(fileName)).toPath(), 
+             java.nio.charset.StandardCharsets.UTF_8))
+        {
+            while (reader.ready())
+            {
+                theString+=reader.readLine();
+            }
+        }
+
+        catch(IOException e)   
+        {
+            theString=null;
+        }
+        
+        return theString;
+    }
+    
+    /**
      * This method writes the bytes to a binary file
      * @param fileName File name of the file to write to
      * @param bytes Bytes to write

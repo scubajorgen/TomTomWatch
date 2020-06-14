@@ -15,7 +15,12 @@ import net.studioblueplanet.ttbin.Activity;
 import net.studioblueplanet.ttbin.TtbinHeader;
 import net.studioblueplanet.settings.ConfigSettings;
 import hirondelle.date4j.DateTime;
+import java.io.IOException;
+import java.io.File;
+import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import net.studioblueplanet.logger.DebugLogger;
 
 
 import org.junit.After;
@@ -23,6 +28,7 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.Ignore;
 import static org.junit.Assert.*;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
@@ -109,6 +115,18 @@ public class CommunicationProcessTest
             usbFile.fileData[1]=3;
             usbFile.fileData[2]=2;
             usbFile.fileData[3]=1;
+        }
+        else if (usbFile.fileId==WatchInterface.FILEID_MANIFEST1)
+        {
+            try
+            {
+                usbFile.fileData=Files.readAllBytes((new File("src/test/resources/0x00850000.bin")).toPath());
+            }
+            catch (IOException e)
+            {
+                DebugLogger.error("Error reading test file");
+            }
+            usbFile.length=usbFile.fileData.length;
         }
         else if (usbFile.fileId==0x00B80000)
         {
@@ -203,7 +221,7 @@ public class CommunicationProcessTest
         when(watchInterface.getWatchTime()).thenReturn(new DateTime("2019-09-22 07:36:00"));
         when(watchInterface.getPreference("watchName")).thenReturn("Test Watch");
         when(watchInterface.getPreference("ConfigURL")).thenReturn("preferenceValue");
-        when(watchInterface.readFirmwareVersion()).thenReturn("01.02.03");
+        when(watchInterface.readFirmwareVersion()).thenReturn("01.07.64");
         when(watchInterface.getProductId()).thenReturn(0x00E70000);
         when(watchInterface.getDeviceSerialNumber()).thenReturn("SerialNumber"); 
         
@@ -286,7 +304,7 @@ public class CommunicationProcessTest
         
         verify(watchInterface).readFirmwareVersion();
         verify(theView).setFirmwareVersion(stringCaptor.capture());
-        assertEquals("01.02.03", stringCaptor.getValue());
+        assertEquals("01.07.64", stringCaptor.getValue());
         
         verify(watchInterface).getProductId();
         verify(theView).setProductId(intCaptor.capture());
@@ -758,8 +776,7 @@ public class CommunicationProcessTest
         theInstance.requestUploadFile(fileName);
         verify(theView, times(2)).showErrorDialog(stringCaptor.capture());
         assertEquals("The filename '0x00000123.bin' could not be read", stringCaptor.getValue());
-
-}
+    }
 
     /**
      * Test of requestDeleteDeviceFileFromWatch method, of class CommunicationProcess.
@@ -1039,5 +1056,38 @@ public class CommunicationProcessTest
         verify(theView).setProgress(600);
         theInstance.reportReadProgress(50);
         verify(theView).setProgress(1100);
+    }
+    
+    @Test
+    public void testRequestUploadWorkouts() throws IOException
+    {
+        String                      fileName;
+        UsbFile                     file;
+        
+        System.out.println("TEST: requestUploadWorkouts");
+        
+        // Good flow
+        fileName = "src/test/resources/testworkouts.json";
+        
+        // Make sure the firmware version is 1.7.64
+        theInstance.pushCommand(ThreadCommand.THREADCOMMAND_GETFIRMWAREVERSION);
+        
+        theInstance.requestUploadWorkouts(fileName);
+        verify(watchInterface, times(4)).writeVerifyFile(fileCaptor.capture());
+        file=fileCaptor.getAllValues().get(0);
+        assertEquals(0x00850000, file.fileId);
+        file=fileCaptor.getAllValues().get(1);
+        assertEquals(0x00be0000, file.fileId);
+        file=fileCaptor.getAllValues().get(2);
+        assertEquals(0x00be0001, file.fileId);
+        file=fileCaptor.getAllValues().get(3);
+        assertEquals(0x00be0002, file.fileId);
+
+        
+        WorkoutList list=new WorkoutList();
+        list.appendWorkoutFromData(file.fileId, file.fileData);
+        LinkedHashMap<Integer, Workout> workouts=list.getWorkouts();
+        Workout workout=workouts.get(file.fileId);
+        assertEquals("Test workout 1", workout.getWorkoutName());
     }
 }

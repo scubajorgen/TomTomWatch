@@ -300,6 +300,8 @@ public class TomTomWatchView extends javax.swing.JFrame
         jMenuItemShowUpdateLog = new javax.swing.JMenuItem();
         jMenuItemShowLog = new javax.swing.JMenuItem();
         jMenuItemShowSettings = new javax.swing.JMenuItem();
+        jMenuItemDownloadWorkouts = new javax.swing.JMenuItem();
+        jMenuItemUploadWorkouts = new javax.swing.JMenuItem();
         jMenuItemSaveSimSet = new javax.swing.JMenuItem();
         jMenuAbout = new javax.swing.JMenu();
         jMenuItemAbout = new javax.swing.JMenuItem();
@@ -1099,6 +1101,26 @@ public class TomTomWatchView extends javax.swing.JFrame
             }
         });
         jMenuDebugging.add(jMenuItemShowSettings);
+
+        jMenuItemDownloadWorkouts.setText("Download Workouts to JSON");
+        jMenuItemDownloadWorkouts.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                jMenuItemDownloadWorkoutsActionPerformed(evt);
+            }
+        });
+        jMenuDebugging.add(jMenuItemDownloadWorkouts);
+
+        jMenuItemUploadWorkouts.setText("Upload Workouts from JSON");
+        jMenuItemUploadWorkouts.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                jMenuItemUploadWorkoutsActionPerformed(evt);
+            }
+        });
+        jMenuDebugging.add(jMenuItemUploadWorkouts);
 
         jMenuItemSaveSimSet.setText("Save Simulation Set");
         jMenuItemSaveSimSet.addActionListener(new java.awt.event.ActionListener()
@@ -1985,6 +2007,27 @@ public class TomTomWatchView extends javax.swing.JFrame
         this.checkAndPushCommand(ThreadCommand.THREADCOMMAND_LISTWORKOUTSUMMARY);
     }//GEN-LAST:event_jMenuItemWorkoutListActionPerformed
 
+    private void jMenuItemDownloadWorkoutsActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jMenuItemDownloadWorkoutsActionPerformed
+    {//GEN-HEADEREND:event_jMenuItemDownloadWorkoutsActionPerformed
+        this.checkAndPushCommand(ThreadCommand.THREADCOMMAND_DOWNLOADWORKOUTS);
+    }//GEN-LAST:event_jMenuItemDownloadWorkoutsActionPerformed
+
+    private void jMenuItemUploadWorkoutsActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jMenuItemUploadWorkoutsActionPerformed
+    {//GEN-HEADEREND:event_jMenuItemUploadWorkoutsActionPerformed
+        String fileName;
+        
+        if (communicationProcess.isConnected())
+        {
+            fileName="";
+
+            fileName=this.fileChooser(fileName, null, "Upload", "json (*.json)", "json");
+            if (fileName!=null)
+            {
+                communicationProcess.requestUploadWorkouts(fileName);
+            }
+        }            
+    }//GEN-LAST:event_jMenuItemUploadWorkoutsActionPerformed
+
     /*############################################################################################*\
      * HELPER FUNCTIONS     
     \*############################################################################################*/    
@@ -2599,6 +2642,7 @@ public class TomTomWatchView extends javax.swing.JFrame
     private javax.swing.JMenuItem jMenuItemAbout;
     private javax.swing.JMenuItem jMenuItemDeleteFile;
     private javax.swing.JMenuItem jMenuItemDeletePreferences;
+    private javax.swing.JMenuItem jMenuItemDownloadWorkouts;
     private javax.swing.JMenuItem jMenuItemEraseData;
     private javax.swing.JMenuItem jMenuItemFactoryReset;
     private javax.swing.JMenuItem jMenuItemListFiles;
@@ -2620,6 +2664,7 @@ public class TomTomWatchView extends javax.swing.JFrame
     private javax.swing.JMenuItem jMenuItemSyncTime;
     private javax.swing.JMenuItem jMenuItemUpdateFirmware;
     private javax.swing.JMenuItem jMenuItemUploadFile;
+    private javax.swing.JMenuItem jMenuItemUploadWorkouts;
     private javax.swing.JMenuItem jMenuItemWorkoutList;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;

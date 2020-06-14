@@ -367,4 +367,5 @@ public class WorkoutListTemplateTest
         assertEquals("hrzone/peak/max", stringCaptor.getAllValues().get(9));
         assertEquals(192L, longCaptor.getAllValues().get(9).longValue());
     }   
+            
 }

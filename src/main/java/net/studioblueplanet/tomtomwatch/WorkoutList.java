@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import net.studioblueplanet.logger.DebugLogger;
 
 import net.studioblueplanet.tomtomwatch.Workout.WorkoutType;
@@ -39,9 +39,9 @@ public class WorkoutList
     private static final int FILEID_WORKOUT    =0x00090100;
     
 
-    private final WorkoutDescriptions         workoutListDescriptions;
-    private final HashMap<Integer, Workout>   workouts;
-    private final ArrayList<WorkoutListItem>  workoutListItems;
+    private final WorkoutDescriptions               workoutListDescriptions;
+    private final LinkedHashMap<Integer, Workout>   workouts;
+    private final ArrayList<WorkoutListItem>        workoutListItems;
     
     /**
      * Constructor. Initializes the instance
@@ -49,7 +49,7 @@ public class WorkoutList
     public WorkoutList()
     {
         workoutListDescriptions =new WorkoutDescriptions();
-        workouts                =new HashMap<>();
+        workouts                =new LinkedHashMap<>();
         workoutListItems        =new ArrayList<>();
     }
     
@@ -77,7 +77,7 @@ public class WorkoutList
      * the fileID (as key)
      * @return The workouts
      */
-    public HashMap<Integer, Workout> getWorkouts()
+    public LinkedHashMap<Integer, Workout> getWorkouts()
     {
         return workouts;
     }
