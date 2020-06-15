@@ -37,7 +37,7 @@
           "description": "Get into the Fat Burn HR zone",
           "type": "WORK",
           "length": "TIME",
-          "time": 1710,
+          "time": 1800,
           "intensity": "HRZONE",
           "hrZone": "FATBURN"
         }
