@@ -2593,12 +2593,12 @@ public class CommunicationProcess implements ProgressListener
         
             if (!error)
             {
-                theView.setStatus(workouts.toString());
-                WorkoutListTemplate template=WorkoutListTemplate.fromWorkoutList(workouts);
-                String jsonString=template.toJson();
-
+                theView.setStatus("");
                 if (withDownload)
                 {
+                    WorkoutListTemplate template=WorkoutListTemplate.fromWorkoutList(workouts);
+                    String jsonString=template.toJson();
+
                     // Write the workouts to JSON file
                     synchronized(this)
                     {
@@ -2612,13 +2612,14 @@ public class CommunicationProcess implements ProgressListener
 
                     if (!ToolBox.writeStringToUtf8File(fileName, jsonString))
                     {
-                        theView.appendStatus("Workouts written as JSON to: "+fileName);
+                        theView.appendStatus("Workouts written as JSON to: "+fileName+"\n\n");
                     }
                     else
                     {
                         theView.showErrorDialog("Error writing file "+fileName);
                     }
                 }
+                theView.appendStatus(workouts.toString());
             }
         }
         if (error)
@@ -2708,7 +2709,7 @@ public class CommunicationProcess implements ProgressListener
         error=false;
         template=WorkoutListTemplate.fromJson(json);
         
-        if (template!=null)
+        if (template!=null && template.isValid())
         {
             WorkoutList list=template.toWorkoutList();
             

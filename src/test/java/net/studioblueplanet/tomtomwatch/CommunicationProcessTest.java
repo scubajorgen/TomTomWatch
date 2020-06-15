@@ -1090,4 +1090,47 @@ public class CommunicationProcessTest
         Workout workout=workouts.get(file.fileId);
         assertEquals("Test workout 1", workout.getWorkoutName());
     }
+    
+    @Test
+    public void testRequestUploadWorkouts_invalidJson() throws IOException
+    {
+        String                      fileName;
+        UsbFile                     file;
+        
+        System.out.println("TEST: requestUploadWorkouts - invalid JSON");
+
+        PowerMockito.mockStatic(ToolBox.class);
+        when(ToolBox.readStringFromUtf8File(any())).thenReturn("invalid JSON");        
+        // Good flow
+        fileName = "anyFile.json";
+        
+        // Make sure the firmware version is 1.7.64
+        theInstance.pushCommand(ThreadCommand.THREADCOMMAND_GETFIRMWAREVERSION);
+        
+        theInstance.requestUploadWorkouts(fileName);
+        verify(watchInterface, times(0)).writeVerifyFile(any());
+        verify(theView).appendStatus(stringCaptor.capture());
+        assertEquals("Error importing JSON", stringCaptor.getValue());
+    }    
+
+    @Test
+    public void testRequestUploadWorkouts_invalidWorkout() throws IOException
+    {
+        String                      fileName;
+        UsbFile                     file;
+        
+        System.out.println("TEST: requestUploadWorkouts - invalid workout");
+
+        fileName = "src/test/resources/testworkouts-invalid1.json";
+
+        // Make sure the firmware version is 1.7.64
+        theInstance.pushCommand(ThreadCommand.THREADCOMMAND_GETFIRMWAREVERSION);
+        
+        theInstance.requestUploadWorkouts(fileName);
+        verify(watchInterface, times(0)).writeVerifyFile(any());
+        verify(theView).appendStatus(stringCaptor.capture());
+        assertEquals("Error importing JSON", stringCaptor.getValue());
+    }    
+
+   
 }

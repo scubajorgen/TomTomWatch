@@ -7,9 +7,11 @@ package net.studioblueplanet.tomtomwatch;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import com.google.gson.GsonBuilder;
 import net.studioblueplanet.generics.ToolBox;
 import net.studioblueplanet.logger.DebugLogger;
@@ -62,6 +64,78 @@ public class WorkoutListTemplate
         public Integer                      speed;          // in m/hr                
         public Integer                      pace;           // in s/km
         public HrZone                       hrZone;        
+        
+        public boolean isValid()
+        {
+            boolean valid;
+            
+            valid=true;
+            
+            if (name==null)
+            {
+                DebugLogger.error("Validating workout step template: Step must have a name");
+                valid=false;                
+            }
+            if (description==null)
+            {
+                DebugLogger.error("Validating workout step template: Step must have a description");
+                valid=false;                   
+            }
+            if (type==null)
+            {
+                DebugLogger.error("Validating workout step template: Step must have a type: WARMUP, REST, WORK, COOLDOWN");
+                valid=false;                   
+            }
+            if (length==null || length==ExtentType.NONE)
+            {
+                DebugLogger.error("Validating workout step template: Step must have a length: MANUAL, DISTANCE, TIME, REACHHRZONE");
+                valid=false;   
+            }
+            else 
+            {
+                if (length==ExtentType.DISTANCE && distance==null)
+                {
+                    DebugLogger.error("Validating workout step template: No distance specified for DISTANCE step");
+                    valid=false;   
+                }
+                else if (length==ExtentType.TIME && time==null)
+                {
+                    DebugLogger.error("Validating workout step template: No time specified for TIME step");
+                    valid=false;   
+                }
+                else if (length==ExtentType.REACHHRZONE && reachHrZone==null)
+                {
+                    DebugLogger.error("Validating workout step template: No reachHrZone specified for REACHHRZONE step");
+                    valid=false;   
+                }
+            }
+            if (intensity==null)
+            {
+                DebugLogger.error("Validating workout step template: No intensity defined. Must be NONE, PACE, SPEED, HRZONE");
+                valid=false;
+            }
+            else
+            {
+                if (intensity==IntensityType.HRZONE && hrZone==null)
+                {
+                    DebugLogger.error("Validating workout step template: No hrZone specified for HRZONE intensity step");
+                    valid=false;   
+                }
+                else if (intensity==IntensityType.PACE && pace==null)
+                {
+                    DebugLogger.error("Validating workout step template: No pace specified for PACE intensity step");
+                    valid=false;   
+                }
+                else if (intensity==IntensityType.SPEED && speed==null)
+                {
+                    DebugLogger.error("Validating workout step template: No speed specified for SPEED intensity step");
+                    valid=false;   
+                }
+
+            }
+            
+            return valid;
+        }
     }
     
     /**
@@ -79,9 +153,72 @@ public class WorkoutListTemplate
         public IntensityLevel               intensityLevel;
         public final List<StepTemplate>     steps;
         
+        /**
+         * Constructor
+         */
         public WorkoutTemplate()
         {
             steps=new ArrayList<>();
+        }
+        
+        /**
+         * Checks consistency of the workout
+         * @return True if consistent, false if not
+         */
+        public boolean isValid()
+        {
+            boolean valid;
+            
+            valid=true;
+            if (fileId==null || Integer.parseInt(fileId.substring(2), 16)<0x00BE0001 || Integer.parseInt(fileId.substring(2), 16)>0x00BEFFFF)
+            {
+                DebugLogger.error("Validating workout template: illegal fileID; must be 00BE0001-00BEFFFF");
+                valid=false;
+            }
+            if (listId!=null && listId.length()!=32)
+            {
+                DebugLogger.error("Validating workout template: illegal listId length; must be 32");
+                valid=false;
+            }
+            if (workoutId!=null && listId.length()!=32)
+            {
+                DebugLogger.error("Validating workout template: illegal workoutId length; must be 32");
+                valid=false;
+            }
+            if (name==null)
+            {
+                DebugLogger.error("Validating workout template: workout has no name");
+                valid=false;
+            }
+            if (description==null)
+            {
+                DebugLogger.error("Validating workout template: workout has no description");
+                valid=false;
+            }
+            if (activity==null)
+            {
+                DebugLogger.error("Validating workout template: illegal workout activity; must be RUNNING or CYCLING");
+                valid=false;
+            }
+            if (type==null)
+            {
+                DebugLogger.error("Validating workout template: illegal workout type; must be FATBURN, FITNESS, ENDURANCE, POWER, SPEED or CUSTOM");
+                valid=false;
+            }
+            if (steps==null || steps.isEmpty())
+            {
+                DebugLogger.error("Validating workout template: workout has no steps");
+                valid=false;
+            }
+            else
+            {
+                for(StepTemplate step : steps)
+                {
+                    valid&=step.isValid();
+                }
+            }
+            
+            return valid;
         }
     }
     
@@ -142,7 +279,15 @@ public class WorkoutListTemplate
     public static WorkoutListTemplate fromJson(String json)
     {
         Gson gson = new Gson();
-        WorkoutListTemplate deserialized = gson.fromJson(json, WorkoutListTemplate.class);
+        WorkoutListTemplate deserialized=null;
+        try
+        {
+            deserialized = gson.fromJson(json, WorkoutListTemplate.class);
+        }
+        catch(JsonSyntaxException e)
+        {
+            DebugLogger.error("Error decoding JSON");
+        }
         return deserialized;
     }
     
@@ -362,6 +507,50 @@ public class WorkoutListTemplate
             settings.setSettingsValueInt("hrzone/"+zone.toLowerCase()+"/min", hrZoneValue.hrMin);
             settings.setSettingsValueInt("hrzone/"+zone.toLowerCase()+"/max", hrZoneValue.hrMax);
         }
+    }
+    
+    /**
+     * This method performs consistency checks on the content in this template 
+     * @return True if valid
+     */
+    public boolean isValid()
+    {
+        boolean             valid=true;
+        Iterator<String>    it;
+        HrZoneTemplate      previousHrZone;
+        HrZoneTemplate      hrZone;
+        
+        if (hrZones.size()!=5)
+        {
+            DebugLogger.error("Checking validity of WorkoutListTemplate: Illegal number of HR Zones");
+            valid=false;
+        }
+        else
+        {
+            it=hrZones.keySet().iterator();
+            previousHrZone=null;
+            while (it.hasNext())
+            {
+                hrZone=hrZones.get(it.next());
+                if (hrZone.hrMax<hrZone.hrMin)
+                {
+                    DebugLogger.error("Checking validity of WorkoutListTemplate: Invalid HR Zone - hrMax<hrMin");
+                    valid=false;
+                }
+                if (previousHrZone!=null && hrZone.hrMin!=previousHrZone.hrMax+1)
+                {
+                    DebugLogger.error("Checking validity of WorkoutListTemplate: Invalid HR Zone");
+                    valid=false;
+                }
+                previousHrZone=hrZone;
+            }
+        }
+        for(WorkoutTemplate workout : this.workouts)
+        {
+            valid&=workout.isValid();
+        }
+        
+        return valid;
     }
     
 }

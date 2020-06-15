@@ -118,6 +118,9 @@ public class WorkoutListTemplateTest
         assertNull(step.hrZone);
         assertEquals(240, (int)step.pace);
         assertNull(step.speed);
+        
+        instance=WorkoutListTemplate.fromJson("dummy");
+        assertNull(instance);
 
     }
     
@@ -367,5 +370,60 @@ public class WorkoutListTemplateTest
         assertEquals("hrzone/peak/max", stringCaptor.getAllValues().get(9));
         assertEquals(192L, longCaptor.getAllValues().get(9).longValue());
     }   
+    
+    @Test
+    public void testIsValid() throws IOException
+    {
+        WorkoutListTemplate instance;
+        String              json;
+        
+        System.out.println("isValid");
+        instance=WorkoutListTemplate.fromJson("{}");
+        assertEquals(true, instance.isValid());
+        
+        instance=WorkoutListTemplate.fromJson("{}");
+        instance.getHrZones().get("peak").hrMin=174;
+        assertEquals(false, instance.isValid());
+
+        instance=WorkoutListTemplate.fromJson("{}");
+        instance.getHrZones().get("peak").hrMax=172;
+        assertEquals(false, instance.isValid());
+        
+        json = new String(Files.readAllBytes((new File("src/test/resources/testworkouts.json")).toPath()));   
+        instance=WorkoutListTemplate.fromJson(json);     
+        assertEquals(true, instance.isValid());
+
+        json = new String(Files.readAllBytes((new File("src/test/resources/testworkouts-valid.json")).toPath()));   
+        instance=WorkoutListTemplate.fromJson(json);     
+        assertEquals(true, instance.isValid());
+
+        json = new String(Files.readAllBytes((new File("src/test/resources/testworkouts-invalid1.json")).toPath()));   
+        instance=WorkoutListTemplate.fromJson(json);     
+        assertEquals(false, instance.isValid());
+
+        json = new String(Files.readAllBytes((new File("src/test/resources/testworkouts-invalid2.json")).toPath()));   
+        instance=WorkoutListTemplate.fromJson(json);     
+        assertEquals(false, instance.isValid());
+
+        json = new String(Files.readAllBytes((new File("src/test/resources/testworkouts-invalid3.json")).toPath()));   
+        instance=WorkoutListTemplate.fromJson(json);     
+        assertEquals(false, instance.isValid());
+
+        json = new String(Files.readAllBytes((new File("src/test/resources/testworkouts-invalid4.json")).toPath()));   
+        instance=WorkoutListTemplate.fromJson(json);     
+        assertEquals(false, instance.isValid());
+
+        json = new String(Files.readAllBytes((new File("src/test/resources/testworkouts-invalid5.json")).toPath()));   
+        instance=WorkoutListTemplate.fromJson(json);     
+        assertEquals(false, instance.isValid());
+
+        json = new String(Files.readAllBytes((new File("src/test/resources/testworkouts-invalid6.json")).toPath()));   
+        instance=WorkoutListTemplate.fromJson(json);     
+        assertEquals(false, instance.isValid());
+
+        json = new String(Files.readAllBytes((new File("src/test/resources/testworkouts-invalid7.json")).toPath()));   
+        instance=WorkoutListTemplate.fromJson(json);     
+        assertEquals(false, instance.isValid());
+    }
             
 }
