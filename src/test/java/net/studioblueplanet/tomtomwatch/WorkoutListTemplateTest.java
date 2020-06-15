@@ -393,10 +393,6 @@ public class WorkoutListTemplateTest
         instance=WorkoutListTemplate.fromJson(json);     
         assertEquals(true, instance.isValid());
 
-        json = new String(Files.readAllBytes((new File("src/test/resources/testworkouts-valid.json")).toPath()));   
-        instance=WorkoutListTemplate.fromJson(json);     
-        assertEquals(true, instance.isValid());
-
         json = new String(Files.readAllBytes((new File("src/test/resources/testworkouts-invalid1.json")).toPath()));   
         instance=WorkoutListTemplate.fromJson(json);     
         assertEquals(false, instance.isValid());

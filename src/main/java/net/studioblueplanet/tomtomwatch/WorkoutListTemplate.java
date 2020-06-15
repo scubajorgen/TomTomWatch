@@ -405,10 +405,10 @@ public class WorkoutListTemplate
                 switch (step.length)
                 {
                     case DISTANCE:
-                        stepToAdd.setExtentDistance(step.distance);
+                        stepToAdd.setExtentDistance(step.distance*1000);    // m to mm
                         break;
                     case TIME:
-                        stepToAdd.setExtentDuration(step.time);
+                        stepToAdd.setExtentDuration(step.time);             // sec
                         break;
                     case REACHHRZONE:
                         stepToAdd.setExtentReachHrZone(step.reachHrZone);
