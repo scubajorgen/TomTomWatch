@@ -6,6 +6,7 @@
 package net.studioblueplanet.tomtomwatch;
 
 import net.studioblueplanet.tomtomwatch.Workout.WorkoutType;
+import net.studioblueplanet.tomtomwatch.Workout.IntensityLevel;
 /**
  * This class represents the metadata of a workout as present in the 
  * 0x00BE0000 file. Basically, ID, name, description and some type info.
@@ -65,60 +66,6 @@ public class WorkoutListItem implements Comparable<WorkoutListItem>
         }
     }
 
-    public enum IntensityLevel
-    {
-        EASIEST  (19, "Easiest"),
-        EASIER   ( 9, "Easier"),
-        STANDARD ( 0, "Standard"),
-        HARDER   (10, "Harder"),
-        HARDEST  (20, "Hardest");
-
-        private final int       value;
-        private final String    description;
-
-        /**
-         * Constructor
-         * @param value Enum value
-         */
-        IntensityLevel(int value, String description)
-        {
-            this.value          =value;
-            this.description    =description;
-        }
-
-        /**
-         * Returns the value of this enum entry
-         * @return The value
-         */
-        public int getValue()
-        {
-            return value;
-        }
-        
-        /**
-         * Get the enum based on the enum value passed
-         * @param value Enum value
-         * @return The enum or null if not found
-         */
-        public static IntensityLevel getIntensityLevel(int value)
-        {
-            for (IntensityLevel level : IntensityLevel.values())
-            {
-                if (level.value == value)
-                {
-                    return level;
-                }
-            }
-            return null;
-        }
-        
-        @Override
-        public String toString()
-        {
-            return description;
-        }
-    }
-    
     private final int           fileId;
     private final String        workoutName;
     private final String        workoutDescription;

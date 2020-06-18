@@ -1,0 +1,140 @@
+{
+  "hrZones": {
+    "easy": {
+      "hrMin": 96,
+      "hrMax": 114
+    },
+    "fatburn": {
+      "hrMin": 115,
+      "hrMax": 133
+    },
+    "cardio": {
+      "hrMin": 134,
+      "hrMax": 153
+    },
+    "perform": {
+      "hrMin": 154,
+      "hrMax": 172
+    },
+    "peak": {
+      "hrMin": 173,
+      "hrMax": 192
+    }
+  },
+  "workouts": [
+    {
+      "fileId": "0x00be0001",
+      "name": "Test workout 1",
+      "description": "Test description",
+      "activity": "CYCLING",
+      "type": "POWER",
+      "intensityLevel": "HARDEST",
+      "steps": [
+        {
+          "name": "Step 1",
+          "description": "Step 1",
+          "type": "WARMUP",
+          "length": "TIME",
+          "time": 60,
+          "intensity": "HRZONE",
+          "hrZone": "CARDIO"
+        }
+      ]
+    },
+    {
+        "fileId": "0x00be0002",
+        "name": "Test workout 2",
+        "description": "Test description",
+        "activity": "CYCLING",
+        "type": "POWER",
+        "intensityLevel": "HARDEST",
+        "steps": [
+          {
+            "name": "Step 1",
+            "description": "Step 1",
+            "type": "WARMUP",
+            "length": "TIME",
+            "time": 60,
+            "intensity": "HRZONE",
+            "hrZone": "CARDIO"
+          }
+        ]
+      },
+      {
+        "fileId": "0x00be0003",
+        "name": "Test workout 3",
+        "description": "Test description",
+        "activity": "CYCLING",
+        "type": "POWER",
+        "intensityLevel": "HARDEST",
+        "steps": [
+          {
+            "name": "Step 1",
+            "description": "Step 1",
+            "type": "WARMUP",
+            "length": "TIME",
+            "time": 60,
+            "intensity": "HRZONE",
+            "hrZone": "CARDIO"
+          }
+        ]
+      },
+      {
+        "fileId": "0x00be0004",
+        "name": "Test workout 4",
+        "description": "Test description",
+        "activity": "CYCLING",
+        "type": "POWER",
+        "intensityLevel": "HARDEST",
+        "steps": [
+          {
+            "name": "Step 1",
+            "description": "Step 1",
+            "type": "WARMUP",
+            "length": "TIME",
+            "time": 60,
+            "intensity": "HRZONE",
+            "hrZone": "CARDIO"
+          }
+        ]
+      },
+      {
+        "fileId": "0x00be0005",
+        "name": "Test workout 5",
+        "description": "Test description",
+        "activity": "CYCLING",
+        "type": "POWER",
+        "intensityLevel": "HARDEST",
+        "steps": [
+          {
+            "name": "Step 1",
+            "description": "Step 1",
+            "type": "WARMUP",
+            "length": "TIME",
+            "time": 60,
+            "intensity": "HRZONE",
+            "hrZone": "CARDIO"
+          }
+        ]
+      },
+      {
+        "fileId": "0x00be0006",
+        "name": "Test workout 6",
+        "description": "Test description",
+        "activity": "CYCLING",
+        "type": "POWER",
+        "intensityLevel": "HARDEST",
+        "steps": [
+          {
+            "name": "Step 1",
+            "description": "Step 1",
+            "type": "WARMUP",
+            "length": "TIME",
+            "time": 60,
+            "intensity": "HRZONE",
+            "hrZone": "CARDIO"
+          }
+        ]
+      }
+  ]
+}

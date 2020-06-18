@@ -13,7 +13,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 import net.studioblueplanet.tomtomwatch.WorkoutListItem.ActivityType;
-import net.studioblueplanet.tomtomwatch.WorkoutListItem.IntensityLevel;
+import net.studioblueplanet.tomtomwatch.Workout.IntensityLevel;
 
 /**
  *

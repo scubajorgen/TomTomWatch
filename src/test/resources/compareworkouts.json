@@ -46,19 +46,19 @@
     {
       "fileId": "0x00be0002",
       "workoutId": "a55fe1980a7157a495eb36fc77b544a3",
-      "workoutMd5": "545cd4ce9e14a6e1486b7a3f0fe1e084",
+      "workoutMd5": "8e481c6a7df2228eebf88f9ed259db1b",
       "name": "★☆☆30 min",
       "description": "Introductory workout keeping within the Fat Burn HR zone",
       "activity": "CYCLING",
       "type": "FATBURN",
-      "intensityLevel": "STANDARD",
+      "intensityLevel": "HARDEST",
       "steps": [
         {
           "name": "Work",
           "description": "Get into the Fat Burn HR zone",
           "type": "WORK",
           "length": "TIME",
-          "time": 1800,
+          "time": 1980,
           "intensity": "HRZONE",
           "hrZone": "FATBURN"
         }

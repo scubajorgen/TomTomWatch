@@ -27,7 +27,7 @@ import net.studioblueplanet.tomtomwatch.WorkoutStep.ExtentType;
 import net.studioblueplanet.tomtomwatch.WorkoutStep.IntensityType;
 import net.studioblueplanet.tomtomwatch.WorkoutStep.StepType;
 import net.studioblueplanet.tomtomwatch.WorkoutListItem.ActivityType;
-import net.studioblueplanet.tomtomwatch.WorkoutListItem.IntensityLevel;
+import net.studioblueplanet.tomtomwatch.Workout.IntensityLevel;
 
 import org.mockito.ArgumentCaptor;
 import static org.mockito.Matchers.any;
@@ -166,10 +166,6 @@ public class WorkoutListTemplateTest
         
         // Read expected result
         String expected = new String(Files.readAllBytes((new File("src/test/resources/compareworkouts.json")).toPath()),"UTF-8").replace("\r\n", "\n");
-        
-        System.out.println(expected);
-        System.out.println(result);
-        
         assertEquals(expected, result);
     }
     
@@ -206,14 +202,16 @@ public class WorkoutListTemplateTest
         assertEquals("885785DF42E95378A4CA3F848280C12D", workout.workoutId.toUpperCase());
         assertEquals(ActivityType.RUNNING, workout.activity);
         assertEquals(WorkoutType.FATBURN, workout.type);
+        assertEquals(IntensityLevel.STANDARD, workout.intensityLevel);
 
         workout=workouts.get(1);
+        assertEquals(IntensityLevel.HARDEST, workout.intensityLevel);
         assertEquals(1, workout.steps.size());
         StepTemplate step=workout.steps.get(0);
         assertEquals("Work", step.name);
         assertEquals("Get into the Fat Burn HR zone", step.description);
         assertEquals(ExtentType.TIME, step.length);
-        assertEquals(1800, (int)step.time);
+        assertEquals(1980, (int)step.time);
         assertNull(step.distance);
         assertNull(step.reachHrZone);
         assertEquals(IntensityType.HRZONE, step.intensity);
@@ -240,15 +238,17 @@ public class WorkoutListTemplateTest
         
         assertEquals("Test workout 1", item.getWorkoutName());
         assertEquals("Test description", item.getWorkoutDescription());
-        assertArrayEquals(ToolBox.hexStringToBytes("300e36e75864177407ae95270f99b958", 16), item.getWorkoutMd5());
+        assertArrayEquals(ToolBox.hexStringToBytes("89d9ed257a91a4c0f152e203d45e43db", 16), item.getWorkoutMd5());
         assertEquals(WorkoutType.POWER, item.getWorkoutType());
         assertEquals(0x00BE0002, item.getFileId());
         assertEquals(ActivityType.CYCLING, item.getActivity());
+        assertEquals(IntensityLevel.HARDEST, item.getIntensityLevel());
 
         assertEquals("Test workout 1", workout.getWorkoutName());
         assertArrayEquals(ToolBox.hexStringToBytes("12345678123456781234567812345681", 16), workout.getWorkoutUid());
         assertEquals(WorkoutType.POWER, workout.getWorkoutType());
         assertEquals(2, workout.getUnknown11());
+        assertEquals(IntensityLevel.HARDEST, item.getIntensityLevel());
         
         item=itemList.get(0);
         workout=result.getWorkout(item);
@@ -279,11 +279,20 @@ public class WorkoutListTemplateTest
         WorkoutListTemplate instance;
         WorkoutList         workoutList;
         byte[]              data;
+        String              json;
+        String              result;
+        
         System.out.println("fromToJson Roundtrip");
-        String json = new String(Files.readAllBytes((new File("src/test/resources/testworkouts.json")).toPath())).replace("\r\n", "\n");   
+        json = new String(Files.readAllBytes((new File("src/test/resources/testworkouts.json")).toPath())).replace("\r\n", "\n");   
         instance=WorkoutListTemplate.fromJson(json);
-        String result=instance.toJson();
+        result=instance.toJson();
         assertEquals(json, result);
+
+        json = new String(Files.readAllBytes((new File("src/test/resources/testworkouts-fullmonty.json")).toPath())).replace("\r\n", "\n");   
+        instance=WorkoutListTemplate.fromJson(json);
+        result=instance.toJson();
+        assertEquals(json, result);
+
     }
 
     @Test
@@ -423,6 +432,10 @@ public class WorkoutListTemplateTest
         json = new String(Files.readAllBytes((new File("src/test/resources/testworkouts-invalid7.json")).toPath()));   
         instance=WorkoutListTemplate.fromJson(json);     
         assertEquals("No hrZone specified for HRZONE intensity step", instance.validate());
+
+        json = new String(Files.readAllBytes((new File("src/test/resources/testworkouts-invalid8.json")).toPath()));   
+        instance=WorkoutListTemplate.fromJson(json);     
+        assertEquals("More than 5 workouts are defined for CYCLING, POWER", instance.validate());
     }
             
 }

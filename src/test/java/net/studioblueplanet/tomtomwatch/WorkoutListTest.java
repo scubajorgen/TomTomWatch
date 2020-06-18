@@ -17,6 +17,10 @@ import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.List;
 
+import net.studioblueplanet.tomtomwatch.Workout.IntensityLevel;
+import net.studioblueplanet.tomtomwatch.Workout.WorkoutType;
+import net.studioblueplanet.tomtomwatch.WorkoutListItem.ActivityType;
+
 /**
  *
  * @author jorgen
@@ -100,9 +104,9 @@ public class WorkoutListTest
         assertEquals(0x00be0023, item.getFileId());
         assertEquals("★★★60 min", item.getWorkoutName());
         assertEquals("Workout alternating between comfortable and medium and hard efforts", item.getWorkoutDescription());
-        assertEquals(WorkoutListItem.ActivityType.CYCLING, item.getActivity());
-        assertEquals(Workout.WorkoutType.ENDURANCE, item.getWorkoutType());
-        assertEquals(WorkoutListItem.IntensityLevel.STANDARD, item.getIntensityLevel());
+        assertEquals(ActivityType.CYCLING, item.getActivity());
+        assertEquals(WorkoutType.ENDURANCE, item.getWorkoutType());
+        assertEquals(IntensityLevel.STANDARD, item.getIntensityLevel());
         assertEquals(0, item.getUnknown8());
         assertEquals(617, item.fileSize());
         assertEquals(2, item.getUnknown12());

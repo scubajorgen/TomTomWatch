@@ -18,7 +18,7 @@ import net.studioblueplanet.generics.ToolBox;
 import net.studioblueplanet.logger.DebugLogger;
 
 import net.studioblueplanet.tomtomwatch.Workout.WorkoutType;
-import net.studioblueplanet.tomtomwatch.WorkoutListItem.IntensityLevel;
+import net.studioblueplanet.tomtomwatch.Workout.IntensityLevel;
 import net.studioblueplanet.tomtomwatch.WorkoutListItem.ActivityType;
 import net.studioblueplanet.tomtomwatch.WorkoutStep.StepType;
 import net.studioblueplanet.tomtomwatch.WorkoutStep.HrZone;
@@ -380,6 +380,7 @@ public class WorkoutListTemplate
                 workoutId=ToolBox.getUUID();
             }
             workoutToAdd.setWorkoutUid(workoutId);
+            workoutToAdd.setIntensityLevel(workout.intensityLevel);
             
             int stepCount=0;
             for (StepTemplate step : workout.steps)
@@ -426,6 +427,7 @@ public class WorkoutListTemplate
             
             WorkoutListItem itemToAdd=new WorkoutListItem(fileId, workout.name, workout.description, workout.activity, workout.type);
             itemToAdd.setFileSize(workoutToAdd.getWorkoutDataLength());
+            itemToAdd.setIntensityLevel(workout.intensityLevel);
         
             itemToAdd.setWorkoutId(workoutId);
             calculatedMd5=workoutToAdd.getWorkoutMd5Hash();
@@ -493,6 +495,30 @@ public class WorkoutListTemplate
     }
     
     /**
+     * Counts the workouts of given activity and type
+     * @param activity The activity of the workout to filter
+     * @param type The type of the workout to filter
+     * @return Number of workouts of given type and activity
+     */
+    private int countWorkouts(ActivityType activity, WorkoutType type)
+    {
+        int                         count;
+        Iterator<WorkoutTemplate>   it;
+        WorkoutTemplate             workout;
+        count=0;
+        it=workouts.iterator();
+        while (it.hasNext())
+        {
+            workout=it.next();
+            if (workout.activity==activity && workout.type==type)
+            {
+                count++;
+            }
+        }
+        return count;
+    }
+    
+    /**
      * This method performs consistency checks on the content in this template 
      * @return A string indicating 'OK' if valid, else the reason for invalidity
      */
@@ -528,6 +554,16 @@ public class WorkoutListTemplate
                 previousHrZone=hrZone;
             }
         }
+        for (ActivityType activity : ActivityType.values())
+        { 
+            for (WorkoutType type : WorkoutType.values())
+            { 
+                if (countWorkouts(activity, type)>5)
+                {
+                    valid=String.format("More than 5 workouts are defined for %s, %s", activity.toString(), type.toString());
+                }
+            }
+        }        
         workoutIt=workouts.iterator();
         while (workoutIt.hasNext() && valid.equals("OK"))
         {

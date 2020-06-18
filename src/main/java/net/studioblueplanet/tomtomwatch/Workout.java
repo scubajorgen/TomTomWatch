@@ -22,7 +22,7 @@ import java.util.Iterator;
 public class Workout
 {
     /**
-     * Class of the workout
+     * Class or type of the workout
      */
     public enum WorkoutType
     {
@@ -78,6 +78,63 @@ public class Workout
             return description;
         }
     }
+
+    /**
+     * Indicates the intensity level of the workout
+     */
+    public enum IntensityLevel
+    {
+        EASIEST  (19, "Easiest"),
+        EASIER   ( 9, "Easier"),
+        STANDARD ( 0, "Standard"),
+        HARDER   (10, "Harder"),
+        HARDEST  (20, "Hardest");
+
+        private final int       value;
+        private final String    description;
+
+        /**
+         * Constructor
+         * @param value Enum value
+         */
+        IntensityLevel(int value, String description)
+        {
+            this.value          =value;
+            this.description    =description;
+        }
+
+        /**
+         * Returns the value of this enum entry
+         * @return The value
+         */
+        public int getValue()
+        {
+            return value;
+        }
+        
+        /**
+         * Get the enum based on the enum value passed
+         * @param value Enum value
+         * @return The enum or null if not found
+         */
+        public static IntensityLevel getIntensityLevel(int value)
+        {
+            for (IntensityLevel level : IntensityLevel.values())
+            {
+                if (level.value == value)
+                {
+                    return level;
+                }
+            }
+            return null;
+        }
+        
+        @Override
+        public String toString()
+        {
+            return description;
+        }
+    }
     
     private static final int MANUFACTURER_ID   =0x1234DAEB;
     private static final int FILEID_WORKOUT    =0x00090100;
@@ -90,6 +147,7 @@ public class Workout
     private int                                 workoutDescriptionId=1;
     private int                                 unknown11=2;
     private final HashMap<Integer, WorkoutStep> workoutSteps;
+    private IntensityLevel                      intensityLevel;
 
     /**
      * Constructor, initializes the instance
@@ -98,6 +156,7 @@ public class Workout
     {
         workoutSteps        = new HashMap<>();
         workoutDescriptions = new WorkoutDescriptions();
+        intensityLevel      =IntensityLevel.STANDARD;
     }
 
     /**
@@ -256,6 +315,26 @@ public class Workout
     }
 
     /**
+     * Get the intensity level of the workout
+     * @return The intensity level (HARDEST, HARDER, STANDARD, EASIER, EASIEST)
+     */
+    public IntensityLevel getIntensityLevel()
+    {
+        return intensityLevel;
+    }
+
+    /**
+     * Sets the intensity level of the workout
+     * @param intensityLevel The intensity level
+     */
+    public void setIntensityLevel(IntensityLevel intensityLevel)
+    {
+        this.intensityLevel = intensityLevel;
+    }
+
+    
+    
+    /**
      * Returns the list of steps that make up the workout
      * @return List of steps
      */
@@ -394,7 +473,10 @@ public class Workout
              WorkoutStep step = workoutSteps.get(key);  //get() is less efficient 
              builder.addStep(buildWorkoutStep(key, step));
         }
-        // TO DO: add workout intensitylevel if not standard
+        if (intensityLevel!=IntensityLevel.STANDARD)
+        {
+            builder.setIntensityLevel(intensityLevel.getValue());
+        }
         return builder.build();
     }
     

@@ -14,9 +14,9 @@ import java.util.List;
 import java.util.LinkedHashMap;
 import net.studioblueplanet.logger.DebugLogger;
 
+import net.studioblueplanet.tomtomwatch.Workout.IntensityLevel;
 import net.studioblueplanet.tomtomwatch.Workout.WorkoutType;
 import net.studioblueplanet.tomtomwatch.WorkoutListItem.ActivityType;
-import net.studioblueplanet.tomtomwatch.WorkoutListItem.IntensityLevel;
 import net.studioblueplanet.tomtomwatch.WorkoutStep.HrZone;
 import net.studioblueplanet.tomtomwatch.WorkoutStep.StepType;
 
@@ -178,6 +178,12 @@ public class WorkoutList
             workout.setWorkoutUid(protoWorkout.getWorkoutId().toByteArray());
             workout.setWorkoutType(WorkoutType.getWorkoutType(protoWorkout.getType()));
             workout.setUnknown11(protoWorkout.getUnknown11());
+            
+            if (protoWorkout.hasIntensityLevel())
+            {
+                workout.setIntensityLevel(IntensityLevel.getIntensityLevel(protoWorkout.getIntensityLevel()));
+            }
+            
             workoutSteps=protoWorkout.getStepList();
             for (WorkoutProto.WorkoutStep stepContainer : workoutSteps)
             {
