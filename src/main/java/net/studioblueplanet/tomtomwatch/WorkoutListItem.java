@@ -273,7 +273,7 @@ public class WorkoutListItem implements Comparable<WorkoutListItem>
     {
         String outputString;
         outputString="____________________________________________________________________________________________________\n";
-        outputString+=String.format("%s - %08x - %-10s - %s\n", activity, fileId, workoutType, workoutName);
+        outputString+=String.format("%s - %08x - %-10s - %s - intensity: %s\n", activity, fileId, workoutType, workoutName, intensityLevel);
         outputString+=workoutDescription+"\n";
         return outputString;
     }

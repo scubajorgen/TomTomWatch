@@ -166,10 +166,10 @@ public class WorkoutListTest
         byte[] data = Files.readAllBytes((new File("src/test/resources/0x00be0000.bin")).toPath());
         instance.createWorkoutListFromData(data);
         String expResult = "____________________________________________________________________________________________________\n";
-        expResult +=String.format("%s - %08x - %-10s - %s\n", "RUNNING", 0x00be0001, "FAT BURN", "★☆☆30 min");
+        expResult +=String.format("%s - %08x - %-10s - %s\n", "RUNNING", 0x00be0001, "FAT BURN", "★☆☆30 min - intensity: Standard");
         expResult +="Keep going and stay in the Fat Burn HR zone for the entire time\n";
         expResult += "____________________________________________________________________________________________________\n";
-        expResult +=String.format("%s - %08x - %-10s - %s\n", "CYCLING", 0x00be0002, "FAT BURN", "★☆☆30 min");
+        expResult +=String.format("%s - %08x - %-10s - %s\n", "CYCLING", 0x00be0002, "FAT BURN", "★☆☆30 min - intensity: Hardest");
         expResult +="Introductory workout keeping within the Fat Burn HR zone\n";
         String result = instance.toString();
         assertEquals(expResult, result);

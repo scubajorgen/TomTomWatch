@@ -1168,10 +1168,10 @@ public class CommunicationProcessTest
         verify(theView, times(2)).setStatus(stringCaptor.capture());
         
         String expected="____________________________________________________________________________________________________\n"+
-                        "RUNNING - 00be0001 - FAT BURN   - ★☆☆30 min\n"+
+                        "RUNNING - 00be0001 - FAT BURN   - ★☆☆30 min - intensity: Standard\n"+
                         "Keep going and stay in the Fat Burn HR zone for the entire time\n"+
                         "____________________________________________________________________________________________________\n"+
-                        "CYCLING - 00be0002 - FAT BURN   - ★☆☆30 min\n"+
+                        "CYCLING - 00be0002 - FAT BURN   - ★☆☆30 min - intensity: Hardest\n"+
                         "Introductory workout keeping within the Fat Burn HR zone\n";  
         assertEquals(expected, stringCaptor.getAllValues().get(1));
     }

@@ -240,7 +240,7 @@ public class WorkoutListItemTest
     {
         System.out.println("toString");
         String expResult = "____________________________________________________________________________________________________\n";
-        expResult+=String.format("%s - %08x - %-10s - %s\n", WorkoutListItem.ActivityType.CYCLING, 0x00BE0012, Workout.WorkoutType.ENDURANCE, "Name");
+        expResult+=String.format("%s - %08x - %-10s - %s - intensity: %s\n", WorkoutListItem.ActivityType.CYCLING, 0x00BE0012, Workout.WorkoutType.ENDURANCE, "Name", "Standard");
         expResult+="Description\n";
         String result = theInstance.toString();
         assertEquals(expResult, result);
