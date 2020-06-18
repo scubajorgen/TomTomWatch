@@ -24,7 +24,6 @@
   "workouts": [
     {
       "fileId": "0x00be0001",
-      "listId": "12345678123456781234567812345678",
       "workoutId": "12345678123456781234567812345679",
       "name": "Test workout",
       "description": "Test description",
@@ -70,7 +69,6 @@
     },
     {
       "fileId": "0x00be0002",
-      "listId": "12345678123456781234567812345680",
       "workoutId": "12345678123456781234567812345681",
       "name": "Test workout 1",
       "description": "Test description",

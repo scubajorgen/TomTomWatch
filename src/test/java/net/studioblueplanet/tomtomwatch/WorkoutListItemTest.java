@@ -116,8 +116,8 @@ public class WorkoutListItemTest
     {
         System.out.println("set/getId");
         byte[] expResult = javax.xml.bind.DatatypeConverter.parseHexBinary("E1E198719FF62F4000D051B02F8AE1F1");
-        theInstance.setId(expResult);
-        byte[] result = theInstance.getId();
+        theInstance.setWorkoutMd5(expResult);
+        byte[] result = theInstance.getWorkoutMd5();
         assertArrayEquals(expResult, result);
     }
 

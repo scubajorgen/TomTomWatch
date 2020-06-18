@@ -175,8 +175,8 @@ public class WorkoutList
             protoWorkout=data.getWorkout();
             workout.setWorkoutName(protoWorkout.getName());
             workout.setWorkoutDescription(protoWorkout.getDescription());
-            workout.setId(protoWorkout.getId().toByteArray());
-            workout.setWorkoutType(WorkoutType.getWorkoutClass(protoWorkout.getType()));
+            workout.setWorkoutUid(protoWorkout.getWorkoutId().toByteArray());
+            workout.setWorkoutType(WorkoutType.getWorkoutType(protoWorkout.getType()));
             workout.setUnknown11(protoWorkout.getUnknown11());
             workoutSteps=protoWorkout.getStepList();
             for (WorkoutProto.WorkoutStep stepContainer : workoutSteps)
@@ -266,9 +266,9 @@ public class WorkoutList
             name        =workoutListDescriptions.findDescription(item.getItemName());
             description =workoutListDescriptions.findDescription(item.getItemDescription());
             activity    =ActivityType.getActivityType(item.getActivity());
-            workoutType=WorkoutType.getWorkoutClass(item.getType());
+            workoutType=WorkoutType.getWorkoutType(item.getType());
             listItem=new WorkoutListItem(fileId, name, description, activity, workoutType);
-            listItem.setId(item.getId().toByteArray());
+            listItem.setWorkoutMd5(item.getWorkoutMd5().toByteArray());
             listItem.setWorkoutId(item.getWorkoutId().toByteArray());
             listItem.setIntensityLevel(IntensityLevel.getIntensityLevel(item.getIntensityLevel()));
             listItem.setUnknown8(item.getUnknown8());
@@ -458,7 +458,7 @@ public class WorkoutList
         WorkoutProto.WorkoutListItem.Builder builder;
         
         builder=WorkoutProto.WorkoutListItem.newBuilder();
-        builder.setId(ByteString.copyFrom(item.getId()));
+        builder.setWorkoutMd5(ByteString.copyFrom(item.getWorkoutMd5()));
         builder.setWorkoutId(ByteString.copyFrom(item.getWorkoutId()));
         builder.setActivity(item.getActivity().getValue());
         builder.setItemName(findDescriptionIndex(item.getWorkoutName()));

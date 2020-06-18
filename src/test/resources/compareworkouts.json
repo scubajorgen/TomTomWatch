@@ -1,31 +1,31 @@
 {
   "hrZones": {
     "easy": {
-      "hrMin": 96,
-      "hrMax": 114
+      "hrMin": 87,
+      "hrMax": 104
     },
     "fatburn": {
-      "hrMin": 115,
-      "hrMax": 133
+      "hrMin": 105,
+      "hrMax": 122
     },
     "cardio": {
-      "hrMin": 134,
-      "hrMax": 153
+      "hrMin": 123,
+      "hrMax": 139
     },
     "perform": {
-      "hrMin": 154,
-      "hrMax": 172
+      "hrMin": 140,
+      "hrMax": 157
     },
     "peak": {
-      "hrMin": 173,
-      "hrMax": 192
+      "hrMin": 158,
+      "hrMax": 174
     }
   },
   "workouts": [
     {
       "fileId": "0x00be0001",
-      "listId": "e05b453335ec210a59130562cc3e5190",
       "workoutId": "885785df42e95378a4ca3f848280c12d",
+      "workoutMd5": "e05b453335ec210a59130562cc3e5190",
       "name": "★☆☆30 min",
       "description": "Keep going and stay in the Fat Burn HR zone for the entire time",
       "activity": "RUNNING",
@@ -45,8 +45,8 @@
     },
     {
       "fileId": "0x00be0002",
-      "listId": "545cd4ce9e14a6e1486b7a3f0fe1e084",
       "workoutId": "a55fe1980a7157a495eb36fc77b544a3",
+      "workoutMd5": "545cd4ce9e14a6e1486b7a3f0fe1e084",
       "name": "★☆☆30 min",
       "description": "Introductory workout keeping within the Fat Burn HR zone",
       "activity": "CYCLING",

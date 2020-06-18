@@ -43,7 +43,8 @@ import static org.mockito.Mockito.when;
  */
 public class WorkoutListTemplateTest
 {
-    
+    WatchSettings settings;
+        
     public WorkoutListTemplateTest()
     {
     }
@@ -61,6 +62,21 @@ public class WorkoutListTemplateTest
     @Before
     public void setUp()
     {
+        settings     = mock(WatchSettings.class);
+        when(settings.getSettingsValueInt("hrzone/easy/min")).thenReturn(87L);
+        when(settings.getSettingsValueInt("hrzone/easy/max")).thenReturn(104L);
+        
+        when(settings.getSettingsValueInt("hrzone/fatburn/min")).thenReturn(105L);
+        when(settings.getSettingsValueInt("hrzone/fatburn/max")).thenReturn(122L);
+        
+        when(settings.getSettingsValueInt("hrzone/cardio/min")).thenReturn(123L);
+        when(settings.getSettingsValueInt("hrzone/cardio/max")).thenReturn(139L);
+        
+        when(settings.getSettingsValueInt("hrzone/perform/min")).thenReturn(140L);
+        when(settings.getSettingsValueInt("hrzone/perform/max")).thenReturn(157L);
+        
+        when(settings.getSettingsValueInt("hrzone/peak/min")).thenReturn(158L);
+        when(settings.getSettingsValueInt("hrzone/peak/max")).thenReturn(174L);
     }
     
     @After
@@ -99,7 +115,6 @@ public class WorkoutListTemplateTest
         assertEquals("0x00be0001", workout.fileId);
         assertEquals("Test workout", workout.name);
         assertEquals("Test description", workout.description);
-        assertEquals("12345678123456781234567812345678", workout.listId.toUpperCase());
         assertEquals("12345678123456781234567812345679", workout.workoutId.toUpperCase());
         assertEquals(ActivityType.RUNNING, workout.activity);
         assertEquals(WorkoutType.FITNESS, workout.type);
@@ -135,6 +150,7 @@ public class WorkoutListTemplateTest
         // Populate a workout list with workout items and workouts
         workoutList = new WorkoutList();
         boolean expResult = false;
+
         data = Files.readAllBytes((new File("src/test/resources/0x00be0000.bin")).toPath());
         workoutList.createWorkoutListFromData(data);
         data = Files.readAllBytes((new File("src/test/resources/0x00be0001.bin")).toPath());
@@ -145,10 +161,15 @@ public class WorkoutListTemplateTest
 
         // Convert to JSON
         instance=WorkoutListTemplate.fromWorkoutList(workoutList);
+        instance.setHrZonesFromSettings(settings);
         String result=instance.toJson();
         
         // Read expected result
         String expected = new String(Files.readAllBytes((new File("src/test/resources/compareworkouts.json")).toPath()),"UTF-8").replace("\r\n", "\n");
+        
+        System.out.println(expected);
+        System.out.println(result);
+        
         assertEquals(expected, result);
     }
     
@@ -182,7 +203,6 @@ public class WorkoutListTemplateTest
         assertEquals("0x00be0001", workout.fileId);
         assertEquals("★☆☆30 min", workout.name);
         assertEquals("Keep going and stay in the Fat Burn HR zone for the entire time", workout.description);
-        assertEquals("E05B453335EC210A59130562CC3E5190", workout.listId.toUpperCase());
         assertEquals("885785DF42E95378A4CA3F848280C12D", workout.workoutId.toUpperCase());
         assertEquals(ActivityType.RUNNING, workout.activity);
         assertEquals(WorkoutType.FATBURN, workout.type);
@@ -220,13 +240,13 @@ public class WorkoutListTemplateTest
         
         assertEquals("Test workout 1", item.getWorkoutName());
         assertEquals("Test description", item.getWorkoutDescription());
-        assertArrayEquals(ToolBox.hexStringToBytes("12345678123456781234567812345680", 16), item.getId());
+        assertArrayEquals(ToolBox.hexStringToBytes("300e36e75864177407ae95270f99b958", 16), item.getWorkoutMd5());
         assertEquals(WorkoutType.POWER, item.getWorkoutType());
         assertEquals(0x00BE0002, item.getFileId());
         assertEquals(ActivityType.CYCLING, item.getActivity());
 
         assertEquals("Test workout 1", workout.getWorkoutName());
-        assertArrayEquals(ToolBox.hexStringToBytes("12345678123456781234567812345681", 16), workout.getId());
+        assertArrayEquals(ToolBox.hexStringToBytes("12345678123456781234567812345681", 16), workout.getWorkoutUid());
         assertEquals(WorkoutType.POWER, workout.getWorkoutType());
         assertEquals(2, workout.getUnknown11());
         
@@ -246,6 +266,11 @@ public class WorkoutListTemplateTest
         assertEquals(HrZone.FATBURN, step.getExtentReachHrZone());
         assertEquals(-1, step.getExtentDistance());
         assertEquals(-1, step.getExtentTime());
+
+        // Check if the ID in the itemlist corresponds to the ID in the workout
+        item=itemList.get(1);
+        workout=result.getWorkout(item);
+        assertArrayEquals(item.getWorkoutId(), workout.getWorkoutUid());
     }
 
     @Test 
@@ -309,30 +334,12 @@ public class WorkoutListTemplateTest
         
         WorkoutListTemplate instance=new WorkoutListTemplate();
         
-        WatchSettings settings;
-        
-        settings     = mock(WatchSettings.class);
-        when(settings.getSettingsValueInt("hrzone/easy/min")).thenReturn(87L);
-        when(settings.getSettingsValueInt("hrzone/easy/max")).thenReturn(103L);
-        
-        when(settings.getSettingsValueInt("hrzone/fatburn/min")).thenReturn(104L);
-        when(settings.getSettingsValueInt("hrzone/fatburn/max")).thenReturn(121L);
-        
-        when(settings.getSettingsValueInt("hrzone/cardio/min")).thenReturn(122L);
-        when(settings.getSettingsValueInt("hrzone/cardio/max")).thenReturn(138L);
-        
-        when(settings.getSettingsValueInt("hrzone/perform/min")).thenReturn(139L);
-        when(settings.getSettingsValueInt("hrzone/perform/max")).thenReturn(156L);
-        
-        when(settings.getSettingsValueInt("hrzone/peak/min")).thenReturn(157L);
-        when(settings.getSettingsValueInt("hrzone/peak/max")).thenReturn(174L);
-        
         instance.setHrZonesFromSettings(settings);
         verify(settings, times(10)).getSettingsValueInt(any());  
         
         LinkedHashMap<String, HrZoneTemplate> hrZones=instance.getHrZones();
         assertEquals(87, hrZones.get("easy").hrMin);
-        assertEquals(156, hrZones.get("perform").hrMax);
+        assertEquals(157, hrZones.get("perform").hrMax);
         assertEquals(174, hrZones.get("peak").hrMax);
         
         // Check if the default values are not overwritten when the 
@@ -354,11 +361,7 @@ public class WorkoutListTemplateTest
         ArgumentCaptor<Long>    longCaptor;
         
         WorkoutListTemplate instance=new WorkoutListTemplate();
-        
-        WatchSettings settings;
-        
-        settings     = mock(WatchSettings.class);
-        
+      
         stringCaptor=ArgumentCaptor.forClass(String.class);
         longCaptor=ArgumentCaptor.forClass(Long.class);
         instance.setHrZonesToSettings(settings);
@@ -379,47 +382,47 @@ public class WorkoutListTemplateTest
         
         System.out.println("isValid");
         instance=WorkoutListTemplate.fromJson("{}");
-        assertEquals(true, instance.isValid());
+        assertEquals("OK", instance.validate());
         
         instance=WorkoutListTemplate.fromJson("{}");
         instance.getHrZones().get("peak").hrMin=174;
-        assertEquals(false, instance.isValid());
+        assertEquals("Invalid HR Zones; no gap allowed between zones", instance.validate());
 
         instance=WorkoutListTemplate.fromJson("{}");
         instance.getHrZones().get("peak").hrMax=172;
-        assertEquals(false, instance.isValid());
+        assertEquals("Invalid HR Zone - hrMax(172)<hrMin(173)", instance.validate());
         
         json = new String(Files.readAllBytes((new File("src/test/resources/testworkouts.json")).toPath()));   
         instance=WorkoutListTemplate.fromJson(json);     
-        assertEquals(true, instance.isValid());
+        assertEquals("OK", instance.validate());
 
         json = new String(Files.readAllBytes((new File("src/test/resources/testworkouts-invalid1.json")).toPath()));   
         instance=WorkoutListTemplate.fromJson(json);     
-        assertEquals(false, instance.isValid());
+        assertEquals("Illegal fileID; must be 00BE0001-00BEFFFF", instance.validate());
 
         json = new String(Files.readAllBytes((new File("src/test/resources/testworkouts-invalid2.json")).toPath()));   
         instance=WorkoutListTemplate.fromJson(json);     
-        assertEquals(false, instance.isValid());
+        assertEquals("Workout has no name", instance.validate());
 
         json = new String(Files.readAllBytes((new File("src/test/resources/testworkouts-invalid3.json")).toPath()));   
         instance=WorkoutListTemplate.fromJson(json);     
-        assertEquals(false, instance.isValid());
+        assertEquals("Illegal workout activity; must be RUNNING or CYCLING", instance.validate());
 
         json = new String(Files.readAllBytes((new File("src/test/resources/testworkouts-invalid4.json")).toPath()));   
         instance=WorkoutListTemplate.fromJson(json);     
-        assertEquals(false, instance.isValid());
+        assertEquals("Illegal workout type; must be FATBURN, FITNESS, ENDURANCE, POWER, SPEED or CUSTOM", instance.validate());
 
         json = new String(Files.readAllBytes((new File("src/test/resources/testworkouts-invalid5.json")).toPath()));   
         instance=WorkoutListTemplate.fromJson(json);     
-        assertEquals(false, instance.isValid());
+        assertEquals("Workout has no steps", instance.validate());
 
         json = new String(Files.readAllBytes((new File("src/test/resources/testworkouts-invalid6.json")).toPath()));   
         instance=WorkoutListTemplate.fromJson(json);     
-        assertEquals(false, instance.isValid());
+        assertEquals("No time specified for TIME step", instance.validate());
 
         json = new String(Files.readAllBytes((new File("src/test/resources/testworkouts-invalid7.json")).toPath()));   
         instance=WorkoutListTemplate.fromJson(json);     
-        assertEquals(false, instance.isValid());
+        assertEquals("No hrZone specified for HRZONE intensity step", instance.validate());
     }
             
 }

@@ -17,6 +17,7 @@ import net.studioblueplanet.settings.ConfigSettings;
 import hirondelle.date4j.DateTime;
 import java.io.IOException;
 import java.io.File;
+import java.math.BigInteger;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -99,86 +100,100 @@ public class CommunicationProcessTest
     
     private void returnFileData(UsbFile usbFile)
     {
-        if (usbFile.fileId==0x00000123)
+        try
         {
-            usbFile.length=3;
-            usbFile.fileData=new byte[3];
-            usbFile.fileData[0]=0;
-            usbFile.fileData[1]=1;
-            usbFile.fileData[2]=2;
-        }
-        else if (usbFile.fileId==0x00004321)
-        {
-            usbFile.length=4;
-            usbFile.fileData=new byte[4];
-            usbFile.fileData[0]=4;
-            usbFile.fileData[1]=3;
-            usbFile.fileData[2]=2;
-            usbFile.fileData[3]=1;
-        }
-        else if (usbFile.fileId==WatchInterface.FILEID_MANIFEST1)
-        {
-            try
+            if (usbFile.fileId==0x00000123)
+            {
+                usbFile.length=3;
+                usbFile.fileData=new byte[3];
+                usbFile.fileData[0]=0;
+                usbFile.fileData[1]=1;
+                usbFile.fileData[2]=2;
+            }
+            else if (usbFile.fileId==0x00004321)
+            {
+                usbFile.length=4;
+                usbFile.fileData=new byte[4];
+                usbFile.fileData[0]=4;
+                usbFile.fileData[1]=3;
+                usbFile.fileData[2]=2;
+                usbFile.fileData[3]=1;
+            }
+            else if (usbFile.fileId==WatchInterface.FILEID_MANIFEST1)
             {
                 usbFile.fileData=Files.readAllBytes((new File("src/test/resources/0x00850000.bin")).toPath());
+                usbFile.length  =usbFile.fileData.length;
             }
+            else if (usbFile.fileId==0x00B80000)
+            {
+                usbFile.length=4;
+                usbFile.fileData=new byte[4];
+                usbFile.fileData[0]=4;
+                usbFile.fileData[1]=3;
+                usbFile.fileData[2]=2;
+                usbFile.fileData[3]=1;
+            }
+            else if (usbFile.fileId==0x00B80001)
+            {
+                usbFile.length=4;
+                usbFile.fileData=new byte[4];
+                usbFile.fileData[0]=4;
+                usbFile.fileData[1]=3;
+                usbFile.fileData[2]=2;
+                usbFile.fileData[3]=1;
+            }
+            else if (usbFile.fileId==0x00910000)
+            {
+                usbFile.length=4;
+                usbFile.fileData=new byte[3];
+                usbFile.fileData[0]=10;
+                usbFile.fileData[1]=30;
+                usbFile.fileData[2]=20;
+            }
+            else if (usbFile.fileId==0x00910001)
+            {
+                usbFile.length=4;
+                usbFile.fileData=new byte[3];
+                usbFile.fileData[0]=40;
+                usbFile.fileData[1]=30;
+                usbFile.fileData[2]=22;
+            }
+            else if (usbFile.fileId==0x00910002)
+            {
+                usbFile.length=4;
+                usbFile.fileData=new byte[3];
+                usbFile.fileData[0]=40;
+                usbFile.fileData[1]=30;
+                usbFile.fileData[2]=22;
+            }
+            else if (usbFile.fileId==0x00910003)
+            {
+                usbFile.length=4;
+                usbFile.fileData=new byte[3];
+                usbFile.fileData[0]=40;
+                usbFile.fileData[1]=30;
+                usbFile.fileData[2]=22;
+            }
+            else if (usbFile.fileId==0x00BE0000)
+            {
+                usbFile.fileData=Files.readAllBytes((new File("src/test/resources/0x00be0000.bin")).toPath());
+                usbFile.length  =usbFile.fileData.length;
+            }
+            else if (usbFile.fileId==0x00BE0001)
+            {
+                usbFile.fileData=Files.readAllBytes((new File("src/test/resources/0x00be0001.bin")).toPath());
+                usbFile.length  =usbFile.fileData.length;
+            }
+            else if (usbFile.fileId==0x00BE0002)
+            {
+                usbFile.fileData=Files.readAllBytes((new File("src/test/resources/0x00be0002.bin")).toPath());
+                usbFile.length  =usbFile.fileData.length;
+            }
+        }
             catch (IOException e)
             {
                 DebugLogger.error("Error reading test file");
-            }
-            usbFile.length=usbFile.fileData.length;
-        }
-        else if (usbFile.fileId==0x00B80000)
-        {
-            usbFile.length=4;
-            usbFile.fileData=new byte[4];
-            usbFile.fileData[0]=4;
-            usbFile.fileData[1]=3;
-            usbFile.fileData[2]=2;
-            usbFile.fileData[3]=1;
-        }
-        else if (usbFile.fileId==0x00B80001)
-        {
-            usbFile.length=4;
-            usbFile.fileData=new byte[4];
-            usbFile.fileData[0]=4;
-            usbFile.fileData[1]=3;
-            usbFile.fileData[2]=2;
-            usbFile.fileData[3]=1;
-        }
-        else if (usbFile.fileId==0x00910000)
-        {
-            usbFile.length=4;
-            usbFile.fileData=new byte[3];
-            usbFile.fileData[0]=10;
-            usbFile.fileData[1]=30;
-            usbFile.fileData[2]=20;
-        }
-        else if (usbFile.fileId==0x00910001)
-        {
-            usbFile.length=4;
-            usbFile.fileData=new byte[3];
-            usbFile.fileData[0]=40;
-            usbFile.fileData[1]=30;
-            usbFile.fileData[2]=22;
-        }
-        else if (usbFile.fileId==0x00910002)
-        {
-            usbFile.length=4;
-            usbFile.fileData=new byte[3];
-            usbFile.fileData[0]=40;
-            usbFile.fileData[1]=30;
-            usbFile.fileData[2]=22;
-        }
-        else if (usbFile.fileId==0x00910003)
-        {
-            usbFile.length=4;
-            usbFile.fileData=new byte[3];
-            usbFile.fileData[0]=40;
-            usbFile.fileData[1]=30;
-            usbFile.fileData[2]=22;
-        }
-        
+            }        
     }
     
     @Before
@@ -187,6 +202,7 @@ public class CommunicationProcessTest
         ArrayList<UsbFile>  watchFiles=new ArrayList<>();
         ArrayList<UsbFile>  routeFiles=new ArrayList<>();
         ArrayList<UsbFile>  activityFiles=new ArrayList<>();
+        ArrayList<UsbFile>  workoutFiles=new ArrayList<>();
 
         UsbFile file1=new UsbFile(0x00000123, 3, null);
         UsbFile file2=new UsbFile(0x00004321, 3, null);
@@ -196,6 +212,9 @@ public class CommunicationProcessTest
         UsbFile file6=new UsbFile(0x00910001, 3, null);
         UsbFile file7=new UsbFile(0x00910002, 3, null);
         UsbFile file8=new UsbFile(0x00910003, 3, null);
+        UsbFile file9=new UsbFile(0x00BE0000, 313, null);
+        UsbFile filea=new UsbFile(0x00BE0001, 207, null);
+        UsbFile fileb=new UsbFile(0x00BE0002, 200, null);
 
         watchFiles.add(file1);
         watchFiles.add(file2);
@@ -213,6 +232,11 @@ public class CommunicationProcessTest
         activityFiles.add(file6);
         activityFiles.add(file7);
         activityFiles.add(file8);
+
+        workoutFiles.add(file9);
+        workoutFiles.add(filea);
+        workoutFiles.add(fileb);
+
         
         Mockito.reset(theView);
         Mockito.reset(watchInterface);
@@ -228,6 +252,7 @@ public class CommunicationProcessTest
         when(watchInterface.getFileList(FileType.TTWATCH_FILE_ALL)).thenReturn(watchFiles);
         when(watchInterface.getFileList(FileType.TTWATCH_FILE_TTBIN_DATA)).thenReturn(activityFiles);
         when(watchInterface.getFileList(FileType.TTWATCH_FILE_TRACKPLANNING)).thenReturn(routeFiles);
+        when(watchInterface.getFileList(FileType.TTWATCH_FILE_WORKOUTS)).thenReturn(workoutFiles);
         
         // Read File; prepare for two subsequent calls
 
@@ -244,6 +269,7 @@ public class CommunicationProcessTest
         when(watchInterface.writeVerifyFile(any())).thenReturn(false);
         when(watchInterface.deleteFile(any())).thenReturn(false);
         when(watchInterface.fileExists(anyInt())).thenReturn(true);
+        when(watchInterface.isFileType(any(), any())).thenReturn(true);
         when(watchInterface.writeGpxQuickFixFile(any())).thenReturn(false);
 
         theInstance=new CommunicationProcess(watchInterface, executor, ttbinReader, gpxReader);  
@@ -1110,7 +1136,7 @@ public class CommunicationProcessTest
         theInstance.requestUploadWorkouts(fileName);
         verify(watchInterface, times(0)).writeVerifyFile(any());
         verify(theView).appendStatus(stringCaptor.capture());
-        assertEquals("Error importing JSON", stringCaptor.getValue());
+        assertEquals("Error importing JSON\n", stringCaptor.getValue());
     }    
 
     @Test
@@ -1129,8 +1155,45 @@ public class CommunicationProcessTest
         theInstance.requestUploadWorkouts(fileName);
         verify(watchInterface, times(0)).writeVerifyFile(any());
         verify(theView).appendStatus(stringCaptor.capture());
-        assertEquals("Error importing JSON", stringCaptor.getValue());
+        assertEquals("Validation error: Illegal fileID; must be 00BE0001-00BEFFFF\n", stringCaptor.getValue());
     }    
 
-   
+    @Test
+    public void testListWorkouts()
+    {
+        System.out.println("TEST: listWorkouts");
+
+        theInstance.pushCommand(ThreadCommand.THREADCOMMAND_LISTWORKOUTSUMMARY);
+        
+        verify(theView, times(2)).setStatus(stringCaptor.capture());
+        
+        String expected="____________________________________________________________________________________________________\n"+
+                        "RUNNING - 00be0001 - FAT BURN   - ★☆☆30 min\n"+
+                        "Keep going and stay in the Fat Burn HR zone for the entire time\n"+
+                        "____________________________________________________________________________________________________\n"+
+                        "CYCLING - 00be0002 - FAT BURN   - ★☆☆30 min\n"+
+                        "Introductory workout keeping within the Fat Burn HR zone\n";  
+        assertEquals(expected, stringCaptor.getAllValues().get(1));
+    }
+
+    @Test
+    public void testDownloadWorkouts() throws IOException
+    {
+        System.out.println("TEST: downloadWorkouts");
+
+        String expected = new String(Files.readAllBytes((new File("src/test/resources/compareworkouts.json")).toPath()),"UTF-8").replace("\r\n", "\n");
+        
+        PowerMockito.mockStatic(ToolBox.class);
+        when(ToolBox.writeStringToUtf8File(any(), stringCaptor.capture())).thenReturn(false);   
+        when(ToolBox.bytesToHexString(any(), anyInt())).thenCallRealMethod();
+        when(ToolBox.readInt(any(), anyInt(), anyInt(), anyBoolean())).thenCallRealMethod();
+        when(ToolBox.readUnsignedInt(any(), anyInt(), anyInt(), anyBoolean())).thenCallRealMethod();
+        
+         // Make sure the firmware version is 1.7.64
+        theInstance.pushCommand(ThreadCommand.THREADCOMMAND_GETFIRMWAREVERSION);
+        theInstance.pushCommand(ThreadCommand.THREADCOMMAND_DOWNLOADWORKOUTS);
+        
+        assertEquals(expected, stringCaptor.getValue());
+    }
+
 }

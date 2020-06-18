@@ -2543,6 +2543,7 @@ public class CommunicationProcess implements ProgressListener
         Iterator<UsbFile>   it;
         String              path;
         String              fileName;
+        WatchSettings       settings;
         
         error = false;
 
@@ -2582,7 +2583,7 @@ public class CommunicationProcess implements ProgressListener
                     }
                     else
                     {
-                        DebugLogger.error("Inconsistency while requesting tracked activity files");
+                        DebugLogger.error("Inconsistency while requesting workout files");
                     }
                 }
                 else
@@ -2597,6 +2598,9 @@ public class CommunicationProcess implements ProgressListener
                 if (withDownload)
                 {
                     WorkoutListTemplate template=WorkoutListTemplate.fromWorkoutList(workouts);
+                    file        =readWatchFile(watchInterface, WatchInterface.FILEID_MANIFEST1);
+                    settings    =new WatchSettings(file.fileData, this.currentFirmwareVersion);
+                    template.setHrZonesFromSettings(settings);
                     String jsonString=template.toJson();
 
                     // Write the workouts to JSON file
@@ -2624,6 +2628,7 @@ public class CommunicationProcess implements ProgressListener
         }
         if (error)
         {
+            theView.appendStatus("Failed!\n");
             toErrorState();
         }  
     }    
@@ -2670,7 +2675,7 @@ public class CommunicationProcess implements ProgressListener
             }
             else
             {
-                DebugLogger.error("Inconsistency while requesting tracked activity files");
+                DebugLogger.error("Inconsistency while requesting workout files");
             }
         }
         else
@@ -2685,6 +2690,7 @@ public class CommunicationProcess implements ProgressListener
         }
         else
         {
+            theView.appendStatus("Failed!\n");
             toErrorState();
         }  
     }    
@@ -2709,72 +2715,80 @@ public class CommunicationProcess implements ProgressListener
         error=false;
         template=WorkoutListTemplate.fromJson(json);
         
-        if (template!=null && template.isValid())
+        if (template!=null)
         {
-            WorkoutList list=template.toWorkoutList();
-            
-            if (list!=null)
+            String valid=template.validate();
+            if (valid.equals("OK"))
             {
-                theView.appendStatus("Workouts JSON file read, updating HR zones to settings\n");
-                settingsFile=readWatchFile(watchInterface, WatchInterface.FILEID_MANIFEST1);
-                settings    =new WatchSettings(settingsFile.fileData, this.currentFirmwareVersion);
-                template.setHrZonesToSettings(settings);
-                if (settings.isChanged())
+                WorkoutList list=template.toWorkoutList();
+
+                if (list!=null)
                 {
-                    theView.appendStatus("Settings changed, upload manifest/settings\n");
-                    error=writeWatchFile(watchInterface, WatchInterface.FILEID_MANIFEST1, settings.convertSettingsToData());
-                    if (error)
+                    theView.appendStatus("Workouts JSON file read, updating HR zones to settings\n");
+                    settingsFile=readWatchFile(watchInterface, WatchInterface.FILEID_MANIFEST1);
+                    settings    =new WatchSettings(settingsFile.fileData, this.currentFirmwareVersion);
+                    template.setHrZonesToSettings(settings);
+                    if (settings.isChanged())
                     {
-                        theView.appendStatus("Error writing settings\n");
+                        theView.appendStatus("Settings changed, upload manifest/settings\n");
+                        error=writeWatchFile(watchInterface, WatchInterface.FILEID_MANIFEST1, settings.convertSettingsToData());
+                        if (error)
+                        {
+                            theView.appendStatus("Error writing settings\n");
+                        }
+                    }
+                    else
+                    {
+                        theView.appendStatus("Settings not changed, no need to update\n");
+                    }
+                    if (!error)
+                    {
+                        theView.appendStatus("Erasing existing workouts\n");
+                        error=this.eraseFiles(watchInterface, WatchInterface.FileType.TTWATCH_FILE_WORKOUTS);
+                        if (error)
+                        {
+                            theView.appendStatus("Error erasing workouts\n");
+                        }
+                    }
+                    if (!error)
+                    {
+                        theView.appendStatus(String.format("Writing workout list to file %08x\n", 0x00BE0000));
+                        error=writeWatchFile(watchInterface, 0x00be0000, list.getWorkoutListData());
+                        if (error)
+                        {
+                            theView.appendStatus("Error writing workout list file\n");
+                        }
+                    }
+                    if (!error)
+                    {
+                        LinkedHashMap<Integer, Workout> workouts=list.getWorkouts(); 
+                        Set<Integer> keys=workouts.keySet();
+                        Iterator<Integer> it=keys.iterator();
+                        while (it.hasNext() && !error)
+                        {
+                            Integer fileId=it.next();
+                            theView.appendStatus(String.format("Writing workout to file %08x\n", fileId));
+                            error=writeWatchFile(watchInterface, fileId, workouts.get(fileId).getWorkoutData());
+                            if (error)
+                            {
+                                theView.appendStatus("Error writing workout file\n");
+                            }
+                        }
                     }
                 }
                 else
                 {
-                    theView.appendStatus("Settings not changed, no need to update\n");
-                }
-                if (!error)
-                {
-                    theView.appendStatus("Erasing existing workouts\n");
-                    error=this.eraseFiles(watchInterface, WatchInterface.FileType.TTWATCH_FILE_WORKOUTS);
-                    if (error)
-                    {
-                        theView.appendStatus("Error erasing workouts\n");
-                    }
-                }
-                if (!error)
-                {
-                    theView.appendStatus(String.format("Writing workout list to file %08x\n", 0x00BE0000));
-                    error=writeWatchFile(watchInterface, 0x00be0000, list.getWorkoutListData());
-                    if (error)
-                    {
-                        theView.appendStatus("Error writing workout list file\n");
-                    }
-                }
-                if (!error)
-                {
-                    LinkedHashMap<Integer, Workout> workouts=list.getWorkouts(); 
-                    Set<Integer> keys=workouts.keySet();
-                    Iterator<Integer> it=keys.iterator();
-                    while (it.hasNext() && !error)
-                    {
-                        Integer fileId=it.next();
-                        theView.appendStatus(String.format("Writing workout to file %08x\n", fileId));
-                        error=writeWatchFile(watchInterface, fileId, workouts.get(fileId).getWorkoutData());
-                        if (error)
-                        {
-                            theView.appendStatus("Error writing workout file\n");
-                        }
-                    }
+                    theView.appendStatus("Error converting to workouts\n");
                 }
             }
             else
             {
-                theView.appendStatus("Error converting to workouts");
+                theView.appendStatus("Validation error: "+valid+"\n");
             }
         }
         else
         {
-            theView.appendStatus("Error importing JSON");
+            theView.appendStatus("Error importing JSON\n");
         }
     }
     

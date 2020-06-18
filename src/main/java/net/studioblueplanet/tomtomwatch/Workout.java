@@ -5,7 +5,11 @@
  */
 package net.studioblueplanet.tomtomwatch;
 
+import net.studioblueplanet.logger.DebugLogger;
+
 import com.google.protobuf.ByteString;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -34,11 +38,11 @@ public class Workout
 
         /**
          * Constructor
-         * @param i Enum value
+         * @param value Enum value
          */
-        WorkoutType(int i, String description)
+        WorkoutType(int value, String description)
         {
-            this.value          =i;
+            this.value          =value;
             this.description    =description;
         }
 
@@ -53,14 +57,14 @@ public class Workout
         
         /**
          * Get the enum based on the enum value passed
-         * @param i Enum value
+         * @param value Enum value
          * @return The enum or null if not found
          */
-        public static WorkoutType getWorkoutClass(int i)
+        public static WorkoutType getWorkoutType(int value)
         {
             for (WorkoutType w : WorkoutType.values())
             {
-                if (w.value == i)
+                if (w.value == value)
                 {
                     return w;
                 }
@@ -80,7 +84,7 @@ public class Workout
     
     private final WorkoutDescriptions           workoutDescriptions;
     
-    private byte[]                              id;
+    private byte[]                              workoutUid;
     private WorkoutType                         workoutType;
     private int                                 workoutNameId=0;
     private int                                 workoutDescriptionId=1;
@@ -154,6 +158,15 @@ public class Workout
     }
     
     /**
+     * Returns the name of the workout
+     * @return The name (like 'Warm up', 'Work', 'Rest')
+     */
+    public String getWorkoutName()
+    {
+        return workoutDescriptions.findDescription(workoutNameId);
+    }
+
+    /**
      * Sets the workout description as String. If the string does not exist in the 
      * descriptions list, it will be added.
      * @param description Description to add
@@ -167,14 +180,6 @@ public class Workout
             index=workoutDescriptions.addDescription(description);
         }
         this.workoutDescriptionId=index;
-    }
-    /**
-     * Returns the name of the workout
-     * @return The name (like 'Warm up', 'Work', 'Rest')
-     */
-    public String getWorkoutName()
-    {
-        return workoutDescriptions.findDescription(workoutNameId);
     }
 
     /**
@@ -196,21 +201,21 @@ public class Workout
         return workoutDescriptions.findDescription(workoutDescriptionId);
     }
     /**
-     * Get the UUID
-     * @return The UUID as 16 bytes
+     * Gets the unknonwn MD5 hash
+     * @return The hash as 16 bytes
      */
-    public byte[] getId()
+    public byte[] getWorkoutUid()
     {
-        return id;
+        return workoutUid;
     }
 
     /**
-     * Set the UUID
-     * @param id The UUID as 16 byte value
+     * Set the unknown MD5 hash
+     * @param md5 The hash as 16 byte value
      */
-    public void setId(byte[] id)
+    public void setWorkoutUid(byte[] md5)
     {
-        this.id = id;
+        this.workoutUid = md5;
     }
 
     /**
@@ -381,7 +386,7 @@ public class Workout
         builder=WorkoutProto.Workout.newBuilder();
         builder.setName(workoutNameId);
         builder.setDescription(workoutDescriptionId);
-        builder.setId(ByteString.copyFrom(id));
+        builder.setWorkoutId(ByteString.copyFrom(workoutUid));
         builder.setType(workoutType.getValue());
         builder.setUnknown11(unknown11);
         for (Integer key   : workoutSteps.keySet()) 
@@ -389,6 +394,7 @@ public class Workout
              WorkoutStep step = workoutSteps.get(key);  //get() is less efficient 
              builder.addStep(buildWorkoutStep(key, step));
         }
+        // TO DO: add workout intensitylevel if not standard
         return builder.build();
     }
     
@@ -493,13 +499,39 @@ public class Workout
      * Return the length of the protobuf data
      * @return The length of the protobuf data
      */
+    // TO DO: this method is not efficient; should be done more efficient
     public int getWorkoutDataLength()
     {
         byte[] temp;
         temp=getWorkoutData();
         return temp.length;
     }
-    
+
+    /**
+     * Return the MD5 hash of the protobuf data
+     * @return The MD5 hash of the protobuf data
+     */
+    // TO DO: this method is not efficient; should be done more efficient
+    public byte[] getWorkoutMd5Hash()
+    {
+        byte[] temp;
+        byte[] md5;
+        temp=getWorkoutData();
+        
+        md5=null;
+        try
+        {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            md.update(temp);
+            md5 = md.digest();  
+        }
+        catch (NoSuchAlgorithmException e)
+        {
+            DebugLogger.error("");
+        }
+        return md5;
+    }
+  
     /**
      * Returns a textual representation of the workout
      * @return String, multiple lines

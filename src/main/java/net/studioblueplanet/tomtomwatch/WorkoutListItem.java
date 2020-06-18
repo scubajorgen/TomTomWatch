@@ -24,24 +24,24 @@ public class WorkoutListItem implements Comparable<WorkoutListItem>
 
         /**
          * Constructor
-         * @param i Enum value
+         * @param value Enum value
          */
-        ActivityType(long i, String description)
+        ActivityType(long value, String description)
         {
-            this.value          = i;
+            this.value          = value;
             this.description    =description;
         }
 
         /**
          * Get the enum based on the enum value passed
-         * @param i Enum value
+         * @param value Enum value
          * @return The enum or null if not found
          */
-        public static ActivityType getActivityType(long i)
+        public static ActivityType getActivityType(long value)
         {
             for (ActivityType activity : ActivityType.values())
             {
-                if (activity.value == i)
+                if (activity.value == value)
                 {
                     return activity;
                 }
@@ -78,11 +78,11 @@ public class WorkoutListItem implements Comparable<WorkoutListItem>
 
         /**
          * Constructor
-         * @param i Enum value
+         * @param value Enum value
          */
-        IntensityLevel(int i, String description)
+        IntensityLevel(int value, String description)
         {
-            this.value          =i;
+            this.value          =value;
             this.description    =description;
         }
 
@@ -97,14 +97,14 @@ public class WorkoutListItem implements Comparable<WorkoutListItem>
         
         /**
          * Get the enum based on the enum value passed
-         * @param i Enum value
+         * @param value Enum value
          * @return The enum or null if not found
          */
-        public static IntensityLevel getIntensityLevel(int i)
+        public static IntensityLevel getIntensityLevel(int value)
         {
             for (IntensityLevel level : IntensityLevel.values())
             {
-                if (level.value == i)
+                if (level.value == value)
                 {
                     return level;
                 }
@@ -125,8 +125,8 @@ public class WorkoutListItem implements Comparable<WorkoutListItem>
     private final ActivityType  activity;
     private final WorkoutType   workoutType;
     
-    private byte[]              id;
-    private byte[]              workoutId;
+    private byte[]              workoutMd5; // MD5 of the workout file
+    private byte[]              workoutId;  // GUID identifying workout file; does not relate to content
     private IntensityLevel      intensityLevel;
     private int                 unknown8;
     private int                 fileSize;
@@ -202,25 +202,26 @@ public class WorkoutListItem implements Comparable<WorkoutListItem>
     }
 
     /**
-     * Get the ID of this list item
-     * @return The unique ID as an array of 16 bytes
+     * Gets the MD5 hash of the workout protobuf file
+     * @return The hash as an array of 16 bytes
      */
-    public byte[] getId()
+    public byte[] getWorkoutMd5()
     {
-        return id;
+        return workoutMd5;
     }
 
     /**
-     * Sets the ID of this list item
-     * @param id The ID as an array of 16 bytes
+     * Sets the MD5 hash of the workout protobuf file
+     * @param md5 The Hash as an array of 16 bytes
      */
-    public void setId(byte[] id)
+    public void setWorkoutMd5(byte[] md5)
     {
-        this.id = id;
+        this.workoutMd5 = md5;
     }
 
     /**
-     * Get the ID of the workout this list item refers to
+     * Gets the UID identifying the workout. This UID also is present in the
+     * workout file
      * @return The unique ID as an array of 16 bytes
      */
     public byte[] getWorkoutId()
@@ -229,8 +230,8 @@ public class WorkoutListItem implements Comparable<WorkoutListItem>
     }
 
     /**
-     * Sets the ID of the workout this list item refers to
-     * @param workoutId The ID as an array of 16 bytes
+     * Sets the UID identifying the workout
+     * @param workoutId The UID as an array of 16 bytes
      */
     public void setWorkoutId(byte[] workoutId)
     {

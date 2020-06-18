@@ -5965,20 +5965,37 @@ public final class WorkoutProto {
 
     /**
      * <pre>
-     * 16 bytes
+     * UID identifying the workout file? does not appear to relate to content
      * </pre>
      *
-     * <code>required bytes id = 4;</code>
+     * <code>required bytes workoutId = 4;</code>
      */
-    boolean hasId();
+    boolean hasWorkoutId();
     /**
      * <pre>
-     * 16 bytes
+     * UID identifying the workout file? does not appear to relate to content
      * </pre>
      *
-     * <code>required bytes id = 4;</code>
+     * <code>required bytes workoutId = 4;</code>
      */
-    com.google.protobuf.ByteString getId();
+    com.google.protobuf.ByteString getWorkoutId();
+
+    /**
+     * <pre>
+     * Easiest: 19, Easier 9, Standard - not present, Harder 10, Hardest 20  
+     * </pre>
+     *
+     * <code>optional int32 intensityLevel = 6;</code>
+     */
+    boolean hasIntensityLevel();
+    /**
+     * <pre>
+     * Easiest: 19, Easier 9, Standard - not present, Harder 10, Hardest 20  
+     * </pre>
+     *
+     * <code>optional int32 intensityLevel = 6;</code>
+     */
+    int getIntensityLevel();
 
     /**
      * <pre>
@@ -6077,7 +6094,7 @@ public final class WorkoutProto {
       super(builder);
     }
     private Workout() {
-      id_ = com.google.protobuf.ByteString.EMPTY;
+      workoutId_ = com.google.protobuf.ByteString.EMPTY;
       step_ = java.util.Collections.emptyList();
     }
 
@@ -6124,23 +6141,28 @@ public final class WorkoutProto {
             }
             case 34: {
               bitField0_ |= 0x00000004;
-              id_ = input.readBytes();
+              workoutId_ = input.readBytes();
+              break;
+            }
+            case 48: {
+              bitField0_ |= 0x00000008;
+              intensityLevel_ = input.readInt32();
               break;
             }
             case 80: {
-              bitField0_ |= 0x00000008;
+              bitField0_ |= 0x00000010;
               type_ = input.readInt32();
               break;
             }
             case 88: {
-              bitField0_ |= 0x00000010;
+              bitField0_ |= 0x00000020;
               unknown11_ = input.readInt32();
               break;
             }
             case 98: {
-              if (!((mutable_bitField0_ & 0x00000020) != 0)) {
+              if (!((mutable_bitField0_ & 0x00000040) != 0)) {
                 step_ = new java.util.ArrayList<net.studioblueplanet.tomtomwatch.WorkoutProto.WorkoutStep>();
-                mutable_bitField0_ |= 0x00000020;
+                mutable_bitField0_ |= 0x00000040;
               }
               step_.add(
                   input.readMessage(net.studioblueplanet.tomtomwatch.WorkoutProto.WorkoutStep.PARSER, extensionRegistry));
@@ -6161,7 +6183,7 @@ public final class WorkoutProto {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000020) != 0)) {
+        if (((mutable_bitField0_ & 0x00000040) != 0)) {
           step_ = java.util.Collections.unmodifiableList(step_);
         }
         this.unknownFields = unknownFields.build();
@@ -6228,27 +6250,50 @@ public final class WorkoutProto {
       return description_;
     }
 
-    public static final int ID_FIELD_NUMBER = 4;
-    private com.google.protobuf.ByteString id_;
+    public static final int WORKOUTID_FIELD_NUMBER = 4;
+    private com.google.protobuf.ByteString workoutId_;
     /**
      * <pre>
-     * 16 bytes
+     * UID identifying the workout file? does not appear to relate to content
      * </pre>
      *
-     * <code>required bytes id = 4;</code>
+     * <code>required bytes workoutId = 4;</code>
      */
-    public boolean hasId() {
+    public boolean hasWorkoutId() {
       return ((bitField0_ & 0x00000004) != 0);
     }
     /**
      * <pre>
-     * 16 bytes
+     * UID identifying the workout file? does not appear to relate to content
      * </pre>
      *
-     * <code>required bytes id = 4;</code>
+     * <code>required bytes workoutId = 4;</code>
      */
-    public com.google.protobuf.ByteString getId() {
-      return id_;
+    public com.google.protobuf.ByteString getWorkoutId() {
+      return workoutId_;
+    }
+
+    public static final int INTENSITYLEVEL_FIELD_NUMBER = 6;
+    private int intensityLevel_;
+    /**
+     * <pre>
+     * Easiest: 19, Easier 9, Standard - not present, Harder 10, Hardest 20  
+     * </pre>
+     *
+     * <code>optional int32 intensityLevel = 6;</code>
+     */
+    public boolean hasIntensityLevel() {
+      return ((bitField0_ & 0x00000008) != 0);
+    }
+    /**
+     * <pre>
+     * Easiest: 19, Easier 9, Standard - not present, Harder 10, Hardest 20  
+     * </pre>
+     *
+     * <code>optional int32 intensityLevel = 6;</code>
+     */
+    public int getIntensityLevel() {
+      return intensityLevel_;
     }
 
     public static final int TYPE_FIELD_NUMBER = 10;
@@ -6261,7 +6306,7 @@ public final class WorkoutProto {
      * <code>required int32 Type = 10;</code>
      */
     public boolean hasType() {
-      return ((bitField0_ & 0x00000008) != 0);
+      return ((bitField0_ & 0x00000010) != 0);
     }
     /**
      * <pre>
@@ -6284,7 +6329,7 @@ public final class WorkoutProto {
      * <code>required int32 unknown11 = 11;</code>
      */
     public boolean hasUnknown11() {
-      return ((bitField0_ & 0x00000010) != 0);
+      return ((bitField0_ & 0x00000020) != 0);
     }
     /**
      * <pre>
@@ -6363,7 +6408,7 @@ public final class WorkoutProto {
         memoizedIsInitialized = 0;
         return false;
       }
-      if (!hasId()) {
+      if (!hasWorkoutId()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -6395,12 +6440,15 @@ public final class WorkoutProto {
         output.writeInt32(3, description_);
       }
       if (((bitField0_ & 0x00000004) != 0)) {
-        output.writeBytes(4, id_);
+        output.writeBytes(4, workoutId_);
       }
       if (((bitField0_ & 0x00000008) != 0)) {
-        output.writeInt32(10, type_);
+        output.writeInt32(6, intensityLevel_);
       }
       if (((bitField0_ & 0x00000010) != 0)) {
+        output.writeInt32(10, type_);
+      }
+      if (((bitField0_ & 0x00000020) != 0)) {
         output.writeInt32(11, unknown11_);
       }
       for (int i = 0; i < step_.size(); i++) {
@@ -6425,13 +6473,17 @@ public final class WorkoutProto {
       }
       if (((bitField0_ & 0x00000004) != 0)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(4, id_);
+          .computeBytesSize(4, workoutId_);
       }
       if (((bitField0_ & 0x00000008) != 0)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(10, type_);
+          .computeInt32Size(6, intensityLevel_);
       }
       if (((bitField0_ & 0x00000010) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(10, type_);
+      }
+      if (((bitField0_ & 0x00000020) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(11, unknown11_);
       }
@@ -6464,10 +6516,15 @@ public final class WorkoutProto {
         if (getDescription()
             != other.getDescription()) return false;
       }
-      if (hasId() != other.hasId()) return false;
-      if (hasId()) {
-        if (!getId()
-            .equals(other.getId())) return false;
+      if (hasWorkoutId() != other.hasWorkoutId()) return false;
+      if (hasWorkoutId()) {
+        if (!getWorkoutId()
+            .equals(other.getWorkoutId())) return false;
+      }
+      if (hasIntensityLevel() != other.hasIntensityLevel()) return false;
+      if (hasIntensityLevel()) {
+        if (getIntensityLevel()
+            != other.getIntensityLevel()) return false;
       }
       if (hasType() != other.hasType()) return false;
       if (hasType()) {
@@ -6500,9 +6557,13 @@ public final class WorkoutProto {
         hash = (37 * hash) + DESCRIPTION_FIELD_NUMBER;
         hash = (53 * hash) + getDescription();
       }
-      if (hasId()) {
-        hash = (37 * hash) + ID_FIELD_NUMBER;
-        hash = (53 * hash) + getId().hashCode();
+      if (hasWorkoutId()) {
+        hash = (37 * hash) + WORKOUTID_FIELD_NUMBER;
+        hash = (53 * hash) + getWorkoutId().hashCode();
+      }
+      if (hasIntensityLevel()) {
+        hash = (37 * hash) + INTENSITYLEVEL_FIELD_NUMBER;
+        hash = (53 * hash) + getIntensityLevel();
       }
       if (hasType()) {
         hash = (37 * hash) + TYPE_FIELD_NUMBER;
@@ -6660,15 +6721,17 @@ public final class WorkoutProto {
         bitField0_ = (bitField0_ & ~0x00000001);
         description_ = 0;
         bitField0_ = (bitField0_ & ~0x00000002);
-        id_ = com.google.protobuf.ByteString.EMPTY;
+        workoutId_ = com.google.protobuf.ByteString.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000004);
-        type_ = 0;
+        intensityLevel_ = 0;
         bitField0_ = (bitField0_ & ~0x00000008);
-        unknown11_ = 0;
+        type_ = 0;
         bitField0_ = (bitField0_ & ~0x00000010);
+        unknown11_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000020);
         if (stepBuilder_ == null) {
           step_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000020);
+          bitField0_ = (bitField0_ & ~0x00000040);
         } else {
           stepBuilder_.clear();
         }
@@ -6711,19 +6774,23 @@ public final class WorkoutProto {
         if (((from_bitField0_ & 0x00000004) != 0)) {
           to_bitField0_ |= 0x00000004;
         }
-        result.id_ = id_;
+        result.workoutId_ = workoutId_;
         if (((from_bitField0_ & 0x00000008) != 0)) {
-          result.type_ = type_;
+          result.intensityLevel_ = intensityLevel_;
           to_bitField0_ |= 0x00000008;
         }
         if (((from_bitField0_ & 0x00000010) != 0)) {
-          result.unknown11_ = unknown11_;
+          result.type_ = type_;
           to_bitField0_ |= 0x00000010;
         }
+        if (((from_bitField0_ & 0x00000020) != 0)) {
+          result.unknown11_ = unknown11_;
+          to_bitField0_ |= 0x00000020;
+        }
         if (stepBuilder_ == null) {
-          if (((bitField0_ & 0x00000020) != 0)) {
+          if (((bitField0_ & 0x00000040) != 0)) {
             step_ = java.util.Collections.unmodifiableList(step_);
-            bitField0_ = (bitField0_ & ~0x00000020);
+            bitField0_ = (bitField0_ & ~0x00000040);
           }
           result.step_ = step_;
         } else {
@@ -6784,8 +6851,11 @@ public final class WorkoutProto {
         if (other.hasDescription()) {
           setDescription(other.getDescription());
         }
-        if (other.hasId()) {
-          setId(other.getId());
+        if (other.hasWorkoutId()) {
+          setWorkoutId(other.getWorkoutId());
+        }
+        if (other.hasIntensityLevel()) {
+          setIntensityLevel(other.getIntensityLevel());
         }
         if (other.hasType()) {
           setType(other.getType());
@@ -6797,7 +6867,7 @@ public final class WorkoutProto {
           if (!other.step_.isEmpty()) {
             if (step_.isEmpty()) {
               step_ = other.step_;
-              bitField0_ = (bitField0_ & ~0x00000020);
+              bitField0_ = (bitField0_ & ~0x00000040);
             } else {
               ensureStepIsMutable();
               step_.addAll(other.step_);
@@ -6810,7 +6880,7 @@ public final class WorkoutProto {
               stepBuilder_.dispose();
               stepBuilder_ = null;
               step_ = other.step_;
-              bitField0_ = (bitField0_ & ~0x00000020);
+              bitField0_ = (bitField0_ & ~0x00000040);
               stepBuilder_ = 
                 com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                    getStepFieldBuilder() : null;
@@ -6829,7 +6899,7 @@ public final class WorkoutProto {
         if (!hasName()) {
           return false;
         }
-        if (!hasId()) {
+        if (!hasWorkoutId()) {
           return false;
         }
         if (!hasType()) {
@@ -6962,53 +7032,101 @@ public final class WorkoutProto {
         return this;
       }
 
-      private com.google.protobuf.ByteString id_ = com.google.protobuf.ByteString.EMPTY;
+      private com.google.protobuf.ByteString workoutId_ = com.google.protobuf.ByteString.EMPTY;
       /**
        * <pre>
-       * 16 bytes
+       * UID identifying the workout file? does not appear to relate to content
        * </pre>
        *
-       * <code>required bytes id = 4;</code>
+       * <code>required bytes workoutId = 4;</code>
        */
-      public boolean hasId() {
+      public boolean hasWorkoutId() {
         return ((bitField0_ & 0x00000004) != 0);
       }
       /**
        * <pre>
-       * 16 bytes
+       * UID identifying the workout file? does not appear to relate to content
        * </pre>
        *
-       * <code>required bytes id = 4;</code>
+       * <code>required bytes workoutId = 4;</code>
        */
-      public com.google.protobuf.ByteString getId() {
-        return id_;
+      public com.google.protobuf.ByteString getWorkoutId() {
+        return workoutId_;
       }
       /**
        * <pre>
-       * 16 bytes
+       * UID identifying the workout file? does not appear to relate to content
        * </pre>
        *
-       * <code>required bytes id = 4;</code>
+       * <code>required bytes workoutId = 4;</code>
        */
-      public Builder setId(com.google.protobuf.ByteString value) {
+      public Builder setWorkoutId(com.google.protobuf.ByteString value) {
         if (value == null) {
     throw new NullPointerException();
   }
   bitField0_ |= 0x00000004;
-        id_ = value;
+        workoutId_ = value;
         onChanged();
         return this;
       }
       /**
        * <pre>
-       * 16 bytes
+       * UID identifying the workout file? does not appear to relate to content
        * </pre>
        *
-       * <code>required bytes id = 4;</code>
+       * <code>required bytes workoutId = 4;</code>
        */
-      public Builder clearId() {
+      public Builder clearWorkoutId() {
         bitField0_ = (bitField0_ & ~0x00000004);
-        id_ = getDefaultInstance().getId();
+        workoutId_ = getDefaultInstance().getWorkoutId();
+        onChanged();
+        return this;
+      }
+
+      private int intensityLevel_ ;
+      /**
+       * <pre>
+       * Easiest: 19, Easier 9, Standard - not present, Harder 10, Hardest 20  
+       * </pre>
+       *
+       * <code>optional int32 intensityLevel = 6;</code>
+       */
+      public boolean hasIntensityLevel() {
+        return ((bitField0_ & 0x00000008) != 0);
+      }
+      /**
+       * <pre>
+       * Easiest: 19, Easier 9, Standard - not present, Harder 10, Hardest 20  
+       * </pre>
+       *
+       * <code>optional int32 intensityLevel = 6;</code>
+       */
+      public int getIntensityLevel() {
+        return intensityLevel_;
+      }
+      /**
+       * <pre>
+       * Easiest: 19, Easier 9, Standard - not present, Harder 10, Hardest 20  
+       * </pre>
+       *
+       * <code>optional int32 intensityLevel = 6;</code>
+       */
+      public Builder setIntensityLevel(int value) {
+        bitField0_ |= 0x00000008;
+        intensityLevel_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Easiest: 19, Easier 9, Standard - not present, Harder 10, Hardest 20  
+       * </pre>
+       *
+       * <code>optional int32 intensityLevel = 6;</code>
+       */
+      public Builder clearIntensityLevel() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        intensityLevel_ = 0;
         onChanged();
         return this;
       }
@@ -7022,7 +7140,7 @@ public final class WorkoutProto {
        * <code>required int32 Type = 10;</code>
        */
       public boolean hasType() {
-        return ((bitField0_ & 0x00000008) != 0);
+        return ((bitField0_ & 0x00000010) != 0);
       }
       /**
        * <pre>
@@ -7042,7 +7160,7 @@ public final class WorkoutProto {
        * <code>required int32 Type = 10;</code>
        */
       public Builder setType(int value) {
-        bitField0_ |= 0x00000008;
+        bitField0_ |= 0x00000010;
         type_ = value;
         onChanged();
         return this;
@@ -7055,7 +7173,7 @@ public final class WorkoutProto {
        * <code>required int32 Type = 10;</code>
        */
       public Builder clearType() {
-        bitField0_ = (bitField0_ & ~0x00000008);
+        bitField0_ = (bitField0_ & ~0x00000010);
         type_ = 0;
         onChanged();
         return this;
@@ -7070,7 +7188,7 @@ public final class WorkoutProto {
        * <code>required int32 unknown11 = 11;</code>
        */
       public boolean hasUnknown11() {
-        return ((bitField0_ & 0x00000010) != 0);
+        return ((bitField0_ & 0x00000020) != 0);
       }
       /**
        * <pre>
@@ -7090,7 +7208,7 @@ public final class WorkoutProto {
        * <code>required int32 unknown11 = 11;</code>
        */
       public Builder setUnknown11(int value) {
-        bitField0_ |= 0x00000010;
+        bitField0_ |= 0x00000020;
         unknown11_ = value;
         onChanged();
         return this;
@@ -7103,7 +7221,7 @@ public final class WorkoutProto {
        * <code>required int32 unknown11 = 11;</code>
        */
       public Builder clearUnknown11() {
-        bitField0_ = (bitField0_ & ~0x00000010);
+        bitField0_ = (bitField0_ & ~0x00000020);
         unknown11_ = 0;
         onChanged();
         return this;
@@ -7112,9 +7230,9 @@ public final class WorkoutProto {
       private java.util.List<net.studioblueplanet.tomtomwatch.WorkoutProto.WorkoutStep> step_ =
         java.util.Collections.emptyList();
       private void ensureStepIsMutable() {
-        if (!((bitField0_ & 0x00000020) != 0)) {
+        if (!((bitField0_ & 0x00000040) != 0)) {
           step_ = new java.util.ArrayList<net.studioblueplanet.tomtomwatch.WorkoutProto.WorkoutStep>(step_);
-          bitField0_ |= 0x00000020;
+          bitField0_ |= 0x00000040;
          }
       }
 
@@ -7308,7 +7426,7 @@ public final class WorkoutProto {
       public Builder clearStep() {
         if (stepBuilder_ == null) {
           step_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000020);
+          bitField0_ = (bitField0_ & ~0x00000040);
           onChanged();
         } else {
           stepBuilder_.clear();
@@ -7413,7 +7531,7 @@ public final class WorkoutProto {
           stepBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               net.studioblueplanet.tomtomwatch.WorkoutProto.WorkoutStep, net.studioblueplanet.tomtomwatch.WorkoutProto.WorkoutStep.Builder, net.studioblueplanet.tomtomwatch.WorkoutProto.WorkoutStepOrBuilder>(
                   step_,
-                  ((bitField0_ & 0x00000020) != 0),
+                  ((bitField0_ & 0x00000040) != 0),
                   getParentForChildren(),
                   isClean());
           step_ = null;
@@ -7496,20 +7614,20 @@ public final class WorkoutProto {
 
     /**
      * <pre>
-     * 16 bytes   
+     * MD5 of the workout file   
      * </pre>
      *
-     * <code>required bytes id = 2;</code>
+     * <code>required bytes workoutMd5 = 2;</code>
      */
-    boolean hasId();
+    boolean hasWorkoutMd5();
     /**
      * <pre>
-     * 16 bytes   
+     * MD5 of the workout file   
      * </pre>
      *
-     * <code>required bytes id = 2;</code>
+     * <code>required bytes workoutMd5 = 2;</code>
      */
-    com.google.protobuf.ByteString getId();
+    com.google.protobuf.ByteString getWorkoutMd5();
 
     /**
      * <pre>
@@ -7547,7 +7665,7 @@ public final class WorkoutProto {
 
     /**
      * <pre>
-     * 16 bytes, same bytes as unknown4 in Program
+     * 16 bytes, same bytes as workoutId in Program
      * </pre>
      *
      * <code>required bytes workoutId = 5;</code>
@@ -7555,7 +7673,7 @@ public final class WorkoutProto {
     boolean hasWorkoutId();
     /**
      * <pre>
-     * 16 bytes, same bytes as unknown4 in Program
+     * 16 bytes, same bytes as workoutId in Program
      * </pre>
      *
      * <code>required bytes workoutId = 5;</code>
@@ -7700,7 +7818,7 @@ public final class WorkoutProto {
       super(builder);
     }
     private WorkoutListItem() {
-      id_ = com.google.protobuf.ByteString.EMPTY;
+      workoutMd5_ = com.google.protobuf.ByteString.EMPTY;
       workoutId_ = com.google.protobuf.ByteString.EMPTY;
     }
 
@@ -7742,7 +7860,7 @@ public final class WorkoutProto {
             }
             case 18: {
               bitField0_ |= 0x00000002;
-              id_ = input.readBytes();
+              workoutMd5_ = input.readBytes();
               break;
             }
             case 24: {
@@ -7851,27 +7969,27 @@ public final class WorkoutProto {
       return fileId_;
     }
 
-    public static final int ID_FIELD_NUMBER = 2;
-    private com.google.protobuf.ByteString id_;
+    public static final int WORKOUTMD5_FIELD_NUMBER = 2;
+    private com.google.protobuf.ByteString workoutMd5_;
     /**
      * <pre>
-     * 16 bytes   
+     * MD5 of the workout file   
      * </pre>
      *
-     * <code>required bytes id = 2;</code>
+     * <code>required bytes workoutMd5 = 2;</code>
      */
-    public boolean hasId() {
+    public boolean hasWorkoutMd5() {
       return ((bitField0_ & 0x00000002) != 0);
     }
     /**
      * <pre>
-     * 16 bytes   
+     * MD5 of the workout file   
      * </pre>
      *
-     * <code>required bytes id = 2;</code>
+     * <code>required bytes workoutMd5 = 2;</code>
      */
-    public com.google.protobuf.ByteString getId() {
-      return id_;
+    public com.google.protobuf.ByteString getWorkoutMd5() {
+      return workoutMd5_;
     }
 
     public static final int ITEMNAME_FIELD_NUMBER = 3;
@@ -7924,7 +8042,7 @@ public final class WorkoutProto {
     private com.google.protobuf.ByteString workoutId_;
     /**
      * <pre>
-     * 16 bytes, same bytes as unknown4 in Program
+     * 16 bytes, same bytes as workoutId in Program
      * </pre>
      *
      * <code>required bytes workoutId = 5;</code>
@@ -7934,7 +8052,7 @@ public final class WorkoutProto {
     }
     /**
      * <pre>
-     * 16 bytes, same bytes as unknown4 in Program
+     * 16 bytes, same bytes as workoutId in Program
      * </pre>
      *
      * <code>required bytes workoutId = 5;</code>
@@ -8115,7 +8233,7 @@ public final class WorkoutProto {
         memoizedIsInitialized = 0;
         return false;
       }
-      if (!hasId()) {
+      if (!hasWorkoutMd5()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -8170,7 +8288,7 @@ public final class WorkoutProto {
         output.writeFixed32(1, fileId_);
       }
       if (((bitField0_ & 0x00000002) != 0)) {
-        output.writeBytes(2, id_);
+        output.writeBytes(2, workoutMd5_);
       }
       if (((bitField0_ & 0x00000004) != 0)) {
         output.writeInt32(3, itemName_);
@@ -8217,7 +8335,7 @@ public final class WorkoutProto {
       }
       if (((bitField0_ & 0x00000002) != 0)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(2, id_);
+          .computeBytesSize(2, workoutMd5_);
       }
       if (((bitField0_ & 0x00000004) != 0)) {
         size += com.google.protobuf.CodedOutputStream
@@ -8279,10 +8397,10 @@ public final class WorkoutProto {
         if (getFileId()
             != other.getFileId()) return false;
       }
-      if (hasId() != other.hasId()) return false;
-      if (hasId()) {
-        if (!getId()
-            .equals(other.getId())) return false;
+      if (hasWorkoutMd5() != other.hasWorkoutMd5()) return false;
+      if (hasWorkoutMd5()) {
+        if (!getWorkoutMd5()
+            .equals(other.getWorkoutMd5())) return false;
       }
       if (hasItemName() != other.hasItemName()) return false;
       if (hasItemName()) {
@@ -8349,9 +8467,9 @@ public final class WorkoutProto {
         hash = (37 * hash) + FILEID_FIELD_NUMBER;
         hash = (53 * hash) + getFileId();
       }
-      if (hasId()) {
-        hash = (37 * hash) + ID_FIELD_NUMBER;
-        hash = (53 * hash) + getId().hashCode();
+      if (hasWorkoutMd5()) {
+        hash = (37 * hash) + WORKOUTMD5_FIELD_NUMBER;
+        hash = (53 * hash) + getWorkoutMd5().hashCode();
       }
       if (hasItemName()) {
         hash = (37 * hash) + ITEMNAME_FIELD_NUMBER;
@@ -8535,7 +8653,7 @@ public final class WorkoutProto {
         super.clear();
         fileId_ = 0;
         bitField0_ = (bitField0_ & ~0x00000001);
-        id_ = com.google.protobuf.ByteString.EMPTY;
+        workoutMd5_ = com.google.protobuf.ByteString.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000002);
         itemName_ = 0;
         bitField0_ = (bitField0_ & ~0x00000004);
@@ -8592,7 +8710,7 @@ public final class WorkoutProto {
         if (((from_bitField0_ & 0x00000002) != 0)) {
           to_bitField0_ |= 0x00000002;
         }
-        result.id_ = id_;
+        result.workoutMd5_ = workoutMd5_;
         if (((from_bitField0_ & 0x00000004) != 0)) {
           result.itemName_ = itemName_;
           to_bitField0_ |= 0x00000004;
@@ -8685,8 +8803,8 @@ public final class WorkoutProto {
         if (other.hasFileId()) {
           setFileId(other.getFileId());
         }
-        if (other.hasId()) {
-          setId(other.getId());
+        if (other.hasWorkoutMd5()) {
+          setWorkoutMd5(other.getWorkoutMd5());
         }
         if (other.hasItemName()) {
           setItemName(other.getItemName());
@@ -8728,7 +8846,7 @@ public final class WorkoutProto {
         if (!hasFileId()) {
           return false;
         }
-        if (!hasId()) {
+        if (!hasWorkoutMd5()) {
           return false;
         }
         if (!hasItemName()) {
@@ -8832,53 +8950,53 @@ public final class WorkoutProto {
         return this;
       }
 
-      private com.google.protobuf.ByteString id_ = com.google.protobuf.ByteString.EMPTY;
+      private com.google.protobuf.ByteString workoutMd5_ = com.google.protobuf.ByteString.EMPTY;
       /**
        * <pre>
-       * 16 bytes   
+       * MD5 of the workout file   
        * </pre>
        *
-       * <code>required bytes id = 2;</code>
+       * <code>required bytes workoutMd5 = 2;</code>
        */
-      public boolean hasId() {
+      public boolean hasWorkoutMd5() {
         return ((bitField0_ & 0x00000002) != 0);
       }
       /**
        * <pre>
-       * 16 bytes   
+       * MD5 of the workout file   
        * </pre>
        *
-       * <code>required bytes id = 2;</code>
+       * <code>required bytes workoutMd5 = 2;</code>
        */
-      public com.google.protobuf.ByteString getId() {
-        return id_;
+      public com.google.protobuf.ByteString getWorkoutMd5() {
+        return workoutMd5_;
       }
       /**
        * <pre>
-       * 16 bytes   
+       * MD5 of the workout file   
        * </pre>
        *
-       * <code>required bytes id = 2;</code>
+       * <code>required bytes workoutMd5 = 2;</code>
        */
-      public Builder setId(com.google.protobuf.ByteString value) {
+      public Builder setWorkoutMd5(com.google.protobuf.ByteString value) {
         if (value == null) {
     throw new NullPointerException();
   }
   bitField0_ |= 0x00000002;
-        id_ = value;
+        workoutMd5_ = value;
         onChanged();
         return this;
       }
       /**
        * <pre>
-       * 16 bytes   
+       * MD5 of the workout file   
        * </pre>
        *
-       * <code>required bytes id = 2;</code>
+       * <code>required bytes workoutMd5 = 2;</code>
        */
-      public Builder clearId() {
+      public Builder clearWorkoutMd5() {
         bitField0_ = (bitField0_ & ~0x00000002);
-        id_ = getDefaultInstance().getId();
+        workoutMd5_ = getDefaultInstance().getWorkoutMd5();
         onChanged();
         return this;
       }
@@ -8982,7 +9100,7 @@ public final class WorkoutProto {
       private com.google.protobuf.ByteString workoutId_ = com.google.protobuf.ByteString.EMPTY;
       /**
        * <pre>
-       * 16 bytes, same bytes as unknown4 in Program
+       * 16 bytes, same bytes as workoutId in Program
        * </pre>
        *
        * <code>required bytes workoutId = 5;</code>
@@ -8992,7 +9110,7 @@ public final class WorkoutProto {
       }
       /**
        * <pre>
-       * 16 bytes, same bytes as unknown4 in Program
+       * 16 bytes, same bytes as workoutId in Program
        * </pre>
        *
        * <code>required bytes workoutId = 5;</code>
@@ -9002,7 +9120,7 @@ public final class WorkoutProto {
       }
       /**
        * <pre>
-       * 16 bytes, same bytes as unknown4 in Program
+       * 16 bytes, same bytes as workoutId in Program
        * </pre>
        *
        * <code>required bytes workoutId = 5;</code>
@@ -9018,7 +9136,7 @@ public final class WorkoutProto {
       }
       /**
        * <pre>
-       * 16 bytes, same bytes as unknown4 in Program
+       * 16 bytes, same bytes as workoutId in Program
        * </pre>
        *
        * <code>required bytes workoutId = 5;</code>
@@ -13295,11 +13413,12 @@ public final class WorkoutProto {
       "escription\030\004 \003(\0132\025.tutorial.Description\022" +
       "\"\n\007workout\030\007 \001(\0132\021.tutorial.Workout\".\n\013D" +
       "escription\022\n\n\002id\030\001 \002(\005\022\023\n\013description\030\002 " +
-      "\002(\t\"~\n\007Workout\022\014\n\004name\030\002 \002(\005\022\023\n\013descript" +
-      "ion\030\003 \001(\005\022\n\n\002id\030\004 \002(\014\022\014\n\004Type\030\n \002(\005\022\021\n\tu" +
-      "nknown11\030\013 \002(\005\022#\n\004step\030\014 \003(\0132\025.tutorial." +
-      "WorkoutStep\"\355\001\n\017WorkoutListItem\022\016\n\006fileI" +
-      "d\030\001 \002(\007\022\n\n\002id\030\002 \002(\014\022\020\n\010itemName\030\003 \002(\005\022\027\n" +
+      "\002(\t\"\235\001\n\007Workout\022\014\n\004name\030\002 \002(\005\022\023\n\013descrip" +
+      "tion\030\003 \001(\005\022\021\n\tworkoutId\030\004 \002(\014\022\026\n\016intensi" +
+      "tyLevel\030\006 \001(\005\022\014\n\004Type\030\n \002(\005\022\021\n\tunknown11" +
+      "\030\013 \002(\005\022#\n\004step\030\014 \003(\0132\025.tutorial.WorkoutS" +
+      "tep\"\365\001\n\017WorkoutListItem\022\016\n\006fileId\030\001 \002(\007\022" +
+      "\022\n\nworkoutMd5\030\002 \002(\014\022\020\n\010itemName\030\003 \002(\005\022\027\n" +
       "\017itemDescription\030\004 \002(\005\022\021\n\tworkoutId\030\005 \002(" +
       "\014\022\026\n\016intensityLevel\030\007 \002(\005\022\020\n\010unknown8\030\010 " +
       "\002(\005\022\020\n\010fileSize\030\t \002(\005\022\020\n\010activity\030\n \002(\006\022" +
@@ -13361,13 +13480,13 @@ public final class WorkoutProto {
     internal_static_tutorial_Workout_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_tutorial_Workout_descriptor,
-        new java.lang.String[] { "Name", "Description", "Id", "Type", "Unknown11", "Step", });
+        new java.lang.String[] { "Name", "Description", "WorkoutId", "IntensityLevel", "Type", "Unknown11", "Step", });
     internal_static_tutorial_WorkoutListItem_descriptor =
       getDescriptor().getMessageTypes().get(7);
     internal_static_tutorial_WorkoutListItem_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_tutorial_WorkoutListItem_descriptor,
-        new java.lang.String[] { "FileId", "Id", "ItemName", "ItemDescription", "WorkoutId", "IntensityLevel", "Unknown8", "FileSize", "Activity", "Type", "Unknown12", "Unknown13", });
+        new java.lang.String[] { "FileId", "WorkoutMd5", "ItemName", "ItemDescription", "WorkoutId", "IntensityLevel", "Unknown8", "FileSize", "Activity", "Type", "Unknown12", "Unknown13", });
     internal_static_tutorial_WorkoutStep_descriptor =
       getDescriptor().getMessageTypes().get(8);
     internal_static_tutorial_WorkoutStep_fieldAccessorTable = new

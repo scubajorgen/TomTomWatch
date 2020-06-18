@@ -24,8 +24,8 @@
   "workouts": [
     {
       "fileId": "0x00be0001",
-      "listId": "e05b453335ec210a59130562cc3e5190",
       "workoutId": "885785df42e95378a4ca3f848280c12d",
+      "workoutMd5": "e05b453335ec210a59130562cc3e5190",
       "name": "★☆☆30 min",
       "description": "Keep going and stay in the Fat Burn HR zone for the entire time",
       "activity": "RUNNING",
@@ -45,8 +45,8 @@
     },
     {
       "fileId": "0x00be0002",
-      "listId": "1024aaef0acd6eec34f776fdaac93c2b",
       "workoutId": "6b2e4e0f3e7653cba10a9c4b5c7e35cf",
+      "workoutMd5": "1024aaef0acd6eec34f776fdaac93c2b",
       "name": "★☆☆25 min",
       "description": "Run at leisurely pace with occasional speed bursts",
       "activity": "RUNNING",
@@ -174,8 +174,8 @@
     },
     {
       "fileId": "0x00be0003",
-      "listId": "06f478451051d51e647eca488f908cf7",
       "workoutId": "83cb751cc361588f9c9bb5911c130869",
+      "workoutMd5": "06f478451051d51e647eca488f908cf7",
       "name": "★★☆60 min",
       "description": "Keep going and stay in the Fat Burn HR zone for the entire time",
       "activity": "RUNNING",
@@ -195,8 +195,8 @@
     },
     {
       "fileId": "0x00be0004",
-      "listId": "d00cc25cd8cb2bc4cdbdbf1da65aa2fd",
       "workoutId": "b64dce4ebdff5d02a1b4c307c9204778",
+      "workoutMd5": "d00cc25cd8cb2bc4cdbdbf1da65aa2fd",
       "name": "★★☆40 min",
       "description": "Easy jogs followed by short segments in the Cardio and Perform HR zones",
       "activity": "RUNNING",
@@ -360,8 +360,8 @@
     },
     {
       "fileId": "0x00be0005",
-      "listId": "1e5905226713cbddac1553d9631e1169",
       "workoutId": "3c2716634bb75847868808d223a77ddf",
+      "workoutMd5": "1e5905226713cbddac1553d9631e1169",
       "name": "★★★20 min",
       "description": "Run at leisurely pace with occasional speed bursts",
       "activity": "RUNNING",
@@ -489,8 +489,8 @@
     },
     {
       "fileId": "0x00be0006",
-      "listId": "aff356954207bf381ebbf5021c969bf6",
       "workoutId": "fe0649f7e2895395b1d1e0e1e2279100",
+      "workoutMd5": "aff356954207bf381ebbf5021c969bf6",
       "name": "★☆☆25 min",
       "description": "4 short sets alternating in the Cardio and Fat Burn HR zones",
       "activity": "RUNNING",
@@ -582,8 +582,8 @@
     },
     {
       "fileId": "0x00be0007",
-      "listId": "0097c7e88dca8c4dbcb3224e194d6e1a",
       "workoutId": "e308b2a08b2058b489c6c2094b669b1d",
+      "workoutMd5": "0097c7e88dca8c4dbcb3224e194d6e1a",
       "name": "★★☆50 min",
       "description": "Running at an extended period broken into stages with differing HR zones",
       "activity": "RUNNING",
@@ -711,8 +711,8 @@
     },
     {
       "fileId": "0x00be0008",
-      "listId": "26d648ef9e181d13eb47fba50832db2e",
       "workoutId": "fc35637ccffb58628cf892c9b1ddaa2c",
+      "workoutMd5": "26d648ef9e181d13eb47fba50832db2e",
       "name": "★★☆35 min",
       "description": "A mix of long and short pick ups at varying HR zones",
       "activity": "RUNNING",
@@ -858,8 +858,8 @@
     },
     {
       "fileId": "0x00be0009",
-      "listId": "699a8a1ea5c309e66a10efa7667acd59",
       "workoutId": "c1b80eb2a0d65eefbc465ccf972b65e0",
+      "workoutMd5": "699a8a1ea5c309e66a10efa7667acd59",
       "name": "★★☆70 min",
       "description": "Alternating medium long sets between Cardio and Perform HR zone",
       "activity": "RUNNING",
@@ -1014,8 +1014,8 @@
     },
     {
       "fileId": "0x00be000a",
-      "listId": "58f88ca3b399204fbac318e5fcd741c9",
       "workoutId": "3f28ecc07480594f81e42bd315152ec6",
+      "workoutMd5": "58f88ca3b399204fbac318e5fcd741c9",
       "name": "★★★45 min",
       "description": "Run at an even pace within the Perform HR zone",
       "activity": "RUNNING",
@@ -1089,8 +1089,8 @@
     },
     {
       "fileId": "0x00be000b",
-      "listId": "a071b8ee059d948614f3c460274ff3ff",
       "workoutId": "10cec6debc4d5a07ae4a2274d4021502",
+      "workoutMd5": "a071b8ee059d948614f3c460274ff3ff",
       "name": "★☆☆35 min",
       "description": "Alternate between hard and above medium running in short intervals",
       "activity": "RUNNING",
@@ -1326,8 +1326,8 @@
     },
     {
       "fileId": "0x00be000c",
-      "listId": "05715d75acca6c0346c79d5aa8ed72b1",
       "workoutId": "0761e3a548e75d628f1651dcde763441",
+      "workoutMd5": "05715d75acca6c0346c79d5aa8ed72b1",
       "name": "★★☆30 min",
       "description": "2 sets of picking up the intensity as the intervals get shorter",
       "activity": "RUNNING",
@@ -1486,8 +1486,8 @@
     },
     {
       "fileId": "0x00be000d",
-      "listId": "e6098d6285f5b6b7d8ad1ec20256c518",
       "workoutId": "a13e050b4f5c52a48b89bf4bbcafc30f",
+      "workoutMd5": "e6098d6285f5b6b7d8ad1ec20256c518",
       "name": "★★☆45 min",
       "description": "3 sets of mixed length pick ups with a recovery jog in between",
       "activity": "RUNNING",
@@ -1705,8 +1705,8 @@
     },
     {
       "fileId": "0x00be000e",
-      "listId": "848a723a1a105734dfa36d88019edf6b",
       "workoutId": "002325b429ad5809bb7d71a638a67763",
+      "workoutMd5": "848a723a1a105734dfa36d88019edf6b",
       "name": "★★★40 min",
       "description": "Pick up the pace then take it down a notch before going at it again",
       "activity": "RUNNING",
@@ -1987,8 +1987,8 @@
     },
     {
       "fileId": "0x00be000f",
-      "listId": "9492dbcd681f8f81ca638104fdbcefe2",
       "workoutId": "7b51cf87ccd852a2a317afbeb6bb2b25",
+      "workoutMd5": "9492dbcd681f8f81ca638104fdbcefe2",
       "name": "★★★45 min",
       "description": "3 sets of a descending ladder with increases in HR zone after each set",
       "activity": "RUNNING",
@@ -2260,8 +2260,8 @@
     },
     {
       "fileId": "0x00be0010",
-      "listId": "876503d4f468479a3a89c68fc91b3eaa",
       "workoutId": "d6246da2d97e5edd9c2ad8b8b4370a74",
+      "workoutMd5": "876503d4f468479a3a89c68fc91b3eaa",
       "name": "★☆☆30 min",
       "description": "Short pace bursts with adequate recovery",
       "activity": "RUNNING",
@@ -2488,8 +2488,8 @@
     },
     {
       "fileId": "0x00be0011",
-      "listId": "d5273a1cdcf09b6ea3abb1f7da641bd9",
       "workoutId": "36f568feb0a05f84b36565474a6c12d4",
+      "workoutMd5": "d5273a1cdcf09b6ea3abb1f7da641bd9",
       "name": "★★☆45 min",
       "description": "Medium long repeats with increased HR zone over the second half of each interval",
       "activity": "RUNNING",
@@ -2676,8 +2676,8 @@
     },
     {
       "fileId": "0x00be0012",
-      "listId": "307d93d546b46c41e78180bd036a9f08",
       "workoutId": "ab467de015355e1e9a0c4dba92c6fef5",
+      "workoutMd5": "307d93d546b46c41e78180bd036a9f08",
       "name": "★★☆50 min",
       "description": "Running at an increasing heart rate zone, then repeat 3x",
       "activity": "RUNNING",
@@ -2841,8 +2841,8 @@
     },
     {
       "fileId": "0x00be0013",
-      "listId": "cd3ff7d010ffd64aa055878b2e80b886",
       "workoutId": "6c8a54c86ea255aea0966a7e08aab43c",
+      "workoutMd5": "cd3ff7d010ffd64aa055878b2e80b886",
       "name": "★★★50 min",
       "description": "Running for a period at an uncomfortable pace, followed by speed intervals",
       "activity": "RUNNING",
@@ -3035,8 +3035,8 @@
     },
     {
       "fileId": "0x00be0014",
-      "listId": "c0617248772032b263c71b771e596f7b",
       "workoutId": "abea6dbeb869555eb17b0c833c38ef20",
+      "workoutMd5": "c0617248772032b263c71b771e596f7b",
       "name": "★★★55 min",
       "description": "Running at decreasing lengths whilst picking up the pace",
       "activity": "RUNNING",
@@ -3218,8 +3218,8 @@
     },
     {
       "fileId": "0x00be0015",
-      "listId": "a30ae0b80e00dcac3b6fb4cf416b9f6a",
       "workoutId": "0efd8218159458bc814f5712858100ee",
+      "workoutMd5": "a30ae0b80e00dcac3b6fb4cf416b9f6a",
       "name": "★☆☆45 min",
       "description": "Run all you got for a short sprint - repeat 9 times with loads of rest",
       "activity": "RUNNING",
@@ -3437,8 +3437,8 @@
     },
     {
       "fileId": "0x00be0016",
-      "listId": "1a1afa6f0f04625ddd8020557d96a8bd",
       "workoutId": "15a3bbe796d95163949acf2f6f74878f",
+      "workoutMd5": "1a1afa6f0f04625ddd8020557d96a8bd",
       "name": "★★☆35 min",
       "description": "Attack the hills and recover down the hill in this 3 set descending ladder",
       "activity": "RUNNING",
@@ -3699,8 +3699,8 @@
     },
     {
       "fileId": "0x00be0017",
-      "listId": "07ac5dfce2abae1cf946a120dc5216b5",
       "workoutId": "23acb896a027546cb903674e3a662d20",
+      "workoutMd5": "07ac5dfce2abae1cf946a120dc5216b5",
       "name": "★★☆55 min",
       "description": "Run your heart out in sprints. Loads of recovery will make it possible",
       "activity": "RUNNING",
@@ -3954,8 +3954,8 @@
     },
     {
       "fileId": "0x00be0018",
-      "listId": "c1620784f25e3c7c0a72b68333bb88c9",
       "workoutId": "8432cd0e28fd59b393cce1fee3441b31",
+      "workoutMd5": "c1620784f25e3c7c0a72b68333bb88c9",
       "name": "★★★50 min",
       "description": "Hard and fast medium length segments at maximum effort pace",
       "activity": "RUNNING",
@@ -4122,8 +4122,8 @@
     },
     {
       "fileId": "0x00be0019",
-      "listId": "3f33121a63559b5011eec72142cba92a",
       "workoutId": "a4adb7975d675668854ba92769b24f54",
+      "workoutMd5": "3f33121a63559b5011eec72142cba92a",
       "name": "★★★55 min",
       "description": "A peaking session to be done 4-5 days before a big competition",
       "activity": "RUNNING",
@@ -4449,8 +4449,8 @@
     },
     {
       "fileId": "0x00be001a",
-      "listId": "545cd4ce9e14a6e1486b7a3f0fe1e084",
       "workoutId": "a55fe1980a7157a495eb36fc77b544a3",
+      "workoutMd5": "545cd4ce9e14a6e1486b7a3f0fe1e084",
       "name": "★☆☆30 min",
       "description": "Introductory workout keeping within the Fat Burn HR zone",
       "activity": "CYCLING",
@@ -4470,8 +4470,8 @@
     },
     {
       "fileId": "0x00be001b",
-      "listId": "8328e6486866403914d0cc45d78ae536",
       "workoutId": "45ffc5dddccf554cb727beba53b43a29",
+      "workoutMd5": "8328e6486866403914d0cc45d78ae536",
       "name": "★☆☆45 min",
       "description": "Introductory workout keeping within the Fat Burn HR zone",
       "activity": "CYCLING",
@@ -4491,8 +4491,8 @@
     },
     {
       "fileId": "0x00be001c",
-      "listId": "c0f63b2ae485611940d25df9585eb812",
       "workoutId": "21aef57bc63d55659587016ecb2f2b5f",
+      "workoutMd5": "c0f63b2ae485611940d25df9585eb812",
       "name": "★★☆60 min",
       "description": "Workout keeping within the Fat Burn HR zone for the entire duration",
       "activity": "CYCLING",
@@ -4512,8 +4512,8 @@
     },
     {
       "fileId": "0x00be001d",
-      "listId": "a04e7831ed9089206de8547874d83fdf",
       "workoutId": "4c5ec00a88ae59518669f7aa867b6a5d",
+      "workoutMd5": "a04e7831ed9089206de8547874d83fdf",
       "name": "★★☆80 min",
       "description": "Long workout keeping within the Fat Burn HR zone for the entire duration",
       "activity": "CYCLING",
@@ -4533,8 +4533,8 @@
     },
     {
       "fileId": "0x00be001e",
-      "listId": "101981a68f1c2dffe2e094f3b5b65d65",
       "workoutId": "0d1593368d68574e92f4885e44796f04",
+      "workoutMd5": "101981a68f1c2dffe2e094f3b5b65d65",
       "name": "★★★85 min",
       "description": "Long workout with easy and medium segments based upon HR",
       "activity": "CYCLING",
@@ -4689,8 +4689,8 @@
     },
     {
       "fileId": "0x00be001f",
-      "listId": "dceeefc1dfd6624db7777c9a443eca70",
       "workoutId": "310cea27d8095f7d8fad58e4858c5fbf",
+      "workoutMd5": "dceeefc1dfd6624db7777c9a443eca70",
       "name": "★☆☆45 min",
       "description": "Light workout or for improvers to develop a feel of training zones",
       "activity": "CYCLING",
@@ -4755,8 +4755,8 @@
     },
     {
       "fileId": "0x00be0020",
-      "listId": "119bb5ce0ae0b3f30939e56ae43ee04e",
       "workoutId": "7d6b2aed3ca15c00869b6b939252419e",
+      "workoutMd5": "119bb5ce0ae0b3f30939e56ae43ee04e",
       "name": "★☆☆50 min",
       "description": "Short workout keeping your heart rate within the Cardio HR zone",
       "activity": "CYCLING",
@@ -4830,8 +4830,8 @@
     },
     {
       "fileId": "0x00be0021",
-      "listId": "93ac128a40bab015d06df76589cf3a45",
       "workoutId": "f9cdc094a46d5170aa287e7b16b525ac",
+      "workoutMd5": "93ac128a40bab015d06df76589cf3a45",
       "name": "★★☆70 min",
       "description": "Long workout keeping your heart rate within the Cardio HR zone",
       "activity": "CYCLING",
@@ -4923,8 +4923,8 @@
     },
     {
       "fileId": "0x00be0022",
-      "listId": "64a62b6b68eadfe009d37d1ccb80889b",
       "workoutId": "dd7a2339d4f05d4ea6922702d9fe96a6",
+      "workoutMd5": "64a62b6b68eadfe009d37d1ccb80889b",
       "name": "★★☆80 min",
       "description": "Long workout alternating between medium and comfortable efforts",
       "activity": "CYCLING",
@@ -5061,8 +5061,8 @@
     },
     {
       "fileId": "0x00be0023",
-      "listId": "e1e198719ff62f4000d051b02f8ae1f1",
       "workoutId": "a5051a5b46a75986809f34d542fba63f",
+      "workoutMd5": "e1e198719ff62f4000d051b02f8ae1f1",
       "name": "★★★60 min",
       "description": "Workout alternating between comfortable and medium and hard efforts",
       "activity": "CYCLING",
@@ -5199,8 +5199,8 @@
     },
     {
       "fileId": "0x00be0024",
-      "listId": "762974d2043cb9de8da6b5b3d088851d",
       "workoutId": "84939571c83d5109a3efe14732813e5d",
+      "workoutMd5": "762974d2043cb9de8da6b5b3d088851d",
       "name": "★☆☆35 min",
       "description": "Short workout with intervals increasing in intensity",
       "activity": "CYCLING",
@@ -5308,8 +5308,8 @@
     },
     {
       "fileId": "0x00be0025",
-      "listId": "96a80d3b8bebe5b8514f689d41395bf0",
       "workoutId": "dad9cd81012a59a99711d9ab8562bb73",
+      "workoutMd5": "96a80d3b8bebe5b8514f689d41395bf0",
       "name": "★★☆45 min",
       "description": "Short ramped interval workout",
       "activity": "CYCLING",
@@ -5446,8 +5446,8 @@
     },
     {
       "fileId": "0x00be0026",
-      "listId": "3a71ecb045c1a5d8b8e2c292466c37fa",
       "workoutId": "da2643df877c56e08c1ef4e40798b308",
+      "workoutMd5": "3a71ecb045c1a5d8b8e2c292466c37fa",
       "name": "★★☆50 min",
       "description": "Long workout with interval increasing in intensity",
       "activity": "CYCLING",
@@ -5606,8 +5606,8 @@
     },
     {
       "fileId": "0x00be0027",
-      "listId": "025a83bb4f79f895a20e4aa96b7300f4",
       "workoutId": "72a15dfb4d1757c2b6294b5f749037d4",
+      "workoutMd5": "025a83bb4f79f895a20e4aa96b7300f4",
       "name": "★★☆65 min",
       "description": "Long ramped interval workout",
       "activity": "CYCLING",
@@ -5798,8 +5798,8 @@
     },
     {
       "fileId": "0x00be0028",
-      "listId": "3ff424c5318476a039e9e343ef6b3d49",
       "workoutId": "776309606bad571d96f131fd4c2e6755",
+      "workoutMd5": "3ff424c5318476a039e9e343ef6b3d49",
       "name": "★★★55 min",
       "description": "Workout alternating between hard and easy efforts.",
       "activity": "CYCLING",
@@ -5945,8 +5945,8 @@
     },
     {
       "fileId": "0x00be0029",
-      "listId": "5ca78a0eebc2e0a29bf2c27938bd7ba6",
       "workoutId": "be445fd52d76595f8dd3da3d90efdf0d",
+      "workoutMd5": "5ca78a0eebc2e0a29bf2c27938bd7ba6",
       "name": "★☆☆30 min",
       "description": "Short workout alternating max sprint efforts with active rest",
       "activity": "CYCLING",
@@ -6182,8 +6182,8 @@
     },
     {
       "fileId": "0x00be002a",
-      "listId": "89250060e725e2bcfb7df5705322701f",
       "workoutId": "fa4100da95fb5036a9e2edd2f689934f",
+      "workoutMd5": "89250060e725e2bcfb7df5705322701f",
       "name": "★★☆45 min",
       "description": "Long workout alternating max sprint efforts with active rest",
       "activity": "CYCLING",
@@ -6599,8 +6599,8 @@
     },
     {
       "fileId": "0x00be002b",
-      "listId": "aca69e33cc4de72db2b341a35964dafb",
       "workoutId": "d8df4cf13a3d5483908cfa38a4ad56a7",
+      "workoutMd5": "aca69e33cc4de72db2b341a35964dafb",
       "name": "★★☆60 min",
       "description": "Sprint pyramid intervals with ascending and descending work and rest",
       "activity": "CYCLING",
@@ -7304,8 +7304,8 @@
     },
     {
       "fileId": "0x00be002c",
-      "listId": "ca5a014a12f67e36a66c301956908ec2",
       "workoutId": "f051ccd5dfe65556a5952b91e514f25a",
+      "workoutMd5": "ca5a014a12f67e36a66c301956908ec2",
       "name": "★★★60 min",
       "description": "Sprint and active rest intervals ascending and descending in length",
       "activity": "CYCLING",
@@ -7865,8 +7865,8 @@
     },
     {
       "fileId": "0x00be002d",
-      "listId": "a112e4459c6e96341dc670c4083328bd",
       "workoutId": "80003321c33b5a8484c8aa4b5371fcee",
+      "workoutMd5": "a112e4459c6e96341dc670c4083328bd",
       "name": "★★★90 min",
       "description": "Long workout with short sprint intervals and longer hard efforts.",
       "activity": "CYCLING",
@@ -8237,8 +8237,8 @@
     },
     {
       "fileId": "0x00be002e",
-      "listId": "d692b2a5c13bc449f798ad9c1b6dd555",
       "workoutId": "8c8c6ef3cc3a5e4b8d92bef6bac0143e",
+      "workoutMd5": "d692b2a5c13bc449f798ad9c1b6dd555",
       "name": "★☆☆40 min",
       "description": "Short workout alternating between short hard and medium efforts",
       "activity": "CYCLING",
@@ -8474,8 +8474,8 @@
     },
     {
       "fileId": "0x00be002f",
-      "listId": "c05f45da85e19e0df5b412f8034be2ed",
       "workoutId": "fb44793feeb25db7afcef292eb118353",
+      "workoutMd5": "c05f45da85e19e0df5b412f8034be2ed",
       "name": "★☆☆50 min",
       "description": "Workout alternating short hard efforts with active rest",
       "activity": "CYCLING",
@@ -8675,8 +8675,8 @@
     },
     {
       "fileId": "0x00be0030",
-      "listId": "d7ea513210cf0787c644564694d690b3",
       "workoutId": "3dbd4af431be5e869d7dd0f85305ebaf",
+      "workoutMd5": "d7ea513210cf0787c644564694d690b3",
       "name": "★★☆65 min",
       "description": "Power pyramid intervals with ascending and descending work and rest",
       "activity": "CYCLING",
@@ -8894,8 +8894,8 @@
     },
     {
       "fileId": "0x00be0031",
-      "listId": "84213a6caca0da25e8fd3df3a15ad6dc",
       "workoutId": "fccff7e8117858ad8cb85171cf2af887",
+      "workoutMd5": "84213a6caca0da25e8fd3df3a15ad6dc",
       "name": "★★☆70 min",
       "description": "Long workout with prolonged medium efforts and comfortable efforts",
       "activity": "CYCLING",
@@ -8987,8 +8987,8 @@
     },
     {
       "fileId": "0x00be0032",
-      "listId": "9552ba8eb9465e234ddc303f1464fdd7",
       "workoutId": "85b3eb0839a85f86aa29ec37d0cc56a1",
+      "workoutMd5": "9552ba8eb9465e234ddc303f1464fdd7",
       "name": "★★★65 min",
       "description": "Long workout alternating between short hard and medium efforts",
       "activity": "CYCLING",

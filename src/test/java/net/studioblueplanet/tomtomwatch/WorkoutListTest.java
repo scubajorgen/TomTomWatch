@@ -107,7 +107,7 @@ public class WorkoutListTest
         assertEquals(617, item.fileSize());
         assertEquals(2, item.getUnknown12());
         assertEquals(1, item.getUnknown13());
-        assertArrayEquals(javax.xml.bind.DatatypeConverter.parseHexBinary("E1E198719FF62F4000D051B02F8AE1F1"), item.getId());
+        assertArrayEquals(javax.xml.bind.DatatypeConverter.parseHexBinary("E1E198719FF62F4000D051B02F8AE1F1"), item.getWorkoutMd5());
         assertArrayEquals(javax.xml.bind.DatatypeConverter.parseHexBinary("A5051A5B46A75986809F34D542FBA63F"), item.getWorkoutId());
     }
 
