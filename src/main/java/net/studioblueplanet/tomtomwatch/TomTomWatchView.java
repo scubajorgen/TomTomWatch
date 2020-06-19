@@ -2502,8 +2502,8 @@ public class TomTomWatchView extends javax.swing.JFrame
     public void setProductId(int id)
     {
         this.jTextFieldProductId.setText(String.format("0x%08x", id));
-        // For now: enable upload workouts only for Adventurer
-        if (id!=0xe0070000)
+        // For now: enable upload workouts only for Adventurer and Runner3
+        if (id!=0xe0070000 && id!=0xd1070000)
         {
             this.jMenuItemUploadWorkouts.setEnabled(false);
         }
