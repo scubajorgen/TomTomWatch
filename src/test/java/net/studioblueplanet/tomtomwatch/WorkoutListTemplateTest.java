@@ -125,14 +125,14 @@ public class WorkoutListTemplateTest
         assertEquals("Step 2", step.name);
         assertEquals("Description", step.description);
         assertEquals(StepType.WORK, step.type);
-        assertEquals(ExtentType.DISTANCE, step.length);
-        assertNull(step.time);
-        assertEquals(5000, (int)step.distance);
-        assertNull(step.reachHrZone);
+        assertEquals(ExtentType.DISTANCE, step.extent);
+        assertNull(step.extentTime);
+        assertEquals(5000, (int)step.extentDistance);
+        assertNull(step.extentReachHrZone);
         assertEquals(IntensityType.PACE, step.intensity);
-        assertNull(step.hrZone);
-        assertEquals(240, (int)step.pace);
-        assertNull(step.speed);
+        assertNull(step.intensityHrZone);
+        assertEquals(240, (int)step.intensityPace);
+        assertNull(step.intensitySpeed);
         
         instance=WorkoutListTemplate.fromJson("dummy");
         assertNull(instance);
@@ -210,14 +210,14 @@ public class WorkoutListTemplateTest
         StepTemplate step=workout.steps.get(0);
         assertEquals("Work", step.name);
         assertEquals("Get into the Fat Burn HR zone", step.description);
-        assertEquals(ExtentType.TIME, step.length);
-        assertEquals(1980, (int)step.time);
-        assertNull(step.distance);
-        assertNull(step.reachHrZone);
+        assertEquals(ExtentType.TIME, step.extent);
+        assertEquals(1980, (int)step.extentTime);
+        assertNull(step.extentDistance);
+        assertNull(step.extentReachHrZone);
         assertEquals(IntensityType.HRZONE, step.intensity);
-        assertEquals(HrZone.FATBURN, step.hrZone);
-        assertNull(step.pace);
-        assertNull(step.speed);
+        assertEquals(HrZone.FATBURN, step.intensityHrZone);
+        assertNull(step.intensityPace);
+        assertNull(step.intensitySpeed);
     }
     
     @Test

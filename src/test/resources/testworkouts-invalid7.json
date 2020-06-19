@@ -35,10 +35,10 @@
           "name": "Step 1",
           "description": "Step 1",
           "type": "WARMUP",
-          "length": "TIME",
-          "time": 60,
+          "extent": "TIME",
+          "extentTime": 60,
           "intensity": "HRZONE",
-          "speed": 100
+          "intensitySpeed": 100
         }
       ]
     }

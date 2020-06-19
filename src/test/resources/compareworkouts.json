@@ -36,10 +36,10 @@
           "name": "Work",
           "description": "Get into the Fat Burn HR zone",
           "type": "WORK",
-          "length": "TIME",
-          "time": 1800,
+          "extent": "TIME",
+          "extentTime": 1800,
           "intensity": "HRZONE",
-          "hrZone": "FATBURN"
+          "intensityHrZone": "FATBURN"
         }
       ]
     },
@@ -57,10 +57,10 @@
           "name": "Work",
           "description": "Get into the Fat Burn HR zone",
           "type": "WORK",
-          "length": "TIME",
-          "time": 1980,
+          "extent": "TIME",
+          "extentTime": 1980,
           "intensity": "HRZONE",
-          "hrZone": "FATBURN"
+          "intensityHrZone": "FATBURN"
         }
       ]
     }

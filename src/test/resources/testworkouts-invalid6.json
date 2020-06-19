@@ -35,10 +35,10 @@
           "name": "Step 1",
           "description": "Step 1",
           "type": "WARMUP",
-          "length": "TIME",
-          "distance": 1000,
+          "extent": "TIME",
+          "extentDistance": 1000,
           "intensity": "HRZONE",
-          "hrZone": "CARDIO"
+          "intensityHrZone": "CARDIO"
         }
       ]
     }

@@ -35,34 +35,34 @@
           "name": "Step 1",
           "description": "Step 1",
           "type": "WARMUP",
-          "length": "TIME",
-          "time": 60,
+          "extent": "TIME",
+          "extentTime": 60,
           "intensity": "HRZONE",
-          "hrZone": "CARDIO"
+          "intensityHrZone": "CARDIO"
         },
         {
           "name": "Step 2",
           "description": "Description",
           "type": "WORK",
-          "length": "DISTANCE",
-          "distance": 5000,
+          "extent": "DISTANCE",
+          "extentDistance": 5000,
           "intensity": "PACE",
-          "pace": 240
+          "intensityPace": 240
         },
         {
           "name": "Step 3",
           "description": "",
           "type": "WARMUP",
-          "length": "REACHHRZONE",
-          "reachHrZone": "FATBURN",
+          "extent": "REACHHRZONE",
+          "extentReachHrZone": "FATBURN",
           "intensity": "SPEED",
-          "speed": 100
+          "intensitySpeed": 100
         },
         {
           "name": "Step 4",
           "description": "",
           "type": "COOLDOWN",
-          "length": "MANUAL",
+          "extent": "MANUAL",
           "intensity": "NONE"
         }
       ]
@@ -80,10 +80,10 @@
           "name": "Step 1",
           "description": "Step 1",
           "type": "WARMUP",
-          "length": "TIME",
-          "time": 60,
+          "extent": "TIME",
+          "extentTime": 60,
           "intensity": "HRZONE",
-          "hrZone": "CARDIO"
+          "intensityHrZone": "CARDIO"
         }
       ]
     }

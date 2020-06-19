@@ -2774,7 +2774,12 @@ public class CommunicationProcess implements ProgressListener
                                 theView.appendStatus("Error writing workout file\n");
                             }
                         }
+                        if (!error)
+                        {
+                            theView.appendStatus("Done!");
+                        }
                     }
+                    
                 }
                 else
                 {

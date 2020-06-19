@@ -5,17 +5,16 @@
  */
 package net.studioblueplanet.tomtomwatch;
 
-import java.util.List;
-import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.HashMap;
+import java.util.List;
 import java.util.LinkedHashMap;
+import java.util.HashMap;
 import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
 import com.google.gson.GsonBuilder;
-import net.studioblueplanet.generics.ToolBox;
+import com.google.gson.JsonSyntaxException;
 import net.studioblueplanet.logger.DebugLogger;
+import net.studioblueplanet.generics.ToolBox;
 
 import net.studioblueplanet.tomtomwatch.Workout.WorkoutType;
 import net.studioblueplanet.tomtomwatch.Workout.IntensityLevel;
@@ -57,14 +56,14 @@ public class WorkoutListTemplate
         public String                       name;
         public String                       description;
         public StepType                     type;
-        public ExtentType                   length;
-        public Integer                      time;           // in seconds
-        public Integer                      distance;       // in meters
-        public HrZone                       reachHrZone;
+        public ExtentType                   extent;
+        public Integer                      extentTime;             // in seconds
+        public Integer                      extentDistance;         // in meters
+        public HrZone                       extentReachHrZone;
         public IntensityType                intensity;
-        public Integer                      speed;          // in m/hr                
-        public Integer                      pace;           // in s/km
-        public HrZone                       hrZone;        
+        public Integer                      intensitySpeed;         // in m/hr                
+        public Integer                      intensityPace;          // in s/km
+        public HrZone                       intensityHrZone;        
         
         public String validate()
         {
@@ -86,21 +85,21 @@ public class WorkoutListTemplate
             {
                 valid="Step must have a type: WARMUP, REST, WORK, COOLDOWN";
             }
-            else if (length==null || length==ExtentType.NONE)
+            else if (extent==null || extent==ExtentType.NONE)
             {
                 valid="Step must have a length: MANUAL, DISTANCE, TIME, REACHHRZONE";
             }
             else 
             {
-                if (length==ExtentType.DISTANCE && distance==null)
+                if (extent==ExtentType.DISTANCE && extentDistance==null)
                 {
                     valid="No distance specified for DISTANCE step";
                 }
-                else if (length==ExtentType.TIME && time==null)
+                else if (extent==ExtentType.TIME && extentTime==null)
                 {
                     valid="No time specified for TIME step";
                 }
-                else if (length==ExtentType.REACHHRZONE && reachHrZone==null)
+                else if (extent==ExtentType.REACHHRZONE && extentReachHrZone==null)
                 {
                     valid="No reachHrZone specified for REACHHRZONE step";
                 }
@@ -111,15 +110,15 @@ public class WorkoutListTemplate
             }
             else
             {
-                if (intensity==IntensityType.HRZONE && hrZone==null)
+                if (intensity==IntensityType.HRZONE && intensityHrZone==null)
                 {
                     valid="No hrZone specified for HRZONE intensity step";
                 }
-                else if (intensity==IntensityType.PACE && pace==null)
+                else if (intensity==IntensityType.PACE && intensityPace==null)
                 {
                     valid="No pace specified for PACE intensity step";
                 }
-                else if (intensity==IntensityType.SPEED && speed==null)
+                else if (intensity==IntensityType.SPEED && intensitySpeed==null)
                 {
                     valid="No speed specified for SPEED intensity step";
                 }
@@ -315,30 +314,30 @@ public class WorkoutListTemplate
                 stepTemplate.name       =step.getName();
                 stepTemplate.description=step.getDescription();
                 stepTemplate.type       =step.getType();
-                stepTemplate.length     =step.getStepExtent();
+                stepTemplate.extent     =step.getStepExtent();
                 switch (step.getStepExtent())
                 {
                     case DISTANCE:
-                        stepTemplate.distance=step.getExtentDistance()/1000;    // mm -> m
+                        stepTemplate.extentDistance=step.getExtentDistance()/1000;      // mm -> m
                         break;
                     case TIME:
-                        stepTemplate.time=step.getExtentTime();                 // sec
+                        stepTemplate.extentTime=step.getExtentTime();                   // sec
                         break;
                     case REACHHRZONE:
-                        stepTemplate.reachHrZone=step.getExtentReachHrZone();
+                        stepTemplate.extentReachHrZone=step.getExtentReachHrZone();
                         break;
                 }
                 stepTemplate.intensity  =step.getIntensity();
                 switch (step.getIntensity())
                 {
                     case PACE:
-                        stepTemplate.pace=step.getIntensityPace()/1000;         // msec/km -> sec/km
+                        stepTemplate.intensityPace=step.getIntensityPace()/1000;        // msec/km -> sec/km
                         break;
                     case SPEED:
-                        stepTemplate.speed=step.getIntensitySpeed()*3600/1000;  // mm/sec -> m/hr
+                        stepTemplate.intensitySpeed=step.getIntensitySpeed()*3600/1000; // mm/sec -> m/hr
                         break;
                     case HRZONE:
-                        stepTemplate.hrZone=step.getIntensityHrZone();
+                        stepTemplate.intensityHrZone=step.getIntensityHrZone();
                 }
                 workoutTemplate.steps.add(stepTemplate);
             }
@@ -386,16 +385,16 @@ public class WorkoutListTemplate
             for (StepTemplate step : workout.steps)
             {
                 WorkoutStep stepToAdd=new WorkoutStep(stepCount, step.name, step.description, step.type);
-                switch (step.length)
+                switch (step.extent)
                 {
                     case DISTANCE:
-                        stepToAdd.setExtentDistance(step.distance*1000);    // m to mm
+                        stepToAdd.setExtentDistance(step.extentDistance*1000);    // m to mm
                         break;
                     case TIME:
-                        stepToAdd.setExtentDuration(step.time);             // sec
+                        stepToAdd.setExtentDuration(step.extentTime);             // sec
                         break;
                     case REACHHRZONE:
-                        stepToAdd.setExtentReachHrZone(step.reachHrZone);
+                        stepToAdd.setExtentReachHrZone(step.extentReachHrZone);
                         break;
                     case MANUAL:
                         stepToAdd.setExtentManual();
@@ -407,13 +406,13 @@ public class WorkoutListTemplate
                 switch (step.intensity)
                 {
                     case HRZONE:
-                        stepToAdd.setIntensityHrZone(step.hrZone);
+                        stepToAdd.setIntensityHrZone(step.intensityHrZone);
                         break;
                     case PACE:
-                        stepToAdd.setIntensityPace(step.pace*1000);
+                        stepToAdd.setIntensityPace(step.intensityPace*1000);
                         break;
                     case SPEED:
-                        stepToAdd.setIntensitySpeed(step.speed*1000/3600);
+                        stepToAdd.setIntensitySpeed(step.intensitySpeed*1000/3600);
                         break;
                     case NONE:
                         break;
