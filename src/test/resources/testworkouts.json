@@ -52,11 +52,10 @@
         {
           "name": "Step 3",
           "description": "",
-          "type": "WARMUP",
+          "type": "REST",
           "extent": "REACHHRZONE",
           "extentReachHrZone": "FATBURN",
-          "intensity": "SPEED",
-          "intensitySpeed": 100
+          "intensity": "NONE"
         },
         {
           "name": "Step 4",

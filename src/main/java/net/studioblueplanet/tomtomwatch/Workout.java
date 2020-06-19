@@ -361,28 +361,36 @@ public class Workout
     /**
      * Level 7: get the step intensity
      * @param step The step to encode
-     * @return A fully 
+     * @return A fully populated intensity or null if the step has no intensity
      */
     private WorkoutProto.Intensity buildIntensity(WorkoutStep step)
-    {
-        WorkoutProto.Intensity.Builder builder;
+    { 
+        WorkoutProto.Intensity          intensity;
+        WorkoutProto.Intensity.Builder  builder;
         
-        builder=WorkoutProto.Intensity.newBuilder();
-        
+        intensity=null;
         switch (step.getIntensity())
         {
             case HRZONE:
+                builder=WorkoutProto.Intensity.newBuilder();
                 builder.setHeartratezone(step.getIntensityHrZone().getValue());
+                intensity=builder.build();
                 break;
             case PACE:
+                builder=WorkoutProto.Intensity.newBuilder();
                 builder.setPace(step.getIntensityPace());
+                intensity=builder.build();
                 break;
             case SPEED:
+                builder=WorkoutProto.Intensity.newBuilder();
                 builder.setPace(step.getIntensitySpeed());
+                intensity=builder.build();
+                break;
+            case NONE:
                 break;
         }
         
-        return builder.build();
+        return intensity;
     }
     
     /**
@@ -432,8 +440,11 @@ public class Workout
         stepBuilder.setStepNumber(id);
         stepBuilder.setStepType(step.getType().getValue());
         stepBuilder.setStepLength(buildExtent(step));
-        stepBuilder.setIntensity(buildIntensity(step));
-        
+        WorkoutProto.Intensity intensity=buildIntensity(step);
+        if (intensity!=null)
+        {
+            stepBuilder.setIntensity(intensity);
+        }
         subBuilder.setStepSub(stepBuilder.build());
         return subBuilder.build();
     }

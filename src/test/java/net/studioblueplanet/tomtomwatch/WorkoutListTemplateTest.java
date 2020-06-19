@@ -254,17 +254,17 @@ public class WorkoutListTemplateTest
         workout=result.getWorkout(item);
         assertEquals(4, workout.getSteps().size());
         
-        WorkoutStep step=workout.getSteps().get(2);
-        assertEquals("Step 3", step.getName());
-        assertEquals("", step.getDescription());
-        assertEquals(StepType.WARMUP, step.getType());
-        assertEquals(IntensityType.SPEED, step.getIntensity());
-        assertEquals(27, step.getIntensitySpeed());
-        assertEquals(-1, step.getIntensityPace());
+        WorkoutStep step=workout.getSteps().get(1);
+        assertEquals("Step 2", step.getName());
+        assertEquals("Description", step.getDescription());
+        assertEquals(StepType.WORK, step.getType());
+        assertEquals(IntensityType.PACE, step.getIntensity());
+        assertEquals(-1, step.getIntensitySpeed());
+        assertEquals(240000, step.getIntensityPace());
         assertEquals(HrZone.NONE, step.getIntensityHrZone());
-        assertEquals(ExtentType.REACHHRZONE, step.getStepExtent());
-        assertEquals(HrZone.FATBURN, step.getExtentReachHrZone());
-        assertEquals(-1, step.getExtentDistance());
+        assertEquals(ExtentType.DISTANCE, step.getStepExtent());
+        assertEquals(HrZone.NONE, step.getExtentReachHrZone());
+        assertEquals(5000000, step.getExtentDistance());
         assertEquals(-1, step.getExtentTime());
 
         // Check if the ID in the itemlist corresponds to the ID in the workout
@@ -436,6 +436,15 @@ public class WorkoutListTemplateTest
         json = new String(Files.readAllBytes((new File("src/test/resources/testworkouts-invalid8.json")).toPath()));   
         instance=WorkoutListTemplate.fromJson(json);     
         assertEquals("More than 5 workouts are defined for CYCLING, POWER", instance.validate());
+
+        json = new String(Files.readAllBytes((new File("src/test/resources/testworkouts-invalid9.json")).toPath()));   
+        instance=WorkoutListTemplate.fromJson(json);     
+        assertEquals("A step with extent REACHHRZONE must have type=REST", instance.validate());
+
+        json = new String(Files.readAllBytes((new File("src/test/resources/testworkouts-invalida.json")).toPath()));   
+        instance=WorkoutListTemplate.fromJson(json);     
+        assertEquals("A step with extent REACHHRZONE must have intensity=NONE", instance.validate());
+
     }
             
 }

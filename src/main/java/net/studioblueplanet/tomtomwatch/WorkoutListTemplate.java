@@ -122,7 +122,17 @@ public class WorkoutListTemplate
                 {
                     valid="No speed specified for SPEED intensity step";
                 }
-
+            }
+            if (valid.equals("OK") && extent==ExtentType.REACHHRZONE)
+            {
+                if (intensity!=IntensityType.NONE)
+                {
+                    valid="A step with extent REACHHRZONE must have intensity=NONE";
+                } 
+                else if (type!=StepType.REST)
+                {
+                   valid="A step with extent REACHHRZONE must have type=REST"; 
+                }
             }
             return valid;
         }
