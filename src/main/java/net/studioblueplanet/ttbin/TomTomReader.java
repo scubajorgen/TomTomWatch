@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.ByteArrayInputStream;
 import java.util.TimeZone;
-import java.util.ArrayList;
+import java.util.List;
 import net.studioblueplanet.settings.ConfigSettings;
 
 /**
@@ -255,7 +255,7 @@ public class TomTomReader
         int                         segmentCount;
         int                         recordCount;
         int                         maxRecords;
-        ArrayList<ActivityRecord>   records;
+        List<ActivityRecord>        records;
         ActivityRecordGps           record;
         
         maxSegments =activity.getNumberOfSegments();
@@ -398,6 +398,7 @@ public class TomTomReader
             activity.smoothTrack(trackSmoothingQFactor);
         }
         
+        activity.compressTrack();
         
         
 //activity.dumpActivityCsv();

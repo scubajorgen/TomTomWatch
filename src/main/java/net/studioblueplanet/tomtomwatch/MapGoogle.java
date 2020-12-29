@@ -6,13 +6,12 @@ package net.studioblueplanet.tomtomwatch;
 
 import net.studioblueplanet.generics.PolyLineEncoder;
 import javax.swing.JPanel;
-import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.net.URL;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Iterator;
 
 import net.studioblueplanet.logger.DebugLogger;
@@ -401,7 +400,7 @@ public class MapGoogle extends Map
         ActivityRecord              record;
         ActivitySegment             segment;
         ActivityRecordGps           recordGps;
-        ArrayList<ActivityRecord>   points;
+        List<ActivityRecord>        points;
         Iterator<ActivityRecord>    it;
         double                      latitude;
         double                      longitude;

@@ -80,7 +80,8 @@ public class ConfigSettings
         new Setting("quickFixDays"          , "GPS Quick Fix days ahead         " , "3"    , "3,7"                    , SettingType.INT    ),
         new Setting("downloadAll"           , "Download all activities          " , "false", ""                       , SettingType.BOOLEAN),
         new Setting("ugotmeGpxExtensions"   , "Enable gpx extensions            " , "false", ""                       , SettingType.BOOLEAN),
-        new Setting("garminGpxExtensions"   , "Enable garmin gpx extensions     " , "true" , ""                       , SettingType.BOOLEAN)
+        new Setting("garminGpxExtensions"   , "Enable garmin gpx extensions     " , "true" , ""                       , SettingType.BOOLEAN),
+        new Setting("maxCompressionError"   , "Compression error in m           " , "0.0"  , ""                       , SettingType.DOUBLE)
     };
     
     private static ConfigSettings       theInstance=null;        

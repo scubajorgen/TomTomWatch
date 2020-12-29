@@ -16,7 +16,7 @@ import java.io.IOException;
  * This record represents a record in an activity
  * @author Jorgen
  */
-public class ActivityRecord
+public class ActivityRecord implements Comparable<ActivityRecord>
 {
     public static   final   int         INVALID=-9999;
     
@@ -36,6 +36,12 @@ public class ActivityRecord
         this.batteryLevel       =INVALID;
     }
 
+    @Override
+    public int compareTo(ActivityRecord other)
+    {
+        return dateTime.compareTo(other.dateTime);
+    }
+    
     /**
      * Set the local time zone
      * @param newLocalTimeZone The new local timezone to use

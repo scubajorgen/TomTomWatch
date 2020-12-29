@@ -6,7 +6,7 @@
 
 package net.studioblueplanet.ttbin;
 
-
+import java.util.List;
 import java.util.ArrayList;
 import hirondelle.date4j.DateTime;
 import java.util.TimeZone;
@@ -14,6 +14,9 @@ import java.io.Writer;
 import java.io.IOException;
 
 import net.studioblueplanet.generics.ToolBox;
+import net.studioblueplanet.generics.DPUtil;
+import net.studioblueplanet.logger.DebugLogger;
+import net.studioblueplanet.settings.ConfigSettings;
 
 /**
  *
@@ -21,13 +24,13 @@ import net.studioblueplanet.generics.ToolBox;
  */
 public class ActivitySegment
 {
-    public static final int             HRRECOVERY_UNDEFINED=-9999;
-    private ArrayList<ActivityRecord>   records;
-    private DateTime                    startTime;
-    private DateTime                    endTime;
-    private static TimeZone             localTimeZone;
-    private int                         heartRateRecovery;
-    private int                         heartRateRecoveryScore;
+    public static final int                 HRRECOVERY_UNDEFINED=-9999;
+    private List<ActivityRecord>            records;
+    private DateTime                        startTime;
+    private DateTime                        endTime;
+    private static TimeZone                 localTimeZone;
+    private int                             heartRateRecovery;
+    private int                             heartRateRecoveryScore;
     
     /**
      * Constructor
@@ -82,7 +85,7 @@ public class ActivitySegment
      * Returns the array of records in this activity segments
      * @return ArrayList with records
      */
-    public ArrayList<ActivityRecord> getRecords()
+    public List<ActivityRecord> getRecords()
     {
         return this.records;
     }
@@ -259,6 +262,23 @@ public class ActivitySegment
             i++;
         }
         return distance;
+    }
+    
+    /**
+     * Compress segment using the Douglas-Peucker method
+     */
+    public void compress()
+    {
+        double maxError=ConfigSettings.getInstance().getDoubleValue("maxCompressionError");
+        int before;
+        int after;
+        if (maxError>0.0)
+        {
+            before=records.size();
+            records=DPUtil.dpAlgorithm(records, maxError);
+            after=records.size();
+            DebugLogger.info("DP Compression applied. Size before "+before+", after "+after+" ("+(100*after/before)+"%)");
+        }
     }
     
 }

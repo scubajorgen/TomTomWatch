@@ -24,7 +24,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Comment;
 import org.w3c.dom.Element;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Iterator;
 
 import hirondelle.date4j.DateTime;
@@ -274,7 +274,7 @@ public class GpxWriter
      */
     private void appendTrackSegmentGpx1_0(Document doc, Element segmentElement, ActivitySegment segment)
     {
-        ArrayList <ActivityRecord>  points;
+        List <ActivityRecord>       points;
         Iterator<ActivityRecord>    iterator;
         ActivityRecord              point;
         Element                     pointElement;
@@ -352,7 +352,7 @@ public class GpxWriter
      */
     private void appendTrackSegmentGpx1_1(Document doc, Element segmentElement, ActivitySegment segment)
     {
-        ArrayList <ActivityRecord>  points;
+        List<ActivityRecord>        points;
         Iterator<ActivityRecord>    iterator;
         ActivityRecord              point;
         Element                     pointElement;
@@ -540,7 +540,7 @@ public class GpxWriter
      */
     private void appendWaypointsGpx(Document doc, Element trackElement, Activity track)
     {
-        ArrayList <ActivityRecord>  points;
+        List<ActivityRecord>        points;
         Iterator<ActivityRecord>    iterator;
         ActivityRecord              point;
         Element                     pointElement;

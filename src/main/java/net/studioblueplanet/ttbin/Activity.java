@@ -11,6 +11,7 @@ import net.studioblueplanet.settings.ConfigSettings;
 import net.studioblueplanet.generics.PolyLineEncoder;
 
 import hirondelle.date4j.DateTime;
+import java.util.List;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -39,8 +40,9 @@ public class Activity
     }
     
     // If acitivity is paused for less than this time, the pause/activate is marked as waypoint
-    private static final    long                        WAYPOINTPAUSETIME       =10;  
-    public  static final    int                         FITNESSPOINTS_UNDEFINED =-1;
+    private static final    long                        WAYPOINTPAUSETIME           =10;  
+    public  static final    int                         FITNESSPOINTS_UNDEFINED     =-1;
+    private                 double                      minDistanceBetweenRecords   =0.000;
     
     protected               int                         summaryType;
     protected               double                      summaryDistance;
@@ -62,8 +64,8 @@ public class Activity
     
     protected               int                         secondsToFix;   // Time it took to find satellite fix
     
-    private final           ArrayList<ActivitySegment>  segments;
-    private final           ArrayList<ActivityRecord>   waypoints;
+    private final           List<ActivitySegment>       segments;
+    private final           List<ActivityRecord>        waypoints;
     private                 ActivityRecord              newRecord;
     private                 ActivitySegment             newActivitySegment;     
     
@@ -80,6 +82,11 @@ public class Activity
     private                 boolean                     isSmoothed;
     
     private                 ArrayList<Elevation>        elevations;
+    
+    private                 double                      prevLat=0.0;
+    private                 double                      prevLon=0.0;
+    private                 int                         skippedPoints=0;
+    private                 int                         validPoints=0;
     
     /* ******************************************************************************************* *\
      * CONSTRUCTOR
@@ -338,13 +345,13 @@ public class Activity
      * @param segmentId Index of the segment
      * @return The array list of reccords, or null if none available
      */
-    public ArrayList<ActivityRecord> getRecords(int segmentId)
+    public List<ActivityRecord> getRecords(int segmentId)
     {
         return this.segments.get(segmentId).getRecords();
     }
     
     
-    public ArrayList<ActivityRecord> getWaypoints()
+    public List<ActivityRecord> getWaypoints()
     {
         return this.waypoints;
     }
@@ -426,8 +433,6 @@ public class Activity
         double      latF;
         double      lonF;
         
-        // If a gps record is encountered, this marks the start of a new record
-        newRecord   =new ActivityRecordGps();
         
         lat         =ToolBox.readInt(recordData,  1, 4, true);
         lon         =ToolBox.readInt(recordData,  5, 4, true);
@@ -444,19 +449,31 @@ public class Activity
         {        
             latF=(double)lat/1.0E7;
             lonF=(double)lon/1.0E7;
+            validPoints++;
+            
+            if (ToolBox.distance(prevLat, prevLon, latF, lonF)>=minDistanceBetweenRecords)
+            {
+                // If a gps record is encountered, this marks the start of a new record
+                newRecord   =new ActivityRecordGps();
+                ((ActivityRecordGps)newRecord).setUtcTime(timestamp);
+                ((ActivityRecordGps)newRecord).setCoordinate(latF, lonF);
+                ((ActivityRecordGps)newRecord).setHeading((double)heading/100.0);
+                ((ActivityRecordGps)newRecord).setSpeed((double)speed/100.0);
+                ((ActivityRecordGps)newRecord).setCalories(calories);
+                ((ActivityRecordGps)newRecord).setInstantaneousSpeed(Float.intBitsToFloat(instantSpeed));
+                ((ActivityRecordGps)newRecord).setDistance(Float.intBitsToFloat(cumDistance));
+                ((ActivityRecordGps)newRecord).setCycles(cycles);
 
-            ((ActivityRecordGps)newRecord).setUtcTime(timestamp);
-            ((ActivityRecordGps)newRecord).setCoordinate(latF, lonF);
-            ((ActivityRecordGps)newRecord).setHeading((double)heading/100.0);
-            ((ActivityRecordGps)newRecord).setSpeed((double)speed/100.0);
-            ((ActivityRecordGps)newRecord).setCalories(calories);
-            ((ActivityRecordGps)newRecord).setInstantaneousSpeed(Float.intBitsToFloat(instantSpeed));
-            ((ActivityRecordGps)newRecord).setDistance(Float.intBitsToFloat(cumDistance));
-            ((ActivityRecordGps)newRecord).setCycles(cycles);
-
-            // Sets the current value of the batterylevel
-            newRecord.setBatteryLevel(this.batteryLevel);
-            this.newActivitySegment.addRecord(newRecord);
+                // Sets the current value of the batterylevel
+                newRecord.setBatteryLevel(this.batteryLevel);
+                this.newActivitySegment.addRecord(newRecord);
+                prevLat=latF;
+                prevLon=lonF;
+            }
+            else
+            {
+                skippedPoints++;
+            }
         }
         else
         {
@@ -850,7 +867,6 @@ public class Activity
     }
     
     
-
     /**
      * Parse the record data and create a record or add to a record.
      * Based on the tag defining the record, the adequate sub function is called
@@ -1022,7 +1038,7 @@ public class Activity
         
         Iterator<ActivitySegment>   itSegment;
         ActivitySegment             segment;
-        ArrayList<ActivityRecord>   points;
+        List<ActivityRecord>        points;
         Iterator<ActivityRecord>    itPoint;
         ActivityRecord              point;
         ActivityRecordGps           pointGps;
@@ -1067,7 +1083,7 @@ public class Activity
      */
     private String buildGoogleHeightServiceUrl(ActivitySegment segment)
     {
-        ArrayList<ActivityRecord>   points;
+        List<ActivityRecord>        points;
         ActivityRecordGps           point;
         int                         numberOfPoints;
         int                         numberOfRequestPoints;
@@ -1340,5 +1356,17 @@ public class Activity
         }
         return distance;
     }
-    
+
+    /* ******************************************************************************************* *\
+     * TRACK COMPRESSING - DOUGLASS-PEUCKER ALGORITHM
+    \* ******************************************************************************************* */
+    public void compressTrack()
+    {
+        Iterator<ActivitySegment> it;
+        it=segments.iterator();
+        while (it.hasNext())
+        {
+            it.next().compress();
+        }
+    }
 }
