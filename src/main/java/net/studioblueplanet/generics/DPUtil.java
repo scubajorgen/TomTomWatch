@@ -43,10 +43,10 @@ public class DPUtil
             dMax = defaultDMax;
         }
         int start = 0;
-        int end = originPoints.size() - 1;
+        int end   = originPoints.size() - 1;
         compression(originPoints, resultPoints, start, end, dMax);
         
-        Collections.sort(resultPoints);
+        Collections.sort(resultPoints); // sort points on datetime
         
         return resultPoints;
     }
