@@ -451,6 +451,19 @@ public class CommunicationProcess implements ProgressListener
     }
     
     /**
+     * This method sets the track compression. Call before downloading TTBINs
+     * @param enabled Indicates whether compression is enabled
+     * @param maxError The maximum error for Douglas-Peucker compression method
+     */
+    public void setTrackCompression(boolean enabled, double maxError)
+    {
+        synchronized(this)
+        {
+            ttbinReader.setTrackCompression(enabled, maxError);            
+        }
+    }
+
+    /**
      * This method loads and adds a route file to the array with route files
      * @param name Name of the route
      * @param file File name of the route gpx file

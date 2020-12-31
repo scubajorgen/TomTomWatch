@@ -1360,13 +1360,13 @@ public class Activity
     /* ******************************************************************************************* *\
      * TRACK COMPRESSING - DOUGLASS-PEUCKER ALGORITHM
     \* ******************************************************************************************* */
-    public void compressTrack()
+    public void compressTrack(double maxError)
     {
         Iterator<ActivitySegment> it;
         it=segments.iterator();
         while (it.hasNext())
         {
-            it.next().compress();
+            it.next().compress(maxError);
         }
     }
 }

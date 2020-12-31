@@ -267,9 +267,8 @@ public class ActivitySegment
     /**
      * Compress segment using the Douglas-Peucker method
      */
-    public void compress()
+    public void compress(double maxError)
     {
-        double maxError=ConfigSettings.getInstance().getDoubleValue("maxCompressionError");
         int before;
         int after;
         if (maxError>0.0)
@@ -278,6 +277,10 @@ public class ActivitySegment
             records=DPUtil.dpAlgorithm(records, maxError);
             after=records.size();
             DebugLogger.info("DP Compression applied. Size before "+before+", after "+after+" ("+(100*after/before)+"%)");
+        }
+        else
+        {
+            DebugLogger.error("Compression maximum error value must be larger than 0.0");
         }
     }
     

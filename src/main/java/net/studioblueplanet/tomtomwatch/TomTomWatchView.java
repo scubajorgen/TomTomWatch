@@ -52,6 +52,7 @@ public class TomTomWatchView extends javax.swing.JFrame
     private TomTomWatchAbout                    aboutBox;
     
     private float                               trackSmoothingQFactor;
+    private double                              trackCompressionMaxError;
    
     /**
      * Constructor. Creates new form TomTomWatchView
@@ -62,6 +63,7 @@ public class TomTomWatchView extends javax.swing.JFrame
     {
         DefaultListModel<String>    model;
         boolean                     trackSmoothing;
+        boolean                     trackCompression;
         
         TomTomReader                reader;
         
@@ -122,6 +124,11 @@ public class TomTomWatchView extends javax.swing.JFrame
         trackSmoothing          =settings.getBooleanValue("trackSmoothingEnabled");
         trackSmoothingQFactor   =(float)settings.getDoubleValue("trackSmoothingQFactor");
         this.jCheckBoxSmooth.setSelected(trackSmoothing);
+        
+        // Set the track smoothing to the TomTom TTBIN reader
+        trackCompression        =settings.getBooleanValue("trackCompressionEnabled");
+        trackCompressionMaxError=settings.getDoubleValue("trackCompressionMaxError");
+        this.jCheckBoxCompress.setSelected(trackCompression);
         
         // If simulation data is used, disable the menu item to save simulation data
         if (settings.getBooleanValue("simulation"))
@@ -257,6 +264,7 @@ public class TomTomWatchView extends javax.swing.JFrame
         jCheckBoxDownloadMostRecent = new javax.swing.JCheckBox();
         jCheckBoxAutoSave = new javax.swing.JCheckBox();
         jCheckBoxSmooth = new javax.swing.JCheckBox();
+        jCheckBoxCompress = new javax.swing.JCheckBox();
         jPanel5 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -615,6 +623,16 @@ public class TomTomWatchView extends javax.swing.JFrame
             }
         });
 
+        jCheckBoxCompress.setFont(new java.awt.Font("Lucida Sans", 0, 11)); // NOI18N
+        jCheckBoxCompress.setText("Compress");
+        jCheckBoxCompress.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                jCheckBoxCompressActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -632,7 +650,8 @@ public class TomTomWatchView extends javax.swing.JFrame
                             .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(jCheckBoxDownloadMostRecent)
                                 .addComponent(jCheckBoxAutoSave)
-                                .addComponent(jCheckBoxSmooth)))
+                                .addComponent(jCheckBoxSmooth)
+                                .addComponent(jCheckBoxCompress)))
                         .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
                             .addComponent(jLabel2)
                             .addGap(18, 18, 18)
@@ -657,7 +676,7 @@ public class TomTomWatchView extends javax.swing.JFrame
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -672,20 +691,22 @@ public class TomTomWatchView extends javax.swing.JFrame
                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel2)
                         .addComponent(jTextFieldGpxFile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(1, 1, 1)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jProgressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
+                        .addGap(7, 7, 7)
                         .addComponent(jCheckBoxDownloadMostRecent)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jCheckBoxAutoSave)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jCheckBoxSmooth)))
-                .addContainerGap(18, Short.MAX_VALUE))
+                        .addComponent(jCheckBoxSmooth))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addGap(1, 1, 1)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(20, 20, 20)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jCheckBoxCompress)
+                    .addComponent(jProgressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
         jPanel5.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -838,7 +859,7 @@ public class TomTomWatchView extends javax.swing.JFrame
                             .addComponent(jButtonSaveRoutes)
                             .addComponent(jTextFieldRouteName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 87, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -1214,7 +1235,7 @@ public class TomTomWatchView extends javax.swing.JFrame
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 139, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -1224,10 +1245,14 @@ public class TomTomWatchView extends javax.swing.JFrame
     private void jButtonDownloadActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButtonDownloadActionPerformed
     {//GEN-HEADEREND:event_jButtonDownloadActionPerformed
         boolean trackSmoothingEnabled;
+        boolean trackCompressionEnabled;
         
         // Set the tracksmoothing
         trackSmoothingEnabled=this.jCheckBoxSmooth.isSelected();
         communicationProcess.setTrackSmoothing(trackSmoothingEnabled, trackSmoothingQFactor);
+        // Set the track compression
+        trackCompressionEnabled=this.jCheckBoxCompress.isSelected();
+        communicationProcess.setTrackCompression(trackCompressionEnabled, trackCompressionMaxError);
         
         // Do the download
         checkAndPushCommand(ThreadCommand.THREADCOMMAND_DOWNLOADACTIVITIES);
@@ -1506,11 +1531,15 @@ public class TomTomWatchView extends javax.swing.JFrame
         String              ttbinPath;
         int                 listItems;
         boolean trackSmoothingEnabled;
+        boolean trackCompressionEnabled;
         
         // Set the tracksmoothing
         trackSmoothingEnabled=this.jCheckBoxSmooth.isSelected();
-        communicationProcess.setTrackSmoothing(trackSmoothingEnabled, trackSmoothingQFactor);        
-
+        communicationProcess.setTrackSmoothing(trackSmoothingEnabled, trackSmoothingQFactor);
+        // Set the track compression
+        trackCompressionEnabled=this.jCheckBoxCompress.isSelected();
+        communicationProcess.setTrackCompression(trackCompressionEnabled, trackCompressionMaxError);
+        
         ttbinPath=settings.getStringValue("ttbinFilePath");
         
         fileName=this.fileChooser(ttbinPath, null, "Load", "TTBIN files (*.ttbin)", "ttbin");
@@ -2027,6 +2056,14 @@ public class TomTomWatchView extends javax.swing.JFrame
             }
         }            
     }//GEN-LAST:event_jMenuItemUploadWorkoutsActionPerformed
+
+    private void jCheckBoxCompressActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jCheckBoxCompressActionPerformed
+    {//GEN-HEADEREND:event_jCheckBoxCompressActionPerformed
+        // TODO add your handling code here:
+        // Clear the list of activities as maintained by the communication
+        // process. En passant the listbox in this view is erased.
+        communicationProcess.clear();
+    }//GEN-LAST:event_jCheckBoxCompressActionPerformed
 
     /*############################################################################################*\
      * HELPER FUNCTIONS     
@@ -2618,6 +2655,7 @@ public class TomTomWatchView extends javax.swing.JFrame
     private javax.swing.JButton jButtonSaveTtbin;
     private javax.swing.JButton jButtonUploadGps;
     private javax.swing.JCheckBox jCheckBoxAutoSave;
+    private javax.swing.JCheckBox jCheckBoxCompress;
     private javax.swing.JCheckBox jCheckBoxDownloadMostRecent;
     private javax.swing.JCheckBox jCheckBoxSmooth;
     private javax.swing.JLabel jLabel10;

@@ -34,11 +34,12 @@ public class TomTomReader
 
     private static TomTomReader                     theInstance;
     private TtbinHeader                             header;
-    private byte[]                                  bytes;
+    private final byte[]                            bytes;
     private Activity                                activity;   
     private boolean                                 trackSmoothingEnabled;
     private float                                   trackSmoothingQFactor;
-    
+    private boolean                                 trackCompressionEnabled;
+    private double                                  trackCompressionMaxError;
     
     /**
      * Constructor
@@ -68,8 +69,14 @@ public class TomTomReader
     
     public void setTrackSmoothing(boolean enabled, float qFactor)
     {
-        this.trackSmoothingEnabled   =enabled;
-        this.trackSmoothingQFactor  =qFactor;
+        this.trackSmoothingEnabled      =enabled;
+        this.trackSmoothingQFactor      =qFactor;
+    }
+    
+    public void setTrackCompression(boolean enabled, double maxError)
+    {
+        this.trackCompressionEnabled    =enabled;
+        this.trackCompressionMaxError   =maxError;
     }
     
     /**
@@ -398,7 +405,10 @@ public class TomTomReader
             activity.smoothTrack(trackSmoothingQFactor);
         }
         
-        activity.compressTrack();
+        if (this.trackCompressionEnabled)
+        {
+            activity.compressTrack(trackCompressionMaxError);
+        }
         
         
 //activity.dumpActivityCsv();
