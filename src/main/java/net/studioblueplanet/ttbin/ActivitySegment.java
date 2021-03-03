@@ -6,12 +6,15 @@
 
 package net.studioblueplanet.ttbin;
 
+import java.util.Comparator;
+import java.util.NoSuchElementException;
 import java.util.List;
 import java.util.ArrayList;
 import hirondelle.date4j.DateTime;
 import java.util.TimeZone;
 import java.io.Writer;
 import java.io.IOException;
+import java.util.Collections;
 
 import net.studioblueplanet.generics.ToolBox;
 import net.studioblueplanet.generics.DPUtil;
@@ -271,10 +274,29 @@ public class ActivitySegment
     {
         int before;
         int after;
+        ActivityRecord maxSpeed;
+        List<ActivityRecord> recs;
+        
+        // Find the max speed in the original data
+        maxSpeed=records.stream()
+                        .filter(ActivityRecordGps.class::isInstance)
+                        .map(ActivityRecordGps.class::cast)
+                        .max(Comparator.comparing(ActivityRecordGps::getSpeed))
+                        .orElseThrow(NoSuchElementException::new);
+        
         if (maxError>0.0)
         {
             before=records.size();
+            // Douglas Peucker compression
             records=DPUtil.dpAlgorithm(records, maxError);
+            
+            // Check if the max speed record is included in the result
+            if (records.stream().filter(r -> r.getDateTime().equals(maxSpeed.getDateTime())).count()==0)
+            {
+                // add if not
+                records.add(maxSpeed);
+                Collections.sort(records); // sort points on datetime
+            }
             after=records.size();
             DebugLogger.info("DP Compression applied. Size before "+before+", after "+after+" ("+(100*after/before)+"%)");
         }
