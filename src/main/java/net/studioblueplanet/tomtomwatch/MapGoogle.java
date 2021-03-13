@@ -18,7 +18,6 @@ import net.studioblueplanet.logger.DebugLogger;
 import net.studioblueplanet.ttbin.Activity;
 import net.studioblueplanet.ttbin.ActivitySegment;
 import net.studioblueplanet.ttbin.ActivityRecord;
-import net.studioblueplanet.ttbin.ActivityRecordGps;
 import net.studioblueplanet.settings.ConfigSettings;
 
 
@@ -44,8 +43,8 @@ public class MapGoogle extends Map
     private static final int            MAXCOMPRESSIONPARAMS=7;
     
    
-    private ActivityRecordGps           firstPoint;
-    private ActivityRecordGps           lastPoint;
+    private ActivityRecord              firstPoint;
+    private ActivityRecord              lastPoint;
     private int                         totalPointCount;
     private int                         compressedPointCount;
     
@@ -397,9 +396,8 @@ public class MapGoogle extends Map
         int                         pointCount;
         RouteSegment                routeSegment;
         RoutePoint                  point;
-        ActivityRecord              record;
         ActivitySegment             segment;
-        ActivityRecordGps           recordGps;
+        ActivityRecord              recordGps;
         List<ActivityRecord>        points;
         Iterator<ActivityRecord>    it;
         double                      latitude;
@@ -429,7 +427,7 @@ public class MapGoogle extends Map
                 it=points.iterator();
                 while (it.hasNext())
                 {
-                    recordGps=(ActivityRecordGps)it.next();
+                    recordGps=it.next();
 
                     latitude    =recordGps.getLatitude();
                     longitude   =recordGps.getLongitude();
@@ -496,8 +494,5 @@ public class MapGoogle extends Map
     public void hideTrack()
     {
         this.label.setIcon(null);
-    }    
-    
-
-    
+    }
 }

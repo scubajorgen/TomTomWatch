@@ -295,9 +295,9 @@ public class GpxWriter
             point           =iterator.next();
             
             dateTime        =point.getDateTime();
-            latitude        =((ActivityRecordGps)point).getLatitude();
-            longitude       =((ActivityRecordGps)point).getLongitude();
-            elevation       =((ActivityRecordGps)point).getDerivedElevation();
+            latitude        =point.getLatitude();
+            longitude       =point.getLongitude();
+            elevation       =point.getDerivedElevation();
             
             if ((dateTime!=null) && 
                 (latitude!=ActivityRecord.INVALID) && (longitude!=ActivityRecord.INVALID) && 
@@ -320,7 +320,7 @@ public class GpxWriter
 
                 // Extensions: speed
                 element    = doc.createElement("speed");
-                element.appendChild(doc.createTextNode(String.valueOf(((ActivityRecordGps)point).getSpeed())));
+                element.appendChild(doc.createTextNode(String.valueOf(point.getSpeed())));
                 pointElement.appendChild(element);
 
                 // TO DO ADD DISTANCE
@@ -386,22 +386,22 @@ public class GpxWriter
             
             
             dateTime        =point.getDateTime();
-            latitude        =((ActivityRecordGps)point).getLatitude();
-            longitude       =((ActivityRecordGps)point).getLongitude();
-            elevation       =((ActivityRecordGps)point).getDerivedElevation();
-            heartRate       =((ActivityRecordGps)point).getHeartRate();
-            temperature     =((ActivityRecordGps)point).getTemperature();
-            speed           =((ActivityRecordGps)point).getSpeed();
-            ehpe            =((ActivityRecordGps)point).getEhpe();
-            evpe            =((ActivityRecordGps)point).getEvpe();
-            hdop            =((ActivityRecordGps)point).getHdop();
+            latitude        =point.getLatitude();
+            longitude       =point.getLongitude();
+            elevation       =point.getDerivedElevation();
+            heartRate       =point.getHeartRate();
+            temperature     =point.getTemperature();
+            speed           =point.getSpeed();
+            ehpe            =point.getEhpe();
+            evpe            =point.getEvpe();
+            hdop            =point.getHdop();
             
             // TO DO: add or not add. Can be derived...
-            heading         =((ActivityRecordGps)point).getHeading();
-            calories        =((ActivityRecordGps)point).getCalories();
-            ascend          =((ActivityRecordGps)point).getCumulativeAscend();
-            descend         =((ActivityRecordGps)point).getCumulativeDecend();
-            distance        =((ActivityRecordGps)point).getDistance();
+            heading         =point.getHeading();
+            calories        =point.getCalories();
+            ascend          =point.getCumulativeAscend();
+            descend         =point.getCumulativeDecend();
+            distance        =point.getDistance();
             
             if ((dateTime!=null) && 
                     (latitude!=ActivityRecord.INVALID) && (longitude!=ActivityRecord.INVALID) && 
@@ -584,19 +584,19 @@ public class GpxWriter
             pointElement.appendChild(element);
            
             // set attribute 'lat' to element
-            latitude=((ActivityRecordGps)point).getLatitude();
+            latitude=point.getLatitude();
             attr = doc.createAttribute("lat");
             attr.setValue(String.format("%.7f", latitude));
             pointElement.setAttributeNode(attr);
 
             // set attribute 'lon' to element
-            longitude=((ActivityRecordGps)point).getLongitude();
+            longitude=point.getLongitude();
             attr = doc.createAttribute("lon");
             attr.setValue(String.format("%.7f", longitude));
             pointElement.setAttributeNode(attr);
 
             element    = doc.createElement("ele");
-            element.appendChild(doc.createTextNode(String.valueOf(((ActivityRecordGps)point).getElevation1())));
+            element.appendChild(doc.createTextNode(String.valueOf(point.getElevation1())));
             pointElement.appendChild(element);
 
 

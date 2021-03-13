@@ -5,17 +5,8 @@
  */
 package net.studioblueplanet.tomtomwatch;
 
-import java.awt.image.BufferedImage;
-import java.util.ArrayList;
-import java.util.Iterator;
-import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import net.studioblueplanet.logger.DebugLogger;
-import net.studioblueplanet.ttbin.Activity;
-import net.studioblueplanet.ttbin.ActivityRecord;
-import net.studioblueplanet.ttbin.ActivityRecordGps;
-import net.studioblueplanet.ttbin.ActivitySegment;
 
 /**
  * This class represents the map function, showing a map with a route.

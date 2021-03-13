@@ -19,7 +19,7 @@ public class TrackSmoother
     {
         private final float MinAccuracy = 1;
 
-        private float       Q_metres_per_second;    
+        private final float Q_metres_per_second;    
         private long        TimeStamp_milliseconds;
         private double      lat;
         private double      lng;
@@ -149,8 +149,7 @@ public class TrackSmoother
         KalmanLatLong               filter;
         ActivitySegment             segment;
         Iterator<ActivitySegment>   itSegment;
-        ActivityRecordGps           gpsRecord;
-        ActivityRecord              record;
+        ActivityRecord              gpsRecord;
         Iterator<ActivityRecord>    itRecord;
         double                      lat;
         double                      lon;
@@ -169,11 +168,7 @@ public class TrackSmoother
             
             while (itRecord.hasNext())
             {
-                record=itRecord.next();
-                
-                if (record instanceof ActivityRecordGps)
-                {
-                    gpsRecord=(ActivityRecordGps)record;
+                    gpsRecord=itRecord.next();
 
                     lat=gpsRecord.getLatitude();
                     lon=gpsRecord.getLongitude();
@@ -183,7 +178,7 @@ public class TrackSmoother
                     if ((lat!=0.0) && (lon!=0.0) && (ehpe!=ActivityRecord.INVALID))
                     {
                         // The timestamp in ms. The timezone doesn't matter actually...
-                        timeInMs           =record.getDateTime().getMilliseconds(TimeZone.getTimeZone("UTC"));
+                        timeInMs           =gpsRecord.getDateTime().getMilliseconds(TimeZone.getTimeZone("UTC"));
 
                         // Store the original coordinate to the raw lat/lon
                         gpsRecord.setRawCoordinate(lat, lon);
@@ -197,7 +192,6 @@ public class TrackSmoother
                         gpsRecord.setCoordinate(lat, lon);
 
                     }
-                }                
             }
         }
     }
@@ -211,8 +205,7 @@ public class TrackSmoother
     {
         ActivitySegment             segment;
         Iterator<ActivitySegment>   itSegment;
-        ActivityRecordGps           gpsRecord;
-        ActivityRecord              record;
+        ActivityRecord              gpsRecord;
         Iterator<ActivityRecord>    itRecord;
         double                      lat;
         double                      lon;
@@ -230,24 +223,18 @@ public class TrackSmoother
             
             while (itRecord.hasNext())
             {
-                record=itRecord.next();
-                
-                if (record instanceof ActivityRecordGps)
-                {
-                    gpsRecord=(ActivityRecordGps)record;
 
-                    lat=gpsRecord.getRawLatitude();
-                    lon=gpsRecord.getRawLongitude();
-                    
-                    if (lat!=ActivityRecord.INVALID && lon!=ActivityRecord.INVALID)
-                    {
-                        gpsRecord.setCoordinate(lat, lon);
-                        gpsRecord.setRawCoordinate(ActivityRecord.INVALID, ActivityRecord.INVALID);
-                    }
-                }                
+                gpsRecord=itRecord.next();
+
+                lat=gpsRecord.getRawLatitude();
+                lon=gpsRecord.getRawLongitude();
+
+                if (lat!=ActivityRecord.INVALID && lon!=ActivityRecord.INVALID)
+                {
+                    gpsRecord.setCoordinate(lat, lon);
+                    gpsRecord.setRawCoordinate(ActivityRecord.INVALID, ActivityRecord.INVALID);
+                }
             }
         }
-
     }
-    
 }

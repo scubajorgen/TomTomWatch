@@ -250,20 +250,20 @@ public class TomTomReader
      */
     private void correctElevation(Activity activity)
     {
-        double                      average1;
-        double                      average2;
-        double                      elevation1;
-        double                      elevation2;
-        double                      sum1;
-        double                      sum2;
-        int                         count1;
-        int                         count2;
-        int                         maxSegments;
-        int                         segmentCount;
-        int                         recordCount;
-        int                         maxRecords;
-        List<ActivityRecord>        records;
-        ActivityRecordGps           record;
+        double                  average1;
+        double                  average2;
+        double                  elevation1;
+        double                  elevation2;
+        double                  sum1;
+        double                  sum2;
+        int                     count1;
+        int                     count2;
+        int                     maxSegments;
+        int                     segmentCount;
+        int                     recordCount;
+        int                     maxRecords;
+        List<ActivityRecord>    records;
+        ActivityRecord          record;
         
         maxSegments =activity.getNumberOfSegments();
         average1    =0.0;
@@ -283,7 +283,7 @@ public class TomTomReader
                 recordCount=5;
                 while (recordCount<records.size())
                 {
-                    record=(ActivityRecordGps)records.get(recordCount);
+                    record=records.get(recordCount);
 
                     elevation1=record.getElevation1();
                     elevation2=record.getElevation2();
@@ -319,7 +319,7 @@ public class TomTomReader
                 recordCount=0;
                 while (recordCount<records.size())
                 {
-                    record=(ActivityRecordGps)records.get(recordCount);
+                    record=records.get(recordCount);
 
                     elevation2=record.getElevation2();
 
@@ -503,6 +503,4 @@ public class TomTomReader
         
         return activity;
     }
-    
-    
 }

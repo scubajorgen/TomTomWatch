@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections;
 import net.studioblueplanet.ttbin.ActivityRecord;
-import net.studioblueplanet.ttbin.ActivityRecordGps;
 
 /**
  * Implementation of the Douglas-Peucker algorithm.
@@ -122,10 +121,10 @@ public class DPUtil
      */
     public static double geoDist(ActivityRecord pA, ActivityRecord pB)
     {
-        double radLat1 = Rad(((ActivityRecordGps) pA).getLatitude());
-        double radLat2 = Rad(((ActivityRecordGps) pB).getLatitude());
-        double radLon1 = Rad(((ActivityRecordGps) pA).getLongitude());
-        double radLon2 = Rad(((ActivityRecordGps) pB).getLongitude());
+        double radLat1 = Rad((pA).getLatitude());
+        double radLat2 = Rad((pB).getLatitude());
+        double radLon1 = Rad((pA).getLongitude());
+        double radLon2 = Rad((pB).getLongitude());
         double delta_lon = Rad(radLon2 - radLon1);
         double top_1 = Math.cos(radLat2) * Math.sin(delta_lon);
         double top_2 = Math.cos(radLat1) * Math.sin(radLat2) - Math.sin(radLat1) * Math.cos(radLat2) * Math.cos(delta_lon);

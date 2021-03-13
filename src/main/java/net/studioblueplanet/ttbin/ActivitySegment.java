@@ -19,7 +19,6 @@ import java.util.Collections;
 import net.studioblueplanet.generics.ToolBox;
 import net.studioblueplanet.generics.DPUtil;
 import net.studioblueplanet.logger.DebugLogger;
-import net.studioblueplanet.settings.ConfigSettings;
 
 /**
  *
@@ -228,10 +227,9 @@ public class ActivitySegment
      */
     public double getDistance()
     {
-        double              distance;
-        ActivityRecord      record;
-        ActivityRecordGps   gpsRecord;
-        ActivityRecordGps   prevGpsRecord;
+        double          distance;
+        ActivityRecord  gpsRecord;
+        ActivityRecord  prevGpsRecord;
         int                 i;
         
         distance        =0.0;
@@ -241,27 +239,20 @@ public class ActivitySegment
         i=0;
         while (i<records.size() && prevGpsRecord==null)
         {
-            record=records.get(i);
-            if (record instanceof ActivityRecordGps)
-            {
-                prevGpsRecord=(ActivityRecordGps)record;
-            }
+            prevGpsRecord=records.get(i);
             i++;
         }
         while (i<records.size())
         {
-            record=records.get(i);
-            if (record instanceof ActivityRecordGps)
+            gpsRecord=records.get(i);;
+            if ((gpsRecord.getLatitude()!=0.0) && (gpsRecord.getLongitude()!=0.0) &&
+                 (prevGpsRecord.getLatitude()!=0.0) && (prevGpsRecord.getLongitude()!=0.0))
             {
-                gpsRecord=(ActivityRecordGps)record;
-                if ((gpsRecord.getLatitude()!=0.0) && (gpsRecord.getLongitude()!=0.0) &&
-                     (prevGpsRecord.getLatitude()!=0.0) && (prevGpsRecord.getLongitude()!=0.0))
-                {
-                    distance+=ToolBox.distance(prevGpsRecord.getLatitude(), prevGpsRecord.getLongitude(),
-                                               gpsRecord.getLatitude()    , gpsRecord.getLongitude());
-                    prevGpsRecord=gpsRecord;
-                }
-            }                
+                distance+=ToolBox.distance(prevGpsRecord.getLatitude(), prevGpsRecord.getLongitude(),
+                                           gpsRecord.getLatitude()    , gpsRecord.getLongitude());
+                prevGpsRecord=gpsRecord;
+            }
+             
             i++;
         }
         return distance;
@@ -272,16 +263,16 @@ public class ActivitySegment
      */
     public void compress(double maxError)
     {
-        int before;
-        int after;
-        ActivityRecord maxSpeed;
-        List<ActivityRecord> recs;
+        int                     before;
+        int                     after;
+        ActivityRecord          maxSpeed;
+        List<ActivityRecord>    recs;
         
         // Find the max speed in the original data
         maxSpeed=records.stream()
-                        .filter(ActivityRecordGps.class::isInstance)
-                        .map(ActivityRecordGps.class::cast)
-                        .max(Comparator.comparing(ActivityRecordGps::getSpeed))
+                        .filter(ActivityRecord.class::isInstance)
+                        .map(ActivityRecord.class::cast)
+                        .max(Comparator.comparing(ActivityRecord::getSpeed))
                         .orElseThrow(NoSuchElementException::new);
         
         if (maxError>0.0)

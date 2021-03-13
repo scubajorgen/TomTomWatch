@@ -313,7 +313,6 @@ public class Activity
         DateTime            localDateTime;
         ActivitySegment     segment;
         ActivityRecord      record;
-        ActivityRecordGps   gpsRecord;
         
         localDateTime=null;
 
@@ -454,15 +453,15 @@ public class Activity
             if (ToolBox.distance(prevLat, prevLon, latF, lonF)>=minDistanceBetweenRecords)
             {
                 // If a gps record is encountered, this marks the start of a new record
-                newRecord   =new ActivityRecordGps();
-                ((ActivityRecordGps)newRecord).setUtcTime(timestamp);
-                ((ActivityRecordGps)newRecord).setCoordinate(latF, lonF);
-                ((ActivityRecordGps)newRecord).setHeading((double)heading/100.0);
-                ((ActivityRecordGps)newRecord).setSpeed((double)speed/100.0);
-                ((ActivityRecordGps)newRecord).setCalories(calories);
-                ((ActivityRecordGps)newRecord).setInstantaneousSpeed(Float.intBitsToFloat(instantSpeed));
-                ((ActivityRecordGps)newRecord).setDistance(Float.intBitsToFloat(cumDistance));
-                ((ActivityRecordGps)newRecord).setCycles(cycles);
+                newRecord   =new ActivityRecord();
+                newRecord.setUtcTime(timestamp);
+                newRecord.setCoordinate(latF, lonF);
+                newRecord.setHeading((double)heading/100.0);
+                newRecord.setSpeed((double)speed/100.0);
+                newRecord.setCalories(calories);
+                newRecord.setInstantaneousSpeed(Float.intBitsToFloat(instantSpeed));
+                newRecord.setDistance(Float.intBitsToFloat(cumDistance));
+                newRecord.setCycles(cycles);
 
                 // Sets the current value of the batterylevel
                 newRecord.setBatteryLevel(this.batteryLevel);
@@ -499,7 +498,7 @@ public class Activity
         {
             // Funny enough the heart rate record uses the local time as displayed on the watch
             // So subtract the timeZoneSeconds to obtain the UTC time
-            ((ActivityRecordGps)newRecord).setHeartRate(timeStamp-this.timeZoneSeconds, heartRate);
+            newRecord.setHeartRate(timeStamp-this.timeZoneSeconds, heartRate);
         }
         else
         {
@@ -550,11 +549,11 @@ public class Activity
         
         unknown         =ToolBox.readInt(recordData, 10, 2, true);      
         
-        ((ActivityRecordGps)newRecord).setElevation1(elevation1);
-        ((ActivityRecordGps)newRecord).setElevation2(elevation2);
-        ((ActivityRecordGps)newRecord).setCumulativeAscend(cumAscend);
-        ((ActivityRecordGps)newRecord).setCumulativeDecend(cumDescend);
-        ((ActivityRecordGps)newRecord).setElevationStatus(status);
+        newRecord.setElevation1(elevation1);
+        newRecord.setElevation2(elevation2);
+        newRecord.setCumulativeAscend(cumAscend);
+        newRecord.setCumulativeDecend(cumDescend);
+        newRecord.setElevationStatus(status);
         
         // TO DO
         
@@ -692,14 +691,14 @@ public class Activity
         evpe=ToolBox.readUnsignedInt(recordData,  1, 2, true);
         ehpe=ToolBox.readUnsignedInt(recordData,  3, 2, true);
         hdop=ToolBox.readUnsignedInt(recordData,  5, 1, true);
-        ((ActivityRecordGps)newRecord).setPrecision(ehpe, evpe, hdop);
+        newRecord.setPrecision(ehpe, evpe, hdop);
 
-        ((ActivityRecordGps)newRecord).unknownInt1=ToolBox.readUnsignedInt(recordData,  6, 1, true);
-        ((ActivityRecordGps)newRecord).unknownInt2=ToolBox.readUnsignedInt(recordData,  7, 1, true);
-        ((ActivityRecordGps)newRecord).unknownInt3=ToolBox.readUnsignedInt(recordData,  8, 1, true);
-        ((ActivityRecordGps)newRecord).unknownInt4=ToolBox.readUnsignedInt(recordData,  9, 1, true);
-        ((ActivityRecordGps)newRecord).unknownInt5=ToolBox.readUnsignedInt(recordData, 10, 1, true);
-        ((ActivityRecordGps)newRecord).unknownInt6=ToolBox.readUnsignedInt(recordData, 11, 1, true);
+        newRecord.unknownInt1=ToolBox.readUnsignedInt(recordData,  6, 1, true);
+        newRecord.unknownInt2=ToolBox.readUnsignedInt(recordData,  7, 1, true);
+        newRecord.unknownInt3=ToolBox.readUnsignedInt(recordData,  8, 1, true);
+        newRecord.unknownInt4=ToolBox.readUnsignedInt(recordData,  9, 1, true);
+        newRecord.unknownInt5=ToolBox.readUnsignedInt(recordData, 10, 1, true);
+        newRecord.unknownInt6=ToolBox.readUnsignedInt(recordData, 11, 1, true);
     }
 
     /**
@@ -733,14 +732,12 @@ public class Activity
         if (newRecord!=null)
         {
             // Timestamp is UTC, use points1 (points1 and points2 seem to be identical)
-            ((ActivityRecordGps)newRecord).setFitnessPoints(timeStamp, points1);
+            newRecord.setFitnessPoints(timeStamp, points1);
         }
         else
         {
             DebugLogger.info("Skipping fitness points record");
         }  
-        
-//        DebugLogger.info(DateTime.forInstant((long)timeStamp*1000L, TimeZone.getDefault()).format("YYYY-MM-DD hh:mm:ss")+" "+points1+" "+points2);
     }
 
     /**
@@ -780,7 +777,7 @@ public class Activity
         
         // Movement state.
         movementState       =ToolBox.readInt(recordData,  1, 1, true);
-        ((ActivityRecordGps)newRecord).setMovementState(movementState);
+        newRecord.setMovementState(movementState);
         
     }   
     
@@ -1041,8 +1038,7 @@ public class Activity
         List<ActivityRecord>        points;
         Iterator<ActivityRecord>    itPoint;
         ActivityRecord              point;
-        ActivityRecordGps           pointGps;
-        
+        ActivityRecord              pointGps;
 
         itSegment=segments.iterator();
 
@@ -1055,14 +1051,9 @@ public class Activity
             while (itPoint.hasNext() && !found)
             {
                 point=itPoint.next();
-                
-                if (point instanceof ActivityRecordGps)
+                if (point.hasHeightValue())
                 {
-                    pointGps=(ActivityRecordGps)point;
-                    if (pointGps.hasHeightValue())
-                    {
-                        found=true;
-                    }
+                    found=true;
                 }
             }
             
@@ -1084,7 +1075,7 @@ public class Activity
     private String buildGoogleHeightServiceUrl(ActivitySegment segment)
     {
         List<ActivityRecord>        points;
-        ActivityRecordGps           point;
+        ActivityRecord              point;
         int                         numberOfPoints;
         int                         numberOfRequestPoints;
         float                       indexIncrement;
@@ -1129,7 +1120,7 @@ public class Activity
         while (i<numberOfRequestPoints)
         {
             index=Math.round(indexF);
-            point=(ActivityRecordGps)points.get(index);
+            point=points.get(index);
 
             url+=encoder.encodePoint(point.getLatitude(), point.getLongitude());
 
@@ -1230,7 +1221,7 @@ public class Activity
                 elevation2=elevations.get(responseIndex).elevation;
                 elevation=elevation1+(elevation2-elevation1)*(i-previousDataIndex)/(dataIndex-previousDataIndex);
             }
-            ((ActivityRecordGps)(segment.getRecord(i))).setDerivedElevation(elevation);
+            (segment.getRecord(i)).setDerivedElevation(elevation);
             i++;
         }
         

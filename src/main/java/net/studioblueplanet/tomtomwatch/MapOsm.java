@@ -12,7 +12,6 @@ import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.List;
@@ -31,9 +30,7 @@ import javax.swing.JPanel;
 import javax.swing.event.MouseInputListener;
 
 import net.studioblueplanet.ttbin.Activity;
-import net.studioblueplanet.ttbin.ActivitySegment;
 import net.studioblueplanet.ttbin.ActivityRecord;
-import net.studioblueplanet.ttbin.ActivityRecordGps;
 import org.jxmapviewer.input.CenterMapListener;
 import org.jxmapviewer.input.PanKeyListener;
 import org.jxmapviewer.input.PanMouseInputListener;
@@ -375,7 +372,7 @@ public class MapOsm extends Map
         double                  lon;
         Activity                activity;
         List<ActivityRecord>    records;
-        ActivityRecordGps       gpsRecord;
+        ActivityRecord          gpsRecord;
         int                     numOfSegments;
         int                     segment;
         int                     numOfRecords;
@@ -408,7 +405,7 @@ public class MapOsm extends Map
             record=0;
             while (record<numOfRecords)
             {
-                gpsRecord=(ActivityRecordGps)records.get(record);
+                gpsRecord=records.get(record);
                 lat=gpsRecord.getLatitude();
                 lon=gpsRecord.getLongitude();
                 
