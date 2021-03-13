@@ -878,13 +878,30 @@ public class Activity
 //System.out.println(tag);     
         switch(tag)
         {
+            // Scope: activity
             case TtbinFileDefinition.TAG_SUMMARY:
                 parseRecordSummary(recordData);
                 break;
             case TtbinFileDefinition.TAG_STATUS:
                 parseRecordStatus(recordData);
                 break;
+            case TtbinFileDefinition.TAG_TIMETOFIX:  
+                parseRecordTimeToSatelliteFix(recordData);
+                break;
+            case TtbinFileDefinition.TAG_BATTERY:
+                  parseRecordBattery(recordData);
+                break;
+            case TtbinFileDefinition.TAG_WORKOUT:
+                parseRecordWorkout(recordData);
+                break;
+            case TtbinFileDefinition.TAG_HEART_RATE_RECOVERY:
+                parseRecordHeartRateRecovery(recordData);
+                break;
+            case TtbinFileDefinition.TAG_ROUTEDESCRIPTION:
+                parseRouteDescription(recordData);
+                break;
             
+            // Scope: activity record
             case TtbinFileDefinition.TAG_GPS:
                 parseRecordGps(recordData);
                 break;
@@ -900,34 +917,20 @@ public class Activity
             case TtbinFileDefinition.TAG_MOVEMENT:
 //                parseRecordMovement(recordData);
                 break;
-            case TtbinFileDefinition.TAG_TIMETOFIX:  
-                parseRecordTimeToSatelliteFix(recordData);
+            case TtbinFileDefinition.TAG_FITNESSPOINTS:
+                parseRecordActivityPoints(recordData);
                 break;
+                
+            // Unknown    
             case TtbinFileDefinition.TAG_37:
                 break;
             case TtbinFileDefinition.TAG_48:      // 8 or 14 bytes after tag
                 break;
-            case TtbinFileDefinition.TAG_BATTERY:
-                  parseRecordBattery(recordData);
-                break;
-            case TtbinFileDefinition.TAG_FITNESSPOINTS:
-                parseRecordActivityPoints(recordData);
-                break;
             case TtbinFileDefinition.TAG_4B:      // 27, 32, 33, 82, 88.... bytes incl tag
-                break;
-            case TtbinFileDefinition.TAG_WORKOUT:
-                parseRecordWorkout(recordData);
-                break;
-            case TtbinFileDefinition.TAG_HEART_RATE_RECOVERY:
-                parseRecordHeartRateRecovery(recordData);
-                break;
-            case TtbinFileDefinition.TAG_ROUTEDESCRIPTION:
-                parseRouteDescription(recordData);
                 break;
             default:
 //DebugLogger.info(String.format("tag 0x%02x: unknown, length %d", tag, this.header.getLength(tag)));        
                 break;
-                    
         }
     }
     
@@ -1012,16 +1015,14 @@ public class Activity
         }
         catch (Exception e)
         {
-            DebugLogger.error("Error writing to file");
+            DebugLogger.error("Error writing CSV file");
         }
-        
     }
     
     
     /* ******************************************************************************************* *\
      * HEIGHT FROM SERVICE
     \* ******************************************************************************************* */
-    
     /**
      * This method checks if the activity has GPS reocord with height values.
      * Currently only GPS records of the Adventurer contain height values.

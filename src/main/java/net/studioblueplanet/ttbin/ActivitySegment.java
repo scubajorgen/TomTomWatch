@@ -7,7 +7,6 @@
 package net.studioblueplanet.ttbin;
 
 import java.util.Comparator;
-import java.util.NoSuchElementException;
 import java.util.List;
 import java.util.ArrayList;
 import hirondelle.date4j.DateTime;
@@ -15,6 +14,7 @@ import java.util.TimeZone;
 import java.io.Writer;
 import java.io.IOException;
 import java.util.Collections;
+import java.util.stream.Collectors;
 
 import net.studioblueplanet.generics.ToolBox;
 import net.studioblueplanet.generics.DPUtil;
@@ -228,29 +228,29 @@ public class ActivitySegment
     public double getDistance()
     {
         double          distance;
-        ActivityRecord  gpsRecord;
-        ActivityRecord  prevGpsRecord;
+        ActivityRecord  record;
+        ActivityRecord  prevRecord;
         int                 i;
         
         distance        =0.0;
-        gpsRecord       =null;
-        prevGpsRecord   =null;
+        record       =null;
+        prevRecord   =null;
         
         i=0;
-        while (i<records.size() && prevGpsRecord==null)
+        while (i<records.size() && prevRecord==null)
         {
-            prevGpsRecord=records.get(i);
+            prevRecord=records.get(i);
             i++;
         }
         while (i<records.size())
         {
-            gpsRecord=records.get(i);;
-            if ((gpsRecord.getLatitude()!=0.0) && (gpsRecord.getLongitude()!=0.0) &&
-                 (prevGpsRecord.getLatitude()!=0.0) && (prevGpsRecord.getLongitude()!=0.0))
+            record=records.get(i);
+            if ((record.getLatitude()!=ActivityRecord.INVALID) && (record.getLongitude()!=ActivityRecord.INVALID) &&
+                (prevRecord.getLatitude()!=ActivityRecord.INVALID) && (prevRecord.getLongitude()!=ActivityRecord.INVALID))
             {
-                distance+=ToolBox.distance(prevGpsRecord.getLatitude(), prevGpsRecord.getLongitude(),
-                                           gpsRecord.getLatitude()    , gpsRecord.getLongitude());
-                prevGpsRecord=gpsRecord;
+                distance+=ToolBox.distance(prevRecord.getLatitude(), prevRecord.getLongitude(),
+                                           record.getLatitude()    , record.getLongitude());
+                prevRecord=record;
             }
              
             i++;
@@ -259,33 +259,48 @@ public class ActivitySegment
     }
     
     /**
-     * Compress segment using the Douglas-Peucker method
+     * Compress segment using the Douglas-Peucker method.
+     * Note: this results in a list containing only records that contain
+     * latitude and longitude. Other records are removed.
+     * @param maxError Measure for the maximum error
      */
     public void compress(double maxError)
     {
         int                     before;
         int                     after;
         ActivityRecord          maxSpeed;
+        ActivityRecord          maxHeartrate;
         List<ActivityRecord>    recs;
         
         // Find the max speed in the original data
-        maxSpeed=records.stream()
-                        .filter(ActivityRecord.class::isInstance)
-                        .map(ActivityRecord.class::cast)
+        maxSpeed    =records.stream()
+                        .filter(r -> r.getSpeed()!=ActivityRecord.INVALID)
                         .max(Comparator.comparing(ActivityRecord::getSpeed))
-                        .orElseThrow(NoSuchElementException::new);
+                        .orElse(null);
+        maxHeartrate=records.stream()
+                        .filter(r -> r.getHeartRate()!=ActivityRecord.INVALID)
+                        .max(Comparator.comparing(ActivityRecord::getHeartRate))
+                        .orElse(null);
+        recs=records.stream().filter(r -> r.getLatitude()!=ActivityRecord.INVALID && r.getLongitude()!=ActivityRecord.INVALID).collect(Collectors.toList());
         
-        if (maxError>0.0)
+        if (maxError>0.0 && recs.size()>0)
         {
             before=records.size();
             // Douglas Peucker compression
-            records=DPUtil.dpAlgorithm(records, maxError);
+            records=DPUtil.dpAlgorithm(recs, maxError);
             
             // Check if the max speed record is included in the result
-            if (records.stream().filter(r -> r.getDateTime().equals(maxSpeed.getDateTime())).count()==0)
+            if (maxSpeed!=null && records.stream().filter(r -> r.getDateTime().equals(maxSpeed.getDateTime())).count()==0)
             {
                 // add if not
                 records.add(maxSpeed);
+                Collections.sort(records); // sort points on datetime
+            }
+            // Check if the max speed heartrate is included in the result
+            if (maxHeartrate!=null && records.stream().filter(r -> r.getDateTime().equals(maxHeartrate.getDateTime())).count()==0)
+            {
+                // add if not
+                records.add(maxHeartrate);
                 Collections.sort(records); // sort points on datetime
             }
             after=records.size();

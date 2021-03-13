@@ -698,7 +698,6 @@ public class ActivityRecord implements Comparable<ActivityRecord>
     /**
      * Dump all the record fields of this record
      * @param writer Writer to dump to
-     * @throws IOException Thrown when an error occurs during writing
      */
     public void dumpRecordCsv(Writer writer) throws IOException
     {
@@ -719,14 +718,14 @@ public class ActivityRecord implements Comparable<ActivityRecord>
         writer.write(this.instantSpeed+",");
         writer.write(this.movementState+",");
         writer.write(this.calories+",");
-        
+
         writer.write(this.elevationStatus+",");
         writer.write(this.elevation1+",");
         writer.write(this.elevation2+",");
         writer.write(this.derivedElevation+",");
         writer.write(this.ascend+",");
         writer.write(this.descend+",");
-        
+
         writer.write(""+this.heartRate+",");
 
         writer.write(""+this.ehpe+",");
@@ -734,7 +733,7 @@ public class ActivityRecord implements Comparable<ActivityRecord>
         writer.write(""+this.hdop+",");
         writer.write(""+this.batteryLevel+",");
 
-        
+
         writer.write(""+this.unknownInt1+",");
         writer.write(""+this.unknownInt2+",");
         writer.write(""+this.unknownInt3+",");
@@ -744,6 +743,6 @@ public class ActivityRecord implements Comparable<ActivityRecord>
         writer.write(""+this.unknownFloat1+",");
         writer.write(""+this.unknownFloat2+",");
         writer.write("\n");
-        
+
     }
 }
