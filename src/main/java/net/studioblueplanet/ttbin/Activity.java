@@ -178,6 +178,8 @@ public class Activity
         }
         
         DebugLogger.info("Time Zone: "+timeZoneString+ " Difference in seconds "+seconds);
+        localTimeZone=TimeZone.getTimeZone(timeZoneString);
+        ActivitySegment.setLocalTimeZone(localTimeZone);
     }    
     
     /**
@@ -474,6 +476,38 @@ public class Activity
             DebugLogger.info("Invalid record");
         }
     }
+
+    /**
+     * Parse the gym record
+     * @param recordData The record data
+     */
+    private void parseRecordGym(byte[] recordData)
+    {
+        int         calories;       //
+        int         cycles;         // running = steps/sec, cycling = crank rpm
+        long        timestamp;      // Sattelite timestamp UTC
+        
+        
+        // Unclear: timestamp seems in local time...
+        timestamp   =ToolBox.readUnsignedLong(recordData, 1, 4, true)-timeZoneSeconds;
+        calories    =ToolBox.readUnsignedInt(recordData,  5, 2, true);
+        cycles      =ToolBox.readUnsignedInt(recordData,  7, 4, true);
+
+        // Sometimes a weird record is encountered. Skip it
+        if (timestamp!=4294967295L)
+        {        
+            // If a gps record is encountered, this marks the start of a new record
+            newRecord   =new ActivityRecord();
+            newRecord.setUtcTime(timestamp);
+            newRecord.setCalories(calories);
+            newRecord.setCycles(cycles);
+        }
+        else
+        {
+            DebugLogger.info("Invalid record");
+        }
+    }
+
     
     /**
      * Parse the heart rate data
@@ -900,6 +934,9 @@ public class Activity
             case TtbinFileDefinition.TAG_GPS:
                 parseRecordGps(recordData);
                 break;
+            case TtbinFileDefinition.TAG_GYM:
+                parseRecordGym(recordData);
+                break;
             case TtbinFileDefinition.TAG_ELEVATION:
                 parseRecordElevation(recordData);
                 break;
@@ -924,7 +961,7 @@ public class Activity
             case TtbinFileDefinition.TAG_4B:      // 27, 32, 33, 82, 88.... bytes incl tag
                 break;
             default:
-//DebugLogger.info(String.format("tag 0x%02x: unknown, length %d", tag, this.header.getLength(tag)));        
+DebugLogger.info(String.format("tag 0x%02x: unknown, length %d", tag, this.header.getLength(tag)));        
                 break;
         }
     }
