@@ -178,11 +178,6 @@ public class Activity
         }
         
         DebugLogger.info("Time Zone: "+timeZoneString+ " Difference in seconds "+seconds);
-        
-        localTimeZone=TimeZone.getTimeZone(timeZoneString);        
-
-        ActivitySegment.setLocalTimeZone(localTimeZone);
-        ActivityRecord.setLocalTimeZone(localTimeZone);
     }    
     
     /**

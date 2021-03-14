@@ -21,7 +21,6 @@ public class ActivityRecord implements Comparable<ActivityRecord>
 {
     public static final int         INVALID=-9999;
     
-    protected static    TimeZone    localTimeZone;      // Local Time time zone (where recorded)
     protected static    TimeZone    utcTimeZone;
     protected           DateTime    dateTime;           // Date time stamp
 
@@ -96,15 +95,6 @@ public class ActivityRecord implements Comparable<ActivityRecord>
     public int compareTo(ActivityRecord other)
     {
         return dateTime.compareTo(other.dateTime);
-    }
-    
-    /**
-     * Set the local time zone
-     * @param newLocalTimeZone The new local timezone to use
-     */
-    public static void setLocalTimeZone(TimeZone newLocalTimeZone)
-    {
-        localTimeZone=newLocalTimeZone;
     }
     
     /**
@@ -486,7 +476,7 @@ public class ActivityRecord implements Comparable<ActivityRecord>
             // If no GPS timestamp/coordinates recorded, just record the 
             // heartrate value
             this.heartRate              =heartRate;
-            this.heartRateDateTime=DateTime.forInstant((time)*1000, utcTimeZone);
+            this.heartRateDateTime      =DateTime.forInstant((time)*1000, utcTimeZone);
         }
             
     }
@@ -499,9 +489,6 @@ public class ActivityRecord implements Comparable<ActivityRecord>
     {
         return this.heartRate;
     }
-    
-    
-
 
     /**
      * Sets the Fitness points. Note: it is the cummulative fitness points
@@ -539,7 +526,6 @@ public class ActivityRecord implements Comparable<ActivityRecord>
             this.fitnessPoints         =points;
             this.fitnPointsDateTime =DateTime.forInstant((time)*1000, utcTimeZone);
         }
-            
     }
     
     /**
@@ -550,10 +536,6 @@ public class ActivityRecord implements Comparable<ActivityRecord>
     {
         return this.fitnessPoints;
     }
-
-    
-    
-    
     
     /**
      * Sets the precision of the measurement
