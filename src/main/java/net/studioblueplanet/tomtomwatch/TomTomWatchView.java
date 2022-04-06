@@ -1496,7 +1496,7 @@ public class TomTomWatchView extends javax.swing.JFrame
             aboutBox.setAuthor(appResourceMap.getString("Application.author"));
             aboutBox.setHomePage(appResourceMap.getString("Application.homepage"));
         }
-        TomTomWatch.getApplication().show(aboutBox);
+        app.show(aboutBox);
     }//GEN-LAST:event_jMenuItemAboutActionPerformed
 
     private void jMenuItemSetNameActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jMenuItemSetNameActionPerformed
