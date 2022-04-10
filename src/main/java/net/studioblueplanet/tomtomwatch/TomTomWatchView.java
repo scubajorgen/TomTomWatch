@@ -2179,25 +2179,25 @@ public class TomTomWatchView extends javax.swing.JFrame
 
         if (this.jRadioButtonRunning.isSelected())
         {
-            activityPrefix = "run";
+            activityPrefix = "running";
         } else if (this.jRadioButtonCycling.isSelected())
         {
-            activityPrefix = "cycle";
+            activityPrefix = "cycling";
         } else if (this.jRadioButtonHiking.isSelected())
         {
-            activityPrefix = "walk";
+            activityPrefix = "hiking";
         } else if (this.jRadioButtonSwimming.isSelected())
         {
-            activityPrefix = "swim";
+            activityPrefix = "swimming";
         } else if (this.jRadioButtonDriving.isSelected())
         {
-            activityPrefix = "drive";
+            activityPrefix = "driving";
         } else if (this.jRadioButtonFlying.isSelected())
         {
-            activityPrefix = "flight";
+            activityPrefix = "flying";
         } else if (this.jRadioButtonSkating.isSelected())
         {
-            activityPrefix = "skate";
+            activityPrefix = "skating";
         } else if (this.jRadioButtonMulti.isSelected())
         {
             activityPrefix = "multi";
