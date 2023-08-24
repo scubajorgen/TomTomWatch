@@ -680,6 +680,7 @@ public class ActivityRecord implements Comparable<ActivityRecord>
     /**
      * Dump all the record fields of this record
      * @param writer Writer to dump to
+     * @throws IOException Thrown when an error occurs during writing
      */
     public void dumpRecordCsv(Writer writer) throws IOException
     {
