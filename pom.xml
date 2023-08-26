@@ -145,15 +145,16 @@
                         </goals>
                         <configuration>
                             <archive>
-                            <manifest>
-                                <mainClass>
-                                    net.studioblueplanet.tomtomwatch.TomTomWatch
-                                </mainClass>
-                            </manifest>
+                                <manifest>
+                                    <mainClass>
+                                        net.studioblueplanet.tomtomwatch.TomTomWatch
+                                    </mainClass>
+                                </manifest>
                             </archive>
                             <descriptorRefs>
                                 <descriptorRef>jar-with-dependencies</descriptorRef>
                             </descriptorRefs>
+                            <appendAssemblyId>false</appendAssemblyId>
                         </configuration>
                     </execution>
                 </executions>
