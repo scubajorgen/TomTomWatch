@@ -16,7 +16,6 @@ import net.studioblueplanet.ttbin.ActivityRecord;
  */
 public class DPUtil
 {
-
     /**
      * The default error threshold of the maximum distance between the point and
      * the track line (unit: meter)
@@ -121,11 +120,11 @@ public class DPUtil
      */
     public static double geoDist(ActivityRecord pA, ActivityRecord pB)
     {
-        double radLat1 = Rad((pA).getLatitude());
-        double radLat2 = Rad((pB).getLatitude());
-        double radLon1 = Rad((pA).getLongitude());
-        double radLon2 = Rad((pB).getLongitude());
-        double delta_lon = Rad(radLon2 - radLon1);
+        double radLat1  = Math.toRadians((pA).getLatitude());
+        double radLat2  = Math.toRadians((pB).getLatitude());
+        double radLon1  = Math.toRadians((pA).getLongitude());
+        double radLon2  = Math.toRadians((pB).getLongitude());
+        double delta_lon = radLon2 - radLon1;
         double top_1 = Math.cos(radLat2) * Math.sin(delta_lon);
         double top_2 = Math.cos(radLat1) * Math.sin(radLat2) - Math.sin(radLat1) * Math.cos(radLat2) * Math.cos(delta_lon);
         double top = Math.sqrt(top_1 * top_1 + top_2 * top_2);
@@ -134,16 +133,4 @@ public class DPUtil
         double distance = delta_sigma * 6378137.0;
         return distance;
     }
-
-    /**
-     * Function: angle to radians
-     *
-     * @param d: angle
-     * @return returns radians
-     */
-    public static double Rad(double d)
-    {
-        return d * Math.PI / 180.0;
-    }
-    
 }
