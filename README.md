@@ -15,9 +15,8 @@ For the more technical users it contains a Debugging menu that offers functions 
 It uses Maven for building. Use a development environment like Netbeans or Eclipse.
 
 ### Notes
-
 - Be sure javac and mvn are in the PATH and JAVA_HOME is set
-- Build `mvn  -Dmaven.test.skip package`
+- Build `mvn -Dmaven.test.skip package`
 
 ## Configuring
 After building the target directory contains tomtomwatch.properties. In Netbeans you can use this file in the TomTomWatch root directory

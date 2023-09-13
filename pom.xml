@@ -4,16 +4,15 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>net.studioblueplanet</groupId>
     <artifactId>TomTomWatch</artifactId>
-    <version>1.9</version>
+    <version>1.10</version>
     <packaging>jar</packaging>
     <dependencies>
-      <!-- https://mvnrepository.com/artifact/javax.xml.bind/jaxb-api -->
-<dependency>
-    <groupId>javax.xml.bind</groupId>
-    <artifactId>jaxb-api</artifactId>
-    <version>2.3.1</version>
-</dependency>
-
+        <!-- https://mvnrepository.com/artifact/javax.xml.bind/jaxb-api -->
+        <dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+            <version>2.3.1</version>
+        </dependency>
         <dependency>
             <groupId>com.darwinsys</groupId>
             <artifactId>hirondelle-date4j</artifactId>
@@ -103,19 +102,19 @@
                 <version>1.4</version>
                 <executions>
                     <execution>
-                      <id>add-application-resource</id>
-                      <phase>generate-sources</phase>
-                      <goals>
-                        <goal>add-resource</goal>
-                      </goals>
-                      <configuration>
-                        <resources>
-                          <resource>
-                            <directory>${basedir}/src/main/java/net/studioblueplanet/tomtomwatch/resources</directory>
-                            <targetPath>net/studioblueplanet/tomtomwatch/resources</targetPath>
-                          </resource>
-                        </resources>
-                      </configuration>
+                        <id>add-application-resource</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>add-resource</goal>
+                        </goals>
+                        <configuration>
+                            <resources>
+                                <resource>
+                                    <directory>${basedir}/src/main/java/net/studioblueplanet/tomtomwatch/resources</directory>
+                                    <targetPath>net/studioblueplanet/tomtomwatch/resources</targetPath>
+                                </resource>
+                            </resources>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
@@ -169,26 +168,26 @@
 
             <!-- Copy the TomTomWatch.properties to the target dir -->
             <plugin>
-              <artifactId>maven-resources-plugin</artifactId>
-              <version>3.0.2</version>
-              <executions>
-                <execution>
-                  <id>copy-resources</id>
-                  <phase>prepare-package</phase>
-                  <goals>
-                    <goal>copy-resources</goal>
-                  </goals>
-                  <configuration>
-                    <outputDirectory>${basedir}/target</outputDirectory>
-                    <resources>
-                      <resource>
-                        <directory>src/main/resources_run</directory>
-                        <filtering>true</filtering>
-                      </resource>
-                    </resources>
-                  </configuration>
-                </execution>
-              </executions>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.0.2</version>
+                <executions>
+                    <execution>
+                        <id>copy-resources</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${basedir}/target</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>src/main/resources_run</directory>
+                                    <filtering>true</filtering>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
 
             <plugin>
@@ -197,9 +196,9 @@
                 <version>3.1.0</version>
                 <configuration>
                     <sourceFileExcludes>
-                            <sourceFileExclude>**/net/studioblueplanet/tomtomwatch/RouteProto.java</sourceFileExclude>
-                            <sourceFileExclude>**/net/studioblueplanet/tomtomwatch/TrackerProto.java</sourceFileExclude>
-                            <sourceFileExclude>**/net/studioblueplanet/tomtomwatch/WorkoutProto.java</sourceFileExclude>
+                        <sourceFileExclude>**/net/studioblueplanet/tomtomwatch/RouteProto.java</sourceFileExclude>
+                        <sourceFileExclude>**/net/studioblueplanet/tomtomwatch/TrackerProto.java</sourceFileExclude>
+                        <sourceFileExclude>**/net/studioblueplanet/tomtomwatch/WorkoutProto.java</sourceFileExclude>
                     </sourceFileExcludes>
                 </configuration>
                 <executions>
@@ -213,14 +212,14 @@
             </plugin>
 
             <plugin>
-              <groupId>org.apache.maven.plugins</groupId>
-              <artifactId>maven-compiler-plugin</artifactId>
-              <version>3.8.1</version>
-              <configuration>
-                <compilerArgs>
-                  <arg>-Xlint:unchecked</arg>
-                </compilerArgs>
-              </configuration>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+                <configuration>
+                    <compilerArgs>
+                        <arg>-Xlint:unchecked</arg>
+                    </compilerArgs>
+                </configuration>
             </plugin>
 
             <plugin>
