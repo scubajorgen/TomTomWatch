@@ -7,6 +7,13 @@
     <version>1.9</version>
     <packaging>jar</packaging>
     <dependencies>
+      <!-- https://mvnrepository.com/artifact/javax.xml.bind/jaxb-api -->
+<dependency>
+    <groupId>javax.xml.bind</groupId>
+    <artifactId>jaxb-api</artifactId>
+    <version>2.3.1</version>
+</dependency>
+
         <dependency>
             <groupId>com.darwinsys</groupId>
             <artifactId>hirondelle-date4j</artifactId>
@@ -101,7 +108,7 @@
                       <goals>
                         <goal>add-resource</goal>
                       </goals>
-                      <configuration> 
+                      <configuration>
                         <resources>
                           <resource>
                             <directory>${basedir}/src/main/java/net/studioblueplanet/tomtomwatch/resources</directory>
@@ -158,7 +165,7 @@
                         </configuration>
                     </execution>
                 </executions>
-            </plugin>        
+            </plugin>
 
             <!-- Copy the TomTomWatch.properties to the target dir -->
             <plugin>
@@ -173,17 +180,17 @@
                   </goals>
                   <configuration>
                     <outputDirectory>${basedir}/target</outputDirectory>
-                    <resources>          
+                    <resources>
                       <resource>
                         <directory>src/main/resources_run</directory>
                         <filtering>true</filtering>
                       </resource>
-                    </resources>              
-                  </configuration>            
+                    </resources>
+                  </configuration>
                 </execution>
               </executions>
             </plugin>
- 
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
@@ -193,7 +200,7 @@
                             <sourceFileExclude>**/net/studioblueplanet/tomtomwatch/RouteProto.java</sourceFileExclude>
                             <sourceFileExclude>**/net/studioblueplanet/tomtomwatch/TrackerProto.java</sourceFileExclude>
                             <sourceFileExclude>**/net/studioblueplanet/tomtomwatch/WorkoutProto.java</sourceFileExclude>
-                    </sourceFileExcludes>                    
+                    </sourceFileExcludes>
                 </configuration>
                 <executions>
                     <execution>
@@ -215,7 +222,7 @@
                 </compilerArgs>
               </configuration>
             </plugin>
-            
+
             <plugin>
                 <groupId>pl.project13.maven</groupId>
                 <artifactId>git-commit-id-plugin</artifactId>
@@ -234,8 +241,8 @@
                             <goal>revision</goal>
                         </goals>
                     </execution>
-                </executions>                
+                </executions>
             </plugin>
         </plugins>
-    </build>    
+    </build>
 </project>

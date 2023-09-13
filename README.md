@@ -8,20 +8,25 @@ Homepage: http://blog.studioblueplanet.net/?page_id=566
 TomTomWatch is a tool for downloading GPS tracks from the TomTom Sports watches. It downloads the ttbin files and extracts the raw GPS data.
 I also offers track smoothing, when enabled.
 
-It contains a lot of features for maintaining the watch, like 
+It contains a lot of features for maintaining the watch, like
 For the more technical users it contains a Debugging menu that offers functions for file manipulation, resetting, rebooting, etc.
 
 ## Building
-It uses Maven for building. Use a development environment like Netbeans or Eclipse. 
+It uses Maven for building. Use a development environment like Netbeans or Eclipse.
+
+### Notes
+
+- Be sure javac and mvn are in the PATH and JAVA_HOME is set
+- Build `mvn  -Dmaven.test.skip package`
 
 ## Configuring
-After building the target directory contains tomtomwatch.properties. In Netbeans you can use this file in the TomTomWatch root directory 
+After building the target directory contains tomtomwatch.properties. In Netbeans you can use this file in the TomTomWatch root directory
 during development and debugging.
 The file is self-explanatory
 
 ## Disclaimer
-Use the software at own risk. If not used properly, especially the debugging features, I guess it might brick your watch 
-(though it never happened to me so far...). 
+Use the software at own risk. If not used properly, especially the debugging features, I guess it might brick your watch
+(though it never happened to me so far...).
 
 ## License
 This software is published under the MIT license:
