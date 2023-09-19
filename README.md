@@ -11,6 +11,8 @@ I also offers track smoothing, when enabled.
 It contains a lot of features for maintaining the watch, like
 For the more technical users it contains a Debugging menu that offers functions for file manipulation, resetting, rebooting, etc.
 
+The software will be tested primarily on Windows. On request it can be tested on Linux (Centos). Though the USB4Java lib that is being used should support it, the software will *not* be tested on OS-X.
+
 ## Building
 It uses Maven for building. Use a development environment like Netbeans or Eclipse.
 
