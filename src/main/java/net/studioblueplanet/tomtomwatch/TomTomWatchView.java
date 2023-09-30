@@ -42,7 +42,11 @@ import org.jdesktop.application.ResourceMap;
  */
 public class TomTomWatchView extends javax.swing.JFrame
 {
-    private static final int                    MAXNAME=15;
+    private static final int                    MAXNAME                 =15;
+    private static final int                    PRODID_ADVENTURER       =0xe0070000;
+    private static final int                    PRODID_RUNNER3MUSIC     =0xd1070000;
+    private static final int                    PRODID_RUNNER3NOMUSIC   =0xde070000;
+    private static final int                    PRODID_MULTISPORTS      =0xec030000;
     
     private final CommunicationProcess          communicationProcess;
  
@@ -2540,7 +2544,7 @@ public class TomTomWatchView extends javax.swing.JFrame
     {
         this.jTextFieldProductId.setText(String.format("0x%08x", id));
         // For now: enable upload workouts only for Adventurer and Runner3
-        if (id!=0xe0070000 && id!=0xd1070000)
+        if (id!=PRODID_ADVENTURER && id!=PRODID_RUNNER3MUSIC && id!=PRODID_RUNNER3NOMUSIC)
         {
             this.jMenuItemUploadWorkouts.setEnabled(false);
         }
