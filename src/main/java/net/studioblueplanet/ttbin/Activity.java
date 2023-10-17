@@ -578,11 +578,18 @@ public class Activity
         
         unknown         =ToolBox.readInt(recordData, 10, 2, true);      
         
-        newRecord.setElevation1(elevation1);
-        newRecord.setElevation2(elevation2);
-        newRecord.setCumulativeAscend(cumAscend);
-        newRecord.setCumulativeDecend(cumDescend);
-        newRecord.setElevationStatus(status);
+        if (newRecord!=null)
+        {
+            newRecord.setElevation1(elevation1);
+            newRecord.setElevation2(elevation2);
+            newRecord.setCumulativeAscend(cumAscend);
+            newRecord.setCumulativeDecend(cumDescend);
+            newRecord.setElevationStatus(status);
+        }
+        else
+        {
+            DebugLogger.info("Skipping elevation record");            
+        }
         
         // TO DO
         
@@ -720,14 +727,21 @@ public class Activity
         evpe=ToolBox.readUnsignedInt(recordData,  1, 2, true);
         ehpe=ToolBox.readUnsignedInt(recordData,  3, 2, true);
         hdop=ToolBox.readUnsignedInt(recordData,  5, 1, true);
-        newRecord.setPrecision(ehpe, evpe, hdop);
+        if (newRecord!=null)
+        {
+            newRecord.setPrecision(ehpe, evpe, hdop);
 
-        newRecord.unknownInt1=ToolBox.readUnsignedInt(recordData,  6, 1, true);
-        newRecord.unknownInt2=ToolBox.readUnsignedInt(recordData,  7, 1, true);
-        newRecord.unknownInt3=ToolBox.readUnsignedInt(recordData,  8, 1, true);
-        newRecord.unknownInt4=ToolBox.readUnsignedInt(recordData,  9, 1, true);
-        newRecord.unknownInt5=ToolBox.readUnsignedInt(recordData, 10, 1, true);
-        newRecord.unknownInt6=ToolBox.readUnsignedInt(recordData, 11, 1, true);
+            newRecord.unknownInt1=ToolBox.readUnsignedInt(recordData,  6, 1, true);
+            newRecord.unknownInt2=ToolBox.readUnsignedInt(recordData,  7, 1, true);
+            newRecord.unknownInt3=ToolBox.readUnsignedInt(recordData,  8, 1, true);
+            newRecord.unknownInt4=ToolBox.readUnsignedInt(recordData,  9, 1, true);
+            newRecord.unknownInt5=ToolBox.readUnsignedInt(recordData, 10, 1, true);
+            newRecord.unknownInt6=ToolBox.readUnsignedInt(recordData, 11, 1, true);
+        }
+        else
+        {
+            DebugLogger.info("Skipping precision record");
+        }
     }
 
     /**
@@ -806,7 +820,14 @@ public class Activity
         
         // Movement state.
         movementState       =ToolBox.readInt(recordData,  1, 1, true);
-        newRecord.setMovementState(movementState);
+        if (newRecord!=null)
+        {
+            newRecord.setMovementState(movementState);
+        }
+        else
+        {
+            DebugLogger.info("Skipping movement record");
+        }
         
     }   
     
