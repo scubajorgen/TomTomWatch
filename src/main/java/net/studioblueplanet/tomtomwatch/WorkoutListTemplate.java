@@ -61,7 +61,8 @@ public class WorkoutListTemplate
         public Integer                      extentDistance;         // in meters
         public HrZone                       extentReachHrZone;
         public IntensityType                intensity;
-        public Integer                      intensitySpeed;         // in m/hr                
+        public Integer                      intensityCadence;       // in RPM
+        public Integer                      intensitySpeed;         // in m/hr
         public Integer                      intensityPace;          // in s/km
         public HrZone                       intensityHrZone;        
         
@@ -106,7 +107,7 @@ public class WorkoutListTemplate
             }
             if (valid.equals("OK") && intensity==null)
             {
-                valid="No intensity defined. Must be NONE, PACE, SPEED, HRZONE";
+                valid="No intensity defined. Must be NONE, PACE, SPEED, HRZONE, CADENCE";
             }
             else
             {
@@ -121,6 +122,10 @@ public class WorkoutListTemplate
                 else if (intensity==IntensityType.SPEED && intensitySpeed==null)
                 {
                     valid="No speed specified for SPEED intensity step";
+                }
+                else if (intensity==IntensityType.CADENCE && intensityCadence==null)
+                {
+                    valid="No cadence specified for CADENCE intensity step";
                 }
             }
             if (valid.equals("OK") && extent==ExtentType.REACHHRZONE)
@@ -340,6 +345,9 @@ public class WorkoutListTemplate
                 stepTemplate.intensity  =step.getIntensity();
                 switch (step.getIntensity())
                 {
+                    case CADENCE:
+                        stepTemplate.intensityCadence=step.getIntensityCadence();
+                        break;
                     case PACE:
                         stepTemplate.intensityPace=step.getIntensityPace()/1000;        // msec/km -> sec/km
                         break;
@@ -415,6 +423,9 @@ public class WorkoutListTemplate
                 }
                 switch (step.intensity)
                 {
+                    case CADENCE:
+                        stepToAdd.setIntensityCadence(step.intensityCadence);
+                        break;
                     case HRZONE:
                         stepToAdd.setIntensityHrZone(step.intensityHrZone);
                         break;

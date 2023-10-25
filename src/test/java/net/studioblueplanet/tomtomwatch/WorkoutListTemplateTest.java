@@ -445,6 +445,8 @@ public class WorkoutListTemplateTest
         instance=WorkoutListTemplate.fromJson(json);     
         assertEquals("A step with extent REACHHRZONE must have intensity=NONE", instance.validate());
 
+        json = new String(Files.readAllBytes((new File("src/test/resources/testworkouts-invalidb.json")).toPath()));   
+        instance=WorkoutListTemplate.fromJson(json);     
+        assertEquals("No cadence specified for CADENCE intensity step", instance.validate());
     }
-            
 }

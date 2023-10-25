@@ -62,9 +62,11 @@ public class WorkoutListTest
         int fileId = 0x00be0023;
         byte[] data = Files.readAllBytes((new File("src/test/resources/0x00be0023.bin")).toPath());
         WorkoutList instance = new WorkoutList();
-        boolean expResult = false;
+        
+        // Append first file
         boolean result = instance.appendWorkoutFromData(fileId, data);
-        assertEquals(expResult, result);
+        assertEquals(false, result);
+        assertEquals(1, instance.getWorkouts().size());
         
         Workout workout=instance.getWorkouts().get(0x00be0024);
         assertNull(workout);
@@ -82,6 +84,30 @@ public class WorkoutListTest
         assertEquals(60, step.getExtentTime());
         assertEquals(-1, step.getExtentDistance());
         assertEquals(WorkoutStep.HrZone.NONE, step.getExtentReachHrZone());
+        
+        // Append 2nd file
+        fileId = 0x00be0024;
+        data = Files.readAllBytes((new File("src/test/resources/0x00be0024.bin")).toPath());
+        result = instance.appendWorkoutFromData(fileId, data);
+        assertEquals(false, result);        
+        assertEquals(2, instance.getWorkouts().size());        
+        
+        workout=instance.getWorkouts().get(fileId);
+        assertNotNull(workout);
+        assertEquals("Cycle Workout 0003", workout.getWorkoutName());
+        assertEquals("Cycle Workout 0003", workout.getWorkoutDescription());
+        assertEquals(Workout.WorkoutType.CUSTOM, workout.getWorkoutType());
+        steps=workout.getSteps();
+        assertEquals(1, steps.size());
+        step=steps.get(0);
+        
+        assertEquals(WorkoutStep.ExtentType.TIME, step.getStepExtent());
+        assertEquals("Work", step.getName());
+        assertEquals(WorkoutStep.StepType.WORK, step.getType());
+        assertEquals("Cycle Workout 0003", step.getDescription());
+        assertEquals(300, step.getExtentTime());
+        assertEquals(WorkoutStep.IntensityType.CADENCE, step.getIntensity());
+        assertEquals(1, step.getIntensityCadence());        
     }
 
     /**

@@ -146,5 +146,5 @@ message Intensity
   optional int32                heartratezone           =1; // @HR Zone: 1: Easy 2: Fat burn, 3: Cardio, 4: Perform, 5: Peak
   optional int32                pace                    =2; // @pace in milliseconds per km e.g. 312000 = 5:12 min/km
   optional int32                speed                   =3; // @speed in mm/sec
+  optional int32                cadence                 =4; // @cadence in rpm
 }
-

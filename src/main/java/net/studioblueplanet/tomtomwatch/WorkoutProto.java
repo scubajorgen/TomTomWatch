@@ -51,7 +51,7 @@ public final class WorkoutProto {
    *
    * Protobuf type {@code tutorial.Root}
    */
-  public  static final class Root extends
+  public static final class Root extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:tutorial.Root)
       RootOrBuilder {
@@ -71,61 +71,6 @@ public final class WorkoutProto {
       return new Root();
     }
 
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-    getUnknownFields() {
-      return this.unknownFields;
-    }
-    private Root(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      this();
-      if (extensionRegistry == null) {
-        throw new java.lang.NullPointerException();
-      }
-      int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            case 10: {
-              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
-                rootContainer_ = new java.util.ArrayList<net.studioblueplanet.tomtomwatch.WorkoutProto.RootContainer>();
-                mutable_bitField0_ |= 0x00000001;
-              }
-              rootContainer_.add(
-                  input.readMessage(net.studioblueplanet.tomtomwatch.WorkoutProto.RootContainer.PARSER, extensionRegistry));
-              break;
-            }
-            default: {
-              if (!parseUnknownField(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e).setUnfinishedMessage(this);
-      } finally {
-        if (((mutable_bitField0_ & 0x00000001) != 0)) {
-          rootContainer_ = java.util.Collections.unmodifiableList(rootContainer_);
-        }
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
       return net.studioblueplanet.tomtomwatch.WorkoutProto.internal_static_tutorial_Root_descriptor;
@@ -140,16 +85,19 @@ public final class WorkoutProto {
     }
 
     public static final int ROOTCONTAINER_FIELD_NUMBER = 1;
+    @SuppressWarnings("serial")
     private java.util.List<net.studioblueplanet.tomtomwatch.WorkoutProto.RootContainer> rootContainer_;
     /**
      * <code>repeated .tutorial.RootContainer rootContainer = 1;</code>
      */
+    @java.lang.Override
     public java.util.List<net.studioblueplanet.tomtomwatch.WorkoutProto.RootContainer> getRootContainerList() {
       return rootContainer_;
     }
     /**
      * <code>repeated .tutorial.RootContainer rootContainer = 1;</code>
      */
+    @java.lang.Override
     public java.util.List<? extends net.studioblueplanet.tomtomwatch.WorkoutProto.RootContainerOrBuilder> 
         getRootContainerOrBuilderList() {
       return rootContainer_;
@@ -157,18 +105,21 @@ public final class WorkoutProto {
     /**
      * <code>repeated .tutorial.RootContainer rootContainer = 1;</code>
      */
+    @java.lang.Override
     public int getRootContainerCount() {
       return rootContainer_.size();
     }
     /**
      * <code>repeated .tutorial.RootContainer rootContainer = 1;</code>
      */
+    @java.lang.Override
     public net.studioblueplanet.tomtomwatch.WorkoutProto.RootContainer getRootContainer(int index) {
       return rootContainer_.get(index);
     }
     /**
      * <code>repeated .tutorial.RootContainer rootContainer = 1;</code>
      */
+    @java.lang.Override
     public net.studioblueplanet.tomtomwatch.WorkoutProto.RootContainerOrBuilder getRootContainerOrBuilder(
         int index) {
       return rootContainer_.get(index);
@@ -197,7 +148,7 @@ public final class WorkoutProto {
       for (int i = 0; i < rootContainer_.size(); i++) {
         output.writeMessage(1, rootContainer_.get(i));
       }
-      unknownFields.writeTo(output);
+      getUnknownFields().writeTo(output);
     }
 
     @java.lang.Override
@@ -210,7 +161,7 @@ public final class WorkoutProto {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(1, rootContainer_.get(i));
       }
-      size += unknownFields.getSerializedSize();
+      size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
       return size;
     }
@@ -227,7 +178,7 @@ public final class WorkoutProto {
 
       if (!getRootContainerList()
           .equals(other.getRootContainerList())) return false;
-      if (!unknownFields.equals(other.unknownFields)) return false;
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
 
@@ -242,7 +193,7 @@ public final class WorkoutProto {
         hash = (37 * hash) + ROOTCONTAINER_FIELD_NUMBER;
         hash = (53 * hash) + getRootContainerList().hashCode();
       }
-      hash = (29 * hash) + unknownFields.hashCode();
+      hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
     }
@@ -291,11 +242,13 @@ public final class WorkoutProto {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
+
     public static net.studioblueplanet.tomtomwatch.WorkoutProto.Root parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
+
     public static net.studioblueplanet.tomtomwatch.WorkoutProto.Root parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -365,29 +318,25 @@ public final class WorkoutProto {
 
       // Construct using net.studioblueplanet.tomtomwatch.WorkoutProto.Root.newBuilder()
       private Builder() {
-        maybeForceBuilderInitialization();
+
       }
 
       private Builder(
           com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
         super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessageV3
-                .alwaysUseFieldBuilders) {
-          getRootContainerFieldBuilder();
-        }
+
       }
       @java.lang.Override
       public Builder clear() {
         super.clear();
+        bitField0_ = 0;
         if (rootContainerBuilder_ == null) {
           rootContainer_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000001);
         } else {
+          rootContainer_ = null;
           rootContainerBuilder_.clear();
         }
+        bitField0_ = (bitField0_ & ~0x00000001);
         return this;
       }
 
@@ -414,7 +363,13 @@ public final class WorkoutProto {
       @java.lang.Override
       public net.studioblueplanet.tomtomwatch.WorkoutProto.Root buildPartial() {
         net.studioblueplanet.tomtomwatch.WorkoutProto.Root result = new net.studioblueplanet.tomtomwatch.WorkoutProto.Root(this);
-        int from_bitField0_ = bitField0_;
+        buildPartialRepeatedFields(result);
+        if (bitField0_ != 0) { buildPartial0(result); }
+        onBuilt();
+        return result;
+      }
+
+      private void buildPartialRepeatedFields(net.studioblueplanet.tomtomwatch.WorkoutProto.Root result) {
         if (rootContainerBuilder_ == null) {
           if (((bitField0_ & 0x00000001) != 0)) {
             rootContainer_ = java.util.Collections.unmodifiableList(rootContainer_);
@@ -424,8 +379,10 @@ public final class WorkoutProto {
         } else {
           result.rootContainer_ = rootContainerBuilder_.build();
         }
-        onBuilt();
-        return result;
+      }
+
+      private void buildPartial0(net.studioblueplanet.tomtomwatch.WorkoutProto.Root result) {
+        int from_bitField0_ = bitField0_;
       }
 
       @java.lang.Override
@@ -498,7 +455,7 @@ public final class WorkoutProto {
             }
           }
         }
-        this.mergeUnknownFields(other.unknownFields);
+        this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
         return this;
       }
@@ -518,17 +475,43 @@ public final class WorkoutProto {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        net.studioblueplanet.tomtomwatch.WorkoutProto.Root parsedMessage = null;
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
         try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              case 10: {
+                net.studioblueplanet.tomtomwatch.WorkoutProto.RootContainer m =
+                    input.readMessage(
+                        net.studioblueplanet.tomtomwatch.WorkoutProto.RootContainer.PARSER,
+                        extensionRegistry);
+                if (rootContainerBuilder_ == null) {
+                  ensureRootContainerIsMutable();
+                  rootContainer_.add(m);
+                } else {
+                  rootContainerBuilder_.addMessage(m);
+                }
+                break;
+              } // case 10
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (net.studioblueplanet.tomtomwatch.WorkoutProto.Root) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
+          onChanged();
+        } // finally
         return this;
       }
       private int bitField0_;
@@ -805,7 +788,18 @@ public final class WorkoutProto {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        return new Root(input, extensionRegistry);
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
       }
     };
 
@@ -831,10 +825,12 @@ public final class WorkoutProto {
 
     /**
      * <code>optional .tutorial.Metadata metadata = 7;</code>
+     * @return Whether the metadata field is set.
      */
     boolean hasMetadata();
     /**
      * <code>optional .tutorial.Metadata metadata = 7;</code>
+     * @return The metadata.
      */
     net.studioblueplanet.tomtomwatch.WorkoutProto.Metadata getMetadata();
     /**
@@ -844,10 +840,12 @@ public final class WorkoutProto {
 
     /**
      * <code>optional .tutorial.DataContainer dataContainer = 8;</code>
+     * @return Whether the dataContainer field is set.
      */
     boolean hasDataContainer();
     /**
      * <code>optional .tutorial.DataContainer dataContainer = 8;</code>
+     * @return The dataContainer.
      */
     net.studioblueplanet.tomtomwatch.WorkoutProto.DataContainer getDataContainer();
     /**
@@ -858,7 +856,7 @@ public final class WorkoutProto {
   /**
    * Protobuf type {@code tutorial.RootContainer}
    */
-  public  static final class RootContainer extends
+  public static final class RootContainer extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:tutorial.RootContainer)
       RootContainerOrBuilder {
@@ -877,75 +875,6 @@ public final class WorkoutProto {
       return new RootContainer();
     }
 
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-    getUnknownFields() {
-      return this.unknownFields;
-    }
-    private RootContainer(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      this();
-      if (extensionRegistry == null) {
-        throw new java.lang.NullPointerException();
-      }
-      int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            case 58: {
-              net.studioblueplanet.tomtomwatch.WorkoutProto.Metadata.Builder subBuilder = null;
-              if (((bitField0_ & 0x00000001) != 0)) {
-                subBuilder = metadata_.toBuilder();
-              }
-              metadata_ = input.readMessage(net.studioblueplanet.tomtomwatch.WorkoutProto.Metadata.PARSER, extensionRegistry);
-              if (subBuilder != null) {
-                subBuilder.mergeFrom(metadata_);
-                metadata_ = subBuilder.buildPartial();
-              }
-              bitField0_ |= 0x00000001;
-              break;
-            }
-            case 66: {
-              net.studioblueplanet.tomtomwatch.WorkoutProto.DataContainer.Builder subBuilder = null;
-              if (((bitField0_ & 0x00000002) != 0)) {
-                subBuilder = dataContainer_.toBuilder();
-              }
-              dataContainer_ = input.readMessage(net.studioblueplanet.tomtomwatch.WorkoutProto.DataContainer.PARSER, extensionRegistry);
-              if (subBuilder != null) {
-                subBuilder.mergeFrom(dataContainer_);
-                dataContainer_ = subBuilder.buildPartial();
-              }
-              bitField0_ |= 0x00000002;
-              break;
-            }
-            default: {
-              if (!parseUnknownField(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e).setUnfinishedMessage(this);
-      } finally {
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
       return net.studioblueplanet.tomtomwatch.WorkoutProto.internal_static_tutorial_RootContainer_descriptor;
@@ -964,19 +893,24 @@ public final class WorkoutProto {
     private net.studioblueplanet.tomtomwatch.WorkoutProto.Metadata metadata_;
     /**
      * <code>optional .tutorial.Metadata metadata = 7;</code>
+     * @return Whether the metadata field is set.
      */
+    @java.lang.Override
     public boolean hasMetadata() {
       return ((bitField0_ & 0x00000001) != 0);
     }
     /**
      * <code>optional .tutorial.Metadata metadata = 7;</code>
+     * @return The metadata.
      */
+    @java.lang.Override
     public net.studioblueplanet.tomtomwatch.WorkoutProto.Metadata getMetadata() {
       return metadata_ == null ? net.studioblueplanet.tomtomwatch.WorkoutProto.Metadata.getDefaultInstance() : metadata_;
     }
     /**
      * <code>optional .tutorial.Metadata metadata = 7;</code>
      */
+    @java.lang.Override
     public net.studioblueplanet.tomtomwatch.WorkoutProto.MetadataOrBuilder getMetadataOrBuilder() {
       return metadata_ == null ? net.studioblueplanet.tomtomwatch.WorkoutProto.Metadata.getDefaultInstance() : metadata_;
     }
@@ -985,19 +919,24 @@ public final class WorkoutProto {
     private net.studioblueplanet.tomtomwatch.WorkoutProto.DataContainer dataContainer_;
     /**
      * <code>optional .tutorial.DataContainer dataContainer = 8;</code>
+     * @return Whether the dataContainer field is set.
      */
+    @java.lang.Override
     public boolean hasDataContainer() {
       return ((bitField0_ & 0x00000002) != 0);
     }
     /**
      * <code>optional .tutorial.DataContainer dataContainer = 8;</code>
+     * @return The dataContainer.
      */
+    @java.lang.Override
     public net.studioblueplanet.tomtomwatch.WorkoutProto.DataContainer getDataContainer() {
       return dataContainer_ == null ? net.studioblueplanet.tomtomwatch.WorkoutProto.DataContainer.getDefaultInstance() : dataContainer_;
     }
     /**
      * <code>optional .tutorial.DataContainer dataContainer = 8;</code>
      */
+    @java.lang.Override
     public net.studioblueplanet.tomtomwatch.WorkoutProto.DataContainerOrBuilder getDataContainerOrBuilder() {
       return dataContainer_ == null ? net.studioblueplanet.tomtomwatch.WorkoutProto.DataContainer.getDefaultInstance() : dataContainer_;
     }
@@ -1034,7 +973,7 @@ public final class WorkoutProto {
       if (((bitField0_ & 0x00000002) != 0)) {
         output.writeMessage(8, getDataContainer());
       }
-      unknownFields.writeTo(output);
+      getUnknownFields().writeTo(output);
     }
 
     @java.lang.Override
@@ -1051,7 +990,7 @@ public final class WorkoutProto {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(8, getDataContainer());
       }
-      size += unknownFields.getSerializedSize();
+      size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
       return size;
     }
@@ -1076,7 +1015,7 @@ public final class WorkoutProto {
         if (!getDataContainer()
             .equals(other.getDataContainer())) return false;
       }
-      if (!unknownFields.equals(other.unknownFields)) return false;
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
 
@@ -1095,7 +1034,7 @@ public final class WorkoutProto {
         hash = (37 * hash) + DATACONTAINER_FIELD_NUMBER;
         hash = (53 * hash) + getDataContainer().hashCode();
       }
-      hash = (29 * hash) + unknownFields.hashCode();
+      hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
     }
@@ -1144,11 +1083,13 @@ public final class WorkoutProto {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
+
     public static net.studioblueplanet.tomtomwatch.WorkoutProto.RootContainer parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
+
     public static net.studioblueplanet.tomtomwatch.WorkoutProto.RootContainer parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -1230,18 +1171,17 @@ public final class WorkoutProto {
       @java.lang.Override
       public Builder clear() {
         super.clear();
-        if (metadataBuilder_ == null) {
-          metadata_ = null;
-        } else {
-          metadataBuilder_.clear();
+        bitField0_ = 0;
+        metadata_ = null;
+        if (metadataBuilder_ != null) {
+          metadataBuilder_.dispose();
+          metadataBuilder_ = null;
         }
-        bitField0_ = (bitField0_ & ~0x00000001);
-        if (dataContainerBuilder_ == null) {
-          dataContainer_ = null;
-        } else {
-          dataContainerBuilder_.clear();
+        dataContainer_ = null;
+        if (dataContainerBuilder_ != null) {
+          dataContainerBuilder_.dispose();
+          dataContainerBuilder_ = null;
         }
-        bitField0_ = (bitField0_ & ~0x00000002);
         return this;
       }
 
@@ -1268,27 +1208,27 @@ public final class WorkoutProto {
       @java.lang.Override
       public net.studioblueplanet.tomtomwatch.WorkoutProto.RootContainer buildPartial() {
         net.studioblueplanet.tomtomwatch.WorkoutProto.RootContainer result = new net.studioblueplanet.tomtomwatch.WorkoutProto.RootContainer(this);
+        if (bitField0_ != 0) { buildPartial0(result); }
+        onBuilt();
+        return result;
+      }
+
+      private void buildPartial0(net.studioblueplanet.tomtomwatch.WorkoutProto.RootContainer result) {
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
         if (((from_bitField0_ & 0x00000001) != 0)) {
-          if (metadataBuilder_ == null) {
-            result.metadata_ = metadata_;
-          } else {
-            result.metadata_ = metadataBuilder_.build();
-          }
+          result.metadata_ = metadataBuilder_ == null
+              ? metadata_
+              : metadataBuilder_.build();
           to_bitField0_ |= 0x00000001;
         }
         if (((from_bitField0_ & 0x00000002) != 0)) {
-          if (dataContainerBuilder_ == null) {
-            result.dataContainer_ = dataContainer_;
-          } else {
-            result.dataContainer_ = dataContainerBuilder_.build();
-          }
+          result.dataContainer_ = dataContainerBuilder_ == null
+              ? dataContainer_
+              : dataContainerBuilder_.build();
           to_bitField0_ |= 0x00000002;
         }
-        result.bitField0_ = to_bitField0_;
-        onBuilt();
-        return result;
+        result.bitField0_ |= to_bitField0_;
       }
 
       @java.lang.Override
@@ -1341,7 +1281,7 @@ public final class WorkoutProto {
         if (other.hasDataContainer()) {
           mergeDataContainer(other.getDataContainer());
         }
-        this.mergeUnknownFields(other.unknownFields);
+        this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
         return this;
       }
@@ -1366,17 +1306,44 @@ public final class WorkoutProto {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        net.studioblueplanet.tomtomwatch.WorkoutProto.RootContainer parsedMessage = null;
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
         try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              case 58: {
+                input.readMessage(
+                    getMetadataFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                bitField0_ |= 0x00000001;
+                break;
+              } // case 58
+              case 66: {
+                input.readMessage(
+                    getDataContainerFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                bitField0_ |= 0x00000002;
+                break;
+              } // case 66
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (net.studioblueplanet.tomtomwatch.WorkoutProto.RootContainer) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
+          onChanged();
+        } // finally
         return this;
       }
       private int bitField0_;
@@ -1386,12 +1353,14 @@ public final class WorkoutProto {
           net.studioblueplanet.tomtomwatch.WorkoutProto.Metadata, net.studioblueplanet.tomtomwatch.WorkoutProto.Metadata.Builder, net.studioblueplanet.tomtomwatch.WorkoutProto.MetadataOrBuilder> metadataBuilder_;
       /**
        * <code>optional .tutorial.Metadata metadata = 7;</code>
+       * @return Whether the metadata field is set.
        */
       public boolean hasMetadata() {
         return ((bitField0_ & 0x00000001) != 0);
       }
       /**
        * <code>optional .tutorial.Metadata metadata = 7;</code>
+       * @return The metadata.
        */
       public net.studioblueplanet.tomtomwatch.WorkoutProto.Metadata getMetadata() {
         if (metadataBuilder_ == null) {
@@ -1409,11 +1378,11 @@ public final class WorkoutProto {
             throw new NullPointerException();
           }
           metadata_ = value;
-          onChanged();
         } else {
           metadataBuilder_.setMessage(value);
         }
         bitField0_ |= 0x00000001;
+        onChanged();
         return this;
       }
       /**
@@ -1423,11 +1392,11 @@ public final class WorkoutProto {
           net.studioblueplanet.tomtomwatch.WorkoutProto.Metadata.Builder builderForValue) {
         if (metadataBuilder_ == null) {
           metadata_ = builderForValue.build();
-          onChanged();
         } else {
           metadataBuilder_.setMessage(builderForValue.build());
         }
         bitField0_ |= 0x00000001;
+        onChanged();
         return this;
       }
       /**
@@ -1436,31 +1405,32 @@ public final class WorkoutProto {
       public Builder mergeMetadata(net.studioblueplanet.tomtomwatch.WorkoutProto.Metadata value) {
         if (metadataBuilder_ == null) {
           if (((bitField0_ & 0x00000001) != 0) &&
-              metadata_ != null &&
-              metadata_ != net.studioblueplanet.tomtomwatch.WorkoutProto.Metadata.getDefaultInstance()) {
-            metadata_ =
-              net.studioblueplanet.tomtomwatch.WorkoutProto.Metadata.newBuilder(metadata_).mergeFrom(value).buildPartial();
+            metadata_ != null &&
+            metadata_ != net.studioblueplanet.tomtomwatch.WorkoutProto.Metadata.getDefaultInstance()) {
+            getMetadataBuilder().mergeFrom(value);
           } else {
             metadata_ = value;
           }
-          onChanged();
         } else {
           metadataBuilder_.mergeFrom(value);
         }
-        bitField0_ |= 0x00000001;
+        if (metadata_ != null) {
+          bitField0_ |= 0x00000001;
+          onChanged();
+        }
         return this;
       }
       /**
        * <code>optional .tutorial.Metadata metadata = 7;</code>
        */
       public Builder clearMetadata() {
-        if (metadataBuilder_ == null) {
-          metadata_ = null;
-          onChanged();
-        } else {
-          metadataBuilder_.clear();
-        }
         bitField0_ = (bitField0_ & ~0x00000001);
+        metadata_ = null;
+        if (metadataBuilder_ != null) {
+          metadataBuilder_.dispose();
+          metadataBuilder_ = null;
+        }
+        onChanged();
         return this;
       }
       /**
@@ -1504,12 +1474,14 @@ public final class WorkoutProto {
           net.studioblueplanet.tomtomwatch.WorkoutProto.DataContainer, net.studioblueplanet.tomtomwatch.WorkoutProto.DataContainer.Builder, net.studioblueplanet.tomtomwatch.WorkoutProto.DataContainerOrBuilder> dataContainerBuilder_;
       /**
        * <code>optional .tutorial.DataContainer dataContainer = 8;</code>
+       * @return Whether the dataContainer field is set.
        */
       public boolean hasDataContainer() {
         return ((bitField0_ & 0x00000002) != 0);
       }
       /**
        * <code>optional .tutorial.DataContainer dataContainer = 8;</code>
+       * @return The dataContainer.
        */
       public net.studioblueplanet.tomtomwatch.WorkoutProto.DataContainer getDataContainer() {
         if (dataContainerBuilder_ == null) {
@@ -1527,11 +1499,11 @@ public final class WorkoutProto {
             throw new NullPointerException();
           }
           dataContainer_ = value;
-          onChanged();
         } else {
           dataContainerBuilder_.setMessage(value);
         }
         bitField0_ |= 0x00000002;
+        onChanged();
         return this;
       }
       /**
@@ -1541,11 +1513,11 @@ public final class WorkoutProto {
           net.studioblueplanet.tomtomwatch.WorkoutProto.DataContainer.Builder builderForValue) {
         if (dataContainerBuilder_ == null) {
           dataContainer_ = builderForValue.build();
-          onChanged();
         } else {
           dataContainerBuilder_.setMessage(builderForValue.build());
         }
         bitField0_ |= 0x00000002;
+        onChanged();
         return this;
       }
       /**
@@ -1554,31 +1526,32 @@ public final class WorkoutProto {
       public Builder mergeDataContainer(net.studioblueplanet.tomtomwatch.WorkoutProto.DataContainer value) {
         if (dataContainerBuilder_ == null) {
           if (((bitField0_ & 0x00000002) != 0) &&
-              dataContainer_ != null &&
-              dataContainer_ != net.studioblueplanet.tomtomwatch.WorkoutProto.DataContainer.getDefaultInstance()) {
-            dataContainer_ =
-              net.studioblueplanet.tomtomwatch.WorkoutProto.DataContainer.newBuilder(dataContainer_).mergeFrom(value).buildPartial();
+            dataContainer_ != null &&
+            dataContainer_ != net.studioblueplanet.tomtomwatch.WorkoutProto.DataContainer.getDefaultInstance()) {
+            getDataContainerBuilder().mergeFrom(value);
           } else {
             dataContainer_ = value;
           }
-          onChanged();
         } else {
           dataContainerBuilder_.mergeFrom(value);
         }
-        bitField0_ |= 0x00000002;
+        if (dataContainer_ != null) {
+          bitField0_ |= 0x00000002;
+          onChanged();
+        }
         return this;
       }
       /**
        * <code>optional .tutorial.DataContainer dataContainer = 8;</code>
        */
       public Builder clearDataContainer() {
-        if (dataContainerBuilder_ == null) {
-          dataContainer_ = null;
-          onChanged();
-        } else {
-          dataContainerBuilder_.clear();
-        }
         bitField0_ = (bitField0_ & ~0x00000002);
+        dataContainer_ = null;
+        if (dataContainerBuilder_ != null) {
+          dataContainerBuilder_.dispose();
+          dataContainerBuilder_ = null;
+        }
+        onChanged();
         return this;
       }
       /**
@@ -1649,7 +1622,18 @@ public final class WorkoutProto {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        return new RootContainer(input, extensionRegistry);
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
       }
     };
 
@@ -1679,6 +1663,7 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>required fixed32 manufacturer = 1;</code>
+     * @return Whether the manufacturer field is set.
      */
     boolean hasManufacturer();
     /**
@@ -1687,6 +1672,7 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>required fixed32 manufacturer = 1;</code>
+     * @return The manufacturer.
      */
     int getManufacturer();
 
@@ -1696,6 +1682,7 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>required fixed32 fileType = 2;</code>
+     * @return Whether the fileType field is set.
      */
     boolean hasFileType();
     /**
@@ -1704,13 +1691,14 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>required fixed32 fileType = 2;</code>
+     * @return The fileType.
      */
     int getFileType();
   }
   /**
    * Protobuf type {@code tutorial.Metadata}
    */
-  public  static final class Metadata extends
+  public static final class Metadata extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:tutorial.Metadata)
       MetadataOrBuilder {
@@ -1729,59 +1717,6 @@ public final class WorkoutProto {
       return new Metadata();
     }
 
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-    getUnknownFields() {
-      return this.unknownFields;
-    }
-    private Metadata(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      this();
-      if (extensionRegistry == null) {
-        throw new java.lang.NullPointerException();
-      }
-      int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            case 13: {
-              bitField0_ |= 0x00000001;
-              manufacturer_ = input.readFixed32();
-              break;
-            }
-            case 21: {
-              bitField0_ |= 0x00000002;
-              fileType_ = input.readFixed32();
-              break;
-            }
-            default: {
-              if (!parseUnknownField(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e).setUnfinishedMessage(this);
-      } finally {
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
       return net.studioblueplanet.tomtomwatch.WorkoutProto.internal_static_tutorial_Metadata_descriptor;
@@ -1797,14 +1732,16 @@ public final class WorkoutProto {
 
     private int bitField0_;
     public static final int MANUFACTURER_FIELD_NUMBER = 1;
-    private int manufacturer_;
+    private int manufacturer_ = 0;
     /**
      * <pre>
      * always 0x1234DAEB
      * </pre>
      *
      * <code>required fixed32 manufacturer = 1;</code>
+     * @return Whether the manufacturer field is set.
      */
+    @java.lang.Override
     public boolean hasManufacturer() {
       return ((bitField0_ & 0x00000001) != 0);
     }
@@ -1814,20 +1751,24 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>required fixed32 manufacturer = 1;</code>
+     * @return The manufacturer.
      */
+    @java.lang.Override
     public int getManufacturer() {
       return manufacturer_;
     }
 
     public static final int FILETYPE_FIELD_NUMBER = 2;
-    private int fileType_;
+    private int fileType_ = 0;
     /**
      * <pre>
      * 0x00080100 for 0x00BE0000, 0x00090100 for 0x00BEnnnn where nnnn&gt;0
      * </pre>
      *
      * <code>required fixed32 fileType = 2;</code>
+     * @return Whether the fileType field is set.
      */
+    @java.lang.Override
     public boolean hasFileType() {
       return ((bitField0_ & 0x00000002) != 0);
     }
@@ -1837,7 +1778,9 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>required fixed32 fileType = 2;</code>
+     * @return The fileType.
      */
+    @java.lang.Override
     public int getFileType() {
       return fileType_;
     }
@@ -1870,7 +1813,7 @@ public final class WorkoutProto {
       if (((bitField0_ & 0x00000002) != 0)) {
         output.writeFixed32(2, fileType_);
       }
-      unknownFields.writeTo(output);
+      getUnknownFields().writeTo(output);
     }
 
     @java.lang.Override
@@ -1887,7 +1830,7 @@ public final class WorkoutProto {
         size += com.google.protobuf.CodedOutputStream
           .computeFixed32Size(2, fileType_);
       }
-      size += unknownFields.getSerializedSize();
+      size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
       return size;
     }
@@ -1912,7 +1855,7 @@ public final class WorkoutProto {
         if (getFileType()
             != other.getFileType()) return false;
       }
-      if (!unknownFields.equals(other.unknownFields)) return false;
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
 
@@ -1931,7 +1874,7 @@ public final class WorkoutProto {
         hash = (37 * hash) + FILETYPE_FIELD_NUMBER;
         hash = (53 * hash) + getFileType();
       }
-      hash = (29 * hash) + unknownFields.hashCode();
+      hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
     }
@@ -1980,11 +1923,13 @@ public final class WorkoutProto {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
+
     public static net.studioblueplanet.tomtomwatch.WorkoutProto.Metadata parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
+
     public static net.studioblueplanet.tomtomwatch.WorkoutProto.Metadata parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -2048,26 +1993,20 @@ public final class WorkoutProto {
 
       // Construct using net.studioblueplanet.tomtomwatch.WorkoutProto.Metadata.newBuilder()
       private Builder() {
-        maybeForceBuilderInitialization();
+
       }
 
       private Builder(
           com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
         super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessageV3
-                .alwaysUseFieldBuilders) {
-        }
+
       }
       @java.lang.Override
       public Builder clear() {
         super.clear();
+        bitField0_ = 0;
         manufacturer_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000001);
         fileType_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000002);
         return this;
       }
 
@@ -2094,6 +2033,12 @@ public final class WorkoutProto {
       @java.lang.Override
       public net.studioblueplanet.tomtomwatch.WorkoutProto.Metadata buildPartial() {
         net.studioblueplanet.tomtomwatch.WorkoutProto.Metadata result = new net.studioblueplanet.tomtomwatch.WorkoutProto.Metadata(this);
+        if (bitField0_ != 0) { buildPartial0(result); }
+        onBuilt();
+        return result;
+      }
+
+      private void buildPartial0(net.studioblueplanet.tomtomwatch.WorkoutProto.Metadata result) {
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
         if (((from_bitField0_ & 0x00000001) != 0)) {
@@ -2104,9 +2049,7 @@ public final class WorkoutProto {
           result.fileType_ = fileType_;
           to_bitField0_ |= 0x00000002;
         }
-        result.bitField0_ = to_bitField0_;
-        onBuilt();
-        return result;
+        result.bitField0_ |= to_bitField0_;
       }
 
       @java.lang.Override
@@ -2159,7 +2102,7 @@ public final class WorkoutProto {
         if (other.hasFileType()) {
           setFileType(other.getFileType());
         }
-        this.mergeUnknownFields(other.unknownFields);
+        this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
         return this;
       }
@@ -2180,17 +2123,40 @@ public final class WorkoutProto {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        net.studioblueplanet.tomtomwatch.WorkoutProto.Metadata parsedMessage = null;
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
         try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              case 13: {
+                manufacturer_ = input.readFixed32();
+                bitField0_ |= 0x00000001;
+                break;
+              } // case 13
+              case 21: {
+                fileType_ = input.readFixed32();
+                bitField0_ |= 0x00000002;
+                break;
+              } // case 21
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (net.studioblueplanet.tomtomwatch.WorkoutProto.Metadata) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
+          onChanged();
+        } // finally
         return this;
       }
       private int bitField0_;
@@ -2202,7 +2168,9 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>required fixed32 manufacturer = 1;</code>
+       * @return Whether the manufacturer field is set.
        */
+      @java.lang.Override
       public boolean hasManufacturer() {
         return ((bitField0_ & 0x00000001) != 0);
       }
@@ -2212,7 +2180,9 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>required fixed32 manufacturer = 1;</code>
+       * @return The manufacturer.
        */
+      @java.lang.Override
       public int getManufacturer() {
         return manufacturer_;
       }
@@ -2222,10 +2192,13 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>required fixed32 manufacturer = 1;</code>
+       * @param value The manufacturer to set.
+       * @return This builder for chaining.
        */
       public Builder setManufacturer(int value) {
-        bitField0_ |= 0x00000001;
+
         manufacturer_ = value;
+        bitField0_ |= 0x00000001;
         onChanged();
         return this;
       }
@@ -2235,6 +2208,7 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>required fixed32 manufacturer = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearManufacturer() {
         bitField0_ = (bitField0_ & ~0x00000001);
@@ -2250,7 +2224,9 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>required fixed32 fileType = 2;</code>
+       * @return Whether the fileType field is set.
        */
+      @java.lang.Override
       public boolean hasFileType() {
         return ((bitField0_ & 0x00000002) != 0);
       }
@@ -2260,7 +2236,9 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>required fixed32 fileType = 2;</code>
+       * @return The fileType.
        */
+      @java.lang.Override
       public int getFileType() {
         return fileType_;
       }
@@ -2270,10 +2248,13 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>required fixed32 fileType = 2;</code>
+       * @param value The fileType to set.
+       * @return This builder for chaining.
        */
       public Builder setFileType(int value) {
-        bitField0_ |= 0x00000002;
+
         fileType_ = value;
+        bitField0_ |= 0x00000002;
         onChanged();
         return this;
       }
@@ -2283,6 +2264,7 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>required fixed32 fileType = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearFileType() {
         bitField0_ = (bitField0_ & ~0x00000002);
@@ -2323,7 +2305,18 @@ public final class WorkoutProto {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        return new Metadata(input, extensionRegistry);
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
       }
     };
 
@@ -2349,10 +2342,12 @@ public final class WorkoutProto {
 
     /**
      * <code>required .tutorial.SubDataContainer subDataContainer = 1;</code>
+     * @return Whether the subDataContainer field is set.
      */
     boolean hasSubDataContainer();
     /**
      * <code>required .tutorial.SubDataContainer subDataContainer = 1;</code>
+     * @return The subDataContainer.
      */
     net.studioblueplanet.tomtomwatch.WorkoutProto.SubDataContainer getSubDataContainer();
     /**
@@ -2363,7 +2358,7 @@ public final class WorkoutProto {
   /**
    * Protobuf type {@code tutorial.DataContainer}
    */
-  public  static final class DataContainer extends
+  public static final class DataContainer extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:tutorial.DataContainer)
       DataContainerOrBuilder {
@@ -2382,62 +2377,6 @@ public final class WorkoutProto {
       return new DataContainer();
     }
 
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-    getUnknownFields() {
-      return this.unknownFields;
-    }
-    private DataContainer(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      this();
-      if (extensionRegistry == null) {
-        throw new java.lang.NullPointerException();
-      }
-      int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            case 10: {
-              net.studioblueplanet.tomtomwatch.WorkoutProto.SubDataContainer.Builder subBuilder = null;
-              if (((bitField0_ & 0x00000001) != 0)) {
-                subBuilder = subDataContainer_.toBuilder();
-              }
-              subDataContainer_ = input.readMessage(net.studioblueplanet.tomtomwatch.WorkoutProto.SubDataContainer.PARSER, extensionRegistry);
-              if (subBuilder != null) {
-                subBuilder.mergeFrom(subDataContainer_);
-                subDataContainer_ = subBuilder.buildPartial();
-              }
-              bitField0_ |= 0x00000001;
-              break;
-            }
-            default: {
-              if (!parseUnknownField(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e).setUnfinishedMessage(this);
-      } finally {
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
       return net.studioblueplanet.tomtomwatch.WorkoutProto.internal_static_tutorial_DataContainer_descriptor;
@@ -2456,19 +2395,24 @@ public final class WorkoutProto {
     private net.studioblueplanet.tomtomwatch.WorkoutProto.SubDataContainer subDataContainer_;
     /**
      * <code>required .tutorial.SubDataContainer subDataContainer = 1;</code>
+     * @return Whether the subDataContainer field is set.
      */
+    @java.lang.Override
     public boolean hasSubDataContainer() {
       return ((bitField0_ & 0x00000001) != 0);
     }
     /**
      * <code>required .tutorial.SubDataContainer subDataContainer = 1;</code>
+     * @return The subDataContainer.
      */
+    @java.lang.Override
     public net.studioblueplanet.tomtomwatch.WorkoutProto.SubDataContainer getSubDataContainer() {
       return subDataContainer_ == null ? net.studioblueplanet.tomtomwatch.WorkoutProto.SubDataContainer.getDefaultInstance() : subDataContainer_;
     }
     /**
      * <code>required .tutorial.SubDataContainer subDataContainer = 1;</code>
      */
+    @java.lang.Override
     public net.studioblueplanet.tomtomwatch.WorkoutProto.SubDataContainerOrBuilder getSubDataContainerOrBuilder() {
       return subDataContainer_ == null ? net.studioblueplanet.tomtomwatch.WorkoutProto.SubDataContainer.getDefaultInstance() : subDataContainer_;
     }
@@ -2498,7 +2442,7 @@ public final class WorkoutProto {
       if (((bitField0_ & 0x00000001) != 0)) {
         output.writeMessage(1, getSubDataContainer());
       }
-      unknownFields.writeTo(output);
+      getUnknownFields().writeTo(output);
     }
 
     @java.lang.Override
@@ -2511,7 +2455,7 @@ public final class WorkoutProto {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(1, getSubDataContainer());
       }
-      size += unknownFields.getSerializedSize();
+      size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
       return size;
     }
@@ -2531,7 +2475,7 @@ public final class WorkoutProto {
         if (!getSubDataContainer()
             .equals(other.getSubDataContainer())) return false;
       }
-      if (!unknownFields.equals(other.unknownFields)) return false;
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
 
@@ -2546,7 +2490,7 @@ public final class WorkoutProto {
         hash = (37 * hash) + SUBDATACONTAINER_FIELD_NUMBER;
         hash = (53 * hash) + getSubDataContainer().hashCode();
       }
-      hash = (29 * hash) + unknownFields.hashCode();
+      hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
     }
@@ -2595,11 +2539,13 @@ public final class WorkoutProto {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
+
     public static net.studioblueplanet.tomtomwatch.WorkoutProto.DataContainer parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
+
     public static net.studioblueplanet.tomtomwatch.WorkoutProto.DataContainer parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -2680,12 +2626,12 @@ public final class WorkoutProto {
       @java.lang.Override
       public Builder clear() {
         super.clear();
-        if (subDataContainerBuilder_ == null) {
-          subDataContainer_ = null;
-        } else {
-          subDataContainerBuilder_.clear();
+        bitField0_ = 0;
+        subDataContainer_ = null;
+        if (subDataContainerBuilder_ != null) {
+          subDataContainerBuilder_.dispose();
+          subDataContainerBuilder_ = null;
         }
-        bitField0_ = (bitField0_ & ~0x00000001);
         return this;
       }
 
@@ -2712,19 +2658,21 @@ public final class WorkoutProto {
       @java.lang.Override
       public net.studioblueplanet.tomtomwatch.WorkoutProto.DataContainer buildPartial() {
         net.studioblueplanet.tomtomwatch.WorkoutProto.DataContainer result = new net.studioblueplanet.tomtomwatch.WorkoutProto.DataContainer(this);
+        if (bitField0_ != 0) { buildPartial0(result); }
+        onBuilt();
+        return result;
+      }
+
+      private void buildPartial0(net.studioblueplanet.tomtomwatch.WorkoutProto.DataContainer result) {
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
         if (((from_bitField0_ & 0x00000001) != 0)) {
-          if (subDataContainerBuilder_ == null) {
-            result.subDataContainer_ = subDataContainer_;
-          } else {
-            result.subDataContainer_ = subDataContainerBuilder_.build();
-          }
+          result.subDataContainer_ = subDataContainerBuilder_ == null
+              ? subDataContainer_
+              : subDataContainerBuilder_.build();
           to_bitField0_ |= 0x00000001;
         }
-        result.bitField0_ = to_bitField0_;
-        onBuilt();
-        return result;
+        result.bitField0_ |= to_bitField0_;
       }
 
       @java.lang.Override
@@ -2774,7 +2722,7 @@ public final class WorkoutProto {
         if (other.hasSubDataContainer()) {
           mergeSubDataContainer(other.getSubDataContainer());
         }
-        this.mergeUnknownFields(other.unknownFields);
+        this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
         return this;
       }
@@ -2795,17 +2743,37 @@ public final class WorkoutProto {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        net.studioblueplanet.tomtomwatch.WorkoutProto.DataContainer parsedMessage = null;
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
         try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              case 10: {
+                input.readMessage(
+                    getSubDataContainerFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                bitField0_ |= 0x00000001;
+                break;
+              } // case 10
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (net.studioblueplanet.tomtomwatch.WorkoutProto.DataContainer) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
+          onChanged();
+        } // finally
         return this;
       }
       private int bitField0_;
@@ -2815,12 +2783,14 @@ public final class WorkoutProto {
           net.studioblueplanet.tomtomwatch.WorkoutProto.SubDataContainer, net.studioblueplanet.tomtomwatch.WorkoutProto.SubDataContainer.Builder, net.studioblueplanet.tomtomwatch.WorkoutProto.SubDataContainerOrBuilder> subDataContainerBuilder_;
       /**
        * <code>required .tutorial.SubDataContainer subDataContainer = 1;</code>
+       * @return Whether the subDataContainer field is set.
        */
       public boolean hasSubDataContainer() {
         return ((bitField0_ & 0x00000001) != 0);
       }
       /**
        * <code>required .tutorial.SubDataContainer subDataContainer = 1;</code>
+       * @return The subDataContainer.
        */
       public net.studioblueplanet.tomtomwatch.WorkoutProto.SubDataContainer getSubDataContainer() {
         if (subDataContainerBuilder_ == null) {
@@ -2838,11 +2808,11 @@ public final class WorkoutProto {
             throw new NullPointerException();
           }
           subDataContainer_ = value;
-          onChanged();
         } else {
           subDataContainerBuilder_.setMessage(value);
         }
         bitField0_ |= 0x00000001;
+        onChanged();
         return this;
       }
       /**
@@ -2852,11 +2822,11 @@ public final class WorkoutProto {
           net.studioblueplanet.tomtomwatch.WorkoutProto.SubDataContainer.Builder builderForValue) {
         if (subDataContainerBuilder_ == null) {
           subDataContainer_ = builderForValue.build();
-          onChanged();
         } else {
           subDataContainerBuilder_.setMessage(builderForValue.build());
         }
         bitField0_ |= 0x00000001;
+        onChanged();
         return this;
       }
       /**
@@ -2865,31 +2835,32 @@ public final class WorkoutProto {
       public Builder mergeSubDataContainer(net.studioblueplanet.tomtomwatch.WorkoutProto.SubDataContainer value) {
         if (subDataContainerBuilder_ == null) {
           if (((bitField0_ & 0x00000001) != 0) &&
-              subDataContainer_ != null &&
-              subDataContainer_ != net.studioblueplanet.tomtomwatch.WorkoutProto.SubDataContainer.getDefaultInstance()) {
-            subDataContainer_ =
-              net.studioblueplanet.tomtomwatch.WorkoutProto.SubDataContainer.newBuilder(subDataContainer_).mergeFrom(value).buildPartial();
+            subDataContainer_ != null &&
+            subDataContainer_ != net.studioblueplanet.tomtomwatch.WorkoutProto.SubDataContainer.getDefaultInstance()) {
+            getSubDataContainerBuilder().mergeFrom(value);
           } else {
             subDataContainer_ = value;
           }
-          onChanged();
         } else {
           subDataContainerBuilder_.mergeFrom(value);
         }
-        bitField0_ |= 0x00000001;
+        if (subDataContainer_ != null) {
+          bitField0_ |= 0x00000001;
+          onChanged();
+        }
         return this;
       }
       /**
        * <code>required .tutorial.SubDataContainer subDataContainer = 1;</code>
        */
       public Builder clearSubDataContainer() {
-        if (subDataContainerBuilder_ == null) {
-          subDataContainer_ = null;
-          onChanged();
-        } else {
-          subDataContainerBuilder_.clear();
-        }
         bitField0_ = (bitField0_ & ~0x00000001);
+        subDataContainer_ = null;
+        if (subDataContainerBuilder_ != null) {
+          subDataContainerBuilder_.dispose();
+          subDataContainerBuilder_ = null;
+        }
+        onChanged();
         return this;
       }
       /**
@@ -2960,7 +2931,18 @@ public final class WorkoutProto {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        return new DataContainer(input, extensionRegistry);
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
       }
     };
 
@@ -3122,6 +3104,7 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>optional .tutorial.Workout workout = 7;</code>
+     * @return Whether the workout field is set.
      */
     boolean hasWorkout();
     /**
@@ -3130,6 +3113,7 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>optional .tutorial.Workout workout = 7;</code>
+     * @return The workout.
      */
     net.studioblueplanet.tomtomwatch.WorkoutProto.Workout getWorkout();
     /**
@@ -3144,7 +3128,7 @@ public final class WorkoutProto {
   /**
    * Protobuf type {@code tutorial.SubDataContainer}
    */
-  public  static final class SubDataContainer extends
+  public static final class SubDataContainer extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:tutorial.SubDataContainer)
       SubDataContainerOrBuilder {
@@ -3166,98 +3150,6 @@ public final class WorkoutProto {
       return new SubDataContainer();
     }
 
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-    getUnknownFields() {
-      return this.unknownFields;
-    }
-    private SubDataContainer(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      this();
-      if (extensionRegistry == null) {
-        throw new java.lang.NullPointerException();
-      }
-      int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            case 34: {
-              if (!((mutable_bitField0_ & 0x00000004) != 0)) {
-                workoutDescription_ = new java.util.ArrayList<net.studioblueplanet.tomtomwatch.WorkoutProto.Description>();
-                mutable_bitField0_ |= 0x00000004;
-              }
-              workoutDescription_.add(
-                  input.readMessage(net.studioblueplanet.tomtomwatch.WorkoutProto.Description.PARSER, extensionRegistry));
-              break;
-            }
-            case 42: {
-              if (!((mutable_bitField0_ & 0x00000002) != 0)) {
-                workoutListItem_ = new java.util.ArrayList<net.studioblueplanet.tomtomwatch.WorkoutProto.WorkoutListItem>();
-                mutable_bitField0_ |= 0x00000002;
-              }
-              workoutListItem_.add(
-                  input.readMessage(net.studioblueplanet.tomtomwatch.WorkoutProto.WorkoutListItem.PARSER, extensionRegistry));
-              break;
-            }
-            case 50: {
-              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
-                itemDescription_ = new java.util.ArrayList<net.studioblueplanet.tomtomwatch.WorkoutProto.Description>();
-                mutable_bitField0_ |= 0x00000001;
-              }
-              itemDescription_.add(
-                  input.readMessage(net.studioblueplanet.tomtomwatch.WorkoutProto.Description.PARSER, extensionRegistry));
-              break;
-            }
-            case 58: {
-              net.studioblueplanet.tomtomwatch.WorkoutProto.Workout.Builder subBuilder = null;
-              if (((bitField0_ & 0x00000001) != 0)) {
-                subBuilder = workout_.toBuilder();
-              }
-              workout_ = input.readMessage(net.studioblueplanet.tomtomwatch.WorkoutProto.Workout.PARSER, extensionRegistry);
-              if (subBuilder != null) {
-                subBuilder.mergeFrom(workout_);
-                workout_ = subBuilder.buildPartial();
-              }
-              bitField0_ |= 0x00000001;
-              break;
-            }
-            default: {
-              if (!parseUnknownField(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e).setUnfinishedMessage(this);
-      } finally {
-        if (((mutable_bitField0_ & 0x00000004) != 0)) {
-          workoutDescription_ = java.util.Collections.unmodifiableList(workoutDescription_);
-        }
-        if (((mutable_bitField0_ & 0x00000002) != 0)) {
-          workoutListItem_ = java.util.Collections.unmodifiableList(workoutListItem_);
-        }
-        if (((mutable_bitField0_ & 0x00000001) != 0)) {
-          itemDescription_ = java.util.Collections.unmodifiableList(itemDescription_);
-        }
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
       return net.studioblueplanet.tomtomwatch.WorkoutProto.internal_static_tutorial_SubDataContainer_descriptor;
@@ -3273,6 +3165,7 @@ public final class WorkoutProto {
 
     private int bitField0_;
     public static final int ITEMDESCRIPTION_FIELD_NUMBER = 6;
+    @SuppressWarnings("serial")
     private java.util.List<net.studioblueplanet.tomtomwatch.WorkoutProto.Description> itemDescription_;
     /**
      * <pre>
@@ -3281,6 +3174,7 @@ public final class WorkoutProto {
      *
      * <code>repeated .tutorial.Description itemDescription = 6;</code>
      */
+    @java.lang.Override
     public java.util.List<net.studioblueplanet.tomtomwatch.WorkoutProto.Description> getItemDescriptionList() {
       return itemDescription_;
     }
@@ -3291,6 +3185,7 @@ public final class WorkoutProto {
      *
      * <code>repeated .tutorial.Description itemDescription = 6;</code>
      */
+    @java.lang.Override
     public java.util.List<? extends net.studioblueplanet.tomtomwatch.WorkoutProto.DescriptionOrBuilder> 
         getItemDescriptionOrBuilderList() {
       return itemDescription_;
@@ -3302,6 +3197,7 @@ public final class WorkoutProto {
      *
      * <code>repeated .tutorial.Description itemDescription = 6;</code>
      */
+    @java.lang.Override
     public int getItemDescriptionCount() {
       return itemDescription_.size();
     }
@@ -3312,6 +3208,7 @@ public final class WorkoutProto {
      *
      * <code>repeated .tutorial.Description itemDescription = 6;</code>
      */
+    @java.lang.Override
     public net.studioblueplanet.tomtomwatch.WorkoutProto.Description getItemDescription(int index) {
       return itemDescription_.get(index);
     }
@@ -3322,12 +3219,14 @@ public final class WorkoutProto {
      *
      * <code>repeated .tutorial.Description itemDescription = 6;</code>
      */
+    @java.lang.Override
     public net.studioblueplanet.tomtomwatch.WorkoutProto.DescriptionOrBuilder getItemDescriptionOrBuilder(
         int index) {
       return itemDescription_.get(index);
     }
 
     public static final int WORKOUTLISTITEM_FIELD_NUMBER = 5;
+    @SuppressWarnings("serial")
     private java.util.List<net.studioblueplanet.tomtomwatch.WorkoutProto.WorkoutListItem> workoutListItem_;
     /**
      * <pre>
@@ -3336,6 +3235,7 @@ public final class WorkoutProto {
      *
      * <code>repeated .tutorial.WorkoutListItem workoutListItem = 5;</code>
      */
+    @java.lang.Override
     public java.util.List<net.studioblueplanet.tomtomwatch.WorkoutProto.WorkoutListItem> getWorkoutListItemList() {
       return workoutListItem_;
     }
@@ -3346,6 +3246,7 @@ public final class WorkoutProto {
      *
      * <code>repeated .tutorial.WorkoutListItem workoutListItem = 5;</code>
      */
+    @java.lang.Override
     public java.util.List<? extends net.studioblueplanet.tomtomwatch.WorkoutProto.WorkoutListItemOrBuilder> 
         getWorkoutListItemOrBuilderList() {
       return workoutListItem_;
@@ -3357,6 +3258,7 @@ public final class WorkoutProto {
      *
      * <code>repeated .tutorial.WorkoutListItem workoutListItem = 5;</code>
      */
+    @java.lang.Override
     public int getWorkoutListItemCount() {
       return workoutListItem_.size();
     }
@@ -3367,6 +3269,7 @@ public final class WorkoutProto {
      *
      * <code>repeated .tutorial.WorkoutListItem workoutListItem = 5;</code>
      */
+    @java.lang.Override
     public net.studioblueplanet.tomtomwatch.WorkoutProto.WorkoutListItem getWorkoutListItem(int index) {
       return workoutListItem_.get(index);
     }
@@ -3377,12 +3280,14 @@ public final class WorkoutProto {
      *
      * <code>repeated .tutorial.WorkoutListItem workoutListItem = 5;</code>
      */
+    @java.lang.Override
     public net.studioblueplanet.tomtomwatch.WorkoutProto.WorkoutListItemOrBuilder getWorkoutListItemOrBuilder(
         int index) {
       return workoutListItem_.get(index);
     }
 
     public static final int WORKOUTDESCRIPTION_FIELD_NUMBER = 4;
+    @SuppressWarnings("serial")
     private java.util.List<net.studioblueplanet.tomtomwatch.WorkoutProto.Description> workoutDescription_;
     /**
      * <pre>
@@ -3391,6 +3296,7 @@ public final class WorkoutProto {
      *
      * <code>repeated .tutorial.Description workoutDescription = 4;</code>
      */
+    @java.lang.Override
     public java.util.List<net.studioblueplanet.tomtomwatch.WorkoutProto.Description> getWorkoutDescriptionList() {
       return workoutDescription_;
     }
@@ -3401,6 +3307,7 @@ public final class WorkoutProto {
      *
      * <code>repeated .tutorial.Description workoutDescription = 4;</code>
      */
+    @java.lang.Override
     public java.util.List<? extends net.studioblueplanet.tomtomwatch.WorkoutProto.DescriptionOrBuilder> 
         getWorkoutDescriptionOrBuilderList() {
       return workoutDescription_;
@@ -3412,6 +3319,7 @@ public final class WorkoutProto {
      *
      * <code>repeated .tutorial.Description workoutDescription = 4;</code>
      */
+    @java.lang.Override
     public int getWorkoutDescriptionCount() {
       return workoutDescription_.size();
     }
@@ -3422,6 +3330,7 @@ public final class WorkoutProto {
      *
      * <code>repeated .tutorial.Description workoutDescription = 4;</code>
      */
+    @java.lang.Override
     public net.studioblueplanet.tomtomwatch.WorkoutProto.Description getWorkoutDescription(int index) {
       return workoutDescription_.get(index);
     }
@@ -3432,6 +3341,7 @@ public final class WorkoutProto {
      *
      * <code>repeated .tutorial.Description workoutDescription = 4;</code>
      */
+    @java.lang.Override
     public net.studioblueplanet.tomtomwatch.WorkoutProto.DescriptionOrBuilder getWorkoutDescriptionOrBuilder(
         int index) {
       return workoutDescription_.get(index);
@@ -3445,7 +3355,9 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>optional .tutorial.Workout workout = 7;</code>
+     * @return Whether the workout field is set.
      */
+    @java.lang.Override
     public boolean hasWorkout() {
       return ((bitField0_ & 0x00000001) != 0);
     }
@@ -3455,7 +3367,9 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>optional .tutorial.Workout workout = 7;</code>
+     * @return The workout.
      */
+    @java.lang.Override
     public net.studioblueplanet.tomtomwatch.WorkoutProto.Workout getWorkout() {
       return workout_ == null ? net.studioblueplanet.tomtomwatch.WorkoutProto.Workout.getDefaultInstance() : workout_;
     }
@@ -3466,6 +3380,7 @@ public final class WorkoutProto {
      *
      * <code>optional .tutorial.Workout workout = 7;</code>
      */
+    @java.lang.Override
     public net.studioblueplanet.tomtomwatch.WorkoutProto.WorkoutOrBuilder getWorkoutOrBuilder() {
       return workout_ == null ? net.studioblueplanet.tomtomwatch.WorkoutProto.Workout.getDefaultInstance() : workout_;
     }
@@ -3520,7 +3435,7 @@ public final class WorkoutProto {
       if (((bitField0_ & 0x00000001) != 0)) {
         output.writeMessage(7, getWorkout());
       }
-      unknownFields.writeTo(output);
+      getUnknownFields().writeTo(output);
     }
 
     @java.lang.Override
@@ -3545,7 +3460,7 @@ public final class WorkoutProto {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(7, getWorkout());
       }
-      size += unknownFields.getSerializedSize();
+      size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
       return size;
     }
@@ -3571,7 +3486,7 @@ public final class WorkoutProto {
         if (!getWorkout()
             .equals(other.getWorkout())) return false;
       }
-      if (!unknownFields.equals(other.unknownFields)) return false;
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
 
@@ -3598,7 +3513,7 @@ public final class WorkoutProto {
         hash = (37 * hash) + WORKOUT_FIELD_NUMBER;
         hash = (53 * hash) + getWorkout().hashCode();
       }
-      hash = (29 * hash) + unknownFields.hashCode();
+      hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
     }
@@ -3647,11 +3562,13 @@ public final class WorkoutProto {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
+
     public static net.studioblueplanet.tomtomwatch.WorkoutProto.SubDataContainer parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
+
     public static net.studioblueplanet.tomtomwatch.WorkoutProto.SubDataContainer parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -3735,30 +3652,33 @@ public final class WorkoutProto {
       @java.lang.Override
       public Builder clear() {
         super.clear();
+        bitField0_ = 0;
         if (itemDescriptionBuilder_ == null) {
           itemDescription_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000001);
         } else {
+          itemDescription_ = null;
           itemDescriptionBuilder_.clear();
         }
+        bitField0_ = (bitField0_ & ~0x00000001);
         if (workoutListItemBuilder_ == null) {
           workoutListItem_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000002);
         } else {
+          workoutListItem_ = null;
           workoutListItemBuilder_.clear();
         }
+        bitField0_ = (bitField0_ & ~0x00000002);
         if (workoutDescriptionBuilder_ == null) {
           workoutDescription_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000004);
         } else {
+          workoutDescription_ = null;
           workoutDescriptionBuilder_.clear();
         }
-        if (workoutBuilder_ == null) {
-          workout_ = null;
-        } else {
-          workoutBuilder_.clear();
+        bitField0_ = (bitField0_ & ~0x00000004);
+        workout_ = null;
+        if (workoutBuilder_ != null) {
+          workoutBuilder_.dispose();
+          workoutBuilder_ = null;
         }
-        bitField0_ = (bitField0_ & ~0x00000008);
         return this;
       }
 
@@ -3785,8 +3705,13 @@ public final class WorkoutProto {
       @java.lang.Override
       public net.studioblueplanet.tomtomwatch.WorkoutProto.SubDataContainer buildPartial() {
         net.studioblueplanet.tomtomwatch.WorkoutProto.SubDataContainer result = new net.studioblueplanet.tomtomwatch.WorkoutProto.SubDataContainer(this);
-        int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
+        buildPartialRepeatedFields(result);
+        if (bitField0_ != 0) { buildPartial0(result); }
+        onBuilt();
+        return result;
+      }
+
+      private void buildPartialRepeatedFields(net.studioblueplanet.tomtomwatch.WorkoutProto.SubDataContainer result) {
         if (itemDescriptionBuilder_ == null) {
           if (((bitField0_ & 0x00000001) != 0)) {
             itemDescription_ = java.util.Collections.unmodifiableList(itemDescription_);
@@ -3814,17 +3739,18 @@ public final class WorkoutProto {
         } else {
           result.workoutDescription_ = workoutDescriptionBuilder_.build();
         }
+      }
+
+      private void buildPartial0(net.studioblueplanet.tomtomwatch.WorkoutProto.SubDataContainer result) {
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
         if (((from_bitField0_ & 0x00000008) != 0)) {
-          if (workoutBuilder_ == null) {
-            result.workout_ = workout_;
-          } else {
-            result.workout_ = workoutBuilder_.build();
-          }
+          result.workout_ = workoutBuilder_ == null
+              ? workout_
+              : workoutBuilder_.build();
           to_bitField0_ |= 0x00000001;
         }
-        result.bitField0_ = to_bitField0_;
-        onBuilt();
-        return result;
+        result.bitField0_ |= to_bitField0_;
       }
 
       @java.lang.Override
@@ -3952,7 +3878,7 @@ public final class WorkoutProto {
         if (other.hasWorkout()) {
           mergeWorkout(other.getWorkout());
         }
-        this.mergeUnknownFields(other.unknownFields);
+        this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
         return this;
       }
@@ -3987,17 +3913,76 @@ public final class WorkoutProto {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        net.studioblueplanet.tomtomwatch.WorkoutProto.SubDataContainer parsedMessage = null;
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
         try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              case 34: {
+                net.studioblueplanet.tomtomwatch.WorkoutProto.Description m =
+                    input.readMessage(
+                        net.studioblueplanet.tomtomwatch.WorkoutProto.Description.PARSER,
+                        extensionRegistry);
+                if (workoutDescriptionBuilder_ == null) {
+                  ensureWorkoutDescriptionIsMutable();
+                  workoutDescription_.add(m);
+                } else {
+                  workoutDescriptionBuilder_.addMessage(m);
+                }
+                break;
+              } // case 34
+              case 42: {
+                net.studioblueplanet.tomtomwatch.WorkoutProto.WorkoutListItem m =
+                    input.readMessage(
+                        net.studioblueplanet.tomtomwatch.WorkoutProto.WorkoutListItem.PARSER,
+                        extensionRegistry);
+                if (workoutListItemBuilder_ == null) {
+                  ensureWorkoutListItemIsMutable();
+                  workoutListItem_.add(m);
+                } else {
+                  workoutListItemBuilder_.addMessage(m);
+                }
+                break;
+              } // case 42
+              case 50: {
+                net.studioblueplanet.tomtomwatch.WorkoutProto.Description m =
+                    input.readMessage(
+                        net.studioblueplanet.tomtomwatch.WorkoutProto.Description.PARSER,
+                        extensionRegistry);
+                if (itemDescriptionBuilder_ == null) {
+                  ensureItemDescriptionIsMutable();
+                  itemDescription_.add(m);
+                } else {
+                  itemDescriptionBuilder_.addMessage(m);
+                }
+                break;
+              } // case 50
+              case 58: {
+                input.readMessage(
+                    getWorkoutFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                bitField0_ |= 0x00000008;
+                break;
+              } // case 58
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (net.studioblueplanet.tomtomwatch.WorkoutProto.SubDataContainer) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
+          onChanged();
+        } // finally
         return this;
       }
       private int bitField0_;
@@ -4947,6 +4932,7 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>optional .tutorial.Workout workout = 7;</code>
+       * @return Whether the workout field is set.
        */
       public boolean hasWorkout() {
         return ((bitField0_ & 0x00000008) != 0);
@@ -4957,6 +4943,7 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>optional .tutorial.Workout workout = 7;</code>
+       * @return The workout.
        */
       public net.studioblueplanet.tomtomwatch.WorkoutProto.Workout getWorkout() {
         if (workoutBuilder_ == null) {
@@ -4978,11 +4965,11 @@ public final class WorkoutProto {
             throw new NullPointerException();
           }
           workout_ = value;
-          onChanged();
         } else {
           workoutBuilder_.setMessage(value);
         }
         bitField0_ |= 0x00000008;
+        onChanged();
         return this;
       }
       /**
@@ -4996,11 +4983,11 @@ public final class WorkoutProto {
           net.studioblueplanet.tomtomwatch.WorkoutProto.Workout.Builder builderForValue) {
         if (workoutBuilder_ == null) {
           workout_ = builderForValue.build();
-          onChanged();
         } else {
           workoutBuilder_.setMessage(builderForValue.build());
         }
         bitField0_ |= 0x00000008;
+        onChanged();
         return this;
       }
       /**
@@ -5013,18 +5000,19 @@ public final class WorkoutProto {
       public Builder mergeWorkout(net.studioblueplanet.tomtomwatch.WorkoutProto.Workout value) {
         if (workoutBuilder_ == null) {
           if (((bitField0_ & 0x00000008) != 0) &&
-              workout_ != null &&
-              workout_ != net.studioblueplanet.tomtomwatch.WorkoutProto.Workout.getDefaultInstance()) {
-            workout_ =
-              net.studioblueplanet.tomtomwatch.WorkoutProto.Workout.newBuilder(workout_).mergeFrom(value).buildPartial();
+            workout_ != null &&
+            workout_ != net.studioblueplanet.tomtomwatch.WorkoutProto.Workout.getDefaultInstance()) {
+            getWorkoutBuilder().mergeFrom(value);
           } else {
             workout_ = value;
           }
-          onChanged();
         } else {
           workoutBuilder_.mergeFrom(value);
         }
-        bitField0_ |= 0x00000008;
+        if (workout_ != null) {
+          bitField0_ |= 0x00000008;
+          onChanged();
+        }
         return this;
       }
       /**
@@ -5035,13 +5023,13 @@ public final class WorkoutProto {
        * <code>optional .tutorial.Workout workout = 7;</code>
        */
       public Builder clearWorkout() {
-        if (workoutBuilder_ == null) {
-          workout_ = null;
-          onChanged();
-        } else {
-          workoutBuilder_.clear();
-        }
         bitField0_ = (bitField0_ & ~0x00000008);
+        workout_ = null;
+        if (workoutBuilder_ != null) {
+          workoutBuilder_.dispose();
+          workoutBuilder_ = null;
+        }
+        onChanged();
         return this;
       }
       /**
@@ -5124,7 +5112,18 @@ public final class WorkoutProto {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        return new SubDataContainer(input, extensionRegistry);
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
       }
     };
 
@@ -5154,6 +5153,7 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>required int32 id = 1;</code>
+     * @return Whether the id field is set.
      */
     boolean hasId();
     /**
@@ -5162,6 +5162,7 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>required int32 id = 1;</code>
+     * @return The id.
      */
     int getId();
 
@@ -5171,6 +5172,7 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>required string description = 2;</code>
+     * @return Whether the description field is set.
      */
     boolean hasDescription();
     /**
@@ -5179,6 +5181,7 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>required string description = 2;</code>
+     * @return The description.
      */
     java.lang.String getDescription();
     /**
@@ -5187,6 +5190,7 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>required string description = 2;</code>
+     * @return The bytes for description.
      */
     com.google.protobuf.ByteString
         getDescriptionBytes();
@@ -5200,7 +5204,7 @@ public final class WorkoutProto {
    *
    * Protobuf type {@code tutorial.Description}
    */
-  public  static final class Description extends
+  public static final class Description extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:tutorial.Description)
       DescriptionOrBuilder {
@@ -5220,60 +5224,6 @@ public final class WorkoutProto {
       return new Description();
     }
 
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-    getUnknownFields() {
-      return this.unknownFields;
-    }
-    private Description(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      this();
-      if (extensionRegistry == null) {
-        throw new java.lang.NullPointerException();
-      }
-      int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            case 8: {
-              bitField0_ |= 0x00000001;
-              id_ = input.readInt32();
-              break;
-            }
-            case 18: {
-              com.google.protobuf.ByteString bs = input.readBytes();
-              bitField0_ |= 0x00000002;
-              description_ = bs;
-              break;
-            }
-            default: {
-              if (!parseUnknownField(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e).setUnfinishedMessage(this);
-      } finally {
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
       return net.studioblueplanet.tomtomwatch.WorkoutProto.internal_static_tutorial_Description_descriptor;
@@ -5289,14 +5239,16 @@ public final class WorkoutProto {
 
     private int bitField0_;
     public static final int ID_FIELD_NUMBER = 1;
-    private int id_;
+    private int id_ = 0;
     /**
      * <pre>
      * 0=workout name, 1=workout description, &gt;=2 are stages referred to from the program
      * </pre>
      *
      * <code>required int32 id = 1;</code>
+     * @return Whether the id field is set.
      */
+    @java.lang.Override
     public boolean hasId() {
       return ((bitField0_ & 0x00000001) != 0);
     }
@@ -5306,20 +5258,25 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>required int32 id = 1;</code>
+     * @return The id.
      */
+    @java.lang.Override
     public int getId() {
       return id_;
     }
 
     public static final int DESCRIPTION_FIELD_NUMBER = 2;
-    private volatile java.lang.Object description_;
+    @SuppressWarnings("serial")
+    private volatile java.lang.Object description_ = "";
     /**
      * <pre>
      * Name/description of the workout/stage
      * </pre>
      *
      * <code>required string description = 2;</code>
+     * @return Whether the description field is set.
      */
+    @java.lang.Override
     public boolean hasDescription() {
       return ((bitField0_ & 0x00000002) != 0);
     }
@@ -5329,7 +5286,9 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>required string description = 2;</code>
+     * @return The description.
      */
+    @java.lang.Override
     public java.lang.String getDescription() {
       java.lang.Object ref = description_;
       if (ref instanceof java.lang.String) {
@@ -5350,7 +5309,9 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>required string description = 2;</code>
+     * @return The bytes for description.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getDescriptionBytes() {
       java.lang.Object ref = description_;
@@ -5393,7 +5354,7 @@ public final class WorkoutProto {
       if (((bitField0_ & 0x00000002) != 0)) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 2, description_);
       }
-      unknownFields.writeTo(output);
+      getUnknownFields().writeTo(output);
     }
 
     @java.lang.Override
@@ -5409,7 +5370,7 @@ public final class WorkoutProto {
       if (((bitField0_ & 0x00000002) != 0)) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, description_);
       }
-      size += unknownFields.getSerializedSize();
+      size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
       return size;
     }
@@ -5434,7 +5395,7 @@ public final class WorkoutProto {
         if (!getDescription()
             .equals(other.getDescription())) return false;
       }
-      if (!unknownFields.equals(other.unknownFields)) return false;
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
 
@@ -5453,7 +5414,7 @@ public final class WorkoutProto {
         hash = (37 * hash) + DESCRIPTION_FIELD_NUMBER;
         hash = (53 * hash) + getDescription().hashCode();
       }
-      hash = (29 * hash) + unknownFields.hashCode();
+      hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
     }
@@ -5502,11 +5463,13 @@ public final class WorkoutProto {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
+
     public static net.studioblueplanet.tomtomwatch.WorkoutProto.Description parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
+
     public static net.studioblueplanet.tomtomwatch.WorkoutProto.Description parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -5576,26 +5539,20 @@ public final class WorkoutProto {
 
       // Construct using net.studioblueplanet.tomtomwatch.WorkoutProto.Description.newBuilder()
       private Builder() {
-        maybeForceBuilderInitialization();
+
       }
 
       private Builder(
           com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
         super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessageV3
-                .alwaysUseFieldBuilders) {
-        }
+
       }
       @java.lang.Override
       public Builder clear() {
         super.clear();
+        bitField0_ = 0;
         id_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000001);
         description_ = "";
-        bitField0_ = (bitField0_ & ~0x00000002);
         return this;
       }
 
@@ -5622,6 +5579,12 @@ public final class WorkoutProto {
       @java.lang.Override
       public net.studioblueplanet.tomtomwatch.WorkoutProto.Description buildPartial() {
         net.studioblueplanet.tomtomwatch.WorkoutProto.Description result = new net.studioblueplanet.tomtomwatch.WorkoutProto.Description(this);
+        if (bitField0_ != 0) { buildPartial0(result); }
+        onBuilt();
+        return result;
+      }
+
+      private void buildPartial0(net.studioblueplanet.tomtomwatch.WorkoutProto.Description result) {
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
         if (((from_bitField0_ & 0x00000001) != 0)) {
@@ -5629,12 +5592,10 @@ public final class WorkoutProto {
           to_bitField0_ |= 0x00000001;
         }
         if (((from_bitField0_ & 0x00000002) != 0)) {
+          result.description_ = description_;
           to_bitField0_ |= 0x00000002;
         }
-        result.description_ = description_;
-        result.bitField0_ = to_bitField0_;
-        onBuilt();
-        return result;
+        result.bitField0_ |= to_bitField0_;
       }
 
       @java.lang.Override
@@ -5685,11 +5646,11 @@ public final class WorkoutProto {
           setId(other.getId());
         }
         if (other.hasDescription()) {
-          bitField0_ |= 0x00000002;
           description_ = other.description_;
+          bitField0_ |= 0x00000002;
           onChanged();
         }
-        this.mergeUnknownFields(other.unknownFields);
+        this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
         return this;
       }
@@ -5710,17 +5671,40 @@ public final class WorkoutProto {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        net.studioblueplanet.tomtomwatch.WorkoutProto.Description parsedMessage = null;
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
         try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              case 8: {
+                id_ = input.readInt32();
+                bitField0_ |= 0x00000001;
+                break;
+              } // case 8
+              case 18: {
+                description_ = input.readBytes();
+                bitField0_ |= 0x00000002;
+                break;
+              } // case 18
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (net.studioblueplanet.tomtomwatch.WorkoutProto.Description) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
+          onChanged();
+        } // finally
         return this;
       }
       private int bitField0_;
@@ -5732,7 +5716,9 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>required int32 id = 1;</code>
+       * @return Whether the id field is set.
        */
+      @java.lang.Override
       public boolean hasId() {
         return ((bitField0_ & 0x00000001) != 0);
       }
@@ -5742,7 +5728,9 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>required int32 id = 1;</code>
+       * @return The id.
        */
+      @java.lang.Override
       public int getId() {
         return id_;
       }
@@ -5752,10 +5740,13 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>required int32 id = 1;</code>
+       * @param value The id to set.
+       * @return This builder for chaining.
        */
       public Builder setId(int value) {
-        bitField0_ |= 0x00000001;
+
         id_ = value;
+        bitField0_ |= 0x00000001;
         onChanged();
         return this;
       }
@@ -5765,6 +5756,7 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>required int32 id = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearId() {
         bitField0_ = (bitField0_ & ~0x00000001);
@@ -5780,6 +5772,7 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>required string description = 2;</code>
+       * @return Whether the description field is set.
        */
       public boolean hasDescription() {
         return ((bitField0_ & 0x00000002) != 0);
@@ -5790,6 +5783,7 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>required string description = 2;</code>
+       * @return The description.
        */
       public java.lang.String getDescription() {
         java.lang.Object ref = description_;
@@ -5811,6 +5805,7 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>required string description = 2;</code>
+       * @return The bytes for description.
        */
       public com.google.protobuf.ByteString
           getDescriptionBytes() {
@@ -5831,14 +5826,14 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>required string description = 2;</code>
+       * @param value The description to set.
+       * @return This builder for chaining.
        */
       public Builder setDescription(
           java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000002;
+        if (value == null) { throw new NullPointerException(); }
         description_ = value;
+        bitField0_ |= 0x00000002;
         onChanged();
         return this;
       }
@@ -5848,10 +5843,11 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>required string description = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearDescription() {
-        bitField0_ = (bitField0_ & ~0x00000002);
         description_ = getDefaultInstance().getDescription();
+        bitField0_ = (bitField0_ & ~0x00000002);
         onChanged();
         return this;
       }
@@ -5861,14 +5857,14 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>required string description = 2;</code>
+       * @param value The bytes for description to set.
+       * @return This builder for chaining.
        */
       public Builder setDescriptionBytes(
           com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000002;
+        if (value == null) { throw new NullPointerException(); }
         description_ = value;
+        bitField0_ |= 0x00000002;
         onChanged();
         return this;
       }
@@ -5905,7 +5901,18 @@ public final class WorkoutProto {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        return new Description(input, extensionRegistry);
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
       }
     };
 
@@ -5935,6 +5942,7 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>required int32 name = 2;</code>
+     * @return Whether the name field is set.
      */
     boolean hasName();
     /**
@@ -5943,6 +5951,7 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>required int32 name = 2;</code>
+     * @return The name.
      */
     int getName();
 
@@ -5952,6 +5961,7 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>optional int32 description = 3;</code>
+     * @return Whether the description field is set.
      */
     boolean hasDescription();
     /**
@@ -5960,6 +5970,7 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>optional int32 description = 3;</code>
+     * @return The description.
      */
     int getDescription();
 
@@ -5969,6 +5980,7 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>required bytes workoutId = 4;</code>
+     * @return Whether the workoutId field is set.
      */
     boolean hasWorkoutId();
     /**
@@ -5977,6 +5989,7 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>required bytes workoutId = 4;</code>
+     * @return The workoutId.
      */
     com.google.protobuf.ByteString getWorkoutId();
 
@@ -5986,6 +5999,7 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>optional int32 intensityLevel = 6;</code>
+     * @return Whether the intensityLevel field is set.
      */
     boolean hasIntensityLevel();
     /**
@@ -5994,6 +6008,7 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>optional int32 intensityLevel = 6;</code>
+     * @return The intensityLevel.
      */
     int getIntensityLevel();
 
@@ -6003,6 +6018,7 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>required int32 Type = 10;</code>
+     * @return Whether the type field is set.
      */
     boolean hasType();
     /**
@@ -6011,6 +6027,7 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>required int32 Type = 10;</code>
+     * @return The type.
      */
     int getType();
 
@@ -6020,6 +6037,7 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>required int32 unknown11 = 11;</code>
+     * @return Whether the unknown11 field is set.
      */
     boolean hasUnknown11();
     /**
@@ -6028,6 +6046,7 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>required int32 unknown11 = 11;</code>
+     * @return The unknown11.
      */
     int getUnknown11();
 
@@ -6084,7 +6103,7 @@ public final class WorkoutProto {
    *
    * Protobuf type {@code tutorial.Workout}
    */
-  public  static final class Workout extends
+  public static final class Workout extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:tutorial.Workout)
       WorkoutOrBuilder {
@@ -6105,91 +6124,6 @@ public final class WorkoutProto {
       return new Workout();
     }
 
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-    getUnknownFields() {
-      return this.unknownFields;
-    }
-    private Workout(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      this();
-      if (extensionRegistry == null) {
-        throw new java.lang.NullPointerException();
-      }
-      int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            case 16: {
-              bitField0_ |= 0x00000001;
-              name_ = input.readInt32();
-              break;
-            }
-            case 24: {
-              bitField0_ |= 0x00000002;
-              description_ = input.readInt32();
-              break;
-            }
-            case 34: {
-              bitField0_ |= 0x00000004;
-              workoutId_ = input.readBytes();
-              break;
-            }
-            case 48: {
-              bitField0_ |= 0x00000008;
-              intensityLevel_ = input.readInt32();
-              break;
-            }
-            case 80: {
-              bitField0_ |= 0x00000010;
-              type_ = input.readInt32();
-              break;
-            }
-            case 88: {
-              bitField0_ |= 0x00000020;
-              unknown11_ = input.readInt32();
-              break;
-            }
-            case 98: {
-              if (!((mutable_bitField0_ & 0x00000040) != 0)) {
-                step_ = new java.util.ArrayList<net.studioblueplanet.tomtomwatch.WorkoutProto.WorkoutStep>();
-                mutable_bitField0_ |= 0x00000040;
-              }
-              step_.add(
-                  input.readMessage(net.studioblueplanet.tomtomwatch.WorkoutProto.WorkoutStep.PARSER, extensionRegistry));
-              break;
-            }
-            default: {
-              if (!parseUnknownField(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e).setUnfinishedMessage(this);
-      } finally {
-        if (((mutable_bitField0_ & 0x00000040) != 0)) {
-          step_ = java.util.Collections.unmodifiableList(step_);
-        }
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
       return net.studioblueplanet.tomtomwatch.WorkoutProto.internal_static_tutorial_Workout_descriptor;
@@ -6205,14 +6139,16 @@ public final class WorkoutProto {
 
     private int bitField0_;
     public static final int NAME_FIELD_NUMBER = 2;
-    private int name_;
+    private int name_ = 0;
     /**
      * <pre>
      * Name of the workout as refrence to a workoutDescription
      * </pre>
      *
      * <code>required int32 name = 2;</code>
+     * @return Whether the name field is set.
      */
+    @java.lang.Override
     public boolean hasName() {
       return ((bitField0_ & 0x00000001) != 0);
     }
@@ -6222,20 +6158,24 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>required int32 name = 2;</code>
+     * @return The name.
      */
+    @java.lang.Override
     public int getName() {
       return name_;
     }
 
     public static final int DESCRIPTION_FIELD_NUMBER = 3;
-    private int description_;
+    private int description_ = 0;
     /**
      * <pre>
      * Description of the workout, as reference to a workoutDescription
      * </pre>
      *
      * <code>optional int32 description = 3;</code>
+     * @return Whether the description field is set.
      */
+    @java.lang.Override
     public boolean hasDescription() {
       return ((bitField0_ & 0x00000002) != 0);
     }
@@ -6245,20 +6185,24 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>optional int32 description = 3;</code>
+     * @return The description.
      */
+    @java.lang.Override
     public int getDescription() {
       return description_;
     }
 
     public static final int WORKOUTID_FIELD_NUMBER = 4;
-    private com.google.protobuf.ByteString workoutId_;
+    private com.google.protobuf.ByteString workoutId_ = com.google.protobuf.ByteString.EMPTY;
     /**
      * <pre>
      * UID identifying the workout file? does not appear to relate to content
      * </pre>
      *
      * <code>required bytes workoutId = 4;</code>
+     * @return Whether the workoutId field is set.
      */
+    @java.lang.Override
     public boolean hasWorkoutId() {
       return ((bitField0_ & 0x00000004) != 0);
     }
@@ -6268,20 +6212,24 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>required bytes workoutId = 4;</code>
+     * @return The workoutId.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString getWorkoutId() {
       return workoutId_;
     }
 
     public static final int INTENSITYLEVEL_FIELD_NUMBER = 6;
-    private int intensityLevel_;
+    private int intensityLevel_ = 0;
     /**
      * <pre>
      * Easiest: 19, Easier 9, Standard - not present, Harder 10, Hardest 20  
      * </pre>
      *
      * <code>optional int32 intensityLevel = 6;</code>
+     * @return Whether the intensityLevel field is set.
      */
+    @java.lang.Override
     public boolean hasIntensityLevel() {
       return ((bitField0_ & 0x00000008) != 0);
     }
@@ -6291,20 +6239,24 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>optional int32 intensityLevel = 6;</code>
+     * @return The intensityLevel.
      */
+    @java.lang.Override
     public int getIntensityLevel() {
       return intensityLevel_;
     }
 
     public static final int TYPE_FIELD_NUMBER = 10;
-    private int type_;
+    private int type_ = 0;
     /**
      * <pre>
      * 1: Fat burn, 2: Endurance, 3: Fitness, 4: Speed, 5: Power, 6: Custom 
      * </pre>
      *
      * <code>required int32 Type = 10;</code>
+     * @return Whether the type field is set.
      */
+    @java.lang.Override
     public boolean hasType() {
       return ((bitField0_ & 0x00000010) != 0);
     }
@@ -6314,20 +6266,24 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>required int32 Type = 10;</code>
+     * @return The type.
      */
+    @java.lang.Override
     public int getType() {
       return type_;
     }
 
     public static final int UNKNOWN11_FIELD_NUMBER = 11;
-    private int unknown11_;
+    private int unknown11_ = 0;
     /**
      * <pre>
      * value 2
      * </pre>
      *
      * <code>required int32 unknown11 = 11;</code>
+     * @return Whether the unknown11 field is set.
      */
+    @java.lang.Override
     public boolean hasUnknown11() {
       return ((bitField0_ & 0x00000020) != 0);
     }
@@ -6337,12 +6293,15 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>required int32 unknown11 = 11;</code>
+     * @return The unknown11.
      */
+    @java.lang.Override
     public int getUnknown11() {
       return unknown11_;
     }
 
     public static final int STEP_FIELD_NUMBER = 12;
+    @SuppressWarnings("serial")
     private java.util.List<net.studioblueplanet.tomtomwatch.WorkoutProto.WorkoutStep> step_;
     /**
      * <pre>
@@ -6351,6 +6310,7 @@ public final class WorkoutProto {
      *
      * <code>repeated .tutorial.WorkoutStep step = 12;</code>
      */
+    @java.lang.Override
     public java.util.List<net.studioblueplanet.tomtomwatch.WorkoutProto.WorkoutStep> getStepList() {
       return step_;
     }
@@ -6361,6 +6321,7 @@ public final class WorkoutProto {
      *
      * <code>repeated .tutorial.WorkoutStep step = 12;</code>
      */
+    @java.lang.Override
     public java.util.List<? extends net.studioblueplanet.tomtomwatch.WorkoutProto.WorkoutStepOrBuilder> 
         getStepOrBuilderList() {
       return step_;
@@ -6372,6 +6333,7 @@ public final class WorkoutProto {
      *
      * <code>repeated .tutorial.WorkoutStep step = 12;</code>
      */
+    @java.lang.Override
     public int getStepCount() {
       return step_.size();
     }
@@ -6382,6 +6344,7 @@ public final class WorkoutProto {
      *
      * <code>repeated .tutorial.WorkoutStep step = 12;</code>
      */
+    @java.lang.Override
     public net.studioblueplanet.tomtomwatch.WorkoutProto.WorkoutStep getStep(int index) {
       return step_.get(index);
     }
@@ -6392,6 +6355,7 @@ public final class WorkoutProto {
      *
      * <code>repeated .tutorial.WorkoutStep step = 12;</code>
      */
+    @java.lang.Override
     public net.studioblueplanet.tomtomwatch.WorkoutProto.WorkoutStepOrBuilder getStepOrBuilder(
         int index) {
       return step_.get(index);
@@ -6454,7 +6418,7 @@ public final class WorkoutProto {
       for (int i = 0; i < step_.size(); i++) {
         output.writeMessage(12, step_.get(i));
       }
-      unknownFields.writeTo(output);
+      getUnknownFields().writeTo(output);
     }
 
     @java.lang.Override
@@ -6491,7 +6455,7 @@ public final class WorkoutProto {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(12, step_.get(i));
       }
-      size += unknownFields.getSerializedSize();
+      size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
       return size;
     }
@@ -6538,7 +6502,7 @@ public final class WorkoutProto {
       }
       if (!getStepList()
           .equals(other.getStepList())) return false;
-      if (!unknownFields.equals(other.unknownFields)) return false;
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
 
@@ -6577,7 +6541,7 @@ public final class WorkoutProto {
         hash = (37 * hash) + STEP_FIELD_NUMBER;
         hash = (53 * hash) + getStepList().hashCode();
       }
-      hash = (29 * hash) + unknownFields.hashCode();
+      hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
     }
@@ -6626,11 +6590,13 @@ public final class WorkoutProto {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
+
     public static net.studioblueplanet.tomtomwatch.WorkoutProto.Workout parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
+
     public static net.studioblueplanet.tomtomwatch.WorkoutProto.Workout parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -6700,41 +6666,31 @@ public final class WorkoutProto {
 
       // Construct using net.studioblueplanet.tomtomwatch.WorkoutProto.Workout.newBuilder()
       private Builder() {
-        maybeForceBuilderInitialization();
+
       }
 
       private Builder(
           com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
         super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessageV3
-                .alwaysUseFieldBuilders) {
-          getStepFieldBuilder();
-        }
+
       }
       @java.lang.Override
       public Builder clear() {
         super.clear();
+        bitField0_ = 0;
         name_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000001);
         description_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000002);
         workoutId_ = com.google.protobuf.ByteString.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000004);
         intensityLevel_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000008);
         type_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000010);
         unknown11_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000020);
         if (stepBuilder_ == null) {
           step_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000040);
         } else {
+          step_ = null;
           stepBuilder_.clear();
         }
+        bitField0_ = (bitField0_ & ~0x00000040);
         return this;
       }
 
@@ -6761,6 +6717,25 @@ public final class WorkoutProto {
       @java.lang.Override
       public net.studioblueplanet.tomtomwatch.WorkoutProto.Workout buildPartial() {
         net.studioblueplanet.tomtomwatch.WorkoutProto.Workout result = new net.studioblueplanet.tomtomwatch.WorkoutProto.Workout(this);
+        buildPartialRepeatedFields(result);
+        if (bitField0_ != 0) { buildPartial0(result); }
+        onBuilt();
+        return result;
+      }
+
+      private void buildPartialRepeatedFields(net.studioblueplanet.tomtomwatch.WorkoutProto.Workout result) {
+        if (stepBuilder_ == null) {
+          if (((bitField0_ & 0x00000040) != 0)) {
+            step_ = java.util.Collections.unmodifiableList(step_);
+            bitField0_ = (bitField0_ & ~0x00000040);
+          }
+          result.step_ = step_;
+        } else {
+          result.step_ = stepBuilder_.build();
+        }
+      }
+
+      private void buildPartial0(net.studioblueplanet.tomtomwatch.WorkoutProto.Workout result) {
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
         if (((from_bitField0_ & 0x00000001) != 0)) {
@@ -6772,9 +6747,9 @@ public final class WorkoutProto {
           to_bitField0_ |= 0x00000002;
         }
         if (((from_bitField0_ & 0x00000004) != 0)) {
+          result.workoutId_ = workoutId_;
           to_bitField0_ |= 0x00000004;
         }
-        result.workoutId_ = workoutId_;
         if (((from_bitField0_ & 0x00000008) != 0)) {
           result.intensityLevel_ = intensityLevel_;
           to_bitField0_ |= 0x00000008;
@@ -6787,18 +6762,7 @@ public final class WorkoutProto {
           result.unknown11_ = unknown11_;
           to_bitField0_ |= 0x00000020;
         }
-        if (stepBuilder_ == null) {
-          if (((bitField0_ & 0x00000040) != 0)) {
-            step_ = java.util.Collections.unmodifiableList(step_);
-            bitField0_ = (bitField0_ & ~0x00000040);
-          }
-          result.step_ = step_;
-        } else {
-          result.step_ = stepBuilder_.build();
-        }
-        result.bitField0_ = to_bitField0_;
-        onBuilt();
-        return result;
+        result.bitField0_ |= to_bitField0_;
       }
 
       @java.lang.Override
@@ -6889,7 +6853,7 @@ public final class WorkoutProto {
             }
           }
         }
-        this.mergeUnknownFields(other.unknownFields);
+        this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
         return this;
       }
@@ -6921,17 +6885,73 @@ public final class WorkoutProto {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        net.studioblueplanet.tomtomwatch.WorkoutProto.Workout parsedMessage = null;
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
         try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              case 16: {
+                name_ = input.readInt32();
+                bitField0_ |= 0x00000001;
+                break;
+              } // case 16
+              case 24: {
+                description_ = input.readInt32();
+                bitField0_ |= 0x00000002;
+                break;
+              } // case 24
+              case 34: {
+                workoutId_ = input.readBytes();
+                bitField0_ |= 0x00000004;
+                break;
+              } // case 34
+              case 48: {
+                intensityLevel_ = input.readInt32();
+                bitField0_ |= 0x00000008;
+                break;
+              } // case 48
+              case 80: {
+                type_ = input.readInt32();
+                bitField0_ |= 0x00000010;
+                break;
+              } // case 80
+              case 88: {
+                unknown11_ = input.readInt32();
+                bitField0_ |= 0x00000020;
+                break;
+              } // case 88
+              case 98: {
+                net.studioblueplanet.tomtomwatch.WorkoutProto.WorkoutStep m =
+                    input.readMessage(
+                        net.studioblueplanet.tomtomwatch.WorkoutProto.WorkoutStep.PARSER,
+                        extensionRegistry);
+                if (stepBuilder_ == null) {
+                  ensureStepIsMutable();
+                  step_.add(m);
+                } else {
+                  stepBuilder_.addMessage(m);
+                }
+                break;
+              } // case 98
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (net.studioblueplanet.tomtomwatch.WorkoutProto.Workout) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
+          onChanged();
+        } // finally
         return this;
       }
       private int bitField0_;
@@ -6943,7 +6963,9 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>required int32 name = 2;</code>
+       * @return Whether the name field is set.
        */
+      @java.lang.Override
       public boolean hasName() {
         return ((bitField0_ & 0x00000001) != 0);
       }
@@ -6953,7 +6975,9 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>required int32 name = 2;</code>
+       * @return The name.
        */
+      @java.lang.Override
       public int getName() {
         return name_;
       }
@@ -6963,10 +6987,13 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>required int32 name = 2;</code>
+       * @param value The name to set.
+       * @return This builder for chaining.
        */
       public Builder setName(int value) {
-        bitField0_ |= 0x00000001;
+
         name_ = value;
+        bitField0_ |= 0x00000001;
         onChanged();
         return this;
       }
@@ -6976,6 +7003,7 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>required int32 name = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearName() {
         bitField0_ = (bitField0_ & ~0x00000001);
@@ -6991,7 +7019,9 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>optional int32 description = 3;</code>
+       * @return Whether the description field is set.
        */
+      @java.lang.Override
       public boolean hasDescription() {
         return ((bitField0_ & 0x00000002) != 0);
       }
@@ -7001,7 +7031,9 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>optional int32 description = 3;</code>
+       * @return The description.
        */
+      @java.lang.Override
       public int getDescription() {
         return description_;
       }
@@ -7011,10 +7043,13 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>optional int32 description = 3;</code>
+       * @param value The description to set.
+       * @return This builder for chaining.
        */
       public Builder setDescription(int value) {
-        bitField0_ |= 0x00000002;
+
         description_ = value;
+        bitField0_ |= 0x00000002;
         onChanged();
         return this;
       }
@@ -7024,6 +7059,7 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>optional int32 description = 3;</code>
+       * @return This builder for chaining.
        */
       public Builder clearDescription() {
         bitField0_ = (bitField0_ & ~0x00000002);
@@ -7039,7 +7075,9 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>required bytes workoutId = 4;</code>
+       * @return Whether the workoutId field is set.
        */
+      @java.lang.Override
       public boolean hasWorkoutId() {
         return ((bitField0_ & 0x00000004) != 0);
       }
@@ -7049,7 +7087,9 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>required bytes workoutId = 4;</code>
+       * @return The workoutId.
        */
+      @java.lang.Override
       public com.google.protobuf.ByteString getWorkoutId() {
         return workoutId_;
       }
@@ -7059,13 +7099,13 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>required bytes workoutId = 4;</code>
+       * @param value The workoutId to set.
+       * @return This builder for chaining.
        */
       public Builder setWorkoutId(com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000004;
+        if (value == null) { throw new NullPointerException(); }
         workoutId_ = value;
+        bitField0_ |= 0x00000004;
         onChanged();
         return this;
       }
@@ -7075,6 +7115,7 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>required bytes workoutId = 4;</code>
+       * @return This builder for chaining.
        */
       public Builder clearWorkoutId() {
         bitField0_ = (bitField0_ & ~0x00000004);
@@ -7090,7 +7131,9 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>optional int32 intensityLevel = 6;</code>
+       * @return Whether the intensityLevel field is set.
        */
+      @java.lang.Override
       public boolean hasIntensityLevel() {
         return ((bitField0_ & 0x00000008) != 0);
       }
@@ -7100,7 +7143,9 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>optional int32 intensityLevel = 6;</code>
+       * @return The intensityLevel.
        */
+      @java.lang.Override
       public int getIntensityLevel() {
         return intensityLevel_;
       }
@@ -7110,10 +7155,13 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>optional int32 intensityLevel = 6;</code>
+       * @param value The intensityLevel to set.
+       * @return This builder for chaining.
        */
       public Builder setIntensityLevel(int value) {
-        bitField0_ |= 0x00000008;
+
         intensityLevel_ = value;
+        bitField0_ |= 0x00000008;
         onChanged();
         return this;
       }
@@ -7123,6 +7171,7 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>optional int32 intensityLevel = 6;</code>
+       * @return This builder for chaining.
        */
       public Builder clearIntensityLevel() {
         bitField0_ = (bitField0_ & ~0x00000008);
@@ -7138,7 +7187,9 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>required int32 Type = 10;</code>
+       * @return Whether the type field is set.
        */
+      @java.lang.Override
       public boolean hasType() {
         return ((bitField0_ & 0x00000010) != 0);
       }
@@ -7148,7 +7199,9 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>required int32 Type = 10;</code>
+       * @return The type.
        */
+      @java.lang.Override
       public int getType() {
         return type_;
       }
@@ -7158,10 +7211,13 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>required int32 Type = 10;</code>
+       * @param value The type to set.
+       * @return This builder for chaining.
        */
       public Builder setType(int value) {
-        bitField0_ |= 0x00000010;
+
         type_ = value;
+        bitField0_ |= 0x00000010;
         onChanged();
         return this;
       }
@@ -7171,6 +7227,7 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>required int32 Type = 10;</code>
+       * @return This builder for chaining.
        */
       public Builder clearType() {
         bitField0_ = (bitField0_ & ~0x00000010);
@@ -7186,7 +7243,9 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>required int32 unknown11 = 11;</code>
+       * @return Whether the unknown11 field is set.
        */
+      @java.lang.Override
       public boolean hasUnknown11() {
         return ((bitField0_ & 0x00000020) != 0);
       }
@@ -7196,7 +7255,9 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>required int32 unknown11 = 11;</code>
+       * @return The unknown11.
        */
+      @java.lang.Override
       public int getUnknown11() {
         return unknown11_;
       }
@@ -7206,10 +7267,13 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>required int32 unknown11 = 11;</code>
+       * @param value The unknown11 to set.
+       * @return This builder for chaining.
        */
       public Builder setUnknown11(int value) {
-        bitField0_ |= 0x00000020;
+
         unknown11_ = value;
+        bitField0_ |= 0x00000020;
         onChanged();
         return this;
       }
@@ -7219,6 +7283,7 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>required int32 unknown11 = 11;</code>
+       * @return This builder for chaining.
        */
       public Builder clearUnknown11() {
         bitField0_ = (bitField0_ & ~0x00000020);
@@ -7571,7 +7636,18 @@ public final class WorkoutProto {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        return new Workout(input, extensionRegistry);
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
       }
     };
 
@@ -7601,6 +7677,7 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>required fixed32 fileId = 1;</code>
+     * @return Whether the fileId field is set.
      */
     boolean hasFileId();
     /**
@@ -7609,6 +7686,7 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>required fixed32 fileId = 1;</code>
+     * @return The fileId.
      */
     int getFileId();
 
@@ -7618,6 +7696,7 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>required bytes workoutMd5 = 2;</code>
+     * @return Whether the workoutMd5 field is set.
      */
     boolean hasWorkoutMd5();
     /**
@@ -7626,6 +7705,7 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>required bytes workoutMd5 = 2;</code>
+     * @return The workoutMd5.
      */
     com.google.protobuf.ByteString getWorkoutMd5();
 
@@ -7635,6 +7715,7 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>required int32 itemName = 3;</code>
+     * @return Whether the itemName field is set.
      */
     boolean hasItemName();
     /**
@@ -7643,6 +7724,7 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>required int32 itemName = 3;</code>
+     * @return The itemName.
      */
     int getItemName();
 
@@ -7652,6 +7734,7 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>required int32 itemDescription = 4;</code>
+     * @return Whether the itemDescription field is set.
      */
     boolean hasItemDescription();
     /**
@@ -7660,6 +7743,7 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>required int32 itemDescription = 4;</code>
+     * @return The itemDescription.
      */
     int getItemDescription();
 
@@ -7669,6 +7753,7 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>required bytes workoutId = 5;</code>
+     * @return Whether the workoutId field is set.
      */
     boolean hasWorkoutId();
     /**
@@ -7677,6 +7762,7 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>required bytes workoutId = 5;</code>
+     * @return The workoutId.
      */
     com.google.protobuf.ByteString getWorkoutId();
 
@@ -7686,6 +7772,7 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>required int32 intensityLevel = 7;</code>
+     * @return Whether the intensityLevel field is set.
      */
     boolean hasIntensityLevel();
     /**
@@ -7694,6 +7781,7 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>required int32 intensityLevel = 7;</code>
+     * @return The intensityLevel.
      */
     int getIntensityLevel();
 
@@ -7703,6 +7791,7 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>required int32 unknown8 = 8;</code>
+     * @return Whether the unknown8 field is set.
      */
     boolean hasUnknown8();
     /**
@@ -7711,6 +7800,7 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>required int32 unknown8 = 8;</code>
+     * @return The unknown8.
      */
     int getUnknown8();
 
@@ -7720,6 +7810,7 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>required int32 fileSize = 9;</code>
+     * @return Whether the fileSize field is set.
      */
     boolean hasFileSize();
     /**
@@ -7728,6 +7819,7 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>required int32 fileSize = 9;</code>
+     * @return The fileSize.
      */
     int getFileSize();
 
@@ -7737,6 +7829,7 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>required fixed64 activity = 10;</code>
+     * @return Whether the activity field is set.
      */
     boolean hasActivity();
     /**
@@ -7745,6 +7838,7 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>required fixed64 activity = 10;</code>
+     * @return The activity.
      */
     long getActivity();
 
@@ -7754,6 +7848,7 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>required int32 type = 11;</code>
+     * @return Whether the type field is set.
      */
     boolean hasType();
     /**
@@ -7762,6 +7857,7 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>required int32 type = 11;</code>
+     * @return The type.
      */
     int getType();
 
@@ -7771,6 +7867,7 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>required int32 unknown12 = 12;</code>
+     * @return Whether the unknown12 field is set.
      */
     boolean hasUnknown12();
     /**
@@ -7779,6 +7876,7 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>required int32 unknown12 = 12;</code>
+     * @return The unknown12.
      */
     int getUnknown12();
 
@@ -7788,6 +7886,7 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>required int32 unknown13 = 13;</code>
+     * @return Whether the unknown13 field is set.
      */
     boolean hasUnknown13();
     /**
@@ -7796,6 +7895,7 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>required int32 unknown13 = 13;</code>
+     * @return The unknown13.
      */
     int getUnknown13();
   }
@@ -7808,7 +7908,7 @@ public final class WorkoutProto {
    *
    * Protobuf type {@code tutorial.WorkoutListItem}
    */
-  public  static final class WorkoutListItem extends
+  public static final class WorkoutListItem extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:tutorial.WorkoutListItem)
       WorkoutListItemOrBuilder {
@@ -7829,109 +7929,6 @@ public final class WorkoutProto {
       return new WorkoutListItem();
     }
 
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-    getUnknownFields() {
-      return this.unknownFields;
-    }
-    private WorkoutListItem(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      this();
-      if (extensionRegistry == null) {
-        throw new java.lang.NullPointerException();
-      }
-      int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            case 13: {
-              bitField0_ |= 0x00000001;
-              fileId_ = input.readFixed32();
-              break;
-            }
-            case 18: {
-              bitField0_ |= 0x00000002;
-              workoutMd5_ = input.readBytes();
-              break;
-            }
-            case 24: {
-              bitField0_ |= 0x00000004;
-              itemName_ = input.readInt32();
-              break;
-            }
-            case 32: {
-              bitField0_ |= 0x00000008;
-              itemDescription_ = input.readInt32();
-              break;
-            }
-            case 42: {
-              bitField0_ |= 0x00000010;
-              workoutId_ = input.readBytes();
-              break;
-            }
-            case 56: {
-              bitField0_ |= 0x00000020;
-              intensityLevel_ = input.readInt32();
-              break;
-            }
-            case 64: {
-              bitField0_ |= 0x00000040;
-              unknown8_ = input.readInt32();
-              break;
-            }
-            case 72: {
-              bitField0_ |= 0x00000080;
-              fileSize_ = input.readInt32();
-              break;
-            }
-            case 81: {
-              bitField0_ |= 0x00000100;
-              activity_ = input.readFixed64();
-              break;
-            }
-            case 88: {
-              bitField0_ |= 0x00000200;
-              type_ = input.readInt32();
-              break;
-            }
-            case 96: {
-              bitField0_ |= 0x00000400;
-              unknown12_ = input.readInt32();
-              break;
-            }
-            case 104: {
-              bitField0_ |= 0x00000800;
-              unknown13_ = input.readInt32();
-              break;
-            }
-            default: {
-              if (!parseUnknownField(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e).setUnfinishedMessage(this);
-      } finally {
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
       return net.studioblueplanet.tomtomwatch.WorkoutProto.internal_static_tutorial_WorkoutListItem_descriptor;
@@ -7947,14 +7944,16 @@ public final class WorkoutProto {
 
     private int bitField0_;
     public static final int FILEID_FIELD_NUMBER = 1;
-    private int fileId_;
+    private int fileId_ = 0;
     /**
      * <pre>
      * File ID representing the workout, like 0x00BE0001 
      * </pre>
      *
      * <code>required fixed32 fileId = 1;</code>
+     * @return Whether the fileId field is set.
      */
+    @java.lang.Override
     public boolean hasFileId() {
       return ((bitField0_ & 0x00000001) != 0);
     }
@@ -7964,20 +7963,24 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>required fixed32 fileId = 1;</code>
+     * @return The fileId.
      */
+    @java.lang.Override
     public int getFileId() {
       return fileId_;
     }
 
     public static final int WORKOUTMD5_FIELD_NUMBER = 2;
-    private com.google.protobuf.ByteString workoutMd5_;
+    private com.google.protobuf.ByteString workoutMd5_ = com.google.protobuf.ByteString.EMPTY;
     /**
      * <pre>
      * MD5 of the workout file   
      * </pre>
      *
      * <code>required bytes workoutMd5 = 2;</code>
+     * @return Whether the workoutMd5 field is set.
      */
+    @java.lang.Override
     public boolean hasWorkoutMd5() {
       return ((bitField0_ & 0x00000002) != 0);
     }
@@ -7987,20 +7990,24 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>required bytes workoutMd5 = 2;</code>
+     * @return The workoutMd5.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString getWorkoutMd5() {
       return workoutMd5_;
     }
 
     public static final int ITEMNAME_FIELD_NUMBER = 3;
-    private int itemName_;
+    private int itemName_ = 0;
     /**
      * <pre>
      * Workout Name in the menu, like '★☆☆30 min'
      * </pre>
      *
      * <code>required int32 itemName = 3;</code>
+     * @return Whether the itemName field is set.
      */
+    @java.lang.Override
     public boolean hasItemName() {
       return ((bitField0_ & 0x00000004) != 0);
     }
@@ -8010,20 +8017,24 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>required int32 itemName = 3;</code>
+     * @return The itemName.
      */
+    @java.lang.Override
     public int getItemName() {
       return itemName_;
     }
 
     public static final int ITEMDESCRIPTION_FIELD_NUMBER = 4;
-    private int itemDescription_;
+    private int itemDescription_ = 0;
     /**
      * <pre>
      * Workout Description in the menu, like 'Keep going and stay in the Fat Burn HR zone for the entire time'
      * </pre>
      *
      * <code>required int32 itemDescription = 4;</code>
+     * @return Whether the itemDescription field is set.
      */
+    @java.lang.Override
     public boolean hasItemDescription() {
       return ((bitField0_ & 0x00000008) != 0);
     }
@@ -8033,20 +8044,24 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>required int32 itemDescription = 4;</code>
+     * @return The itemDescription.
      */
+    @java.lang.Override
     public int getItemDescription() {
       return itemDescription_;
     }
 
     public static final int WORKOUTID_FIELD_NUMBER = 5;
-    private com.google.protobuf.ByteString workoutId_;
+    private com.google.protobuf.ByteString workoutId_ = com.google.protobuf.ByteString.EMPTY;
     /**
      * <pre>
      * 16 bytes, same bytes as workoutId in Program
      * </pre>
      *
      * <code>required bytes workoutId = 5;</code>
+     * @return Whether the workoutId field is set.
      */
+    @java.lang.Override
     public boolean hasWorkoutId() {
       return ((bitField0_ & 0x00000010) != 0);
     }
@@ -8056,20 +8071,24 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>required bytes workoutId = 5;</code>
+     * @return The workoutId.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString getWorkoutId() {
       return workoutId_;
     }
 
     public static final int INTENSITYLEVEL_FIELD_NUMBER = 7;
-    private int intensityLevel_;
+    private int intensityLevel_ = 0;
     /**
      * <pre>
      * Easiest: 19, Easier 9, Standard 0, Harder 10, Hardest 20
      * </pre>
      *
      * <code>required int32 intensityLevel = 7;</code>
+     * @return Whether the intensityLevel field is set.
      */
+    @java.lang.Override
     public boolean hasIntensityLevel() {
       return ((bitField0_ & 0x00000020) != 0);
     }
@@ -8079,20 +8098,24 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>required int32 intensityLevel = 7;</code>
+     * @return The intensityLevel.
      */
+    @java.lang.Override
     public int getIntensityLevel() {
       return intensityLevel_;
     }
 
     public static final int UNKNOWN8_FIELD_NUMBER = 8;
-    private int unknown8_;
+    private int unknown8_ = 0;
     /**
      * <pre>
      * value=0
      * </pre>
      *
      * <code>required int32 unknown8 = 8;</code>
+     * @return Whether the unknown8 field is set.
      */
+    @java.lang.Override
     public boolean hasUnknown8() {
       return ((bitField0_ & 0x00000040) != 0);
     }
@@ -8102,20 +8125,24 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>required int32 unknown8 = 8;</code>
+     * @return The unknown8.
      */
+    @java.lang.Override
     public int getUnknown8() {
       return unknown8_;
     }
 
     public static final int FILESIZE_FIELD_NUMBER = 9;
-    private int fileSize_;
+    private int fileSize_ = 0;
     /**
      * <pre>
      * Size of the workout file in bytes
      * </pre>
      *
      * <code>required int32 fileSize = 9;</code>
+     * @return Whether the fileSize field is set.
      */
+    @java.lang.Override
     public boolean hasFileSize() {
       return ((bitField0_ & 0x00000080) != 0);
     }
@@ -8125,20 +8152,24 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>required int32 fileSize = 9;</code>
+     * @return The fileSize.
      */
+    @java.lang.Override
     public int getFileSize() {
       return fileSize_;
     }
 
     public static final int ACTIVITY_FIELD_NUMBER = 10;
-    private long activity_;
+    private long activity_ = 0L;
     /**
      * <pre>
      * 0x0802 for cycling, 0x4181 for running   
      * </pre>
      *
      * <code>required fixed64 activity = 10;</code>
+     * @return Whether the activity field is set.
      */
+    @java.lang.Override
     public boolean hasActivity() {
       return ((bitField0_ & 0x00000100) != 0);
     }
@@ -8148,20 +8179,24 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>required fixed64 activity = 10;</code>
+     * @return The activity.
      */
+    @java.lang.Override
     public long getActivity() {
       return activity_;
     }
 
     public static final int TYPE_FIELD_NUMBER = 11;
-    private int type_;
+    private int type_ = 0;
     /**
      * <pre>
      * 1: Fat burn, 2: Endurance, 3: Fitness, 4: Speed, 5: Power, 6: Custom 
      * </pre>
      *
      * <code>required int32 type = 11;</code>
+     * @return Whether the type field is set.
      */
+    @java.lang.Override
     public boolean hasType() {
       return ((bitField0_ & 0x00000200) != 0);
     }
@@ -8171,20 +8206,24 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>required int32 type = 11;</code>
+     * @return The type.
      */
+    @java.lang.Override
     public int getType() {
       return type_;
     }
 
     public static final int UNKNOWN12_FIELD_NUMBER = 12;
-    private int unknown12_;
+    private int unknown12_ = 0;
     /**
      * <pre>
      * value=2
      * </pre>
      *
      * <code>required int32 unknown12 = 12;</code>
+     * @return Whether the unknown12 field is set.
      */
+    @java.lang.Override
     public boolean hasUnknown12() {
       return ((bitField0_ & 0x00000400) != 0);
     }
@@ -8194,20 +8233,24 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>required int32 unknown12 = 12;</code>
+     * @return The unknown12.
      */
+    @java.lang.Override
     public int getUnknown12() {
       return unknown12_;
     }
 
     public static final int UNKNOWN13_FIELD_NUMBER = 13;
-    private int unknown13_;
+    private int unknown13_ = 0;
     /**
      * <pre>
      * value=1
      * </pre>
      *
      * <code>required int32 unknown13 = 13;</code>
+     * @return Whether the unknown13 field is set.
      */
+    @java.lang.Override
     public boolean hasUnknown13() {
       return ((bitField0_ & 0x00000800) != 0);
     }
@@ -8217,7 +8260,9 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>required int32 unknown13 = 13;</code>
+     * @return The unknown13.
      */
+    @java.lang.Override
     public int getUnknown13() {
       return unknown13_;
     }
@@ -8320,7 +8365,7 @@ public final class WorkoutProto {
       if (((bitField0_ & 0x00000800) != 0)) {
         output.writeInt32(13, unknown13_);
       }
-      unknownFields.writeTo(output);
+      getUnknownFields().writeTo(output);
     }
 
     @java.lang.Override
@@ -8377,7 +8422,7 @@ public final class WorkoutProto {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(13, unknown13_);
       }
-      size += unknownFields.getSerializedSize();
+      size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
       return size;
     }
@@ -8452,7 +8497,7 @@ public final class WorkoutProto {
         if (getUnknown13()
             != other.getUnknown13()) return false;
       }
-      if (!unknownFields.equals(other.unknownFields)) return false;
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
 
@@ -8512,7 +8557,7 @@ public final class WorkoutProto {
         hash = (37 * hash) + UNKNOWN13_FIELD_NUMBER;
         hash = (53 * hash) + getUnknown13();
       }
-      hash = (29 * hash) + unknownFields.hashCode();
+      hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
     }
@@ -8561,11 +8606,13 @@ public final class WorkoutProto {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
+
     public static net.studioblueplanet.tomtomwatch.WorkoutProto.WorkoutListItem parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
+
     public static net.studioblueplanet.tomtomwatch.WorkoutProto.WorkoutListItem parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -8635,46 +8682,30 @@ public final class WorkoutProto {
 
       // Construct using net.studioblueplanet.tomtomwatch.WorkoutProto.WorkoutListItem.newBuilder()
       private Builder() {
-        maybeForceBuilderInitialization();
+
       }
 
       private Builder(
           com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
         super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessageV3
-                .alwaysUseFieldBuilders) {
-        }
+
       }
       @java.lang.Override
       public Builder clear() {
         super.clear();
+        bitField0_ = 0;
         fileId_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000001);
         workoutMd5_ = com.google.protobuf.ByteString.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000002);
         itemName_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000004);
         itemDescription_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000008);
         workoutId_ = com.google.protobuf.ByteString.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000010);
         intensityLevel_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000020);
         unknown8_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000040);
         fileSize_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000080);
         activity_ = 0L;
-        bitField0_ = (bitField0_ & ~0x00000100);
         type_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000200);
         unknown12_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000400);
         unknown13_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000800);
         return this;
       }
 
@@ -8701,6 +8732,12 @@ public final class WorkoutProto {
       @java.lang.Override
       public net.studioblueplanet.tomtomwatch.WorkoutProto.WorkoutListItem buildPartial() {
         net.studioblueplanet.tomtomwatch.WorkoutProto.WorkoutListItem result = new net.studioblueplanet.tomtomwatch.WorkoutProto.WorkoutListItem(this);
+        if (bitField0_ != 0) { buildPartial0(result); }
+        onBuilt();
+        return result;
+      }
+
+      private void buildPartial0(net.studioblueplanet.tomtomwatch.WorkoutProto.WorkoutListItem result) {
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
         if (((from_bitField0_ & 0x00000001) != 0)) {
@@ -8708,9 +8745,9 @@ public final class WorkoutProto {
           to_bitField0_ |= 0x00000001;
         }
         if (((from_bitField0_ & 0x00000002) != 0)) {
+          result.workoutMd5_ = workoutMd5_;
           to_bitField0_ |= 0x00000002;
         }
-        result.workoutMd5_ = workoutMd5_;
         if (((from_bitField0_ & 0x00000004) != 0)) {
           result.itemName_ = itemName_;
           to_bitField0_ |= 0x00000004;
@@ -8720,9 +8757,9 @@ public final class WorkoutProto {
           to_bitField0_ |= 0x00000008;
         }
         if (((from_bitField0_ & 0x00000010) != 0)) {
+          result.workoutId_ = workoutId_;
           to_bitField0_ |= 0x00000010;
         }
-        result.workoutId_ = workoutId_;
         if (((from_bitField0_ & 0x00000020) != 0)) {
           result.intensityLevel_ = intensityLevel_;
           to_bitField0_ |= 0x00000020;
@@ -8751,9 +8788,7 @@ public final class WorkoutProto {
           result.unknown13_ = unknown13_;
           to_bitField0_ |= 0x00000800;
         }
-        result.bitField0_ = to_bitField0_;
-        onBuilt();
-        return result;
+        result.bitField0_ |= to_bitField0_;
       }
 
       @java.lang.Override
@@ -8836,7 +8871,7 @@ public final class WorkoutProto {
         if (other.hasUnknown13()) {
           setUnknown13(other.getUnknown13());
         }
-        this.mergeUnknownFields(other.unknownFields);
+        this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
         return this;
       }
@@ -8887,17 +8922,90 @@ public final class WorkoutProto {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        net.studioblueplanet.tomtomwatch.WorkoutProto.WorkoutListItem parsedMessage = null;
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
         try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              case 13: {
+                fileId_ = input.readFixed32();
+                bitField0_ |= 0x00000001;
+                break;
+              } // case 13
+              case 18: {
+                workoutMd5_ = input.readBytes();
+                bitField0_ |= 0x00000002;
+                break;
+              } // case 18
+              case 24: {
+                itemName_ = input.readInt32();
+                bitField0_ |= 0x00000004;
+                break;
+              } // case 24
+              case 32: {
+                itemDescription_ = input.readInt32();
+                bitField0_ |= 0x00000008;
+                break;
+              } // case 32
+              case 42: {
+                workoutId_ = input.readBytes();
+                bitField0_ |= 0x00000010;
+                break;
+              } // case 42
+              case 56: {
+                intensityLevel_ = input.readInt32();
+                bitField0_ |= 0x00000020;
+                break;
+              } // case 56
+              case 64: {
+                unknown8_ = input.readInt32();
+                bitField0_ |= 0x00000040;
+                break;
+              } // case 64
+              case 72: {
+                fileSize_ = input.readInt32();
+                bitField0_ |= 0x00000080;
+                break;
+              } // case 72
+              case 81: {
+                activity_ = input.readFixed64();
+                bitField0_ |= 0x00000100;
+                break;
+              } // case 81
+              case 88: {
+                type_ = input.readInt32();
+                bitField0_ |= 0x00000200;
+                break;
+              } // case 88
+              case 96: {
+                unknown12_ = input.readInt32();
+                bitField0_ |= 0x00000400;
+                break;
+              } // case 96
+              case 104: {
+                unknown13_ = input.readInt32();
+                bitField0_ |= 0x00000800;
+                break;
+              } // case 104
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (net.studioblueplanet.tomtomwatch.WorkoutProto.WorkoutListItem) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
+          onChanged();
+        } // finally
         return this;
       }
       private int bitField0_;
@@ -8909,7 +9017,9 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>required fixed32 fileId = 1;</code>
+       * @return Whether the fileId field is set.
        */
+      @java.lang.Override
       public boolean hasFileId() {
         return ((bitField0_ & 0x00000001) != 0);
       }
@@ -8919,7 +9029,9 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>required fixed32 fileId = 1;</code>
+       * @return The fileId.
        */
+      @java.lang.Override
       public int getFileId() {
         return fileId_;
       }
@@ -8929,10 +9041,13 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>required fixed32 fileId = 1;</code>
+       * @param value The fileId to set.
+       * @return This builder for chaining.
        */
       public Builder setFileId(int value) {
-        bitField0_ |= 0x00000001;
+
         fileId_ = value;
+        bitField0_ |= 0x00000001;
         onChanged();
         return this;
       }
@@ -8942,6 +9057,7 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>required fixed32 fileId = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearFileId() {
         bitField0_ = (bitField0_ & ~0x00000001);
@@ -8957,7 +9073,9 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>required bytes workoutMd5 = 2;</code>
+       * @return Whether the workoutMd5 field is set.
        */
+      @java.lang.Override
       public boolean hasWorkoutMd5() {
         return ((bitField0_ & 0x00000002) != 0);
       }
@@ -8967,7 +9085,9 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>required bytes workoutMd5 = 2;</code>
+       * @return The workoutMd5.
        */
+      @java.lang.Override
       public com.google.protobuf.ByteString getWorkoutMd5() {
         return workoutMd5_;
       }
@@ -8977,13 +9097,13 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>required bytes workoutMd5 = 2;</code>
+       * @param value The workoutMd5 to set.
+       * @return This builder for chaining.
        */
       public Builder setWorkoutMd5(com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000002;
+        if (value == null) { throw new NullPointerException(); }
         workoutMd5_ = value;
+        bitField0_ |= 0x00000002;
         onChanged();
         return this;
       }
@@ -8993,6 +9113,7 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>required bytes workoutMd5 = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearWorkoutMd5() {
         bitField0_ = (bitField0_ & ~0x00000002);
@@ -9008,7 +9129,9 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>required int32 itemName = 3;</code>
+       * @return Whether the itemName field is set.
        */
+      @java.lang.Override
       public boolean hasItemName() {
         return ((bitField0_ & 0x00000004) != 0);
       }
@@ -9018,7 +9141,9 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>required int32 itemName = 3;</code>
+       * @return The itemName.
        */
+      @java.lang.Override
       public int getItemName() {
         return itemName_;
       }
@@ -9028,10 +9153,13 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>required int32 itemName = 3;</code>
+       * @param value The itemName to set.
+       * @return This builder for chaining.
        */
       public Builder setItemName(int value) {
-        bitField0_ |= 0x00000004;
+
         itemName_ = value;
+        bitField0_ |= 0x00000004;
         onChanged();
         return this;
       }
@@ -9041,6 +9169,7 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>required int32 itemName = 3;</code>
+       * @return This builder for chaining.
        */
       public Builder clearItemName() {
         bitField0_ = (bitField0_ & ~0x00000004);
@@ -9056,7 +9185,9 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>required int32 itemDescription = 4;</code>
+       * @return Whether the itemDescription field is set.
        */
+      @java.lang.Override
       public boolean hasItemDescription() {
         return ((bitField0_ & 0x00000008) != 0);
       }
@@ -9066,7 +9197,9 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>required int32 itemDescription = 4;</code>
+       * @return The itemDescription.
        */
+      @java.lang.Override
       public int getItemDescription() {
         return itemDescription_;
       }
@@ -9076,10 +9209,13 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>required int32 itemDescription = 4;</code>
+       * @param value The itemDescription to set.
+       * @return This builder for chaining.
        */
       public Builder setItemDescription(int value) {
-        bitField0_ |= 0x00000008;
+
         itemDescription_ = value;
+        bitField0_ |= 0x00000008;
         onChanged();
         return this;
       }
@@ -9089,6 +9225,7 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>required int32 itemDescription = 4;</code>
+       * @return This builder for chaining.
        */
       public Builder clearItemDescription() {
         bitField0_ = (bitField0_ & ~0x00000008);
@@ -9104,7 +9241,9 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>required bytes workoutId = 5;</code>
+       * @return Whether the workoutId field is set.
        */
+      @java.lang.Override
       public boolean hasWorkoutId() {
         return ((bitField0_ & 0x00000010) != 0);
       }
@@ -9114,7 +9253,9 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>required bytes workoutId = 5;</code>
+       * @return The workoutId.
        */
+      @java.lang.Override
       public com.google.protobuf.ByteString getWorkoutId() {
         return workoutId_;
       }
@@ -9124,13 +9265,13 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>required bytes workoutId = 5;</code>
+       * @param value The workoutId to set.
+       * @return This builder for chaining.
        */
       public Builder setWorkoutId(com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000010;
+        if (value == null) { throw new NullPointerException(); }
         workoutId_ = value;
+        bitField0_ |= 0x00000010;
         onChanged();
         return this;
       }
@@ -9140,6 +9281,7 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>required bytes workoutId = 5;</code>
+       * @return This builder for chaining.
        */
       public Builder clearWorkoutId() {
         bitField0_ = (bitField0_ & ~0x00000010);
@@ -9155,7 +9297,9 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>required int32 intensityLevel = 7;</code>
+       * @return Whether the intensityLevel field is set.
        */
+      @java.lang.Override
       public boolean hasIntensityLevel() {
         return ((bitField0_ & 0x00000020) != 0);
       }
@@ -9165,7 +9309,9 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>required int32 intensityLevel = 7;</code>
+       * @return The intensityLevel.
        */
+      @java.lang.Override
       public int getIntensityLevel() {
         return intensityLevel_;
       }
@@ -9175,10 +9321,13 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>required int32 intensityLevel = 7;</code>
+       * @param value The intensityLevel to set.
+       * @return This builder for chaining.
        */
       public Builder setIntensityLevel(int value) {
-        bitField0_ |= 0x00000020;
+
         intensityLevel_ = value;
+        bitField0_ |= 0x00000020;
         onChanged();
         return this;
       }
@@ -9188,6 +9337,7 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>required int32 intensityLevel = 7;</code>
+       * @return This builder for chaining.
        */
       public Builder clearIntensityLevel() {
         bitField0_ = (bitField0_ & ~0x00000020);
@@ -9203,7 +9353,9 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>required int32 unknown8 = 8;</code>
+       * @return Whether the unknown8 field is set.
        */
+      @java.lang.Override
       public boolean hasUnknown8() {
         return ((bitField0_ & 0x00000040) != 0);
       }
@@ -9213,7 +9365,9 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>required int32 unknown8 = 8;</code>
+       * @return The unknown8.
        */
+      @java.lang.Override
       public int getUnknown8() {
         return unknown8_;
       }
@@ -9223,10 +9377,13 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>required int32 unknown8 = 8;</code>
+       * @param value The unknown8 to set.
+       * @return This builder for chaining.
        */
       public Builder setUnknown8(int value) {
-        bitField0_ |= 0x00000040;
+
         unknown8_ = value;
+        bitField0_ |= 0x00000040;
         onChanged();
         return this;
       }
@@ -9236,6 +9393,7 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>required int32 unknown8 = 8;</code>
+       * @return This builder for chaining.
        */
       public Builder clearUnknown8() {
         bitField0_ = (bitField0_ & ~0x00000040);
@@ -9251,7 +9409,9 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>required int32 fileSize = 9;</code>
+       * @return Whether the fileSize field is set.
        */
+      @java.lang.Override
       public boolean hasFileSize() {
         return ((bitField0_ & 0x00000080) != 0);
       }
@@ -9261,7 +9421,9 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>required int32 fileSize = 9;</code>
+       * @return The fileSize.
        */
+      @java.lang.Override
       public int getFileSize() {
         return fileSize_;
       }
@@ -9271,10 +9433,13 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>required int32 fileSize = 9;</code>
+       * @param value The fileSize to set.
+       * @return This builder for chaining.
        */
       public Builder setFileSize(int value) {
-        bitField0_ |= 0x00000080;
+
         fileSize_ = value;
+        bitField0_ |= 0x00000080;
         onChanged();
         return this;
       }
@@ -9284,6 +9449,7 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>required int32 fileSize = 9;</code>
+       * @return This builder for chaining.
        */
       public Builder clearFileSize() {
         bitField0_ = (bitField0_ & ~0x00000080);
@@ -9299,7 +9465,9 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>required fixed64 activity = 10;</code>
+       * @return Whether the activity field is set.
        */
+      @java.lang.Override
       public boolean hasActivity() {
         return ((bitField0_ & 0x00000100) != 0);
       }
@@ -9309,7 +9477,9 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>required fixed64 activity = 10;</code>
+       * @return The activity.
        */
+      @java.lang.Override
       public long getActivity() {
         return activity_;
       }
@@ -9319,10 +9489,13 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>required fixed64 activity = 10;</code>
+       * @param value The activity to set.
+       * @return This builder for chaining.
        */
       public Builder setActivity(long value) {
-        bitField0_ |= 0x00000100;
+
         activity_ = value;
+        bitField0_ |= 0x00000100;
         onChanged();
         return this;
       }
@@ -9332,6 +9505,7 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>required fixed64 activity = 10;</code>
+       * @return This builder for chaining.
        */
       public Builder clearActivity() {
         bitField0_ = (bitField0_ & ~0x00000100);
@@ -9347,7 +9521,9 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>required int32 type = 11;</code>
+       * @return Whether the type field is set.
        */
+      @java.lang.Override
       public boolean hasType() {
         return ((bitField0_ & 0x00000200) != 0);
       }
@@ -9357,7 +9533,9 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>required int32 type = 11;</code>
+       * @return The type.
        */
+      @java.lang.Override
       public int getType() {
         return type_;
       }
@@ -9367,10 +9545,13 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>required int32 type = 11;</code>
+       * @param value The type to set.
+       * @return This builder for chaining.
        */
       public Builder setType(int value) {
-        bitField0_ |= 0x00000200;
+
         type_ = value;
+        bitField0_ |= 0x00000200;
         onChanged();
         return this;
       }
@@ -9380,6 +9561,7 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>required int32 type = 11;</code>
+       * @return This builder for chaining.
        */
       public Builder clearType() {
         bitField0_ = (bitField0_ & ~0x00000200);
@@ -9395,7 +9577,9 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>required int32 unknown12 = 12;</code>
+       * @return Whether the unknown12 field is set.
        */
+      @java.lang.Override
       public boolean hasUnknown12() {
         return ((bitField0_ & 0x00000400) != 0);
       }
@@ -9405,7 +9589,9 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>required int32 unknown12 = 12;</code>
+       * @return The unknown12.
        */
+      @java.lang.Override
       public int getUnknown12() {
         return unknown12_;
       }
@@ -9415,10 +9601,13 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>required int32 unknown12 = 12;</code>
+       * @param value The unknown12 to set.
+       * @return This builder for chaining.
        */
       public Builder setUnknown12(int value) {
-        bitField0_ |= 0x00000400;
+
         unknown12_ = value;
+        bitField0_ |= 0x00000400;
         onChanged();
         return this;
       }
@@ -9428,6 +9617,7 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>required int32 unknown12 = 12;</code>
+       * @return This builder for chaining.
        */
       public Builder clearUnknown12() {
         bitField0_ = (bitField0_ & ~0x00000400);
@@ -9443,7 +9633,9 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>required int32 unknown13 = 13;</code>
+       * @return Whether the unknown13 field is set.
        */
+      @java.lang.Override
       public boolean hasUnknown13() {
         return ((bitField0_ & 0x00000800) != 0);
       }
@@ -9453,7 +9645,9 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>required int32 unknown13 = 13;</code>
+       * @return The unknown13.
        */
+      @java.lang.Override
       public int getUnknown13() {
         return unknown13_;
       }
@@ -9463,10 +9657,13 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>required int32 unknown13 = 13;</code>
+       * @param value The unknown13 to set.
+       * @return This builder for chaining.
        */
       public Builder setUnknown13(int value) {
-        bitField0_ |= 0x00000800;
+
         unknown13_ = value;
+        bitField0_ |= 0x00000800;
         onChanged();
         return this;
       }
@@ -9476,6 +9673,7 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>required int32 unknown13 = 13;</code>
+       * @return This builder for chaining.
        */
       public Builder clearUnknown13() {
         bitField0_ = (bitField0_ & ~0x00000800);
@@ -9516,7 +9714,18 @@ public final class WorkoutProto {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        return new WorkoutListItem(input, extensionRegistry);
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
       }
     };
 
@@ -9542,10 +9751,12 @@ public final class WorkoutProto {
 
     /**
      * <code>required .tutorial.WorkoutStepSub stepSub = 8;</code>
+     * @return Whether the stepSub field is set.
      */
     boolean hasStepSub();
     /**
      * <code>required .tutorial.WorkoutStepSub stepSub = 8;</code>
+     * @return The stepSub.
      */
     net.studioblueplanet.tomtomwatch.WorkoutProto.WorkoutStepSub getStepSub();
     /**
@@ -9562,7 +9773,7 @@ public final class WorkoutProto {
    *
    * Protobuf type {@code tutorial.WorkoutStep}
    */
-  public  static final class WorkoutStep extends
+  public static final class WorkoutStep extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:tutorial.WorkoutStep)
       WorkoutStepOrBuilder {
@@ -9581,62 +9792,6 @@ public final class WorkoutProto {
       return new WorkoutStep();
     }
 
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-    getUnknownFields() {
-      return this.unknownFields;
-    }
-    private WorkoutStep(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      this();
-      if (extensionRegistry == null) {
-        throw new java.lang.NullPointerException();
-      }
-      int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            case 66: {
-              net.studioblueplanet.tomtomwatch.WorkoutProto.WorkoutStepSub.Builder subBuilder = null;
-              if (((bitField0_ & 0x00000001) != 0)) {
-                subBuilder = stepSub_.toBuilder();
-              }
-              stepSub_ = input.readMessage(net.studioblueplanet.tomtomwatch.WorkoutProto.WorkoutStepSub.PARSER, extensionRegistry);
-              if (subBuilder != null) {
-                subBuilder.mergeFrom(stepSub_);
-                stepSub_ = subBuilder.buildPartial();
-              }
-              bitField0_ |= 0x00000001;
-              break;
-            }
-            default: {
-              if (!parseUnknownField(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e).setUnfinishedMessage(this);
-      } finally {
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
       return net.studioblueplanet.tomtomwatch.WorkoutProto.internal_static_tutorial_WorkoutStep_descriptor;
@@ -9655,19 +9810,24 @@ public final class WorkoutProto {
     private net.studioblueplanet.tomtomwatch.WorkoutProto.WorkoutStepSub stepSub_;
     /**
      * <code>required .tutorial.WorkoutStepSub stepSub = 8;</code>
+     * @return Whether the stepSub field is set.
      */
+    @java.lang.Override
     public boolean hasStepSub() {
       return ((bitField0_ & 0x00000001) != 0);
     }
     /**
      * <code>required .tutorial.WorkoutStepSub stepSub = 8;</code>
+     * @return The stepSub.
      */
+    @java.lang.Override
     public net.studioblueplanet.tomtomwatch.WorkoutProto.WorkoutStepSub getStepSub() {
       return stepSub_ == null ? net.studioblueplanet.tomtomwatch.WorkoutProto.WorkoutStepSub.getDefaultInstance() : stepSub_;
     }
     /**
      * <code>required .tutorial.WorkoutStepSub stepSub = 8;</code>
      */
+    @java.lang.Override
     public net.studioblueplanet.tomtomwatch.WorkoutProto.WorkoutStepSubOrBuilder getStepSubOrBuilder() {
       return stepSub_ == null ? net.studioblueplanet.tomtomwatch.WorkoutProto.WorkoutStepSub.getDefaultInstance() : stepSub_;
     }
@@ -9697,7 +9857,7 @@ public final class WorkoutProto {
       if (((bitField0_ & 0x00000001) != 0)) {
         output.writeMessage(8, getStepSub());
       }
-      unknownFields.writeTo(output);
+      getUnknownFields().writeTo(output);
     }
 
     @java.lang.Override
@@ -9710,7 +9870,7 @@ public final class WorkoutProto {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(8, getStepSub());
       }
-      size += unknownFields.getSerializedSize();
+      size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
       return size;
     }
@@ -9730,7 +9890,7 @@ public final class WorkoutProto {
         if (!getStepSub()
             .equals(other.getStepSub())) return false;
       }
-      if (!unknownFields.equals(other.unknownFields)) return false;
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
 
@@ -9745,7 +9905,7 @@ public final class WorkoutProto {
         hash = (37 * hash) + STEPSUB_FIELD_NUMBER;
         hash = (53 * hash) + getStepSub().hashCode();
       }
-      hash = (29 * hash) + unknownFields.hashCode();
+      hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
     }
@@ -9794,11 +9954,13 @@ public final class WorkoutProto {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
+
     public static net.studioblueplanet.tomtomwatch.WorkoutProto.WorkoutStep parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
+
     public static net.studioblueplanet.tomtomwatch.WorkoutProto.WorkoutStep parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -9885,12 +10047,12 @@ public final class WorkoutProto {
       @java.lang.Override
       public Builder clear() {
         super.clear();
-        if (stepSubBuilder_ == null) {
-          stepSub_ = null;
-        } else {
-          stepSubBuilder_.clear();
+        bitField0_ = 0;
+        stepSub_ = null;
+        if (stepSubBuilder_ != null) {
+          stepSubBuilder_.dispose();
+          stepSubBuilder_ = null;
         }
-        bitField0_ = (bitField0_ & ~0x00000001);
         return this;
       }
 
@@ -9917,19 +10079,21 @@ public final class WorkoutProto {
       @java.lang.Override
       public net.studioblueplanet.tomtomwatch.WorkoutProto.WorkoutStep buildPartial() {
         net.studioblueplanet.tomtomwatch.WorkoutProto.WorkoutStep result = new net.studioblueplanet.tomtomwatch.WorkoutProto.WorkoutStep(this);
+        if (bitField0_ != 0) { buildPartial0(result); }
+        onBuilt();
+        return result;
+      }
+
+      private void buildPartial0(net.studioblueplanet.tomtomwatch.WorkoutProto.WorkoutStep result) {
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
         if (((from_bitField0_ & 0x00000001) != 0)) {
-          if (stepSubBuilder_ == null) {
-            result.stepSub_ = stepSub_;
-          } else {
-            result.stepSub_ = stepSubBuilder_.build();
-          }
+          result.stepSub_ = stepSubBuilder_ == null
+              ? stepSub_
+              : stepSubBuilder_.build();
           to_bitField0_ |= 0x00000001;
         }
-        result.bitField0_ = to_bitField0_;
-        onBuilt();
-        return result;
+        result.bitField0_ |= to_bitField0_;
       }
 
       @java.lang.Override
@@ -9979,7 +10143,7 @@ public final class WorkoutProto {
         if (other.hasStepSub()) {
           mergeStepSub(other.getStepSub());
         }
-        this.mergeUnknownFields(other.unknownFields);
+        this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
         return this;
       }
@@ -10000,17 +10164,37 @@ public final class WorkoutProto {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        net.studioblueplanet.tomtomwatch.WorkoutProto.WorkoutStep parsedMessage = null;
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
         try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              case 66: {
+                input.readMessage(
+                    getStepSubFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                bitField0_ |= 0x00000001;
+                break;
+              } // case 66
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (net.studioblueplanet.tomtomwatch.WorkoutProto.WorkoutStep) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
+          onChanged();
+        } // finally
         return this;
       }
       private int bitField0_;
@@ -10020,12 +10204,14 @@ public final class WorkoutProto {
           net.studioblueplanet.tomtomwatch.WorkoutProto.WorkoutStepSub, net.studioblueplanet.tomtomwatch.WorkoutProto.WorkoutStepSub.Builder, net.studioblueplanet.tomtomwatch.WorkoutProto.WorkoutStepSubOrBuilder> stepSubBuilder_;
       /**
        * <code>required .tutorial.WorkoutStepSub stepSub = 8;</code>
+       * @return Whether the stepSub field is set.
        */
       public boolean hasStepSub() {
         return ((bitField0_ & 0x00000001) != 0);
       }
       /**
        * <code>required .tutorial.WorkoutStepSub stepSub = 8;</code>
+       * @return The stepSub.
        */
       public net.studioblueplanet.tomtomwatch.WorkoutProto.WorkoutStepSub getStepSub() {
         if (stepSubBuilder_ == null) {
@@ -10043,11 +10229,11 @@ public final class WorkoutProto {
             throw new NullPointerException();
           }
           stepSub_ = value;
-          onChanged();
         } else {
           stepSubBuilder_.setMessage(value);
         }
         bitField0_ |= 0x00000001;
+        onChanged();
         return this;
       }
       /**
@@ -10057,11 +10243,11 @@ public final class WorkoutProto {
           net.studioblueplanet.tomtomwatch.WorkoutProto.WorkoutStepSub.Builder builderForValue) {
         if (stepSubBuilder_ == null) {
           stepSub_ = builderForValue.build();
-          onChanged();
         } else {
           stepSubBuilder_.setMessage(builderForValue.build());
         }
         bitField0_ |= 0x00000001;
+        onChanged();
         return this;
       }
       /**
@@ -10070,31 +10256,32 @@ public final class WorkoutProto {
       public Builder mergeStepSub(net.studioblueplanet.tomtomwatch.WorkoutProto.WorkoutStepSub value) {
         if (stepSubBuilder_ == null) {
           if (((bitField0_ & 0x00000001) != 0) &&
-              stepSub_ != null &&
-              stepSub_ != net.studioblueplanet.tomtomwatch.WorkoutProto.WorkoutStepSub.getDefaultInstance()) {
-            stepSub_ =
-              net.studioblueplanet.tomtomwatch.WorkoutProto.WorkoutStepSub.newBuilder(stepSub_).mergeFrom(value).buildPartial();
+            stepSub_ != null &&
+            stepSub_ != net.studioblueplanet.tomtomwatch.WorkoutProto.WorkoutStepSub.getDefaultInstance()) {
+            getStepSubBuilder().mergeFrom(value);
           } else {
             stepSub_ = value;
           }
-          onChanged();
         } else {
           stepSubBuilder_.mergeFrom(value);
         }
-        bitField0_ |= 0x00000001;
+        if (stepSub_ != null) {
+          bitField0_ |= 0x00000001;
+          onChanged();
+        }
         return this;
       }
       /**
        * <code>required .tutorial.WorkoutStepSub stepSub = 8;</code>
        */
       public Builder clearStepSub() {
-        if (stepSubBuilder_ == null) {
-          stepSub_ = null;
-          onChanged();
-        } else {
-          stepSubBuilder_.clear();
-        }
         bitField0_ = (bitField0_ & ~0x00000001);
+        stepSub_ = null;
+        if (stepSubBuilder_ != null) {
+          stepSubBuilder_.dispose();
+          stepSubBuilder_ = null;
+        }
+        onChanged();
         return this;
       }
       /**
@@ -10165,7 +10352,18 @@ public final class WorkoutProto {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        return new WorkoutStep(input, extensionRegistry);
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
       }
     };
 
@@ -10195,6 +10393,7 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>required int32 stepName = 1;</code>
+     * @return Whether the stepName field is set.
      */
     boolean hasStepName();
     /**
@@ -10203,6 +10402,7 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>required int32 stepName = 1;</code>
+     * @return The stepName.
      */
     int getStepName();
 
@@ -10212,6 +10412,7 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>optional int32 stepDescription = 2;</code>
+     * @return Whether the stepDescription field is set.
      */
     boolean hasStepDescription();
     /**
@@ -10220,6 +10421,7 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>optional int32 stepDescription = 2;</code>
+     * @return The stepDescription.
      */
     int getStepDescription();
 
@@ -10229,6 +10431,7 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>required int32 stepNumber = 4;</code>
+     * @return Whether the stepNumber field is set.
      */
     boolean hasStepNumber();
     /**
@@ -10237,6 +10440,7 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>required int32 stepNumber = 4;</code>
+     * @return The stepNumber.
      */
     int getStepNumber();
 
@@ -10246,6 +10450,7 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>required int32 stepType = 6;</code>
+     * @return Whether the stepType field is set.
      */
     boolean hasStepType();
     /**
@@ -10254,6 +10459,7 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>required int32 stepType = 6;</code>
+     * @return The stepType.
      */
     int getStepType();
 
@@ -10263,6 +10469,7 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>optional .tutorial.Length stepLength = 7;</code>
+     * @return Whether the stepLength field is set.
      */
     boolean hasStepLength();
     /**
@@ -10271,6 +10478,7 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>optional .tutorial.Length stepLength = 7;</code>
+     * @return The stepLength.
      */
     net.studioblueplanet.tomtomwatch.WorkoutProto.Length getStepLength();
     /**
@@ -10288,6 +10496,7 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>optional .tutorial.Intensity intensity = 8;</code>
+     * @return Whether the intensity field is set.
      */
     boolean hasIntensity();
     /**
@@ -10296,6 +10505,7 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>optional .tutorial.Intensity intensity = 8;</code>
+     * @return The intensity.
      */
     net.studioblueplanet.tomtomwatch.WorkoutProto.Intensity getIntensity();
     /**
@@ -10316,7 +10526,7 @@ public final class WorkoutProto {
    *
    * Protobuf type {@code tutorial.WorkoutStepSub}
    */
-  public  static final class WorkoutStepSub extends
+  public static final class WorkoutStepSub extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:tutorial.WorkoutStepSub)
       WorkoutStepSubOrBuilder {
@@ -10335,95 +10545,6 @@ public final class WorkoutProto {
       return new WorkoutStepSub();
     }
 
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-    getUnknownFields() {
-      return this.unknownFields;
-    }
-    private WorkoutStepSub(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      this();
-      if (extensionRegistry == null) {
-        throw new java.lang.NullPointerException();
-      }
-      int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            case 8: {
-              bitField0_ |= 0x00000001;
-              stepName_ = input.readInt32();
-              break;
-            }
-            case 16: {
-              bitField0_ |= 0x00000002;
-              stepDescription_ = input.readInt32();
-              break;
-            }
-            case 32: {
-              bitField0_ |= 0x00000004;
-              stepNumber_ = input.readInt32();
-              break;
-            }
-            case 48: {
-              bitField0_ |= 0x00000008;
-              stepType_ = input.readInt32();
-              break;
-            }
-            case 58: {
-              net.studioblueplanet.tomtomwatch.WorkoutProto.Length.Builder subBuilder = null;
-              if (((bitField0_ & 0x00000010) != 0)) {
-                subBuilder = stepLength_.toBuilder();
-              }
-              stepLength_ = input.readMessage(net.studioblueplanet.tomtomwatch.WorkoutProto.Length.PARSER, extensionRegistry);
-              if (subBuilder != null) {
-                subBuilder.mergeFrom(stepLength_);
-                stepLength_ = subBuilder.buildPartial();
-              }
-              bitField0_ |= 0x00000010;
-              break;
-            }
-            case 66: {
-              net.studioblueplanet.tomtomwatch.WorkoutProto.Intensity.Builder subBuilder = null;
-              if (((bitField0_ & 0x00000020) != 0)) {
-                subBuilder = intensity_.toBuilder();
-              }
-              intensity_ = input.readMessage(net.studioblueplanet.tomtomwatch.WorkoutProto.Intensity.PARSER, extensionRegistry);
-              if (subBuilder != null) {
-                subBuilder.mergeFrom(intensity_);
-                intensity_ = subBuilder.buildPartial();
-              }
-              bitField0_ |= 0x00000020;
-              break;
-            }
-            default: {
-              if (!parseUnknownField(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e).setUnfinishedMessage(this);
-      } finally {
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
       return net.studioblueplanet.tomtomwatch.WorkoutProto.internal_static_tutorial_WorkoutStepSub_descriptor;
@@ -10439,14 +10560,16 @@ public final class WorkoutProto {
 
     private int bitField0_;
     public static final int STEPNAME_FIELD_NUMBER = 1;
-    private int stepName_;
+    private int stepName_ = 0;
     /**
      * <pre>
      * refers to a description ID (e.g. 'warm up', 'work')
      * </pre>
      *
      * <code>required int32 stepName = 1;</code>
+     * @return Whether the stepName field is set.
      */
+    @java.lang.Override
     public boolean hasStepName() {
       return ((bitField0_ & 0x00000001) != 0);
     }
@@ -10456,20 +10579,24 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>required int32 stepName = 1;</code>
+     * @return The stepName.
      */
+    @java.lang.Override
     public int getStepName() {
       return stepName_;
     }
 
     public static final int STEPDESCRIPTION_FIELD_NUMBER = 2;
-    private int stepDescription_;
+    private int stepDescription_ = 0;
     /**
      * <pre>
      * refers to a description ID (e.g. 'Get into the Fat Burn HR zone')
      * </pre>
      *
      * <code>optional int32 stepDescription = 2;</code>
+     * @return Whether the stepDescription field is set.
      */
+    @java.lang.Override
     public boolean hasStepDescription() {
       return ((bitField0_ & 0x00000002) != 0);
     }
@@ -10479,20 +10606,24 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>optional int32 stepDescription = 2;</code>
+     * @return The stepDescription.
      */
+    @java.lang.Override
     public int getStepDescription() {
       return stepDescription_;
     }
 
     public static final int STEPNUMBER_FIELD_NUMBER = 4;
-    private int stepNumber_;
+    private int stepNumber_ = 0;
     /**
      * <pre>
      * 0, 1, 2, 3,...
      * </pre>
      *
      * <code>required int32 stepNumber = 4;</code>
+     * @return Whether the stepNumber field is set.
      */
+    @java.lang.Override
     public boolean hasStepNumber() {
       return ((bitField0_ & 0x00000004) != 0);
     }
@@ -10502,20 +10633,24 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>required int32 stepNumber = 4;</code>
+     * @return The stepNumber.
      */
+    @java.lang.Override
     public int getStepNumber() {
       return stepNumber_;
     }
 
     public static final int STEPTYPE_FIELD_NUMBER = 6;
-    private int stepType_;
+    private int stepType_ = 0;
     /**
      * <pre>
      * 1: warm up, 2: work, 3: rest, 4: ?, 5: cool down
      * </pre>
      *
      * <code>required int32 stepType = 6;</code>
+     * @return Whether the stepType field is set.
      */
+    @java.lang.Override
     public boolean hasStepType() {
       return ((bitField0_ & 0x00000008) != 0);
     }
@@ -10525,7 +10660,9 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>required int32 stepType = 6;</code>
+     * @return The stepType.
      */
+    @java.lang.Override
     public int getStepType() {
       return stepType_;
     }
@@ -10538,7 +10675,9 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>optional .tutorial.Length stepLength = 7;</code>
+     * @return Whether the stepLength field is set.
      */
+    @java.lang.Override
     public boolean hasStepLength() {
       return ((bitField0_ & 0x00000010) != 0);
     }
@@ -10548,7 +10687,9 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>optional .tutorial.Length stepLength = 7;</code>
+     * @return The stepLength.
      */
+    @java.lang.Override
     public net.studioblueplanet.tomtomwatch.WorkoutProto.Length getStepLength() {
       return stepLength_ == null ? net.studioblueplanet.tomtomwatch.WorkoutProto.Length.getDefaultInstance() : stepLength_;
     }
@@ -10559,6 +10700,7 @@ public final class WorkoutProto {
      *
      * <code>optional .tutorial.Length stepLength = 7;</code>
      */
+    @java.lang.Override
     public net.studioblueplanet.tomtomwatch.WorkoutProto.LengthOrBuilder getStepLengthOrBuilder() {
       return stepLength_ == null ? net.studioblueplanet.tomtomwatch.WorkoutProto.Length.getDefaultInstance() : stepLength_;
     }
@@ -10571,7 +10713,9 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>optional .tutorial.Intensity intensity = 8;</code>
+     * @return Whether the intensity field is set.
      */
+    @java.lang.Override
     public boolean hasIntensity() {
       return ((bitField0_ & 0x00000020) != 0);
     }
@@ -10581,7 +10725,9 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>optional .tutorial.Intensity intensity = 8;</code>
+     * @return The intensity.
      */
+    @java.lang.Override
     public net.studioblueplanet.tomtomwatch.WorkoutProto.Intensity getIntensity() {
       return intensity_ == null ? net.studioblueplanet.tomtomwatch.WorkoutProto.Intensity.getDefaultInstance() : intensity_;
     }
@@ -10592,6 +10738,7 @@ public final class WorkoutProto {
      *
      * <code>optional .tutorial.Intensity intensity = 8;</code>
      */
+    @java.lang.Override
     public net.studioblueplanet.tomtomwatch.WorkoutProto.IntensityOrBuilder getIntensityOrBuilder() {
       return intensity_ == null ? net.studioblueplanet.tomtomwatch.WorkoutProto.Intensity.getDefaultInstance() : intensity_;
     }
@@ -10640,7 +10787,7 @@ public final class WorkoutProto {
       if (((bitField0_ & 0x00000020) != 0)) {
         output.writeMessage(8, getIntensity());
       }
-      unknownFields.writeTo(output);
+      getUnknownFields().writeTo(output);
     }
 
     @java.lang.Override
@@ -10673,7 +10820,7 @@ public final class WorkoutProto {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(8, getIntensity());
       }
-      size += unknownFields.getSerializedSize();
+      size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
       return size;
     }
@@ -10718,7 +10865,7 @@ public final class WorkoutProto {
         if (!getIntensity()
             .equals(other.getIntensity())) return false;
       }
-      if (!unknownFields.equals(other.unknownFields)) return false;
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
 
@@ -10753,7 +10900,7 @@ public final class WorkoutProto {
         hash = (37 * hash) + INTENSITY_FIELD_NUMBER;
         hash = (53 * hash) + getIntensity().hashCode();
       }
-      hash = (29 * hash) + unknownFields.hashCode();
+      hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
     }
@@ -10802,11 +10949,13 @@ public final class WorkoutProto {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
+
     public static net.studioblueplanet.tomtomwatch.WorkoutProto.WorkoutStepSub parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
+
     public static net.studioblueplanet.tomtomwatch.WorkoutProto.WorkoutStepSub parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -10894,26 +11043,21 @@ public final class WorkoutProto {
       @java.lang.Override
       public Builder clear() {
         super.clear();
+        bitField0_ = 0;
         stepName_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000001);
         stepDescription_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000002);
         stepNumber_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000004);
         stepType_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000008);
-        if (stepLengthBuilder_ == null) {
-          stepLength_ = null;
-        } else {
-          stepLengthBuilder_.clear();
+        stepLength_ = null;
+        if (stepLengthBuilder_ != null) {
+          stepLengthBuilder_.dispose();
+          stepLengthBuilder_ = null;
         }
-        bitField0_ = (bitField0_ & ~0x00000010);
-        if (intensityBuilder_ == null) {
-          intensity_ = null;
-        } else {
-          intensityBuilder_.clear();
+        intensity_ = null;
+        if (intensityBuilder_ != null) {
+          intensityBuilder_.dispose();
+          intensityBuilder_ = null;
         }
-        bitField0_ = (bitField0_ & ~0x00000020);
         return this;
       }
 
@@ -10940,6 +11084,12 @@ public final class WorkoutProto {
       @java.lang.Override
       public net.studioblueplanet.tomtomwatch.WorkoutProto.WorkoutStepSub buildPartial() {
         net.studioblueplanet.tomtomwatch.WorkoutProto.WorkoutStepSub result = new net.studioblueplanet.tomtomwatch.WorkoutProto.WorkoutStepSub(this);
+        if (bitField0_ != 0) { buildPartial0(result); }
+        onBuilt();
+        return result;
+      }
+
+      private void buildPartial0(net.studioblueplanet.tomtomwatch.WorkoutProto.WorkoutStepSub result) {
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
         if (((from_bitField0_ & 0x00000001) != 0)) {
@@ -10959,24 +11109,18 @@ public final class WorkoutProto {
           to_bitField0_ |= 0x00000008;
         }
         if (((from_bitField0_ & 0x00000010) != 0)) {
-          if (stepLengthBuilder_ == null) {
-            result.stepLength_ = stepLength_;
-          } else {
-            result.stepLength_ = stepLengthBuilder_.build();
-          }
+          result.stepLength_ = stepLengthBuilder_ == null
+              ? stepLength_
+              : stepLengthBuilder_.build();
           to_bitField0_ |= 0x00000010;
         }
         if (((from_bitField0_ & 0x00000020) != 0)) {
-          if (intensityBuilder_ == null) {
-            result.intensity_ = intensity_;
-          } else {
-            result.intensity_ = intensityBuilder_.build();
-          }
+          result.intensity_ = intensityBuilder_ == null
+              ? intensity_
+              : intensityBuilder_.build();
           to_bitField0_ |= 0x00000020;
         }
-        result.bitField0_ = to_bitField0_;
-        onBuilt();
-        return result;
+        result.bitField0_ |= to_bitField0_;
       }
 
       @java.lang.Override
@@ -11041,7 +11185,7 @@ public final class WorkoutProto {
         if (other.hasIntensity()) {
           mergeIntensity(other.getIntensity());
         }
-        this.mergeUnknownFields(other.unknownFields);
+        this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
         return this;
       }
@@ -11065,17 +11209,64 @@ public final class WorkoutProto {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        net.studioblueplanet.tomtomwatch.WorkoutProto.WorkoutStepSub parsedMessage = null;
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
         try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              case 8: {
+                stepName_ = input.readInt32();
+                bitField0_ |= 0x00000001;
+                break;
+              } // case 8
+              case 16: {
+                stepDescription_ = input.readInt32();
+                bitField0_ |= 0x00000002;
+                break;
+              } // case 16
+              case 32: {
+                stepNumber_ = input.readInt32();
+                bitField0_ |= 0x00000004;
+                break;
+              } // case 32
+              case 48: {
+                stepType_ = input.readInt32();
+                bitField0_ |= 0x00000008;
+                break;
+              } // case 48
+              case 58: {
+                input.readMessage(
+                    getStepLengthFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                bitField0_ |= 0x00000010;
+                break;
+              } // case 58
+              case 66: {
+                input.readMessage(
+                    getIntensityFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                bitField0_ |= 0x00000020;
+                break;
+              } // case 66
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (net.studioblueplanet.tomtomwatch.WorkoutProto.WorkoutStepSub) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
+          onChanged();
+        } // finally
         return this;
       }
       private int bitField0_;
@@ -11087,7 +11278,9 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>required int32 stepName = 1;</code>
+       * @return Whether the stepName field is set.
        */
+      @java.lang.Override
       public boolean hasStepName() {
         return ((bitField0_ & 0x00000001) != 0);
       }
@@ -11097,7 +11290,9 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>required int32 stepName = 1;</code>
+       * @return The stepName.
        */
+      @java.lang.Override
       public int getStepName() {
         return stepName_;
       }
@@ -11107,10 +11302,13 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>required int32 stepName = 1;</code>
+       * @param value The stepName to set.
+       * @return This builder for chaining.
        */
       public Builder setStepName(int value) {
-        bitField0_ |= 0x00000001;
+
         stepName_ = value;
+        bitField0_ |= 0x00000001;
         onChanged();
         return this;
       }
@@ -11120,6 +11318,7 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>required int32 stepName = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearStepName() {
         bitField0_ = (bitField0_ & ~0x00000001);
@@ -11135,7 +11334,9 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>optional int32 stepDescription = 2;</code>
+       * @return Whether the stepDescription field is set.
        */
+      @java.lang.Override
       public boolean hasStepDescription() {
         return ((bitField0_ & 0x00000002) != 0);
       }
@@ -11145,7 +11346,9 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>optional int32 stepDescription = 2;</code>
+       * @return The stepDescription.
        */
+      @java.lang.Override
       public int getStepDescription() {
         return stepDescription_;
       }
@@ -11155,10 +11358,13 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>optional int32 stepDescription = 2;</code>
+       * @param value The stepDescription to set.
+       * @return This builder for chaining.
        */
       public Builder setStepDescription(int value) {
-        bitField0_ |= 0x00000002;
+
         stepDescription_ = value;
+        bitField0_ |= 0x00000002;
         onChanged();
         return this;
       }
@@ -11168,6 +11374,7 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>optional int32 stepDescription = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearStepDescription() {
         bitField0_ = (bitField0_ & ~0x00000002);
@@ -11183,7 +11390,9 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>required int32 stepNumber = 4;</code>
+       * @return Whether the stepNumber field is set.
        */
+      @java.lang.Override
       public boolean hasStepNumber() {
         return ((bitField0_ & 0x00000004) != 0);
       }
@@ -11193,7 +11402,9 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>required int32 stepNumber = 4;</code>
+       * @return The stepNumber.
        */
+      @java.lang.Override
       public int getStepNumber() {
         return stepNumber_;
       }
@@ -11203,10 +11414,13 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>required int32 stepNumber = 4;</code>
+       * @param value The stepNumber to set.
+       * @return This builder for chaining.
        */
       public Builder setStepNumber(int value) {
-        bitField0_ |= 0x00000004;
+
         stepNumber_ = value;
+        bitField0_ |= 0x00000004;
         onChanged();
         return this;
       }
@@ -11216,6 +11430,7 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>required int32 stepNumber = 4;</code>
+       * @return This builder for chaining.
        */
       public Builder clearStepNumber() {
         bitField0_ = (bitField0_ & ~0x00000004);
@@ -11231,7 +11446,9 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>required int32 stepType = 6;</code>
+       * @return Whether the stepType field is set.
        */
+      @java.lang.Override
       public boolean hasStepType() {
         return ((bitField0_ & 0x00000008) != 0);
       }
@@ -11241,7 +11458,9 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>required int32 stepType = 6;</code>
+       * @return The stepType.
        */
+      @java.lang.Override
       public int getStepType() {
         return stepType_;
       }
@@ -11251,10 +11470,13 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>required int32 stepType = 6;</code>
+       * @param value The stepType to set.
+       * @return This builder for chaining.
        */
       public Builder setStepType(int value) {
-        bitField0_ |= 0x00000008;
+
         stepType_ = value;
+        bitField0_ |= 0x00000008;
         onChanged();
         return this;
       }
@@ -11264,6 +11486,7 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>required int32 stepType = 6;</code>
+       * @return This builder for chaining.
        */
       public Builder clearStepType() {
         bitField0_ = (bitField0_ & ~0x00000008);
@@ -11281,6 +11504,7 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>optional .tutorial.Length stepLength = 7;</code>
+       * @return Whether the stepLength field is set.
        */
       public boolean hasStepLength() {
         return ((bitField0_ & 0x00000010) != 0);
@@ -11291,6 +11515,7 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>optional .tutorial.Length stepLength = 7;</code>
+       * @return The stepLength.
        */
       public net.studioblueplanet.tomtomwatch.WorkoutProto.Length getStepLength() {
         if (stepLengthBuilder_ == null) {
@@ -11312,11 +11537,11 @@ public final class WorkoutProto {
             throw new NullPointerException();
           }
           stepLength_ = value;
-          onChanged();
         } else {
           stepLengthBuilder_.setMessage(value);
         }
         bitField0_ |= 0x00000010;
+        onChanged();
         return this;
       }
       /**
@@ -11330,11 +11555,11 @@ public final class WorkoutProto {
           net.studioblueplanet.tomtomwatch.WorkoutProto.Length.Builder builderForValue) {
         if (stepLengthBuilder_ == null) {
           stepLength_ = builderForValue.build();
-          onChanged();
         } else {
           stepLengthBuilder_.setMessage(builderForValue.build());
         }
         bitField0_ |= 0x00000010;
+        onChanged();
         return this;
       }
       /**
@@ -11347,18 +11572,19 @@ public final class WorkoutProto {
       public Builder mergeStepLength(net.studioblueplanet.tomtomwatch.WorkoutProto.Length value) {
         if (stepLengthBuilder_ == null) {
           if (((bitField0_ & 0x00000010) != 0) &&
-              stepLength_ != null &&
-              stepLength_ != net.studioblueplanet.tomtomwatch.WorkoutProto.Length.getDefaultInstance()) {
-            stepLength_ =
-              net.studioblueplanet.tomtomwatch.WorkoutProto.Length.newBuilder(stepLength_).mergeFrom(value).buildPartial();
+            stepLength_ != null &&
+            stepLength_ != net.studioblueplanet.tomtomwatch.WorkoutProto.Length.getDefaultInstance()) {
+            getStepLengthBuilder().mergeFrom(value);
           } else {
             stepLength_ = value;
           }
-          onChanged();
         } else {
           stepLengthBuilder_.mergeFrom(value);
         }
-        bitField0_ |= 0x00000010;
+        if (stepLength_ != null) {
+          bitField0_ |= 0x00000010;
+          onChanged();
+        }
         return this;
       }
       /**
@@ -11369,13 +11595,13 @@ public final class WorkoutProto {
        * <code>optional .tutorial.Length stepLength = 7;</code>
        */
       public Builder clearStepLength() {
-        if (stepLengthBuilder_ == null) {
-          stepLength_ = null;
-          onChanged();
-        } else {
-          stepLengthBuilder_.clear();
-        }
         bitField0_ = (bitField0_ & ~0x00000010);
+        stepLength_ = null;
+        if (stepLengthBuilder_ != null) {
+          stepLengthBuilder_.dispose();
+          stepLengthBuilder_ = null;
+        }
+        onChanged();
         return this;
       }
       /**
@@ -11435,6 +11661,7 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>optional .tutorial.Intensity intensity = 8;</code>
+       * @return Whether the intensity field is set.
        */
       public boolean hasIntensity() {
         return ((bitField0_ & 0x00000020) != 0);
@@ -11445,6 +11672,7 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>optional .tutorial.Intensity intensity = 8;</code>
+       * @return The intensity.
        */
       public net.studioblueplanet.tomtomwatch.WorkoutProto.Intensity getIntensity() {
         if (intensityBuilder_ == null) {
@@ -11466,11 +11694,11 @@ public final class WorkoutProto {
             throw new NullPointerException();
           }
           intensity_ = value;
-          onChanged();
         } else {
           intensityBuilder_.setMessage(value);
         }
         bitField0_ |= 0x00000020;
+        onChanged();
         return this;
       }
       /**
@@ -11484,11 +11712,11 @@ public final class WorkoutProto {
           net.studioblueplanet.tomtomwatch.WorkoutProto.Intensity.Builder builderForValue) {
         if (intensityBuilder_ == null) {
           intensity_ = builderForValue.build();
-          onChanged();
         } else {
           intensityBuilder_.setMessage(builderForValue.build());
         }
         bitField0_ |= 0x00000020;
+        onChanged();
         return this;
       }
       /**
@@ -11501,18 +11729,19 @@ public final class WorkoutProto {
       public Builder mergeIntensity(net.studioblueplanet.tomtomwatch.WorkoutProto.Intensity value) {
         if (intensityBuilder_ == null) {
           if (((bitField0_ & 0x00000020) != 0) &&
-              intensity_ != null &&
-              intensity_ != net.studioblueplanet.tomtomwatch.WorkoutProto.Intensity.getDefaultInstance()) {
-            intensity_ =
-              net.studioblueplanet.tomtomwatch.WorkoutProto.Intensity.newBuilder(intensity_).mergeFrom(value).buildPartial();
+            intensity_ != null &&
+            intensity_ != net.studioblueplanet.tomtomwatch.WorkoutProto.Intensity.getDefaultInstance()) {
+            getIntensityBuilder().mergeFrom(value);
           } else {
             intensity_ = value;
           }
-          onChanged();
         } else {
           intensityBuilder_.mergeFrom(value);
         }
-        bitField0_ |= 0x00000020;
+        if (intensity_ != null) {
+          bitField0_ |= 0x00000020;
+          onChanged();
+        }
         return this;
       }
       /**
@@ -11523,13 +11752,13 @@ public final class WorkoutProto {
        * <code>optional .tutorial.Intensity intensity = 8;</code>
        */
       public Builder clearIntensity() {
-        if (intensityBuilder_ == null) {
-          intensity_ = null;
-          onChanged();
-        } else {
-          intensityBuilder_.clear();
-        }
         bitField0_ = (bitField0_ & ~0x00000020);
+        intensity_ = null;
+        if (intensityBuilder_ != null) {
+          intensityBuilder_.dispose();
+          intensityBuilder_ = null;
+        }
+        onChanged();
         return this;
       }
       /**
@@ -11612,7 +11841,18 @@ public final class WorkoutProto {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        return new WorkoutStepSub(input, extensionRegistry);
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
       }
     };
 
@@ -11642,6 +11882,7 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>optional int32 time = 1;</code>
+     * @return Whether the time field is set.
      */
     boolean hasTime();
     /**
@@ -11650,6 +11891,7 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>optional int32 time = 1;</code>
+     * @return The time.
      */
     int getTime();
 
@@ -11659,6 +11901,7 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>optional int32 distance = 2;</code>
+     * @return Whether the distance field is set.
      */
     boolean hasDistance();
     /**
@@ -11667,6 +11910,7 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>optional int32 distance = 2;</code>
+     * @return The distance.
      */
     int getDistance();
 
@@ -11676,6 +11920,7 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>optional int32 reachZone = 4;</code>
+     * @return Whether the reachZone field is set.
      */
     boolean hasReachZone();
     /**
@@ -11684,6 +11929,7 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>optional int32 reachZone = 4;</code>
+     * @return The reachZone.
      */
     int getReachZone();
 
@@ -11693,6 +11939,7 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>optional int32 manual = 5;</code>
+     * @return Whether the manual field is set.
      */
     boolean hasManual();
     /**
@@ -11701,6 +11948,7 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>optional int32 manual = 5;</code>
+     * @return The manual.
      */
     int getManual();
   }
@@ -11713,7 +11961,7 @@ public final class WorkoutProto {
    *
    * Protobuf type {@code tutorial.Length}
    */
-  public  static final class Length extends
+  public static final class Length extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:tutorial.Length)
       LengthOrBuilder {
@@ -11732,69 +11980,6 @@ public final class WorkoutProto {
       return new Length();
     }
 
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-    getUnknownFields() {
-      return this.unknownFields;
-    }
-    private Length(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      this();
-      if (extensionRegistry == null) {
-        throw new java.lang.NullPointerException();
-      }
-      int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            case 8: {
-              bitField0_ |= 0x00000001;
-              time_ = input.readInt32();
-              break;
-            }
-            case 16: {
-              bitField0_ |= 0x00000002;
-              distance_ = input.readInt32();
-              break;
-            }
-            case 32: {
-              bitField0_ |= 0x00000004;
-              reachZone_ = input.readInt32();
-              break;
-            }
-            case 40: {
-              bitField0_ |= 0x00000008;
-              manual_ = input.readInt32();
-              break;
-            }
-            default: {
-              if (!parseUnknownField(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e).setUnfinishedMessage(this);
-      } finally {
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
       return net.studioblueplanet.tomtomwatch.WorkoutProto.internal_static_tutorial_Length_descriptor;
@@ -11810,14 +11995,16 @@ public final class WorkoutProto {
 
     private int bitField0_;
     public static final int TIME_FIELD_NUMBER = 1;
-    private int time_;
+    private int time_ = 0;
     /**
      * <pre>
      * duration in second
      * </pre>
      *
      * <code>optional int32 time = 1;</code>
+     * @return Whether the time field is set.
      */
+    @java.lang.Override
     public boolean hasTime() {
       return ((bitField0_ & 0x00000001) != 0);
     }
@@ -11827,20 +12014,24 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>optional int32 time = 1;</code>
+     * @return The time.
      */
+    @java.lang.Override
     public int getTime() {
       return time_;
     }
 
     public static final int DISTANCE_FIELD_NUMBER = 2;
-    private int distance_;
+    private int distance_ = 0;
     /**
      * <pre>
      * distance in mm
      * </pre>
      *
      * <code>optional int32 distance = 2;</code>
+     * @return Whether the distance field is set.
      */
+    @java.lang.Override
     public boolean hasDistance() {
       return ((bitField0_ & 0x00000002) != 0);
     }
@@ -11850,20 +12041,24 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>optional int32 distance = 2;</code>
+     * @return The distance.
      */
+    @java.lang.Override
     public int getDistance() {
       return distance_;
     }
 
     public static final int REACHZONE_FIELD_NUMBER = 4;
-    private int reachZone_;
+    private int reachZone_ = 0;
     /**
      * <pre>
      * HR zone to reach: 1: Easy 2: Fat burn, 3: Cardio, 4: Perform, 5: Peak (intensity not used)
      * </pre>
      *
      * <code>optional int32 reachZone = 4;</code>
+     * @return Whether the reachZone field is set.
      */
+    @java.lang.Override
     public boolean hasReachZone() {
       return ((bitField0_ & 0x00000004) != 0);
     }
@@ -11873,20 +12068,24 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>optional int32 reachZone = 4;</code>
+     * @return The reachZone.
      */
+    @java.lang.Override
     public int getReachZone() {
       return reachZone_;
     }
 
     public static final int MANUAL_FIELD_NUMBER = 5;
-    private int manual_;
+    private int manual_ = 0;
     /**
      * <pre>
      * value is always 1
      * </pre>
      *
      * <code>optional int32 manual = 5;</code>
+     * @return Whether the manual field is set.
      */
+    @java.lang.Override
     public boolean hasManual() {
       return ((bitField0_ & 0x00000008) != 0);
     }
@@ -11896,7 +12095,9 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>optional int32 manual = 5;</code>
+     * @return The manual.
      */
+    @java.lang.Override
     public int getManual() {
       return manual_;
     }
@@ -11927,7 +12128,7 @@ public final class WorkoutProto {
       if (((bitField0_ & 0x00000008) != 0)) {
         output.writeInt32(5, manual_);
       }
-      unknownFields.writeTo(output);
+      getUnknownFields().writeTo(output);
     }
 
     @java.lang.Override
@@ -11952,7 +12153,7 @@ public final class WorkoutProto {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(5, manual_);
       }
-      size += unknownFields.getSerializedSize();
+      size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
       return size;
     }
@@ -11987,7 +12188,7 @@ public final class WorkoutProto {
         if (getManual()
             != other.getManual()) return false;
       }
-      if (!unknownFields.equals(other.unknownFields)) return false;
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
 
@@ -12014,7 +12215,7 @@ public final class WorkoutProto {
         hash = (37 * hash) + MANUAL_FIELD_NUMBER;
         hash = (53 * hash) + getManual();
       }
-      hash = (29 * hash) + unknownFields.hashCode();
+      hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
     }
@@ -12063,11 +12264,13 @@ public final class WorkoutProto {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
+
     public static net.studioblueplanet.tomtomwatch.WorkoutProto.Length parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
+
     public static net.studioblueplanet.tomtomwatch.WorkoutProto.Length parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -12137,30 +12340,22 @@ public final class WorkoutProto {
 
       // Construct using net.studioblueplanet.tomtomwatch.WorkoutProto.Length.newBuilder()
       private Builder() {
-        maybeForceBuilderInitialization();
+
       }
 
       private Builder(
           com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
         super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessageV3
-                .alwaysUseFieldBuilders) {
-        }
+
       }
       @java.lang.Override
       public Builder clear() {
         super.clear();
+        bitField0_ = 0;
         time_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000001);
         distance_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000002);
         reachZone_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000004);
         manual_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000008);
         return this;
       }
 
@@ -12187,6 +12382,12 @@ public final class WorkoutProto {
       @java.lang.Override
       public net.studioblueplanet.tomtomwatch.WorkoutProto.Length buildPartial() {
         net.studioblueplanet.tomtomwatch.WorkoutProto.Length result = new net.studioblueplanet.tomtomwatch.WorkoutProto.Length(this);
+        if (bitField0_ != 0) { buildPartial0(result); }
+        onBuilt();
+        return result;
+      }
+
+      private void buildPartial0(net.studioblueplanet.tomtomwatch.WorkoutProto.Length result) {
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
         if (((from_bitField0_ & 0x00000001) != 0)) {
@@ -12205,9 +12406,7 @@ public final class WorkoutProto {
           result.manual_ = manual_;
           to_bitField0_ |= 0x00000008;
         }
-        result.bitField0_ = to_bitField0_;
-        onBuilt();
-        return result;
+        result.bitField0_ |= to_bitField0_;
       }
 
       @java.lang.Override
@@ -12266,7 +12465,7 @@ public final class WorkoutProto {
         if (other.hasManual()) {
           setManual(other.getManual());
         }
-        this.mergeUnknownFields(other.unknownFields);
+        this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
         return this;
       }
@@ -12281,17 +12480,50 @@ public final class WorkoutProto {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        net.studioblueplanet.tomtomwatch.WorkoutProto.Length parsedMessage = null;
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
         try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              case 8: {
+                time_ = input.readInt32();
+                bitField0_ |= 0x00000001;
+                break;
+              } // case 8
+              case 16: {
+                distance_ = input.readInt32();
+                bitField0_ |= 0x00000002;
+                break;
+              } // case 16
+              case 32: {
+                reachZone_ = input.readInt32();
+                bitField0_ |= 0x00000004;
+                break;
+              } // case 32
+              case 40: {
+                manual_ = input.readInt32();
+                bitField0_ |= 0x00000008;
+                break;
+              } // case 40
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (net.studioblueplanet.tomtomwatch.WorkoutProto.Length) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
+          onChanged();
+        } // finally
         return this;
       }
       private int bitField0_;
@@ -12303,7 +12535,9 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>optional int32 time = 1;</code>
+       * @return Whether the time field is set.
        */
+      @java.lang.Override
       public boolean hasTime() {
         return ((bitField0_ & 0x00000001) != 0);
       }
@@ -12313,7 +12547,9 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>optional int32 time = 1;</code>
+       * @return The time.
        */
+      @java.lang.Override
       public int getTime() {
         return time_;
       }
@@ -12323,10 +12559,13 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>optional int32 time = 1;</code>
+       * @param value The time to set.
+       * @return This builder for chaining.
        */
       public Builder setTime(int value) {
-        bitField0_ |= 0x00000001;
+
         time_ = value;
+        bitField0_ |= 0x00000001;
         onChanged();
         return this;
       }
@@ -12336,6 +12575,7 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>optional int32 time = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearTime() {
         bitField0_ = (bitField0_ & ~0x00000001);
@@ -12351,7 +12591,9 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>optional int32 distance = 2;</code>
+       * @return Whether the distance field is set.
        */
+      @java.lang.Override
       public boolean hasDistance() {
         return ((bitField0_ & 0x00000002) != 0);
       }
@@ -12361,7 +12603,9 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>optional int32 distance = 2;</code>
+       * @return The distance.
        */
+      @java.lang.Override
       public int getDistance() {
         return distance_;
       }
@@ -12371,10 +12615,13 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>optional int32 distance = 2;</code>
+       * @param value The distance to set.
+       * @return This builder for chaining.
        */
       public Builder setDistance(int value) {
-        bitField0_ |= 0x00000002;
+
         distance_ = value;
+        bitField0_ |= 0x00000002;
         onChanged();
         return this;
       }
@@ -12384,6 +12631,7 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>optional int32 distance = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearDistance() {
         bitField0_ = (bitField0_ & ~0x00000002);
@@ -12399,7 +12647,9 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>optional int32 reachZone = 4;</code>
+       * @return Whether the reachZone field is set.
        */
+      @java.lang.Override
       public boolean hasReachZone() {
         return ((bitField0_ & 0x00000004) != 0);
       }
@@ -12409,7 +12659,9 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>optional int32 reachZone = 4;</code>
+       * @return The reachZone.
        */
+      @java.lang.Override
       public int getReachZone() {
         return reachZone_;
       }
@@ -12419,10 +12671,13 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>optional int32 reachZone = 4;</code>
+       * @param value The reachZone to set.
+       * @return This builder for chaining.
        */
       public Builder setReachZone(int value) {
-        bitField0_ |= 0x00000004;
+
         reachZone_ = value;
+        bitField0_ |= 0x00000004;
         onChanged();
         return this;
       }
@@ -12432,6 +12687,7 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>optional int32 reachZone = 4;</code>
+       * @return This builder for chaining.
        */
       public Builder clearReachZone() {
         bitField0_ = (bitField0_ & ~0x00000004);
@@ -12447,7 +12703,9 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>optional int32 manual = 5;</code>
+       * @return Whether the manual field is set.
        */
+      @java.lang.Override
       public boolean hasManual() {
         return ((bitField0_ & 0x00000008) != 0);
       }
@@ -12457,7 +12715,9 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>optional int32 manual = 5;</code>
+       * @return The manual.
        */
+      @java.lang.Override
       public int getManual() {
         return manual_;
       }
@@ -12467,10 +12727,13 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>optional int32 manual = 5;</code>
+       * @param value The manual to set.
+       * @return This builder for chaining.
        */
       public Builder setManual(int value) {
-        bitField0_ |= 0x00000008;
+
         manual_ = value;
+        bitField0_ |= 0x00000008;
         onChanged();
         return this;
       }
@@ -12480,6 +12743,7 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>optional int32 manual = 5;</code>
+       * @return This builder for chaining.
        */
       public Builder clearManual() {
         bitField0_ = (bitField0_ & ~0x00000008);
@@ -12520,7 +12784,18 @@ public final class WorkoutProto {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        return new Length(input, extensionRegistry);
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
       }
     };
 
@@ -12550,6 +12825,7 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>optional int32 heartratezone = 1;</code>
+     * @return Whether the heartratezone field is set.
      */
     boolean hasHeartratezone();
     /**
@@ -12558,6 +12834,7 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>optional int32 heartratezone = 1;</code>
+     * @return The heartratezone.
      */
     int getHeartratezone();
 
@@ -12567,6 +12844,7 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>optional int32 pace = 2;</code>
+     * @return Whether the pace field is set.
      */
     boolean hasPace();
     /**
@@ -12575,6 +12853,7 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>optional int32 pace = 2;</code>
+     * @return The pace.
      */
     int getPace();
 
@@ -12584,6 +12863,7 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>optional int32 speed = 3;</code>
+     * @return Whether the speed field is set.
      */
     boolean hasSpeed();
     /**
@@ -12592,8 +12872,28 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>optional int32 speed = 3;</code>
+     * @return The speed.
      */
     int getSpeed();
+
+    /**
+     * <pre>
+     * &#64;cadence in rpm
+     * </pre>
+     *
+     * <code>optional int32 cadence = 4;</code>
+     * @return Whether the cadence field is set.
+     */
+    boolean hasCadence();
+    /**
+     * <pre>
+     * &#64;cadence in rpm
+     * </pre>
+     *
+     * <code>optional int32 cadence = 4;</code>
+     * @return The cadence.
+     */
+    int getCadence();
   }
   /**
    * <pre>
@@ -12604,7 +12904,7 @@ public final class WorkoutProto {
    *
    * Protobuf type {@code tutorial.Intensity}
    */
-  public  static final class Intensity extends
+  public static final class Intensity extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:tutorial.Intensity)
       IntensityOrBuilder {
@@ -12623,64 +12923,6 @@ public final class WorkoutProto {
       return new Intensity();
     }
 
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-    getUnknownFields() {
-      return this.unknownFields;
-    }
-    private Intensity(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      this();
-      if (extensionRegistry == null) {
-        throw new java.lang.NullPointerException();
-      }
-      int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            case 8: {
-              bitField0_ |= 0x00000001;
-              heartratezone_ = input.readInt32();
-              break;
-            }
-            case 16: {
-              bitField0_ |= 0x00000002;
-              pace_ = input.readInt32();
-              break;
-            }
-            case 24: {
-              bitField0_ |= 0x00000004;
-              speed_ = input.readInt32();
-              break;
-            }
-            default: {
-              if (!parseUnknownField(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e).setUnfinishedMessage(this);
-      } finally {
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
       return net.studioblueplanet.tomtomwatch.WorkoutProto.internal_static_tutorial_Intensity_descriptor;
@@ -12696,14 +12938,16 @@ public final class WorkoutProto {
 
     private int bitField0_;
     public static final int HEARTRATEZONE_FIELD_NUMBER = 1;
-    private int heartratezone_;
+    private int heartratezone_ = 0;
     /**
      * <pre>
      * &#64;HR Zone: 1: Easy 2: Fat burn, 3: Cardio, 4: Perform, 5: Peak
      * </pre>
      *
      * <code>optional int32 heartratezone = 1;</code>
+     * @return Whether the heartratezone field is set.
      */
+    @java.lang.Override
     public boolean hasHeartratezone() {
       return ((bitField0_ & 0x00000001) != 0);
     }
@@ -12713,20 +12957,24 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>optional int32 heartratezone = 1;</code>
+     * @return The heartratezone.
      */
+    @java.lang.Override
     public int getHeartratezone() {
       return heartratezone_;
     }
 
     public static final int PACE_FIELD_NUMBER = 2;
-    private int pace_;
+    private int pace_ = 0;
     /**
      * <pre>
      * &#64;pace in milliseconds per km e.g. 312000 = 5:12 min/km
      * </pre>
      *
      * <code>optional int32 pace = 2;</code>
+     * @return Whether the pace field is set.
      */
+    @java.lang.Override
     public boolean hasPace() {
       return ((bitField0_ & 0x00000002) != 0);
     }
@@ -12736,20 +12984,24 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>optional int32 pace = 2;</code>
+     * @return The pace.
      */
+    @java.lang.Override
     public int getPace() {
       return pace_;
     }
 
     public static final int SPEED_FIELD_NUMBER = 3;
-    private int speed_;
+    private int speed_ = 0;
     /**
      * <pre>
      * &#64;speed in mm/sec
      * </pre>
      *
      * <code>optional int32 speed = 3;</code>
+     * @return Whether the speed field is set.
      */
+    @java.lang.Override
     public boolean hasSpeed() {
       return ((bitField0_ & 0x00000004) != 0);
     }
@@ -12759,9 +13011,38 @@ public final class WorkoutProto {
      * </pre>
      *
      * <code>optional int32 speed = 3;</code>
+     * @return The speed.
      */
+    @java.lang.Override
     public int getSpeed() {
       return speed_;
+    }
+
+    public static final int CADENCE_FIELD_NUMBER = 4;
+    private int cadence_ = 0;
+    /**
+     * <pre>
+     * &#64;cadence in rpm
+     * </pre>
+     *
+     * <code>optional int32 cadence = 4;</code>
+     * @return Whether the cadence field is set.
+     */
+    @java.lang.Override
+    public boolean hasCadence() {
+      return ((bitField0_ & 0x00000008) != 0);
+    }
+    /**
+     * <pre>
+     * &#64;cadence in rpm
+     * </pre>
+     *
+     * <code>optional int32 cadence = 4;</code>
+     * @return The cadence.
+     */
+    @java.lang.Override
+    public int getCadence() {
+      return cadence_;
     }
 
     private byte memoizedIsInitialized = -1;
@@ -12787,7 +13068,10 @@ public final class WorkoutProto {
       if (((bitField0_ & 0x00000004) != 0)) {
         output.writeInt32(3, speed_);
       }
-      unknownFields.writeTo(output);
+      if (((bitField0_ & 0x00000008) != 0)) {
+        output.writeInt32(4, cadence_);
+      }
+      getUnknownFields().writeTo(output);
     }
 
     @java.lang.Override
@@ -12808,7 +13092,11 @@ public final class WorkoutProto {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(3, speed_);
       }
-      size += unknownFields.getSerializedSize();
+      if (((bitField0_ & 0x00000008) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(4, cadence_);
+      }
+      size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
       return size;
     }
@@ -12838,7 +13126,12 @@ public final class WorkoutProto {
         if (getSpeed()
             != other.getSpeed()) return false;
       }
-      if (!unknownFields.equals(other.unknownFields)) return false;
+      if (hasCadence() != other.hasCadence()) return false;
+      if (hasCadence()) {
+        if (getCadence()
+            != other.getCadence()) return false;
+      }
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
 
@@ -12861,7 +13154,11 @@ public final class WorkoutProto {
         hash = (37 * hash) + SPEED_FIELD_NUMBER;
         hash = (53 * hash) + getSpeed();
       }
-      hash = (29 * hash) + unknownFields.hashCode();
+      if (hasCadence()) {
+        hash = (37 * hash) + CADENCE_FIELD_NUMBER;
+        hash = (53 * hash) + getCadence();
+      }
+      hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
     }
@@ -12910,11 +13207,13 @@ public final class WorkoutProto {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
+
     public static net.studioblueplanet.tomtomwatch.WorkoutProto.Intensity parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
+
     public static net.studioblueplanet.tomtomwatch.WorkoutProto.Intensity parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -12984,28 +13283,22 @@ public final class WorkoutProto {
 
       // Construct using net.studioblueplanet.tomtomwatch.WorkoutProto.Intensity.newBuilder()
       private Builder() {
-        maybeForceBuilderInitialization();
+
       }
 
       private Builder(
           com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
         super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessageV3
-                .alwaysUseFieldBuilders) {
-        }
+
       }
       @java.lang.Override
       public Builder clear() {
         super.clear();
+        bitField0_ = 0;
         heartratezone_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000001);
         pace_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000002);
         speed_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000004);
+        cadence_ = 0;
         return this;
       }
 
@@ -13032,6 +13325,12 @@ public final class WorkoutProto {
       @java.lang.Override
       public net.studioblueplanet.tomtomwatch.WorkoutProto.Intensity buildPartial() {
         net.studioblueplanet.tomtomwatch.WorkoutProto.Intensity result = new net.studioblueplanet.tomtomwatch.WorkoutProto.Intensity(this);
+        if (bitField0_ != 0) { buildPartial0(result); }
+        onBuilt();
+        return result;
+      }
+
+      private void buildPartial0(net.studioblueplanet.tomtomwatch.WorkoutProto.Intensity result) {
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
         if (((from_bitField0_ & 0x00000001) != 0)) {
@@ -13046,9 +13345,11 @@ public final class WorkoutProto {
           result.speed_ = speed_;
           to_bitField0_ |= 0x00000004;
         }
-        result.bitField0_ = to_bitField0_;
-        onBuilt();
-        return result;
+        if (((from_bitField0_ & 0x00000008) != 0)) {
+          result.cadence_ = cadence_;
+          to_bitField0_ |= 0x00000008;
+        }
+        result.bitField0_ |= to_bitField0_;
       }
 
       @java.lang.Override
@@ -13104,7 +13405,10 @@ public final class WorkoutProto {
         if (other.hasSpeed()) {
           setSpeed(other.getSpeed());
         }
-        this.mergeUnknownFields(other.unknownFields);
+        if (other.hasCadence()) {
+          setCadence(other.getCadence());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
         return this;
       }
@@ -13119,17 +13423,50 @@ public final class WorkoutProto {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        net.studioblueplanet.tomtomwatch.WorkoutProto.Intensity parsedMessage = null;
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
         try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              case 8: {
+                heartratezone_ = input.readInt32();
+                bitField0_ |= 0x00000001;
+                break;
+              } // case 8
+              case 16: {
+                pace_ = input.readInt32();
+                bitField0_ |= 0x00000002;
+                break;
+              } // case 16
+              case 24: {
+                speed_ = input.readInt32();
+                bitField0_ |= 0x00000004;
+                break;
+              } // case 24
+              case 32: {
+                cadence_ = input.readInt32();
+                bitField0_ |= 0x00000008;
+                break;
+              } // case 32
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (net.studioblueplanet.tomtomwatch.WorkoutProto.Intensity) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
+          onChanged();
+        } // finally
         return this;
       }
       private int bitField0_;
@@ -13141,7 +13478,9 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>optional int32 heartratezone = 1;</code>
+       * @return Whether the heartratezone field is set.
        */
+      @java.lang.Override
       public boolean hasHeartratezone() {
         return ((bitField0_ & 0x00000001) != 0);
       }
@@ -13151,7 +13490,9 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>optional int32 heartratezone = 1;</code>
+       * @return The heartratezone.
        */
+      @java.lang.Override
       public int getHeartratezone() {
         return heartratezone_;
       }
@@ -13161,10 +13502,13 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>optional int32 heartratezone = 1;</code>
+       * @param value The heartratezone to set.
+       * @return This builder for chaining.
        */
       public Builder setHeartratezone(int value) {
-        bitField0_ |= 0x00000001;
+
         heartratezone_ = value;
+        bitField0_ |= 0x00000001;
         onChanged();
         return this;
       }
@@ -13174,6 +13518,7 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>optional int32 heartratezone = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearHeartratezone() {
         bitField0_ = (bitField0_ & ~0x00000001);
@@ -13189,7 +13534,9 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>optional int32 pace = 2;</code>
+       * @return Whether the pace field is set.
        */
+      @java.lang.Override
       public boolean hasPace() {
         return ((bitField0_ & 0x00000002) != 0);
       }
@@ -13199,7 +13546,9 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>optional int32 pace = 2;</code>
+       * @return The pace.
        */
+      @java.lang.Override
       public int getPace() {
         return pace_;
       }
@@ -13209,10 +13558,13 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>optional int32 pace = 2;</code>
+       * @param value The pace to set.
+       * @return This builder for chaining.
        */
       public Builder setPace(int value) {
-        bitField0_ |= 0x00000002;
+
         pace_ = value;
+        bitField0_ |= 0x00000002;
         onChanged();
         return this;
       }
@@ -13222,6 +13574,7 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>optional int32 pace = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearPace() {
         bitField0_ = (bitField0_ & ~0x00000002);
@@ -13237,7 +13590,9 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>optional int32 speed = 3;</code>
+       * @return Whether the speed field is set.
        */
+      @java.lang.Override
       public boolean hasSpeed() {
         return ((bitField0_ & 0x00000004) != 0);
       }
@@ -13247,7 +13602,9 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>optional int32 speed = 3;</code>
+       * @return The speed.
        */
+      @java.lang.Override
       public int getSpeed() {
         return speed_;
       }
@@ -13257,10 +13614,13 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>optional int32 speed = 3;</code>
+       * @param value The speed to set.
+       * @return This builder for chaining.
        */
       public Builder setSpeed(int value) {
-        bitField0_ |= 0x00000004;
+
         speed_ = value;
+        bitField0_ |= 0x00000004;
         onChanged();
         return this;
       }
@@ -13270,10 +13630,67 @@ public final class WorkoutProto {
        * </pre>
        *
        * <code>optional int32 speed = 3;</code>
+       * @return This builder for chaining.
        */
       public Builder clearSpeed() {
         bitField0_ = (bitField0_ & ~0x00000004);
         speed_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int cadence_ ;
+      /**
+       * <pre>
+       * &#64;cadence in rpm
+       * </pre>
+       *
+       * <code>optional int32 cadence = 4;</code>
+       * @return Whether the cadence field is set.
+       */
+      @java.lang.Override
+      public boolean hasCadence() {
+        return ((bitField0_ & 0x00000008) != 0);
+      }
+      /**
+       * <pre>
+       * &#64;cadence in rpm
+       * </pre>
+       *
+       * <code>optional int32 cadence = 4;</code>
+       * @return The cadence.
+       */
+      @java.lang.Override
+      public int getCadence() {
+        return cadence_;
+      }
+      /**
+       * <pre>
+       * &#64;cadence in rpm
+       * </pre>
+       *
+       * <code>optional int32 cadence = 4;</code>
+       * @param value The cadence to set.
+       * @return This builder for chaining.
+       */
+      public Builder setCadence(int value) {
+
+        cadence_ = value;
+        bitField0_ |= 0x00000008;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * &#64;cadence in rpm
+       * </pre>
+       *
+       * <code>optional int32 cadence = 4;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearCadence() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        cadence_ = 0;
         onChanged();
         return this;
       }
@@ -13310,7 +13727,18 @@ public final class WorkoutProto {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        return new Intensity(input, extensionRegistry);
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
       }
     };
 
@@ -13431,9 +13859,10 @@ public final class WorkoutProto {
       ".Length\022&\n\tintensity\030\010 \001(\0132\023.tutorial.In" +
       "tensity\"K\n\006Length\022\014\n\004time\030\001 \001(\005\022\020\n\010dista" +
       "nce\030\002 \001(\005\022\021\n\treachZone\030\004 \001(\005\022\016\n\006manual\030\005" +
-      " \001(\005\"?\n\tIntensity\022\025\n\rheartratezone\030\001 \001(\005" +
-      "\022\014\n\004pace\030\002 \001(\005\022\r\n\005speed\030\003 \001(\005B0\n net.stu" +
-      "dioblueplanet.tomtomwatchB\014WorkoutProto"
+      " \001(\005\"P\n\tIntensity\022\025\n\rheartratezone\030\001 \001(\005" +
+      "\022\014\n\004pace\030\002 \001(\005\022\r\n\005speed\030\003 \001(\005\022\017\n\007cadence" +
+      "\030\004 \001(\005B0\n net.studioblueplanet.tomtomwat" +
+      "chB\014WorkoutProto"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -13510,7 +13939,7 @@ public final class WorkoutProto {
     internal_static_tutorial_Intensity_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_tutorial_Intensity_descriptor,
-        new java.lang.String[] { "Heartratezone", "Pace", "Speed", });
+        new java.lang.String[] { "Heartratezone", "Pace", "Speed", "Cadence", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

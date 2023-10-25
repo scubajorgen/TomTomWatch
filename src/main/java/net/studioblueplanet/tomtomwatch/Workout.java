@@ -371,6 +371,11 @@ public class Workout
         intensity=null;
         switch (step.getIntensity())
         {
+            case CADENCE:
+                builder=WorkoutProto.Intensity.newBuilder();
+                builder.setCadence(step.getIntensityCadence());
+                intensity=builder.build();
+                break;
             case HRZONE:
                 builder=WorkoutProto.Intensity.newBuilder();
                 builder.setHeartratezone(step.getIntensityHrZone().getValue());

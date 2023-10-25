@@ -103,10 +103,11 @@ public class WorkoutStep
      */
     public enum IntensityType
     {
-        NONE  (0, ""),
-        HRZONE(1, "HR Zone"),
-        PACE  (2, "Pace"),
-        SPEED (3, "Speed");
+        NONE   (0, ""),
+        HRZONE (1, "HR Zone"),
+        PACE   (2, "Pace"),
+        SPEED  (3, "Speed"),
+        CADENCE(4, "Cadence");
         
         private final String description;
         private final int    value;
@@ -197,6 +198,7 @@ public class WorkoutStep
     private int                         extentDuration;     // In sec
     
     // intensities
+    private int                         intensityCadence;     // RPM
     private int                         intensityPace;        // ms/km
     private int                         intensitySpeed;       // mm/sec
     private HrZone                      intensityHrZone;      
@@ -333,6 +335,16 @@ public class WorkoutStep
     }
 
     /**
+     * Sets the intensity of the step to cadence
+     * @param cadence Cadence in RPM
+     */
+    public void setIntensityCadence(int cadence)
+    {
+        this.stepIntensity    =IntensityType.CADENCE;
+        this.intensityCadence =cadence;
+    }
+
+    /**
      * Sets the intensity of the step to pace
      * @param pace Pace in milliseconds per km
      */
@@ -341,7 +353,7 @@ public class WorkoutStep
         this.stepIntensity  =IntensityType.PACE;
         this.intensityPace  =pace;
     }
-    
+
     /**
      * Sets the intensity of the step to speed
      * @param speed Pace in millimeters per per second
@@ -361,6 +373,19 @@ public class WorkoutStep
     {
         this.stepIntensity  =IntensityType.HRZONE;
         this.intensityHrZone=zone;
+    }
+
+    /**
+     * Get the step intensity cadence
+     * @return The pace in RPM or -1 if the step intensity is not of the PACE type
+     */
+    public int getIntensityCadence()
+    {
+        if (this.stepIntensity==IntensityType.CADENCE)
+        {
+            return intensityCadence;
+        }
+        return -1;
     }
 
     /**
@@ -434,6 +459,9 @@ public class WorkoutStep
         }
         switch (stepIntensity)
         {
+            case CADENCE:
+                outputString+=String.format(" @ %d RPM", intensityCadence);
+                break;
             case SPEED:
                 outputString+=String.format(" @ %5.1f km/h", (float)intensitySpeed/3600.0);
                 break;

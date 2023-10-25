@@ -10,7 +10,6 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.junit.Ignore;
 import static org.junit.Assert.*;
 
 import net.studioblueplanet.tomtomwatch.WorkoutStep.HrZone;
@@ -189,6 +188,7 @@ public class WorkoutStepTest
         IntensityType result=theInstance.getIntensity();
         assertEquals(expected, result);
         
+        assertEquals(-1, theInstance.getIntensityCadence());
         assertEquals(pace, theInstance.getIntensityPace());
         assertEquals(-1, theInstance.getIntensitySpeed());
         assertEquals(HrZone.NONE, theInstance.getIntensityHrZone());
@@ -209,6 +209,7 @@ public class WorkoutStepTest
         IntensityType result=theInstance.getIntensity();
         assertEquals(expected, result);
         
+        assertEquals(-1, theInstance.getIntensityCadence());
         assertEquals(speed, theInstance.getIntensitySpeed());
         assertEquals(-1, theInstance.getIntensityPace());
         assertEquals(HrZone.NONE, theInstance.getIntensityHrZone());
@@ -230,10 +231,33 @@ public class WorkoutStepTest
         IntensityType result=theInstance.getIntensity();
         assertEquals(expected, result);
         
+        assertEquals(-1, theInstance.getIntensityCadence());
         assertEquals(zone, theInstance.getIntensityHrZone());
         assertEquals(-1, theInstance.getIntensityPace());
         assertEquals(-1, theInstance.getIntensitySpeed());
     }
+
+    /**
+     * Test of getIntensity, setIntensityHrZone and getIntensityHrZone method, 
+     * of class WorkoutStep.
+     */
+    @Test
+    public void testSetGetIntensityCadence()
+    {
+        System.out.println("setIntensityCadence, setIntensityCadence, getIntensity");
+
+        theInstance.setIntensityCadence(12);
+        
+        IntensityType expected=IntensityType.CADENCE;
+        IntensityType result=theInstance.getIntensity();
+        assertEquals(expected, result);
+        
+        assertEquals(12, theInstance.getIntensityCadence());
+        assertEquals(HrZone.NONE, theInstance.getIntensityHrZone());
+        assertEquals(-1, theInstance.getIntensityPace());
+        assertEquals(-1, theInstance.getIntensitySpeed());
+    }
+
     /**
      * Test of toString method, of class WorkoutStep.
      */

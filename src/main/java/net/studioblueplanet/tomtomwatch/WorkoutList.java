@@ -235,6 +235,10 @@ public class WorkoutList
                     {
                         workoutStep.setIntensitySpeed(intensity.getSpeed());
                     }
+                    else if (intensity.hasCadence())
+                    {
+                        workoutStep.setIntensityCadence(intensity.getCadence());
+                    }
                 }
                 
                 workout.addWorkoutStep(stepNumber, workoutStep);
