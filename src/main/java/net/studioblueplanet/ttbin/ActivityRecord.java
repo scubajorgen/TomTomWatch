@@ -34,7 +34,7 @@ public class ActivityRecord implements Comparable<ActivityRecord>
     private             double      heading;            // Heading in degrees
     private             double      calories;           // calories
     private             double      distance;           // Cumulative distance since beginning
-    private             double      cycles;             // running = steps/sec, cycling = crank rpm
+    private             int         cycles;             // running = steps/sec, cycling = crank rpm
     private             double      instantSpeed;       // Unfiltered speed (?) in m/s
     private             double      elevation1;         // Elevation 1 from GPS record - absolute elevation
     private             double      elevation2;         // Elevation 2 from GPS record - calibrated around 0
@@ -314,10 +314,10 @@ public class ActivityRecord implements Comparable<ActivityRecord>
 
     
     /**
-     * This method sets number of cycles
+     * This method sets number of cycles. Running: steps, Cycling: crank rotations
      * @param cycles Cycles. For running:, for cycling:
      */
-    public void setCycles(double cycles)
+    public void setCycles(int cycles)
     {
         this.cycles=cycles;
     }
@@ -326,7 +326,7 @@ public class ActivityRecord implements Comparable<ActivityRecord>
      * This method returns the cycles
      * @return Cycles. For running: for cycling:
      */
-    public double getCycles()
+    public int getCycles()
     {
         return this.cycles;
     }
@@ -511,7 +511,7 @@ public class ActivityRecord implements Comparable<ActivityRecord>
             // the gps timestamp by one, sometimes 2 second. We allow for that.
             if (recordTime-((long)time*1000)<=2000)
             {
-                this.fitnessPoints             =points;
+                this.fitnessPoints          =points;
                 this.fitnPointsDateTime     =DateTime.forInstant((time)*1000, utcTimeZone);
             }
             else

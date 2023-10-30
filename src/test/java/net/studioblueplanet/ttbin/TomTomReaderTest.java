@@ -22,11 +22,13 @@ import static org.junit.Assert.*;
  */
 public class TomTomReaderTest
 {
-    private byte[] ttbinFileData;
+    private final byte[] ttbinFileData;
+    private final byte[] ttbinFileData2;
     
     public TomTomReaderTest()
     {
-        ttbinFileData=ToolBox.readBytesFromFile("src/test/resources/test.ttbin");
+        ttbinFileData   =ToolBox.readBytesFromFile("src/test/resources/test.ttbin");
+        ttbinFileData2  =ToolBox.readBytesFromFile("src/test/resources/test_cycles.ttbin");
     }
     
     @BeforeClass
@@ -88,6 +90,19 @@ public class TomTomReaderTest
         assertNotEquals(null, result);
     }
 
+    /**
+     * Test of getCycles and getPace method, of class TomTomReader.
+     */
+    @Test
+    public void testSetCyclesAndPace()
+    {
+        System.out.println("TEST: getCycles and getPace");
+        TomTomReader instance = TomTomReader.getInstance();
+        Activity result=instance.readTtbinFile(new UsbFile(0xFFFFFFFF, this.ttbinFileData2.length, this.ttbinFileData2));
+        assertEquals(177, result.getPace());
+        assertEquals(2082, result.getCycles());
+    }    
+    
     /**
      * Test of setTrackSmoothing method, of class TomTomReader.
      */

@@ -208,9 +208,9 @@ public class ActivityRecordTest
     public void testSetCycles()
     {
         System.out.println("setCycles, getCycles");
-        double cycles=1765.6;
+        int cycles=176;
         instance.setCycles(cycles);
-        assertEquals(cycles, instance.getCycles(), 0.0001);
+        assertEquals(cycles, instance.getCycles());
     }
 
     /**

@@ -42,7 +42,7 @@ public class Activity
     // If acitivity is paused for less than this time, the pause/activate is marked as waypoint
     private static final    long                        WAYPOINTPAUSETIME           =10;  
     public  static final    int                         FITNESSPOINTS_UNDEFINED     =-1;
-    private                 double                      minDistanceBetweenRecords   =0.000;
+    private final           double                      minDistanceBetweenRecords   =0.000;
     
     protected               int                         summaryType;
     protected               double                      summaryDistance;
@@ -605,11 +605,17 @@ public class Activity
         float   distance;
         int     duration;
         int     calories;
+        int     unknown1;
+        int     unknown2;
+        int     unknown3;
         
         activity    =ToolBox.readUnsignedInt(recordData,  1, 1, true);
         distance    =Float.intBitsToFloat(ToolBox.readUnsignedInt(recordData,  2, 4, true));
         duration    =ToolBox.readUnsignedInt(recordData,  6, 4, true);
         calories    =ToolBox.readUnsignedInt(recordData,10, 2, true);
+        unknown1    =ToolBox.readUnsignedInt(recordData,12, 2, true);
+        unknown2    =ToolBox.readUnsignedInt(recordData,14, 2, true);   // Total time?
+        unknown3    =ToolBox.readUnsignedInt(recordData,16, 2, true);
         
         this.summaryType        =activity;
         this.summaryDistance    =distance;
@@ -1402,6 +1408,38 @@ public class Activity
         return distance;
     }
 
+    /**
+     * Returns the number of cycles; Running: steps, Cycling: cranc rotations
+     * @return The number of cycles, or 0 if not recorded.
+     */
+    public int getCycles()
+    {
+        int cycles=0;
+        for (ActivitySegment segment : segments)
+        {
+            cycles+=segment.getCycles();
+        }
+        return cycles;
+    }
+    
+     /**
+     * Returns the number of cycles per minute; Running: steps/min, Cycling: cranc rpm
+     * @return The number of cycles per minute, or 0 if not recorded.
+     */
+    public int getPace()
+    {
+        double cycles=0;
+        int duration=0;
+        for (ActivitySegment segment : segments)
+        {
+            cycles+=segment.getCycles();
+            duration+=(segment.getEndTime().getMilliseconds(TimeZone.getTimeZone("UTC"))-
+                       segment.getStartTime().getMilliseconds(TimeZone.getTimeZone("UTC")))/1000L; // in sec
+        }
+        return (int)Math.round((cycles*60.0+0.5)/(double)duration);
+    }   
+    
+    
     /* ******************************************************************************************* *\
      * TRACK COMPRESSING - DOUGLASS-PEUCKER ALGORITHM
     \* ******************************************************************************************* */

@@ -196,6 +196,20 @@ public class ActivitySegment
         return score;
     }
     
+    /**
+     * Returns the number of cycles; Running: steps, Cycling: cranc rotations
+     * @return The number of cycles, or 0 if not recorded.
+     */
+    public int getCycles()
+    {
+        int cycles=0;
+        for (ActivityRecord rec : records)
+        {
+            cycles+=rec.getCycles();
+        }
+        return cycles;
+    }
+    
     
     /**
      * Dump the records in this segment as CSV. Starts the segment with 

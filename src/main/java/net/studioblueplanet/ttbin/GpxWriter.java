@@ -47,8 +47,8 @@ public class GpxWriter
     private String              gpxVersion;
     private final boolean       ugotmeGpxExtensions;
     private final boolean       garminGpxExtensions;
-    Document                    doc;
-    Element                     gpxElement;
+    private Document            doc;
+    private Element             gpxElement;
 
     /**
      * Constructor
@@ -228,7 +228,7 @@ public class GpxWriter
         if (ugotmeGpxExtensions)
         {
             
-            schemaLocations+=" http://tracklog.studioblueplanet.net/gpxextensions/v2 http://tracklog.studioblueplanet.net/gpxextensions/v2/ugotme-gpx.xsd";
+            schemaLocations+=" http://tracklog.studioblueplanet.net/gpxextensions/v3 http://tracklog.studioblueplanet.net/gpxextensions/v3/ugotme-gpx.xsd";
         }
         if (garminGpxExtensions)
         {
@@ -247,20 +247,18 @@ public class GpxWriter
      */
     void writeGpxDocument(String fileName) throws TransformerException
     {
-            // write the content into xml file
-            TransformerFactory transformerFactory = TransformerFactory.newInstance();
-            transformerFactory.setAttribute("indent-number", 4);
+        // write the content into xml file
+        TransformerFactory transformerFactory = TransformerFactory.newInstance();
+        transformerFactory.setAttribute("indent-number", 4);
 
-            Transformer transformer = transformerFactory.newTransformer();
-            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-            transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
+        Transformer transformer = transformerFactory.newTransformer();
+        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+        transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
 
+        DOMSource source = new DOMSource(doc);
+        StreamResult result = new StreamResult(new File(fileName));
 
-            DOMSource source = new DOMSource(doc);
-            StreamResult result = new StreamResult(new File(fileName));
-
-
-            transformer.transform(source, result);
+        transformer.transform(source, result);
     }
 
     /**
@@ -766,6 +764,17 @@ public class GpxWriter
             element.appendChild(doc.createTextNode(String.valueOf(fitnessPoints)));
             extensionsElement.appendChild(element);
         }
+
+        if ("Running".equals(track.getActivityDescription()))
+        {
+            element    = doc.createElement("u-gotMe:steps");
+            element.appendChild(doc.createTextNode(String.valueOf(track.getCycles())));
+            extensionsElement.appendChild(element);            
+
+            element    = doc.createElement("u-gotMe:pace_permin");
+            element.appendChild(doc.createTextNode(String.valueOf(track.getPace())));
+            extensionsElement.appendChild(element);            
+        }
         
         // Extensions: workout
         workout=track.getWorkout();
@@ -811,12 +820,6 @@ public class GpxWriter
      */
     public void writeTrackToFile(String fileName, Activity track, String appName)
     {
-        Element     trackElement;
-        Element     element;
-        Comment     comment;
-        Attr        attr;
-        String      creator;
-
         wayPoints=0;
         trackPoints=0;
 
