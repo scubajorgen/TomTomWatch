@@ -36,6 +36,13 @@ Use the software at own risk. If not used properly, especially the debugging fea
 
 ## FAQ
 
+### What do I need to run the software?
+You need a Java Runtime Environment or JRE to run the .jar file. Version 8 will do. Download at [java.com](https://www.java.com/download/ie_manual.jsp) or [OpenJDK](https://openjdk.org/). Read instructions on my [blog](https://blog.studioblueplanet.net/software/tomtomwatch).
+
+### What do I need for building the software?
+You need a Java SDK. Version 8. Download at [java.com](https://www.java.com/download/ie_manual.jsp) or [OpenJDK](https://openjdk.org/).
+For building you need Maven. For developing I use Netbeans SDE. But use any SDE you like...
+
 ### When I choose 'Activity summary' I see my tracks, but I cannot download them
 If you cannot download tracks, then there are no **track files** on the watch.
 They get downloaded _and deleted_ when you connnected to TomTom MySports. The 'Activity Summary' shows the last 10 logged activities from the history files. 'Activity History' shows a summary of logged activities from summary files.
