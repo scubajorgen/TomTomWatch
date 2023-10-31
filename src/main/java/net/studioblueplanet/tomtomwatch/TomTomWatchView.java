@@ -1004,7 +1004,7 @@ public class TomTomWatchView extends javax.swing.JFrame
         });
         jMenuDevice.add(jMenuItemListRaces);
 
-        jMenuItemSyncTime.setText("Synchronize Time");
+        jMenuItemSyncTime.setText("Synchronize Time Offset");
         jMenuItemSyncTime.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)

@@ -176,7 +176,7 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItemSyncTime">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Synchronize Time"/>
+                <Property name="text" type="java.lang.String" value="Synchronize Time Offset"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemSyncTimeActionPerformed"/>
