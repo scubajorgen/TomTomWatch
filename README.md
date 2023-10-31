@@ -60,6 +60,9 @@ Unlike TomTom MySports, TomTomWatch does not automatically erase all tracks when
 Upload Workouts from JSON is only supported for a number of types of TomTom watches: it is only supported for watches that I have tested.
 Note that it is an _experimental_ feature. Therefore it is under the debugging menu. I can imagine you might damage your watch when you've errors in the JSON.
 
+### What does 'Sync time offset' mean?
+The watch synchronizes its time to the GPS satellites. So going outside and starting to log an activity is sufficient to synchronize the clock. However, depending on your time zone or daylight saving period you might want to update the watch accordingly. For this you can use tye 'Sync Time Offset' feature. It takes the offset from your PC and asks you if it should update the watch accordingly. So: go outside, sync the watch and than use this option.
+
 ## License
 This software is published under the MIT license:
 
