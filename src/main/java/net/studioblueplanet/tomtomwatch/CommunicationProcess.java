@@ -1180,49 +1180,42 @@ public class CommunicationProcess implements ProgressListener
             // Read the config file from this url
             fileString=ToolBox.readStringFromUrl(urlString);
 
-            if (fileString!=null)
+            if (fileString==null)
+            {
+                urlString="https://gpsquickfix.services.tomtom.com/fitness/sifgps.f2p{DAYS}enc.ee";  
+                theView.appendStatus("TomTom config service not found: trying ephemeris service: "+urlString);
+            }               
+            else
             {
                 jsonObject      =new JSONObject(fileString);
                 urlString       =jsonObject.getString("service:ephemeris");
+            }
+            urlString=urlString.replace("{DAYS}", Integer.toString(days));
+            DebugLogger.info("Write GPS Quickfix data: data url: "+urlString);
+            theView.appendStatus("Quickfix data URL: "+urlString+"\n");
 
-                urlString=urlString.replace("{DAYS}", Integer.toString(days));
-                DebugLogger.info("Write GPS Quickfix data: data url: "+urlString);
-                theView.appendStatus("Quickfix data URL: "+urlString+"\n");
+            // Download the GPS quick fix file
+            quickFixFile=ToolBox.readBytesFromUrl(urlString);
 
-                // Download the GPS quick fix file
-                quickFixFile=ToolBox.readBytesFromUrl(urlString);
+            if (quickFixFile!=null)
+            {
+                error=watchInterface.writeGpxQuickFixFile(quickFixFile);
 
-                if (quickFixFile!=null)
+                if (!error)
                 {
-                    error=watchInterface.writeGpxQuickFixFile(quickFixFile);
-
-                    if (!error)
-                    {
-                        theView.appendStatus("GPS Quickfix data sent to watch\n");
-                    }
-                    else
-                    {
-                        theView.showErrorDialog("Unable to send quickfix file to the watch");
-                        DebugLogger.error("Unable to read quickfix file from TomTom");                    
-                    }
+                    theView.appendStatus("GPS Quickfix data sent to watch\n");
                 }
                 else
                 {
-                    theView.showErrorDialog("Unable to read quickfix file from TomTom");
-                    DebugLogger.error("Unable to read quickfix file from TomTom");
+                    theView.showErrorDialog("Unable to send quickfix file to the watch");
+                    DebugLogger.error("Unable to read quickfix file from TomTom");                    
                 }
             }
             else
             {
-                theView.showErrorDialog("Unable to read ephemeris service from TomTom");
-                DebugLogger.error("Unable to read ephemeris service from TomTom");
+                theView.showErrorDialog("Unable to read quickfix file from TomTom");
+                DebugLogger.error("Unable to read quickfix file from TomTom");
             }
-        }
-        else
-        {
-            theView.showErrorDialog("Error reading preference from the Watch");
-            DebugLogger.error("Error reading preference from the Watch");
-            error=true;
         }
         if (error)
         {
