@@ -1180,35 +1180,42 @@ public class CommunicationProcess implements ProgressListener
             // Read the config file from this url
             fileString=ToolBox.readStringFromUrl(urlString);
 
-            jsonObject      =new JSONObject(fileString);
-            urlString       =jsonObject.getString("service:ephemeris");
-
-
-            urlString=urlString.replace("{DAYS}", Integer.toString(days));
-            DebugLogger.info("Write GPS Quickfix data: data url: "+urlString);
-            theView.appendStatus("Quickfix data URL: "+urlString+"\n");
-
-            // Download the GPS quick fix file
-            quickFixFile=ToolBox.readBytesFromUrl(urlString);
-
-            if (quickFixFile!=null)
+            if (fileString!=null)
             {
-                error=watchInterface.writeGpxQuickFixFile(quickFixFile);
+                jsonObject      =new JSONObject(fileString);
+                urlString       =jsonObject.getString("service:ephemeris");
 
-                if (!error)
+                urlString=urlString.replace("{DAYS}", Integer.toString(days));
+                DebugLogger.info("Write GPS Quickfix data: data url: "+urlString);
+                theView.appendStatus("Quickfix data URL: "+urlString+"\n");
+
+                // Download the GPS quick fix file
+                quickFixFile=ToolBox.readBytesFromUrl(urlString);
+
+                if (quickFixFile!=null)
                 {
-                    theView.appendStatus("GPS Quickfix data sent to watch\n");
+                    error=watchInterface.writeGpxQuickFixFile(quickFixFile);
+
+                    if (!error)
+                    {
+                        theView.appendStatus("GPS Quickfix data sent to watch\n");
+                    }
+                    else
+                    {
+                        theView.showErrorDialog("Unable to send quickfix file to the watch");
+                        DebugLogger.error("Unable to read quickfix file from TomTom");                    
+                    }
                 }
                 else
                 {
-                    theView.showErrorDialog("Unable to send quickfix file to the watch");
-                    DebugLogger.error("Unable to read quickfix file from TomTom");                    
+                    theView.showErrorDialog("Unable to read quickfix file from TomTom");
+                    DebugLogger.error("Unable to read quickfix file from TomTom");
                 }
             }
             else
             {
-                theView.showErrorDialog("Unable to read quickfix file from TomTom");
-                DebugLogger.error("Unable to read quickfix file from TomTom");
+                theView.showErrorDialog("Unable to read ephemeris service from TomTom");
+                DebugLogger.error("Unable to read ephemeris service from TomTom");
             }
         }
         else
