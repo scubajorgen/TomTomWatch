@@ -613,9 +613,12 @@ public class Activity
         distance    =Float.intBitsToFloat(ToolBox.readUnsignedInt(recordData,  2, 4, true));
         duration    =ToolBox.readUnsignedInt(recordData,  6, 4, true);
         calories    =ToolBox.readUnsignedInt(recordData,10, 2, true);
-        unknown1    =ToolBox.readUnsignedInt(recordData,12, 2, true);
-        unknown2    =ToolBox.readUnsignedInt(recordData,14, 2, true);   // Total time?
-        unknown3    =ToolBox.readUnsignedInt(recordData,16, 2, true);
+        if (recordData.length>=18)
+        {
+            unknown1    =ToolBox.readUnsignedInt(recordData,12, 2, true);
+            unknown2    =ToolBox.readUnsignedInt(recordData,14, 2, true);   // Total time?
+            unknown3    =ToolBox.readUnsignedInt(recordData,16, 2, true);
+        }
         
         this.summaryType        =activity;
         this.summaryDistance    =distance;
