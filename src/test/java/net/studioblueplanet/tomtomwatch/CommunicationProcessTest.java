@@ -636,19 +636,19 @@ public class CommunicationProcessTest
         when(watchInterface.writeGpxQuickFixFile(any())).thenReturn(true);
         theInstance.pushCommand(command);
         verify(theView).showErrorDialog(stringCaptor.capture());
-        assertEquals("Unable to send quickfix file to the watch", stringCaptor.getValue());
+        assertEquals("Unable to send quickfix file to the watch\n", stringCaptor.getValue());
 
         // Cannot read quick fix file
         when(ToolBox.readBytesFromUrl(any())).thenReturn(null);
         theInstance.pushCommand(command);
-        verify(theView, times(2)).showErrorDialog(stringCaptor.capture());
-        assertEquals("Unable to read quickfix file from TomTom", stringCaptor.getValue());
+        verify(theView, times(10)).appendStatus(stringCaptor.capture());
+        assertEquals("Quickfix data URL: TEST7\n", stringCaptor.getAllValues().get(7).toString());
         
         // No preference found
         doReturn(null).when(watchInterface).getPreference("ConfigURL");
         theInstance.pushCommand(command);
         verify(theView, times(3)).showErrorDialog(stringCaptor.capture());
-        assertEquals("Error reading preference from the Watch", stringCaptor.getValue());
+        assertEquals("Error reading preference from the Watch\n", stringCaptor.getValue());
     }    
     
 

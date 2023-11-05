@@ -1183,7 +1183,7 @@ public class CommunicationProcess implements ProgressListener
             if (fileString==null)
             {
                 urlString="https://gpsquickfix.services.tomtom.com/fitness/sifgps.f2p{DAYS}enc.ee";  
-                theView.appendStatus("TomTom config service not found: trying ephemeris service: "+urlString);
+                theView.appendStatus("TomTom config service not found: trying ephemeris service: "+urlString+"\n");
             }               
             else
             {
@@ -1207,16 +1207,21 @@ public class CommunicationProcess implements ProgressListener
                 }
                 else
                 {
-                    theView.showErrorDialog("Unable to send quickfix file to the watch");
+                    theView.showErrorDialog("Unable to send quickfix file to the watch\n");
                     DebugLogger.error("Unable to read quickfix file from TomTom");                    
                 }
             }
             else
             {
-                theView.showErrorDialog("Unable to read quickfix file from TomTom");
+                theView.showErrorDialog("Unable to read quickfix file from TomTom\n");
                 DebugLogger.error("Unable to read quickfix file from TomTom");
             }
         }
+        else
+        {
+            theView.showErrorDialog("Error reading preference from the Watch\n");
+            DebugLogger.error("Error reading preference from the Watch");
+        }        
         if (error)
         {
             toErrorState();
