@@ -63,6 +63,11 @@ Note that it is an _experimental_ feature. Therefore it is under the debugging m
 ### What does 'Sync time offset' mean?
 The watch synchronizes its time to the GPS satellites. So going outside and starting to log an activity is sufficient to synchronize the clock. However, depending on your time zone or daylight saving period you might want to update the watch accordingly. For this you can use tye 'Sync Time Offset' feature. It takes the offset from your PC and asks you if it should update the watch accordingly. So: go outside, sync the watch and than use this option.
 
+### There is no height value in the GPX files?
+TomTom watches do as far as I know not register heigth, apart from the Adventurer.
+TomTomWatch can add height to the GPX files by reading the height from a Google service based on the coordinate. See [my blog](https://blog.studioblueplanet.net/software/tomtomwatch).
+Set heightService=google and fill in the API key in heightServiceKey in the properties file tomtomwatch.properties.
+
 ## License
 This software is published under the MIT license:
 
