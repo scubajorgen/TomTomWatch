@@ -43,6 +43,7 @@ public class ConfigSettings
         // Allowed value: INT, DOUBLE: "min,max", STRING: "value1,value2,..." BOOLEAN: no meaning; Leave empty "" for no check
         public String       allowed;            
         
+        public String       ephemerisUrl;
         
         public Setting(String name, String description, String defaultValue, String allowed, SettingType type)
         {
@@ -79,7 +80,9 @@ public class ConfigSettings
         new Setting("heightServiceKey"          , "Google Elevation service API key " , ""     , ""                       , SettingType.STRING ),
         new Setting("mapService"                , "Map service                      " , "osm"  , "none,osm,google"        , SettingType.STRING ),
         new Setting("mapServiceKey"             , "Google Maps service API key      " , ""     , ""                       , SettingType.STRING ),
-        new Setting("quickFixDays"              , "GPS Quick Fix days ahead         " , "3"    , "3,7"                    , SettingType.INT    ),
+        new Setting("ephemerisUrl"              , "Ephemeris file service           " , 
+                  "https://gpsquickfix.services.tomtom.com/fitness/sifgps.f2p{DAYS}enc.ee"     , ""                       , SettingType.STRING ),
+        new Setting("quickFixDays"              , "GPS Quick Fix days ahead         " , "3"    , "3,14"                   , SettingType.INT    ),
         new Setting("downloadAll"               , "Download all activities          " , "false", ""                       , SettingType.BOOLEAN),
         new Setting("ugotmeGpxExtensions"       , "Enable gpx extensions            " , "false", ""                       , SettingType.BOOLEAN),
         new Setting("garminGpxExtensions"       , "Enable garmin gpx extensions     " , "true" , ""                       , SettingType.BOOLEAN)
@@ -262,7 +265,6 @@ public class ConfigSettings
                 break;
                 
         }
-        
         return error;
     }
     

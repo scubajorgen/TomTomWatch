@@ -1159,8 +1159,8 @@ public class CommunicationProcess implements ProgressListener
         
         // Read the days to look ahead from the configuration.
         days=ConfigSettings.getInstance().getIntValue("quickFixDays");
-        
-        if (days!=3 && days!=7)
+       
+        if (days!=3 && days!=7 && days!=14)
         {
             days=3;
         }
@@ -1182,7 +1182,7 @@ public class CommunicationProcess implements ProgressListener
 
             if (fileString==null)
             {
-                urlString="https://gpsquickfix.services.tomtom.com/fitness/sifgps.f2p{DAYS}enc.ee";  
+                urlString=ConfigSettings.getInstance().getStringValue("ephemerisUrl");
                 theView.appendStatus("TomTom config service not found: trying ephemeris service: "+urlString+"\n");
             }               
             else
@@ -1190,6 +1190,7 @@ public class CommunicationProcess implements ProgressListener
                 jsonObject      =new JSONObject(fileString);
                 urlString       =jsonObject.getString("service:ephemeris");
             }
+            theView.appendStatus("Requesting file for "+days+" days ahead\n");
             urlString=urlString.replace("{DAYS}", Integer.toString(days));
             DebugLogger.info("Write GPS Quickfix data: data url: "+urlString);
             theView.appendStatus("Quickfix data URL: "+urlString+"\n");
@@ -1213,8 +1214,8 @@ public class CommunicationProcess implements ProgressListener
             }
             else
             {
-                theView.showErrorDialog("Unable to read quickfix file from TomTom\n");
-                DebugLogger.error("Unable to read quickfix file from TomTom");
+                theView.showErrorDialog("Unable to read quickfix file\n");
+                DebugLogger.error("Unable to read quickfix file");
             }
         }
         else

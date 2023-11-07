@@ -618,40 +618,134 @@ public class CommunicationProcessTest
 
         // Mock the ToolBox
         PowerMockito.mockStatic(ToolBox.class);        
-        
-        // Good flow
         when(ToolBox.readStringFromUrl("preferenceValue")).thenReturn("{\"service:ephemeris\":\"TEST{DAYS}\"}");
         when(ToolBox.readBytesFromUrl("TEST7")).thenReturn(new byte[]{0, 1, 2});
+        
+        // Good flow
         theInstance.pushCommand(command);
         verify(watchInterface).writeGpxQuickFixFile(any());
         verify(theView).setStatus(stringCaptor.capture());
-        verify(theView, times(4)).appendStatus(stringCaptor.capture());
+        verify(theView, times(5)).appendStatus(stringCaptor.capture());
         assertEquals("Uploading GPS Quickfix data\n", stringCaptor.getAllValues().get(0)); 
         assertEquals("Configuration URL: preferenceValue\n", stringCaptor.getAllValues().get(1));
-        assertEquals("Quickfix data URL: TEST7\n", stringCaptor.getAllValues().get(2));
-        assertEquals("GPS Quickfix data sent to watch\n", stringCaptor.getAllValues().get(3));        
-        assertEquals("Done\n", stringCaptor.getAllValues().get(4));
+        assertEquals("Requesting file for 7 days ahead\n", stringCaptor.getAllValues().get(2));
+        assertEquals("Quickfix data URL: TEST7\n", stringCaptor.getAllValues().get(3));
+        assertEquals("GPS Quickfix data sent to watch\n", stringCaptor.getAllValues().get(4));        
+        assertEquals("Done\n", stringCaptor.getAllValues().get(5));
+    }    
+
+    /**
+     * Test of pushCommand method, of class CommunicationProcess.
+     */
+    @Test
+    public void testPushCommandUploadGpsQuickfix2()
+    {
+        System.out.println("TEST: pushCommand - THREADCOMMAND_UPLOADGPSDATAS");
+        ThreadCommand command = ThreadCommand.THREADCOMMAND_UPLOADGPSDATA;
+
+        // Mock the ToolBox
+        PowerMockito.mockStatic(ToolBox.class);        
+        when(ToolBox.readStringFromUrl("preferenceValue")).thenReturn("{\"service:ephemeris\":\"TEST{DAYS}\"}");
+        when(ToolBox.readBytesFromUrl("TEST7")).thenReturn(new byte[]{0, 1, 2});
 
         // Cannot write to watch
         when(watchInterface.writeGpxQuickFixFile(any())).thenReturn(true);
         theInstance.pushCommand(command);
+        verify(theView).setStatus(stringCaptor.capture());
+        verify(theView, times(4)).appendStatus(stringCaptor.capture());
+        assertEquals("Uploading GPS Quickfix data\n", stringCaptor.getAllValues().get(0)); 
+        assertEquals("Configuration URL: preferenceValue\n", stringCaptor.getAllValues().get(1));
+        assertEquals("Requesting file for 7 days ahead\n", stringCaptor.getAllValues().get(2));
+        assertEquals("Quickfix data URL: TEST7\n", stringCaptor.getAllValues().get(3));
+        assertEquals("Done\n", stringCaptor.getAllValues().get(4));
+        
         verify(theView).showErrorDialog(stringCaptor.capture());
         assertEquals("Unable to send quickfix file to the watch\n", stringCaptor.getValue());
 
-        // Cannot read quick fix file
+    }    
+
+    /**
+     * Test of pushCommand method, of class CommunicationProcess.
+     */
+    @Test
+    public void testPushCommandUploadGpsQuickfix3()
+    {
+        System.out.println("TEST: pushCommand - THREADCOMMAND_UPLOADGPSDATAS");
+        ThreadCommand command = ThreadCommand.THREADCOMMAND_UPLOADGPSDATA;
+
+        // Mock the ToolBox
+        PowerMockito.mockStatic(ToolBox.class);        
+        when(ToolBox.readStringFromUrl("preferenceValue")).thenReturn("{\"service:ephemeris\":\"TEST{DAYS}\"}");
+        when(ToolBox.readBytesFromUrl("TEST7")).thenReturn(new byte[]{0, 1, 2});
         when(ToolBox.readBytesFromUrl(any())).thenReturn(null);
+
+        // Cannot read quick fix file
         theInstance.pushCommand(command);
-        verify(theView, times(10)).appendStatus(stringCaptor.capture());
-        assertEquals("Quickfix data URL: TEST7\n", stringCaptor.getAllValues().get(7).toString());
+        verify(theView).setStatus(stringCaptor.capture());
+        verify(theView, times(4)).appendStatus(stringCaptor.capture());
+        assertEquals("Uploading GPS Quickfix data\n", stringCaptor.getAllValues().get(0)); 
+        assertEquals("Configuration URL: preferenceValue\n", stringCaptor.getAllValues().get(1));
+        assertEquals("Requesting file for 7 days ahead\n", stringCaptor.getAllValues().get(2));
+        assertEquals("Quickfix data URL: TEST7\n", stringCaptor.getAllValues().get(3));
+        assertEquals("Done\n", stringCaptor.getAllValues().get(4));
         
+        verify(theView).showErrorDialog(stringCaptor.capture());
+        assertEquals("Unable to read quickfix file\n", stringCaptor.getValue());        
+    }
+    
+    /**
+     * Test of pushCommand method, of class CommunicationProcess.
+     */
+    @Test
+    public void testPushCommandUploadGpsQuickfix4()
+    {
+        System.out.println("TEST: pushCommand - THREADCOMMAND_UPLOADGPSDATAS");
+        ThreadCommand command = ThreadCommand.THREADCOMMAND_UPLOADGPSDATA;
+
+        // Mock the ToolBox
+        PowerMockito.mockStatic(ToolBox.class);        
+        when(ToolBox.readBytesFromUrl("TEST7")).thenReturn(new byte[]{0, 1, 2});
+        when(ToolBox.readStringFromUrl(any())).thenReturn(null);
+
+        // No TomTom Config service
+        theInstance.pushCommand(command);
+        verify(theView).setStatus(stringCaptor.capture());
+        verify(theView, times(5)).appendStatus(stringCaptor.capture());
+        assertEquals("Uploading GPS Quickfix data\n", stringCaptor.getAllValues().get(0)); 
+        assertEquals("Configuration URL: preferenceValue\n", stringCaptor.getAllValues().get(1));
+        assertEquals("TomTom config service not found: trying ephemeris service: "+
+                     "http://gpsquickfix.services.tomtom.com/fitness/sifgps.f2p{DAYS}enc.ee\n", stringCaptor.getAllValues().get(2));
+        assertEquals("Requesting file for 7 days ahead\n", stringCaptor.getAllValues().get(3));
+        assertEquals("Quickfix data URL: http://gpsquickfix.services.tomtom.com/fitness/sifgps.f2p7enc.ee\n", stringCaptor.getAllValues().get(4));
+        assertEquals("Done\n", stringCaptor.getAllValues().get(5));
+    }    
+
+    /**
+     * Test of pushCommand method, of class CommunicationProcess.
+     */
+    @Test
+    public void testPushCommandUploadGpsQuickfix5()
+    {
+        System.out.println("TEST: pushCommand - THREADCOMMAND_UPLOADGPSDATAS");
+        ThreadCommand command = ThreadCommand.THREADCOMMAND_UPLOADGPSDATA;
+
+        // Mock the ToolBox
+        PowerMockito.mockStatic(ToolBox.class);        
+        when(ToolBox.readStringFromUrl("preferenceValue")).thenReturn("{\"service:ephemeris\":\"TEST{DAYS}\"}");
+        when(ToolBox.readBytesFromUrl("TEST7")).thenReturn(new byte[]{0, 1, 2});
+
         // No preference found
         doReturn(null).when(watchInterface).getPreference("ConfigURL");
         theInstance.pushCommand(command);
-        verify(theView, times(3)).showErrorDialog(stringCaptor.capture());
+        verify(theView).setStatus(stringCaptor.capture());
+        verify(theView, times(1)).appendStatus(stringCaptor.capture());
+        assertEquals("Uploading GPS Quickfix data\n", stringCaptor.getAllValues().get(0)); 
+        assertEquals("Done\n", stringCaptor.getAllValues().get(1));
+        
+        verify(theView, times(1)).showErrorDialog(stringCaptor.capture());
         assertEquals("Error reading preference from the Watch\n", stringCaptor.getValue());
-    }    
+    }
     
-
     /**
      * Test of requestSetNewDeviceName method, of class CommunicationProcess.
      */
