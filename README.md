@@ -68,6 +68,9 @@ TomTom watches do as far as I know not register heigth, apart from the Adventure
 TomTomWatch can add height to the GPX files by reading the height from a Google service based on the coordinate. See [my blog](https://blog.studioblueplanet.net/software/tomtomwatch).
 Set heightService=google and fill in the API key in heightServiceKey in the properties file tomtomwatch.properties.
 
+### The Watch serial number is not shown?
+Known issue. Replace the USB driver by 'WinUSB' using the [Zadig tool](https://zadig.akeo.ie/). Only do this for the Watch. Beware that other programs using the watch won't work anymore.
+
 ## License
 This software is published under the MIT license:
 
