@@ -42,22 +42,6 @@ import org.jdesktop.application.ResourceMap;
  */
 public class TomTomWatchView extends javax.swing.JFrame
 {
-    public class ProxyAuth extends Authenticator 
-    {
-        private final PasswordAuthentication auth;
-
-        private ProxyAuth(String user, String password) 
-        {
-            auth = new PasswordAuthentication(user, password == null ? new char[]{} : password.toCharArray());
-        }
-
-        @Override
-        protected PasswordAuthentication getPasswordAuthentication() 
-        {
-            return auth;
-        }
-    } 
-    
     private static final int                    MAXNAME                 =15;
     private static final int                    PRODID_ADVENTURER       =0xe0070000;
     private static final int                    PRODID_RUNNER3MUSIC     =0xd1070000;
@@ -185,8 +169,20 @@ public class TomTomWatchView extends javax.swing.JFrame
         if (proxyUser!=null && !proxyUser.equals("")) 
         {
             DebugLogger.info("Setting proxy authentication for user "+proxyUser);
+            System.setProperty("http.proxyUser", proxyUser);
+            System.setProperty("http.proxyPassword", proxyPassword);
+            System.setProperty("https.proxyUser", proxyUser);
+            System.setProperty("https.proxyPassword", proxyPassword);
             System.setProperty("jdk.http.auth.tunneling.disabledSchemes", "");            
-            Authenticator.setDefault(new ProxyAuth(proxyUser, proxyPassword));
+            Authenticator.setDefault(new Authenticator() 
+                                         {
+                                            @Override
+                                            public PasswordAuthentication getPasswordAuthentication() 
+                                            {
+                                                return new PasswordAuthentication(proxyUser, proxyPassword.toCharArray());
+                                            }
+                                         }
+                                     );
         }
     }    
     
