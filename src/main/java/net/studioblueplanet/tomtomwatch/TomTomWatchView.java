@@ -6,6 +6,23 @@
 package net.studioblueplanet.tomtomwatch;
 
 
+
+import hirondelle.date4j.DateTime;
+
+import java.awt.Font;
+import java.io.File;
+import java.net.Authenticator;
+import java.net.PasswordAuthentication;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Properties;
+import javax.swing.BoxLayout;
+import javax.swing.SwingUtilities;
+import javax.swing.DefaultListModel;
+import javax.swing.ListSelectionModel;
+import javax.swing.JOptionPane;
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import net.studioblueplanet.generics.GitBuildInfo;
 import net.studioblueplanet.usb.UsbFile;
 import net.studioblueplanet.ttbin.TomTomReader;
@@ -14,23 +31,6 @@ import net.studioblueplanet.ttbin.TtbinFileDefinition;
 import net.studioblueplanet.ttbin.GpxWriter;
 import net.studioblueplanet.logger.DebugLogger;
 import net.studioblueplanet.settings.ConfigSettings;
-
-import hirondelle.date4j.DateTime;
-import java.io.File;
-
-import java.awt.Font;
-import javax.swing.BoxLayout;
-import javax.swing.SwingUtilities;
-import javax.swing.DefaultListModel;
-import javax.swing.ListSelectionModel;
-import javax.swing.JOptionPane;
-
-import java.util.ArrayList;
-import java.util.Iterator;
-
-
-import javax.swing.JFileChooser;
-import javax.swing.filechooser.FileNameExtensionFilter;
 import net.studioblueplanet.usb.WatchInterface;
 import org.jdesktop.application.ResourceMap;
 
@@ -42,6 +42,22 @@ import org.jdesktop.application.ResourceMap;
  */
 public class TomTomWatchView extends javax.swing.JFrame
 {
+    public class ProxyAuth extends Authenticator 
+    {
+        private final PasswordAuthentication auth;
+
+        private ProxyAuth(String user, String password) 
+        {
+            auth = new PasswordAuthentication(user, password == null ? new char[]{} : password.toCharArray());
+        }
+
+        @Override
+        protected PasswordAuthentication getPasswordAuthentication() 
+        {
+            return auth;
+        }
+    } 
+    
     private static final int                    MAXNAME                 =15;
     private static final int                    PRODID_ADVENTURER       =0xe0070000;
     private static final int                    PRODID_RUNNER3MUSIC     =0xd1070000;
@@ -56,8 +72,8 @@ public class TomTomWatchView extends javax.swing.JFrame
     
     private TomTomWatchAbout                    aboutBox;
     
-    private float                               trackSmoothingQFactor;
-    private double                              trackCompressionMaxError;
+    private final float                         trackSmoothingQFactor;
+    private final double                        trackCompressionMaxError;
    
     /**
      * Constructor. Creates new form TomTomWatchView
@@ -78,6 +94,11 @@ public class TomTomWatchView extends javax.swing.JFrame
         // Set the DebugLogger log level
         DebugLogger.setDebugLevel(settings.getStringValue("debugLevel"));
 
+        if (settings.getBooleanValue("proxyEnable"))
+        {
+            setProxy();
+        }
+        
         // Initialize the widgents and components
         initComponents();
         
@@ -144,6 +165,32 @@ public class TomTomWatchView extends javax.swing.JFrame
         this.jCheckBoxDownloadMostRecent.setSelected(!settings.getBooleanValue("downloadAll"));
     }
     
+    /**
+     * Set a generic proxy for http and https calls
+     */
+    private void setProxy() 
+    {
+        // HTTP/HTTPS Proxy
+        String proxyHost    =settings.getStringValue("proxyHost");
+        String proxyPort    =Integer.toString(settings.getIntValue("proxyPort"));
+        String proxyUser    =settings.getStringValue("proxyUser").trim();
+        String proxyPassword=settings.getStringValue("proxyPassword").trim();
+        
+        DebugLogger.info("Setting proxy to: "+proxyHost+":"+proxyPort);
+        System.setProperty("http.proxyHost", proxyHost);
+        System.setProperty("http.proxyPort", proxyPort);
+        System.setProperty("https.proxyHost", proxyHost);
+        System.setProperty("https.proxyPort", proxyPort);
+
+        if (proxyUser!=null && !proxyUser.equals("")) 
+        {
+            DebugLogger.info("Setting proxy authentication for user "+proxyUser);
+            System.setProperty("jdk.http.auth.tunneling.disabledSchemes", "");            
+            Authenticator.setDefault(new ProxyAuth(proxyUser, proxyPassword));
+        }
+    }    
+    
+   
     /**
      * This method redefines the fonts on the UI. It replaces the fonts by
      * fonts incorporated in the application.

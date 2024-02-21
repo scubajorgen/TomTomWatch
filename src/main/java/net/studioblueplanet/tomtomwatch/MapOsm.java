@@ -201,10 +201,10 @@ public class MapOsm extends Map
      */
     private class RoutePainter implements Painter<JXMapViewer>
     {
-        private Color color = Color.RED;
-        private boolean antiAlias = true;
+        private final Color     color = Color.RED;
+        private final boolean   antiAlias = true;
 
-        private OsmTrack track;
+        private final OsmTrack  track;
 
         /**
          * @param track the track
@@ -248,8 +248,8 @@ public class MapOsm extends Map
          */
         private void drawRoute(Graphics2D g, JXMapViewer map, boolean useColor)
         {
-            int     lastX = 0;
-            int     lastY = 0;
+            int     lastX;
+            int     lastY;
             int     segmentCount;
 
             boolean first;

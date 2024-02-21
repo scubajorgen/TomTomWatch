@@ -21,23 +21,20 @@
  */
 package net.studioblueplanet.tomtomwatch;
 
-import net.studioblueplanet.generics.GitBuildInfo;
+import java.awt.Font;
+import java.awt.FontFormatException;
+import java.awt.GraphicsEnvironment;
+import java.awt.Image;
+import java.io.InputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Locale;
+import javax.swing.ImageIcon;
 import org.jdesktop.application.Application;
 import org.jdesktop.application.SingleFrameApplication;
 import org.jdesktop.application.ResourceMap;
 import org.jdesktop.application.ApplicationContext;
-
-
-import javax.swing.ImageIcon;
-import java.awt.Image;
-import java.util.ArrayList;
-import java.util.Locale;
-
-import java.io.InputStream;
-import java.io.IOException;
-import java.awt.Font;
-import java.awt.FontFormatException;
-import java.awt.GraphicsEnvironment;
+import net.studioblueplanet.generics.GitBuildInfo;
 import net.studioblueplanet.logger.DebugLogger;
 
 /**
@@ -55,7 +52,6 @@ public class TomTomWatch extends SingleFrameApplication
      */
     @Override protected void startup() 
     {
-        
         ArrayList<Image>    iconList;
         DependencyInjector  injector;
  
