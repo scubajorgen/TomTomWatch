@@ -11,7 +11,11 @@ I also offers track smoothing, when enabled.
 It contains a lot of features for maintaining the watch, like
 For the more technical users it contains a Debugging menu that offers functions for file manipulation, resetting, rebooting, etc.
 
-The software will be tested primarily on Windows. On request it can be tested on Linux (Centos). Though the USB4Java lib that is being used should support it, the software will *not* be tested on OS-X.
+## Prerequisites
+
+The software will be tested primarily on **Windows**. On request it can be tested on Linux (Centos). Though the USB4Java lib that is being used should support it, the software will *not* be tested on OS-X.
+
+The software requires a HD display size of a least **1920x1080 pixels**. It may not fit on smaller screens.
 
 ## Disclaimer
 **Though I have used the software myself for years and I have tested it thorougly, usage might damage your watch. The software was created without help or specifications of TomTom, so it may contain unforseen issues. This particularly holds for the features under the 'Debugging' menu, which should be regaded as experimental.**
