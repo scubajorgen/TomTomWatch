@@ -19,11 +19,17 @@ import java.io.PrintWriter;
 import java.math.BigInteger;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.nio.file.Files;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.nio.file.Files;
+import java.security.cert.X509Certificate;
 import java.util.UUID;
-
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSession;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 
 /**
  *
@@ -31,6 +37,61 @@ import java.util.UUID;
  */
 public class ToolBox
 {
+    private static class NullX509TrustManager implements X509TrustManager 
+    {
+        @Override
+        public void checkClientTrusted(X509Certificate[] chain, String authType) 
+        {
+            DebugLogger.info("Check Client Trusted...Na, do nothing");
+        }
+        
+        @Override
+        public void checkServerTrusted(X509Certificate[] chain, String authType) 
+        {
+            DebugLogger.info("Check Server Trusted...Na, do nothing");
+        }
+        @Override
+        public X509Certificate[] getAcceptedIssuers() 
+        {
+            DebugLogger.info("Get accepted issuers...Harharhar... Not");
+            return null;
+        }
+    }    
+
+    /**
+     * Disable SSL Certificate validation
+     */
+    public static void disableCertificateValidation() 
+    {
+        try 
+        {
+            // SSLContext: Instances of this class represent a secure socket protocol implementation
+            // which acts as a factory for secure socket factories or SSLEngines.
+            // This class is initialized with an optional set of key and trust managers and source of secure random bytes.
+            SSLContext sslContext = SSLContext.getInstance("TLS");
+            TrustManager[] trustManagerArray = { new NullX509TrustManager() };
+            sslContext.init(null, trustManagerArray, null);
+            HttpsURLConnection.setDefaultSSLSocketFactory(sslContext.getSocketFactory());
+
+            // Create all-trusting host name verifier
+            HostnameVerifier allHostsValid = new  HostnameVerifier()
+            {
+                @Override
+                public boolean verify(String hostname, SSLSession session)
+                {
+                    return true;
+                }
+            };
+            // Install the all-trusting host verifier
+            HttpsURLConnection.setDefaultHostnameVerifier(allHostsValid);            
+            DebugLogger.info("TLS CERTIFICATE VALIDATION DISABLED!!");
+        } 
+        catch (Exception e) 
+        {
+            DebugLogger.error("Error disabling certificates: "+e.getMessage());
+        }
+    }
+    
     /**
      * Read an unsigned integer value from the byte array
      * @param data Byte array
@@ -652,6 +713,4 @@ public class ToolBox
         }
         return returnValue;
     }
-    
-
 }

@@ -15,7 +15,6 @@ import java.net.Authenticator;
 import java.net.PasswordAuthentication;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Properties;
 import javax.swing.BoxLayout;
 import javax.swing.SwingUtilities;
 import javax.swing.DefaultListModel;
@@ -24,6 +23,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import net.studioblueplanet.generics.GitBuildInfo;
+import net.studioblueplanet.generics.ToolBox;
 import net.studioblueplanet.usb.UsbFile;
 import net.studioblueplanet.ttbin.TomTomReader;
 import net.studioblueplanet.ttbin.Activity;
@@ -74,6 +74,12 @@ public class TomTomWatchView extends javax.swing.JFrame
         
         // Get the application settings
         settings = ConfigSettings.getInstance();
+        
+        // Disable TLS certificate validation
+        if (settings.getBooleanValue("tlsCerficateCheckDisable"))
+        {
+            ToolBox.disableCertificateValidation();
+        }
 
         // Set the DebugLogger log level
         DebugLogger.setDebugLevel(settings.getStringValue("debugLevel"));

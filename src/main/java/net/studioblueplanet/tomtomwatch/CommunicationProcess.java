@@ -15,7 +15,6 @@ import net.studioblueplanet.logger.DebugLogger;
 import net.studioblueplanet.settings.ConfigSettings;
 import net.studioblueplanet.generics.ToolBox;
 
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -25,9 +24,6 @@ import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 import java.util.concurrent.Executor;
 import hirondelle.date4j.DateTime;
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
-import java.io.BufferedReader;
 import java.io.RandomAccessFile;
 import java.io.File;
 
@@ -1144,16 +1140,8 @@ public class CommunicationProcess implements ProgressListener
     {
         boolean         error;
         String          urlString;   
-        URL             url;
-        InputStream     stream;
-        ByteArrayOutputStream outputStream;
-        BufferedReader  in;
         String          fileString;
-        String          inputLine;
-        boolean         exit;
         JSONObject      jsonObject;
-        byte[]          chunk;
-        int             bytesRead;
         byte[]          quickFixFile;
         int             days;
         

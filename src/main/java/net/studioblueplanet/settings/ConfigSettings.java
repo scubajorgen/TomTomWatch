@@ -83,6 +83,7 @@ public class ConfigSettings
         new Setting("ephemerisUrl"              , "Ephemeris file service           " , 
                   "https://gpsquickfix.services.tomtom.com/fitness/sifgps.f2p{DAYS}enc.ee"          , ""                       , SettingType.STRING ),
         new Setting("quickFixDays"              , "GPS Quick Fix days ahead         " , "3"         , "3,14"                   , SettingType.INT    ),
+        new Setting("tlsCerficateCheckDisable"  , "Diable TLS certificate check     " , "false"     , ""                       , SettingType.BOOLEAN),
         new Setting("downloadAll"               , "Download all activities          " , "false"     , ""                       , SettingType.BOOLEAN),
         new Setting("ugotmeGpxExtensions"       , "Enable gpx extensions            " , "false"     , ""                       , SettingType.BOOLEAN),
         new Setting("garminGpxExtensions"       , "Enable garmin gpx extensions     " , "true"      , ""                       , SettingType.BOOLEAN),
