@@ -131,9 +131,7 @@ public class TomTomReaderTest
         System.out.println("TEST: readTtbinFile");
         String fileName = "src/test/resources/test.ttbin";
         TomTomReader instance = TomTomReader.getInstance();
-        Activity expResult = null;
         Activity result = instance.readTtbinFile(fileName);
-
         testContentsNonSmoothed(result);
     }
 

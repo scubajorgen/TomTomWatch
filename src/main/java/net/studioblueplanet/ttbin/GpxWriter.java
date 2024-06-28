@@ -441,8 +441,6 @@ public class GpxWriter
                 {
                     extensionsElement       = doc.createElement("extensions");
                     pointElement.appendChild(extensionsElement);
-                    uGotmeExtensionsElement = doc.createElement("u-gotMe:trackpointExtension");
-                    extensionsElement.appendChild(uGotmeExtensionsElement);
                 
                     // GPXTPX Extension: heartrate (for Strava compatibility)
                     if (garminGpxExtensions)
@@ -458,8 +456,11 @@ public class GpxWriter
                         }
                     }
 
+                    // u-gotMe Extensions
                     if (ugotmeGpxExtensions)
                     {
+                        uGotmeExtensionsElement = doc.createElement("u-gotMe:trackpointExtension");
+                        extensionsElement.appendChild(uGotmeExtensionsElement);
                         // Extensions: speed
                         element    = doc.createElement("u-gotMe:speed");
                         element.appendChild(doc.createTextNode(String.format("%.2f", speed)));
