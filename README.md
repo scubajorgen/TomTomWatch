@@ -47,6 +47,14 @@ You need a Java Runtime Environment or JRE to run the .jar file. Version 8 will 
 You need a Java SDK. Version 8. Download at [java.com](https://www.java.com/download/ie_manual.jsp) or [OpenJDK](https://openjdk.org/).
 For building you need Maven. For developing I use Netbeans SDE. But use any SDE you like...
 
+### Does the softare run under Linux?
+Yes it does, though I mainly test it on Windows.
+On linux the user should have the rights to use the USB port. Also the USB devices should be registered under /etc/udev/rules.d/.
+Refer to [ttwach](https://github.com/ryanbinns/ttwatch) for the steps to take or browse the internet for your distro.
+
+### Does the software run on Apple?
+I've reports it does. I do not support it, since I don't have Apple stuff.
+
 ### When I choose 'Activity summary' I see my tracks, but I cannot download them
 If you cannot download tracks, then there are no **track files** on the watch.
 They get downloaded _and deleted_ when you connnected to TomTom MySports. The 'Activity Summary' shows the last 10 logged activities from the history files. 'Activity History' shows a summary of logged activities from summary files.
