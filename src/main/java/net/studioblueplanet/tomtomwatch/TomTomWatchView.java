@@ -1434,6 +1434,7 @@ public class TomTomWatchView extends javax.swing.JFrame
                     DebugLogger.info("Writing file to "+fileName);
                     FileWriter fileWriter=new FileWriter(new File(fileName));
                     writer.writeTrackToFile(fileWriter, activity, appName); 
+                    fileWriter.close();
                 }
                 catch(IOException e)
                 {

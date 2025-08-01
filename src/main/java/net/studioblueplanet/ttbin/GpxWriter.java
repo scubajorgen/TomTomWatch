@@ -278,7 +278,7 @@ public class GpxWriter
         StreamResult result = new StreamResult(stringWriter);
         transformer.transform(source, result);
         
-        writer.write(stringWriter.toString());        
+        writer.write(stringWriter.toString());    
     }
 
     /**
@@ -546,7 +546,6 @@ public class GpxWriter
                 attr = doc.createAttribute("lon");
                 attr.setValue(String.format("%.7f", longitude));
                 pointElement.setAttributeNode(attr);
-
                 trackPoints++;
             }
         }
@@ -620,8 +619,6 @@ public class GpxWriter
             element    = doc.createElement("ele");
             element.appendChild(doc.createTextNode(String.valueOf(point.getElevation1())));
             pointElement.appendChild(element);
-
-
             wayPoints++;
         }
 
