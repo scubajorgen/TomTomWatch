@@ -5,12 +5,12 @@
  */
 package net.studioblueplanet.tomtomwatch;
 
-
-
 import hirondelle.date4j.DateTime;
 
 import java.awt.Font;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.net.Authenticator;
 import java.net.PasswordAuthentication;
 import java.util.ArrayList;
@@ -1428,8 +1428,17 @@ public class TomTomWatchView extends javax.swing.JFrame
 
             if (fileName!=null)
             {
-                writer=GpxWriter.getInstance();
-                writer.writeTrackToFile(fileName, activity, appName);                
+                try
+                {
+                    writer=GpxWriter.getInstance();
+                    DebugLogger.info("Writing file to "+fileName);
+                    FileWriter fileWriter=new FileWriter(new File(fileName));
+                    writer.writeTrackToFile(fileWriter, activity, appName); 
+                }
+                catch(IOException e)
+                {
+                    DebugLogger.error("Unable to create file: "+e.getMessage());
+                }
             }
         }
         else

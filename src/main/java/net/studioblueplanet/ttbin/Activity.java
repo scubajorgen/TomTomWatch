@@ -80,6 +80,8 @@ public class Activity
     
     private                 float                       trackSmoothingQFactor;
     private                 boolean                     isSmoothed;
+    private                 boolean                     isCompressed;
+    private                 double                      compressionMaxError;
     
     private                 ArrayList<Elevation>        elevations;
     
@@ -115,6 +117,8 @@ public class Activity
         
         this.isSmoothed             =false;
         this.trackSmoothingQFactor  =0.0f;
+        this.isCompressed          =false;
+        this.compressionMaxError    =0.0;
         
         this.waypointPauseTimeout=ConfigSettings.getInstance().getIntValue("waypointLogTimeout");    
     }
@@ -1371,19 +1375,6 @@ public class Activity
     }
     
     /**
-     * This method resets the smoothing
-     */
-    public void resetSmoothing()
-    {
-        TrackSmoother              smoother;
-        
-        smoother=TrackSmoother.getInstance();
-        smoother.resetSmoothing(segments);
-        isSmoothed=false;
-        this.trackSmoothingQFactor=0.0f;
-    }
-    
-    /**
      * Returns whether the track has been smoothed
      * @return True if smoothed, false if not.
      */
@@ -1454,5 +1445,25 @@ public class Activity
         {
             it.next().compress(maxError);
         }
+        this.isCompressed=true;
+        this.compressionMaxError=maxError;
+    }
+    
+    /**
+     * Returns whether this track has been smoothed
+     * @return True if compressed, false if not
+     */
+    public boolean isCompressed()
+    {
+        return this.isCompressed;
+    }
+    
+    /**
+     * Returns the maximum allowed error used for compression 
+     * @return The maximum allowed error in m.
+     */
+    public double getCompressionMaxError()
+    {
+        return this.compressionMaxError;
     }
 }

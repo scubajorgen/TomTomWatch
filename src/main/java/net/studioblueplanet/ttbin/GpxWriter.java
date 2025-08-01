@@ -8,7 +8,9 @@ package net.studioblueplanet.ttbin;
 import net.studioblueplanet.logger.DebugLogger;
 import net.studioblueplanet.settings.ConfigSettings;
 
-import java.io.File;
+import java.io.IOException;
+import java.io.Writer;
+import java.io.StringWriter;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -30,6 +32,7 @@ import java.util.Iterator;
 import hirondelle.date4j.DateTime;
 
 
+
 /**
  * This class writes tracks and waypoints to GPX file.
  * The major difference between GPX 1.0 and GPX 1.1 is the &lt;extensions&gt; element.
@@ -45,8 +48,8 @@ public class GpxWriter
     private int                 trackPoints;
     private int                 wayPoints;
     private String              gpxVersion;
-    private final boolean       ugotmeGpxExtensions;
-    private final boolean       garminGpxExtensions;
+    private static boolean      ugotmeGpxExtensions;
+    private static boolean      garminGpxExtensions;
     private Document            doc;
     private Element             gpxElement;
 
@@ -55,17 +58,25 @@ public class GpxWriter
      */
     private GpxWriter()
     {
-        ConfigSettings  settings;
-        
         gpxVersion      ="1.1";
-        settings=ConfigSettings.getInstance();
-        
-        this.ugotmeGpxExtensions=settings.getBooleanValue("ugotmeGpxExtensions");
-        this.garminGpxExtensions=settings.getBooleanValue("garminGpxExtensions");
     }
 
     /**
-     * This method returns the one and only instance of this singleton class
+     * Overrules the extensions to GPX as defined in settings.
+     * Not thread safe!
+     * @param garmin Garmin extensions
+     * @param ugotme uGotme extensions
+     */
+    public void setGpxExtensions(boolean garmin, boolean ugotme)
+    {
+        ugotmeGpxExtensions=ugotme;
+        garminGpxExtensions=garmin;
+    }
+    
+    /**
+     * This method returns the one and only instance of this singleton class.
+     * It always delivers the instance with the extensions set to the values
+     * defined in the settings file
      * @return The instance
      */
     public static GpxWriter getInstance()
@@ -74,6 +85,9 @@ public class GpxWriter
         {
             theInstance=new GpxWriter();
         }
+        ConfigSettings settings=ConfigSettings.getInstance();
+        ugotmeGpxExtensions=settings.getBooleanValue("ugotmeGpxExtensions");
+        garminGpxExtensions=settings.getBooleanValue("garminGpxExtensions");
         return theInstance;
     }
 
@@ -249,7 +263,7 @@ public class GpxWriter
      * @param fileName Name of the file
      * @throws javax.xml.transform.TransformerException
      */
-    void writeGpxDocument(String fileName) throws TransformerException
+    void writeGpxDocument(Writer writer) throws TransformerException, IOException
     {
         // write the content into xml file
         TransformerFactory transformerFactory = TransformerFactory.newInstance();
@@ -258,11 +272,13 @@ public class GpxWriter
         Transformer transformer = transformerFactory.newTransformer();
         transformer.setOutputProperty(OutputKeys.INDENT, "yes");
         transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
-
+        
         DOMSource source = new DOMSource(doc);
-        StreamResult result = new StreamResult(new File(fileName));
-
+        StringWriter stringWriter=new StringWriter();
+        StreamResult result = new StreamResult(stringWriter);
         transformer.transform(source, result);
+        
+        writer.write(stringWriter.toString());        
     }
 
     /**
@@ -805,6 +821,9 @@ public class GpxWriter
 
         
         isSmoothed          =track.isSmoothed();
+        element    = doc.createElement("u-gotMe:smoothing");
+        element.appendChild(doc.createTextNode(String.valueOf(isSmoothed)));
+        uGotmeExtensionsElement.appendChild(element);
         if (isSmoothed)
         {
             trackSmoothing      =track.getTrackSmoothingQFactor();
@@ -813,6 +832,23 @@ public class GpxWriter
             uGotmeExtensionsElement.appendChild(element);
         }
 
+        boolean isCompressed          =track.isCompressed();
+        element    = doc.createElement("u-gotMe:compression");
+        element.appendChild(doc.createTextNode(String.valueOf(isCompressed)));
+        uGotmeExtensionsElement.appendChild(element);
+        if (isCompressed)
+        {
+            double compressionError   =track.getCompressionMaxError();
+            element    = doc.createElement("u-gotMe:compressionMaxErr");
+            element.appendChild(doc.createTextNode(String.valueOf(compressionError)));
+            uGotmeExtensionsElement.appendChild(element);
+        }                
+
+        int cycles=track.getCycles();
+        element    = doc.createElement("u-gotMe:totalCycles");
+        element.appendChild(doc.createTextNode(String.valueOf(cycles)));
+        uGotmeExtensionsElement.appendChild(element);
+        
         routeName           =track.getRouteName();
         if (!routeName.equals(""))
         {
@@ -827,11 +863,11 @@ public class GpxWriter
      * ************************************************************************/
     /**
      * Write the track to a GPX file
-     * @param fileName Name of the file to write to
+     * @param writer Writer to use for writing; usually a FileWriter
      * @param track Track to write to the GPX file
      * @param appName Application description
      */
-    public void writeTrackToFile(String fileName, Activity track, String appName)
+    public void writeTrackToFile(Writer writer, Activity track, String appName)
     {
         wayPoints=0;
         trackPoints=0;
@@ -844,20 +880,24 @@ public class GpxWriter
             addTrack(doc, gpxElement, track, appName);
 
             // write the content into xml file
-            writeGpxDocument(fileName);
+            writeGpxDocument(writer);
 
-            DebugLogger.info("GpxWriter says: 'File saved to " + fileName + "!'");
+            DebugLogger.info("GpxWriter says: 'File saved!'");
             DebugLogger.info("Track: "+track.getActivityDescription()+", track points: "+trackPoints+
                              ", wayPoints: "+wayPoints);
 
         }
-        catch (ParserConfigurationException pce)
+        catch (ParserConfigurationException e)
         {
-            pce.printStackTrace();
+            DebugLogger.error("ParserConfigurationException while writing file: "+e.getMessage());
         }
-        catch (TransformerException tfe)
+        catch (TransformerException e)
         {
-            tfe.printStackTrace();
+            DebugLogger.error("TransformerException while writing file: "+e.getMessage());
+        }
+        catch (IOException e)
+        {
+            DebugLogger.error("IOException while writing file: "+e.getMessage());
         }
 
     }
