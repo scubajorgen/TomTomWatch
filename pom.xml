@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>net.studioblueplanet</groupId>
     <artifactId>TomTomWatch</artifactId>
-    <version>1.13</version>
+    <version>1.14</version>
     <packaging>jar</packaging>
     <dependencies>
         <!-- https://mvnrepository.com/artifact/javax.xml.bind/jaxb-api -->
