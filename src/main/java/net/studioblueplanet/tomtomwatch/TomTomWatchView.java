@@ -5,8 +5,25 @@
  */
 package net.studioblueplanet.tomtomwatch;
 
+import hirondelle.date4j.DateTime;
 
+import java.awt.Font;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.net.Authenticator;
+import java.net.PasswordAuthentication;
+import java.util.ArrayList;
+import java.util.Iterator;
+import javax.swing.BoxLayout;
+import javax.swing.SwingUtilities;
+import javax.swing.DefaultListModel;
+import javax.swing.ListSelectionModel;
+import javax.swing.JOptionPane;
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import net.studioblueplanet.generics.GitBuildInfo;
+import net.studioblueplanet.generics.ToolBox;
 import net.studioblueplanet.usb.UsbFile;
 import net.studioblueplanet.ttbin.TomTomReader;
 import net.studioblueplanet.ttbin.Activity;
@@ -14,23 +31,6 @@ import net.studioblueplanet.ttbin.TtbinFileDefinition;
 import net.studioblueplanet.ttbin.GpxWriter;
 import net.studioblueplanet.logger.DebugLogger;
 import net.studioblueplanet.settings.ConfigSettings;
-
-import hirondelle.date4j.DateTime;
-import java.io.File;
-
-import java.awt.Font;
-import javax.swing.BoxLayout;
-import javax.swing.SwingUtilities;
-import javax.swing.DefaultListModel;
-import javax.swing.ListSelectionModel;
-import javax.swing.JOptionPane;
-
-import java.util.ArrayList;
-import java.util.Iterator;
-
-
-import javax.swing.JFileChooser;
-import javax.swing.filechooser.FileNameExtensionFilter;
 import net.studioblueplanet.usb.WatchInterface;
 import org.jdesktop.application.ResourceMap;
 
@@ -56,8 +56,8 @@ public class TomTomWatchView extends javax.swing.JFrame
     
     private TomTomWatchAbout                    aboutBox;
     
-    private float                               trackSmoothingQFactor;
-    private double                              trackCompressionMaxError;
+    private final float                         trackSmoothingQFactor;
+    private final double                        trackCompressionMaxError;
    
     /**
      * Constructor. Creates new form TomTomWatchView
@@ -74,10 +74,21 @@ public class TomTomWatchView extends javax.swing.JFrame
         
         // Get the application settings
         settings = ConfigSettings.getInstance();
+        
+        // Disable TLS certificate validation
+        if (settings.getBooleanValue("tlsCerficateCheckDisable"))
+        {
+            ToolBox.disableCertificateValidation();
+        }
 
         // Set the DebugLogger log level
         DebugLogger.setDebugLevel(settings.getStringValue("debugLevel"));
 
+        if (settings.getBooleanValue("proxyEnable"))
+        {
+            setProxy();
+        }
+        
         // Initialize the widgents and components
         initComponents();
         
@@ -144,6 +155,44 @@ public class TomTomWatchView extends javax.swing.JFrame
         this.jCheckBoxDownloadMostRecent.setSelected(!settings.getBooleanValue("downloadAll"));
     }
     
+    /**
+     * Set a generic proxy for http and https calls
+     */
+    private void setProxy() 
+    {
+        // HTTP/HTTPS Proxy
+        String proxyHost    =settings.getStringValue("proxyHost");
+        String proxyPort    =Integer.toString(settings.getIntValue("proxyPort"));
+        String proxyUser    =settings.getStringValue("proxyUser").trim();
+        String proxyPassword=settings.getStringValue("proxyPassword").trim();
+        
+        DebugLogger.info("Setting proxy to: "+proxyHost+":"+proxyPort);
+        System.setProperty("http.proxyHost", proxyHost);
+        System.setProperty("http.proxyPort", proxyPort);
+        System.setProperty("https.proxyHost", proxyHost);
+        System.setProperty("https.proxyPort", proxyPort);
+
+        if (proxyUser!=null && !proxyUser.equals("")) 
+        {
+            DebugLogger.info("Setting proxy authentication for user "+proxyUser);
+            System.setProperty("http.proxyUser", proxyUser);
+            System.setProperty("http.proxyPassword", proxyPassword);
+            System.setProperty("https.proxyUser", proxyUser);
+            System.setProperty("https.proxyPassword", proxyPassword);
+            System.setProperty("jdk.http.auth.tunneling.disabledSchemes", "");            
+            Authenticator.setDefault(new Authenticator() 
+                                         {
+                                            @Override
+                                            public PasswordAuthentication getPasswordAuthentication() 
+                                            {
+                                                return new PasswordAuthentication(proxyUser, proxyPassword.toCharArray());
+                                            }
+                                         }
+                                     );
+        }
+    }    
+    
+   
     /**
      * This method redefines the fonts on the UI. It replaces the fonts by
      * fonts incorporated in the application.
@@ -1379,8 +1428,18 @@ public class TomTomWatchView extends javax.swing.JFrame
 
             if (fileName!=null)
             {
-                writer=GpxWriter.getInstance();
-                writer.writeTrackToFile(fileName, activity, appName);                
+                try
+                {
+                    writer=GpxWriter.getInstance();
+                    DebugLogger.info("Writing file to "+fileName);
+                    FileWriter fileWriter=new FileWriter(new File(fileName));
+                    writer.writeTrackToFile(fileWriter, activity, appName); 
+                    fileWriter.close();
+                }
+                catch(IOException e)
+                {
+                    DebugLogger.error("Unable to create file: "+e.getMessage());
+                }
             }
         }
         else

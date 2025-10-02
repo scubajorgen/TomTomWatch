@@ -383,8 +383,6 @@ public class Tracker
     {
         DateTime                        lastDateTime;
         TrackedDataRecord               hourlyRecord;
-        TrackedDataRecord               record;
-        Iterator<TrackedDataRecord>     it;
         int                             lastSleepMode;
         Sleep                           sleep;
         int                             previousFitnessPoints;
@@ -397,14 +395,8 @@ public class Tracker
         previousFitnessPoints   =-1;
         currentFitnessPoints    =0;
         
-        it=trackedData.iterator();
-        
-        while (it.hasNext())
+        for (TrackedDataRecord record: trackedData)
         {
-            record=it.next();
-            
-
-
             // End condition of sleep period
             // Sometimes following occurs: ...33344444333... (one sleep period immediately followed by another)
             // In that case end the first, start the next. Therefore, first check the end condition.
@@ -422,7 +414,7 @@ public class Tracker
             }
             
             // Sleeping
-            if ((record.sleepMode==SLEEPMODE_SLEEP) || (record.sleepMode==SLEEPMODE_FIRSTSLEEP))
+            if (((record.sleepMode==SLEEPMODE_SLEEP) || (record.sleepMode==SLEEPMODE_FIRSTSLEEP)) && sleep!=null)
             {
                 // Add the sleep seconds to the sleeping period
                 sleep.duration+=record.sleep;
@@ -462,7 +454,6 @@ public class Tracker
                 hourlyRecord.add(record);
             }
         }
-        
     }
     
     /**

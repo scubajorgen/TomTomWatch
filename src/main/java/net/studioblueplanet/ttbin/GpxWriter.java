@@ -8,7 +8,9 @@ package net.studioblueplanet.ttbin;
 import net.studioblueplanet.logger.DebugLogger;
 import net.studioblueplanet.settings.ConfigSettings;
 
-import java.io.File;
+import java.io.IOException;
+import java.io.Writer;
+import java.io.StringWriter;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -30,6 +32,7 @@ import java.util.Iterator;
 import hirondelle.date4j.DateTime;
 
 
+
 /**
  * This class writes tracks and waypoints to GPX file.
  * The major difference between GPX 1.0 and GPX 1.1 is the &lt;extensions&gt; element.
@@ -45,8 +48,8 @@ public class GpxWriter
     private int                 trackPoints;
     private int                 wayPoints;
     private String              gpxVersion;
-    private final boolean       ugotmeGpxExtensions;
-    private final boolean       garminGpxExtensions;
+    private static boolean      ugotmeGpxExtensions;
+    private static boolean      garminGpxExtensions;
     private Document            doc;
     private Element             gpxElement;
 
@@ -55,17 +58,25 @@ public class GpxWriter
      */
     private GpxWriter()
     {
-        ConfigSettings  settings;
-        
         gpxVersion      ="1.1";
-        settings=ConfigSettings.getInstance();
-        
-        this.ugotmeGpxExtensions=settings.getBooleanValue("ugotmeGpxExtensions");
-        this.garminGpxExtensions=settings.getBooleanValue("garminGpxExtensions");
     }
 
     /**
-     * This method returns the one and only instance of this singleton class
+     * Overrules the extensions to GPX as defined in settings.
+     * Not thread safe!
+     * @param garmin Garmin extensions
+     * @param ugotme uGotme extensions
+     */
+    public void setGpxExtensions(boolean garmin, boolean ugotme)
+    {
+        ugotmeGpxExtensions=ugotme;
+        garminGpxExtensions=garmin;
+    }
+    
+    /**
+     * This method returns the one and only instance of this singleton class.
+     * It always delivers the instance with the extensions set to the values
+     * defined in the settings file
      * @return The instance
      */
     public static GpxWriter getInstance()
@@ -74,6 +85,9 @@ public class GpxWriter
         {
             theInstance=new GpxWriter();
         }
+        ConfigSettings settings=ConfigSettings.getInstance();
+        ugotmeGpxExtensions=settings.getBooleanValue("ugotmeGpxExtensions");
+        garminGpxExtensions=settings.getBooleanValue("garminGpxExtensions");
         return theInstance;
     }
 
@@ -207,7 +221,7 @@ public class GpxWriter
         if (ugotmeGpxExtensions)
         {
             attr = doc.createAttribute("xmlns:u-gotMe");
-            attr.setValue("http://tracklog.studioblueplanet.net/gpxextensions/v2");
+            attr.setValue("http://tracklog.studioblueplanet.net/gpxextensions/v4");
             gpxElement.setAttributeNode(attr);
         }
         // garmin namespaces
@@ -224,16 +238,20 @@ public class GpxWriter
         // Schema locations
         attr = doc.createAttribute("xsi:schemaLocation");
 
-        schemaLocations="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd";
+        schemaLocations="http://www.topografix.com/GPX/1/1 "+
+                        "https://www.topografix.com/GPX/1/1/gpx.xsd";
         if (ugotmeGpxExtensions)
         {
             
-            schemaLocations+=" http://tracklog.studioblueplanet.net/gpxextensions/v3 http://tracklog.studioblueplanet.net/gpxextensions/v3/ugotme-gpx.xsd";
+            schemaLocations+=" http://tracklog.studioblueplanet.net/gpxextensions/v4 "+
+                             "https://tracklog.studioblueplanet.net/gpxextensions/v4/gpxextensions.xsd";
         }
         if (garminGpxExtensions)
         {
-            schemaLocations+=" http://www.garmin.com/xmlschemas/GpxExtensions/v3 http://www.garmin.com/xmlschemas/GpxExtensionsv3.xsd"+ 
-                             " http://www.garmin.com/xmlschemas/TrackPointExtension/v1 http://www.garmin.com/xmlschemas/TrackPointExtensionv1.xsd";
+            schemaLocations+=" http://www.garmin.com/xmlschemas/GpxExtensions/v3 "+
+                             "https://www.garmin.com/xmlschemas/GpxExtensionsv3.xsd"+ 
+                             " http://www.garmin.com/xmlschemas/TrackPointExtension/v1 "+
+                             "http://www.garmin.com/xmlschemas/TrackPointExtensionv1.xsd";
         }
         attr.setValue(schemaLocations);
         gpxElement.setAttributeNode(attr);
@@ -245,7 +263,7 @@ public class GpxWriter
      * @param fileName Name of the file
      * @throws javax.xml.transform.TransformerException
      */
-    void writeGpxDocument(String fileName) throws TransformerException
+    void writeGpxDocument(Writer writer) throws TransformerException, IOException
     {
         // write the content into xml file
         TransformerFactory transformerFactory = TransformerFactory.newInstance();
@@ -254,11 +272,13 @@ public class GpxWriter
         Transformer transformer = transformerFactory.newTransformer();
         transformer.setOutputProperty(OutputKeys.INDENT, "yes");
         transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
-
+        
         DOMSource source = new DOMSource(doc);
-        StreamResult result = new StreamResult(new File(fileName));
-
+        StringWriter stringWriter=new StringWriter();
+        StreamResult result = new StreamResult(stringWriter);
         transformer.transform(source, result);
+        
+        writer.write(stringWriter.toString());    
     }
 
     /**
@@ -356,6 +376,7 @@ public class GpxWriter
         Element                     pointElement;
         Element                     element;
         Element                     extensionsElement;
+        Element                     uGotmeExtensionsElement;
         Element                     gpxtpxElement;
         Attr                        attr;
         DateTime                    dateTime;
@@ -434,7 +455,7 @@ public class GpxWriter
                 
                 if (garminGpxExtensions || ugotmeGpxExtensions)
                 {
-                    extensionsElement    = doc.createElement("extensions");
+                    extensionsElement       = doc.createElement("extensions");
                     pointElement.appendChild(extensionsElement);
                 
                     // GPXTPX Extension: heartrate (for Strava compatibility)
@@ -451,24 +472,27 @@ public class GpxWriter
                         }
                     }
 
+                    // u-gotMe Extensions
                     if (ugotmeGpxExtensions)
                     {
+                        uGotmeExtensionsElement = doc.createElement("u-gotMe:trackpointExtension");
+                        extensionsElement.appendChild(uGotmeExtensionsElement);
                         // Extensions: speed
                         element    = doc.createElement("u-gotMe:speed");
                         element.appendChild(doc.createTextNode(String.format("%.2f", speed)));
-                        extensionsElement.appendChild(element);
+                        uGotmeExtensionsElement.appendChild(element);
 
                         // Extensions: course
                         element    = doc.createElement("u-gotMe:course");
                         element.appendChild(doc.createTextNode(String.format("%.2f", heading)));
-                        extensionsElement.appendChild(element);
+                        uGotmeExtensionsElement.appendChild(element);
 
                         // Extensions: temperature
                         if (temperature!=ActivityRecord.INVALID)
                         {
                             element    = doc.createElement("u-gotMe:temp");
                             element.appendChild(doc.createTextNode(String.valueOf(temperature)));
-                            extensionsElement.appendChild(element);
+                            uGotmeExtensionsElement.appendChild(element);
                         }
 
                         // Extension: heartrate
@@ -476,7 +500,7 @@ public class GpxWriter
                         {
                             element    = doc.createElement("u-gotMe:hr");
                             element.appendChild(doc.createTextNode(String.valueOf(heartRate)));
-                            extensionsElement.appendChild(element);
+                            uGotmeExtensionsElement.appendChild(element);
                         }
 
                         // Extension: ehpe
@@ -484,7 +508,7 @@ public class GpxWriter
                         {
                             element    = doc.createElement("u-gotMe:ehpe");
                             element.appendChild(doc.createTextNode(String.valueOf(ehpe)));
-                            extensionsElement.appendChild(element);
+                            uGotmeExtensionsElement.appendChild(element);
                         }
 
                         // Extension: evpe
@@ -492,23 +516,23 @@ public class GpxWriter
                         {
                             element    = doc.createElement("u-gotMe:evpe");
                             element.appendChild(doc.createTextNode(String.valueOf(evpe)));
-                            extensionsElement.appendChild(element);
+                            uGotmeExtensionsElement.appendChild(element);
                         }
 
                         // Extension: ascend
                         if (ascend!=ActivityRecord.INVALID)
                         {
-                            element    = doc.createElement("u-gotMe:ascend");
+                            element    = doc.createElement("u-gotMe:asc");
                             element.appendChild(doc.createTextNode(String.format("%.1f", ascend)));
-                            extensionsElement.appendChild(element);
+                            uGotmeExtensionsElement.appendChild(element);
                         }
 
                         // Extension: descend
                         if (descend!=ActivityRecord.INVALID)
                         {
-                            element    = doc.createElement("u-gotMe:descend");
+                            element    = doc.createElement("u-gotMe:desc");
                             element.appendChild(doc.createTextNode(String.format("%.1f", descend)));
-                            extensionsElement.appendChild(element);
+                            uGotmeExtensionsElement.appendChild(element);
                         }
                     }
                 }
@@ -522,7 +546,6 @@ public class GpxWriter
                 attr = doc.createAttribute("lon");
                 attr.setValue(String.format("%.7f", longitude));
                 pointElement.setAttributeNode(attr);
-
                 trackPoints++;
             }
         }
@@ -596,8 +619,6 @@ public class GpxWriter
             element    = doc.createElement("ele");
             element.appendChild(doc.createTextNode(String.valueOf(point.getElevation1())));
             pointElement.appendChild(element);
-
-
             wayPoints++;
         }
 
@@ -699,6 +720,7 @@ public class GpxWriter
         int             heartRateRecovery;
         int             heartRateRecoveryScore;
         Element         extensionsElement;
+        Element         uGotmeExtensionsElement;
         Element         element;
 
         // Extensions
@@ -709,14 +731,15 @@ public class GpxWriter
         {
             extensionsElement       = doc.createElement("extensions");
             segmentElement.appendChild(extensionsElement);
-
-
+            uGotmeExtensionsElement = doc.createElement("u-gotMe:tracksegmentExtension");
+            extensionsElement.appendChild(uGotmeExtensionsElement);
+            
             // Extensions: hr Recovery
             if (heartRateRecovery!=ActivitySegment.HRRECOVERY_UNDEFINED)
             {
                 element    = doc.createElement("u-gotMe:hrRecovery");
                 element.appendChild(doc.createTextNode(String.valueOf(heartRateRecovery)));
-                extensionsElement.appendChild(element);
+                uGotmeExtensionsElement.appendChild(element);
             }
 
             // Extensions: hr Recovery score
@@ -724,7 +747,7 @@ public class GpxWriter
             {
                 element    = doc.createElement("u-gotMe:hrRecoveryScore");
                 element.appendChild(doc.createTextNode(String.valueOf(heartRateRecoveryScore)));
-                extensionsElement.appendChild(element);
+                uGotmeExtensionsElement.appendChild(element);
             }
         }        
     }
@@ -743,18 +766,21 @@ public class GpxWriter
         boolean isSmoothed;
         String  routeName;
         Element extensionsElement;
+        Element uGotmeExtensionsElement;
         Element element;
         
         extensionsElement       = doc.createElement("extensions");
         trackElement.appendChild(extensionsElement);
+        uGotmeExtensionsElement       = doc.createElement("u-gotMe:trackExtension");
+        extensionsElement.appendChild(uGotmeExtensionsElement);
 
         element    = doc.createElement("u-gotMe:device");
         element.appendChild(doc.createTextNode(track.getDeviceName()));
-        extensionsElement.appendChild(element);
+        uGotmeExtensionsElement.appendChild(element);
 
         element    = doc.createElement("u-gotMe:activity");
         element.appendChild(doc.createTextNode(track.getActivityDescription()));
-        extensionsElement.appendChild(element);
+        uGotmeExtensionsElement.appendChild(element);
 
         // Extensions: fitnesspoints
         fitnessPoints       =track.getFitnessPoints();
@@ -762,18 +788,18 @@ public class GpxWriter
         {
             element    = doc.createElement("u-gotMe:tomtomFitnessPoints");
             element.appendChild(doc.createTextNode(String.valueOf(fitnessPoints)));
-            extensionsElement.appendChild(element);
+            uGotmeExtensionsElement.appendChild(element);
         }
 
         if ("Running".equals(track.getActivityDescription()))
         {
             element    = doc.createElement("u-gotMe:steps");
             element.appendChild(doc.createTextNode(String.valueOf(track.getCycles())));
-            extensionsElement.appendChild(element);            
+            uGotmeExtensionsElement.appendChild(element);            
 
             element    = doc.createElement("u-gotMe:pace_permin");
             element.appendChild(doc.createTextNode(String.valueOf(track.getPace())));
-            extensionsElement.appendChild(element);            
+            uGotmeExtensionsElement.appendChild(element);            
         }
         
         // Extensions: workout
@@ -783,29 +809,49 @@ public class GpxWriter
             workoutDescription  =track.getWorkoutDescription();
             element             = doc.createElement("u-gotMe:tomtomWorkout");
             element.appendChild(doc.createTextNode(workout));
-            extensionsElement.appendChild(element);            
+            uGotmeExtensionsElement.appendChild(element);            
             element             = doc.createElement("u-gotMe:tomtomWorkoutDescription");
             element.appendChild(doc.createTextNode(workoutDescription));
-            extensionsElement.appendChild(element);
+            uGotmeExtensionsElement.appendChild(element);
             // TO DO: add workout steps if it is implemented right
         }
 
         
         isSmoothed          =track.isSmoothed();
+        element    = doc.createElement("u-gotMe:smoothing");
+        element.appendChild(doc.createTextNode(String.valueOf(isSmoothed)));
+        uGotmeExtensionsElement.appendChild(element);
         if (isSmoothed)
         {
             trackSmoothing      =track.getTrackSmoothingQFactor();
             element    = doc.createElement("u-gotMe:smoothingFactor");
             element.appendChild(doc.createTextNode(String.valueOf(trackSmoothing)));
-            extensionsElement.appendChild(element);
+            uGotmeExtensionsElement.appendChild(element);
         }
 
+        boolean isCompressed          =track.isCompressed();
+        element    = doc.createElement("u-gotMe:compression");
+        element.appendChild(doc.createTextNode(String.valueOf(isCompressed)));
+        uGotmeExtensionsElement.appendChild(element);
+        if (isCompressed)
+        {
+            double compressionError   =track.getCompressionMaxError();
+            element    = doc.createElement("u-gotMe:compressionMaxErr");
+            element.appendChild(doc.createTextNode(String.valueOf(compressionError)));
+            uGotmeExtensionsElement.appendChild(element);
+        }                
+
+        int cycles=track.getCycles();
+        element    = doc.createElement("u-gotMe:totalCycles");
+        element.appendChild(doc.createTextNode(String.valueOf(cycles)));
+        uGotmeExtensionsElement.appendChild(element);
+        
         routeName           =track.getRouteName();
         if (!routeName.equals(""))
         {
             element    = doc.createElement("u-gotMe:routeName");
             element.appendChild(doc.createTextNode(routeName));
-            extensionsElement.appendChild(element);
+            uGotmeExtensionsElement.appendChild(element);
         }
     }
 
@@ -814,11 +860,11 @@ public class GpxWriter
      * ************************************************************************/
     /**
      * Write the track to a GPX file
-     * @param fileName Name of the file to write to
+     * @param writer Writer to use for writing; usually a FileWriter
      * @param track Track to write to the GPX file
      * @param appName Application description
      */
-    public void writeTrackToFile(String fileName, Activity track, String appName)
+    public void writeTrackToFile(Writer writer, Activity track, String appName)
     {
         wayPoints=0;
         trackPoints=0;
@@ -831,20 +877,24 @@ public class GpxWriter
             addTrack(doc, gpxElement, track, appName);
 
             // write the content into xml file
-            writeGpxDocument(fileName);
+            writeGpxDocument(writer);
 
-            DebugLogger.info("GpxWriter says: 'File saved to " + fileName + "!'");
+            DebugLogger.info("GpxWriter says: 'File saved!'");
             DebugLogger.info("Track: "+track.getActivityDescription()+", track points: "+trackPoints+
                              ", wayPoints: "+wayPoints);
 
         }
-        catch (ParserConfigurationException pce)
+        catch (ParserConfigurationException e)
         {
-            pce.printStackTrace();
+            DebugLogger.error("ParserConfigurationException while writing file: "+e.getMessage());
         }
-        catch (TransformerException tfe)
+        catch (TransformerException e)
         {
-            tfe.printStackTrace();
+            DebugLogger.error("TransformerException while writing file: "+e.getMessage());
+        }
+        catch (IOException e)
+        {
+            DebugLogger.error("IOException while writing file: "+e.getMessage());
         }
 
     }

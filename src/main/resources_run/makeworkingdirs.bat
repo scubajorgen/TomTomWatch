@@ -10,4 +10,5 @@ mkdir gpx
 mkdir routes
 mkdir simulation
 mkdir files
+cd ..
 

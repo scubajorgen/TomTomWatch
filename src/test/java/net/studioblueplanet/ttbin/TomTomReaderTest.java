@@ -6,8 +6,6 @@
 package net.studioblueplanet.ttbin;
 
 import net.studioblueplanet.generics.ToolBox;
-
-
 import net.studioblueplanet.usb.UsbFile;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -114,6 +112,7 @@ public class TomTomReaderTest
         float qFactor = 3.21F;
         TomTomReader instance = TomTomReader.getInstance();
         instance.setTrackSmoothing(enabled, qFactor);
+        instance.setTrackCompression(false, 0.0);
         Activity result=instance.readTtbinFile(new UsbFile(0xFFFFFFFF, this.ttbinFileData.length, this.ttbinFileData));
         assertEquals(3.21, result.getTrackSmoothingQFactor(), 0.0001);
         // The disstance is affectuated by the smoothing
@@ -131,9 +130,9 @@ public class TomTomReaderTest
         System.out.println("TEST: readTtbinFile");
         String fileName = "src/test/resources/test.ttbin";
         TomTomReader instance = TomTomReader.getInstance();
-        Activity expResult = null;
+        instance.setTrackSmoothing(false, 0.0f);
+        instance.setTrackCompression(false, 0.0);
         Activity result = instance.readTtbinFile(fileName);
-
         testContentsNonSmoothed(result);
     }
 
@@ -144,11 +143,11 @@ public class TomTomReaderTest
     public void testReadTtbinFile_UsbFile()
     {
         System.out.println("TEST: readTtbinFile");
-        UsbFile file = new UsbFile(0xFFFFFFFF, ttbinFileData.length, ttbinFileData);
-        TomTomReader instance = TomTomReader.getInstance();
-        Activity result = instance.readTtbinFile(file);
-        
+        UsbFile file            = new UsbFile(0xFFFFFFFF, ttbinFileData.length, ttbinFileData);
+        TomTomReader instance   = TomTomReader.getInstance();
+        instance.setTrackSmoothing(false, 0.0f);
+        instance.setTrackCompression(false, 0.0);
+        Activity result         = instance.readTtbinFile(file);
         testContentsNonSmoothed(result);
     }
-    
 }

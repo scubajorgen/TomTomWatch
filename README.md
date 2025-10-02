@@ -11,7 +11,11 @@ I also offers track smoothing, when enabled.
 It contains a lot of features for maintaining the watch, like
 For the more technical users it contains a Debugging menu that offers functions for file manipulation, resetting, rebooting, etc.
 
-The software will be tested primarily on Windows. On request it can be tested on Linux (Centos). Though the USB4Java lib that is being used should support it, the software will *not* be tested on OS-X.
+## Prerequisites
+
+The software will be tested primarily on **Windows**. On request it can be tested on Linux (Centos). Though the USB4Java lib that is being used should support it, the software will *not* be tested on OS-X.
+
+The software requires a HD display size of a least **1920x1080 pixels**. It may not fit on smaller screens.
 
 ## Disclaimer
 **Though I have used the software myself for years and I have tested it thorougly, usage might damage your watch. The software was created without help or specifications of TomTom, so it may contain unforseen issues. This particularly holds for the features under the 'Debugging' menu, which should be regaded as experimental.**
@@ -42,6 +46,14 @@ You need a Java Runtime Environment or JRE to run the .jar file. Version 8 will 
 ### What do I need for building the software?
 You need a Java SDK. Version 8. Download at [java.com](https://www.java.com/download/ie_manual.jsp) or [OpenJDK](https://openjdk.org/).
 For building you need Maven. For developing I use Netbeans SDE. But use any SDE you like...
+
+### Does the softare run under Linux?
+Yes it does, though I mainly test it on Windows.
+On linux the user should have the rights to use the USB port. Also the USB devices should be registered under /etc/udev/rules.d/.
+Refer to [ttwach](https://github.com/ryanbinns/ttwatch) for the steps to take or browse the internet for your distro.
+
+### Does the software run on Apple?
+I've reports it does. I do not support it, since I don't have Apple stuff.
 
 ### When I choose 'Activity summary' I see my tracks, but I cannot download them
 If you cannot download tracks, then there are no **track files** on the watch.

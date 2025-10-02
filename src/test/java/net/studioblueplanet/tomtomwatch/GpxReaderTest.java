@@ -158,7 +158,7 @@ public class GpxReaderTest
     public void testReadRouteFromFile_noFile()
     {
         System.out.println("readRouteFromFile");
-        String fileName = "src/test/resources/test6.gpx";
+        String fileName = "src/test/resources/nonexistent.gpx";
         Route route = new Route();
         GpxReader instance = GpxReader.getInstance();
         boolean expResult = true;
