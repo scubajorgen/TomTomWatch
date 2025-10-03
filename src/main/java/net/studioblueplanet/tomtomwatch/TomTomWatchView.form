@@ -598,7 +598,7 @@
                               </Group>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
-                              <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
+                              <Component id="jLabelExportFile" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="jTextFieldGpxFile" max="32767" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
@@ -638,7 +638,7 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="jButtonSaveGpx" alignment="1" min="-2" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabelExportFile" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jTextFieldGpxFile" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -737,7 +737,7 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonSaveTtbinActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel2">
+        <Component class="javax.swing.JLabel" name="jLabelExportFile">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Lucida Sans" size="14" style="0"/>

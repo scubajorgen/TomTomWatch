@@ -5,7 +5,8 @@
  */
 package net.studioblueplanet.ttbin;
 
-import java.io.File;
+import hirondelle.date4j.DateTime;
+import java.io.Writer;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -25,7 +26,7 @@ import org.w3c.dom.Element;
  *
  * @author jorgen
  */
-public class TcxWriter
+public class TcxWriter implements TrackWriter
 {
     private static TcxWriter    theInstance=null;
     private int                 trackPoints;
@@ -162,7 +163,7 @@ public class TcxWriter
 
         activityElement = doc.createElement("Activity");
         // set obligatory 'Sports' to element
-        attr = doc.createAttribute("Sports");
+        attr = doc.createAttribute("Sport");
         switch(track.getActivityType())
         {
             case TtbinFileDefinition.ACTIVITY_RUNNING:
@@ -189,22 +190,98 @@ public class TcxWriter
             segment=track.getSegment(i);
             lapElement=doc.createElement("Lap");
             activityElement.appendChild(lapElement);
+            DateTime startTime=segment.getStartTime();
+            String startTimeString   =startTime.format("YYYY-MM-DD")+"T"+
+                                     startTime.format("hh:mm:ss")+"Z";
+            lapElement.setAttribute("StartTime", startTimeString);
+
+            Element totalTimeElement=doc.createElement("TotalTimeSeconds");
+            long lapTime=segment.getStartTime().numSecondsFrom(segment.getEndTime());
+            totalTimeElement.appendChild(doc.createTextNode(String.format("%d", lapTime)));
+            lapElement.appendChild(totalTimeElement);
+            
+            Element distanceElement=doc.createElement("DistanceMeters");
+            distanceElement.appendChild(doc.createTextNode(String.format("%.1f", segment.getDistance()*1000)));
+            lapElement.appendChild(distanceElement);
+
+            // For XSD compliancy
+            Element caloriesElement=doc.createElement("Calories");
+            caloriesElement.appendChild(doc.createTextNode(String.format("%d", 0)));
+            lapElement.appendChild(caloriesElement);            
+            Element intensityElement=doc.createElement("Intensity");
+            intensityElement.appendChild(doc.createTextNode("Active"));
+            lapElement.appendChild(intensityElement);            
+            Element triggerElement=doc.createElement("TriggerMethod");
+            triggerElement.appendChild(doc.createTextNode("Manual"));
+            lapElement.appendChild(triggerElement);            
+
             
             Element trackElement=doc.createElement("Track");
             lapElement.appendChild(trackElement);
             
             for(ActivityRecord rec : segment.getRecords())
             {
-                Element pointElement=doc.createElement("Trackpoint");
-                trackElement.appendChild(pointElement);
-                Element positionElement=doc.createElement("Position");
-                pointElement.appendChild(positionElement);
-                element=doc.createElement("LatitudeDegrees");
-                element.appendChild(doc.createTextNode((String.format("%.7f", rec.getLatitude()))));
-                positionElement.appendChild(element);
-                element=doc.createElement("LongitudeDegrees");
-                element.appendChild(doc.createTextNode((String.format("%.7f", rec.getLongitude()))));
-                positionElement.appendChild(element);
+                DateTime dateTime      =rec.getDateTime();
+                double latitude        =rec.getLatitude();
+                double longitude       =rec.getLongitude();
+
+                if ((dateTime!=null) && 
+                        (latitude!=ActivityRecord.INVALID) && (longitude!=ActivityRecord.INVALID) && 
+                        (latitude!=0.0) && (longitude!=0.0))
+                {             
+                    double heading         =rec.getHeading();
+                    double calories        =rec.getCalories();
+                    double ascend          =rec.getCumulativeAscend();
+                    double descend         =rec.getCumulativeDecend();
+                    double distance        =rec.getDistance();
+                    double elevation       =rec.getDerivedElevation();
+                    int    heartRate       =rec.getHeartRate();
+                    int    temperature     =rec.getTemperature();
+                    double speed           =rec.getSpeed();
+
+                    Element pointElement=doc.createElement("Trackpoint");
+                    trackElement.appendChild(pointElement);
+
+                    Element timeElement     = doc.createElement("Time");
+                    String dateTimeString   =dateTime.format("YYYY-MM-DD")+"T"+
+                                             dateTime.format("hh:mm:ss")+"Z";
+                    timeElement.appendChild(doc.createTextNode(dateTimeString));
+                    pointElement.appendChild(timeElement);
+
+                    Element positionElement=doc.createElement("Position");
+                    pointElement.appendChild(positionElement);
+                    element=doc.createElement("LatitudeDegrees");
+                    element.appendChild(doc.createTextNode((String.format("%.7f", latitude))));
+                    positionElement.appendChild(element);
+                    element=doc.createElement("LongitudeDegrees");
+                    element.appendChild(doc.createTextNode((String.format("%.7f", longitude))));
+                    positionElement.appendChild(element);
+                    
+                    // The elevation.
+                    if (elevation!=ActivityRecord.INVALID)
+                    {
+                        element    = doc.createElement("AltitudeMeters");
+                        element.appendChild(doc.createTextNode(String.format("%.1f", elevation)));
+                        pointElement.appendChild(element);
+                    }                    
+                    
+                    // The Heartrate
+                    if ((heartRate!=ActivityRecord.INVALID) && (heartRate>0))
+                    {
+                        Element hrElement    = doc.createElement("HeartRateBpm");
+                        pointElement.appendChild(hrElement);
+                        Element valueElement =doc.createElement("Value");
+                        valueElement.appendChild(doc.createTextNode(String.valueOf(heartRate)));
+                        hrElement.appendChild(valueElement);
+                    }
+
+                    if (distance!=ActivityRecord.INVALID)
+                    {
+                        element    = doc.createElement("DistanceMeters");
+                        element.appendChild(doc.createTextNode(String.format("%.1f", distance)));
+                        pointElement.appendChild(element);
+                    }                    
+                }
             }
 
             i++;
@@ -217,7 +294,7 @@ public class TcxWriter
      * @param fileName Name of the file
      * @throws javax.xml.transform.TransformerException
      */
-    void writeTcxDocument(String fileName) throws TransformerException
+    private void writeTcxDocument(Writer writer) throws TransformerException
     {
         // write the content into xml file
         TransformerFactory transformerFactory = TransformerFactory.newInstance();
@@ -228,7 +305,7 @@ public class TcxWriter
         transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
 
         DOMSource source = new DOMSource(doc);
-        StreamResult result = new StreamResult(new File(fileName));
+        StreamResult result = new StreamResult(writer);
         transformer.transform(source, result);
     }
     
@@ -236,12 +313,12 @@ public class TcxWriter
      * The interface functions
      * ************************************************************************/
     /**
-     * Write the track to a GPX file
-     * @param fileName Name of the file to write to
+     * Write the track to a TCX file
+     * @param writer Writer to use for writing the file
      * @param track Track to write to the GPX file
      * @param appName Application description
      */
-    public void writeTrackToFile(String fileName, Activity track, String appName)
+    public void writeTrackToFile(Writer writer, Activity track, String appName)
     {
         Element     trackElement;
         Element     element;
@@ -260,9 +337,9 @@ public class TcxWriter
             addTrack(doc, tcxElement, track, appName);
 
             // write the content into xml file
-            writeTcxDocument(fileName);
+            writeTcxDocument(writer);
 
-            DebugLogger.info("TcxWriter says: 'File saved to " + fileName + "!'");
+            DebugLogger.info("TcxWriter says: 'File saved!'");
             DebugLogger.info("Track: "+track.getActivityDescription()+", track points: "+trackPoints+
                              ", wayPoints: "+wayPoints);
 

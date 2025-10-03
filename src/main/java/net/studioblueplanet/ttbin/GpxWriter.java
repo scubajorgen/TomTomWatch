@@ -42,7 +42,7 @@ import hirondelle.date4j.DateTime;
  * fields are used in the &lt;extensions&gt; element in the u-gotMe namespace
  * @author Jorgen
  */
-public class GpxWriter
+public class GpxWriter implements TrackWriter
 {
     private static GpxWriter    theInstance=null;
     private int                 trackPoints;

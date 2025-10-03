@@ -29,6 +29,8 @@ import net.studioblueplanet.ttbin.TomTomReader;
 import net.studioblueplanet.ttbin.Activity;
 import net.studioblueplanet.ttbin.TtbinFileDefinition;
 import net.studioblueplanet.ttbin.GpxWriter;
+import net.studioblueplanet.ttbin.TcxWriter;
+import net.studioblueplanet.ttbin.TrackWriter;
 import net.studioblueplanet.logger.DebugLogger;
 import net.studioblueplanet.settings.ConfigSettings;
 import net.studioblueplanet.usb.WatchInterface;
@@ -58,6 +60,8 @@ public class TomTomWatchView extends javax.swing.JFrame
     
     private final float                         trackSmoothingQFactor;
     private final double                        trackCompressionMaxError;
+    
+    private final String                        exportFileExtension;
    
     /**
      * Constructor. Creates new form TomTomWatchView
@@ -66,12 +70,6 @@ public class TomTomWatchView extends javax.swing.JFrame
     @SuppressWarnings("unchecked")
     public TomTomWatchView(CommunicationProcess communicationProcess)
     {
-        DefaultListModel<String>    model;
-        boolean                     trackSmoothing;
-        boolean                     trackCompression;
-        
-        TomTomReader                reader;
-        
         // Get the application settings
         settings = ConfigSettings.getInstance();
         
@@ -93,7 +91,7 @@ public class TomTomWatchView extends javax.swing.JFrame
         initComponents();
         
         // Initialize the listbox
-        model = new DefaultListModel<>();
+        DefaultListModel<String> model = new DefaultListModel<>();
         this.jListActivities.setModel(model);
         this.jListActivities.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
@@ -137,12 +135,12 @@ public class TomTomWatchView extends javax.swing.JFrame
         communicationProcess.startProcess(this);
 
         // Set the track smoothing to the TomTom TTBIN reader
-        trackSmoothing          =settings.getBooleanValue("trackSmoothingEnabled");
+        boolean trackSmoothing  =settings.getBooleanValue("trackSmoothingEnabled");
         trackSmoothingQFactor   =(float)settings.getDoubleValue("trackSmoothingQFactor");
         this.jCheckBoxSmooth.setSelected(trackSmoothing);
         
         // Set the track smoothing to the TomTom TTBIN reader
-        trackCompression        =settings.getBooleanValue("trackCompressionEnabled");
+        boolean trackCompression=settings.getBooleanValue("trackCompressionEnabled");
         trackCompressionMaxError=settings.getDoubleValue("trackCompressionMaxError");
         this.jCheckBoxCompress.setSelected(trackCompression);
         
@@ -153,6 +151,22 @@ public class TomTomWatchView extends javax.swing.JFrame
         }
 
         this.jCheckBoxDownloadMostRecent.setSelected(!settings.getBooleanValue("downloadAll"));
+        
+        if (settings.getStringValue("exportFileFormat").toUpperCase().equals("GPX"))
+        {
+            exportFileExtension="GPX";
+        }
+        else if (settings.getStringValue("exportFileFormat").toUpperCase().equals("TCX"))
+        {
+            exportFileExtension="TCX";
+        }
+        else
+        {
+            DebugLogger.error("Invalid export file format setting, assuming GPX");
+            
+            exportFileExtension="GPX";
+        }
+        jLabelExportFile.setText(exportFileExtension+" file");
     }
     
     /**
@@ -233,7 +247,7 @@ public class TomTomWatchView extends javax.swing.JFrame
         jButtonUploadGps.setFont(proportional12pt);
         jButtonLoadTtbin.setFont(proportional12pt);
         jButtonSaveTtbin.setFont(proportional12pt);
-        jLabel2.setFont(proportional14pt);
+        jLabelExportFile.setFont(proportional14pt);
         jTextFieldGpxFile.setFont(proportional14pt);
         jButtonSaveGpx.setFont(proportional12pt);
         jRadioButtonRunning.setFont(proportional11pt);
@@ -260,7 +274,6 @@ public class TomTomWatchView extends javax.swing.JFrame
         jButtonListRoutes.setFont(proportional12pt);
         
         jTextAreaStatus.setFont(monospace14pt);
-
     }
 
     /**
@@ -303,7 +316,7 @@ public class TomTomWatchView extends javax.swing.JFrame
         jButtonUploadGps = new javax.swing.JButton();
         jButtonLoadTtbin = new javax.swing.JButton();
         jButtonSaveTtbin = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
+        jLabelExportFile = new javax.swing.JLabel();
         jTextFieldGpxFile = new javax.swing.JTextField();
         jButtonSaveGpx = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
@@ -515,8 +528,8 @@ public class TomTomWatchView extends javax.swing.JFrame
             }
         });
 
-        jLabel2.setFont(new java.awt.Font("Lucida Sans", 0, 14)); // NOI18N
-        jLabel2.setText("GPX File");
+        jLabelExportFile.setFont(new java.awt.Font("Lucida Sans", 0, 14)); // NOI18N
+        jLabelExportFile.setText("GPX File");
 
         jTextFieldGpxFile.setFont(new java.awt.Font("Lucida Sans", 0, 14)); // NOI18N
 
@@ -707,7 +720,7 @@ public class TomTomWatchView extends javax.swing.JFrame
                                 .addComponent(jCheckBoxSmooth)
                                 .addComponent(jCheckBoxCompress)))
                         .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
-                            .addComponent(jLabel2)
+                            .addComponent(jLabelExportFile)
                             .addGap(18, 18, 18)
                             .addComponent(jTextFieldGpxFile)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -743,7 +756,7 @@ public class TomTomWatchView extends javax.swing.JFrame
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButtonSaveGpx, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel2)
+                        .addComponent(jLabelExportFile)
                         .addComponent(jTextFieldGpxFile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
@@ -1298,14 +1311,11 @@ public class TomTomWatchView extends javax.swing.JFrame
 
     private void jButtonDownloadActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButtonDownloadActionPerformed
     {//GEN-HEADEREND:event_jButtonDownloadActionPerformed
-        boolean trackSmoothingEnabled;
-        boolean trackCompressionEnabled;
-        
         // Set the tracksmoothing
-        trackSmoothingEnabled=this.jCheckBoxSmooth.isSelected();
+        boolean trackSmoothingEnabled=this.jCheckBoxSmooth.isSelected();
         communicationProcess.setTrackSmoothing(trackSmoothingEnabled, trackSmoothingQFactor);
         // Set the track compression
-        trackCompressionEnabled=this.jCheckBoxCompress.isSelected();
+        boolean trackCompressionEnabled=this.jCheckBoxCompress.isSelected();
         communicationProcess.setTrackCompression(trackCompressionEnabled, trackCompressionMaxError);
         
         // Do the download
@@ -1370,12 +1380,10 @@ public class TomTomWatchView extends javax.swing.JFrame
 
     private void jButtonEraseActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButtonEraseActionPerformed
     {//GEN-HEADEREND:event_jButtonEraseActionPerformed
-        int response;
-        
         if (communicationProcess.isConnected())
         {
-            response = JOptionPane.showConfirmDialog(null, "Do you want to erase TTBIN files from the watch?", "Confirm",
-                                                     JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+            int response = JOptionPane.showConfirmDialog(null, "Do you want to erase TTBIN files from the watch?", "Confirm",
+                                                         JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
             if (response == JOptionPane.YES_OPTION) 
             {
                 // Signal the thread to erase the files
@@ -1400,37 +1408,35 @@ public class TomTomWatchView extends javax.swing.JFrame
 
     private void jButtonSaveGpxActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButtonSaveGpxActionPerformed
     {//GEN-HEADEREND:event_jButtonSaveGpxActionPerformed
-        int                         index;
-        ActivityData                data;
-        Activity                    activity;
-        GpxWriter                   writer;
-        String                      fileName;
-        String                      path;
-        String                      appName;
-        String                      appVersion;
-        GitBuildInfo                build;
-
-        build=GitBuildInfo.getInstance();
-        appName="TomTomWatch "+build.getGitCommitDescription()+" ("+build.getBuildTime()+")";
+        GitBuildInfo build      =GitBuildInfo.getInstance();
+        String appName          ="TomTomWatch "+build.getGitCommitDescription()+" ("+build.getBuildTime()+")";
         
-        index = this.jListActivities.getSelectedIndex();
+        int index               = this.jListActivities.getSelectedIndex();
         
-        data=communicationProcess.getActivityData(index);
+        ActivityData data       =communicationProcess.getActivityData(index);
         
         if (data!=null)
         {
-            activity=data.activity;
+            Activity activity   =data.activity;
             
-            fileName=this.jTextFieldGpxFile.getText();
-            path    =settings.getStringValue("gpxFilePath");
+            String fileName     =this.jTextFieldGpxFile.getText();
+            String path         =settings.getStringValue("gpxFilePath");
             
-            fileName=this.fileChooser(fileName, path, "Save", "GPX files (*.gpx)", "gpx");
+            fileName=this.fileChooser(fileName, path, "Save", exportFileExtension+" files (*."+exportFileExtension.toLowerCase()+")", exportFileExtension.toLowerCase());
 
             if (fileName!=null)
             {
                 try
                 {
-                    writer=GpxWriter.getInstance();
+                    TrackWriter writer;
+                    if (exportFileExtension.equals("TCX"))
+                    {
+                        writer=TcxWriter.getInstance();
+                    }
+                    else
+                    {
+                        writer=GpxWriter.getInstance();
+                    }
                     DebugLogger.info("Writing file to "+fileName);
                     FileWriter fileWriter=new FileWriter(new File(fileName));
                     writer.writeTrackToFile(fileWriter, activity, appName); 
@@ -1455,34 +1461,23 @@ public class TomTomWatchView extends javax.swing.JFrame
     @SuppressWarnings("unchecked")
     private void jButtonSaveTtbinActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButtonSaveTtbinActionPerformed
     {//GEN-HEADEREND:event_jButtonSaveTtbinActionPerformed
-        int                         index;
-        ActivityData                data;
-        Activity                    activity;
-        UsbFile                     file;
-        TtbinFileWriter             writer;
-        String                      ttbinPath;
-        String                      description;
-        DefaultListModel<String>    model;
-        String                      fileName;
-        boolean                     fileSaveError;
-        
-        index   = this.jListActivities.getSelectedIndex();
+        int index   = this.jListActivities.getSelectedIndex();
 
-        data=communicationProcess.getActivityData(index);
+        ActivityData data=communicationProcess.getActivityData(index);
         
         if (data!=null)
         {
-            activity        =data.activity;
-            file            =data.file;
-            writer          =TtbinFileWriter.getInstance();
+            Activity activity           =data.activity;
+            UsbFile file                =data.file;
+            TtbinFileWriter writer      =TtbinFileWriter.getInstance();
             // Get the ttbin root path
-            ttbinPath=settings.getStringValue("ttbinFilePath");
+            String ttbinPath            =settings.getStringValue("ttbinFilePath");
             
             // Create the subpath (if it does not already exist) in tomtom style:
             // <watchname>/<date>/ and generate the filename: 
             // <watchname>/<date>/<activity>_<time>.ttbin
             // TODO: handle illegal ttbinpath value, e.g. ""
-            fileName        =writer.getFullFileName(ttbinPath, 
+            String fileName             =writer.getFullFileName(ttbinPath, 
                                                     communicationProcess.getDeviceName(), 
                                                     activity.getFirstActiveRecordTime(), 
                                                     activity.getActivityDescription());
@@ -1493,7 +1488,7 @@ public class TomTomWatchView extends javax.swing.JFrame
                 if (fileName!=null)
                 {
                     // Write the file
-                    fileSaveError=writer.writeTtbinFile(fileName, file);
+                    boolean fileSaveError=writer.writeTtbinFile(fileName, file);
                     
                     // If succeeded, check the file on disk
                     if (!fileSaveError)
@@ -1505,11 +1500,9 @@ public class TomTomWatchView extends javax.swing.JFrame
                         {
                             data.ttbinSaved=true;
                             // Add the activity info to the listbox
-                            description = getActivityDescription(data, "watch: ");
-                            model       = (DefaultListModel<String>)this.jListActivities.getModel();
+                            String description              = getActivityDescription(data, "watch: ");
+                            DefaultListModel<String> model  = (DefaultListModel<String>)this.jListActivities.getModel();
                             model.set(index, description);
-
-//                            fileSaveError=writer.writeTtbinMetadataFile(fileName, data);
                         }
                         else
                         {
@@ -1542,14 +1535,10 @@ public class TomTomWatchView extends javax.swing.JFrame
 
     private void jMenuItemAboutActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jMenuItemAboutActionPerformed
     {//GEN-HEADEREND:event_jMenuItemAboutActionPerformed
-        TomTomWatch     app;
-        ResourceMap     appResourceMap;
-        GitBuildInfo build;
-        
-        app=TomTomWatch.getApplication();
-        build=GitBuildInfo.getInstance();
+        TomTomWatch  app        =TomTomWatch.getApplication();
+        GitBuildInfo build      =GitBuildInfo.getInstance();
 
-        appResourceMap=app.getContext().getResourceMap();
+        ResourceMap appResourceMap=app.getContext().getResourceMap();
 
         if (aboutBox == null)
         {
@@ -1565,11 +1554,9 @@ public class TomTomWatchView extends javax.swing.JFrame
 
     private void jMenuItemSetNameActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jMenuItemSetNameActionPerformed
     {//GEN-HEADEREND:event_jMenuItemSetNameActionPerformed
-        String name;
-        
         if (communicationProcess.isConnected())
         {
-            name = JOptionPane.showInputDialog(this, "Give new Device Name", communicationProcess.getDeviceName());
+            String name = JOptionPane.showInputDialog(this, "Give new Device Name", communicationProcess.getDeviceName());
             if (name!=null)
             {
                name=name.trim();
@@ -1591,22 +1578,16 @@ public class TomTomWatchView extends javax.swing.JFrame
 
     private void jButtonLoadTtbinActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButtonLoadTtbinActionPerformed
     {//GEN-HEADEREND:event_jButtonLoadTtbinActionPerformed
-        String              fileName;
-        String              ttbinPath;
-        int                 listItems;
-        boolean trackSmoothingEnabled;
-        boolean trackCompressionEnabled;
-        
         // Set the tracksmoothing
-        trackSmoothingEnabled=this.jCheckBoxSmooth.isSelected();
+        boolean trackSmoothingEnabled   =this.jCheckBoxSmooth.isSelected();
         communicationProcess.setTrackSmoothing(trackSmoothingEnabled, trackSmoothingQFactor);
         // Set the track compression
-        trackCompressionEnabled=this.jCheckBoxCompress.isSelected();
+        boolean trackCompressionEnabled =this.jCheckBoxCompress.isSelected();
         communicationProcess.setTrackCompression(trackCompressionEnabled, trackCompressionMaxError);
         
-        ttbinPath=settings.getStringValue("ttbinFilePath");
+        String ttbinPath                =settings.getStringValue("ttbinFilePath");
         
-        fileName=this.fileChooser(ttbinPath, null, "Load", "TTBIN files (*.ttbin)", "ttbin");
+        String fileName                 =this.fileChooser(ttbinPath, null, "Load", "TTBIN files (*.ttbin)", "ttbin");
         
         if (fileName!=null)
         {
@@ -1620,12 +1601,9 @@ public class TomTomWatchView extends javax.swing.JFrame
      */
     private void jMenuDownloadFileActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jMenuDownloadFileActionPerformed
     {//GEN-HEADEREND:event_jMenuDownloadFileActionPerformed
-        String  hex;
-        int     fileId;
-        
         if (communicationProcess.isConnected())
         {
-            hex = JOptionPane.showInputDialog(this, "Give new file ID (hex)", "");
+            String hex = JOptionPane.showInputDialog(this, "Give new file ID (hex)", "");
             if (hex!=null)
             {
                hex=hex.trim();
@@ -1636,7 +1614,7 @@ public class TomTomWatchView extends javax.swing.JFrame
                    
                    try
                    {
-                       fileId=Integer.parseInt(hex, 16);
+                       int fileId=Integer.parseInt(hex, 16);
                        communicationProcess.requestWriteDeviceFileToDisk(fileId);
                    }
                    catch (NumberFormatException e)
@@ -1665,16 +1643,8 @@ public class TomTomWatchView extends javax.swing.JFrame
 
     private void jButtonChooseRouteActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButtonChooseRouteActionPerformed
     {//GEN-HEADEREND:event_jButtonChooseRouteActionPerformed
-        String              fileName;
-        String              path;
-        GpxReader           reader;
-        Route               route;
-        File                file;
-        String              name;
-        boolean             error;
-        
-        fileName=this.jTextFieldRouteGpx.getText();
-        path    =settings.getStringValue("routeFilePath");
+        String fileName =this.jTextFieldRouteGpx.getText();
+        String path     =settings.getStringValue("routeFilePath");
         
         fileName=this.fileChooser(fileName, path, "Load", "GPX files (*.gpx)", "gpx");
         
@@ -1684,40 +1654,34 @@ public class TomTomWatchView extends javax.swing.JFrame
             this.jTextFieldRouteGpx.setText(fileName);
             
             // Set the route name:take the filename without the extension as name
-            file=new File(fileName);
-            name=file.getName();
-            name=name.replace(".gpx", "");
-            name=name.replace(".GPX", "");
+            File   file         =new File(fileName);
+            String name         =file.getName();
+            name                =name.replace(".gpx", "");
+            name                =name.replace(".GPX", "");
             this.jTextFieldRouteName.setText(name);
 
             // Read the route
-            reader=GpxReader.getInstance();
+            GpxReader reader    =GpxReader.getInstance();
 
             // The log contains now the route read
-            route=new RouteTomTom();
+            Route route=new RouteTomTom();
 
-            error=reader.readRouteFromFile(fileName, route);
+            boolean error=reader.readRouteFromFile(fileName, route);
             
             if (map!=null)
             {
                 map.showTrack(route);
             }
             this.jListActivities.clearSelection();
-
         }
     }//GEN-LAST:event_jButtonChooseRouteActionPerformed
 
     private void jButtonAddRouteActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButtonAddRouteActionPerformed
     {//GEN-HEADEREND:event_jButtonAddRouteActionPerformed
-        String                      name;
-        String                      file;
-        DefaultListModel<String>    model;
-        int                         index;
-        
         if (communicationProcess.isConnected())
         {
-            name=this.jTextFieldRouteName.getText().trim();
-            file=this.jTextFieldRouteGpx.getText().trim();
+            String name=this.jTextFieldRouteName.getText().trim();
+            String file=this.jTextFieldRouteGpx.getText().trim();
 
             if (!name.equals(""))
             {
@@ -1725,7 +1689,7 @@ public class TomTomWatchView extends javax.swing.JFrame
                 {
                     if (!file.equals(""))
                     {
-                        index=this.jListRoutes.getSelectedIndex();
+                        int index=this.jListRoutes.getSelectedIndex();
                         if (index>=0)
                         {
                             communicationProcess.addRouteFile(name, file, index+1);
@@ -1784,11 +1748,9 @@ public class TomTomWatchView extends javax.swing.JFrame
      */
     private void jMenuItemEraseDataActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jMenuItemEraseDataActionPerformed
     {//GEN-HEADEREND:event_jMenuItemEraseDataActionPerformed
-        int response;
-        
         if (communicationProcess.isConnected())
         {
-            response = JOptionPane.showConfirmDialog(null, "Do you want to erase all track, route and history data?", "Confirm",
+            int response = JOptionPane.showConfirmDialog(null, "Do you want to erase all track, route and history data?", "Confirm",
                                                      JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
             if (response == JOptionPane.YES_OPTION) 
             {
@@ -1814,12 +1776,9 @@ public class TomTomWatchView extends javax.swing.JFrame
 
     private void jMenuItemDeleteFileActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jMenuItemDeleteFileActionPerformed
     {//GEN-HEADEREND:event_jMenuItemDeleteFileActionPerformed
-        String  hex;
-        int     fileId;
-        
         if (communicationProcess.isConnected())
         {
-            hex = JOptionPane.showInputDialog(this, "Give new file ID (hex)", "");
+            String hex = JOptionPane.showInputDialog(this, "Give new file ID (hex)", "");
             if (hex!=null)
             {
                hex=hex.trim();
@@ -1830,7 +1789,7 @@ public class TomTomWatchView extends javax.swing.JFrame
                    
                    try
                    {
-                       fileId=Integer.parseInt(hex, 16);
+                       int fileId=Integer.parseInt(hex, 16);
                        communicationProcess.requestDeleteDeviceFileFromWatch(fileId);
                    }
                    catch (NumberFormatException e)
@@ -1883,11 +1842,9 @@ public class TomTomWatchView extends javax.swing.JFrame
 
     private void jMenuDeleteTrackedActivityActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jMenuDeleteTrackedActivityActionPerformed
     {//GEN-HEADEREND:event_jMenuDeleteTrackedActivityActionPerformed
-        int response;
-        
         if (communicationProcess.isConnected())
         {
-            response = JOptionPane.showConfirmDialog(null, "Do you want to erase the tracked activity from the watch?", "Confirm",
+            int response = JOptionPane.showConfirmDialog(null, "Do you want to erase the tracked activity from the watch?", "Confirm",
                                                      JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
             if (response == JOptionPane.YES_OPTION) 
             {
@@ -1907,12 +1864,9 @@ public class TomTomWatchView extends javax.swing.JFrame
 
     private void jMenuItemUploadFileActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jMenuItemUploadFileActionPerformed
     {//GEN-HEADEREND:event_jMenuItemUploadFileActionPerformed
-        String fileName;
-        
         if (communicationProcess.isConnected())
         {
-            fileName="";
-
+            String fileName="";
             fileName=this.fileChooser(fileName, null, "Upload", "bin (*.bin)", "bin");
             if (fileName!=null)
             {
@@ -1923,12 +1877,10 @@ public class TomTomWatchView extends javax.swing.JFrame
 
     private void jMenuItemRebootActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jMenuItemRebootActionPerformed
     {//GEN-HEADEREND:event_jMenuItemRebootActionPerformed
-        int response;
-        
         if (communicationProcess.isConnected())
         {
-            response = JOptionPane.showConfirmDialog(null, "Do you want to reboot the watch?", "Confirm",
-                                                     JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+            int response = JOptionPane.showConfirmDialog(null, "Do you want to reboot the watch?", "Confirm",
+                                                         JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
             if (response == JOptionPane.YES_OPTION) 
             {
                 // Signal the thread to erase the files
@@ -1957,12 +1909,10 @@ public class TomTomWatchView extends javax.swing.JFrame
 
     private void jMenuItemFactoryResetActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jMenuItemFactoryResetActionPerformed
     {//GEN-HEADEREND:event_jMenuItemFactoryResetActionPerformed
-        int response;
-        
         if (communicationProcess.isConnected())
         {
-            response = JOptionPane.showConfirmDialog(null, "Do you want to factory reset the watch? All data will be lost", "Confirm",
-                                                     JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+            int response = JOptionPane.showConfirmDialog(null, "Do you want to factory reset the watch? All data will be lost", "Confirm",
+                                                         JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
             if (response == JOptionPane.YES_OPTION) 
             {
                 // Signal the thread to reset the watch
@@ -1981,12 +1931,10 @@ public class TomTomWatchView extends javax.swing.JFrame
 
     private void jMenuItemDeletePreferencesActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jMenuItemDeletePreferencesActionPerformed
     {//GEN-HEADEREND:event_jMenuItemDeletePreferencesActionPerformed
-        int response;
-        
         if (communicationProcess.isConnected())
         {
-            response = JOptionPane.showConfirmDialog(null, "Do you want to delete the preference file from the watch? Connectivity data will be lost", "Confirm",
-                                                     JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+            int response = JOptionPane.showConfirmDialog(null, "Do you want to delete the preference file from the watch? Connectivity data will be lost", "Confirm",
+                                                         JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
             if (response == JOptionPane.YES_OPTION) 
             {
                 // Signal the thread to reset the watch
@@ -2018,8 +1966,7 @@ public class TomTomWatchView extends javax.swing.JFrame
 
     private void jButtonDeleteRouteActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButtonDeleteRouteActionPerformed
     {//GEN-HEADEREND:event_jButtonDeleteRouteActionPerformed
-        int index;
-        index=this.jListRoutes.getSelectedIndex();
+        int index=this.jListRoutes.getSelectedIndex();
         if (index>=0)
         {
             communicationProcess.deleteRouteFile(index);
@@ -2036,13 +1983,10 @@ public class TomTomWatchView extends javax.swing.JFrame
 
     private void jButtonSaveRoutesActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButtonSaveRoutesActionPerformed
     {//GEN-HEADEREND:event_jButtonSaveRoutesActionPerformed
-
-        int response;
-        
         if (communicationProcess.isConnected())
         {
-            response = JOptionPane.showConfirmDialog(null, "This will upload the routes to the watch. Existing routes will be erased.", "Confirm",
-                                                     JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+            int response = JOptionPane.showConfirmDialog(null, "This will upload the routes to the watch. Existing routes will be erased.", "Confirm",
+                                                         JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
             if (response == JOptionPane.YES_OPTION) 
             {
                 enableRouteButtons(false);
@@ -2060,19 +2004,16 @@ public class TomTomWatchView extends javax.swing.JFrame
 
     private void jListRoutesValueChanged(javax.swing.event.ListSelectionEvent evt)//GEN-FIRST:event_jListRoutesValueChanged
     {//GEN-HEADEREND:event_jListRoutesValueChanged
-        int         index;
-        RouteTomTom route;
-        UsbFile     file;
         if (!evt.getValueIsAdjusting())
         {
-            index=this.jListRoutes.getSelectedIndex();
+            int index=this.jListRoutes.getSelectedIndex();
             if (index>=0)
             {
-                file=communicationProcess.getRouteFile(index);
+                UsbFile file=communicationProcess.getRouteFile(index);
 
                 if (file!=null)
                 {
-                    route=new RouteTomTom();
+                    RouteTomTom route=new RouteTomTom();
                     route.loadLogFromTomTomRouteData(file.fileData);
                     if (map!=null)
                     {
@@ -2107,12 +2048,9 @@ public class TomTomWatchView extends javax.swing.JFrame
 
     private void jMenuItemUploadWorkoutsActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jMenuItemUploadWorkoutsActionPerformed
     {//GEN-HEADEREND:event_jMenuItemUploadWorkoutsActionPerformed
-        String fileName;
-        
         if (communicationProcess.isConnected())
         {
-            fileName="";
-
+            String fileName="";
             fileName=this.fileChooser(fileName, null, "Upload", "json (*.json)", "json");
             if (fileName!=null)
             {
@@ -2165,10 +2103,8 @@ public class TomTomWatchView extends javax.swing.JFrame
      */
     public String getActivityDescription(ActivityData data, String prefix)
     {
-        String      description;
-        String      dateTime;
-        int         fitnessPoints;
-        String      fitnessPointsString;
+        String description;
+        String fitnessPointsString;
 
         if (data.ttbinSaved)
         {
@@ -2177,8 +2113,8 @@ public class TomTomWatchView extends javax.swing.JFrame
         {
             description = "x ";
         }
-        dateTime        = data.activity.getStartDateTime().format("YYYY-MM-DD hh:mm");
-        fitnessPoints   =data.activity.getFitnessPoints();
+        String dateTime        = data.activity.getStartDateTime().format("YYYY-MM-DD hh:mm");
+        int fitnessPoints   =data.activity.getFitnessPoints();
         if (fitnessPoints>=0)
         {
             fitnessPointsString=Integer.toString(fitnessPoints);
@@ -2203,9 +2139,7 @@ public class TomTomWatchView extends javax.swing.JFrame
      */
     private void setRadioButton(Activity activity)
     {
-        int activityType;
-
-        activityType = activity.getActivityType();
+        int activityType = activity.getActivityType();
 
         switch (activityType)
         {
@@ -2231,15 +2165,9 @@ public class TomTomWatchView extends javax.swing.JFrame
      *
      * @param activity The activity to base the filename on
      */
-    private void generateGpxFileName(Activity activity)
+    private void generateExportFileName(Activity activity)
     {
-        String      fileName;
-        String      currentFileName;
         String      activityPrefix;
-        String      path;
-        String      file;
-        String      fileTail;
-        DateTime    timeStamp;
 
         if (this.jRadioButtonRunning.isSelected())
         {
@@ -2271,13 +2199,13 @@ public class TomTomWatchView extends javax.swing.JFrame
         }
 
         // Get the currently entered filename
-        currentFileName = this.jTextFieldGpxFile.getText();
+        String currentFileName = this.jTextFieldGpxFile.getText();
 
         // If the filename has not been defined yet, fill in the defaults
         if (currentFileName.equals(""))
         {
 
-            fileName = settings.getStringValue("gpxFilePath");
+            String fileName = settings.getStringValue("gpxFilePath");
 
             if ((!fileName.endsWith("/")) && (!fileName.endsWith("\\")))
             {
@@ -2285,24 +2213,24 @@ public class TomTomWatchView extends javax.swing.JFrame
             }
             fileName += activityPrefix + "_";
 
-            timeStamp = activity.getStartDateTime();
-            fileName += timeStamp.format("YYYYMMDD") + "_description.gpx";
+            DateTime timeStamp = activity.getStartDateTime();
+            fileName += timeStamp.format("YYYYMMDD") + "_description."+exportFileExtension.toLowerCase();
 
             this.jTextFieldGpxFile.setText(fileName);
         } 
         else
         {
-            file = currentFileName.replaceFirst("(^.*[/\\\\])?([^/\\\\]*)$", "$2");
-            path = currentFileName.replaceFirst("(^.*[/\\\\])?([^/\\\\]*)$", "$1");
+            String file = currentFileName.replaceFirst("(^.*[/\\\\])?([^/\\\\]*)$", "$2");
+            String path = currentFileName.replaceFirst("(^.*[/\\\\])?([^/\\\\]*)$", "$1");
 
-            fileTail = file.replaceFirst("^([a-z]*)([_]\\d{8})([_]\\S+)", "$3");
+            String fileTail = file.replaceFirst("^([a-z]*)([_]\\d{8})([_]\\S+)", "$3");
 
-            timeStamp = activity.getStartDateTime();
+            DateTime timeStamp = activity.getStartDateTime();
 
             if (!fileTail.equals(file))
             {
 
-                fileName = path + activityPrefix + "_" + timeStamp.format("YYYYMMDD") + fileTail;
+                String fileName = path + activityPrefix + "_" + timeStamp.format("YYYYMMDD") + fileTail;
                 this.jTextFieldGpxFile.setText(fileName);
             }
         }
@@ -2314,11 +2242,8 @@ public class TomTomWatchView extends javax.swing.JFrame
      */
     private void updateActivityInfo(boolean fileNameOnly)
     {
-        int             index;
-        ActivityData    data;
-
-        index   = this.jListActivities.getSelectedIndex();
-        data    = communicationProcess.getActivityData(index);
+        int index           = this.jListActivities.getSelectedIndex();
+        ActivityData data   = communicationProcess.getActivityData(index);
         if (data != null)
         {
             if (!fileNameOnly)
@@ -2329,7 +2254,7 @@ public class TomTomWatchView extends javax.swing.JFrame
                 }
                 setRadioButton(data.activity);          // Set the appropriate radiobutton
             }
-            generateGpxFileName(data.activity);         // Propose GPX file name
+            generateExportFileName(data.activity);      // Propose GPX file name
         }
     }
 
@@ -2343,17 +2268,9 @@ public class TomTomWatchView extends javax.swing.JFrame
      */
     private String fileChooser(String initialFileName, String initialDirectory, String buttonText, String filterDescription, String filterExtension)
     {
-        JFileChooser                fc;
-        FileNameExtensionFilter     fileFilter;
-        int                         returnValue;
-
-        String                      path;
-        String                      fileName;
-        File                        theFile;
+        String fileName     =null;
         
-        fileName=null;
-        
-        fc= new JFileChooser();
+        JFileChooser fc     = new JFileChooser();
 
         if (initialFileName.equals("") && initialDirectory!=null)
         {
@@ -2361,35 +2278,33 @@ public class TomTomWatchView extends javax.swing.JFrame
         }
         else
         {
-            theFile=new File(initialFileName);
-            path=theFile.getAbsolutePath();
+            File theFile    =new File(initialFileName);
+            String path     =theFile.getAbsolutePath();
             fc.setSelectedFile(new File(path));
         }
 
-        fileFilter=new FileNameExtensionFilter(filterDescription, filterExtension);
+        FileNameExtensionFilter fileFilter=new FileNameExtensionFilter(filterDescription, filterExtension);
 
         // Set file extension filters
         fc.addChoosableFileFilter(fileFilter);
         fc.setFileFilter(fileFilter);
 
-        returnValue=fc.showDialog(null, buttonText);
+        int returnValue=fc.showDialog(null, buttonText);
 
         if (returnValue == JFileChooser.APPROVE_OPTION)
         {
-            path=fc.getCurrentDirectory().toString();
-            fileName=path+"/"+fc.getSelectedFile().getName();
+            String path     =fc.getCurrentDirectory().toString();
+            fileName        =path+"/"+fc.getSelectedFile().getName();
 
             // Make sure the file has the right extension
             if(!fileName.toLowerCase().endsWith("."+filterExtension))
             {
                 fileName +="."+filterExtension;
             }
-
         }
         if (returnValue == JFileChooser.CANCEL_OPTION)
         {
         }    
-        
         return fileName;
     }
     
@@ -2413,10 +2328,8 @@ public class TomTomWatchView extends javax.swing.JFrame
      */
     public void clear()
     {
-        DefaultListModel model;
-
         // Clear the list 
-        model = (DefaultListModel) this.jListActivities.getModel();
+        DefaultListModel model = (DefaultListModel) this.jListActivities.getModel();
         model.clear();
 
         // Hide the map
@@ -2460,11 +2373,8 @@ public class TomTomWatchView extends javax.swing.JFrame
      */
     public boolean showConfirmDialog(String message)
     {
-        int     response;
-        boolean yesPressed;
-        
-        yesPressed=false;
-        response = JOptionPane.showConfirmDialog(null, message, "Confirm", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        boolean yesPressed=false;
+        int response = JOptionPane.showConfirmDialog(null, message, "Confirm", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
         if (response == JOptionPane.YES_OPTION)
         {
             yesPressed=true;
@@ -2477,10 +2387,8 @@ public class TomTomWatchView extends javax.swing.JFrame
      */
     public void clearRoutes()
     {
-        DefaultListModel model;
-
         // Clear the list 
-        model = (DefaultListModel)this.jListRoutes.getModel();
+        DefaultListModel model = (DefaultListModel)this.jListRoutes.getModel();
         model.clear();
         DebugLogger.info("Routes cleared");
     }
@@ -2545,12 +2453,9 @@ public class TomTomWatchView extends javax.swing.JFrame
     @SuppressWarnings("unchecked")
     public void addListItem(ActivityData data, String prefix)
     {
-        DefaultListModel    model;
-        String              description;
-        
         // Add the activity info to the listbox
-        description = getActivityDescription(data, prefix);
-        model       = (DefaultListModel) this.jListActivities.getModel();
+        String description      = getActivityDescription(data, prefix);
+        DefaultListModel model  = (DefaultListModel) this.jListActivities.getModel();
         model.addElement(description);        
     }
 
@@ -2567,9 +2472,7 @@ public class TomTomWatchView extends javax.swing.JFrame
      */
     public void selectLastListIndex()
     {
-        int listItems;
-        
-        listItems=jListActivities.getModel().getSize();
+        int listItems=jListActivities.getModel().getSize();
         jListActivities.setSelectedIndex(listItems-1);
     }
     
@@ -2621,30 +2524,22 @@ public class TomTomWatchView extends javax.swing.JFrame
     @SuppressWarnings("unchecked")
     public void addRoutesToListBox(ArrayList<UsbFile> routes, int index)
     {
-        DefaultListModel<String>    model;
-        Iterator<UsbFile>           it;
-        UsbFile                     file;
-        RouteTomTom                 route;
-        String                      description;
-        String                      name;
-        boolean                     error;
+        RouteTomTom route=new RouteTomTom();
         
-        route=new RouteTomTom();
-        
-        model=(DefaultListModel<String>)jListRoutes.getModel();
+        DefaultListModel<String> model=(DefaultListModel<String>)jListRoutes.getModel();
         model.removeAllElements();
         
-        it=routes.iterator();
+        Iterator<UsbFile> it=routes.iterator();
         while (it.hasNext())
         {
-            file=it.next();
-            description=String.format("0x%08x ", file.fileId);
+            UsbFile file=it.next();
+            String description=String.format("0x%08x ", file.fileId);
 
-            error=route.loadLogFromTomTomRouteData(file.fileData);
+            boolean error=route.loadLogFromTomTomRouteData(file.fileData);
 
             if (!error)
             {
-                name=route.getRouteName();
+                String name=route.getRouteName();
                 if (name.length()>=30)
                 {
                     name=name.substring(0,29);
@@ -2727,7 +2622,6 @@ public class TomTomWatchView extends javax.swing.JFrame
     private javax.swing.JCheckBox jCheckBoxSmooth;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -2735,6 +2629,7 @@ public class TomTomWatchView extends javax.swing.JFrame
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JLabel jLabelExportFile;
     private javax.swing.JList jListActivities;
     private javax.swing.JList jListRoutes;
     private javax.swing.JMenu jMenu1;
