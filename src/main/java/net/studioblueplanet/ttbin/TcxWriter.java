@@ -265,6 +265,13 @@ public class TcxWriter implements TrackWriter
                         pointElement.appendChild(element);
                     }                    
                     
+                    if (distance!=ActivityRecord.INVALID)
+                    {
+                        element    = doc.createElement("DistanceMeters");
+                        element.appendChild(doc.createTextNode(String.format("%.1f", distance)));
+                        pointElement.appendChild(element);
+                    }                    
+
                     // The Heartrate
                     if ((heartRate!=ActivityRecord.INVALID) && (heartRate>0))
                     {
@@ -274,13 +281,6 @@ public class TcxWriter implements TrackWriter
                         valueElement.appendChild(doc.createTextNode(String.valueOf(heartRate)));
                         hrElement.appendChild(valueElement);
                     }
-
-                    if (distance!=ActivityRecord.INVALID)
-                    {
-                        element    = doc.createElement("DistanceMeters");
-                        element.appendChild(doc.createTextNode(String.format("%.1f", distance)));
-                        pointElement.appendChild(element);
-                    }                    
                 }
             }
 
