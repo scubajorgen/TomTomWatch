@@ -12,3 +12,8 @@
 /tomtomwatch.properties
 /javax.usb.properties
 /working
+
+# Strava Integration
+.env
+strava-sync-errors.log
+local_docs_do_not_merge/
