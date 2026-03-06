@@ -167,8 +167,11 @@ public class TomTomWatchView extends javax.swing.JFrame
             exportFileExtension="GPX";
         }
         jLabelExportFile.setText(exportFileExtension+" file");
+
+        // Initialize Strava integration
+        initStravaIntegration();
     }
-    
+
     /**
      * Set a generic proxy for http and https calls
      */
@@ -2698,4 +2701,64 @@ public class TomTomWatchView extends javax.swing.JFrame
     private javax.swing.JTextField jTextFieldTime;
     private javax.swing.JTextField jTextFieldWatch;
     // End of variables declaration//GEN-END:variables
+
+    // Strava integration components (added externally - not part of generated code)
+    private javax.swing.JMenuItem jMenuItemStravaSync;
+    private net.studioblueplanet.strava.StravaSyncManager stravaSyncManager;
+
+    /**
+     * Initializes Strava integration
+     * Adds Strava menu item to File menu
+     */
+    private void initStravaIntegration() {
+        // Create Strava sync manager
+        stravaSyncManager = new net.studioblueplanet.strava.StravaSyncManager(this);
+
+        // Create menu item
+        jMenuItemStravaSync = new javax.swing.JMenuItem();
+        jMenuItemStravaSync.setText("Sync to Strava...");
+        jMenuItemStravaSync.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemStravaSyncActionPerformed(evt);
+            }
+        });
+
+        // Add to File menu (after Quit item)
+        jMenuFile.add(new javax.swing.JSeparator());
+        jMenuFile.add(jMenuItemStravaSync);
+    }
+
+    /**
+     * Handles Strava sync menu item click
+     */
+    private void jMenuItemStravaSyncActionPerformed(java.awt.event.ActionEvent evt) {
+        // Get list of activities from the UI
+        java.util.List<net.studioblueplanet.ttbin.Activity> activities = getActivitiesFromList();
+
+        if (activities.isEmpty()) {
+            javax.swing.JOptionPane.showMessageDialog(this,
+                "No activities available to sync.\nPlease download activities from your watch first.",
+                "No Activities",
+                javax.swing.JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+
+        // Start sync workflow
+        stravaSyncManager.startSync(activities);
+    }
+
+    /**
+     * Gets list of activities from the activity list
+     * Helper method to extract activities for Strava sync
+     */
+    private java.util.List<net.studioblueplanet.ttbin.Activity> getActivitiesFromList() {
+        java.util.List<net.studioblueplanet.ttbin.Activity> activities = new java.util.ArrayList<>();
+
+        // Get activity from activityData if available
+        if (this.activityData != null && this.activityData.activity != null) {
+            activities.add(this.activityData.activity);
+        }
+
+        return activities;
+    }
 }
