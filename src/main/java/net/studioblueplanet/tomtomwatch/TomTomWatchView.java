@@ -2754,9 +2754,13 @@ public class TomTomWatchView extends javax.swing.JFrame
     private java.util.List<net.studioblueplanet.ttbin.Activity> getActivitiesFromList() {
         java.util.List<net.studioblueplanet.ttbin.Activity> activities = new java.util.ArrayList<>();
 
-        // Get activity from activityData if available
-        if (this.activityData != null && this.activityData.activity != null) {
-            activities.add(this.activityData.activity);
+        // Get all activities from the communication process
+        int activityCount = jListActivities.getModel().getSize();
+        for (int i = 0; i < activityCount; i++) {
+            net.studioblueplanet.tomtomwatch.ActivityData activityData = communicationProcess.getActivityData(i);
+            if (activityData != null && activityData.activity != null) {
+                activities.add(activityData.activity);
+            }
         }
 
         return activities;

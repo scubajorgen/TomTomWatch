@@ -14,6 +14,7 @@ import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 /**
  * Orchestrates the complete Strava sync workflow
@@ -45,19 +46,12 @@ public class StravaSyncManager {
      * Initializes Strava components
      */
     private void initializeComponents() {
-        try {
-            config = new StravaConfig(ENV_FILE);
-            authenticator = new StravaAuthenticator(config);
-            apiClient = new StravaApiClient(config, authenticator);
-            sportMapper = new StravaSportMapper();
-            duplicateDetector = new StravaDuplicateDetector(sportMapper);
-            uploadManager = new StravaUploadManager(apiClient, duplicateDetector, sportMapper);
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(parentFrame,
-                "Failed to initialize Strava components: " + e.getMessage(),
-                "Initialization Error",
-                JOptionPane.ERROR_MESSAGE);
-        }
+        config = new StravaConfig(ENV_FILE);
+        authenticator = new StravaAuthenticator(config);
+        apiClient = new StravaApiClient(config, authenticator);
+        sportMapper = new StravaSportMapper();
+        duplicateDetector = new StravaDuplicateDetector(sportMapper);
+        uploadManager = new StravaUploadManager(apiClient, duplicateDetector, sportMapper);
     }
 
     /**
@@ -213,7 +207,7 @@ public class StravaSyncManager {
         List<Activity> filtered = new ArrayList<>();
 
         for (Activity activity : activities) {
-            Date activityDate = activity.getStartDateTime().toJavaUtilDate();
+            Date activityDate = new Date(activity.getStartDateTime().getMilliseconds(TimeZone.getDefault()));
             if (!activityDate.before(startDate) && !activityDate.after(endDate)) {
                 filtered.add(activity);
             }
