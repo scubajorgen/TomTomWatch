@@ -17,10 +17,62 @@ The software will be tested primarily on **Windows**. On request it can be teste
 
 The software requires a HD display size of a least **1920x1080 pixels**. It may not fit on smaller screens.
 
+## Installation and Running
+
+### Prerequisites
+- **Java 8 or later** — download from [java.com](https://www.java.com/download/) or [OpenJDK](https://openjdk.org/)
+- Verify with: `java -version`
+
+### Step 1 — Download the application
+Go to the [Releases page](https://github.com/ravi-bytes/TomTomWatch/releases) and download:
+- `TomTomWatch.jar` — the application (all dependencies included)
+- `tomtomwatch.properties` — the configuration file (also in this repo root)
+
+### Step 2 — Place files in the same folder
+```
+my-folder/
+  TomTomWatch.jar
+  tomtomwatch.properties
+```
+
+### Step 3 — Run
+```bash
+java -jar TomTomWatch.jar
+```
+On Windows you can also double-click `TomTomWatch.jar` if Java is associated with `.jar` files.
+
 ## Disclaimer
 **Though I have used the software myself for years and I have tested it thorougly, usage might damage your watch. The software was created without help or specifications of TomTom, so it may contain unforseen issues. This particularly holds for the features under the 'Debugging' menu, which should be regaded as experimental.**
 
 When encountering problems don't forget to read the FAQ below.
+
+## Strava Integration
+
+Sync your TomTom activities directly to Strava from the **File → Sync to Strava** menu.
+
+### Step 1 — Create a Strava API application
+1. Go to [strava.com/settings/api](https://www.strava.com/settings/api)
+2. Create an application (name and website can be anything)
+3. Set **Authorization Callback Domain** to `localhost`
+4. Note your **Client ID** and **Client Secret**
+
+### Step 2 — Create a `.env` file
+Create a file named `.env` in the same folder as `TomTomWatch.jar`:
+```
+STRAVA_CLIENT_ID=your_client_id
+STRAVA_CLIENT_SECRET=your_client_secret
+STRAVA_ACCESS_TOKEN=
+STRAVA_REFRESH_TOKEN=
+STRAVA_TOKEN_EXPIRES_AT=0
+```
+Leave the token fields blank — they are filled in automatically on first use.
+
+### Step 3 — Sync activities
+1. Download activities from your watch as normal
+2. Click **File → Sync to Strava**
+3. On first run: follow the OAuth prompt to authorize the app in your browser
+4. Select the date range to sync
+5. The app uploads new activities and skips duplicates automatically
 
 ## Building
 It uses Maven for building. Use a development environment like Netbeans or Eclipse.
