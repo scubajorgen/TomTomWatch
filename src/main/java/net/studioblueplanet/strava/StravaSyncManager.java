@@ -257,8 +257,8 @@ public class StravaSyncManager {
 
                 // Create activity metadata
                 JsonObject metadata = new JsonObject();
-                metadata.addProperty("start_date", activity.getStartDateTime().format("YYYY-MM-DDThh:mm:ssZ"));
-                metadata.addProperty("distance", activity.getDistance());
+                metadata.addProperty("start_date", activity.getStartDateTimeUTC().format("YYYY-MM-DDThh:mm:ssZ"));
+                metadata.addProperty("distance", activity.getDistance() * 1000.0); // Convert km to meters
                 metadata.addProperty("type", mapActivityType(activity.getActivityType()));
 
                 // Upload

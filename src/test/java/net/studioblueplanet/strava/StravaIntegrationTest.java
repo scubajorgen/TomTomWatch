@@ -1,190 +1,143 @@
 package net.studioblueplanet.strava;
 
-import com.google.gson.JsonArray;
+import com.github.tomakehurst.wiremock.WireMockServer;
+import com.github.tomakehurst.wiremock.client.WireMock;
 import com.google.gson.JsonObject;
-import net.studioblueplanet.ttbin.Activity;
-import net.studioblueplanet.ttbin.GpxWriter;
-import net.studioblueplanet.ttbin.TomTomReader;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.io.StringWriter;
+
+import static com.github.tomakehurst.wiremock.client.WireMock.*;
+import static org.junit.Assert.*;
 
 /**
- * Manual integration test for Strava upload functionality
- * Tests the complete workflow: load activity → convert to GPX → upload to Strava
- *
- * This is NOT a JUnit test - it uses real Strava credentials and performs actual uploads.
- * Run manually: mvn exec:java -Dexec.mainClass="net.studioblueplanet.strava.StravaIntegrationTest"
+ * Integration tests for Strava upload workflow
+ * Tests the full stack: StravaUploadManager → StravaApiClient → WireMock (mock HTTP)
  */
 public class StravaIntegrationTest {
 
-    private static final String ENV_FILE = ".env";
-    private static final String ACTIVITY_FILE = "working/simulation/0x00910000.ttbin";
+    private static final String TEST_ENV = "test-integration.env";
+    private static final int WIRE_MOCK_PORT = 8090;
 
-    public static void main(String[] args) {
-        System.out.println("=== Strava Integration Test ===\n");
+    private WireMockServer wireMockServer;
+    private StravaUploadManager uploadManager;
+    private StravaApiClient apiClient;
 
-        try {
-            // Step 1: Initialize Strava components
-            System.out.println("Step 1: Initializing Strava components...");
-            StravaConfig config = new StravaConfig(ENV_FILE);
-            StravaAuthenticator authenticator = new StravaAuthenticator(config);
-            StravaApiClient apiClient = new StravaApiClient(config, authenticator);
-            StravaSportMapper sportMapper = new StravaSportMapper();
-            StravaDuplicateDetector duplicateDetector = new StravaDuplicateDetector(sportMapper);
-            StravaUploadManager uploadManager = new StravaUploadManager(apiClient, duplicateDetector, sportMapper);
+    @Before
+    public void setUp() throws IOException {
+        createEnvFile();
+        wireMockServer = new WireMockServer(WIRE_MOCK_PORT);
+        wireMockServer.start();
+        WireMock.configureFor("localhost", WIRE_MOCK_PORT);
+        StravaConfig config = new StravaConfig(TEST_ENV);
+        StravaAuthenticator authenticator = new StravaAuthenticator(config, "http://localhost:" + WIRE_MOCK_PORT);
+        apiClient = new StravaApiClient(config, authenticator, "http://localhost:" + WIRE_MOCK_PORT);
+        StravaSportMapper sportMapper = new StravaSportMapper();
+        StravaDuplicateDetector duplicateDetector = new StravaDuplicateDetector(sportMapper);
+        uploadManager = new StravaUploadManager(apiClient, duplicateDetector, sportMapper);
+    }
 
-            // Set up progress listener
-            uploadManager.setProgressListener((status, activityName) ->
-                System.out.println("  [Progress] " + status + " - " + activityName)
-            );
-            System.out.println("✓ Components initialized\n");
+    @After
+    public void tearDown() {
+        wireMockServer.stop();
+        new File(TEST_ENV).delete();
+    }
 
-            // Step 2: Load activity from simulation directory
-            System.out.println("Step 2: Loading activity from " + ACTIVITY_FILE + "...");
-            File activityFile = new File(ACTIVITY_FILE);
-            if (!activityFile.exists()) {
-                System.err.println("✗ Activity file not found: " + ACTIVITY_FILE);
-                System.err.println("  Expected location: " + activityFile.getAbsolutePath());
-                return;
-            }
-
-            TomTomReader reader = TomTomReader.getInstance();
-            reader.setTrackSmoothing(true, 10.0f);
-            Activity activity = reader.readTtbinFile(activityFile.getAbsolutePath());
-
-            if (activity == null) {
-                System.err.println("✗ Failed to read activity file");
-                return;
-            }
-            System.out.println("✓ Activity loaded:");
-            System.out.println("  - Start time: " + activity.getStartDateTime());
-            System.out.println("  - Distance: " + String.format("%.2f km", activity.getDistance() / 1000.0));
-            System.out.println("  - Type: " + getActivityTypeName(activity.getActivityType()));
-            System.out.println();
-
-            // Step 3: Convert to GPX format
-            System.out.println("Step 3: Converting to GPX format...");
-            StringWriter gpxWriter = new StringWriter();
-            GpxWriter.getInstance().writeTrackToFile(gpxWriter, activity, "TomTomWatch");
-            String gpxData = gpxWriter.toString();
-            System.out.println("✓ GPX generated (" + gpxData.length() + " bytes)\n");
-
-            // Step 4: Create activity metadata for Strava
-            System.out.println("Step 4: Creating activity metadata...");
-            JsonObject activityMetadata = new JsonObject();
-
-            // Format timestamp in ISO 8601 format for Strava API (YYYY-MM-DDThh:mm:ssZ)
-            String startDate = activity.getStartDateTime().format("YYYY-MM-DDThh:mm:ssZ");
-            activityMetadata.addProperty("start_date", startDate);
-            activityMetadata.addProperty("distance", activity.getDistance());
-            activityMetadata.addProperty("type", mapActivityType(activity.getActivityType()));
-
-            System.out.println("✓ Metadata created:");
-            System.out.println("  - start_date: " + startDate);
-            System.out.println("  - distance: " + activity.getDistance() + "m");
-            System.out.println("  - type: " + activityMetadata.get("type").getAsString());
-            System.out.println();
-
-            // Step 5: Attempt first upload
-            System.out.println("Step 5: Uploading to Strava (first attempt)...");
-            String activityName = "Test Activity - " + activity.getStartDateTime().format("YYYY-MM-DD hh:mm");
-            String description = "Uploaded via TomTomWatch Strava Integration (Test)";
-
-            UploadResult firstResult = uploadManager.uploadActivity(activityMetadata, gpxData, activityName, description);
-
-            System.out.println("\nFirst Upload Result:");
-            System.out.println("  - Success: " + firstResult.isSuccess());
-            System.out.println("  - Duplicate: " + firstResult.isDuplicate());
-            if (firstResult.isSuccess() && !firstResult.isDuplicate()) {
-                System.out.println("  - Upload ID: " + firstResult.getUploadId());
-                System.out.println("  - Retry count: " + firstResult.getRetryCount());
-            } else if (firstResult.isDuplicate()) {
-                System.out.println("  - Activity already exists on Strava (skipped)");
-            } else {
-                System.out.println("  - Error: " + firstResult.getErrorMessage());
-                System.out.println("  - Retry count: " + firstResult.getRetryCount());
-            }
-            System.out.println();
-
-            // Step 6: Attempt second upload to test duplicate detection
-            if (firstResult.isSuccess() && !firstResult.isDuplicate()) {
-                System.out.println("Step 6: Uploading again to test duplicate detection...");
-                UploadResult secondResult = uploadManager.uploadActivity(activityMetadata, gpxData, activityName, description);
-
-                System.out.println("\nSecond Upload Result:");
-                System.out.println("  - Success: " + secondResult.isSuccess());
-                System.out.println("  - Duplicate: " + secondResult.isDuplicate());
-
-                if (secondResult.isDuplicate()) {
-                    System.out.println("  ✓ Duplicate detection working correctly!");
-                } else {
-                    System.out.println("  ⚠ Warning: Duplicate was not detected");
-                }
-                System.out.println();
-            }
-
-            // Step 7: Fetch and display recent activities
-            System.out.println("Step 7: Fetching recent activities from Strava...");
-            String afterDate = activity.getStartDateTime().minusDays(1).format("YYYY-MM-DDThh:mm:ssZ");
-            String beforeDate = activity.getStartDateTime().plusDays(1).format("YYYY-MM-DDThh:mm:ssZ");
-
-            JsonArray recentActivities = apiClient.getAthleteActivities(afterDate, beforeDate, 5);
-            System.out.println("✓ Found " + recentActivities.size() + " activities around this time:");
-
-            for (int i = 0; i < recentActivities.size(); i++) {
-                JsonObject act = recentActivities.get(i).getAsJsonObject();
-                System.out.println("  " + (i + 1) + ". " + act.get("name").getAsString());
-                System.out.println("     - Type: " + act.get("type").getAsString());
-                System.out.println("     - Distance: " + String.format("%.2f km", act.get("distance").getAsDouble() / 1000.0));
-                System.out.println("     - Start: " + act.get("start_date").getAsString());
-            }
-
-            System.out.println("\n=== Integration Test Complete ===");
-            System.out.println("✓ All components working correctly");
-            System.out.println("✓ Upload and duplicate detection verified");
-
-        } catch (IOException e) {
-            System.err.println("\n✗ Error during integration test:");
-            System.err.println("  " + e.getMessage());
-            e.printStackTrace();
-        } catch (Exception e) {
-            System.err.println("\n✗ Unexpected error:");
-            System.err.println("  " + e.getMessage());
-            e.printStackTrace();
+    private void createEnvFile() throws IOException {
+        try (FileWriter w = new FileWriter(TEST_ENV)) {
+            w.write("STRAVA_CLIENT_ID=12345\nSTRAVA_CLIENT_SECRET=secret\n" +
+                    "STRAVA_ACCESS_TOKEN=token\nSTRAVA_REFRESH_TOKEN=refresh\n" +
+                    "STRAVA_TOKEN_EXPIRES_AT=9999999999\n");
         }
     }
 
-    /**
-     * Maps TomTom activity type code to readable name
-     */
-    private static String getActivityTypeName(int typeCode) {
-        switch (typeCode) {
-            case 0: return "Running";
-            case 1: return "Cycling";
-            case 2: return "Swimming";
-            case 3: return "Treadmill";
-            case 4: return "Freestyle";
-            case 5: return "Gym";
-            case 6: return "Hiking";
-            default: return "Unknown (" + typeCode + ")";
-        }
+    private JsonObject activityMetadata(String startDate, double distanceMeters, String type) {
+        JsonObject m = new JsonObject();
+        m.addProperty("start_date", startDate);
+        m.addProperty("distance", distanceMeters);
+        m.addProperty("type", type);
+        return m;
     }
 
-    /**
-     * Maps TomTom activity type to internal type name for sport mapper
-     */
-    private static String mapActivityType(int typeCode) {
-        switch (typeCode) {
-            case 0: return "running";
-            case 1: return "cycling";
-            case 2: return "swimming";
-            case 3: return "running"; // treadmill
-            case 4: return "freestyle";
-            case 5: return "gym";
-            case 6: return "hiking";
-            default: return "unknown";
+    @Test
+    public void testEndToEndUploadSuccess() throws IOException {
+        stubFor(get(urlMatching("/api/v3/athlete/activities\\?.*"))
+            .willReturn(aResponse().withStatus(200).withHeader("Content-Type", "application/json")
+                .withBody("[]")));
+        stubFor(post(urlEqualTo("/api/v3/uploads"))
+            .willReturn(aResponse().withStatus(201).withHeader("Content-Type", "application/json")
+                .withBody("{\"id\":111,\"status\":\"Your activity is still being processed.\"}")));
+
+        JsonObject activity = activityMetadata("2026-03-03T10:00:00Z", 5000.0, "running");
+        UploadResult result = uploadManager.uploadActivity(activity, "<gpx/>", "Morning Run", "desc");
+
+        assertTrue("Upload should succeed", result.isSuccess());
+        assertFalse("Should not be duplicate", result.isDuplicate());
+        assertEquals("Upload ID should match", 111L, result.getUploadId());
+    }
+
+    @Test
+    public void testDuplicateDetectionIntegration() throws IOException {
+        // Strava already has this activity
+        stubFor(get(urlMatching("/api/v3/athlete/activities\\?.*"))
+            .willReturn(aResponse().withStatus(200).withHeader("Content-Type", "application/json")
+                .withBody("[{\"id\":99,\"name\":\"Existing\",\"type\":\"Run\"," +
+                    "\"distance\":5000.0,\"start_date\":\"2026-03-03T10:00:00Z\"}]")));
+
+        JsonObject activity = activityMetadata("2026-03-03T10:00:00Z", 5000.0, "running");
+        UploadResult result = uploadManager.uploadActivity(activity, "<gpx/>", "Morning Run", "desc");
+
+        assertTrue("Result should be success (skipped counts as success)", result.isSuccess());
+        assertTrue("Should be detected as duplicate", result.isDuplicate());
+        verify(0, postRequestedFor(urlEqualTo("/api/v3/uploads")));
+    }
+
+    @Test
+    public void testErrorRecoveryIntegration() throws IOException {
+        stubFor(get(urlMatching("/api/v3/athlete/activities\\?.*"))
+            .willReturn(aResponse().withStatus(200).withHeader("Content-Type", "application/json")
+                .withBody("[]")));
+        // First attempt: server error; second attempt: success
+        stubFor(post(urlEqualTo("/api/v3/uploads"))
+            .inScenario("retry").whenScenarioStateIs("Started")
+            .willReturn(aResponse().withStatus(503).withBody("Server Error"))
+            .willSetStateTo("Retry"));
+        stubFor(post(urlEqualTo("/api/v3/uploads"))
+            .inScenario("retry").whenScenarioStateIs("Retry")
+            .willReturn(aResponse().withStatus(201).withHeader("Content-Type", "application/json")
+                .withBody("{\"id\":222,\"status\":\"processed\"}")));
+
+        JsonObject activity = activityMetadata("2026-03-03T10:00:00Z", 5000.0, "running");
+        UploadResult result = uploadManager.uploadActivity(activity, "<gpx/>", "Run", "desc");
+
+        assertTrue("Upload should succeed after retry", result.isSuccess());
+        assertFalse("Should not be duplicate", result.isDuplicate());
+        assertTrue("Should have retried at least once", result.getRetryCount() >= 1);
+    }
+
+    @Test
+    public void testMultipleActivitiesIntegration() throws IOException {
+        // No existing activities — all uploads succeed
+        stubFor(get(urlMatching("/api/v3/athlete/activities\\?.*"))
+            .willReturn(aResponse().withStatus(200).withHeader("Content-Type", "application/json")
+                .withBody("[]")));
+        stubFor(post(urlEqualTo("/api/v3/uploads"))
+            .willReturn(aResponse().withStatus(201).withHeader("Content-Type", "application/json")
+                .withBody("{\"id\":300,\"status\":\"processed\"}")));
+
+        String[] dates = {"2026-03-01T08:00:00Z", "2026-03-02T09:00:00Z", "2026-03-03T10:00:00Z"};
+        int uploaded = 0;
+        for (String date : dates) {
+            JsonObject activity = activityMetadata(date, 5000.0, "running");
+            UploadResult result = uploadManager.uploadActivity(activity, "<gpx/>", "Run " + date, "");
+            if (result.isSuccess() && !result.isDuplicate()) uploaded++;
         }
+
+        assertEquals("All 3 activities should be uploaded", 3, uploaded);
+        verify(3, postRequestedFor(urlEqualTo("/api/v3/uploads")));
     }
 }

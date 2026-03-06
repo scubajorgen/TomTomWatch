@@ -4,6 +4,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import java.io.IOException;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -66,8 +67,10 @@ public class StravaUploadManager {
         // Check for duplicates first
         try {
             String startDate = activity.get("start_date").getAsString();
-            String endDate = startDate; // For single activity, start = end
-            JsonArray existingActivities = apiClient.getAthleteActivities(startDate, endDate, 10);
+            long epochSeconds = Instant.parse(startDate).getEpochSecond();
+            String afterEpoch = String.valueOf(epochSeconds - 300);  // 5 min before
+            String beforeEpoch = String.valueOf(epochSeconds + 300); // 5 min after
+            JsonArray existingActivities = apiClient.getAthleteActivities(afterEpoch, beforeEpoch, 10);
 
             if (duplicateDetector.isDuplicate(activity, existingActivities)) {
                 notifyProgress("Duplicate detected, skipping", name);

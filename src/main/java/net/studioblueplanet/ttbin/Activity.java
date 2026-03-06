@@ -293,12 +293,23 @@ public class Activity
     {
         int         time;
         DateTime    dateTime;
-        
+
         // Time in seconds. Calculate UTC time
         time=header.startTime-this.timeZoneSeconds;
         dateTime=DateTime.forInstant((long)(time)*1000L, localTimeZone);
-               
+
         return dateTime;
+    }
+
+    /**
+     * Returns the start datetime in UTC
+     * @return The datetime as UTC time
+     */
+    public DateTime getStartDateTimeUTC()
+    {
+        int     time;
+        time=header.startTime-this.timeZoneSeconds;
+        return DateTime.forInstant((long)(time)*1000L, TimeZone.getTimeZone("UTC"));
     }
     
     /**
