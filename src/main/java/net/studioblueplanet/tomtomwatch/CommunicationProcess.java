@@ -391,16 +391,22 @@ public class CommunicationProcess implements ProgressListener
     public ActivityData getActivityData(int index)
     {
         ActivityData data;
-        
+
         data = null;
         synchronized (this)
         {
+            System.out.println("DEBUG getActivityData: index=" + index + ", activities.size()=" + activities.size());
             if ((index >= 0) && (index < activities.size()))
             {
                 data = activities.get(index);
+                System.out.println("DEBUG getActivityData: returning data at index " + index);
+            }
+            else
+            {
+                System.out.println("DEBUG getActivityData: index out of bounds, returning null");
             }
         }
-        return data;        
+        return data;
     }
     
     /**
@@ -558,10 +564,25 @@ public class CommunicationProcess implements ProgressListener
      */
     public void clear()
     {
-        // Remove any existing activities
-        synchronized (this)
+        System.out.println("DEBUG: clear() called! Stack trace:");
+        Thread.dumpStack();
+
+        // Check if we're in simulation mode - don't clear file-loaded activities
+        boolean isSimulation = ConfigSettings.getInstance().getBooleanValue("simulation");
+        System.out.println("DEBUG: simulation mode = " + isSimulation);
+
+        if (!isSimulation)
         {
-            activities.clear();
+            // Remove any existing activities only if NOT in simulation mode
+            synchronized (this)
+            {
+                activities.clear();
+                System.out.println("DEBUG: activities.clear() executed, size now = " + activities.size());
+            }
+        }
+        else
+        {
+            System.out.println("DEBUG: Skipping activities.clear() because in simulation mode");
         }
         theView.clear();
     }
@@ -734,6 +755,7 @@ public class CommunicationProcess implements ProgressListener
         
 
         fileData            =ToolBox.readBytesFromFile(fileName);
+        System.out.println("DEBUG CommunicationProcess: fileData = " + (fileData != null ? fileData.length + " bytes" : "null"));
         if (fileData!=null)
         {
             data                =new ActivityData();
@@ -747,12 +769,14 @@ public class CommunicationProcess implements ProgressListener
             // Transfer to activity
             data.activity       =ttbinReader.readTtbinFile(data.file);
             data.ttbinSaved     =true;
+            System.out.println("DEBUG CommunicationProcess: activity = " + (data.activity != null ? "not null" : "null"));
 
             // Append the new data item to the list
             synchronized(this)
             {
                 activities.add(data);
-            }        
+                System.out.println("DEBUG CommunicationProcess: Added to list, size now = " + activities.size());
+            }
             theView.addListItem(data, "file  ");
             theView.selectLastListIndex();
         }

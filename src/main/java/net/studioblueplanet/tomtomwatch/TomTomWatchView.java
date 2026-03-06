@@ -2759,15 +2759,18 @@ public class TomTomWatchView extends javax.swing.JFrame
         int index = 0;
         while (true) {
             net.studioblueplanet.tomtomwatch.ActivityData activityData = communicationProcess.getActivityData(index);
+            System.out.println("DEBUG: getActivityData(" + index + ") = " + (activityData != null ? "not null" : "null"));
             if (activityData == null) {
                 break;
             }
             if (activityData.activity != null) {
                 activities.add(activityData.activity);
+                System.out.println("DEBUG: Added activity at index " + index);
             }
             index++;
         }
 
+        System.out.println("DEBUG: Total activities found: " + activities.size());
         return activities;
     }
 }
