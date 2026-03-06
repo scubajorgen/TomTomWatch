@@ -91,6 +91,12 @@
             <artifactId>httpclient</artifactId>
             <version>4.5.13</version>
         </dependency>
+        <!-- Apache HttpClient MIME for multipart uploads -->
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpmime</artifactId>
+            <version>4.5.13</version>
+        </dependency>
         <!-- WireMock for mocking Strava API in tests -->
         <dependency>
             <groupId>com.github.tomakehurst</groupId>
