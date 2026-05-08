@@ -27,6 +27,11 @@ import java.util.ArrayList;
  */
 public class UsbInterfaceTest
 {
+
+    private static <T> T anyObject()
+    {
+        return Mockito.any();
+    }
  
     UsbConnection mockConnection=mock(UsbConnection.class);
 

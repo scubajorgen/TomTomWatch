@@ -5,8 +5,9 @@
  */
 package net.studioblueplanet.ttbin;
 
-import hirondelle.date4j.DateTime;
 import java.io.Writer;
+import java.util.Locale;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -16,11 +17,14 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import net.studioblueplanet.logger.DebugLogger;
+
 import org.w3c.dom.Attr;
 import org.w3c.dom.Comment;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+
+import hirondelle.date4j.DateTime;
+import net.studioblueplanet.logger.DebugLogger;
 
 /**
  *
@@ -132,6 +136,11 @@ public class TcxWriter implements TrackWriter
      * @param track The track to write
      * @param appName Application name
      */
+    private static String formatInvariant(String format, Object... args)
+    {
+        return String.format(Locale.ROOT, format, args);
+    }
+
     private void addTrack(Document doc, Element tcxElement, Activity track, String appName)
     {
         int     i;
@@ -154,9 +163,8 @@ public class TcxWriter implements TrackWriter
                              "Logged as: "+track.getActivityDescription()+".";
         if (track.isSmoothed())
         {
-            trackDescription+=" Smoothing ("+String.format("%.1f", track.getTrackSmoothingQFactor())+") applied.";
+                trackDescription+=" Smoothing ("+formatInvariant("%.1f", track.getTrackSmoothingQFactor())+") applied.";
         }
-        
         // The activities element
         activitiesElement = doc.createElement("Activities");
         tcxElement.appendChild(activitiesElement);
@@ -197,16 +205,16 @@ public class TcxWriter implements TrackWriter
 
             Element totalTimeElement=doc.createElement("TotalTimeSeconds");
             long lapTime=segment.getStartTime().numSecondsFrom(segment.getEndTime());
-            totalTimeElement.appendChild(doc.createTextNode(String.format("%d", lapTime)));
+            totalTimeElement.appendChild(doc.createTextNode(formatInvariant("%d", lapTime)));
             lapElement.appendChild(totalTimeElement);
             
             Element distanceElement=doc.createElement("DistanceMeters");
-            distanceElement.appendChild(doc.createTextNode(String.format("%.1f", segment.getDistance()*1000)));
+            distanceElement.appendChild(doc.createTextNode(formatInvariant("%.1f", segment.getDistance()*1000)));
             lapElement.appendChild(distanceElement);
 
             // For XSD compliancy
             Element caloriesElement=doc.createElement("Calories");
-            caloriesElement.appendChild(doc.createTextNode(String.format("%d", 0)));
+            caloriesElement.appendChild(doc.createTextNode(formatInvariant("%d", 0)));
             lapElement.appendChild(caloriesElement);            
             Element intensityElement=doc.createElement("Intensity");
             intensityElement.appendChild(doc.createTextNode("Active"));
@@ -251,24 +259,24 @@ public class TcxWriter implements TrackWriter
                     Element positionElement=doc.createElement("Position");
                     pointElement.appendChild(positionElement);
                     element=doc.createElement("LatitudeDegrees");
-                    element.appendChild(doc.createTextNode((String.format("%.7f", latitude))));
+                    element.appendChild(doc.createTextNode(formatInvariant("%.7f", latitude)));
                     positionElement.appendChild(element);
                     element=doc.createElement("LongitudeDegrees");
-                    element.appendChild(doc.createTextNode((String.format("%.7f", longitude))));
+                    element.appendChild(doc.createTextNode(formatInvariant("%.7f", longitude)));
                     positionElement.appendChild(element);
                     
                     // The elevation.
                     if (elevation!=ActivityRecord.INVALID)
                     {
                         element    = doc.createElement("AltitudeMeters");
-                        element.appendChild(doc.createTextNode(String.format("%.1f", elevation)));
+                        element.appendChild(doc.createTextNode(formatInvariant("%.1f", elevation)));
                         pointElement.appendChild(element);
                     }                    
                     
                     if (distance!=ActivityRecord.INVALID)
                     {
                         element    = doc.createElement("DistanceMeters");
-                        element.appendChild(doc.createTextNode(String.format("%.1f", distance)));
+                        element.appendChild(doc.createTextNode(formatInvariant("%.1f", distance)));
                         pointElement.appendChild(element);
                     }                    
 

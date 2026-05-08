@@ -2207,7 +2207,7 @@ public class TomTomWatchView extends javax.swing.JFrame
 
             String fileName = settings.getStringValue("gpxFilePath");
 
-            if ((!fileName.endsWith("/")) && (!fileName.endsWith("\\")))
+            if (!fileName.endsWith("/"))
             {
                 fileName += "/";
             }

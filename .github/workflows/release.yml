@@ -1,0 +1,38 @@
+name: Release
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  build-and-upload:
+    name: Build and upload JAR
+    runs-on: ubuntu-latest
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Java 21 (Temurin)
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+
+      - name: Build fat JAR
+        run: mvn package -DskipTests -q
+
+      - name: Copy properties file
+        run: cp src/main/resources_run/tomtomwatch.properties target/tomtomwatch.properties
+
+      - name: Upload TomTomWatch.jar
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            target/TomTomWatch.jar
+            target/tomtomwatch.properties

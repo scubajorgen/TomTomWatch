@@ -5,50 +5,51 @@
  */
 package net.studioblueplanet.tomtomwatch;
 
-import net.studioblueplanet.usb.UsbFile;
-import net.studioblueplanet.usb.WatchInterface.FileType;
-import net.studioblueplanet.usb.WatchInterface;
-import net.studioblueplanet.generics.DirectExecutor;
-import net.studioblueplanet.generics.ToolBox;
-import net.studioblueplanet.ttbin.TomTomReader;
-import net.studioblueplanet.ttbin.Activity;
-import net.studioblueplanet.ttbin.TtbinHeader;
-import net.studioblueplanet.settings.ConfigSettings;
-import hirondelle.date4j.DateTime;
-import java.io.IOException;
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import net.studioblueplanet.logger.DebugLogger;
-
 
 import org.junit.After;
 import org.junit.AfterClass;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.junit.Ignore;
-import static org.junit.Assert.*;
 import org.mockito.ArgumentCaptor;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyBoolean;
+import static org.mockito.ArgumentMatchers.anyInt;
+import org.mockito.MockedStatic;
 import org.mockito.Mockito;
-import static org.mockito.Mockito.*;
-
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
-import org.junit.runner.RunWith;
+import static org.mockito.Mockito.atLeast;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import org.mockito.invocation.InvocationOnMock;
+
+import hirondelle.date4j.DateTime;
+import net.studioblueplanet.generics.DirectExecutor;
+import net.studioblueplanet.generics.ToolBox;
+import net.studioblueplanet.logger.DebugLogger;
+import net.studioblueplanet.settings.ConfigSettings;
+import net.studioblueplanet.ttbin.Activity;
+import net.studioblueplanet.ttbin.TomTomReader;
+import net.studioblueplanet.ttbin.TtbinHeader;
+import net.studioblueplanet.usb.UsbFile;
+import net.studioblueplanet.usb.WatchInterface;
+import net.studioblueplanet.usb.WatchInterface.FileType;
 
 
 /**
  *
  * @author jorgen
  */
-
-
-@RunWith(PowerMockRunner.class)
-@PrepareForTest(ToolBox.class)
 public class CommunicationProcessTest
 {
     private final WatchInterface                watchInterface;
@@ -576,34 +577,30 @@ public class CommunicationProcessTest
         System.out.println("TEST: pushCommand - THREADCOMMAND_SAVESIMULATIONSET");
         ThreadCommand command = ThreadCommand.THREADCOMMAND_SAVESIMULATIONSET;
 
-        // Good flow
-        // Mock the ToolBox
-        PowerMockito.mockStatic(ToolBox.class);
-        when(ToolBox.writeBytesToFile(any(), any())).thenReturn(false);
-        theInstance.pushCommand(command);
-        verify(watchInterface).getFileList(fileTypeCaptor.capture());
-        assertEquals(FileType.TTWATCH_FILE_ALL, fileTypeCaptor.getValue());
-        verify(watchInterface, times(8)).readFile(fileCaptor.capture());
-        PowerMockito.verifyStatic(Mockito.times(8));
-        ToolBox.writeBytesToFile(stringCaptor.capture(), any());
+        try (MockedStatic<ToolBox> toolBoxMock = Mockito.mockStatic(ToolBox.class))
+        {
+            toolBoxMock.when(() -> ToolBox.writeBytesToFile(any(), any())).thenReturn(false);
+            theInstance.pushCommand(command);
+            verify(watchInterface).getFileList(fileTypeCaptor.capture());
+            assertEquals(FileType.TTWATCH_FILE_ALL, fileTypeCaptor.getValue());
+            verify(watchInterface, times(8)).readFile(fileCaptor.capture());
+            toolBoxMock.verify(() -> ToolBox.writeBytesToFile(stringCaptor.capture(), any()), times(8));
 
-        // Error writing file
-        when(ToolBox.writeBytesToFile(any(), any())).thenReturn(true);
-        theInstance.pushCommand(command);
-        verify(theView, times(1)).showErrorDialog(stringCaptor.capture());
-        assertEquals("Error writing file 0x00000123 to disk as .\\working\\simulation\\0x00000123.bin", stringCaptor.getValue());        
-        
-        // File read error
-        doReturn(true).when(watchInterface).readFile(any());
-        theInstance.pushCommand(command);
-        verify(theView, times(2)).showErrorDialog(stringCaptor.capture());
-        assertEquals("Error reading file 0x00000123", stringCaptor.getValue());
+            toolBoxMock.when(() -> ToolBox.writeBytesToFile(any(), any())).thenReturn(true);
+            theInstance.pushCommand(command);
+            verify(theView, times(1)).showErrorDialog(stringCaptor.capture());
+            assertEquals("Error writing file 0x00000123 to disk as .\\working\\simulation\\0x00000123.bin", stringCaptor.getValue());
 
-        // No file info
-        when(watchInterface.getFileList(any())).thenReturn(null);
-        theInstance.pushCommand(command);
-        verify(theView, times(3)).showErrorDialog(stringCaptor.capture());
-        assertEquals("Error retrieving file info from watch", stringCaptor.getValue());
+            doReturn(true).when(watchInterface).readFile(any());
+            theInstance.pushCommand(command);
+            verify(theView, times(2)).showErrorDialog(stringCaptor.capture());
+            assertEquals("Error reading file 0x00000123", stringCaptor.getValue());
+
+            when(watchInterface.getFileList(any())).thenReturn(null);
+            theInstance.pushCommand(command);
+            verify(theView, times(3)).showErrorDialog(stringCaptor.capture());
+            assertEquals("Error retrieving file info from watch", stringCaptor.getValue());
+        }
     }
     
     /**
@@ -615,22 +612,22 @@ public class CommunicationProcessTest
         System.out.println("TEST: pushCommand - THREADCOMMAND_UPLOADGPSDATAS");
         ThreadCommand command = ThreadCommand.THREADCOMMAND_UPLOADGPSDATA;
 
-        // Mock the ToolBox
-        PowerMockito.mockStatic(ToolBox.class);        
-        when(ToolBox.readStringFromUrl("preferenceValue")).thenReturn("{\"service:ephemeris\":\"TEST{DAYS}\"}");
-        when(ToolBox.readBytesFromUrl("TEST7")).thenReturn(new byte[]{0, 1, 2});
-        
-        // Good flow
-        theInstance.pushCommand(command);
-        verify(watchInterface).writeGpxQuickFixFile(any());
-        verify(theView).setStatus(stringCaptor.capture());
-        verify(theView, times(5)).appendStatus(stringCaptor.capture());
-        assertEquals("Uploading GPS Quickfix data\n", stringCaptor.getAllValues().get(0)); 
-        assertEquals("Configuration URL: preferenceValue\n", stringCaptor.getAllValues().get(1));
-        assertEquals("Requesting file for 7 days ahead\n", stringCaptor.getAllValues().get(2));
-        assertEquals("Quickfix data URL: TEST7\n", stringCaptor.getAllValues().get(3));
-        assertEquals("GPS Quickfix data sent to watch\n", stringCaptor.getAllValues().get(4));        
-        assertEquals("Done\n", stringCaptor.getAllValues().get(5));
+        try (MockedStatic<ToolBox> toolBoxMock = Mockito.mockStatic(ToolBox.class))
+        {
+            toolBoxMock.when(() -> ToolBox.readStringFromUrl("preferenceValue")).thenReturn("{\"service:ephemeris\":\"TEST{DAYS}\"}");
+            toolBoxMock.when(() -> ToolBox.readBytesFromUrl("TEST7")).thenReturn(new byte[]{0, 1, 2});
+
+            theInstance.pushCommand(command);
+            verify(watchInterface).writeGpxQuickFixFile(any());
+            verify(theView).setStatus(stringCaptor.capture());
+            verify(theView, times(5)).appendStatus(stringCaptor.capture());
+            assertEquals("Uploading GPS Quickfix data\n", stringCaptor.getAllValues().get(0));
+            assertEquals("Configuration URL: preferenceValue\n", stringCaptor.getAllValues().get(1));
+            assertEquals("Requesting file for 7 days ahead\n", stringCaptor.getAllValues().get(2));
+            assertEquals("Quickfix data URL: TEST7\n", stringCaptor.getAllValues().get(3));
+            assertEquals("GPS Quickfix data sent to watch\n", stringCaptor.getAllValues().get(4));
+            assertEquals("Done\n", stringCaptor.getAllValues().get(5));
+        }
     }    
 
     /**
@@ -642,24 +639,24 @@ public class CommunicationProcessTest
         System.out.println("TEST: pushCommand - THREADCOMMAND_UPLOADGPSDATAS");
         ThreadCommand command = ThreadCommand.THREADCOMMAND_UPLOADGPSDATA;
 
-        // Mock the ToolBox
-        PowerMockito.mockStatic(ToolBox.class);        
-        when(ToolBox.readStringFromUrl("preferenceValue")).thenReturn("{\"service:ephemeris\":\"TEST{DAYS}\"}");
-        when(ToolBox.readBytesFromUrl("TEST7")).thenReturn(new byte[]{0, 1, 2});
+        try (MockedStatic<ToolBox> toolBoxMock = Mockito.mockStatic(ToolBox.class))
+        {
+            toolBoxMock.when(() -> ToolBox.readStringFromUrl("preferenceValue")).thenReturn("{\"service:ephemeris\":\"TEST{DAYS}\"}");
+            toolBoxMock.when(() -> ToolBox.readBytesFromUrl("TEST7")).thenReturn(new byte[]{0, 1, 2});
 
-        // Cannot write to watch
-        when(watchInterface.writeGpxQuickFixFile(any())).thenReturn(true);
-        theInstance.pushCommand(command);
-        verify(theView).setStatus(stringCaptor.capture());
-        verify(theView, times(4)).appendStatus(stringCaptor.capture());
-        assertEquals("Uploading GPS Quickfix data\n", stringCaptor.getAllValues().get(0)); 
-        assertEquals("Configuration URL: preferenceValue\n", stringCaptor.getAllValues().get(1));
-        assertEquals("Requesting file for 7 days ahead\n", stringCaptor.getAllValues().get(2));
-        assertEquals("Quickfix data URL: TEST7\n", stringCaptor.getAllValues().get(3));
-        assertEquals("Done\n", stringCaptor.getAllValues().get(4));
-        
-        verify(theView).showErrorDialog(stringCaptor.capture());
-        assertEquals("Unable to send quickfix file to the watch\n", stringCaptor.getValue());
+            when(watchInterface.writeGpxQuickFixFile(any())).thenReturn(true);
+            theInstance.pushCommand(command);
+            verify(theView).setStatus(stringCaptor.capture());
+            verify(theView, times(4)).appendStatus(stringCaptor.capture());
+            assertEquals("Uploading GPS Quickfix data\n", stringCaptor.getAllValues().get(0));
+            assertEquals("Configuration URL: preferenceValue\n", stringCaptor.getAllValues().get(1));
+            assertEquals("Requesting file for 7 days ahead\n", stringCaptor.getAllValues().get(2));
+            assertEquals("Quickfix data URL: TEST7\n", stringCaptor.getAllValues().get(3));
+            assertEquals("Done\n", stringCaptor.getAllValues().get(4));
+
+            verify(theView).showErrorDialog(stringCaptor.capture());
+            assertEquals("Unable to send quickfix file to the watch\n", stringCaptor.getValue());
+        }
 
     }    
 
@@ -672,24 +669,24 @@ public class CommunicationProcessTest
         System.out.println("TEST: pushCommand - THREADCOMMAND_UPLOADGPSDATAS");
         ThreadCommand command = ThreadCommand.THREADCOMMAND_UPLOADGPSDATA;
 
-        // Mock the ToolBox
-        PowerMockito.mockStatic(ToolBox.class);        
-        when(ToolBox.readStringFromUrl("preferenceValue")).thenReturn("{\"service:ephemeris\":\"TEST{DAYS}\"}");
-        when(ToolBox.readBytesFromUrl("TEST7")).thenReturn(new byte[]{0, 1, 2});
-        when(ToolBox.readBytesFromUrl(any())).thenReturn(null);
+        try (MockedStatic<ToolBox> toolBoxMock = Mockito.mockStatic(ToolBox.class))
+        {
+            toolBoxMock.when(() -> ToolBox.readStringFromUrl("preferenceValue")).thenReturn("{\"service:ephemeris\":\"TEST{DAYS}\"}");
+            toolBoxMock.when(() -> ToolBox.readBytesFromUrl("TEST7")).thenReturn(new byte[]{0, 1, 2});
+            toolBoxMock.when(() -> ToolBox.readBytesFromUrl(any())).thenReturn(null);
 
-        // Cannot read quick fix file
-        theInstance.pushCommand(command);
-        verify(theView).setStatus(stringCaptor.capture());
-        verify(theView, times(4)).appendStatus(stringCaptor.capture());
-        assertEquals("Uploading GPS Quickfix data\n", stringCaptor.getAllValues().get(0)); 
-        assertEquals("Configuration URL: preferenceValue\n", stringCaptor.getAllValues().get(1));
-        assertEquals("Requesting file for 7 days ahead\n", stringCaptor.getAllValues().get(2));
-        assertEquals("Quickfix data URL: TEST7\n", stringCaptor.getAllValues().get(3));
-        assertEquals("Done\n", stringCaptor.getAllValues().get(4));
-        
-        verify(theView).showErrorDialog(stringCaptor.capture());
-        assertEquals("Unable to read quickfix file\n", stringCaptor.getValue());        
+            theInstance.pushCommand(command);
+            verify(theView).setStatus(stringCaptor.capture());
+            verify(theView, times(4)).appendStatus(stringCaptor.capture());
+            assertEquals("Uploading GPS Quickfix data\n", stringCaptor.getAllValues().get(0));
+            assertEquals("Configuration URL: preferenceValue\n", stringCaptor.getAllValues().get(1));
+            assertEquals("Requesting file for 7 days ahead\n", stringCaptor.getAllValues().get(2));
+            assertEquals("Quickfix data URL: TEST7\n", stringCaptor.getAllValues().get(3));
+            assertEquals("Done\n", stringCaptor.getAllValues().get(4));
+
+            verify(theView).showErrorDialog(stringCaptor.capture());
+            assertEquals("Unable to read quickfix file\n", stringCaptor.getValue());
+        }
     }
     
     /**
@@ -701,22 +698,22 @@ public class CommunicationProcessTest
         System.out.println("TEST: pushCommand - THREADCOMMAND_UPLOADGPSDATAS");
         ThreadCommand command = ThreadCommand.THREADCOMMAND_UPLOADGPSDATA;
 
-        // Mock the ToolBox
-        PowerMockito.mockStatic(ToolBox.class);        
-        when(ToolBox.readBytesFromUrl("TEST7")).thenReturn(new byte[]{0, 1, 2});
-        when(ToolBox.readStringFromUrl(any())).thenReturn(null);
+        try (MockedStatic<ToolBox> toolBoxMock = Mockito.mockStatic(ToolBox.class))
+        {
+            toolBoxMock.when(() -> ToolBox.readBytesFromUrl("TEST7")).thenReturn(new byte[]{0, 1, 2});
+            toolBoxMock.when(() -> ToolBox.readStringFromUrl(any())).thenReturn(null);
 
-        // No TomTom Config service
-        theInstance.pushCommand(command);
-        verify(theView).setStatus(stringCaptor.capture());
-        verify(theView, times(5)).appendStatus(stringCaptor.capture());
-        assertEquals("Uploading GPS Quickfix data\n", stringCaptor.getAllValues().get(0)); 
-        assertEquals("Configuration URL: preferenceValue\n", stringCaptor.getAllValues().get(1));
-        assertEquals("TomTom config service not found: trying ephemeris service: "+
-                     "http://gpsquickfix.services.tomtom.com/fitness/sifgps.f2p{DAYS}enc.ee\n", stringCaptor.getAllValues().get(2));
-        assertEquals("Requesting file for 7 days ahead\n", stringCaptor.getAllValues().get(3));
-        assertEquals("Quickfix data URL: http://gpsquickfix.services.tomtom.com/fitness/sifgps.f2p7enc.ee\n", stringCaptor.getAllValues().get(4));
-        assertEquals("Done\n", stringCaptor.getAllValues().get(5));
+            theInstance.pushCommand(command);
+            verify(theView).setStatus(stringCaptor.capture());
+            verify(theView, times(5)).appendStatus(stringCaptor.capture());
+            assertEquals("Uploading GPS Quickfix data\n", stringCaptor.getAllValues().get(0));
+            assertEquals("Configuration URL: preferenceValue\n", stringCaptor.getAllValues().get(1));
+            assertEquals("TomTom config service not found: trying ephemeris service: "+
+                         "http://gpsquickfix.services.tomtom.com/fitness/sifgps.f2p{DAYS}enc.ee\n", stringCaptor.getAllValues().get(2));
+            assertEquals("Requesting file for 7 days ahead\n", stringCaptor.getAllValues().get(3));
+            assertEquals("Quickfix data URL: http://gpsquickfix.services.tomtom.com/fitness/sifgps.f2p7enc.ee\n", stringCaptor.getAllValues().get(4));
+            assertEquals("Done\n", stringCaptor.getAllValues().get(5));
+        }
     }    
 
     /**
@@ -728,21 +725,21 @@ public class CommunicationProcessTest
         System.out.println("TEST: pushCommand - THREADCOMMAND_UPLOADGPSDATAS");
         ThreadCommand command = ThreadCommand.THREADCOMMAND_UPLOADGPSDATA;
 
-        // Mock the ToolBox
-        PowerMockito.mockStatic(ToolBox.class);        
-        when(ToolBox.readStringFromUrl("preferenceValue")).thenReturn("{\"service:ephemeris\":\"TEST{DAYS}\"}");
-        when(ToolBox.readBytesFromUrl("TEST7")).thenReturn(new byte[]{0, 1, 2});
+        try (MockedStatic<ToolBox> toolBoxMock = Mockito.mockStatic(ToolBox.class))
+        {
+            toolBoxMock.when(() -> ToolBox.readStringFromUrl("preferenceValue")).thenReturn("{\"service:ephemeris\":\"TEST{DAYS}\"}");
+            toolBoxMock.when(() -> ToolBox.readBytesFromUrl("TEST7")).thenReturn(new byte[]{0, 1, 2});
 
-        // No preference found
-        doReturn(null).when(watchInterface).getPreference("ConfigURL");
-        theInstance.pushCommand(command);
-        verify(theView).setStatus(stringCaptor.capture());
-        verify(theView, times(1)).appendStatus(stringCaptor.capture());
-        assertEquals("Uploading GPS Quickfix data\n", stringCaptor.getAllValues().get(0)); 
-        assertEquals("Done\n", stringCaptor.getAllValues().get(1));
-        
-        verify(theView, times(1)).showErrorDialog(stringCaptor.capture());
-        assertEquals("Error reading preference from the Watch\n", stringCaptor.getValue());
+            doReturn(null).when(watchInterface).getPreference("ConfigURL");
+            theInstance.pushCommand(command);
+            verify(theView).setStatus(stringCaptor.capture());
+            verify(theView, times(1)).appendStatus(stringCaptor.capture());
+            assertEquals("Uploading GPS Quickfix data\n", stringCaptor.getAllValues().get(0));
+            assertEquals("Done\n", stringCaptor.getAllValues().get(1));
+
+            verify(theView, times(1)).showErrorDialog(stringCaptor.capture());
+            assertEquals("Error reading preference from the Watch\n", stringCaptor.getValue());
+        }
     }
     
     /**
@@ -779,23 +776,23 @@ public class CommunicationProcessTest
         String                          fileName;
         System.out.println("TEST: requestLoadActivityFromTtbinFile");
 
-        // Mock the ToolBox
-        PowerMockito.mockStatic(ToolBox.class);
-        
-        // Non existing file
-        fileName="PietjePuk";
-        when(ToolBox.readBytesFromFile(fileName)).thenReturn(null);
-        theInstance.requestLoadActivityFromTtbinFile(fileName);
-        verify(theView).showErrorDialog(stringCaptor.capture());
-        verify(theView, never()).addListItem(any(), any());
-        assertEquals("Error loading file: ", stringCaptor.getValue().substring(0, 20));
+        try (MockedStatic<ToolBox> toolBoxMock = Mockito.mockStatic(ToolBox.class))
+        {
+            fileName="PietjePuk";
+            final String missingFileName = fileName;
+            toolBoxMock.when(() -> ToolBox.readBytesFromFile(missingFileName)).thenReturn(null);
+            theInstance.requestLoadActivityFromTtbinFile(fileName);
+            verify(theView).showErrorDialog(stringCaptor.capture());
+            verify(theView, never()).addListItem(any(), any());
+            assertEquals("Error loading file: ", stringCaptor.getValue().substring(0, 20));
 
-        // Good flow
-        fileName = "src/test/resources/test.ttbin";
-        when(ToolBox.readBytesFromFile(fileName)).thenReturn(new byte[]{1, 2, 3});
-        when(ttbinReader.readTtbinFile((UsbFile)any())).thenReturn(null);
-        theInstance.requestLoadActivityFromTtbinFile(fileName);
-        verify(theView).addListItem(dataCaptor.capture(), stringCaptor.capture());
+            fileName = "src/test/resources/test.ttbin";
+            final String existingFileName = fileName;
+            toolBoxMock.when(() -> ToolBox.readBytesFromFile(existingFileName)).thenReturn(new byte[]{1, 2, 3});
+            when(ttbinReader.readTtbinFile((UsbFile)any())).thenReturn(null);
+            theInstance.requestLoadActivityFromTtbinFile(fileName);
+            verify(theView).addListItem(dataCaptor.capture(), stringCaptor.capture());
+        }
     }
 
     /**
@@ -807,50 +804,44 @@ public class CommunicationProcessTest
         byte[]                  bytes;
         int                     fileId;
 
-        // Mock the ToolBox
-        PowerMockito.mockStatic(ToolBox.class);
-        
         System.out.println("TEST: requestWriteDeviceFileToDisk");
 
-        // Happy flow
-        fileId = 0x00000123;
-        when(ToolBox.writeBytesToFile(stringCaptor.capture(), bytesCaptor.capture())).thenReturn(false);
-        theInstance.requestWriteDeviceFileToDisk(fileId);
-        assertEquals(".\\working\\files\\0x00000123.bin", stringCaptor.getValue());
-        bytes=bytesCaptor.getValue();
-        assertEquals(3, bytes.length);
-        assertEquals(0x00, bytes[0]);
-        assertEquals(0x01, bytes[1]);
-        assertEquals(0x02, bytes[2]);
+        try (MockedStatic<ToolBox> toolBoxMock = Mockito.mockStatic(ToolBox.class))
+        {
+            fileId = 0x00000123;
+            toolBoxMock.when(() -> ToolBox.writeBytesToFile(stringCaptor.capture(), bytesCaptor.capture())).thenReturn(false);
+            theInstance.requestWriteDeviceFileToDisk(fileId);
+            assertEquals(".\\working\\files\\0x00000123.bin", stringCaptor.getValue());
+            bytes=bytesCaptor.getValue();
+            assertEquals(3, bytes.length);
+            assertEquals(0x00, bytes[0]);
+            assertEquals(0x01, bytes[1]);
+            assertEquals(0x02, bytes[2]);
 
-        // Error writing file
-        fileId = 0x00000123;
-        when(ToolBox.writeBytesToFile(stringCaptor.capture(), bytesCaptor.capture())).thenReturn(true);
-        theInstance.requestWriteDeviceFileToDisk(fileId);
-        verify(theView, times(1)).showErrorDialog(stringCaptor.capture());
-        assertEquals("Error writing file .\\working\\files\\0x00000123.bin", stringCaptor.getValue());
+            fileId = 0x00000123;
+            toolBoxMock.when(() -> ToolBox.writeBytesToFile(stringCaptor.capture(), bytesCaptor.capture())).thenReturn(true);
+            theInstance.requestWriteDeviceFileToDisk(fileId);
+            verify(theView, times(1)).showErrorDialog(stringCaptor.capture());
+            assertEquals("Error writing file .\\working\\files\\0x00000123.bin", stringCaptor.getValue());
 
-        // Error fetching file from watch
-        fileId = 0x00000123;
-        // we have to use doReturn.when here iso. when.thenReturn, otherwise null pointer exception...
-        doReturn(true).when(watchInterface).readFile(any());
-        theInstance.requestWriteDeviceFileToDisk(fileId);
-        verify(theView, times(2)).showErrorDialog(stringCaptor.capture());
-        assertEquals("Error reading file with ID 0x00000123", stringCaptor.getValue());
+            fileId = 0x00000123;
+            doReturn(true).when(watchInterface).readFile(any());
+            theInstance.requestWriteDeviceFileToDisk(fileId);
+            verify(theView, times(2)).showErrorDialog(stringCaptor.capture());
+            assertEquals("Error reading file with ID 0x00000123", stringCaptor.getValue());
 
-        // Non existing file on watch
-        fileId = 0x00000001;
-        theInstance.requestWriteDeviceFileToDisk(fileId);
-        verify(theView, times(3)).showErrorDialog(stringCaptor.capture());
-        assertEquals("File with ID 0x00000001 does not exist on watch", stringCaptor.getValue());
+            fileId = 0x00000001;
+            theInstance.requestWriteDeviceFileToDisk(fileId);
+            verify(theView, times(3)).showErrorDialog(stringCaptor.capture());
+            assertEquals("File with ID 0x00000001 does not exist on watch", stringCaptor.getValue());
 
-        // Error fetching file list
-        fileId = 0x00000123;
-        when(ToolBox.writeBytesToFile(stringCaptor.capture(), bytesCaptor.capture())).thenReturn(false);
-        when(watchInterface.getFileList(any())).thenReturn(null);
-        theInstance.requestWriteDeviceFileToDisk(fileId);
-        verify(theView, times(4)).showErrorDialog(stringCaptor.capture());
-        assertEquals("Error: file list could not be retrieved from watch", stringCaptor.getValue());
+            fileId = 0x00000123;
+            toolBoxMock.when(() -> ToolBox.writeBytesToFile(stringCaptor.capture(), bytesCaptor.capture())).thenReturn(false);
+            when(watchInterface.getFileList(any())).thenReturn(null);
+            theInstance.requestWriteDeviceFileToDisk(fileId);
+            verify(theView, times(4)).showErrorDialog(stringCaptor.capture());
+            assertEquals("Error: file list could not be retrieved from watch", stringCaptor.getValue());
+        }
     }
 
     /**
@@ -866,35 +857,35 @@ public class CommunicationProcessTest
         
         // Good flow
         fileName = "src/test/resources/0x00000123.bin";
-        PowerMockito.mockStatic(ToolBox.class);
-        when(ToolBox.readBytesFromFile(stringCaptor.capture())).thenReturn(new byte[]{'a', 'b', 'c', 'd'});
-        theInstance.requestUploadFile(fileName);
-        verify(watchInterface).writeVerifyFile(fileCaptor.capture());
-        file=fileCaptor.getValue();
-        assertEquals(0x00000123, file.fileId);
-        assertEquals(4, file.length);
-        assertEquals(fileName, stringCaptor.getValue());
-        
-        // Illegal file name
-        fileName = "src/test/resources/PietjePuk.bin";
-        theInstance.requestUploadFile(fileName);
-        verify(theView, times(1)).showErrorDialog(stringCaptor.capture());
-        assertEquals("The filename 'PietjePuk.bin' does not fit the required format: 0xnnnnnnnn.bin", stringCaptor.getValue());
-        
-        // Writing to watch fails
-        fileName = "src/test/resources/0x00000123.bin";
-        when(watchInterface.writeVerifyFile(any())).thenReturn(true);
-        theInstance.requestUploadFile(fileName);
-        verify(theView, times(2)).appendStatus(stringCaptor.capture());
-        assertEquals("Failed!!\n", stringCaptor.getValue());
+        try (MockedStatic<ToolBox> toolBoxMock = Mockito.mockStatic(ToolBox.class))
+        {
+            toolBoxMock.when(() -> ToolBox.readBytesFromFile(stringCaptor.capture())).thenReturn(new byte[]{'a', 'b', 'c', 'd'});
+            theInstance.requestUploadFile(fileName);
+            verify(watchInterface).writeVerifyFile(fileCaptor.capture());
+            file=fileCaptor.getValue();
+            assertEquals(0x00000123, file.fileId);
+            assertEquals(4, file.length);
+            assertEquals(fileName, stringCaptor.getValue());
 
-        // Reading file fails
-        fileName = "src/test/resources/0x00000123.bin";
-        when(watchInterface.writeVerifyFile(any())).thenReturn(false);
-        when(ToolBox.readBytesFromFile(stringCaptor.capture())).thenReturn(null);
-        theInstance.requestUploadFile(fileName);
-        verify(theView, times(2)).showErrorDialog(stringCaptor.capture());
-        assertEquals("The filename '0x00000123.bin' could not be read", stringCaptor.getValue());
+            fileName = "src/test/resources/PietjePuk.bin";
+            theInstance.requestUploadFile(fileName);
+            verify(theView, times(1)).showErrorDialog(stringCaptor.capture());
+            assertEquals("The filename 'PietjePuk.bin' does not fit the required format: 0xnnnnnnnn.bin", stringCaptor.getValue());
+
+            fileName = "src/test/resources/0x00000123.bin";
+            when(watchInterface.writeVerifyFile(any())).thenReturn(true);
+            theInstance.requestUploadFile(fileName);
+            verify(theView, times(2)).appendStatus(stringCaptor.capture());
+            assertEquals("Failed!!\n", stringCaptor.getValue());
+
+            // Reading file fails
+            fileName = "src/test/resources/0x00000123.bin";
+            when(watchInterface.writeVerifyFile(any())).thenReturn(false);
+            toolBoxMock.when(() -> ToolBox.readBytesFromFile(stringCaptor.capture())).thenReturn(null);
+            theInstance.requestUploadFile(fileName);
+            verify(theView, times(2)).showErrorDialog(stringCaptor.capture());
+            assertEquals("The filename '0x00000123.bin' could not be read", stringCaptor.getValue());
+        }
     }
 
     /**
@@ -1218,18 +1209,18 @@ public class CommunicationProcessTest
         
         System.out.println("TEST: requestUploadWorkouts - invalid JSON");
 
-        PowerMockito.mockStatic(ToolBox.class);
-        when(ToolBox.readStringFromUtf8File(any())).thenReturn("invalid JSON");        
-        // Good flow
-        fileName = "anyFile.json";
-        
-        // Make sure the firmware version is 1.7.64
-        theInstance.pushCommand(ThreadCommand.THREADCOMMAND_GETFIRMWAREVERSION);
-        
-        theInstance.requestUploadWorkouts(fileName);
-        verify(watchInterface, times(0)).writeVerifyFile(any());
-        verify(theView).appendStatus(stringCaptor.capture());
-        assertEquals("Error importing JSON\n", stringCaptor.getValue());
+        try (MockedStatic<ToolBox> toolBoxMock = Mockito.mockStatic(ToolBox.class))
+        {
+            toolBoxMock.when(() -> ToolBox.readStringFromUtf8File(any())).thenReturn("invalid JSON");
+            fileName = "anyFile.json";
+
+            theInstance.pushCommand(ThreadCommand.THREADCOMMAND_GETFIRMWAREVERSION);
+
+            theInstance.requestUploadWorkouts(fileName);
+            verify(watchInterface, times(0)).writeVerifyFile(any());
+            verify(theView).appendStatus(stringCaptor.capture());
+            assertEquals("Error importing JSON\n", stringCaptor.getValue());
+        }
     }    
 
     @Test
@@ -1276,17 +1267,18 @@ public class CommunicationProcessTest
 
         String expected = new String(Files.readAllBytes((new File("src/test/resources/compareworkouts.json")).toPath()),"UTF-8").replace("\r\n", "\n");
         
-        PowerMockito.mockStatic(ToolBox.class);
-        when(ToolBox.writeStringToUtf8File(any(), stringCaptor.capture())).thenReturn(false);   
-        when(ToolBox.bytesToHexString(any(), anyInt())).thenCallRealMethod();
-        when(ToolBox.readInt(any(), anyInt(), anyInt(), anyBoolean())).thenCallRealMethod();
-        when(ToolBox.readUnsignedInt(any(), anyInt(), anyInt(), anyBoolean())).thenCallRealMethod();
-        
-         // Make sure the firmware version is 1.7.64
-        theInstance.pushCommand(ThreadCommand.THREADCOMMAND_GETFIRMWAREVERSION);
-        theInstance.pushCommand(ThreadCommand.THREADCOMMAND_DOWNLOADWORKOUTS);
-        
-        assertEquals(expected, stringCaptor.getValue());
+        try (MockedStatic<ToolBox> toolBoxMock = Mockito.mockStatic(ToolBox.class))
+        {
+            toolBoxMock.when(() -> ToolBox.writeStringToUtf8File(any(), stringCaptor.capture())).thenReturn(false);
+            toolBoxMock.when(() -> ToolBox.bytesToHexString(any(), anyInt())).thenCallRealMethod();
+            toolBoxMock.when(() -> ToolBox.readInt(any(), anyInt(), anyInt(), anyBoolean())).thenCallRealMethod();
+            toolBoxMock.when(() -> ToolBox.readUnsignedInt(any(), anyInt(), anyInt(), anyBoolean())).thenCallRealMethod();
+
+            theInstance.pushCommand(ThreadCommand.THREADCOMMAND_GETFIRMWAREVERSION);
+            theInstance.pushCommand(ThreadCommand.THREADCOMMAND_DOWNLOADWORKOUTS);
+
+            assertEquals(expected, stringCaptor.getValue());
+        }
     }
 
 }

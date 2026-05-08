@@ -519,7 +519,7 @@ public class MapOsm extends Map
         super(panel);
         mapViewer = new JXMapViewer();
 
-        // Create a TileFactoryInfo for OpenStreetMap
+        // Create a TileFactoryInfo for OpenStreetMap (using HTTPS)
         TileFactoryInfo info = new OSMTileFactoryInfo("OpenStreetMap", "https://tile.openstreetmap.org");
         DefaultTileFactory tileFactory = new DefaultTileFactory(info);
         mapViewer.setTileFactory(tileFactory);

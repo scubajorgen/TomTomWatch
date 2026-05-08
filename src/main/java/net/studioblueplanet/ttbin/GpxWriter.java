@@ -5,31 +5,31 @@
 
 package net.studioblueplanet.ttbin;
 
-import net.studioblueplanet.logger.DebugLogger;
-import net.studioblueplanet.settings.ConfigSettings;
-
 import java.io.IOException;
-import java.io.Writer;
 import java.io.StringWriter;
+import java.io.Writer;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Locale;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.Transformer;
 import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.Attr;
-import org.w3c.dom.Document;
 import org.w3c.dom.Comment;
+import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import java.util.List;
-import java.util.Iterator;
-
 import hirondelle.date4j.DateTime;
+import net.studioblueplanet.logger.DebugLogger;
+import net.studioblueplanet.settings.ConfigSettings;
 
 
 
@@ -52,6 +52,11 @@ public class GpxWriter implements TrackWriter
     private static boolean      garminGpxExtensions;
     private Document            doc;
     private Element             gpxElement;
+
+    private static String formatInvariant(String format, Object... args)
+    {
+        return String.format(Locale.ROOT, format, args);
+    }
 
     /**
      * Constructor
@@ -326,7 +331,7 @@ public class GpxWriter implements TrackWriter
                 segmentElement.appendChild(pointElement);
 
                 element    = doc.createElement("ele");
-                element.appendChild(doc.createTextNode(String.format("%.1f", elevation)));
+                element.appendChild(doc.createTextNode(formatInvariant("%.1f", elevation)));
                 pointElement.appendChild(element);
 
                 element    = doc.createElement("time");
@@ -345,12 +350,12 @@ public class GpxWriter implements TrackWriter
 
                 // set attribute 'lat' to element
                 attr = doc.createAttribute("lat");
-                attr.setValue(String.format("%.7f", latitude));
+                attr.setValue(formatInvariant("%.7f", latitude));
                 pointElement.setAttributeNode(attr);
 
                 // set attribute 'lon' to element
                 attr = doc.createAttribute("lon");
-                attr.setValue(String.format("%.7f", longitude));
+                attr.setValue(formatInvariant("%.7f", longitude));
                 pointElement.setAttributeNode(attr);
 
                 trackPoints++;
@@ -433,7 +438,7 @@ public class GpxWriter implements TrackWriter
                 if (elevation!=ActivityRecord.INVALID)
                 {
                     element    = doc.createElement("ele");
-                    element.appendChild(doc.createTextNode(String.format("%.1f", elevation)));
+                    element.appendChild(doc.createTextNode(formatInvariant("%.1f", elevation)));
                     pointElement.appendChild(element);
                 }
 
@@ -479,12 +484,12 @@ public class GpxWriter implements TrackWriter
                         extensionsElement.appendChild(uGotmeExtensionsElement);
                         // Extensions: speed
                         element    = doc.createElement("u-gotMe:speed");
-                        element.appendChild(doc.createTextNode(String.format("%.2f", speed)));
+                        element.appendChild(doc.createTextNode(formatInvariant("%.2f", speed)));
                         uGotmeExtensionsElement.appendChild(element);
 
                         // Extensions: course
                         element    = doc.createElement("u-gotMe:course");
-                        element.appendChild(doc.createTextNode(String.format("%.2f", heading)));
+                        element.appendChild(doc.createTextNode(formatInvariant("%.2f", heading)));
                         uGotmeExtensionsElement.appendChild(element);
 
                         // Extensions: temperature
@@ -523,7 +528,7 @@ public class GpxWriter implements TrackWriter
                         if (ascend!=ActivityRecord.INVALID)
                         {
                             element    = doc.createElement("u-gotMe:asc");
-                            element.appendChild(doc.createTextNode(String.format("%.1f", ascend)));
+                            element.appendChild(doc.createTextNode(formatInvariant("%.1f", ascend)));
                             uGotmeExtensionsElement.appendChild(element);
                         }
 
@@ -531,7 +536,7 @@ public class GpxWriter implements TrackWriter
                         if (descend!=ActivityRecord.INVALID)
                         {
                             element    = doc.createElement("u-gotMe:desc");
-                            element.appendChild(doc.createTextNode(String.format("%.1f", descend)));
+                            element.appendChild(doc.createTextNode(formatInvariant("%.1f", descend)));
                             uGotmeExtensionsElement.appendChild(element);
                         }
                     }
@@ -539,12 +544,12 @@ public class GpxWriter implements TrackWriter
                 
                 // set attribute 'lat' to element
                 attr = doc.createAttribute("lat");
-                attr.setValue(String.format("%.7f", latitude));
+                attr.setValue(formatInvariant("%.7f", latitude));
                 pointElement.setAttributeNode(attr);
 
                 // set attribute 'lon' to element
                 attr = doc.createAttribute("lon");
-                attr.setValue(String.format("%.7f", longitude));
+                attr.setValue(formatInvariant("%.7f", longitude));
                 pointElement.setAttributeNode(attr);
                 trackPoints++;
             }
@@ -593,11 +598,11 @@ public class GpxWriter implements TrackWriter
             pointElement.appendChild(element);
             
             element         = doc.createElement("name");
-            element.appendChild(doc.createTextNode(String.format("waypoint%02d",wayPoints)));
+            element.appendChild(doc.createTextNode(formatInvariant("waypoint%02d",wayPoints)));
             pointElement.appendChild(element);
            
             element         = doc.createElement("desc");
-            element.appendChild(doc.createTextNode(String.format("waypoint%02d",wayPoints)));
+            element.appendChild(doc.createTextNode(formatInvariant("waypoint%02d",wayPoints)));
             pointElement.appendChild(element);
            
             element         = doc.createElement("sym");
@@ -607,13 +612,13 @@ public class GpxWriter implements TrackWriter
             // set attribute 'lat' to element
             latitude=point.getLatitude();
             attr = doc.createAttribute("lat");
-            attr.setValue(String.format("%.7f", latitude));
+            attr.setValue(formatInvariant("%.7f", latitude));
             pointElement.setAttributeNode(attr);
 
             // set attribute 'lon' to element
             longitude=point.getLongitude();
             attr = doc.createAttribute("lon");
-            attr.setValue(String.format("%.7f", longitude));
+            attr.setValue(formatInvariant("%.7f", longitude));
             pointElement.setAttributeNode(attr);
 
             element    = doc.createElement("ele");
@@ -660,7 +665,7 @@ public class GpxWriter implements TrackWriter
                              "Logged as: "+track.getActivityDescription()+".";
         if (track.isSmoothed())
         {
-            trackDescription+=" Smoothing ("+String.format("%.1f", track.getTrackSmoothingQFactor())+") applied.";
+            trackDescription+=" Smoothing ("+formatInvariant("%.1f", track.getTrackSmoothingQFactor())+") applied.";
         }
         
         // The track element

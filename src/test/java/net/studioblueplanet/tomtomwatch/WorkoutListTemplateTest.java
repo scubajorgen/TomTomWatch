@@ -6,36 +6,38 @@
 package net.studioblueplanet.tomtomwatch;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
+import java.util.LinkedHashMap;
+import java.util.List;
+
 import org.junit.After;
 import org.junit.AfterClass;
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
-import java.util.List;
-import java.util.LinkedHashMap;
-import java.io.IOException;
-import net.studioblueplanet.generics.ToolBox;
-
-import net.studioblueplanet.tomtomwatch.WorkoutListTemplate.StepTemplate;
-import net.studioblueplanet.tomtomwatch.WorkoutListTemplate.WorkoutTemplate;
-import net.studioblueplanet.tomtomwatch.WorkoutListTemplate.HrZoneTemplate;
-import net.studioblueplanet.tomtomwatch.Workout.WorkoutType;
-import net.studioblueplanet.tomtomwatch.WorkoutStep.HrZone;
-import net.studioblueplanet.tomtomwatch.WorkoutStep.ExtentType;
-import net.studioblueplanet.tomtomwatch.WorkoutStep.IntensityType;
-import net.studioblueplanet.tomtomwatch.WorkoutStep.StepType;
-import net.studioblueplanet.tomtomwatch.WorkoutListItem.ActivityType;
-import net.studioblueplanet.tomtomwatch.Workout.IntensityLevel;
-
 import org.mockito.ArgumentCaptor;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyLong;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+
+import net.studioblueplanet.generics.ToolBox;
+import net.studioblueplanet.tomtomwatch.Workout.IntensityLevel;
+import net.studioblueplanet.tomtomwatch.Workout.WorkoutType;
+import net.studioblueplanet.tomtomwatch.WorkoutListItem.ActivityType;
+import net.studioblueplanet.tomtomwatch.WorkoutListTemplate.HrZoneTemplate;
+import net.studioblueplanet.tomtomwatch.WorkoutListTemplate.StepTemplate;
+import net.studioblueplanet.tomtomwatch.WorkoutListTemplate.WorkoutTemplate;
+import net.studioblueplanet.tomtomwatch.WorkoutStep.ExtentType;
+import net.studioblueplanet.tomtomwatch.WorkoutStep.HrZone;
+import net.studioblueplanet.tomtomwatch.WorkoutStep.IntensityType;
+import net.studioblueplanet.tomtomwatch.WorkoutStep.StepType;
 
 /**
  *

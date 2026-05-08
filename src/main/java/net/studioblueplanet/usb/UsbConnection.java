@@ -8,23 +8,22 @@ package net.studioblueplanet.usb;
 
 import java.util.List;
 
-import net.studioblueplanet.logger.DebugLogger;
-
+import javax.usb.UsbClaimException;
+import javax.usb.UsbConfiguration;
 import javax.usb.UsbDevice;
-import javax.usb.UsbException;
+import javax.usb.UsbDeviceDescriptor;
 import javax.usb.UsbDisconnectedException;
-import javax.usb.UsbNotClaimedException;
+import javax.usb.UsbEndpoint;
+import javax.usb.UsbException;
 import javax.usb.UsbHostManager;
 import javax.usb.UsbHub;
-import javax.usb.UsbServices;
-import javax.usb.UsbPort;
-import javax.usb.UsbConfiguration;
 import javax.usb.UsbInterface;
-import javax.usb.UsbEndpoint;
-import javax.usb.UsbClaimException;
+import javax.usb.UsbNotClaimedException;
 import javax.usb.UsbPipe;
-import javax.usb.UsbDeviceDescriptor;
-import javax.usb.UsbInterfacePolicy;
+import javax.usb.UsbPort;
+import javax.usb.UsbServices;
+
+import net.studioblueplanet.logger.DebugLogger;
 
 /**
  * This class represents the connection to the USB watch. It contains functionality
@@ -49,12 +48,12 @@ public class UsbConnection
     
     private UsbDevice                       device;
     private UsbInterface                    iface;
-    private DeviceType                      deviceType;
+    DeviceType                              deviceType;
     private byte                            txMessageCounter;
     private byte                            txPrevMessageCounter;
     
-    private boolean                         isError;
-    private String                          lastError;
+    boolean                                 isError;
+    String                                  lastError;
     
     private byte[]                          rxBuffer;
     private int                             rxLength;
@@ -72,6 +71,11 @@ public class UsbConnection
         isError             =false;
         lastError           ="";
     }
+
+    protected UsbServices getUsbServices() throws UsbException
+    {
+        return UsbHostManager.getUsbServices();
+    }
     
     /**
      * Try to connect to a TomTom Watch. If successful the variable device
@@ -80,14 +84,23 @@ public class UsbConnection
      */
     public void connect()
     {
+        isError     =false;
+        lastError   ="Ok";
+        performConnect();
+        if (isError)
+        {
+            DebugLogger.error(lastError);
+        }
+    }
+
+    protected void performConnect()
+    {
         UsbServices         services;
         UsbConfiguration    configuration;
 
-        isError     =false;
-        lastError   ="Ok";
         try
         {
-            services = UsbHostManager.getUsbServices();
+            services = getUsbServices();
 
             if (device==null)
             {
@@ -125,7 +138,7 @@ public class UsbConnection
             DebugLogger.error(lastError);
         }
 
-        if (device!=null)
+        if (!isError && device!=null)
         {
             configuration       = device.getActiveUsbConfiguration();
             iface               = configuration.getUsbInterface((byte) 0);
@@ -147,14 +160,10 @@ public class UsbConnection
                 lastError   ="USB Error: "+e.getMessage();
             }
         } 
-        else
+        else if (!isError)
         {
             isError     =true;
             lastError   ="No valid USB device found";            
-        }
-        if (isError)
-        {
-            DebugLogger.error(lastError);
         }
     }
     

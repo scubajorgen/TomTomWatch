@@ -5,8 +5,10 @@
  */
 package net.studioblueplanet.settings;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.Properties;
 
 import net.studioblueplanet.logger.DebugLogger;
@@ -123,6 +125,32 @@ public class ConfigSettings
         propertyFileName=fileName;
     }
     
+    private static String resolvePropertiesFile()
+    {
+        // 1. Try the configured/default name as-is (relative to cwd)
+        if (new File(propertyFileName).exists())
+        {
+            return propertyFileName;
+        }
+        // 2. Try next to the JAR (works when launched as: sudo java -jar /full/path/app.jar)
+        try
+        {
+            File jarFile = new File(ConfigSettings.class
+                .getProtectionDomain().getCodeSource().getLocation().toURI());
+            File jarDir  = jarFile.isFile() ? jarFile.getParentFile() : jarFile;
+            File candidate = new File(jarDir, new File(propertyFileName).getName());
+            if (candidate.exists())
+            {
+                return candidate.getAbsolutePath();
+            }
+        }
+        catch (URISyntaxException e)
+        {
+            // fall through to the original name
+        }
+        return propertyFileName;
+    }
+
     /**
      * Reads the settings from the property file. If no file found, 
      * the default values are used
@@ -141,7 +169,7 @@ public class ConfigSettings
         properties = new Properties();
         try
         {
-            properties.load(new FileInputStream(propertyFileName));
+            properties.load(new FileInputStream(resolvePropertiesFile()));
 
             // Get each setting from the array
             i=0;
