@@ -183,8 +183,7 @@ public class Activity
         
         DebugLogger.info("Time Zone: "+timeZoneString+ " Difference in seconds "+seconds);
         localTimeZone=TimeZone.getTimeZone(timeZoneString);
-        ActivitySegment.setLocalTimeZone(localTimeZone);
-    }    
+    }
     
     /**
      * Return the activity name as string
@@ -533,6 +532,16 @@ public class Activity
             // So subtract the timeZoneSeconds to obtain the UTC time
             newRecord.setHeartRate(timeStamp-this.timeZoneSeconds, heartRate);
         }
+        else if (this.newActivitySegment!=null)
+        {
+            // No GPS fix for this tick (e.g. indoor activity, or a temporary
+            // signal gap): record a standalone point carrying only heart rate,
+            // without disturbing the newRecord used to accumulate GPS ticks.
+            ActivityRecord hrOnlyRecord=new ActivityRecord();
+            hrOnlyRecord.setUtcTime(timeStamp-this.timeZoneSeconds);
+            hrOnlyRecord.setHeartRate(timeStamp-this.timeZoneSeconds, heartRate);
+            this.newActivitySegment.addRecord(hrOnlyRecord);
+        }
         else
         {
             DebugLogger.info("Skipping heart rate record");
@@ -700,7 +709,7 @@ public class Activity
             {
                newActivitySegment=new ActivitySegment();
                segments.add(newActivitySegment);
-               newActivitySegment.setStartTime(timeStamp);                    
+               newActivitySegment.setStartTime(timeStamp-this.timeZoneSeconds);
             }
 
         }
@@ -708,8 +717,8 @@ public class Activity
         // When STATUS_PAUSED, set the end time of the segment
         if (status==TtbinFileDefinition.STATUS_PAUSED)
         {
-            newActivitySegment.setEndTime(timeStamp);
-            timeOfPause=timeStamp;        
+            newActivitySegment.setEndTime(timeStamp-this.timeZoneSeconds);
+            timeOfPause=timeStamp;
         }
         
     }
@@ -1128,7 +1137,47 @@ public class Activity
         
         return found;
     }
-    
+
+    /**
+     * This method checks if the activity has any record with a valid GPS
+     * position fix. Indoor activities (e.g. indoor cycling, gym, treadmill)
+     * typically have none, only heart rate.
+     * @return True if at least one record has a valid GPS position, false if not.
+     */
+    public boolean hasGpsData()
+    {
+        boolean found;
+
+        found=false;
+
+        Iterator<ActivitySegment>   itSegment;
+        ActivitySegment             segment;
+        List<ActivityRecord>        points;
+        Iterator<ActivityRecord>    itPoint;
+        ActivityRecord              point;
+
+        itSegment=segments.iterator();
+
+        while (itSegment.hasNext() && !found)
+        {
+            segment             =itSegment.next();
+            points              =segment.getRecords();
+
+            itPoint             =points.iterator();
+            while (itPoint.hasNext() && !found)
+            {
+                point=itPoint.next();
+                if ((point.getLatitude()!=ActivityRecord.INVALID) && (point.getLongitude()!=ActivityRecord.INVALID) &&
+                    (point.getLatitude()!=0.0) && (point.getLongitude()!=0.0))
+                {
+                    found=true;
+                }
+            }
+        }
+
+        return found;
+    }
+
     /**
      * Creates the URL for the Google elevation service. The URL takes
      * as URL parameter the polyline encoded array of locations. The number

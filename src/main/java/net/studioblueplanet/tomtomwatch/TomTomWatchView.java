@@ -1418,18 +1418,36 @@ public class TomTomWatchView extends javax.swing.JFrame
         if (data!=null)
         {
             Activity activity   =data.activity;
-            
+
+            // GPX cannot usefully represent an activity without GPS data
+            // (e.g. indoor cycling, gym, treadmill); fall back to TCX so the
+            // heart rate is not lost.
+            String actualExportExtension=exportFileExtension;
+            if (exportFileExtension.equals("GPX") && !activity.hasGpsData())
+            {
+                DebugLogger.info("Activity contains no GPS data; falling back to TCX export");
+                actualExportExtension="TCX";
+            }
+
             String fileName     =this.jTextFieldGpxFile.getText();
             String path         =settings.getStringValue("gpxFilePath");
-            
-            fileName=this.fileChooser(fileName, path, "Save", exportFileExtension+" files (*."+exportFileExtension.toLowerCase()+")", exportFileExtension.toLowerCase());
+
+            // Strip a stale extension (e.g. left over from a previously
+            // selected activity) so the file chooser below appends the
+            // correct one instead of producing a double extension.
+            if (fileName.toLowerCase().endsWith(".gpx") || fileName.toLowerCase().endsWith(".tcx"))
+            {
+                fileName=fileName.substring(0, fileName.length()-4);
+            }
+
+            fileName=this.fileChooser(fileName, path, "Save", actualExportExtension+" files (*."+actualExportExtension.toLowerCase()+")", actualExportExtension.toLowerCase());
 
             if (fileName!=null)
             {
                 try
                 {
                     TrackWriter writer;
-                    if (exportFileExtension.equals("TCX"))
+                    if (actualExportExtension.equals("TCX"))
                     {
                         writer=TcxWriter.getInstance();
                     }
