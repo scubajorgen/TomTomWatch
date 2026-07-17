@@ -27,10 +27,10 @@ import net.studioblueplanet.logger.DebugLogger;
 public class ActivitySegment
 {
     public static final int                 HRRECOVERY_UNDEFINED=-9999;
+    private static final TimeZone           utcTimeZone=TimeZone.getTimeZone("UTC");
     private List<ActivityRecord>            records;
     private DateTime                        startTime;
     private DateTime                        endTime;
-    private static TimeZone                 localTimeZone;
     private int                             heartRateRecovery;
     private int                             heartRateRecoveryScore;
     
@@ -93,39 +93,30 @@ public class ActivitySegment
     }
     
     /**
-     * Set the time zone of the local time to use
-     * @param timeZone The time zone corresponding to the local time
-     */
-    public static void setLocalTimeZone(TimeZone timeZone)
-    {
-        localTimeZone=timeZone;
-    }
-    
-    /**
-     * Set start time of this semgent as local time
-     * @param seconds Local Time seconds in the epoch era
+     * Set start time of this segment
+     * @param seconds UTC seconds in the epoch era
      */
     public void setStartTime(int seconds)
     {
-        startTime=DateTime.forInstant((long)seconds*1000, localTimeZone);
+        startTime=DateTime.forInstant((long)seconds*1000, utcTimeZone);
     }
-    
+
     /**
      * Get the start time
-     * @return The start time
+     * @return The start time, as UTC date time
      */
     public DateTime getStartTime()
     {
         return this.startTime;
     }
-    
+
     /**
-     * Set the end time of this segment as local time
-     * @param seconds The epoch seconds
+     * Set the end time of this segment
+     * @param seconds UTC seconds in the epoch era
      */
     public void setEndTime(int seconds)
     {
-        endTime=DateTime.forInstant((long)seconds*1000, localTimeZone);
+        endTime=DateTime.forInstant((long)seconds*1000, utcTimeZone);
     }
     
     /**
@@ -244,29 +235,25 @@ public class ActivitySegment
         double          distance;
         ActivityRecord  record;
         ActivityRecord  prevRecord;
-        int                 i;
-        
+        int             i;
+
         distance        =0.0;
-        record       =null;
-        prevRecord   =null;
-        
+        prevRecord      =null;
+
         i=0;
-        while (i<records.size() && prevRecord==null)
-        {
-            prevRecord=records.get(i);
-            i++;
-        }
         while (i<records.size())
         {
             record=records.get(i);
-            if ((record.getLatitude()!=ActivityRecord.INVALID) && (record.getLongitude()!=ActivityRecord.INVALID) &&
-                (prevRecord.getLatitude()!=ActivityRecord.INVALID) && (prevRecord.getLongitude()!=ActivityRecord.INVALID))
+            if ((record.getLatitude()!=ActivityRecord.INVALID) && (record.getLongitude()!=ActivityRecord.INVALID))
             {
-                distance+=ToolBox.distance(prevRecord.getLatitude(), prevRecord.getLongitude(),
-                                           record.getLatitude()    , record.getLongitude());
+                if (prevRecord!=null)
+                {
+                    distance+=ToolBox.distance(prevRecord.getLatitude(), prevRecord.getLongitude(),
+                                               record.getLatitude()    , record.getLongitude());
+                }
                 prevRecord=record;
             }
-             
+
             i++;
         }
         return distance;
