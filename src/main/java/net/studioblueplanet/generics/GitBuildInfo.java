@@ -9,6 +9,7 @@ import net.studioblueplanet.logger.DebugLogger;
 
 import java.io.IOException;
 import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.Properties;
 
 /**
@@ -26,15 +27,23 @@ public class GitBuildInfo
      */
     private GitBuildInfo()
     {
-        try 
+        buildProperties=new Properties();
+        try
         {
-            buildProperties=new Properties();
-            buildProperties.load(getClass().getClassLoader().getResourceAsStream("build.properties"));
-        } 
-        catch (IOException e) 
+            InputStream inStream=getClass().getClassLoader().getResourceAsStream("build.properties");
+            if (inStream!=null)
+            {
+                buildProperties.load(inStream);
+            }
+            else
+            {
+                DebugLogger.error("build.properties not found on classpath; run a Maven build to generate it");
+            }
+        }
+        catch (IOException e)
         {
             DebugLogger.error("Error loading build properties: "+e.getMessage());
-        }        
+        }
     }
     
     /**

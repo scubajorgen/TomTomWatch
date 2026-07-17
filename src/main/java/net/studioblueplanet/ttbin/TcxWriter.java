@@ -168,19 +168,35 @@ public class TcxWriter implements TrackWriter
         {
             case TtbinFileDefinition.ACTIVITY_RUNNING:
             case TtbinFileDefinition.ACTIVITY_TRAILRUNNING:
+            case TtbinFileDefinition.ACTIVITY_TREADMILL:
                 attr.setValue("Running");
                 break;
             case TtbinFileDefinition.ACTIVITY_CYCLING:
+            case TtbinFileDefinition.ACTIVITY_INDOORCYCLING:
                 attr.setValue("Biking");
                 break;
             default:
                 attr.setValue("Other");
-                break;                
+                break;
         }
         activityElement.setAttributeNode(attr);
         activitiesElement.appendChild(activityElement);
         element=doc.createElement("Id");
-        element.appendChild(doc.createTextNode(track.getStartDateTime().format("YYYY-MM-DDThh:mm:ssZ")));
+        // The Id must be the UTC start time of the activity, and match the
+        // StartTime of the first Lap exactly (Garmin/Strava use this to
+        // associate laps with the activity).
+        String activityStartTimeString;
+        if (numberOfSegments>0)
+        {
+            DateTime activityStartTime=track.getSegment(0).getStartTime();
+            activityStartTimeString    =activityStartTime.format("YYYY-MM-DD")+"T"+
+                                        activityStartTime.format("hh:mm:ss")+"Z";
+        }
+        else
+        {
+            activityStartTimeString=track.getStartDateTime().format("YYYY-MM-DDThh:mm:ssZ");
+        }
+        element.appendChild(doc.createTextNode(activityStartTimeString));
         activityElement.appendChild(element);
         
         // Add the track segments.
@@ -224,18 +240,24 @@ public class TcxWriter implements TrackWriter
                 DateTime dateTime      =rec.getDateTime();
                 double latitude        =rec.getLatitude();
                 double longitude       =rec.getLongitude();
+                int    heartRate       =rec.getHeartRate();
 
-                if ((dateTime!=null) && 
-                        (latitude!=ActivityRecord.INVALID) && (longitude!=ActivityRecord.INVALID) && 
-                        (latitude!=0.0) && (longitude!=0.0))
-                {             
+                // A GPS fix is not required: indoor activities (e.g. indoor cycling,
+                // treadmill) have no position but do have a heart rate. Emit the
+                // trackpoint whenever there is something worth recording, and only
+                // include <Position> when a valid fix is actually present.
+                boolean hasPosition     =(latitude!=ActivityRecord.INVALID) && (longitude!=ActivityRecord.INVALID) &&
+                                         (latitude!=0.0) && (longitude!=0.0);
+                boolean hasHeartRate    =(heartRate!=ActivityRecord.INVALID) && (heartRate>0);
+
+                if ((dateTime!=null) && (hasPosition || hasHeartRate))
+                {
                     double heading         =rec.getHeading();
                     double calories        =rec.getCalories();
                     double ascend          =rec.getCumulativeAscend();
                     double descend         =rec.getCumulativeDecend();
                     double distance        =rec.getDistance();
                     double elevation       =rec.getDerivedElevation();
-                    int    heartRate       =rec.getHeartRate();
                     int    temperature     =rec.getTemperature();
                     double speed           =rec.getSpeed();
 
@@ -248,29 +270,42 @@ public class TcxWriter implements TrackWriter
                     timeElement.appendChild(doc.createTextNode(dateTimeString));
                     pointElement.appendChild(timeElement);
 
-                    Element positionElement=doc.createElement("Position");
-                    pointElement.appendChild(positionElement);
-                    element=doc.createElement("LatitudeDegrees");
-                    element.appendChild(doc.createTextNode((String.format("%.7f", latitude))));
-                    positionElement.appendChild(element);
-                    element=doc.createElement("LongitudeDegrees");
-                    element.appendChild(doc.createTextNode((String.format("%.7f", longitude))));
-                    positionElement.appendChild(element);
-                    
+                    if (hasPosition)
+                    {
+                        Element positionElement=doc.createElement("Position");
+                        pointElement.appendChild(positionElement);
+                        element=doc.createElement("LatitudeDegrees");
+                        element.appendChild(doc.createTextNode((String.format("%.7f", Double.valueOf(latitude)))));
+                        positionElement.appendChild(element);
+                        element=doc.createElement("LongitudeDegrees");
+                        element.appendChild(doc.createTextNode((String.format("%.7f", Double.valueOf(longitude)))));
+                        positionElement.appendChild(element);
+                    }
+
                     // The elevation.
                     if (elevation!=ActivityRecord.INVALID)
                     {
                         element    = doc.createElement("AltitudeMeters");
-                        element.appendChild(doc.createTextNode(String.format("%.1f", elevation)));
+                        element.appendChild(doc.createTextNode(String.format("%.1f", Double.valueOf(elevation))));
                         pointElement.appendChild(element);
                     }                    
                     
                     if (distance!=ActivityRecord.INVALID)
                     {
                         element    = doc.createElement("DistanceMeters");
-                        element.appendChild(doc.createTextNode(String.format("%.1f", distance)));
+                        element.appendChild(doc.createTextNode(String.format("%.1f", Double.valueOf(distance))));
                         pointElement.appendChild(element);
-                    }                    
+                    }
+                    else if (!hasPosition)
+                    {
+                        // Indoor trackpoint: no GPS fix means no cumulative distance was
+                        // ever recorded. Emit zero rather than omitting the element, so
+                        // consumers (e.g. Strava) that expect DistanceMeters on every
+                        // trackpoint don't choke on activities with no GPS data at all.
+                        element    = doc.createElement("DistanceMeters");
+                        element.appendChild(doc.createTextNode("0.0"));
+                        pointElement.appendChild(element);
+                    }
 
                     // The Heartrate
                     if ((heartRate!=ActivityRecord.INVALID) && (heartRate>0))
@@ -291,7 +326,6 @@ public class TcxWriter implements TrackWriter
 
     /**
      * This method writes the GPX file
-     * @param fileName Name of the file
      * @throws javax.xml.transform.TransformerException
      */
     private void writeTcxDocument(Writer writer) throws TransformerException
