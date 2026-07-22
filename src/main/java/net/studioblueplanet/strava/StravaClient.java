@@ -49,7 +49,7 @@ public class StravaClient
     private static final String     AUTH_URL        ="https://www.strava.com/oauth/authorize";
     private static final String     TOKEN_URL       ="https://www.strava.com/oauth/token";
     private static final String     UPLOAD_URL      ="https://www.strava.com/api/v3/uploads";
-    private static final String     SCOPE           ="activity:write";
+    private static final String     SCOPE           ="activity:read_all,activity:write";
 
     // Refresh the access token this many seconds before it actually expires
     private static final long       EXPIRY_MARGIN   =120L;

@@ -1284,8 +1284,16 @@ public class CommunicationProcess implements ProgressListener
             GitBuildInfo    build           =GitBuildInfo.getInstance();
             String          appName         ="TomTomWatch "+build.getGitCommitDescription()+" ("+build.getBuildTime()+")";
 
-            // Determine the export format (GPX/TCX), matching the "Save" button
+            // Determine the export format (GPX/TCX), matching the "Save" button.
+            // GPX cannot carry time information for activities without GPS data,
+            // which Strava rejects ("Time information is missing from file"), so
+            // fall back to TCX when the activity has no GPS data.
             String          exportFormat    =ConfigSettings.getInstance().getStringValue("exportFileFormat");
+            if (exportFormat.equals("GPX") && !activity.hasGpsData())
+            {
+                exportFormat="TCX";
+                theView.appendStatus("Activity has no GPS data; exporting as TCX for Strava\n");
+            }
             String          dataType        =exportFormat.toLowerCase();
             TrackWriter     writer;
             if (exportFormat.equals("TCX"))
