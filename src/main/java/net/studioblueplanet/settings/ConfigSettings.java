@@ -96,7 +96,10 @@ public class ConfigSettings
         new Setting("stravaClientId"            , "Strava API application client id " , ""          , ""                       , SettingType.STRING ),
         new Setting("stravaClientSecret"        , "Strava API app client secret     " , ""          , ""                       , SettingType.STRING ),
         new Setting("stravaProxyUrl"            , "Strava OAuth token proxy base URL" , ""          , ""                       , SettingType.STRING ),
-        new Setting("stravaProxyKey"            , "Strava OAuth proxy X-App-Key val " , ""          , ""                       , SettingType.STRING )
+        new Setting("stravaProxyKey"            , "Strava OAuth proxy X-App-Key val " , ""          , ""                       , SettingType.STRING ),
+        new Setting("stravaSportMap"            , "TomTom->Strava sport overrides   " , ""          , ""                       , SettingType.STRING ),
+        new Setting("stravaTitleMode"           , "Strava activity title mode       " , "stravaDefault", "descriptionDate,description,prompt,stravaDefault", SettingType.STRING ),
+        new Setting("stravaOpenAfterUpload"     , "Open activity in browser on upload", "false"     , ""                       , SettingType.BOOLEAN)
     };
     
     private static ConfigSettings       theInstance=null;        

@@ -1486,16 +1486,60 @@ public class TomTomWatchView extends javax.swing.JFrame
     private void jButtonStravaActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButtonStravaActionPerformed
     {//GEN-HEADEREND:event_jButtonStravaActionPerformed
         int index=this.jListActivities.getSelectedIndex();
+        ActivityData data=communicationProcess.getActivityData(index);
 
-        if (index>=0 && communicationProcess.getActivityData(index)!=null)
-        {
-            communicationProcess.requestStravaUpload(index);
-        }
-        else
+        if (index<0 || data==null)
         {
             JOptionPane.showMessageDialog(this, "No track selected", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
         }
+
+        // Determine the Strava activity title according to the configured mode.
+        // A null title means: send no name, let Strava auto-generate the title.
+        String  mode        =settings.getStringValue("stravaTitleMode");
+        String  defaultTitle=buildStravaTitle(data.activity);
+        String  title;
+        if (mode.equals("stravaDefault"))
+        {
+            title=null;
+        }
+        else if (mode.equals("description"))
+        {
+            title=data.activity.getActivityDescription();
+        }
+        else if (mode.equals("prompt"))
+        {
+            String input=JOptionPane.showInputDialog(this, "Strava activity title:", defaultTitle);
+            if (input==null)
+            {
+                return;                                 // user cancelled: abort the upload
+            }
+            title=input.trim().isEmpty() ? null : input.trim();
+        }
+        else // "descriptionDate" (default)
+        {
+            title=defaultTitle;
+        }
+
+        communicationProcess.requestStravaUpload(index, title);
     }//GEN-LAST:event_jButtonStravaActionPerformed
+
+    /**
+     * Builds the default Strava activity title from the activity: its
+     * description followed by the start date/time.
+     * @param activity The activity
+     * @return The title, e.g. "Cycling 2025-12-08 12:46"
+     */
+    private String buildStravaTitle(Activity activity)
+    {
+        String   title      =activity.getActivityDescription();
+        DateTime startDateTime=activity.getStartDateTime();
+        if (startDateTime!=null)
+        {
+            title+=" "+startDateTime.format("YYYY-MM-DD hh:mm");
+        }
+        return title;
+    }
 
     /**
      * Saves the selected TTBIN file
@@ -2516,7 +2560,7 @@ public class TomTomWatchView extends javax.swing.JFrame
      * Opens the given URL in the default browser.
      * @param url The URL to open
      */
-    private void openInBrowser(String url)
+    public void openInBrowser(String url)
     {
         try
         {

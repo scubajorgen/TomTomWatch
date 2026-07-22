@@ -95,6 +95,53 @@ public class StravaClient
     }
 
     /**
+     * Sets the sport type of an existing activity (PUT /activities/{id}). Uses
+     * the current access token; call this right after uploadActivity(), while
+     * the token is still valid.
+     * @param activityId The Strava activity id
+     * @param sportType  A Strava sport_type value (e.g. "Ride", "VirtualRide")
+     * @throws StravaException When the update failed
+     */
+    public void updateSportType(long activityId, String sportType) throws StravaException
+    {
+        String  urlString="https://www.strava.com/api/v3/activities/"+activityId;
+        byte[]  bytes    =("sport_type="+urlEncode(sportType)).getBytes(StandardCharsets.UTF_8);
+
+        HttpURLConnection conn=null;
+        try
+        {
+            conn=openConnection(urlString);
+            conn.setRequestMethod("PUT");
+            conn.setDoOutput(true);
+            conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+            conn.setRequestProperty("Authorization", "Bearer "+tokenStore.getAccessToken());
+            conn.setFixedLengthStreamingMode(bytes.length);
+            try (OutputStream os=conn.getOutputStream())
+            {
+                os.write(bytes);
+            }
+
+            int        code=conn.getResponseCode();
+            JSONObject json=readJson(conn);
+            if (code<200 || code>=300)
+            {
+                throw new StravaException("Setting Strava sport type failed ("+code+"): "+errorMessage(json));
+            }
+        }
+        catch (IOException e)
+        {
+            throw new StravaException("Error setting Strava sport type: "+e.getMessage(), e);
+        }
+        finally
+        {
+            if (conn!=null)
+            {
+                conn.disconnect();
+            }
+        }
+    }
+
+    /**
      * Verifies that the Strava API credentials have been configured. Two modes
      * are supported: via a token proxy (stravaProxyUrl set, recommended - keeps
      * the client secret off this machine) or direct (stravaClientSecret set).
@@ -335,7 +382,11 @@ public class StravaClient
         {
             ByteArrayOutputStream baos=new ByteArrayOutputStream();
             appendFormField(baos, boundary, "data_type",   dataType);
-            appendFormField(baos, boundary, "name",        name);
+            // Omit the name entirely when empty, so Strava auto-generates a title
+            if (name!=null && !name.trim().isEmpty())
+            {
+                appendFormField(baos, boundary, "name",    name);
+            }
             appendFormField(baos, boundary, "description", description);
             appendFileField(baos, boundary, "file", "activity."+dataType, data);
             baos.write(("--"+boundary+"--\r\n").getBytes(StandardCharsets.UTF_8));
