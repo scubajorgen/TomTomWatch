@@ -92,7 +92,14 @@ public class ConfigSettings
         new Setting("proxyHost"                 , "Defines the proxy host           " , "127.0.0.1" , ""                       , SettingType.STRING ),
         new Setting("proxyPort"                 , "Defines the proxy port           " , "8080"      , "1,65535"                , SettingType.INT    ),
         new Setting("proxyUser"                 , "Defines the proxy user, optional " , "none"      , ""                       , SettingType.STRING ),
-        new Setting("proxyPassword"             , "Defines the proxy passwd optional" , "none"      , ""                       , SettingType.STRING )
+        new Setting("proxyPassword"             , "Defines the proxy passwd optional" , "none"      , ""                       , SettingType.STRING ),
+        new Setting("stravaClientId"            , "Strava API application client id " , ""          , ""                       , SettingType.STRING ),
+        new Setting("stravaClientSecret"        , "Strava API app client secret     " , ""          , ""                       , SettingType.STRING ),
+        new Setting("stravaProxyUrl"            , "Strava OAuth token proxy base URL" , ""          , ""                       , SettingType.STRING ),
+        new Setting("stravaProxyKey"            , "Strava OAuth proxy X-App-Key val " , ""          , ""                       , SettingType.STRING ),
+        new Setting("stravaSportMap"            , "TomTom->Strava sport overrides   " , ""          , ""                       , SettingType.STRING ),
+        new Setting("stravaTitleMode"           , "Strava activity title mode       " , "stravaDefault", "descriptionDate,description,prompt,stravaDefault", SettingType.STRING ),
+        new Setting("stravaOpenAfterUpload"     , "Open activity in browser on upload", "false"     , ""                       , SettingType.BOOLEAN)
     };
     
     private static ConfigSettings       theInstance=null;        
