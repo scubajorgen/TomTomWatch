@@ -1310,7 +1310,8 @@ public class CommunicationProcess implements ProgressListener
             writer.writeTrackToFile(stringWriter, activity, appName);
             byte[]          fileData        =stringWriter.toString().getBytes(java.nio.charset.StandardCharsets.UTF_8);
 
-            long activityId=stravaClient.uploadActivity(fileData, dataType, title, appName,
+            // Description is left empty; appName remains only the file-creator tag
+            long activityId=stravaClient.uploadActivity(fileData, dataType, title, "",
                                                         (message) -> theView.appendStatus(message));
 
             // Map the TomTom activity type to a Strava sport and set it (best effort)
