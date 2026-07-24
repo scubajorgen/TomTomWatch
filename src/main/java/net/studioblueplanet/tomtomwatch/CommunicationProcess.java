@@ -11,9 +11,17 @@ import net.studioblueplanet.usb.UsbTestInterface;
 import net.studioblueplanet.usb.UsbFile;
 import net.studioblueplanet.ttbin.Activity;
 import net.studioblueplanet.ttbin.TomTomReader;
+import net.studioblueplanet.ttbin.TrackWriter;
+import net.studioblueplanet.ttbin.GpxWriter;
+import net.studioblueplanet.ttbin.TcxWriter;
 import net.studioblueplanet.logger.DebugLogger;
 import net.studioblueplanet.settings.ConfigSettings;
 import net.studioblueplanet.generics.ToolBox;
+import net.studioblueplanet.generics.GitBuildInfo;
+import net.studioblueplanet.strava.StravaClient;
+import net.studioblueplanet.strava.StravaException;
+import net.studioblueplanet.strava.StravaDuplicateException;
+import net.studioblueplanet.strava.StravaSportMapper;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -26,6 +34,7 @@ import java.util.concurrent.Executor;
 import hirondelle.date4j.DateTime;
 import java.io.RandomAccessFile;
 import java.io.File;
+import java.io.StringWriter;
 
 import javax.swing.DefaultListModel;
 
@@ -79,7 +88,9 @@ public class CommunicationProcess implements ProgressListener
     
     private final TomTomReader                  ttbinReader;
     private final GpxReader                     gpxReader;
-    
+
+    private final StravaClient                  stravaClient;
+
     /*############################################################################################*\
      * PUBLIC METHODS
     \*############################################################################################*/    
@@ -105,7 +116,9 @@ public class CommunicationProcess implements ProgressListener
         
         fileIdToWrite       =WatchInterface.FILEID_INVALID;
         fileIdToDelete      =WatchInterface.FILEID_INVALID;
-        
+
+        stravaClient        =new StravaClient();
+
         settings            =ConfigSettings.getInstance();
         ttbinFilePath       =settings.getStringValue("ttbinFilePath");
         debugFilePath       =settings.getStringValue("debugFilePath");
@@ -263,7 +276,7 @@ public class CommunicationProcess implements ProgressListener
                 break;
             case THREADCOMMAND_FACTORYRESET:
                 r=() ->{factoryReset(watchInterface);};
-                break;    
+                break;
             default:
                 r=null;
         }     
@@ -380,6 +393,25 @@ public class CommunicationProcess implements ProgressListener
             this.workoutsToUpload=fileName;
             this.pushCommand(ThreadCommand.THREADCOMMAND_UPLOADWORKOUTS);
         }
+    }
+
+    /**
+     * Request the upload of the indicated activity to Strava. Executed
+     * asynchronously on a dedicated thread. Does not require a watch connection.
+     * <p>
+     * Note: this deliberately does NOT use the shared watch-command executor.
+     * That executor is serialized and, when no watch is connected, is
+     * permanently occupied by the (re)connect retry loop, which would otherwise
+     * block the upload from ever running. Strava upload is independent of the
+     * watch, so it runs on its own thread.
+     * @param index Index of the activity in the activity list
+     * @param title Title (name) for the Strava activity; null/empty lets Strava
+     *              auto-generate the title
+     */
+    public void requestStravaUpload(final int index, final String title)
+    {
+        Thread thread=new Thread(() -> uploadActivityToStrava(index, title), "StravaUpload");
+        thread.start();
     }
 
 
@@ -1216,6 +1248,129 @@ public class CommunicationProcess implements ProgressListener
             toErrorState();
         }
         theView.appendStatus("Done\n");
+    }
+
+    /**
+     * Uploads the indicated activity to Strava. The activity is exported in the
+     * configured export format (GPX or TCX) and sent to Strava using the
+     * Strava V3 upload API. After a successful upload the Strava sport type is
+     * set (best effort) based on the TomTom activity type. A watch connection
+     * is not required. Executed on a dedicated thread.
+     * @param index Index of the activity to upload
+     * @param title Title (name) for the Strava activity; null/empty lets Strava
+     *              auto-generate the title
+     */
+    private void uploadActivityToStrava(int index, String title)
+    {
+        ActivityData    data;
+
+        synchronized (this)
+        {
+            data=getActivityData(index);
+        }
+
+        if (data==null || data.activity==null)
+        {
+            theView.showWarningDialog("No activity selected");
+            return;
+        }
+
+        // Report immediately so the user gets feedback the moment the upload starts
+        theView.setStatus("Uploading activity to Strava...\n");
+
+        try
+        {
+            Activity        activity        =data.activity;
+            GitBuildInfo    build           =GitBuildInfo.getInstance();
+            String          appName         ="TomTomWatch "+build.getGitCommitDescription()+" ("+build.getBuildTime()+")";
+
+            // Determine the export format (GPX/TCX), matching the "Save" button.
+            // GPX cannot carry time information for activities without GPS data,
+            // which Strava rejects ("Time information is missing from file"), so
+            // fall back to TCX when the activity has no GPS data.
+            String          exportFormat    =ConfigSettings.getInstance().getStringValue("exportFileFormat");
+            if (exportFormat.equals("GPX") && !activity.hasGpsData())
+            {
+                exportFormat="TCX";
+                theView.appendStatus("Activity has no GPS data; exporting as TCX for Strava\n");
+            }
+            String          dataType        =exportFormat.toLowerCase();
+            TrackWriter     writer;
+            if (exportFormat.equals("TCX"))
+            {
+                writer=TcxWriter.getInstance();
+            }
+            else
+            {
+                writer=GpxWriter.getInstance();
+            }
+
+            // Render the activity to a byte array in the export format
+            StringWriter    stringWriter    =new StringWriter();
+            writer.writeTrackToFile(stringWriter, activity, appName);
+            byte[]          fileData        =stringWriter.toString().getBytes(java.nio.charset.StandardCharsets.UTF_8);
+
+            // Description is left empty; appName remains only the file-creator tag
+            long activityId=stravaClient.uploadActivity(fileData, dataType, title, "",
+                                                        (message) -> theView.appendStatus(message));
+
+            // Map the TomTom activity type to a Strava sport and set it (best effort)
+            String sportType=StravaSportMapper.getInstance().toSportType(activity.getActivityDescription());
+            if (sportType!=null && !sportType.isEmpty())
+            {
+                try
+                {
+                    stravaClient.updateSportType(activityId, sportType);
+                    theView.appendStatus("Sport set to "+sportType+"\n");
+                }
+                catch (StravaException e)
+                {
+                    // Upload succeeded; only the sport type could not be set
+                    theView.appendStatus("Uploaded, but could not set sport to "+sportType+": "+e.getMessage()+"\n");
+                    DebugLogger.error("Strava sport update failed: "+e.getMessage());
+                }
+            }
+
+            String url="https://www.strava.com/activities/"+activityId;
+            theView.appendStatus("Upload succeeded: "+url+"\n");
+            if (ConfigSettings.getInstance().getBooleanValue("stravaOpenAfterUpload"))
+            {
+                // Open the activity so the user can review/edit it right away
+                theView.openInBrowser(url);
+            }
+            else
+            {
+                theView.showLinkDialog("Activity uploaded to Strava:", url);
+            }
+        }
+        catch (StravaDuplicateException e)
+        {
+            // Not a real error: the activity is already on Strava
+            long existingId=e.getExistingActivityId();
+            if (existingId>0)
+            {
+                String url="https://www.strava.com/activities/"+existingId;
+                theView.appendStatus("Activity already on Strava: "+url+"\n");
+                theView.showLinkDialog("This activity is already on Strava:", url);
+            }
+            else
+            {
+                theView.appendStatus("Activity already on Strava\n");
+                theView.showInfoDialog("This activity is already on Strava.");
+            }
+        }
+        catch (StravaException e)
+        {
+            theView.appendStatus("Strava upload failed\n");
+            theView.showErrorDialogWithLinks("Strava upload failed:\n"+e.getMessage());
+            DebugLogger.error("Strava upload failed: "+e.getMessage());
+        }
+        catch (Exception e)
+        {
+            theView.appendStatus("Strava upload failed\n");
+            theView.showErrorDialogWithLinks("Strava upload failed unexpectedly:\n"+e.toString());
+            DebugLogger.error("Strava upload unexpected error: "+e.toString());
+        }
     }
 
 

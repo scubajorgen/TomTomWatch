@@ -614,9 +614,12 @@ public class MapOsm extends Map
                 lat=gpsRecord.getLatitude();
                 lon=gpsRecord.getLongitude();
                 
-                // Sometime the tomtom registers a (0,0) coordinate
-                // Only show normal, non zero, coordinates
-                if ((lat!=0.0) && (lon!=0.0))
+                // Sometime the tomtom registers a (0,0) coordinate, and
+                // records with no GPS fix at all (e.g. indoor activities,
+                // or a temporary signal gap) carry the INVALID sentinel.
+                // Only show normal, valid, non zero, coordinates
+                if ((lat!=0.0) && (lon!=0.0) &&
+                    (lat!=ActivityRecord.INVALID) && (lon!=ActivityRecord.INVALID))
                 {
                     trackSegment.add(new GeoPosition(lat, lon));
                     // Show first point of each segment

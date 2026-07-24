@@ -7,20 +7,27 @@ package net.studioblueplanet.tomtomwatch;
 
 import hirondelle.date4j.DateTime;
 
+import java.awt.Desktop;
 import java.awt.Font;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.Authenticator;
 import java.net.PasswordAuthentication;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.BoxLayout;
+import javax.swing.JEditorPane;
 import javax.swing.SwingUtilities;
 import javax.swing.DefaultListModel;
 import javax.swing.ListSelectionModel;
 import javax.swing.JOptionPane;
 import javax.swing.JFileChooser;
+import javax.swing.UIManager;
+import javax.swing.event.HyperlinkEvent;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import net.studioblueplanet.generics.GitBuildInfo;
 import net.studioblueplanet.generics.ToolBox;
@@ -250,6 +257,7 @@ public class TomTomWatchView extends javax.swing.JFrame
         jLabelExportFile.setFont(proportional14pt);
         jTextFieldGpxFile.setFont(proportional14pt);
         jButtonSaveGpx.setFont(proportional12pt);
+        jButtonStrava.setFont(proportional12pt);
         jRadioButtonRunning.setFont(proportional11pt);
         jRadioButtonCycling.setFont(proportional11pt);
         jRadioButtonHiking.setFont(proportional11pt);
@@ -319,6 +327,7 @@ public class TomTomWatchView extends javax.swing.JFrame
         jLabelExportFile = new javax.swing.JLabel();
         jTextFieldGpxFile = new javax.swing.JTextField();
         jButtonSaveGpx = new javax.swing.JButton();
+        jButtonStrava = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jRadioButtonRunning = new javax.swing.JRadioButton();
         jRadioButtonCycling = new javax.swing.JRadioButton();
@@ -543,6 +552,17 @@ public class TomTomWatchView extends javax.swing.JFrame
             }
         });
 
+        jButtonStrava.setFont(new java.awt.Font("Lucida Sans", 0, 12)); // NOI18N
+        jButtonStrava.setText("Strava");
+        jButtonStrava.setEnabled(false);
+        jButtonStrava.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                jButtonStravaActionPerformed(evt);
+            }
+        });
+
         buttonGroup1.add(jRadioButtonRunning);
         jRadioButtonRunning.setFont(new java.awt.Font("Lucida Sans", 0, 11)); // NOI18N
         jRadioButtonRunning.setText("Running");
@@ -724,7 +744,9 @@ public class TomTomWatchView extends javax.swing.JFrame
                             .addGap(18, 18, 18)
                             .addComponent(jTextFieldGpxFile)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jButtonSaveGpx, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jButtonSaveGpx, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jButtonStrava, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
                             .addComponent(jButtonDownload, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -755,6 +777,7 @@ public class TomTomWatchView extends javax.swing.JFrame
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButtonSaveGpx, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jButtonStrava, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabelExportFile)
                         .addComponent(jTextFieldGpxFile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -1418,18 +1441,36 @@ public class TomTomWatchView extends javax.swing.JFrame
         if (data!=null)
         {
             Activity activity   =data.activity;
-            
+
+            // GPX cannot usefully represent an activity without GPS data
+            // (e.g. indoor cycling, gym, treadmill); fall back to TCX so the
+            // heart rate is not lost.
+            String actualExportExtension=exportFileExtension;
+            if (exportFileExtension.equals("GPX") && !activity.hasGpsData())
+            {
+                DebugLogger.info("Activity contains no GPS data; falling back to TCX export");
+                actualExportExtension="TCX";
+            }
+
             String fileName     =this.jTextFieldGpxFile.getText();
             String path         =settings.getStringValue("gpxFilePath");
-            
-            fileName=this.fileChooser(fileName, path, "Save", exportFileExtension+" files (*."+exportFileExtension.toLowerCase()+")", exportFileExtension.toLowerCase());
+
+            // Strip a stale extension (e.g. left over from a previously
+            // selected activity) so the file chooser below appends the
+            // correct one instead of producing a double extension.
+            if (fileName.toLowerCase().endsWith(".gpx") || fileName.toLowerCase().endsWith(".tcx"))
+            {
+                fileName=fileName.substring(0, fileName.length()-4);
+            }
+
+            fileName=this.fileChooser(fileName, path, "Save", actualExportExtension+" files (*."+actualExportExtension.toLowerCase()+")", actualExportExtension.toLowerCase());
 
             if (fileName!=null)
             {
                 try
                 {
                     TrackWriter writer;
-                    if (exportFileExtension.equals("TCX"))
+                    if (actualExportExtension.equals("TCX"))
                     {
                         writer=TcxWriter.getInstance();
                     }
@@ -1453,6 +1494,70 @@ public class TomTomWatchView extends javax.swing.JFrame
             JOptionPane.showMessageDialog(this, "No track selected", "Warning", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_jButtonSaveGpxActionPerformed
+
+    /**
+     * Uploads the selected activity to Strava. Does not require a watch
+     * connection; it operates on the currently selected (downloaded or loaded)
+     * activity.
+     * @param evt
+     */
+    private void jButtonStravaActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButtonStravaActionPerformed
+    {//GEN-HEADEREND:event_jButtonStravaActionPerformed
+        int index=this.jListActivities.getSelectedIndex();
+        ActivityData data=communicationProcess.getActivityData(index);
+
+        if (index<0 || data==null)
+        {
+            JOptionPane.showMessageDialog(this, "No track selected", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // Determine the Strava activity title according to the configured mode.
+        // A null title means: send no name, let Strava auto-generate the title.
+        String  mode        =settings.getStringValue("stravaTitleMode");
+        String  defaultTitle=buildStravaTitle(data.activity);
+        String  title;
+        if (mode.equals("stravaDefault"))
+        {
+            title=null;
+        }
+        else if (mode.equals("description"))
+        {
+            title=data.activity.getActivityDescription();
+        }
+        else if (mode.equals("prompt"))
+        {
+            String input=JOptionPane.showInputDialog(this, "Strava activity title:", defaultTitle);
+            if (input==null)
+            {
+                return;                                 // user cancelled: abort the upload
+            }
+            title=input.trim().isEmpty() ? null : input.trim();
+        }
+        else // "descriptionDate" (default)
+        {
+            title=defaultTitle;
+        }
+
+        communicationProcess.requestStravaUpload(index, title);
+    }//GEN-LAST:event_jButtonStravaActionPerformed
+
+    /**
+     * Builds the default Strava activity title from the activity: its
+     * description followed by the start date/time.
+     * @param activity The activity
+     * @return The title, e.g. "Cycling 2025-12-08 12:46"
+     */
+    private String buildStravaTitle(Activity activity)
+    {
+        String   title      =activity.getActivityDescription();
+        DateTime startDateTime=activity.getStartDateTime();
+        if (startDateTime!=null)
+        {
+            title+=" "+startDateTime.format("YYYY-MM-DD hh:mm");
+        }
+        return title;
+    }
 
     /**
      * Saves the selected TTBIN file
@@ -2244,6 +2349,8 @@ public class TomTomWatchView extends javax.swing.JFrame
     {
         int index           = this.jListActivities.getSelectedIndex();
         ActivityData data   = communicationProcess.getActivityData(index);
+        // The Strava button acts on the selected activity; enable it only when one is selected
+        this.jButtonStrava.setEnabled(data != null);
         if (data != null)
         {
             if (!fileNameOnly)
@@ -2328,9 +2435,12 @@ public class TomTomWatchView extends javax.swing.JFrame
      */
     public void clear()
     {
-        // Clear the list 
+        // Clear the list
         DefaultListModel model = (DefaultListModel) this.jListActivities.getModel();
         model.clear();
+
+        // No activity selected anymore: disable the Strava upload button
+        this.jButtonStrava.setEnabled(false);
 
         // Hide the map
         if (map!=null)
@@ -2363,9 +2473,130 @@ public class TomTomWatchView extends javax.swing.JFrame
      */
     public void showInfoDialog(String message)
     {
-        JOptionPane.showMessageDialog(this, message, "Info", JOptionPane.PLAIN_MESSAGE);        
+        JOptionPane.showMessageDialog(this, message, "Info", JOptionPane.PLAIN_MESSAGE);
     }
-    
+
+    /**
+     * Show an info dialog containing a clickable hyperlink. Clicking the link
+     * opens it in the default browser. Safe to call from any thread.
+     * @param message Message shown above the link
+     * @param url     The URL to show and open when clicked
+     */
+    public void showLinkDialog(final String message, final String url)
+    {
+        String htmlBody=escapeHtml(message)+"<br><a href=\""+escapeHtml(url)+"\">"+escapeHtml(url)+"</a>";
+        showHtmlDialog(htmlBody, "Info", JOptionPane.PLAIN_MESSAGE);
+    }
+
+    /**
+     * Show an error dialog in which any http(s) URLs in the message are
+     * rendered as clickable hyperlinks. Safe to call from any thread.
+     * @param message Error message, possibly containing URLs
+     */
+    public void showErrorDialogWithLinks(final String message)
+    {
+        showHtmlDialog(linkify(message), "Error", JOptionPane.ERROR_MESSAGE);
+    }
+
+    /**
+     * Shows a message dialog whose body is HTML, with clickable hyperlinks.
+     * Marshalled onto the EDT, so it is safe to call from any thread.
+     * @param htmlBody    The HTML body (without &lt;html&gt;/&lt;body&gt; wrapper)
+     * @param title       The dialog title
+     * @param messageType The JOptionPane message type
+     */
+    private void showHtmlDialog(final String htmlBody, final String title, final int messageType)
+    {
+        SwingUtilities.invokeLater(() ->
+        {
+            JEditorPane editorPane=new JEditorPane("text/html",
+                    "<html><body style=\"margin:0\">"+htmlBody+"</body></html>");
+            editorPane.setEditable(false);
+            editorPane.setOpaque(false);
+            // Match the look of a normal dialog label
+            editorPane.setFont(UIManager.getFont("Label.font"));
+            editorPane.setBorder(null);
+            editorPane.addHyperlinkListener((HyperlinkEvent e) ->
+            {
+                if (e.getEventType()==HyperlinkEvent.EventType.ACTIVATED)
+                {
+                    String target=(e.getURL()!=null) ? e.getURL().toString() : e.getDescription();
+                    openInBrowser(target);
+                }
+            });
+            JOptionPane.showMessageDialog(this, editorPane, title, messageType);
+        });
+    }
+
+    /**
+     * Escapes HTML special characters and converts newlines to line breaks.
+     * @param text The plain text
+     * @return HTML-safe text
+     */
+    private static String escapeHtml(String text)
+    {
+        return text.replace("&", "&amp;")
+                   .replace("<", "&lt;")
+                   .replace(">", "&gt;")
+                   .replace("\"", "&quot;")
+                   .replace("\n", "<br>");
+    }
+
+    /**
+     * Converts a plain text message into HTML, turning any http(s) URLs into
+     * clickable hyperlinks. The remainder of the text is HTML-escaped.
+     * @param text The plain text message
+     * @return HTML with clickable links
+     */
+    private static String linkify(String text)
+    {
+        StringBuilder   sb      =new StringBuilder();
+        Matcher         matcher =Pattern.compile("https?://\\S+").matcher(text);
+        int             last    =0;
+        while (matcher.find())
+        {
+            sb.append(escapeHtml(text.substring(last, matcher.start())));
+
+            // Strip trailing punctuation that is unlikely to be part of the URL
+            String url      =matcher.group();
+            String trailing ="";
+            while (url.length()>0 && ")].,;'\"".indexOf(url.charAt(url.length()-1))>=0)
+            {
+                trailing=url.charAt(url.length()-1)+trailing;
+                url     =url.substring(0, url.length()-1);
+            }
+            String escUrl=escapeHtml(url);
+            sb.append("<a href=\"").append(escUrl).append("\">").append(escUrl).append("</a>");
+            sb.append(escapeHtml(trailing));
+            last=matcher.end();
+        }
+        sb.append(escapeHtml(text.substring(last)));
+        return sb.toString();
+    }
+
+    /**
+     * Opens the given URL in the default browser.
+     * @param url The URL to open
+     */
+    public void openInBrowser(String url)
+    {
+        try
+        {
+            if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE))
+            {
+                Desktop.getDesktop().browse(new URI(url));
+            }
+            else
+            {
+                DebugLogger.error("Cannot open browser: not supported on this platform");
+            }
+        }
+        catch (Exception ex)
+        {
+            DebugLogger.error("Error opening browser for "+url+": "+ex.getMessage());
+        }
+    }
+
     /**
      * Show confirm dialog.
      * @param message Message to show
@@ -2615,6 +2846,7 @@ public class TomTomWatchView extends javax.swing.JFrame
     private javax.swing.JButton jButtonSaveGpx;
     private javax.swing.JButton jButtonSaveRoutes;
     private javax.swing.JButton jButtonSaveTtbin;
+    private javax.swing.JButton jButtonStrava;
     private javax.swing.JButton jButtonUploadGps;
     private javax.swing.JCheckBox jCheckBoxAutoSave;
     private javax.swing.JCheckBox jCheckBoxCompress;
