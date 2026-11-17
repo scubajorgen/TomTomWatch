@@ -255,6 +255,46 @@ public class Activity
     {
         return this.summaryActivity;
     }
+
+    /**
+     * @return True if any record has valid GPS coordinates
+     */
+    public boolean hasGpsTrack()
+    {
+        for (ActivitySegment segment : segments)
+        {
+            for (ActivityRecord point : segment.getRecords())
+            {
+                double lat=point.getLatitude();
+                double lon=point.getLongitude();
+                if (lat!=ActivityRecord.INVALID && lon!=ActivityRecord.INVALID && lat!=0.0 && lon!=0.0)
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * @return True if any record has a timestamp and heart rate (typical Gym/Indoor)
+     */
+    public boolean hasTimedHeartRateSamples()
+    {
+        for (ActivitySegment segment : segments)
+        {
+            for (ActivityRecord point : segment.getRecords())
+            {
+                if (point.getDateTime()!=null &&
+                    point.getHeartRate()!=ActivityRecord.INVALID &&
+                    point.getHeartRate()>0)
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
     
    /**
      * Returns the number of segments in this Acitivity. Segments are 
@@ -505,10 +545,49 @@ public class Activity
             newRecord.setUtcTime(timestamp);
             newRecord.setCalories(calories);
             newRecord.setCycles(cycles);
+            if (this.newActivitySegment!=null)
+            {
+                this.newActivitySegment.addRecord(newRecord);
+            }
         }
         else
         {
             DebugLogger.info("Invalid record");
+        }
+    }
+
+    /**
+     * Parse the indoor cycling record (no GPS).
+     * Layout (12 bytes incl. tag): timestamp, distance(m), calories, cadence.
+     * @param recordData The record data
+     */
+    private void parseRecordIndoorCycling(byte[] recordData)
+    {
+        long        timestamp;
+        int         distance;
+        int         calories;
+        int         cadence;
+
+        timestamp   =ToolBox.readUnsignedLong(recordData, 1, 4, true)-timeZoneSeconds;
+        distance    =ToolBox.readUnsignedInt(recordData,  5, 4, true);
+        calories    =ToolBox.readUnsignedInt(recordData,  9, 2, true);
+        cadence     =ToolBox.readUnsignedInt(recordData, 11, 1, true);
+
+        if (timestamp!=4294967295L)
+        {
+            newRecord   =new ActivityRecord();
+            newRecord.setUtcTime(timestamp);
+            newRecord.setDistance(distance);
+            newRecord.setCalories(calories);
+            newRecord.setCycles(cadence);
+            if (this.newActivitySegment!=null)
+            {
+                this.newActivitySegment.addRecord(newRecord);
+            }
+        }
+        else
+        {
+            DebugLogger.info("Invalid indoor cycling record");
         }
     }
 
@@ -970,6 +1049,9 @@ public class Activity
                 break;
             case TtbinFileDefinition.TAG_GYM:
                 parseRecordGym(recordData);
+                break;
+            case TtbinFileDefinition.TAG_INDOOR_CYCLING:
+                parseRecordIndoorCycling(recordData);
                 break;
             case TtbinFileDefinition.TAG_ELEVATION:
                 parseRecordElevation(recordData);

@@ -18,11 +18,11 @@ import java.io.FileNotFoundException;
 import java.util.Arrays;
 
 import org.json.JSONObject;
-import org.json.JSONArray;
 
 /**
  * TTBIN file writer. Writes the TTBIN file. Contains functionality
- * to generate the subdirectories and filename conform TomTom Sports
+ * to generate the subdirectories and filename.
+ * Layout: {basePath}/{deviceName}/{Type}_{YYYY-MM-DD}_{hh-mm-ss}.ttbin
  * @author jorgen.van.der.velde
  */
 public class TtbinFileWriter
@@ -38,28 +38,35 @@ public class TtbinFileWriter
     }
     
     /**
-     * This method creates the full path where the ttbin file is going to be
-     * stored.
-     * @param path The base path
-     * @param dateTime The date time of the ttbin file
-     * @return The created directory
+     * Ensures the path ends with a slash.
+     * @param path Path to normalize
+     * @return Path ending with /
      */
-    private String createPath(String path, DateTime dateTime, String deviceName)
+    private String normalizeBasePath(String path)
+    {
+        if ((!path.endsWith("/"))&& (!path.endsWith("\\")))
+        {
+            return path+"/";
+        }
+        return path;
+    }
+    
+    /**
+     * This method creates the full path where the ttbin/export file is going to be
+     * stored: {basePath}/{deviceName}/
+     * @param path The base path
+     * @param deviceName Device name subdirectory
+     * @return The created directory path, or null if creation failed
+     */
+    private String createPath(String path, String deviceName)
     {
         String  fullPath;
         File    dir;
         boolean ok;
         
-        if ((!path.endsWith("/"))&& (!path.endsWith("\\")))
-        {
-            fullPath=path+"/";
-        }
-        else
-        {
-            fullPath=path;
-        }
+        fullPath=normalizeBasePath(path);
         
-        fullPath+=deviceName+"/"+dateTime.format("YYYY-MM-DD")+"/";
+        fullPath+=deviceName+"/";
         
         dir=new File(fullPath);
         
@@ -70,6 +77,7 @@ public class TtbinFileWriter
             if (!ok)
             {
                 DebugLogger.error("TTBIN subdirectory not created. Illegal dir or it already exists");
+                return null;
             }
         }        
         return fullPath;
@@ -89,7 +97,19 @@ public class TtbinFileWriter
             theInstance=new TtbinFileWriter();
         }
         return theInstance;
-    }            
+    }
+
+    /**
+     * Builds the file stem without extension: {Type}_{YYYY-MM-DD}_{hh-mm-ss}
+     * @param dateTime Date time of the track
+     * @param type Activity type description (e.g. Gym, Running)
+     * @return File stem
+     */
+    public String getActivityFileStem(DateTime dateTime, String type)
+    {
+        return type+"_"+dateTime.format("YYYY-MM-DD")+"_"+dateTime.format("hh-mm-ss");
+    }
+            
     
     /**
      * This method gets the full filename of the TTBIN file
@@ -101,26 +121,36 @@ public class TtbinFileWriter
      */
     public String getFullFileName(String path, String deviceName, DateTime dateTime, String type)
     {
-        String fileName;
+        return getExportFullFileName(path, deviceName, dateTime, type, "ttbin");
+    }
+
+    /**
+     * Builds a full export path under {basePath}/{deviceName}/ with the flattened
+     * activity stem and given extension (without leading dot).
+     * @param basePath   Base path (ttbin or gpx directory)
+     * @param deviceName Device name subdirectory
+     * @param dateTime   Date time of the track
+     * @param type       Activity type description
+     * @param extension  File extension without dot (ttbin, gpx, tcx)
+     * @return Full path or null if directory could not be created
+     */
+    public String getExportFullFileName(String basePath, String deviceName, DateTime dateTime, String type, String extension)
+    {
         String fullPath;
         
-        fullPath=createPath(path, dateTime, deviceName);
+        fullPath=createPath(basePath, deviceName);
         
         if (fullPath!=null)
         {
-            fileName=fullPath+type+"_"+dateTime.format("hh-mm-ss")+".ttbin";
+            return fullPath+getActivityFileStem(dateTime, type)+"."+extension;
         }
-        else
-        {
-            fileName=null;
-        }
-        return fileName;
+        return null;
     }
         
     
     /**
      * Writes the UsbFile data to a ttbin file. A suitable directory 
-     * is created in the same style as TomTom MySports
+     * is created under {base}/{deviceName}/
      * @param fileName Name of the file to write to. Use getFullFilename()
      * @param file The file containing the raw data
      * @return True if an error occurred, false if all went ok

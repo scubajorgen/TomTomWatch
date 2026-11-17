@@ -224,10 +224,12 @@ public class TcxWriter implements TrackWriter
                 DateTime dateTime      =rec.getDateTime();
                 double latitude        =rec.getLatitude();
                 double longitude       =rec.getLongitude();
+                boolean hasGps         =(latitude!=ActivityRecord.INVALID) && (longitude!=ActivityRecord.INVALID) &&
+                                        (latitude!=0.0) && (longitude!=0.0);
 
-                if ((dateTime!=null) && 
-                        (latitude!=ActivityRecord.INVALID) && (longitude!=ActivityRecord.INVALID) && 
-                        (latitude!=0.0) && (longitude!=0.0))
+                // Indoor/Gym: keep timed HR samples even without GPS (needed for Strava TCX upload)
+                if (dateTime!=null && (hasGps ||
+                        ((rec.getHeartRate()!=ActivityRecord.INVALID) && (rec.getHeartRate()>0))))
                 {             
                     double heading         =rec.getHeading();
                     double calories        =rec.getCalories();
@@ -248,14 +250,17 @@ public class TcxWriter implements TrackWriter
                     timeElement.appendChild(doc.createTextNode(dateTimeString));
                     pointElement.appendChild(timeElement);
 
-                    Element positionElement=doc.createElement("Position");
-                    pointElement.appendChild(positionElement);
-                    element=doc.createElement("LatitudeDegrees");
-                    element.appendChild(doc.createTextNode((String.format("%.7f", latitude))));
-                    positionElement.appendChild(element);
-                    element=doc.createElement("LongitudeDegrees");
-                    element.appendChild(doc.createTextNode((String.format("%.7f", longitude))));
-                    positionElement.appendChild(element);
+                    if (hasGps)
+                    {
+                        Element positionElement=doc.createElement("Position");
+                        pointElement.appendChild(positionElement);
+                        element=doc.createElement("LatitudeDegrees");
+                        element.appendChild(doc.createTextNode((String.format("%.7f", latitude))));
+                        positionElement.appendChild(element);
+                        element=doc.createElement("LongitudeDegrees");
+                        element.appendChild(doc.createTextNode((String.format("%.7f", longitude))));
+                        positionElement.appendChild(element);
+                    }
                     
                     // The elevation.
                     if (elevation!=ActivityRecord.INVALID)
@@ -281,6 +286,8 @@ public class TcxWriter implements TrackWriter
                         valueElement.appendChild(doc.createTextNode(String.valueOf(heartRate)));
                         hrElement.appendChild(valueElement);
                     }
+
+                    trackPoints++;
                 }
             }
 
