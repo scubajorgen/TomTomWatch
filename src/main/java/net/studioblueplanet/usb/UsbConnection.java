@@ -132,9 +132,17 @@ public class UsbConnection
 
             try
             {
-                // For Linux: force claim if the interface has been claimed by the kernel
-                iface.claim(new ForcePolicy());
-                DebugLogger.info("USB interface claimed");
+                // Avoid double-claim in the same JVM (e.g. reconnect while still claimed)
+                if (iface.isClaimed())
+                {
+                    DebugLogger.info("USB interface already claimed");
+                }
+                else
+                {
+                    // For Linux: force claim if the interface has been claimed by the kernel
+                    iface.claim(new ForcePolicy());
+                    DebugLogger.info("USB interface claimed");
+                }
             }
             catch(UsbClaimException e)
             {

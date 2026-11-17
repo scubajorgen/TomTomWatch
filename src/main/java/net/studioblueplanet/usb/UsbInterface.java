@@ -506,6 +506,10 @@ public class UsbInterface extends WatchInterface
         boolean error;
         
         error   =false;
+        if (connected)
+        {
+            return false;
+        }
         try
         {
             connection.connect();

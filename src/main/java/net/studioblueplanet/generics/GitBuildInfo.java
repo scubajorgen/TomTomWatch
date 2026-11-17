@@ -26,10 +26,19 @@ public class GitBuildInfo
      */
     private GitBuildInfo()
     {
+        buildProperties=new Properties();
         try 
         {
-            buildProperties=new Properties();
-            buildProperties.load(getClass().getClassLoader().getResourceAsStream("build.properties"));
+            java.io.InputStream in=getClass().getClassLoader().getResourceAsStream("build.properties");
+            if (in!=null)
+            {
+                buildProperties.load(in);
+                in.close();
+            }
+            else
+            {
+                DebugLogger.info("build.properties not found; build info unavailable");
+            }
         } 
         catch (IOException e) 
         {

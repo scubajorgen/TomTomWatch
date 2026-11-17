@@ -10,10 +10,14 @@ import net.studioblueplanet.usb.WatchInterface;
 import net.studioblueplanet.usb.UsbTestInterface;
 import net.studioblueplanet.usb.UsbFile;
 import net.studioblueplanet.ttbin.Activity;
+import net.studioblueplanet.ttbin.GpxWriter;
+import net.studioblueplanet.ttbin.TcxWriter;
 import net.studioblueplanet.ttbin.TomTomReader;
+import net.studioblueplanet.ttbin.TrackWriter;
 import net.studioblueplanet.logger.DebugLogger;
 import net.studioblueplanet.settings.ConfigSettings;
 import net.studioblueplanet.generics.ToolBox;
+import net.studioblueplanet.generics.GitBuildInfo;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -26,6 +30,8 @@ import java.util.concurrent.Executor;
 import hirondelle.date4j.DateTime;
 import java.io.RandomAccessFile;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 import javax.swing.DefaultListModel;
 
@@ -62,6 +68,7 @@ public class CommunicationProcess implements ProgressListener
     private String                              uploadGpxFile;
     private String                              uploadGpxName;
     private final String                        ttbinFilePath;
+    private final String                        gpxFilePath;
     private final String                        debugFilePath;
     private int                                 productId;
     private long                                currentFirmwareVersion;
@@ -108,6 +115,7 @@ public class CommunicationProcess implements ProgressListener
         
         settings            =ConfigSettings.getInstance();
         ttbinFilePath       =settings.getStringValue("ttbinFilePath");
+        gpxFilePath         =settings.getStringValue("gpxFilePath");
         debugFilePath       =settings.getStringValue("debugFilePath");
 
         timer               =new WatchTimer(this);
@@ -1048,6 +1056,12 @@ public class CommunicationProcess implements ProgressListener
                         }
                     }
 
+                    // Optionally export GPX/TCX from in-memory Activity (independent of autosave)
+                    if (theView.isAutoExportTrack())
+                    {
+                        autoExportTrack(activity, localDeviceName);
+                    }
+
                     // Add the activity info to the listbox
                     theView.addListItem(data, "watch ");
 
@@ -1077,6 +1091,71 @@ public class CommunicationProcess implements ProgressListener
         
         // remove progress listener to prevent unwanted effects
         watchInterface.setProgressListener(null);        
+    }
+
+    /**
+     * Export activity to GPX (GPS) or TCX (indoor timed HR), same heuristic as TtbinToGpxBatch.
+     * Errors are logged to status and do not abort the download loop.
+     * @param activity Parsed activity
+     * @param deviceName Device name used in export path
+     */
+    private void autoExportTrack(Activity activity, String deviceName)
+    {
+        boolean         hasGps;
+        boolean         hasTimedHr;
+        String          extension;
+        String          fileName;
+        TrackWriter     trackWriter;
+        TtbinFileWriter writer;
+        GitBuildInfo    build;
+        String          appName;
+
+        hasGps      =activity.hasGpsTrack();
+        hasTimedHr  =activity.hasTimedHeartRateSamples();
+
+        if (hasGps)
+        {
+            extension   ="gpx";
+            trackWriter =GpxWriter.getInstance();
+        }
+        else if (hasTimedHr)
+        {
+            extension   ="tcx";
+            trackWriter =TcxWriter.getInstance();
+        }
+        else
+        {
+            theView.appendStatus("SKIP export "+activity.getActivityDescription()+" (no GPS/HR)\n");
+            return;
+        }
+
+        writer  =TtbinFileWriter.getInstance();
+        fileName=writer.getExportFullFileName(gpxFilePath,
+                                              deviceName,
+                                              activity.getStartDateTime(),
+                                              activity.getActivityDescription(),
+                                              extension);
+        if (fileName==null)
+        {
+            theView.appendStatus("Error generating export filename for "+activity.getActivityDescription()+"\n");
+            return;
+        }
+
+        build   =GitBuildInfo.getInstance();
+        appName ="TomTomWatch "+build.getGitCommitDescription()+" ("+build.getBuildTime()+")";
+
+        try
+        {
+            FileWriter fileWriter=new FileWriter(new File(fileName));
+            trackWriter.writeTrackToFile(fileWriter, activity, appName);
+            fileWriter.close();
+            theView.appendStatus(extension.toUpperCase()+"  "+activity.getActivityDescription()+" -> "+fileName+"\n");
+        }
+        catch (IOException e)
+        {
+            DebugLogger.error("Error exporting track: "+e.getMessage());
+            theView.appendStatus("Error exporting "+extension.toUpperCase()+" for "+activity.getActivityDescription()+": "+e.getMessage()+"\n");
+        }
     }
     
     
@@ -1314,14 +1393,15 @@ public class CommunicationProcess implements ProgressListener
         {
             deviceName=watchInterface.getPreference("watchName");
             
-            if (deviceName!=null)
+            // Missing watchName in preferences must not tear down the USB session:
+            // toErrorState() would disconnect while GETFIRMWARE/GETPRODUCTID are still
+            // queued and a later CONNECT would hit "An interface is already claimed".
+            if (deviceName==null || deviceName.isEmpty())
             {
-                theView.setDeviceName(deviceName);
+                deviceName="TomTom Watch";
+                DebugLogger.info("watchName not found in preferences; using default: "+deviceName);
             }
-            else
-            {
-                toErrorState();
-            }
+            theView.setDeviceName(deviceName);
         }        
     }
     

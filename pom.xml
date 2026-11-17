@@ -228,6 +228,8 @@
                 <version>2.2.1</version>
                 <configuration>
                     <failOnNoGitDirectory>false</failOnNoGitDirectory>
+                    <!-- JGit  in plugin 2.2.1 fails on modern git indexes / pack layouts -->
+                    <useNativeGit>true</useNativeGit>
                     <generateGitPropertiesFile>true</generateGitPropertiesFile>
                     <generateGitPropertiesFilename>
                         ${project.build.outputDirectory}/build.properties

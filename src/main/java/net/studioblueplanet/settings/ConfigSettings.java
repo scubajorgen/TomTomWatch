@@ -69,6 +69,7 @@ public class ConfigSettings
         new Setting("routeFilePath"             , "Path where to find GPX route files", "//"        , ""                       , SettingType.STRING ),
         new Setting("ttbinFilePath"             , "Path where TTBIN files are stored" , "//"        , ""                       , SettingType.STRING ),
         new Setting("autoSaveTtbin"             , "Autosave TTBIN enabled           " , "true"      , ""                       , SettingType.BOOLEAN),
+        new Setting("autoExportTrack"           , "Auto export GPX/TCX on download  " , "false"     , ""                       , SettingType.BOOLEAN),
         new Setting("waypointLogTimeout"        , "Limit in ms for pause to be wp   " , "5000"      , "1,30000"                , SettingType.INT    ),
         new Setting("simulation"                , "Simulation mode                  " , "false"     , ""                       , SettingType.BOOLEAN),
         new Setting("simulationPath"            , "Path where sim files are stored  " , "//"        , ""                       , SettingType.STRING ),
