@@ -7,7 +7,9 @@ package net.studioblueplanet.ttbin;
 
 import hirondelle.date4j.DateTime;
 import java.io.Writer;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -193,12 +195,10 @@ public class TcxWriter implements TrackWriter
         int     numberOfSegments;
         Element activitiesElement;
         Element activityElement;
-        Element lapElement;
         Element segmentElement;
         Element element;
         Attr    attr;
 
-        ActivitySegment segment;
         DateTime        startTime;
         String          trackName;
         String          trackDescription;
@@ -249,112 +249,379 @@ public class TcxWriter implements TrackWriter
         }
         activityElement.appendChild(element);
 
-        // Add the track segments.
-        i=0;
-        while (i<numberOfSegments)
+        // Add the laps
+        if (track.getLaps().isEmpty())
         {
-            segment=track.getSegment(i);
-            lapElement=doc.createElement("Lap");
-            activityElement.appendChild(lapElement);
-            // The lap starts at the first record of the segment (UTC). The
-            // segment start time is local time.
-            startTime=getFirstRecordDateTime(segment.getRecords());
-            if (startTime==null)
+            // No manual laps marked: one lap per segment
+            i=0;
+            while (i<numberOfSegments)
             {
-                startTime=segment.getStartTime();
+                addSegmentLap(doc, activityElement, track.getSegment(i));
+                i++;
             }
-            lapElement.setAttribute("StartTime", formatUtcDateTime(startTime));
+        }
+        else
+        {
+            // Manual laps marked: split the segments at the lap marks
+            addManualLaps(doc, activityElement, track);
+        }
+    }
 
-            Element totalTimeElement=doc.createElement("TotalTimeSeconds");
-            long lapTime=segment.getStartTime().numSecondsFrom(segment.getEndTime());
-            totalTimeElement.appendChild(doc.createTextNode(String.format("%d", lapTime)));
-            lapElement.appendChild(totalTimeElement);
-            
-            Element distanceElement=doc.createElement("DistanceMeters");
-            distanceElement.appendChild(doc.createTextNode(String.format("%.1f", segment.getDistance()*1000)));
-            lapElement.appendChild(distanceElement);
+    /**
+     * Returns the records of the segment that are written as Trackpoint:
+     * the records with a time stamp and a valid position
+     * @param segment The segment
+     * @return The list of records
+     */
+    private List<ActivityRecord> getTrackRecords(ActivitySegment segment)
+    {
+        List<ActivityRecord>    records;
+        DateTime                dateTime;
+        double                  latitude;
+        double                  longitude;
 
-            // For XSD compliancy
-            Element caloriesElement=doc.createElement("Calories");
-            caloriesElement.appendChild(doc.createTextNode(String.format("%d", 0)));
-            lapElement.appendChild(caloriesElement);            
-            Element intensityElement=doc.createElement("Intensity");
-            intensityElement.appendChild(doc.createTextNode("Active"));
-            lapElement.appendChild(intensityElement);            
-            Element triggerElement=doc.createElement("TriggerMethod");
-            triggerElement.appendChild(doc.createTextNode("Manual"));
-            lapElement.appendChild(triggerElement);            
-
-            
-            Element trackElement=doc.createElement("Track");
-            lapElement.appendChild(trackElement);
-            
-            for(ActivityRecord rec : segment.getRecords())
+        records=new ArrayList<>();
+        for (ActivityRecord rec : segment.getRecords())
+        {
+            dateTime        =rec.getDateTime();
+            latitude        =rec.getLatitude();
+            longitude       =rec.getLongitude();
+            if ((dateTime!=null) &&
+                    (latitude!=ActivityRecord.INVALID) && (longitude!=ActivityRecord.INVALID) &&
+                    (latitude!=0.0) && (longitude!=0.0))
             {
-                DateTime dateTime      =rec.getDateTime();
-                double latitude        =rec.getLatitude();
-                double longitude       =rec.getLongitude();
+                records.add(rec);
+            }
+        }
+        return records;
+    }
 
-                if ((dateTime!=null) && 
-                        (latitude!=ActivityRecord.INVALID) && (longitude!=ActivityRecord.INVALID) && 
-                        (latitude!=0.0) && (longitude!=0.0))
-                {             
-                    double heading         =rec.getHeading();
-                    double calories        =rec.getCalories();
-                    double ascend          =rec.getCumulativeAscend();
-                    double descend         =rec.getCumulativeDecend();
-                    double distance        =rec.getDistance();
-                    double elevation       =rec.getDerivedElevation();
-                    int    heartRate       =rec.getHeartRate();
-                    int    temperature     =rec.getTemperature();
-                    double speed           =rec.getSpeed();
+    /**
+     * Adds a lap for the entire segment. This is used when no manual laps
+     * were marked
+     * @param doc XML document
+     * @param activityElement The Activity element to add the Lap to
+     * @param segment The segment
+     */
+    private void addSegmentLap(Document doc, Element activityElement, ActivitySegment segment)
+    {
+        Element                 lapElement;
+        Element                 trackElement;
+        DateTime                startTime;
+        List<ActivityRecord>    records;
+        long                    lapTime;
 
-                    Element pointElement=doc.createElement("Trackpoint");
-                    trackElement.appendChild(pointElement);
+        records     =getTrackRecords(segment);
+        lapElement  =doc.createElement("Lap");
+        activityElement.appendChild(lapElement);
 
-                    Element timeElement     = doc.createElement("Time");
-                    String dateTimeString   =dateTime.format("YYYY-MM-DD")+"T"+
-                                             dateTime.format("hh:mm:ss")+"Z";
-                    timeElement.appendChild(doc.createTextNode(dateTimeString));
-                    pointElement.appendChild(timeElement);
+        // The lap starts at the first record of the segment (UTC). The
+        // segment start time is local time.
+        startTime=getFirstRecordDateTime(segment.getRecords());
+        if (startTime==null)
+        {
+            startTime=segment.getStartTime();
+        }
+        lapElement.setAttribute("StartTime", formatUtcDateTime(startTime));
 
-                    Element positionElement=doc.createElement("Position");
-                    pointElement.appendChild(positionElement);
-                    element=doc.createElement("LatitudeDegrees");
-                    element.appendChild(doc.createTextNode((String.format("%.7f", latitude))));
-                    positionElement.appendChild(element);
-                    element=doc.createElement("LongitudeDegrees");
-                    element.appendChild(doc.createTextNode((String.format("%.7f", longitude))));
-                    positionElement.appendChild(element);
-                    
-                    // The elevation.
-                    if (elevation!=ActivityRecord.INVALID)
+        lapTime=segment.getStartTime().numSecondsFrom(segment.getEndTime());
+        addLapSummary(doc, lapElement, lapTime, segment.getDistance()*1000, 0, null);
+
+        trackElement=doc.createElement("Track");
+        lapElement.appendChild(trackElement);
+        for(ActivityRecord rec : records)
+        {
+            addTrackpoint(doc, trackElement, rec);
+        }
+    }
+
+    /**
+     * Adds the laps based on the manual lap marks. Each segment is split
+     * at the lap marks: a record belongs to the lap of the first lap mark
+     * with a time equal to or later than the record time. The records after
+     * the last lap mark form the last lap. Lap time, distance and calories
+     * are the difference between the cumulative values of subsequent lap marks.
+     * @param doc XML document
+     * @param activityElement The Activity element to add the Laps to
+     * @param track The activity
+     */
+    private void addManualLaps(Document doc, Element activityElement, Activity track)
+    {
+        List<ActivityLap>       laps;
+        List<ActivityRecord>    records;
+        List<ActivityRecord>    lapRecords;
+        ActivityLap             lap;
+        ActivityRecord          lastRecord;
+        int                     lapIndex;
+        int                     segmentIndex;
+        int                     lastSegmentIndex;
+        int                     numberOfSegments;
+        long                    prevTime;
+        double                  prevDistance;
+        int                     prevCalories;
+        long                    endTime;
+        double                  endDistance;
+        int                     endCalories;
+
+        laps            =track.getLaps();
+        numberOfSegments=track.getNumberOfSegments();
+
+        // Find the last segment containing records
+        lastSegmentIndex=-1;
+        segmentIndex    =0;
+        while (segmentIndex<numberOfSegments)
+        {
+            if (!getTrackRecords(track.getSegment(segmentIndex)).isEmpty())
+            {
+                lastSegmentIndex=segmentIndex;
+            }
+            segmentIndex++;
+        }
+
+        lapIndex        =0;
+        prevTime        =0;
+        prevDistance    =0.0;
+        prevCalories    =0;
+        segmentIndex    =0;
+        while (segmentIndex<numberOfSegments)
+        {
+            records     =getTrackRecords(track.getSegment(segmentIndex));
+            lapRecords  =new ArrayList<>();
+            for (ActivityRecord rec : records)
+            {
+                // Close the lap(s) of the lap marks preceding this record
+                while ((lapIndex<laps.size()) &&
+                       ((laps.get(lapIndex).getDateTime()==null) || rec.getDateTime().gt(laps.get(lapIndex).getDateTime())))
+                {
+                    lap=laps.get(lapIndex);
+                    if (!lapRecords.isEmpty())
                     {
-                        element    = doc.createElement("AltitudeMeters");
-                        element.appendChild(doc.createTextNode(String.format("%.1f", elevation)));
-                        pointElement.appendChild(element);
-                    }                    
-                    
-                    if (distance!=ActivityRecord.INVALID)
-                    {
-                        element    = doc.createElement("DistanceMeters");
-                        element.appendChild(doc.createTextNode(String.format("%.1f", distance)));
-                        pointElement.appendChild(element);
-                    }                    
-
-                    // The Heartrate
-                    if ((heartRate!=ActivityRecord.INVALID) && (heartRate>0))
-                    {
-                        Element hrElement    = doc.createElement("HeartRateBpm");
-                        pointElement.appendChild(hrElement);
-                        Element valueElement =doc.createElement("Value");
-                        valueElement.appendChild(doc.createTextNode(String.valueOf(heartRate)));
-                        hrElement.appendChild(valueElement);
+                        addLap(doc, activityElement, lapRecords,
+                               lap.getElapsedSeconds()-prevTime,
+                               lap.getDistance()-prevDistance,
+                               lap.getCalories()-prevCalories);
+                        prevTime        =lap.getElapsedSeconds();
+                        prevDistance    =lap.getDistance();
+                        prevCalories    =lap.getCalories();
+                        lapRecords      =new ArrayList<>();
                     }
+                    // If no records belong to the lap, the values are added to the next lap
+                    lapIndex++;
+                }
+                lapRecords.add(rec);
+            }
+
+            // End of segment: the remaining records form a lap
+            if (!lapRecords.isEmpty())
+            {
+                lastRecord=lapRecords.get(lapRecords.size()-1);
+                if ((lapIndex<laps.size()) && (segmentIndex==lastSegmentIndex))
+                {
+                    // Lap marks remaining after the last record: use the last one
+                    lap         =laps.get(laps.size()-1);
+                    endTime     =lap.getElapsedSeconds();
+                    endDistance =lap.getDistance();
+                    endCalories =lap.getCalories();
+                    lapIndex    =laps.size();
+                }
+                else if ((segmentIndex==lastSegmentIndex) && (track.getSummaryDuration()>0))
+                {
+                    // Last lap of the activity: use the activity totals
+                    endTime     =track.getSummaryDuration();
+                    endDistance =track.getSummaryDistance();
+                    endCalories =track.getSummaryCalories();
+                }
+                else
+                {
+                    // Lap interrupted by a pause: estimate the values from the records
+                    endTime     =prevTime+lapRecords.get(0).getDateTime().numSecondsFrom(lastRecord.getDateTime());
+                    endDistance =lastRecord.getDistance()!=ActivityRecord.INVALID ? lastRecord.getDistance() : prevDistance;
+                    endCalories =lastRecord.getCalories()!=ActivityRecord.INVALID ? (int)lastRecord.getCalories() : prevCalories;
+                }
+                addLap(doc, activityElement, lapRecords,
+                       endTime-prevTime, endDistance-prevDistance, endCalories-prevCalories);
+                prevTime        =endTime;
+                prevDistance    =endDistance;
+                prevCalories    =endCalories;
+            }
+            segmentIndex++;
+        }
+    }
+
+    /**
+     * Adds a manual lap containing the records passed
+     * @param doc XML document
+     * @param activityElement The Activity element to add the Lap to
+     * @param records The records in the lap; must contain at least one record
+     * @param lapTime Lap duration in s
+     * @param distance Lap distance in m
+     * @param calories Lap calories
+     */
+    private void addLap(Document doc, Element activityElement, List<ActivityRecord> records,
+                        long lapTime, double distance, int calories)
+    {
+        Element                 lapElement;
+        Element                 trackElement;
+
+        lapElement  =doc.createElement("Lap");
+        activityElement.appendChild(lapElement);
+        lapElement.setAttribute("StartTime", formatUtcDateTime(records.get(0).getDateTime()));
+
+        addLapSummary(doc, lapElement, Math.max(lapTime, 0), Math.max(distance, 0.0), Math.max(calories, 0), records);
+
+        trackElement=doc.createElement("Track");
+        lapElement.appendChild(trackElement);
+        for(ActivityRecord rec : records)
+        {
+            addTrackpoint(doc, trackElement, rec);
+        }
+    }
+
+    /**
+     * Adds the lap summary elements, in the order required by the XSD:
+     * TotalTimeSeconds, DistanceMeters, Calories, AverageHeartRateBpm,
+     * MaximumHeartRateBpm, Intensity, TriggerMethod
+     * @param doc XML document
+     * @param lapElement The Lap element
+     * @param lapTime Lap duration in s
+     * @param distance Lap distance in m
+     * @param calories Lap calories
+     * @param records Records for calculating average and maximum heart rate;
+     *                null if heart rate must not be written
+     */
+    private void addLapSummary(Document doc, Element lapElement, long lapTime, double distance, int calories,
+                               List<ActivityRecord> records)
+    {
+        Element     element;
+        int         heartRate;
+        int         maxHeartRate;
+        long        sumHeartRate;
+        int         count;
+
+        element=doc.createElement("TotalTimeSeconds");
+        element.appendChild(doc.createTextNode(String.format("%d", lapTime)));
+        lapElement.appendChild(element);
+
+        element=doc.createElement("DistanceMeters");
+        element.appendChild(doc.createTextNode(String.format(Locale.US, "%.1f", distance)));
+        lapElement.appendChild(element);
+
+        element=doc.createElement("Calories");
+        element.appendChild(doc.createTextNode(String.format("%d", Math.min(calories, 65535))));
+        lapElement.appendChild(element);
+
+        if (records!=null)
+        {
+            maxHeartRate    =0;
+            sumHeartRate    =0;
+            count           =0;
+            for (ActivityRecord rec : records)
+            {
+                heartRate=rec.getHeartRate();
+                if ((heartRate!=ActivityRecord.INVALID) && (heartRate>0))
+                {
+                    sumHeartRate+=heartRate;
+                    maxHeartRate=Math.max(maxHeartRate, heartRate);
+                    count++;
                 }
             }
+            if (count>0)
+            {
+                addHeartRateElement(doc, lapElement, "AverageHeartRateBpm", (int)Math.round((double)sumHeartRate/count));
+                addHeartRateElement(doc, lapElement, "MaximumHeartRateBpm", maxHeartRate);
+            }
+        }
 
-            i++;
+        element=doc.createElement("Intensity");
+        element.appendChild(doc.createTextNode("Active"));
+        lapElement.appendChild(element);
+        element=doc.createElement("TriggerMethod");
+        element.appendChild(doc.createTextNode("Manual"));
+        lapElement.appendChild(element);
+    }
+
+    /**
+     * Adds a heart rate element containing a Value element
+     * @param doc XML document
+     * @param parent Parent element
+     * @param name Name of the element, like HeartRateBpm
+     * @param heartRate The heart rate in bpm
+     */
+    private void addHeartRateElement(Document doc, Element parent, String name, int heartRate)
+    {
+        Element hrElement;
+        Element valueElement;
+
+        hrElement    =doc.createElement(name);
+        parent.appendChild(hrElement);
+        valueElement =doc.createElement("Value");
+        valueElement.appendChild(doc.createTextNode(String.valueOf(heartRate)));
+        hrElement.appendChild(valueElement);
+    }
+
+    /**
+     * Adds the record as Trackpoint to the Track element
+     * @param doc XML document
+     * @param trackElement The Track element
+     * @param rec The record to add
+     */
+    private void addTrackpoint(Document doc, Element trackElement, ActivityRecord rec)
+    {
+        Element     pointElement;
+        Element     positionElement;
+        Element     element;
+        DateTime    dateTime;
+        double      latitude;
+        double      longitude;
+        double      distance;
+        double      elevation;
+        int         heartRate;
+
+        dateTime        =rec.getDateTime();
+        latitude        =rec.getLatitude();
+        longitude       =rec.getLongitude();
+        distance        =rec.getDistance();
+        elevation       =rec.getDerivedElevation();
+        heartRate       =rec.getHeartRate();
+
+        pointElement=doc.createElement("Trackpoint");
+        trackElement.appendChild(pointElement);
+
+        element     = doc.createElement("Time");
+        element.appendChild(doc.createTextNode(formatUtcDateTime(dateTime)));
+        pointElement.appendChild(element);
+
+        if ((latitude!=ActivityRecord.INVALID) && (longitude!=ActivityRecord.INVALID))
+        {
+            positionElement=doc.createElement("Position");
+            pointElement.appendChild(positionElement);
+            element=doc.createElement("LatitudeDegrees");
+            element.appendChild(doc.createTextNode((String.format("%.7f", latitude))));
+            positionElement.appendChild(element);
+            element=doc.createElement("LongitudeDegrees");
+            element.appendChild(doc.createTextNode((String.format("%.7f", longitude))));
+            positionElement.appendChild(element);
+        }
+
+        // The elevation.
+        if (elevation!=ActivityRecord.INVALID)
+        {
+            element    = doc.createElement("AltitudeMeters");
+            element.appendChild(doc.createTextNode(String.format("%.1f", elevation)));
+            pointElement.appendChild(element);
+        }
+
+        if (distance!=ActivityRecord.INVALID)
+        {
+            element    = doc.createElement("DistanceMeters");
+            element.appendChild(doc.createTextNode(String.format("%.1f", distance)));
+            pointElement.appendChild(element);
+        }
+
+        // The Heartrate
+        if ((heartRate!=ActivityRecord.INVALID) && (heartRate>0))
+        {
+            addHeartRateElement(doc, pointElement, "HeartRateBpm", heartRate);
         }
     }
     
