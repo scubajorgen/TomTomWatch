@@ -28,6 +28,7 @@ public class ActivitySegment
 {
     public static final int                 HRRECOVERY_UNDEFINED=-9999;
     private List<ActivityRecord>            records;
+    private final List<ActivityRecord>      heartRateRecords;   // Records based on heart rate records only
     private DateTime                        startTime;
     private DateTime                        endTime;
     private static TimeZone                 localTimeZone;
@@ -40,6 +41,7 @@ public class ActivitySegment
     public ActivitySegment()
     {
         records                 =new ArrayList<>();
+        heartRateRecords        =new ArrayList<>();
         heartRateRecovery       =HRRECOVERY_UNDEFINED;
         heartRateRecoveryScore  =-1;
     }
@@ -90,6 +92,27 @@ public class ActivitySegment
     public List<ActivityRecord> getRecords()
     {
         return this.records;
+    }
+
+    /**
+     * Add a record containing only a time stamp and heart rate. These records
+     * are created for activities without GPS (indoor cycling, treadmill).
+     * They are kept separate from the GPS based records.
+     * @param record The record to add
+     */
+    public void addHeartRateRecord(ActivityRecord record)
+    {
+        heartRateRecords.add(record);
+    }
+
+    /**
+     * Returns the records based on heart rate records only. Only filled for
+     * activities without GPS records
+     * @return List with records, empty if none
+     */
+    public List<ActivityRecord> getHeartRateRecords()
+    {
+        return this.heartRateRecords;
     }
     
     /**

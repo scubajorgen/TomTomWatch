@@ -36,6 +36,7 @@ public class TcxWriter implements TrackWriter
     private int                 wayPoints;
     private Document            doc;
     private Element             tcxElement;
+    private boolean             useHeartRateRecords;    // Activity without GPS: write heart rate records
 
     /**
      * Constructor
@@ -176,10 +177,52 @@ public class TcxWriter implements TrackWriter
         i=0;
         while (i<track.getNumberOfSegments() && dateTime==null)
         {
-            dateTime=getFirstRecordDateTime(track.getSegment(i).getRecords());
+            dateTime=getFirstRecordDateTime(getRecords(track.getSegment(i)));
             i++;
         }
         return dateTime;
+    }
+
+    /**
+     * Returns the records of the segment to use: the GPS based records or,
+     * for activities without GPS, the heart rate records
+     * @param segment The segment
+     * @return The records
+     */
+    private List<ActivityRecord> getRecords(ActivitySegment segment)
+    {
+        List<ActivityRecord>    records;
+
+        if (useHeartRateRecords)
+        {
+            records=segment.getHeartRateRecords();
+        }
+        else
+        {
+            records=segment.getRecords();
+        }
+        return records;
+    }
+
+    /**
+     * Checks whether the activity contains records with a valid position
+     * @param track The activity
+     * @return True if the activity contains positions, false if not
+     *         (indoor cycling, treadmill)
+     */
+    private boolean hasPositions(Activity track)
+    {
+        int         i;
+        boolean     found;
+
+        found=false;
+        i=0;
+        while (i<track.getNumberOfSegments() && !found)
+        {
+            found=!getPositionRecords(track.getSegment(i)).isEmpty();
+            i++;
+        }
+        return found;
     }
 
     /**
@@ -205,7 +248,10 @@ public class TcxWriter implements TrackWriter
         
         numberOfSegments=track.getNumberOfSegments();
 
-        trackName           ="Track - "+track.getActivityDescription();
+        // Activities without GPS: write the heart rate records without position
+        useHeartRateRecords=!hasPositions(track);
+
+        trackName          ="Track - "+track.getActivityDescription();
         trackDescription    ="Created by: "+appName+". Logged by: \'"+track.getDeviceName()+"\' (serial: "+track.getDeviceSerialNumber()+"). "+
                              "Logged as: "+track.getActivityDescription()+".";
         if (track.isSmoothed())
@@ -224,9 +270,11 @@ public class TcxWriter implements TrackWriter
         {
             case TtbinFileDefinition.ACTIVITY_RUNNING:
             case TtbinFileDefinition.ACTIVITY_TRAILRUNNING:
+            case TtbinFileDefinition.ACTIVITY_TREADMILL:
                 attr.setValue("Running");
                 break;
             case TtbinFileDefinition.ACTIVITY_CYCLING:
+            case TtbinFileDefinition.ACTIVITY_INDOORCYCLING:
                 attr.setValue("Biking");
                 break;
             default:
@@ -269,11 +317,39 @@ public class TcxWriter implements TrackWriter
 
     /**
      * Returns the records of the segment that are written as Trackpoint:
-     * the records with a time stamp and a valid position
+     * the records with a time stamp and a valid position or, for activities
+     * without GPS, the heart rate records with a time stamp
      * @param segment The segment
      * @return The list of records
      */
     private List<ActivityRecord> getTrackRecords(ActivitySegment segment)
+    {
+        List<ActivityRecord>    records;
+
+        if (useHeartRateRecords)
+        {
+            records=new ArrayList<>();
+            for (ActivityRecord rec : segment.getHeartRateRecords())
+            {
+                if (rec.getDateTime()!=null)
+                {
+                    records.add(rec);
+                }
+            }
+        }
+        else
+        {
+            records=getPositionRecords(segment);
+        }
+        return records;
+    }
+
+    /**
+     * Returns the records of the segment with a time stamp and a valid position
+     * @param segment The segment
+     * @return The list of records
+     */
+    private List<ActivityRecord> getPositionRecords(ActivitySegment segment)
     {
         List<ActivityRecord>    records;
         DateTime                dateTime;
@@ -317,7 +393,7 @@ public class TcxWriter implements TrackWriter
 
         // The lap starts at the first record of the segment (UTC). The
         // segment start time is local time.
-        startTime=getFirstRecordDateTime(segment.getRecords());
+        startTime=getFirstRecordDateTime(getRecords(segment));
         if (startTime==null)
         {
             startTime=segment.getStartTime();

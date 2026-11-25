@@ -267,4 +267,59 @@ public class TcxWriterTest
             prevCalories=values[i][2];
         }
     }
+
+    /**
+     * Test of writeTrackToFile method, of class TcxWriter: indoor cycling,
+     * no GPS. Trackpoints contain time and heart rate, no position.
+     */
+    @Test
+    public void testWriteTrackToFileIndoorCycling() throws Exception
+    {
+        System.out.println("writeTrackToFile indoor cycling");
+        Document doc            = writeTcx(TtbinTestFileBuilder.createIndoorActivity(TtbinFileDefinition.ACTIVITY_INDOORCYCLING, false));
+        NodeList points         = doc.getElementsByTagName("Trackpoint");
+
+        assertEquals("Biking", ((Element)doc.getElementsByTagName("Activity").item(0)).getAttribute("Sport"));
+        // Heart rate records contain local time: converted to UTC
+        assertEquals("2026-09-21T14:13:20Z", getChildText(doc.getDocumentElement(), "Id"));
+        assertEquals(1, doc.getElementsByTagName("Lap").getLength());
+        assertEquals("2026-09-21T14:13:20Z", ((Element)doc.getElementsByTagName("Lap").item(0)).getAttribute("StartTime"));
+        assertEquals(300, points.getLength());
+        assertEquals(0, doc.getElementsByTagName("Position").getLength());
+        Element point=(Element)points.item(299);
+        assertEquals("2026-09-21T14:18:19Z", getChildText(point, "Time"));
+        assertEquals("119", getChildText(point, "Value"));
+        assertLapElementOrder((Element)doc.getElementsByTagName("Lap").item(0));
+    }
+
+    /**
+     * Test of writeTrackToFile method, of class TcxWriter: treadmill, no GPS,
+     * with a lap mark
+     */
+    @Test
+    public void testWriteTrackToFileTreadmillWithLap() throws Exception
+    {
+        System.out.println("writeTrackToFile treadmill with lap");
+        Document doc            = writeTcx(TtbinTestFileBuilder.createIndoorActivity(TtbinFileDefinition.ACTIVITY_TREADMILL, true));
+        NodeList laps           = doc.getElementsByTagName("Lap");
+
+        assertEquals("Running", ((Element)doc.getElementsByTagName("Activity").item(0)).getAttribute("Sport"));
+        assertEquals(2, laps.getLength());
+        assertLap((Element)laps.item(0), "2026-09-21T14:13:20Z", "100", "0.0", "10",  "95",  "99", 100);
+        assertLap((Element)laps.item(1), "2026-09-21T14:15:00Z", "200", "0.0", "20", "110", "119", 200);
+        assertEquals(0, doc.getElementsByTagName("Position").getLength());
+    }
+
+    /**
+     * Test of writeTrackToFile method, of class TcxWriter: activities with
+     * GPS do not write the heart rate records without position
+     */
+    @Test
+    public void testWriteTrackToFileGpsNoHeartRateRecords() throws Exception
+    {
+        System.out.println("writeTrackToFile GPS activity");
+        Document doc            = writeTcx(TtbinTestFileBuilder.createRunWithLaps(false));
+        assertEquals(600, doc.getElementsByTagName("Trackpoint").getLength());
+        assertEquals(600, doc.getElementsByTagName("Position").getLength());
+    }
 }

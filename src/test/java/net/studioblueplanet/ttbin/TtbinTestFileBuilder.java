@@ -262,4 +262,41 @@ public class TtbinTestFileBuilder
         builder.addSummary(TtbinFileDefinition.ACTIVITY_RUNNING, 1800.0f, 600, 120);
         return builder.toUsbFile();
     }
+
+    /**
+     * Activity without GPS of 300 s with a heart rate record each second
+     * (heart rate 90+i/10 bpm for record i). For indoor cycling an indoor
+     * cycling record precedes each heart rate record, like on the watch.
+     * @param activity Activity type, like ACTIVITY_INDOORCYCLING, ACTIVITY_TREADMILL
+     * @param withLap Add a lap mark after record 99
+     * @return The ttbin file
+     */
+    public static UsbFile createIndoorActivity(int activity, boolean withLap)
+    {
+        TtbinTestFileBuilder    builder;
+        long                    time;
+        int                     i;
+
+        builder=new TtbinTestFileBuilder(STARTTIME, TIMEZONE);
+        builder.addStatus(TtbinFileDefinition.STATUS_READY , activity, STARTTIME);
+        builder.addStatus(TtbinFileDefinition.STATUS_ACTIVE, activity, STARTTIME);
+        time=STARTTIME;
+        for (i=0; i<300; i++)
+        {
+            if (activity==TtbinFileDefinition.ACTIVITY_INDOORCYCLING)
+            {
+                builder.addIndoorCycling(time);
+            }
+            builder.addHeartRate(time, 90+i/10);
+            if (withLap && i==99)
+            {
+                builder.addLap(100, 0.0f, 10);
+            }
+            time++;
+        }
+        builder.addStatus(TtbinFileDefinition.STATUS_PAUSED , activity, time);
+        builder.addStatus(TtbinFileDefinition.STATUS_STOPPED, activity, time);
+        builder.addSummary(activity, 0.0f, 300, 30);
+        return builder.toUsbFile();
+    }
 }

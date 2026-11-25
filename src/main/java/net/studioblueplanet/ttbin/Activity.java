@@ -68,6 +68,7 @@ public class Activity
     private final           List<ActivityRecord>        waypoints;
     private final           List<ActivityLap>           laps;
     private                 DateTime                    lastRecordDateTime;     // UTC time of last GPS or HR record read
+    private                 boolean                     hasGpsRecords;          // Valid GPS record encountered
     private                 ActivityRecord              newRecord;
     private                 ActivitySegment             newActivitySegment;     
     
@@ -112,6 +113,7 @@ public class Activity
         this.waypoints              =new ArrayList<>();
         this.laps                   =new ArrayList<>();
         this.lastRecordDateTime     =null;
+        this.hasGpsRecords          =false;
         this.newRecord              =null;
         this.newActivitySegment     =null;
         this.deviceName             ="TomTom";
@@ -491,6 +493,7 @@ public class Activity
         {
             // Remember the time for associating lap marks
             lastRecordDateTime=DateTime.forInstant(timestamp*1000L, TimeZone.getTimeZone("UTC"));
+            hasGpsRecords=true;
 
             latF=(double)lat/1.0E7;
             lonF=(double)lon/1.0E7;
@@ -567,6 +570,7 @@ public class Activity
         int         timeStamp;      // Timestamp (local time)
         int         heartRate;      // Heart rate in bpm
         int         reserved;       // Unknown
+        ActivityRecord hrRecord;
 
         heartRate=ToolBox.readUnsignedInt(recordData,  1, 1, true);
         reserved =ToolBox.readUnsignedInt(recordData,  2, 1, true); // 255 for external sensor, other value for internal
@@ -574,6 +578,17 @@ public class Activity
 
         // Remember the time for associating lap marks (local time -> UTC)
         lastRecordDateTime=DateTime.forInstant((long)(timeStamp-this.timeZoneSeconds)*1000L, TimeZone.getTimeZone("UTC"));
+
+        // As long as no GPS records are encountered (indoor cycling, treadmill),
+        // keep the heart rate as separate record, so the activity can be
+        // exported without positions
+        if (!hasGpsRecords && newActivitySegment!=null)
+        {
+            hrRecord=new ActivityRecord();
+            hrRecord.setUtcTime(timeStamp-this.timeZoneSeconds);
+            hrRecord.setHeartRate(timeStamp-this.timeZoneSeconds, heartRate);
+            newActivitySegment.addHeartRateRecord(hrRecord);
+        }
 
         if (newRecord!=null)
         {
