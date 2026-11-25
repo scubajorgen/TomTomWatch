@@ -7,6 +7,7 @@ package net.studioblueplanet.ttbin;
 
 import hirondelle.date4j.DateTime;
 import java.io.Writer;
+import java.util.List;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -126,6 +127,60 @@ public class TcxWriter implements TrackWriter
 
 
     /**
+     * Formats the UTC date time as TCX/XSD dateTime string
+     * @param dateTime The date time, UTC
+     * @return The formatted string, like 2025-10-03T11:55:29Z
+     */
+    private String formatUtcDateTime(DateTime dateTime)
+    {
+        return dateTime.format("YYYY-MM-DD")+"T"+dateTime.format("hh:mm:ss")+"Z";
+    }
+
+    /**
+     * Returns the UTC date time of the first record in the list that has a
+     * date time stamp
+     * @param records The records to search
+     * @return The date time or null if none found
+     */
+    private DateTime getFirstRecordDateTime(List<ActivityRecord> records)
+    {
+        DateTime    dateTime;
+
+        dateTime=null;
+        for (ActivityRecord rec : records)
+        {
+            if (rec.getDateTime()!=null)
+            {
+                dateTime=rec.getDateTime();
+                break;
+            }
+        }
+        return dateTime;
+    }
+
+    /**
+     * Returns the UTC date time of the first record in the activity that has
+     * a date time stamp. The activity start time in the header is local time,
+     * hence the first record is used.
+     * @param track The activity
+     * @return The date time or null if no record found
+     */
+    private DateTime getFirstRecordDateTime(Activity track)
+    {
+        int         i;
+        DateTime    dateTime;
+
+        dateTime=null;
+        i=0;
+        while (i<track.getNumberOfSegments() && dateTime==null)
+        {
+            dateTime=getFirstRecordDateTime(track.getSegment(i).getRecords());
+            i++;
+        }
+        return dateTime;
+    }
+
+    /**
      * This method adds the track segments to the track.
      * @param doc XML document
      * @param tcxElement The GPX element
@@ -142,8 +197,9 @@ public class TcxWriter implements TrackWriter
         Element segmentElement;
         Element element;
         Attr    attr;
-        
+
         ActivitySegment segment;
+        DateTime        startTime;
         String          trackName;
         String          trackDescription;
         
@@ -179,10 +235,20 @@ public class TcxWriter implements TrackWriter
         }
         activityElement.setAttributeNode(attr);
         activitiesElement.appendChild(activityElement);
+        // The Id is the UTC time of the first record. The header start time
+        // is local time and cannot be used.
         element=doc.createElement("Id");
-        element.appendChild(doc.createTextNode(track.getStartDateTime().format("YYYY-MM-DDThh:mm:ssZ")));
+        startTime=getFirstRecordDateTime(track);
+        if (startTime!=null)
+        {
+            element.appendChild(doc.createTextNode(formatUtcDateTime(startTime)));
+        }
+        else
+        {
+            element.appendChild(doc.createTextNode(track.getStartDateTime().format("YYYY-MM-DDThh:mm:ssZ")));
+        }
         activityElement.appendChild(element);
-        
+
         // Add the track segments.
         i=0;
         while (i<numberOfSegments)
@@ -190,10 +256,14 @@ public class TcxWriter implements TrackWriter
             segment=track.getSegment(i);
             lapElement=doc.createElement("Lap");
             activityElement.appendChild(lapElement);
-            DateTime startTime=segment.getStartTime();
-            String startTimeString   =startTime.format("YYYY-MM-DD")+"T"+
-                                     startTime.format("hh:mm:ss")+"Z";
-            lapElement.setAttribute("StartTime", startTimeString);
+            // The lap starts at the first record of the segment (UTC). The
+            // segment start time is local time.
+            startTime=getFirstRecordDateTime(segment.getRecords());
+            if (startTime==null)
+            {
+                startTime=segment.getStartTime();
+            }
+            lapElement.setAttribute("StartTime", formatUtcDateTime(startTime));
 
             Element totalTimeElement=doc.createElement("TotalTimeSeconds");
             long lapTime=segment.getStartTime().numSecondsFrom(segment.getEndTime());
