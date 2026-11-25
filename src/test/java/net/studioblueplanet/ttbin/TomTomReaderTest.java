@@ -5,10 +5,14 @@
  */
 package net.studioblueplanet.ttbin;
 
+import java.io.File;
+import java.util.List;
+import java.util.TimeZone;
 import net.studioblueplanet.generics.ToolBox;
 import net.studioblueplanet.usb.UsbFile;
 import org.junit.After;
 import org.junit.AfterClass;
+import org.junit.Assume;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -150,4 +154,76 @@ public class TomTomReaderTest
         Activity result         = instance.readTtbinFile(file);
         testContentsNonSmoothed(result);
     }
+
+    /**
+     * Test of reading the lap records (tag 0x2f), synthetic file
+     */
+    @Test
+    public void testReadLaps()
+    {
+        System.out.println("TEST: readTtbinFile laps");
+        TomTomReader instance   = TomTomReader.getInstance();
+        instance.setTrackSmoothing(false, 0.0f);
+        instance.setTrackCompression(false, 0.0);
+        Activity result         = instance.readTtbinFile(TtbinTestFileBuilder.createRunWithLaps(false));
+        
+        List<ActivityLap> laps  = result.getLaps();
+        assertEquals(3, laps.size());
+        assertEquals(200, laps.get(0).getElapsedSeconds());
+        assertEquals(600.0, laps.get(0).getDistance(), 0.001);
+        assertEquals(40, laps.get(0).getCalories());
+        assertEquals(500, laps.get(2).getElapsedSeconds());
+        assertEquals(1500.0, laps.get(2).getDistance(), 0.001);
+        assertEquals(100, laps.get(2).getCalories());
+        // Lap mark time is the time of the last record preceding it (HR record, local time -> UTC)
+        long start=TtbinTestFileBuilder.STARTTIME;
+        assertEquals(start+199, laps.get(0).getDateTime().getMilliseconds(TimeZone.getTimeZone("UTC"))/1000);
+        assertEquals(start+399, laps.get(1).getDateTime().getMilliseconds(TimeZone.getTimeZone("UTC"))/1000);
+        assertEquals(start+499, laps.get(2).getDateTime().getMilliseconds(TimeZone.getTimeZone("UTC"))/1000);
+        
+        // No laps in the file
+        result                  = instance.readTtbinFile(new UsbFile(0xFFFFFFFF, ttbinFileData.length, ttbinFileData));
+        assertEquals(0, result.getLaps().size());
+    }
+
+    /**
+     * Test of reading the lap records from a real file of a TomTom watch. 
+     * The file contains private GPS data and is not part of the repository. 
+     * Put it in src/test/resources/local/ (ignored by git) or pass its path
+     * using -DlapTestFile=... The test is skipped if the file is not present.
+     */
+    @Test
+    public void testReadLapsLocalFile()
+    {
+        System.out.println("TEST: readTtbinFile laps, local file");
+        File file=new File(System.getProperty("lapTestFile", LAPTESTFILE));
+        Assume.assumeTrue("Local lap test file not present", file.exists());
+        
+        TomTomReader instance   = TomTomReader.getInstance();
+        instance.setTrackSmoothing(false, 0.0f);
+        instance.setTrackCompression(false, 0.0);
+        Activity result         = instance.readTtbinFile(file.getPath());
+        
+        List<ActivityLap> laps  = result.getLaps();
+        assertEquals(LAPTESTVALUES.length, laps.size());
+        for (int i=0; i<LAPTESTVALUES.length; i++)
+        {
+            assertEquals("Lap "+(i+1)+" time"    , LAPTESTVALUES[i][0], laps.get(i).getElapsedSeconds());
+            assertEquals("Lap "+(i+1)+" distance", LAPTESTVALUES[i][1], laps.get(i).getDistance(), 0.5);
+            assertEquals("Lap "+(i+1)+" calories", LAPTESTVALUES[i][2], laps.get(i).getCalories());
+            assertNotNull(laps.get(i).getDateTime());
+        }
+    }
+    
+    /** Local real file: Running 24-11-2026 with 18 manual laps */
+    public static final String  LAPTESTFILE     ="src/test/resources/local/Running_12-16-02.ttbin";
+    /** Cumulative time (s), distance (m), calories at the lap marks of the local file */
+    public static final int[][] LAPTESTVALUES   =
+    {
+        { 595, 1762, 140}, { 730, 2161, 172}, { 850, 2523, 201}, {1088, 3222, 257},
+        {1241, 3756, 298}, {1411, 4263, 339}, {1485, 4363, 346}, {1656, 4868, 386},
+        {1750, 5147, 409}, {1773, 5225, 415}, {1812, 5342, 424}, {1834, 5418, 430},
+        {1872, 5533, 439}, {1893, 5610, 445}, {1930, 5729, 454}, {2111, 6003, 474},
+        {2439, 7011, 554}, {2447, 7034, 556}
+    };
 }

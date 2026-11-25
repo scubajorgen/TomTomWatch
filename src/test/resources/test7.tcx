@@ -2,8 +2,8 @@
 <TrainingCenterDatabase xmlns="http://www.garmin.com/xmlschemas/TrainingCenterDatabase/v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.garmin.com/xmlschemas/ActivityExtension/v2 https://www8.garmin.com/xmlschemas/ActivityExtensionv2.xsd http://www.garmin.com/xmlschemas/TrainingCenterDatabase/v2 https://www8.garmin.com/xmlschemas/TrainingCenterDatabasev2.xsd">
   <Activities>
     <Activity Sport="Other">
-      <Id>2019-09-20T15:16:38Z</Id>
-      <Lap StartTime="2019-09-20T17:16:39Z">
+      <Id>2019-09-20T13:16:39Z</Id>
+      <Lap StartTime="2019-09-20T13:16:39Z">
         <TotalTimeSeconds>4243</TotalTimeSeconds>
         <DistanceMeters>3805.6</DistanceMeters>
         <Calories>0</Calories>

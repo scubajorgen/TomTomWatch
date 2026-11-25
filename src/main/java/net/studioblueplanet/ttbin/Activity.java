@@ -66,6 +66,9 @@ public class Activity
     
     private final           List<ActivitySegment>       segments;
     private final           List<ActivityRecord>        waypoints;
+    private final           List<ActivityLap>           laps;
+    private                 DateTime                    lastRecordDateTime;     // UTC time of last GPS or HR record read
+    private                 boolean                     hasGpsRecords;          // Valid GPS record encountered
     private                 ActivityRecord              newRecord;
     private                 ActivitySegment             newActivitySegment;     
     
@@ -107,7 +110,10 @@ public class Activity
         this.timeOfPause            =0;
         this.localTimeZone          =null;
         this.segments               =new ArrayList<>();    
-        this.waypoints              =new ArrayList<>();   
+        this.waypoints              =new ArrayList<>();
+        this.laps                   =new ArrayList<>();
+        this.lastRecordDateTime     =null;
+        this.hasGpsRecords          =false;
         this.newRecord              =null;
         this.newActivitySegment     =null;
         this.deviceName             ="TomTom";
@@ -357,6 +363,44 @@ public class Activity
     }
 
     /**
+     * Returns the manual lap marks recorded by the watch, in order of
+     * occurrence. The values in the laps are cumulative since the start
+     * of the activity.
+     * @return The list of laps; empty if no laps were marked
+     */
+    public List<ActivityLap> getLaps()
+    {
+        return this.laps;
+    }
+
+    /**
+     * Returns the total duration as recorded in the summary record
+     * @return Duration in seconds or 0 if not recorded
+     */
+    public int getSummaryDuration()
+    {
+        return this.summaryDuration;
+    }
+
+    /**
+     * Returns the total distance as recorded in the summary record
+     * @return Distance in m or 0.0 if not recorded
+     */
+    public double getSummaryDistance()
+    {
+        return this.summaryDistance;
+    }
+
+    /**
+     * Returns the total calories as recorded in the summary record
+     * @return Calories or 0 if not recorded
+     */
+    public int getSummaryCalories()
+    {
+        return this.summaryCalories;
+    }
+
+    /**
      * Get the fitness points earned with this activity
      * @return The fitness points or FITNESSPOINTS_UNDEFINED=-1 if not defined
      */
@@ -446,7 +490,11 @@ public class Activity
 
         // Sometimes a weird record is encountered. Skip it
         if (timestamp!=4294967295L)
-        {        
+        {
+            // Remember the time for associating lap marks
+            lastRecordDateTime=DateTime.forInstant(timestamp*1000L, TimeZone.getTimeZone("UTC"));
+            hasGpsRecords=true;
+
             latF=(double)lat/1.0E7;
             lonF=(double)lon/1.0E7;
             validPoints++;
@@ -522,10 +570,25 @@ public class Activity
         int         timeStamp;      // Timestamp (local time)
         int         heartRate;      // Heart rate in bpm
         int         reserved;       // Unknown
+        ActivityRecord hrRecord;
 
         heartRate=ToolBox.readUnsignedInt(recordData,  1, 1, true);
         reserved =ToolBox.readUnsignedInt(recordData,  2, 1, true); // 255 for external sensor, other value for internal
         timeStamp=ToolBox.readUnsignedInt(recordData,  3, 4, true);
+
+        // Remember the time for associating lap marks (local time -> UTC)
+        lastRecordDateTime=DateTime.forInstant((long)(timeStamp-this.timeZoneSeconds)*1000L, TimeZone.getTimeZone("UTC"));
+
+        // As long as no GPS records are encountered (indoor cycling, treadmill),
+        // keep the heart rate as separate record, so the activity can be
+        // exported without positions
+        if (!hasGpsRecords && newActivitySegment!=null)
+        {
+            hrRecord=new ActivityRecord();
+            hrRecord.setUtcTime(timeStamp-this.timeZoneSeconds);
+            hrRecord.setHeartRate(timeStamp-this.timeZoneSeconds, heartRate);
+            newActivitySegment.addHeartRateRecord(hrRecord);
+        }
 
         if (newRecord!=null)
         {
@@ -822,6 +885,33 @@ public class Activity
     
     
     /**
+     * Parse the lap record (tag 0x2f). It is recorded when the user marks a
+     * lap on the watch. Layout (11 bytes):
+     *  0 uint8    tag
+     *  1 uint32   total elapsed time in s
+     *  5 float32  total distance in m
+     *  9 uint16   total calories
+     * The values are cumulative since the start of the activity. The lap mark
+     * is associated with the time of the last GPS or heart rate record
+     * preceding it.
+     * @param recordData Record data
+     */
+    private void parseRecordLap(byte[] recordData)
+    {
+        int         elapsedSeconds;
+        float       distance;
+        int         calories;
+
+        elapsedSeconds  =ToolBox.readUnsignedInt(recordData,  1, 4, true);
+        distance        =Float.intBitsToFloat(ToolBox.readUnsignedInt(recordData,  5, 4, true));
+        calories        =ToolBox.readUnsignedInt(recordData,  9, 2, true);
+
+        laps.add(new ActivityLap(elapsedSeconds, distance, calories, lastRecordDateTime));
+
+        DebugLogger.info("Lap: "+elapsedSeconds+" s, "+String.format("%.0f", distance)+" m, "+calories+" cal");
+    }
+
+    /**
      * Parse movement state record. This record contains 1 byte that seems
      * to coincide with the momevement: 0 - standing still, 1 - reduced speed,
      * 2 - moving
@@ -962,6 +1052,9 @@ public class Activity
                 break;
             case TtbinFileDefinition.TAG_ROUTEDESCRIPTION:
                 parseRouteDescription(recordData);
+                break;
+            case TtbinFileDefinition.TAG_LAP:
+                parseRecordLap(recordData);
                 break;
             
             // Scope: activity record
